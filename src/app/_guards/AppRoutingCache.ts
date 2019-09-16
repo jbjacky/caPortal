@@ -8,7 +8,7 @@ import {
   export class AppRoutingCache implements RouteReuseStrategy {
     public static handlers: { [key: string]: DetachedRouteHandle } = {};
   
-    // 判斷路由是否能重複使用
+    // 判斷路由是否能重複使用1
     public shouldDetach(route: ActivatedRouteSnapshot): boolean {
       // 默認所有的路由設定都可以重複使用
       // 可透過 route.data 的方式來設定重複使用的規則
