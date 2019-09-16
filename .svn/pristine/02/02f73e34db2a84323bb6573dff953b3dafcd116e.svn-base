@@ -1,0 +1,485 @@
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, } from '@angular/core';
+import { Observable } from 'rxjs';
+import { fromEvent } from 'rxjs';
+import { map, takeWhile, takeUntil, concatMap } from 'rxjs/operators';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { GetApiDataServiceService } from '../../Service/get-api-data-service.service'
+import { isNgTemplate } from '@angular/compiler';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { GetNewsClass } from 'src/app/Models/PostData_API_Class/GetNewsClass';
+import { formatDateTime, doFormatDate, getapi_formatTimetoString, doFormatDate_getMonthAndDay } from 'src/app/UseVoid/void_doFormatDate';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GetFlowSignRoleClass } from 'src/app/Models/GetFlowSignRoleClass';
+import { AllformReview, dateArrayClass } from 'src/app/Models/AllformReview';
+import { GetAbsDetailByDeptClass } from 'src/app/Models/PostData_API_Class/GetAbsDetailByDeptClass';
+import { GetBaseInfoDetailClass } from 'src/app/Models/GetBaseInfoDetailClass';
+import { GetAttendExceptionalByDeptClass } from 'src/app/Models/PostData_API_Class/GetAttendExceptionalByDeptClass';
+import { GetAttendCalendarClass } from 'src/app/Models/PostData_API_Class/GetAttendCalendarClass';
+import { chinesenum } from 'src/app/UseVoid/void_chinesenumber';
+import { Router } from '@angular/router';
+import { GetHoliDayBalanceClass } from 'src/app/Models/PostData_API_Class/GetHoliDayBalanceClass';
+import { timeOfDay } from 'src/app/UseVoid/void_timeofday';
+import { showBalanceClass } from 'src/app/Models/showBalanceClass';
+declare var $: any;
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
+})
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+
+  showDeptaName = ''
+  showTodayString = '' // YYYY/MM/DD
+  showTodayDateString = ''// MM/DD
+  showLastdayDateString = ''// MM/DD
+
+  showAllHoliDayBalance: showBalanceClass[] = []
+
+  constructor(
+    private GetApiUserService: GetApiUserService,
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private LoadingPage: NgxSpinnerService,
+    private router: Router, ) { }
+  ngOnInit() {
+    var today = new Date()
+    var todayString = doFormatDate(today.toJSON().toString())
+
+    today.setDate(today.getDate() - 1)
+    var lastdayString = doFormatDate(today.toJSON().toString())
+
+    this.showTodayDateString = doFormatDate_getMonthAndDay(todayString)
+    this.showTodayString = todayString
+
+
+    this.showLastdayDateString = doFormatDate_getMonthAndDay(lastdayString)
+
+    this.GetApiUserService.counter$
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          if (x != 0) {
+            this.showDeptaName = x.DeptaName
+            this.showReviewCount(x.EmpID)
+            this.showHoliDayBalance(x.EmpID)
+            this.showAbsDetailByDept(x)
+            this.showAttendExceptionalByDept_Today(x)
+            this.showAttendExceptionalByDept_Lastday(x)
+            this.setWeekjobs(x)
+
+          }
+        }
+      )
+    this.showallnews();
+
+
+  }
+
+  slideConfig = {
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: true,//顯示下方分頁的點
+    infinite: true,//無窮
+    speed: 300,
+    centerMode: true,//置中
+    variableWidth: true, //投影片寬度自己控制
+    initialSlide: 3
+  }
+  ngAfterViewInit(): void {
+    // $(".slideblock").not('.slick-initialized').slick({
+    //   slidesToShow: 7,
+    //   slidesToScroll: 7,
+    //   dots: false,//顯示下方分頁的點
+    //   infinite: false,//無窮
+    //   speed: 300,
+    //   centerMode: false,//置中
+    //   variableWidth: true, //投影片寬度自己控制
+    //   responsive: [
+    //     {
+    //       breakpoint: 1900,
+    //       settings: {
+    //         slidesToShow: 1,
+    //         slidesToScroll: 1,
+    //         initialSlide: 3,//從第三頁開始
+    //         dots: false,//顯示下方分頁的點
+    //         infinite: false,//無窮
+    //         speed: 300,
+    //         centerMode: true,//置中
+    //         variableWidth: true,//投影片寬度自己控制
+    //       }
+    //     }
+    //   ]
+
+    // }
+
+    // )
+
+  }
+
+  ReviewCount: ReviewCountClass = {
+    allCount: '0',
+    vaCount: '0',
+    delCount: '0',
+    changeCount: '0',
+    forgetCount: '0'
+  }
+  showReviewCount(EmpID: string) {
+    this.LoadingPage.show()
+    var GetFlowSignRole: GetFlowSignRoleClass = {
+      "SignEmpID": EmpID,
+      "SignRoleID": "",
+      "RealSignEmpID": "",
+      "RealSignRoleID": "",
+      "FlowTreeID": "",
+      "SignDate": ""
+    }
+    this.GetApiDataServiceService.getWebApiData_GetFlowSignRole(GetFlowSignRole)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: AllformReview[]) => {
+          if (x.length > 0) {
+
+            this.ReviewCount.allCount = x[0].Count
+            for (let ApiFlowSignForm of x[0].FlowSignForm) {
+              if (ApiFlowSignForm.FormCode == 'Abs') {
+                //請假單
+                this.ReviewCount.vaCount = ApiFlowSignForm.Count
+
+              } else if (ApiFlowSignForm.FormCode == 'Absc') {
+                //銷假單
+                this.ReviewCount.delCount = ApiFlowSignForm.Count
+
+              } else if (ApiFlowSignForm.FormCode == 'Card') {
+                //調班單
+                this.ReviewCount.forgetCount = ApiFlowSignForm.Count
+
+              } else if (ApiFlowSignForm.FormCode == 'ShiftRote') {
+                //忘刷單
+                this.ReviewCount.changeCount = ApiFlowSignForm.Count
+
+              }
+            }
+          }
+
+          this.LoadingPage.hide()
+        },
+        error => {
+          alert('與api連線異常，getWebApiData_GetFlowSignRole')
+          this.LoadingPage.hide()
+        }
+      )
+  }
+
+
+  AllNewsList: GetNewsClass[] = []
+  showallnews() {
+
+    var DateB = new Date()
+    this.GetApiDataServiceService.getWebApiData_GetNewsByDateNow(doFormatDate(DateB.toString()))
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: GetNewsClass[]) => {
+          if (x.length != 0) {
+            for (let data of x) {
+              data.PostDate = formatDateTime(data.PostDate).getDate
+            }
+            x.sort(
+              function custom_sort(a, b) {
+                return new Date(b.PostDate).getTime() - new Date(a.PostDate).getTime();
+              })
+            let fontlength = 25
+            for (let oneNewList of x) {
+              if (oneNewList.NewsHead.length > fontlength) {
+                var title_slice = oneNewList.NewsHead.slice(0, fontlength)
+                title_slice += '......更多';
+                oneNewList.NewsHead = title_slice;
+              }
+            }
+            if (x.length >= 5) {
+              for (let i = 0; i < 5; i++) {
+                this.AllNewsList.push(x[i])
+              }
+            } else {
+              for (let data_news of x) {
+                this.AllNewsList.push(data_news)
+              }
+            }
+
+            // console.log(this.AllNewsList)
+          }
+          this.LoadingPage.hide()
+        },
+        error => {
+          alert('與api連線異常，getWebApiData_GetNewsByDateNow')
+        }
+      )
+  }
+
+
+  TodayAttend: Array<any> = []
+  showAttendExceptionalByDept_Today(GetBaseInfoDetail: GetBaseInfoDetailClass) {
+    var GetAttendExceptionalByDept: GetAttendExceptionalByDeptClass = {
+      DateB: this.showTodayString,
+      DateE: this.showTodayString,
+      DeptaID: GetBaseInfoDetail.DeptaID.toString()
+    }
+    this.GetApiDataServiceService.getWebApiData_GetAttendExceptionalByDept(GetAttendExceptionalByDept)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          this.TodayAttend = x
+        }, error => {
+          alert('與api連線異常,getWebApiData_GetAttendExceptionalByDept')
+        }
+      )
+  }
+
+  LastdayAttend: Array<any> = []
+  showAttendExceptionalByDept_Lastday(GetBaseInfoDetail: GetBaseInfoDetailClass) {
+    var today = new Date()
+    today.setDate(today.getDate() - 1)
+    var lastday = doFormatDate(today.toJSON().toString())
+
+    var GetAttendExceptionalByDept: GetAttendExceptionalByDeptClass = {
+      DateB: lastday,
+      DateE: lastday,
+      DeptaID: GetBaseInfoDetail.DeptaID.toString()
+    }
+    this.GetApiDataServiceService.getWebApiData_GetAttendExceptionalByDept(GetAttendExceptionalByDept)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          this.LastdayAttend = x
+        }, error => {
+          alert('與api連線異常,getWebApiData_GetAttendExceptionalByDept')
+        }
+      )
+  }
+
+  AllAbsEmp: showAllAbsEmpClass[] = []
+  showAbsDetailByDept(GetBaseInfoDetail: GetBaseInfoDetailClass) {
+
+    // var GetAbsDetailByDept: GetAbsDetailByDeptClass = {
+    //   DateB: this.showTodayString,
+    //   DateE: this.showTodayString,
+    //   DeptaID: GetBaseInfoDetail.DeptaID.toString()
+    // }    
+    var GetAbsDetailByDept: GetAbsDetailByDeptClass = {
+      DateB: "2018/12/11",
+      DateE: "2018/12/11",
+      DeptaID: "3611"
+    }
+    var allAbsSet = new Set();
+    var allAbsMap = new Map();
+    var showAllAbsEmp: showAllAbsEmpClass[] = []
+    this.GetApiDataServiceService.getWebApiData_GetAbsDetailByDept(GetAbsDetailByDept)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (y: Array<any>) => {
+          // console.log(y)
+          for (let data of y) {
+            allAbsSet.add(data.EmpID)
+          }
+          allAbsSet.forEach(x => {
+            var setArray = []
+            for (let data of y) {
+              if (data.EmpID == x) {
+                setArray.push(data)
+              }
+            }
+            allAbsMap.set(x, setArray)
+          })
+          allAbsMap.forEach(
+            function logMapElements(value, key, map) {
+              var c_AbsInf: AbsInf[] = []
+              var c_EmpName = ''
+              if (value[0].Base.EmpNameC.length > 0) {
+                c_EmpName = value[0].Base.EmpNameC
+              } else {
+                c_EmpName = value[0].Base.EmpNameE
+              }
+              for (var o_val of value) {
+                c_AbsInf.push({
+                  startTime: getapi_formatTimetoString(formatDateTime(o_val.DateTimeB).getTime),
+                  endTime: getapi_formatTimetoString(formatDateTime(o_val.DateTimeE).getTime),
+                  holiday: o_val.HoliDay
+                })
+              }
+              showAllAbsEmp.push({
+                EmpID: key,
+                EmpName: c_EmpName,
+                AbsInf: c_AbsInf
+              })
+            }
+          )
+          // console.log(showAllAbsEmp)
+          this.AllAbsEmp = showAllAbsEmp
+
+          this.LoadingPage.hide()
+        },
+        error => {
+          alert('與api連線異常，getWebApiData_GetAbsDetailByDep')
+          this.LoadingPage.hide()
+        }
+      )
+  }
+
+  weekjobs: weekjobs[] = [];
+
+  setWeekjobs(GetBaseInfoDetail: GetBaseInfoDetailClass) {
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetShiftRoteDateRange(this.showTodayString, GetBaseInfoDetail.EmpID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .pipe(
+        concatMap((x: any) => {
+          var GetAttendCalendar: GetAttendCalendarClass = {
+            DateB: x.DateA,
+            DateE: x.DateD,
+            EmpID: GetBaseInfoDetail.EmpID
+          }
+          return this.GetApiDataServiceService.getWebApiData_GetAttendCalendar(GetAttendCalendar)
+        })
+      )
+      .subscribe(
+        (x: any) => {
+          // console.log(x)
+          var weekjobs: weekjobs[] = []
+          var calnum = 0
+          var showNum = 0
+          for (let data of x) {
+            var daAtt = new Date(formatDateTime(data.AttendDate).getDate)
+            // console.log(daAtt)
+            var showWeekofDay = ''
+            if (daAtt.getDay() == 0) {
+              showWeekofDay = '日'
+            } else {
+              showWeekofDay = chinesenum(daAtt.getDay())
+            }
+
+            // console.log(showWeekofDay)
+            var v_today = false
+            var v_jobtime = ''
+            var v_isVa = false
+            var v_isAttend = false
+
+            if (formatDateTime(data.AttendDate).getDate == this.showTodayString) {
+              v_today = true
+              showNum = calnum
+            }
+
+            if (data.ActualRote.RoteCode == 'R' || data.ActualRote.RoteCode == 'Z' || data.ActualRote.RoteCode == "0W") {
+              v_jobtime = data.ActualRote.RoteNameC
+            } else {
+              v_jobtime = getapi_formatTimetoString(data.ActualRote.OnTime) + '~' + getapi_formatTimetoString(data.ActualRote.OffTime)
+            }
+
+
+            if (data.AbsFlowAppsDetail) {
+              v_isVa = true
+            } else {
+              v_isVa = false
+            }
+
+            if (data.LateMins > 0 || data.EarlyMins > 0 || data.IsAbsent) {
+              v_isAttend = true
+            } else {
+              v_isAttend = false
+            }
+
+            weekjobs.push({
+              realdate: formatDateTime(data.AttendDate).getDate,
+              date: doFormatDate_getMonthAndDay(formatDateTime(data.AttendDate).getDate) + '(' + showWeekofDay + ')',
+              jobtime: v_jobtime,
+              isVa: v_isVa,
+              isAttend: v_isAttend,
+              today: v_today,
+            })
+            calnum = calnum + 1;
+          }
+          this.weekjobs = weekjobs
+
+          this.slideConfig.initialSlide = showNum
+
+          this.LoadingPage.hide()
+        },
+        error => {
+          this.LoadingPage.hide()
+        }
+      )
+  }
+
+  goToNewsPage(oneNews: GetNewsClass) {
+    this.router.navigate([`/nav/NewsShowDetailComponent/${oneNews.NewsID}`]);
+    // [routerLink]="['/nav/NewsShowDetailComponent/'+oneNews.NewsID]"
+  }
+
+  showHoliDayBalance(EmpID: string) {
+    this.LoadingPage.show()
+    this.showAllHoliDayBalance = []
+    var GetHoliDayBalance: GetHoliDayBalanceClass = {
+      EmpID: EmpID,
+      DateB: doFormatDate(new Date()),
+      DateE: doFormatDate(new Date())
+    }
+    this.GetApiDataServiceService.getWebApiData_GetHoliDayBalance(GetHoliDayBalance)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((x: any) => {
+        var showBalance = []
+        for (let data of x) {
+          if (data.Sort > 0) {
+            showBalance.push(data)
+          }
+        }
+        this.LoadingPage.hide()
+
+        for (let oneBalance of showBalance) {
+          this.showAllHoliDayBalance.push({
+            HoliDayKindNameC: oneBalance.HoliDayKindNameC,
+            Balance: oneBalance.Balance,
+            useday: timeOfDay(true, oneBalance.Balance, 8).day.toString(),
+            usehour: timeOfDay(true, oneBalance.Balance, 8).hour.toString(),
+            useminute: timeOfDay(true, oneBalance.Balance, 8).minute.toString()
+          })
+        }
+      }, error => {
+        this.LoadingPage.hide()
+        alert('與api連線異常，getWebApiData_GetHoliDayBalance')
+      });
+
+  }
+
+}
+class weekjobs {
+  realdate: string;
+  date: string;
+  jobtime: string;
+  today: boolean;
+  isVa: boolean;
+  isAttend: boolean;
+}
+
+
+class ReviewCountClass {
+  allCount: string;
+  vaCount: string;
+  delCount: string;
+  changeCount: string;
+  forgetCount: string;
+}
+
+
+class showAllAbsEmpClass {
+  EmpID: string
+  EmpName: string
+  AbsInf: Array<AbsInf>
+}
+
+class AbsInf {
+  startTime: string
+  endTime: string
+  holiday: any
+}

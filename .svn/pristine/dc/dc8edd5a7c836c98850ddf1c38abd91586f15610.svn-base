@@ -1,0 +1,258 @@
+import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
+import { isNumber } from 'util';
+import { isNum_checkString, doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { isValidDate } from 'src/app/UseVoid/void_isVaildDatetime';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GetAttendExceptionalClass } from 'src/app/Models/PostData_API_Class/GetAttendExceptionalClass';
+import { takeWhile } from 'rxjs/operators';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-change-non-shift',
+  templateUrl: './change-non-shift.component.html',
+  styleUrls: ['./change-non-shift.component.css']
+})
+export class ChangeNonShiftComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    this.api_subscribe = false
+  }
+
+  writeState = 1 //步驟一
+  api_subscribe = true
+
+  chooseNow: boolean = true
+  str_DEFAULT = '對應班型'
+  item_disable: boolean = true
+
+  changeClass: changeClass[] = []
+
+  showCheckDetailDateArray: showViewRote[] = []
+
+  SearchMan={EmpCode:'',EmpName:''}
+  constructor(
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private GetApiUserService: GetApiUserService,
+    private LoadingPage: NgxSpinnerService) { }
+
+  ngOnInit() {
+    
+    this.GetApiUserService.counter$.subscribe(
+      x => {
+        this.SearchMan.EmpCode = x.EmpCode
+        if (x.EmpNameC) {
+          this.SearchMan.EmpName = x.EmpNameC
+        } else {
+          this.SearchMan.EmpName = x.EmpNameE
+        }
+      })
+    this.changeClass = [{
+      Date: '2018/08/10',
+      RoteID: 1,
+      RoteCode: 'B',
+      RoteNameC: 'B常日班',
+      OnTime: '0800',
+      RoteSelectBox: [{
+        RoteID: 1,
+        OnTime: '0800',
+        RoteCode: 'A',
+        RoteName: '常日班',
+        outPutSelectText: '0800A'
+      }, {
+        RoteID: 2,
+        OnTime: '1000',
+        RoteCode: 'X',
+        RoteName: '機型班',
+        outPutSelectText: '1000X'
+      }]
+    }, {
+      Date: '2018/08/11',
+      RoteID: 2,
+      RoteCode: 'C',
+      RoteNameC: 'C常日班',
+      OnTime: '0900',
+      RoteSelectBox: [{
+        RoteID: 2,
+        OnTime: '1000',
+        RoteCode: 'X',
+        RoteName: '機型班',
+        outPutSelectText: '1000X'
+      }]
+    }, {
+      Date: '2018/08/12',
+      RoteID: 1,
+      RoteCode: 'A',
+      RoteNameC: 'A常日班',
+      OnTime: '0800',
+      RoteSelectBox: [{
+        RoteID: 3,
+        OnTime: '0900',
+        RoteCode: 'B',
+        RoteName: '機型班',
+        outPutSelectText: '0900B'
+      }]
+    }
+    ]
+  }
+
+
+  setMap = new Map()
+  onChangeChooseRote(e, change: changeClass) {
+    var dateString = change.Date
+    if (e.length > 0) {
+      var showData: RoteSelectBoxClass = e[0].data
+      // console.log(dateString)
+      // console.log(showData.outPutSelectText)
+      var setData: showViewRote = new showViewRote()
+      setData = {
+        ShiftRoteDate: dateString,
+        OnTime1: change.OnTime,
+        RoteID1: change.RoteID,
+        RoteCode1: change.RoteCode,
+        RoteName1: change.RoteNameC,
+        OnTime2: showData.OnTime,
+        RoteID2: showData.RoteID,
+        RoteCode2: showData.RoteCode,
+        RoteName2: showData.RoteName
+      }
+      this.setMap.set(dateString, setData)
+      // console.log(this.setMap)
+    } else {
+      this.setMap.delete(dateString)
+      // console.log(this.setMap)
+    }
+
+
+  }
+
+
+  prePage() {
+    this.writeState = this.writeState - 1
+  }
+  nextPageToWrite() {
+    var chooseStartDate = $('#id_ipt_startday').val()
+    var chooseEndDate = $('#id_ipt_endday').val()
+
+    if (isValidDate(chooseStartDate) && isValidDate(chooseEndDate)) {
+
+      this.writeState = 2
+      var startDate: any = new Date(chooseStartDate)
+      var endDate: any = new Date(chooseEndDate)
+      var totalDate = []
+      if (endDate >= startDate) {
+        var millisecond = endDate - startDate
+        var diffDay = millisecond / 1000 / 60 / 60 / 24
+        if (diffDay == 0) {
+          totalDate.push(doFormatDate(startDate).toString())
+        } else {
+          for (let i = 0; i < diffDay; i++) {
+            var oneDate = doFormatDate(startDate.setDate(startDate.getDate() + 1)).toString()
+            totalDate.push(oneDate)
+          }
+        }
+        console.log(totalDate)
+        // console.log(diffDay + '天')
+          this.changeClass = []
+
+          
+        for(let oneD of totalDate){
+          var GetAttendExceptional:GetAttendExceptionalClass={
+            DateB:oneD,
+            DateE:oneD,
+            ListEmpID:[this.SearchMan.EmpCode]
+          }
+          this.GetApiDataServiceService.getWebApiData_GetAttendExceptional(GetAttendExceptional)
+          .pipe(takeWhile(() => this.api_subscribe))
+          .subscribe(
+            x=>{
+              console.log(x)
+            }
+          )
+          // this.changeClass.push({
+          //   Date: oneD,
+          //   RoteID: 1,
+          //   RoteCode: 'B',
+          //   RoteNameC: 'B常日班',
+          //   OnTime: '0800',
+          //   RoteSelectBox: [{
+          //     RoteID: 1,
+          //     OnTime: '0800',
+          //     RoteCode: 'A',
+          //     RoteName: '常日班',
+          //     outPutSelectText: '0800A'
+          //   }, {
+          //     RoteID: 2,
+          //     OnTime: '1000',
+          //     RoteCode: 'X',
+          //     RoteName: '機型班',
+          //     outPutSelectText: '1000X'
+          //   }]
+          // })
+        }
+      } else {
+        alert('結束日小於開始日')
+      }
+    } else {
+      if (!isValidDate(chooseStartDate)) {
+        alert('起始日期格式錯誤')
+      } else if (!isValidDate(chooseEndDate)) {
+        alert('結束日期格式錯誤')
+      }
+    }
+
+  }
+
+
+  nextPageToSendDetail() {
+    this.writeState = 3
+
+    var ChangeRoteArray: showViewRote[] = []
+    this.setMap.forEach(
+      (value: showViewRote, key, map) => {
+        ChangeRoteArray.push(value)
+      }
+    )
+    // console.log(ChangeRoteArray)
+    this.showCheckDetailDateArray = ChangeRoteArray
+    this.showCheckDetailDateArray.sort((a, b) => {
+      let left = Number(new Date(a.ShiftRoteDate));
+      let right = Number(new Date(b.ShiftRoteDate));
+      return left - right;
+    });
+  }
+
+
+}
+class changeClass {
+  Date: string;
+  RoteID: number;
+  RoteCode: string;
+  RoteNameC: string;
+  OnTime: string;
+  RoteSelectBox: RoteSelectBoxClass[];
+}
+class RoteSelectBoxClass {
+  RoteID: number
+  OnTime: string
+  RoteCode: string
+  RoteName: string
+  outPutSelectText: string
+
+}
+
+class ShiftRoteFlowAppsDetailClass {
+  ShiftRoteDate: string
+  RoteID1: number
+  RoteCode1: string
+  RoteName1: string
+  RoteID2: number
+  RoteCode2: string
+  RoteName2: string
+}
+class showViewRote extends ShiftRoteFlowAppsDetailClass {
+  OnTime1: string
+  OnTime2: string
+}

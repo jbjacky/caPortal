@@ -1,0 +1,7 @@
+<p>
+  連線異常，請洽資訊人員。
+</p>
+
+<button (click)=relogin()>
+  重新登入
+</button>

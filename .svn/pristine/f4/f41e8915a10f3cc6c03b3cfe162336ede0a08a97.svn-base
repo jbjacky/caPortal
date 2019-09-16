@@ -1,0 +1,32 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var CnineseNumbermap = new Map([
+    [1, '一'],
+    [2, '二'],
+    [3, '三'],
+    [4, '四'],
+    [5, '五'],
+    [6, '六'],
+    [7, '七'],
+    [8, '八'],
+    [9, '九'],
+    [10, '十']
+]);
+function chinesenum(en_num) {
+    if (en_num > 10) {
+        var tennum = Math.floor(en_num / 10);
+        if (tennum == 1) {
+            tennum = 10;
+        }
+        var digits = en_num % 10;
+        if (en_num % 10 == 0) {
+            digits = 10;
+        }
+        return CnineseNumbermap.get(tennum) + CnineseNumbermap.get(digits);
+    }
+    else {
+        return CnineseNumbermap.get(en_num);
+    }
+}
+exports.chinesenum = chinesenum;
+//# sourceMappingURL=void_chinesenumber.js.map

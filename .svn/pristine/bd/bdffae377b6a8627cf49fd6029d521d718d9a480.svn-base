@@ -1,0 +1,41 @@
+<div>
+  <input type="text" [(ngModel)]="api_sendEmpCode" (blur)="firstGetDeptData()" />
+</div>
+<div class="row" style="margin: 0px">
+  <div class="col-md-6 col-xs-12" style="height: 200px;border: 1px solid #000;margin: 0px;padding: 0px;margin-bottom: 20px">
+    <div *ngFor="let selectBox of allSelectBox;let selectIndex = index">
+      <select class="form-control" (change)="onChange($event,selectIndex,selectBox.Level)">
+        <ng-container *ngFor="let selectBox_dept of selectBox.Dept;">
+          <option *ngIf="selectBox_dept.Base?.length >0 " [value]="selectBox_dept.DeptID">
+            {{selectBox_dept.DeptNameC}}
+          </option>
+          <ng-container *ngIf="!(selectBox_dept.Base?.length >0)">
+            <ng-container *ngIf="selectBox_dept.DeptID !=-1">
+              <option [value]="selectBox_dept.DeptID" style="color: #E0004D" [value]="selectBox_dept.DeptID">
+                {{selectBox_dept.DeptNameC}}
+              </option>
+            </ng-container>
+            <ng-container *ngIf="selectBox_dept.DeptID ==-1">
+              <option [value]="selectBox_dept.DeptID" style="color: inherit" [value]="selectBox_dept.DeptID">
+                ===請選擇===
+              </option>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </select>
+    </div>
+
+  </div>
+  <div class="col-md-12 col-xs-12" style="padding: 0px;margin-bottom: 20px">
+    <div class="col-md-6 col-xs-12" style="padding: 0px">
+      <!-- <ngx-select [items]="searchBase" [placeholder]="selectBase_holder()" [(ngModel)]="selectBase" [defaultValue]="selectBase"
+        [disabled]="selectBase_disable()" noResultsFound="此條件找不到員工">
+      </ngx-select> -->
+      <ngx-select [items]="searchBase" placeholder="請選擇員工或是輸入搜尋員工" [(ngModel)]="selectBase" 
+      [disabled]="selectBase_disable()" noResultsFound="此條件找不到員工">
+    </ngx-select>
+    </div>
+  </div>
+</div>
+
+<button (click)="search()"  class="btn btn-default" [disabled]="selectBase_disable()">查詢</button>

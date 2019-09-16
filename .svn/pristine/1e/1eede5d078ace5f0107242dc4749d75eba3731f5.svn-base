@@ -1,0 +1,41 @@
+import { Component, OnInit } from '@angular/core';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-dept-administrative',
+  templateUrl: './dept-administrative.component.html',
+  styleUrls: ['./dept-administrative.component.css']
+})
+export class DeptAdministrativeComponent implements OnInit {
+
+  NgxBaseSelectBox = [];
+  selectDept = 1
+  constructor() { }
+
+  ngOnInit() {
+    this.NgxBaseSelectBox.push({ ID: 1, DeptNameC: '資訊管理處' });
+  }
+  
+  NewEmp = {EmpCode:'',EmpName:''}
+  
+  onSaveEmptoView(event) {
+    this.NewEmp.EmpCode = event.split('，')[0]
+    this.NewEmp.EmpName = event.split('，')[1]
+    $('#chooseEmpdialog').modal('hide');
+  }
+
+  onSaveDepttoView(event) {
+    // console.log(event)
+    // var DeptName = event.DeptNameC;
+    // var BaseArray = [];
+    // if (event.BaseArray) {
+    //   for (let base of event.BaseArray) {
+    //     BaseArray.push(base.EmpCode)
+    //   }
+    // }
+
+    // this.chooseDeptName = DeptName;
+    // this.chooseDeptBase = BaseArray;
+  }
+}

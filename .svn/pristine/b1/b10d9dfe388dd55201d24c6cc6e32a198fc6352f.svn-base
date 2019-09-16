@@ -1,0 +1,89 @@
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+declare let $: any; //use jquery
+import { GetAttendInfoClass } from 'src/app/Models/PostData_API_Class/GetAttendInfoClass';
+import { chinesenum } from 'src/app/UseVoid/void_chinesenumber'
+import { doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
+import { Attendance } from 'src/app/Models/Attendance';
+
+@Component({
+  selector: 'app-search-attendance',
+  templateUrl: './search-attendance.component.html',
+  styleUrls: ['./search-attendance.component.css'],
+  providers: [GetAttendInfoClass,Attendance]
+})
+export class SearchAttendanceComponent implements OnInit {
+
+  @Input() searchAttendanceApiData;
+
+  AttendanceApiData: Array<Attendance> = new Array<Attendance>();
+  constructor(private GetApiDataServiceService: GetApiDataServiceService, private GetAttendInfoClass: GetAttendInfoClass) { }
+
+  ngOnInit() {
+    this.searchAttendanceApiData.subscribe(
+      (x:any)=>{
+        this.AttendanceApiData = x;
+      }
+    )
+    // this.GetAttendInfoClass = { DateB: "2018/8/1", DateE: "2018/8/10", ListEmpID: ["051005"], EffectDate: "", Display: "1", ListState: ["1", "2", "3"] }
+    // //顯示所有
+    
+    // this.GetAttendInfoClass = { DateB: "2018/8/1", DateE: "2018/8/10", ListEmpID: ["051005"], EffectDate: "", Display: "3", ListState: ["1", "2", "3"] }
+    // //只顯示異常
+    
+    // this.GetAttendInfoClass = { DateB: "2018/8/1", DateE: "2018/8/10", ListEmpID: ["051005"], EffectDate: "", Display: "3", ListState: ["3"] }
+    // //只顯示異常且未刷卡
+    
+    // this.GetAttendInfoClass = { DateB: "2018/8/1", DateE: "2018/8/10", ListEmpID: ["051005"], EffectDate: "", Display: "2", ListState: [""] }
+    // //只顯示正常
+
+    // this.GetApiDataServiceService.getWebApiData_GetAttendInfo(this.GetAttendInfoClass).subscribe(
+    //   (x: any) => {
+    //     for (let i = 0; i < x.length; i++) {
+    //       if (x[i].AttendAbsInfo) {
+    //         x[i].AttendAbsInfo = true
+    //       } else {
+    //         x[i].AttendAbsInfo = false
+    //       }
+    //     }
+    //     this.AttendanceApiData = x;
+    //     for (let i = 0; i < this.AttendanceApiData.length; i++) {
+    //       var date = new Date(this.AttendanceApiData[i].AttendDate)
+    //       this.AttendanceApiData[i].AttendDate = doFormatDate(this.AttendanceApiData[i].AttendDate)
+    //       if (date.getDay() == 0){
+    //         this.AttendanceApiData[i].DayOfweek = '日'
+    //       }else{
+    //         this.AttendanceApiData[i].DayOfweek = chinesenum(date.getDay())
+    //       }
+    //     }
+
+    //   }
+    // )
+  }
+
+}
+    // this.AttendanceApiData.push(
+    //   {
+    //     EmpID: "051005",
+    //     EmpCode: "051005",
+    //     EmpName: "王O懿",
+    //     DeptName: "會計行政部",
+    //     AttendDate: "2018-08-01",
+    //     RoteNameC: "常日班",
+    //     OnTime: "0800",
+    //     OffTime: "1700",
+    //     OnCardTime: "0800",
+    //     OffCardTime: "1700",
+    //     AttendAbsInfo: null,
+
+    //     Ride: true, //搭車
+    //     Behind: false, //車誤
+    //     FlexibleMinute: 1, //彈性
+
+    //     LateMins: 0, //遲到
+    //     EarlyMins: 0, //早退
+    //     IsAbsent: false, //未刷卡
+    //     ForgetCard: 0,
+    //     DayOfweek:''
+    //   }
+    // )

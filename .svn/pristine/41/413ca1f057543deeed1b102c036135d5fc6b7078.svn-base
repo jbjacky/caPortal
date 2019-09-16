@@ -1,0 +1,9 @@
+
+.P_left{
+    text-align: right;
+}
+@media screen and (max-width:1000px) {
+    .P_left{
+        text-align: left;
+    }
+}

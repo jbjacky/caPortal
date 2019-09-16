@@ -1,0 +1,228 @@
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { showFlowView } from '../../search-form/search-form.component';
+import { delSearchFlowSignClass } from '../search-del-form/search-del-form.component';
+import { formatDateTime, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { timeOfDay } from 'src/app/UseVoid/void_timeofday';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { AbscIntegrationHandlerGetAbsFlowAppsClass } from 'src/app/Models/PostData_API_Class/AbscIntegrationHandlerGetAbsFlowAppsClass';
+import { chinesenum } from 'src/app/UseVoid/void_chinesenumber';
+import { FormSign } from '../../allform/reviewform/reviewform-detail-delform/reviewform-detail-delform.component';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { takeWhile } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-search-del-detail',
+  templateUrl: './search-del-detail.component.html',
+  styleUrls: ['./search-del-detail.component.css']
+})
+export class SearchDelDetailComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+  
+  @Input() getDelDataTitle: delSearchFlowSignClass
+  @Output() goback: EventEmitter<number> = new EventEmitter<number>();//回列表
+  uishowDelDetail=[];
+  delNote='';
+  
+  showFormSign: FormSign[] = [];
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private LoadingPage: NgxSpinnerService) { }
+
+  ngOnInit() {
+
+    var  caldateArray =[]
+      for(let  onedatetime of this.getDelDataTitle.dateArray){
+        caldateArray.push(formatDateTime(onedatetime.DateB).getDate)
+        caldateArray.push(formatDateTime(onedatetime.DateE).getDate)
+      }
+      var sortdateArray = caldateArray.sort((a: any, b: any) => {
+        let left = Number(new Date(a));
+        let right = Number(new Date(b));
+        return left - right;
+      });
+      var firstDate = sortdateArray[0]
+      var lastDate = sortdateArray[sortdateArray.length - 1]
+      var AbscIntegrationHandlerGetAbsFlowApps: AbscIntegrationHandlerGetAbsFlowAppsClass = {
+        DateB: firstDate, //firstDate
+        DateE: lastDate, //lastDate
+        EmpID: this.getDelDataTitle.EmpCode 
+      }
+      // console.log(AbscIntegrationHandlerGetAbsFlowApps)
+      this.GetApiDataServiceService.getWebApiData_AbscIntegrationHandlerGetAbsFlowApps(AbscIntegrationHandlerGetAbsFlowApps)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          if (x.length == 0) {
+            // this.loading = false
+            // this.showdataIsEmpty = true 
+          } else {
+            // console.log(x)
+            for (let i = 0; i < x.length; i++) {
+              this.uishowDelDetail.push({
+                titletext: '銷假時段' + chinesenum((i + 1)),
+                startdate: formatDateTime(x[i].DateB).getDate,
+                starttime: x[i].TimeB,
+                enddate: formatDateTime(x[i].DateE).getDate,
+                endtime: x[i].TimeE,
+                everyday: false,
+                holiday: { id: x[i].HoliDayID, name: x[i].HoliDayNameC },
+                note:x[i].Note,
+                calday: 0,
+                calhour: 0,
+                calminute: 0,
+
+                detail_delform: []
+              })
+              for (let detail of x[i].AbsFlowAppsDetail) {
+                var GetAttend: GetAttendClass = {
+                  DateB: formatDateTime(detail.DateB).getDate,
+                  DateE: formatDateTime(detail.DateB).getDate,
+                  ListEmpID: [x[i].EmpCode],
+                  ListRoteID: null
+                }
+                // console.log(GetAttend)
+                this.GetApiDataServiceService.getWebApiData_GetAttend(GetAttend).subscribe(
+                  (w: any) => {
+                    // console.log(w)
+                    // console.log(this.uishowDelDetail[i])
+                    var real = false
+                    // console.log(this.ReviewformServiceService.delDetail.dateArray)
+                    // console.log(detail)
+                    for (let onedateArray of this.getDelDataTitle.dateArray) {
+                      if (detail.DateTimeB == onedateArray.DateB && detail.DateTimeE == onedateArray.DateE) {
+                        real = true
+                      }
+                    }
+                    this.uishowDelDetail[i].detail_delform.push({
+                      disable: 1,
+                      state: detail.State,
+                      checkState: false,
+                      reallyDelShowState: real,
+                      startdate: formatDateTime(detail.DateB).getDate,
+                      starttime: detail.TimeB,
+                      endtime: detail.TimeE,
+                      calday: timeOfDay(true, detail.Use, w[0].ActualRote.WorkHours).day,
+                      calhour: timeOfDay(true, detail.Use, w[0].ActualRote.WorkHours).hour,
+                      calminute: timeOfDay(true, detail.Use, w[0].ActualRote.WorkHours).minute
+                    })
+                    this.uishowDelDetail[i].calday = this.uishowDelDetail[i].calday + timeOfDay(true, detail.Use, w[0].ActualRote.WorkHours).day
+                    this.uishowDelDetail[i].calhour = this.uishowDelDetail[i].calhour + timeOfDay(true, detail.Use, w[0].ActualRote.WorkHours).hour
+                    this.uishowDelDetail[i].calminute = this.uishowDelDetail[i].calminute + timeOfDay(true, detail.Use, w[0].ActualRote.WorkHours).minute
+
+                    // console.log(this.uishowDelDetail[i].detail_delform)
+
+                    this.delNote = this.uishowDelDetail[0].note
+                    // this.loading = false
+                  }
+                )
+
+              }
+
+            }
+          }
+        },
+        (error: any) => {
+          alert('api連線錯誤，AbscIntegrationHandlerGetAbsFlowApps')
+        }
+      )
+
+
+      
+    //歷程主管意見多筆資料
+    this.GetApiDataServiceService.getWebApiData_GetFormSign(this.getDelDataTitle.ProcessFlowID)
+    .subscribe(
+      (x_GetFormSigns: FormSign[]) => {
+        this.showFormSign = []
+        for (let x_GetFormSign of x_GetFormSigns) {
+          this.showFormSign.push({
+            DeptNameC: x_GetFormSign.DeptNameC,
+            EmpCode: x_GetFormSign.EmpCode,
+            EmpID: x_GetFormSign.EmpID,
+            EmpNameC: x_GetFormSign.EmpNameC,
+            JobName: x_GetFormSign.JobName,
+            Key1: x_GetFormSign.Key1,
+            Key2: x_GetFormSign.Key2,
+            NodeName: x_GetFormSign.NodeName,
+            Note: x_GetFormSign.Note,
+            ProcessFlowID: x_GetFormSign.ProcessFlowID,
+            SignDate: formatDateTime(x_GetFormSign.SignDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(x_GetFormSign.SignDate).getTime)
+          })
+        }
+      },
+      (error) => {
+        alert('與api取得資料錯誤，GetFormSign')
+        console.log(error)
+      }
+    )
+
+  }
+
+  
+  previouspage() {
+    //回列表
+    this.goback.emit();
+  }
+
+  onCheckCollapseIn(i) {
+    //確認是否收合請假明細
+    if ($('#id_deldetail' + i).hasClass('collapsed')) {
+      $('#' + i + 'deldetail_text').text('收合請假明細')
+      $('#' + i + 'deldetail_img').css({ "transition": "transform 0.5s" });
+      $('#' + i + 'deldetail_img').css({ "transform": "rotate(-180deg)" });
+
+    } else {
+      $('#' + i + 'deldetail_text').text('展開請假明細')
+      $('#' + i + 'deldetail_img').css({ "transition": "transform 0.5s" });
+      $('#' + i + 'deldetail_img').css({ "transform": "rotate(0deg)" });
+    }
+  }
+
+  onCheckCollapseInpostOpinions() {
+    //確認是否收合歷程主管簽核意見
+    if (!$('#' + 'mangText').hasClass('collapse in')) {
+      $('#' + 'mangText' + '_text').text('收合')
+      $('#' + 'mangText' + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 'mangText' + '_img').css({ "transform": "rotate(-180deg)" });
+
+    } else {
+      $('#' + 'mangText' + '_text').text('展開')
+      $('#' + 'mangText' + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 'mangText' + '_img').css({ "transform": "rotate(0deg)" });
+    }
+  }
+
+  
+  /**
+   * @todo 抽單
+   */
+  Cancelform_Click() {
+    // console.log(this.SearchMan.EmpCode)
+    // console.log(this.takeForm.ProcessFlowID)
+    var ListProcessFlowID = this.getDelDataTitle.ProcessFlowID
+    this.LoadingPage.show()
+
+    this.GetApiDataServiceService.getWebApiData_TakeSetFlowState(this.getDelDataTitle.EmpCode, ListProcessFlowID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        x => {
+          if (x) {
+            // this.changeSearchFlowSign.splice(this.changeSearchFlowSign.indexOf(this.takeForm), 1)
+            this.getDelDataTitle.State = '7'
+            $('#sussesdialog').modal('show')
+          }
+          this.LoadingPage.hide()
+        },
+        error => {
+          this.LoadingPage.hide()
+          alert('與api連線異常，getWebApiData_TakeSetFlowState')
+        }
+      )
+  }
+
+}

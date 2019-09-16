@@ -1,0 +1,287 @@
+import { Component, OnInit, Input, OnDestroy, OnChanges, Output, EventEmitter, ViewChild } from '@angular/core';
+import { void_completionTenNum } from 'src/app/UseVoid/void_CompletionTenNum';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { concatMap, map, toArray, takeWhile } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { formatDateTime, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { timeOfDay } from 'src/app/UseVoid/void_timeofday';
+import { showFlowView } from '../../search-form/search-form.component';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-search-va-form',
+  templateUrl: './search-va-form.component.html',
+  styleUrls: ['./search-va-form.component.css']
+})
+export class SearchVaFormComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+  showVaDataDetail: boolean = false  // 顯示明細
+
+
+  @Input() getVaData: showFlowView[]
+
+  vaSearchFlowSign: vaSearchFlowSignClass[] = [];
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private LoadingPage: NgxSpinnerService,
+    private GetApiUserService: GetApiUserService) { }
+  SearchMan = { EmpCode: '', EmpNameC: '' }
+  ngOnInit() {
+    // alert(this.getVaData.toString())
+    // console.log(this.getVaData)
+    this.GetApiUserService.counter$
+      .subscribe(
+        x => {
+          this.SearchMan.EmpCode = x.EmpID
+          this.SearchMan.EmpNameC = x.EmpNameC
+        }
+      )
+    for (let FlowSign of this.getVaData) {
+      this.GetApiDataServiceService.getWebApiData_GetAbsFlowAppsByProcessFlowID(FlowSign.ProcessFlowID, true).pipe(
+        concatMap((o: any) => from(o).pipe(
+          map((q: any) => {
+            var get = []
+            q.AbsFlowAppsDetail.map((x: any) => {
+              var GetAttend: GetAttendClass = {
+                DateB: formatDateTime(x.DateB).getDate,
+                DateE: formatDateTime(x.DateB).getDate,
+                ListEmpID: [q.EmpCode],
+                ListRoteID: null
+              }
+              
+              // console.log(q)
+              get.push({
+                Attend: GetAttend,
+                AbsFlowAppsDetail:x,
+                numberOfVaData: o.length,
+                vaData:q
+              })
+            })
+            return get
+          })
+        )),
+
+        concatMap((r: any) => from(r)),
+        concatMap((k: any) => this.GetApiDataServiceService.getWebApiData_GetHoliDayByForm().pipe(
+          map((v: any) => {
+
+            var getHoliDayDetail = []
+            var setHoliDayDetail
+            for (let data of v) {
+              if (data.HoliDayID == k.vaData.HoliDayID) {
+                setHoliDayDetail = data
+
+              }
+            }
+            getHoliDayDetail.push({ Attend: k.Attend, AbsFlowAppsDetail: k.AbsFlowAppsDetail, numberOfVaData: k.numberOfVaData, HoliDayDetail: setHoliDayDetail })
+            return getHoliDayDetail
+
+          }),
+
+        )),
+
+        concatMap((w: any) => from(w)),
+        concatMap((y: any) => this.GetApiDataServiceService.getWebApiData_GetAttend(y.Attend).pipe(
+          map((z: any) => {
+            if (z.length == 0) {
+              console.log(y.Attend.ListEmpID[0] + ' ' + y.Attend.DateB + '沒有出勤資料')
+              return z
+            } else {
+              z[0]["numberOfVaData"] = y.numberOfVaData
+
+              z[0]["TodayUse"] = y.AbsFlowAppsDetail.Use
+              z[0]["vaDateTimeB"] = y.AbsFlowAppsDetail.DateTimeB
+              z[0]["vaDateTimeE"] = y.AbsFlowAppsDetail.DateTimeE
+
+              z[0]["HoliDayID"] = y.HoliDayDetail.HoliDayID
+              z[0]["HoliDayNameC"] = y.HoliDayDetail.HoliDayNameC
+              z[0]["HoliDayDetail"] = y.HoliDayDetail
+              return z[0]
+            }
+          }),
+
+        )),
+        toArray()
+
+        // last()
+      ).pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (x: any) => {
+            // console.log(x)
+            if (x.length > 0) {
+              var allDay = 0
+              var allHour = 0
+              var allMinute = 0
+              var calDateArray = []
+              for (let data of x) {
+                if (data.length == 0) {
+                  // console.log('沒有出勤資料')
+                } else {
+                  var setDay = 0
+                  var setHour = 0
+                  var setMin = 0
+                  if (data.HoliDayDetail.HoliDayUnitName == '小時') {
+                    setDay = timeOfDay(true, data.TodayUse, 8).day
+                    setHour = timeOfDay(true, data.TodayUse, 8).hour
+                    setMin = timeOfDay(true, data.TodayUse, 8).minute
+                  } else if (data.HoliDayDetail.HoliDayUnitName == '分鐘') {
+
+                    setDay = timeOfDay(false, data.TodayUse, 8).day
+                    setHour = timeOfDay(false, data.TodayUse, 8).hour
+                    setMin = timeOfDay(false, data.TodayUse, 8).minute
+                  } else if (data.HoliDayDetail.HoliDayUnitName == '天') {
+
+                    setDay = data.TodayUse
+                    setHour = 0
+                    setMin = 0
+                  }
+                  // console.log(calDay)
+                  allDay = allDay + setDay
+                  allHour = allHour + setHour
+                  allMinute = allMinute + setMin
+                  calDateArray.push(data.vaDateTimeB)
+                  calDateArray.push(data.vaDateTimeE)
+                }
+
+                
+              }
+
+              calDateArray.sort((a: any, b: any) => {
+                let left = Number(new Date(a));
+                let right = Number(new Date(b));
+                return left - right;
+              });
+
+              var output = {
+                allDay: allDay,
+                allHour: allHour,
+                allMinute: allMinute,
+                startdate: formatDateTime(calDateArray[0]).getDate,
+                ontime: formatDateTime(calDateArray[0]).getTime,
+                enddate: formatDateTime(calDateArray[calDateArray.length - 1]).getDate,
+                offtime: formatDateTime(calDateArray[calDateArray.length - 1]).getTime,
+                numberOfVaData: x[0].numberOfVaData
+              }
+              // console.log(output)
+
+              this.vaSearchFlowSign.push({
+                ProcessFlowID: FlowSign.ProcessFlowID,
+                showProcessFlowID: void_completionTenNum(FlowSign.ProcessFlowID),
+                EmpCode: FlowSign.AppEmpID,
+                EmpNameC: FlowSign.AppEmpName,
+                AppDeptName: FlowSign.AppDeptName,
+                State: FlowSign.State,
+                ManageEmpName: FlowSign.ManageEmpName,
+                Take: FlowSign.Take,
+                HoliDayID: x[0].HoliDayID,
+                HoliDayNameC: x[0].HoliDayNameC,
+
+                DateB: output.startdate,
+                DateE: output.enddate,
+                TimeB: getapi_formatTimetoString(output.ontime),
+                TimeE: getapi_formatTimetoString(output.offtime),
+                numberOfVaData: output.numberOfVaData,
+
+                day: output.allDay.toString(),
+                hour: output.allHour.toString(),
+                minute: output.allMinute.toString()
+              })
+            }
+            this.vaSearchFlowSign.sort(function (start, end) {
+              return end.ProcessFlowID - start.ProcessFlowID;
+            });
+            // console.log(this.vaSearchFlowSign)
+          }
+
+          ,
+          (error: any) => {
+            alert('與api連線異常，getWebApiData_GetAbsFlowAppsByProcessFlowID')
+          }
+        )
+    }
+  }
+
+
+
+  @Output() gotoShowFormPlace: EventEmitter<number> = new EventEmitter<number>();
+  setToNextVaDataTitle: vaSearchFlowSignClass //給明細用的title資料
+  nextShowDetail(setToNextVaDataTitle: vaSearchFlowSignClass) {
+    // console.log(setToNextVaDataTitle)
+
+    this.gotoShowFormPlace.emit();
+
+    this.showVaDataDetail = true
+    this.setToNextVaDataTitle = setToNextVaDataTitle
+  }
+
+
+  onGoBackFunction() {
+    this.showVaDataDetail = false
+    this.gotoShowFormPlace.emit();
+    // window.scroll(0, 0);
+    //回列表
+  }
+
+  takeForm: any
+  /**
+   * @todo 抽單
+   */
+  Cancelform_Click() {
+    // console.log(this.SearchMan.EmpCode)
+    // console.log(this.takeForm.ProcessFlowID)
+    var ListProcessFlowID = this.takeForm.ProcessFlowID
+    this.LoadingPage.show()
+
+    this.GetApiDataServiceService.getWebApiData_TakeSetFlowState(this.SearchMan.EmpCode, ListProcessFlowID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        x => {
+          if (x) {
+            // this.vaSearchFlowSign.splice(this.vaSearchFlowSign.indexOf(this.takeForm), 1)
+            this.vaSearchFlowSign[this.vaSearchFlowSign.indexOf(this.takeForm)].State ='7'
+            this.vaSearchFlowSign[this.vaSearchFlowSign.indexOf(this.takeForm)].Take =false
+            
+            $('#sussesdialog').modal('show')
+          }
+          this.LoadingPage.hide()
+        },
+        error => {
+          this.LoadingPage.hide()
+          alert('與api連線異常，getWebApiData_TakeSetFlowState')
+        }
+      )
+  }
+
+}
+
+
+
+export class vaSearchFlowSignClass {
+  ProcessFlowID: number
+  showProcessFlowID: number
+  EmpCode: string
+  EmpNameC: string
+  AppDeptName: string
+  State: string
+  ManageEmpName: string
+  HoliDayID: number
+  HoliDayNameC: number
+  Take: boolean
+
+  DateB: string
+  DateE: string
+  TimeB: string
+  TimeE: string
+  numberOfVaData: number
+
+  day: string
+  hour: string
+  minute: string
+}

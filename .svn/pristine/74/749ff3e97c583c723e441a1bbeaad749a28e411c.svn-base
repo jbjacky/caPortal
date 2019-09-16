@@ -1,0 +1,30 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var twonav = /** @class */ (function () {
+    function twonav() {
+    }
+    return twonav;
+}());
+exports.twonav = twonav;
+var twonav_second = /** @class */ (function () {
+    function twonav_second() {
+    }
+    return twonav_second;
+}());
+var threenav = /** @class */ (function () {
+    function threenav() {
+    }
+    return threenav;
+}());
+exports.threenav = threenav;
+var threenav_second = /** @class */ (function () {
+    function threenav_second() {
+    }
+    return threenav_second;
+}());
+var threenav_third = /** @class */ (function () {
+    function threenav_third() {
+    }
+    return threenav_third;
+}());
+//# sourceMappingURL=navmore.js.map

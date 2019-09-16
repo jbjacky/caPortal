@@ -1,0 +1,109 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+// import { registerLocaleData } from '@angular/common';
+// import localezhHant from '@angular/common/locales/zh-Hant';
+// registerLocaleData(localezhHant, 'zh-Hant');
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var forms_1 = require("@angular/forms");
+var platform_browser_1 = require("@angular/platform-browser");
+var animations_1 = require("@angular/platform-browser/animations");
+var app_routing_module_1 = require("src/app/app-routing.module");
+var http_1 = require("@angular/common/http");
+var sort_1 = require("@angular/material/sort");
+var paginator_1 = require("@angular/material/paginator");
+var material_1 = require("@angular/material");
+var table_1 = require("@angular/material/table");
+var progress_spinner_1 = require("@angular/material/progress-spinner");
+var select_1 = require("@angular/material/select");
+var list_1 = require("@angular/material/list");
+var checkbox_1 = require("@angular/material/checkbox");
+var tooltip_1 = require("@angular/material/tooltip");
+var datepicker_1 = require("@angular/material/datepicker");
+var material_2 = require("@angular/material");
+var material_3 = require("@angular/material");
+var material_4 = require("@angular/material");
+var ngx_filesaver_1 = require("ngx-filesaver");
+var ngx_select_ex_1 = require("ngx-select-ex");
+var ng_lz_string_1 = require("ng-lz-string");
+var app_component_1 = require("src/app/app.component");
+var nav_component_1 = require("src/app/View/nav/nav.component");
+var home_component_1 = require("src/app/View/home/home.component");
+var delform_component_1 = require("src/app/View/allform/delform/delform.component");
+var forgetform_component_1 = require("src/app/View/allform/forgetform/forgetform.component");
+var changeform_component_1 = require("src/app/View/allform/changeform/changeform.component");
+var get_api_data_service_service_1 = require("src/app/Service/get-api-data-service.service");
+var get_api_user_service_1 = require("src/app/Service/get-api-user.service");
+var my_paginator_1 = require("src/app/Sharemodel/my-paginator");
+var chcekdialog_module_1 = require("src/app/View/dialog/checkdialog/chcekdialog-module");
+var forgetform_write_component_1 = require("./View/allform/forgetform/forgetform-write/forgetform-write.component");
+var testviewtwo_component_1 = require("./View/testviewtwo/testviewtwo.component");
+var testform_component_1 = require("./View/testform/testform.component");
+// import { TestthreeComponent } from './View/testthree/testthree.component';
+var testselectbox_component_1 = require("./View/testselectbox/testselectbox.component");
+var sharemodel_module_1 = require("src/app/Sharemodel/sharemodel.module");
+var AppModule = /** @class */ (function () {
+    function AppModule() {
+    }
+    AppModule = __decorate([
+        core_1.NgModule({
+            declarations: [
+                app_component_1.AppComponent,
+                nav_component_1.NavComponent,
+                home_component_1.HomeComponent,
+                delform_component_1.DelformComponent,
+                forgetform_component_1.ForgetformComponent,
+                changeform_component_1.ChangeformComponent,
+                forgetform_write_component_1.ForgetformWriteComponent,
+                testviewtwo_component_1.TestviewtwoComponent,
+                testform_component_1.TestformComponent,
+                // TestthreeComponent,
+                testselectbox_component_1.TestselectboxComponent,
+            ],
+            imports: [
+                common_1.CommonModule,
+                app_routing_module_1.AppRoutingModule,
+                forms_1.FormsModule,
+                forms_1.ReactiveFormsModule,
+                platform_browser_1.BrowserModule,
+                animations_1.BrowserAnimationsModule,
+                sort_1.MatSortModule,
+                paginator_1.MatPaginatorModule,
+                table_1.MatTableModule,
+                progress_spinner_1.MatProgressSpinnerModule,
+                select_1.MatSelectModule,
+                list_1.MatListModule,
+                checkbox_1.MatCheckboxModule,
+                tooltip_1.MatTooltipModule,
+                material_3.MatRippleModule,
+                datepicker_1.MatDatepickerModule,
+                material_2.MatNativeDateModule,
+                material_4.MatInputModule,
+                http_1.HttpClientModule,
+                chcekdialog_module_1.chcekdialogModule,
+                ngx_filesaver_1.FileSaverModule,
+                ngx_select_ex_1.NgxSelectModule,
+                ng_lz_string_1.LZStringModule,
+                sharemodel_module_1.SharemodelModule
+            ],
+            providers: [
+                get_api_data_service_service_1.GetApiDataServiceService,
+                get_api_user_service_1.GetApiUserService,
+                ng_lz_string_1.LZStringService,
+                datepicker_1.MatDatepickerModule,
+                { provide: material_1.MatPaginatorIntl, useClass: my_paginator_1.MatPaginatorIntlCro },
+                { provide: material_1.MAT_DATE_LOCALE, useValue: 'zh-TW' },
+            ],
+            bootstrap: [app_component_1.AppComponent],
+        })
+    ], AppModule);
+    return AppModule;
+}());
+exports.AppModule = AppModule;
+//# sourceMappingURL=app.module.js.map

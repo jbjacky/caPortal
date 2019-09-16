@@ -1,0 +1,727 @@
+import { Injectable, Input } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { GetBaseByFormClass } from '../Models/PostData_API_Class/GetBaseByFormClass';
+import { GetAttendInfoClass } from '../Models/PostData_API_Class/GetAttendInfoClass';
+import { GetDeptaByEmpClass } from '../Models/PostData_API_Class/GetDeptaByEmpClass';
+import { GetAttendClass } from '../Models/PostData_API_Class/GetAttendClass';
+import { GetHoliDayBalanceClass } from '../Models/PostData_API_Class/GetHoliDayBalanceClass';
+import { GetCalculateClass } from '../Models/PostData_API_Class/GetCalculateClass';
+import { AbsCheckClass } from '../Models/PostData_API_Class/AbsCheckClass';
+import { SaveAttendWishClass } from '../Models/PostData_API_Class/SaveAttendWishClass';
+import { GetAttendWishClass } from '../Models/PostData_API_Class/GetAttendWishClass';
+import { SaveHoliDayFlowConditionClass } from '../Models/PostData_API_Class/SaveHoliDayFlowConditionClass';
+import { GetAttendExceptionalClass } from '../Models/PostData_API_Class/GetAttendExceptionalClass';
+import { SaveAndFlowStartClass } from '../Models/PostData_API_Class/SaveAndFlowStartClass';
+import { GetAttendWishByPersonClass } from '../Models/PostData_API_Class/GetAttendWishByPersonClass';
+import { FlowCardCheckClass } from '../Models/PostData_API_Class/FlowCardCheckClass';
+import { CardCheckClass } from '../Models/PostData_API_Class/CardCheckClass';
+import { doFormatDate } from '../UseVoid/void_doFormatDate';
+import { GetFlowSignRoleClass } from '../Models/PostData_API_Class/GetFlowSignRoleClass';
+import { FlowNodeFinishClass } from '../Models/PostData_API_Class/FlowNodeFinishClass';
+import { CalculateFlowDataClass } from '../Models/PostData_API_Class/CalculateFlowDataClass';
+import { AbsSaveAndFlowStartClass } from '../Models/PostData_API_Class/AbsSaveAndFlowStart';
+import { AbscIntegrationHandlerGetAbsFlowAppsClass } from '../Models/PostData_API_Class/AbscIntegrationHandlerGetAbsFlowAppsClass';
+import { AbscFlowHandlerSaveAndFlowStartClass } from '../Models/PostData_API_Class/AbscFlowHandlerSaveAndFlowStartClass';
+import { GetFlowViewClass } from '../Models/PostData_API_Class/GetFlowViewClass';
+import { ShiftRoteSaveAndFlowStartClass } from '../Models/PostData_API_Class/ShiftRoteSaveAndFlowStartClass';
+import { GetBaseInfoDetailClass } from '../Models/GetBaseInfoDetailClass';
+import { ShiftRoteCheckByTwoPersonClass } from '../Models/PostData_API_Class/ShiftRoteCheckByTwoPersonClass';
+import { SaveNewsClass } from '../Models/PostData_API_Class/SaveNewsClass';
+import { GetNewsClass } from '../Models/PostData_API_Class/GetNewsClass';
+import { GetAttendCalendarClass } from '../Models/PostData_API_Class/GetAttendCalendarClass';
+import { GetAbsDetailByDeptClass } from '../Models/PostData_API_Class/GetAbsDetailByDeptClass';
+import { GetAttendExceptionalByDeptClass } from '../Models/PostData_API_Class/GetAttendExceptionalByDeptClass';
+
+declare let $: any; //use jquery
+
+declare let apiPostURL: any
+const ALTER_EGOS = ['Eric'];
+@Injectable({
+  providedIn: 'root'
+})
+export class GetApiDataServiceService {
+  constructor(private http: HttpClient) {
+  }
+  // localUrl = 'https://publish.jbjob.com.tw/ChinaAirlines/eepWebService/'
+  localUrl = apiPostURL
+  // localUrl = 'http://60.250.52.108/eepWebService/'
+
+  // localUrl = 'https://192.168.1.24/ChinaAirlines/eepWebService/'
+  // localUrl = 'https://localhost/eepWebService/'
+
+  //華航的 localUrl = http://hdqhr05t/eepWebService/
+  headers = new HttpHeaders({
+    // 'Access-Control-Allow-Origin': '*',
+    // 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    // 'Access-Control-Allow-Headers': 'Authorization',
+    'Content-Type': 'application/json',
+    // 'Authorization': 'dGVzdDY2Njp0ZXN0NjY2'
+  })
+
+
+  /**
+   * @todo 拿
+   */
+  getWebApiData_Token(url: URL) {
+    
+    var _reqbody = url.searchParams.get("code").toString()
+
+    return this.http.post(this.localUrl + 'AuthHandler.svc/GetToken',`'${_reqbody}'`, {
+        headers: this.headers
+      })
+  }
+
+
+
+  /**
+   * @todo  取得被申請員工基本資料(含權限檢核)
+   * @author jacky
+   */
+  getWebApiData_GetBaseByForm(GetBaseByFormClass: GetBaseByFormClass) {
+    return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByForm',
+      JSON.stringify({ "EmpCode": GetBaseByFormClass.EmpCode, "AppEmpCode": GetBaseByFormClass.AppEmpCode, "EffectDate": GetBaseByFormClass.EffectDate }), {
+        headers: this.headers,
+
+
+      })
+  }
+
+  /**
+   * @todo 取得申請者可以幫那些部門及那些人申請資料
+   * @author jacky
+   */
+  getWebApiData_GetDeptaByEmp(GetDeptaByEmpClass: GetDeptaByEmpClass) {
+    return this.http.post(this.localUrl + 'BaseHandler.svc/GetDeptaByEmp',
+      JSON.stringify({ "EmpCode": GetDeptaByEmpClass.EmpCode, "DeptID": GetDeptaByEmpClass.DeptID, "Level": GetDeptaByEmpClass.Level, "DeptNameKey": GetDeptaByEmpClass.DeptNameKey, "EmpCodeOrNameKey": GetDeptaByEmpClass.EmpCodeOrNameKey, "EffectDate": GetDeptaByEmpClass.EffectDate }), {
+        headers: this.headers
+      })
+  }
+  /**
+   * @todo 取得假別代碼
+   */
+  getWebApiData_GetHoliDayByForm() {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetHoliDayByForm',
+      JSON.stringify({}), {
+        headers: this.headers
+      })
+  }
+
+
+  /**
+   * @todo 表單審核人員
+   */
+  getWebApiData_GetDeptaBySign(_EmpID) {
+    return this.http.post(this.localUrl + 'BaseHandler.svc/GetDeptaBySign',
+      JSON.stringify({ "EmpID": _EmpID, "DeptID": 0, "EffectDate": "" }), {
+        headers: this.headers
+      })
+  }
+  /**
+   * @todo 取得考勤資訊
+   */
+  getWebApiData_GetAttendInfo(GetAttendInfo: GetAttendInfoClass) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendInfo',
+      JSON.stringify({ "DateB": GetAttendInfo.DateB, "DateE": GetAttendInfo.DateE, "ListEmpID": GetAttendInfo.ListEmpID, "EffectDate": GetAttendInfo.EffectDate, "Display": GetAttendInfo.Display, "ListState": GetAttendInfo.ListState }), {
+        headers: this.headers
+      })
+  }
+
+
+
+  /**
+   * @todo 取得出勤班別資訊
+   */
+  getWebApiData_GetAttend(GetAttend: GetAttendClass) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetAttend',
+      JSON.stringify({ "DateB": GetAttend.DateB, "DateE": GetAttend.DateE, "ListEmpID": GetAttend.ListEmpID, "ListRoteID": null }), {
+        headers: this.headers
+      })
+  }
+  /**
+   * @todo 取得餘假資訊
+   */
+  getWebApiData_GetHoliDayBalance(GetHoliDayBalance: GetHoliDayBalanceClass) {
+    return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetHoliDayBalance',
+      JSON.stringify({ "EmpID": GetHoliDayBalance.EmpID, "DateB": GetHoliDayBalance.DateB, "DateE": GetHoliDayBalance.DateE, "HoliDayID": 0, "KeyName": "", "EventDate": "", "ListAbsFlow": null }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 請假檢查
+   */
+  getWebApiData_AbsCheck(AbsCheck: AbsCheckClass) {
+    return this.http.post(this.localUrl + 'AbsHandler.svc/AbsCheck',
+      JSON.stringify({
+        "EmpID": AbsCheck.EmpID,
+        "HoliDayID": AbsCheck.HoliDayID,
+        "DateB": AbsCheck.DateB,
+        "DateE": AbsCheck.DateE,
+        "TimeB": AbsCheck.TimeB,
+        "TimeE": AbsCheck.TimeB,
+        "KeyName": AbsCheck.KeyName,
+        "EventDate": AbsCheck.EventDate,
+        "ProcessUse": AbsCheck.ProcessUse,
+        "Time24": AbsCheck.Time24
+      }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 請假計算
+   */
+  getWebApiData_GetCalculate(GetCalculate: GetCalculateClass) {
+    return this.http.post(this.localUrl + 'AbsHandler.svc/GetCalculate',
+      JSON.stringify({ "EmpID": GetCalculate.EmpID, "HoliDayID": GetCalculate.HoliDayID, "DateB": GetCalculate.DateB, "DateE": GetCalculate.DateE, "TimeB": GetCalculate.TimeB, "TimeE": GetCalculate.TimeE, "CalculateWorkTime": true, "CalculateRes": true, "FixedCycle": GetCalculate.FixedCycle, "Exception": 0, "RoteID": 0, "Time24": true, "ListAbsFlow": null }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 儲存意願備註表
+   */
+  getWebApiData_SaveAttendWish(SaveAttendWish: SaveAttendWishClass) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/SaveAttendWish',
+      JSON.stringify({ "EmpID": SaveAttendWish.EmpID, "WishTypeID": SaveAttendWish.WishTypeID, "DateB": SaveAttendWish.DateB, "DateE": SaveAttendWish.DateE, "TimeB": SaveAttendWish.TimeB, "TimeE": SaveAttendWish.TimeE, "Note": SaveAttendWish.Note, "KeyMan": SaveAttendWish.KeyMan }), {
+        headers: this.headers
+      })
+  }
+  /**
+   * @todo 取得部門群組底下的單位並展現到幾級單位(for地服處)
+   */
+  getWebApiData_GetDeptaByDeptTree() {
+    return this.http.post(this.localUrl + 'BaseHandler.svc/GetDeptaByDeptTree',
+      JSON.stringify({ "EmpID": '', "SuperDeptCode": "240_0", "DeptTree": 3, "EffectDate": "" }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得員工資料(在職人員)
+   */
+  getWebApiData_GetBaseByDeptID(DeptID: string) {
+    return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByDeptID',
+      JSON.stringify({ "DeptID": DeptID, "EffectDate": "" }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得意願備註表
+   * @param WishTypeID 1:請假 2:加班 3:調班
+   */
+  getWebApiData_GetAttendWish(GetAttendWish: GetAttendWishClass) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendWish',
+      JSON.stringify({ "DateB": GetAttendWish.DateB, "DateE": GetAttendWish.DateE, "WishTypeID": GetAttendWish.WishTypeID, "ListState": GetAttendWish.ListState, "ListEmpID": GetAttendWish.ListEmpID }), {
+        headers: this.headers
+      })
+  }
+
+
+  /**
+   * @todo 取得請假簽核檢視表
+   */
+  getWebApiData_GetHoliDayFlowConditionView() {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetHoliDayFlowConditionView',
+      JSON.stringify({}), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 儲存或修改請假簽核權限表
+   */
+  getWebApiData_SaveHoliDayFlowCondition(SaveHoliDayFlowCondition: SaveHoliDayFlowConditionClass) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/SaveHoliDayFlowCondition',
+      JSON.stringify({ "HoliDayCode": SaveHoliDayFlowCondition.HoliDayCode, "Tree": SaveHoliDayFlowCondition.Tree, "AbsUseDay": SaveHoliDayFlowCondition.AbsUseDay, "Note": SaveHoliDayFlowCondition.Note, "KeyMan": SaveHoliDayFlowCondition.KeyMan }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得班別異常資訊
+   */
+  getWebApiData_GetAttendExceptional(GetAttendExceptional: GetAttendExceptionalClass) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendExceptional',
+      JSON.stringify({ "DateB": GetAttendExceptional.DateB, "DateE": GetAttendExceptional.DateE, "ListEmpID": GetAttendExceptional.ListEmpID }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得銷假資料(交集)
+   */
+  getWebApiData_AbscIntegrationHandlerGetAbsFlowApps(AbscIntegrationHandlerGetAbsFlowApps: AbscIntegrationHandlerGetAbsFlowAppsClass) {
+    return this.http.post(this.localUrl + 'Integration/AbscIntegrationHandler.svc/GetAbsFlowApps',
+      JSON.stringify(AbscIntegrationHandlerGetAbsFlowApps), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得忘刷原因代碼
+   */
+  getWebApiData_GetCauseByForm() {
+    return this.http.post(this.localUrl + 'CardHandler.svc/GetCauseByForm',
+      JSON.stringify({}), {
+        headers: this.headers
+      })
+  }
+  /**
+   * @todo 忘刷-儲存並起單
+   */
+  getWebApiData_SaveAndFlowStart(SaveAndFlowStart: SaveAndFlowStartClass) {
+    return this.http.post(this.localUrl + 'Flow/CardFlowHandler.svc/SaveAndFlowStart',
+      JSON.stringify({
+        "FlowApp": {
+          "FlowApps": [
+            {
+              "EmpID": SaveAndFlowStart.EmpID,
+              "EmpCode": SaveAndFlowStart.EmpID,
+              "EmpNameC": SaveAndFlowStart.EmpNameC,
+              "DateB": SaveAndFlowStart.DateB,
+              "DateE": SaveAndFlowStart.DateE,
+              "TimeB": SaveAndFlowStart.TimeB,
+              "TimeE": SaveAndFlowStart.TimeE,
+              "DateTimeB": SaveAndFlowStart.DateTimeB,
+              "DateTimeE": SaveAndFlowStart.DateTimeE,
+              "CauseID1": SaveAndFlowStart.CauseID1,
+              "CauseName1": SaveAndFlowStart.CauseName1,
+              "CauseID2": SaveAndFlowStart.CauseID1,
+              "CauseName2": SaveAndFlowStart.CauseName1,
+              "Note": SaveAndFlowStart.Note,
+              "Info": "",
+              "MailBody": "",
+              "State": "1"
+            }
+          ],
+          "EmpID": SaveAndFlowStart.EmpID,
+          "EmpCode": SaveAndFlowStart.EmpID,
+          "EmpNameC": SaveAndFlowStart.EmpNameC
+        },
+        "FlowDynamic": {
+          "FlowNode": "504",
+          "RoleID": "",
+          "EmpID": SaveAndFlowStart.ReviewEmpID
+        }
+      }), {
+        headers: this.headers
+      })
+  }
+
+
+  /**
+   * @todo 取得意願備註表(個人日期)
+   */
+  getWebApiData_GetAttendWishByPersonDate(GetAttendWishByPerson: GetAttendWishByPersonClass) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendWishByPersonDate',
+      JSON.stringify({ "DateB": GetAttendWishByPerson.DateB, "WishTypeID": GetAttendWishByPerson.WishTypeID, "ListState": ["1"], "ListEmpID": [GetAttendWishByPerson.ListEmpID] }), {
+        headers: this.headers
+      })
+  }
+  /**
+   * @todo 修改意願備註表(刪除)
+   */
+  getWebApiData_UpdateAttendWish(AttendWishID, KeyMan) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/UpdateAttendWish',
+      JSON.stringify({ "AttendWishID": AttendWishID, "State": "2", "KeyMan": KeyMan }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 忘刷_檢查刷卡資料 (儲存並起單檢核)
+   */
+  getWebApiData_CardCheck(CardCheck: CardCheckClass) {
+    return this.http.post(this.localUrl + 'CardHandler.svc/CardCheck',
+      JSON.stringify({
+        "EmpID": CardCheck.EmpID,
+        "DateB": CardCheck.DateB,
+        "DateE": CardCheck.DateE,
+        "TimeB": CardCheck.TimeB,
+        "TimeE": CardCheck.TimeE,
+        "CauseID1": CardCheck.CauseID1,
+        "CauseID2": CardCheck.CauseID1
+      }), {
+        headers: this.headers
+      })
+  }
+  /**
+   * @todo 忘刷_流程中重複檢查 (儲存並起單檢核)
+   */
+  getWebApiData_FlowCardCheck(FlowCardCheck: FlowCardCheckClass) {
+    return this.http.post(this.localUrl + 'Flow/CardFlowHandler.svc/CardCheck',
+      JSON.stringify({
+        "EmpID": FlowCardCheck.EmpID,
+        "DateB": FlowCardCheck.DateB,
+        "DateE": FlowCardCheck.DateE,
+        "TimeB": FlowCardCheck.TimeB,
+        "TimeE": FlowCardCheck.TimeE
+      }), {
+        headers: this.headers
+      })
+  }
+  /**
+   * @todo 取得待審核名單(整合簽核權限判斷)
+   */
+  getWebApiData_GetFlowSignRole(GetFlowSignRole: GetFlowSignRoleClass) {
+    var date = new Date();
+    GetFlowSignRole.SignDate = doFormatDate(date);
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignRole',
+      JSON.stringify(GetFlowSignRole), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得請假流程資料(審核頁面)
+   */
+  getWebApiData_GetAbsFlowAppsByProcessFlowID(ProcessFlowID, Miniature: boolean) {
+    return this.http.post(this.localUrl + 'Flow/AbsFlowHandler.svc/GetAbsFlowAppsByProcessFlowID',
+      JSON.stringify({ "ProcessFlowID": ProcessFlowID, "Miniature": Miniature }), {
+        headers: this.headers
+      })
+
+  }
+  /**
+   * @todo 取得銷假流程資料(審核頁面)
+   */
+  getWebApiData_GetAbscFlowAppsByProcessFlowID(ProcessFlowID) {
+    return this.http.post(this.localUrl + 'Flow/AbscFlowHandler.svc/GetAbscFlowAppsByProcessFlowID',
+      ProcessFlowID, {
+        headers: this.headers
+      })
+
+  }
+
+  /**
+   * @todo 取得忘刷流程資料(審核頁面)
+   */
+  getWebApiData_GetCardFlowAppsByProcessFlowID(ProcessFlowID) {
+    return this.http.post(this.localUrl + 'Flow/CardFlowHandler.svc/GetCardFlowAppsByProcessFlowID',
+      JSON.stringify(ProcessFlowID), {
+        headers: this.headers
+      })
+  }
+  /**
+   * @todo 取得調班流程資料(審核頁面)
+   */
+  getWebApiData_GetShiftFlowAppsByProcessFlowID(ProcessFlowID) {
+    return this.http.post(this.localUrl + 'Flow/ShiftRoteFlowHandler.svc/GetAbscFlowAppsByProcessFlowID',
+      ProcessFlowID, {
+        headers: this.headers
+      })
+
+  }
+
+  /**
+   * @todo 取得角色資訊
+   */
+  getWebApiData_GetManInfo(ListEmpID) {
+    var date = new Date();
+    var today = doFormatDate(date);
+    return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetManInfo',
+      JSON.stringify({ "ListEmpID": [ListEmpID], "EffectDate": today }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 節點審核
+   */
+  getWebApiData_FlowNodeFinish(FlowNodeFinish: FlowNodeFinishClass) {
+    return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/FlowNodeFinish',
+      JSON.stringify(FlowNodeFinish), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得簽核資訊
+   */
+  getWebApiData_GetFormSign(ProcessFlowID) {
+    return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetFormSign',
+      JSON.stringify(ProcessFlowID), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 請假計算(NEW)
+  */
+  getWebApiData_GetCalculateFlowData(CalculateFlowData: CalculateFlowDataClass) {
+    var sendCalculateFlowData: CalculateFlowDataClass = {
+      EmpID: CalculateFlowData.EmpID,
+      HoliDayID: CalculateFlowData.HoliDayID,
+      DateB: CalculateFlowData.DateB,
+      DateE: CalculateFlowData.DateE,
+      TimeB: CalculateFlowData.TimeB,
+      TimeE: CalculateFlowData.TimeE,
+      CalculateWorkTime: true,
+      CalculateRes: true,
+      FixedCycle: CalculateFlowData.FixedCycle,
+      Exception: 0,
+      RoteID: 0,
+      Time24: true,
+      KeyName: CalculateFlowData.KeyName,
+      EventDate: CalculateFlowData.EventDate,
+      FlowApps: CalculateFlowData.FlowApps
+    }
+    return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetCalculateFlowData',
+      JSON.stringify(sendCalculateFlowData), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 請假_儲存並起單
+  */
+  getWebApiData_AbsSaveAndFlowStart(AbsSaveAndFlowStart: AbsSaveAndFlowStartClass) {
+    return this.http.post(this.localUrl + 'Flow/AbsFlowHandler.svc/SaveAndFlowStart',
+      JSON.stringify(AbsSaveAndFlowStart), {
+        headers: this.headers
+      })
+  }
+
+
+  /**
+   * @todo 銷假_儲存並起單
+  */
+  getWebApiData_AbscFlowHandlerSaveAndFlowStart(AbscFlowHandlerSaveAndFlowStart: AbscFlowHandlerSaveAndFlowStartClass) {
+    return this.http.post(this.localUrl + 'Flow/AbscFlowHandler.svc/SaveAndFlowStart',
+      JSON.stringify(AbscFlowHandlerSaveAndFlowStart), {
+        headers: this.headers
+      })
+  }
+
+  /**
+     * @todo 表單查詢_流程檢視
+  */
+  getWebApiData_GetFlowView(GetFlowView: GetFlowViewClass) {
+    return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetFlowView',
+      JSON.stringify(GetFlowView), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得七天的班所需要雙日期
+   */
+  getWebApiData_GetShiftRoteDateRange(DateB: string, EmpID: string) {
+    return this.http.post(this.localUrl + 'ShiftRoteHandler.svc/GetShiftRoteDateRange',
+      JSON.stringify({ "DateB": DateB, "EmpID": EmpID }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得假日班別代碼(轉置過)
+   */
+  getWebApiData_GetRoteMappingByHoliday() {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetRoteMappingByHoliday',
+      null, {
+        headers: this.headers
+      })
+  }
+
+
+  /**
+   * @todo 取得假日班別代碼(轉置過)
+   */
+  getWebApiData_GetRote(RoteID: Array<number>) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetRote',
+      JSON.stringify(RoteID), {
+        headers: this.headers
+      })
+  }
+
+
+  /**
+   * @todo 調班單-儲存並起單
+   */
+  getWebApiData_ShiftRoteSaveAndFlowStart(ShiftRoteSaveAndFlowStart: ShiftRoteSaveAndFlowStartClass) {
+    return this.http.post(this.localUrl + 'Flow/ShiftRoteFlowHandler.svc/SaveAndFlowStart',
+      JSON.stringify(ShiftRoteSaveAndFlowStart), {
+        headers: this.headers
+      })
+  }
+
+
+  /**
+   * @todo 取得員工資料-超詳細
+   */
+  getWebApiData_GetBaseInfoDetail(ListEmpID: string) {
+    var today = doFormatDate(new Date())
+    return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseInfoDetail',
+      JSON.stringify({ "ListEmpID": [ListEmpID], "EffectDate": today }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得RZ互換選擇休息日或例假日
+   */
+  getWebApiData_GetHolidayShiftRote(DateB: string, EmpID: string) {
+    return this.http.post(this.localUrl + 'ShiftRoteHandler.svc/GetHolidayShiftRote',
+      JSON.stringify({ "DateB": DateB, "EmpID": EmpID }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 調班檢查(雙人)
+   */
+  getWebApiData_ShiftRoteCheckByTwoPerson(ShiftRoteCheckByTwoPerson: ShiftRoteCheckByTwoPersonClass) {
+    return this.http.post(this.localUrl + 'ShiftRoteHandler.svc/ShiftRoteCheckByTwoPerson',
+      JSON.stringify(ShiftRoteCheckByTwoPerson), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 儲存新聞內容
+   */
+  getWebApiData_SaveNews(SaveNews: SaveNewsClass) {
+    return this.http.post(this.localUrl + 'MainHandler.svc/SaveNews',
+      JSON.stringify(SaveNews), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得新聞內容(全部)
+   */
+  getWebApiData_GetNews() {
+    return this.http.post(this.localUrl + 'MainHandler.svc/GetNews', null, {
+      headers: this.headers
+    })
+  }
+  /**
+   * @todo 取得新聞內容(全部)
+   */
+  getWebApiData_GetNewsByDateNow(DateB: string) {
+    return this.http.post(this.localUrl + 'MainHandler.svc/GetNewsByDateNow',
+      JSON.stringify(DateB), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得新聞內容(依照ID)
+   */
+  getWebApiData_GetNewsByID(NewsID: any) {
+    return this.http.post(this.localUrl + 'MainHandler.svc/GetNewsByID',
+      JSON.stringify(NewsID), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 刪除新聞資訊
+   */
+  getWebApiData_DeleteNews(NewsID: string) {
+    return this.http.post(this.localUrl + 'MainHandler.svc/DeleteNews',
+      JSON.stringify(NewsID), {
+        headers: this.headers
+      })
+  }
+
+
+  /**
+   * @todo 取得檔案內容(單檔)
+   */
+  getWebApiData_GetUploadFileByOnly(ServerName: string) {
+    return this.http.post(this.localUrl + 'Flow/MultiFlowHandler.svc/GetUploadFileByOnly',
+      JSON.stringify(ServerName), {
+        headers: this.headers
+      })
+  }
+
+
+  /**
+   * @todo 出勤資料(行事曆)
+   */
+  getWebApiData_GetAttendCalendar(GetAttendCalendar: GetAttendCalendarClass) {
+    return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAttendCalendar',
+      JSON.stringify(GetAttendCalendar), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得請假資料-依部門
+   */
+  getWebApiData_GetAbsDetailByDept(GetAbsDetailByDept: GetAbsDetailByDeptClass) {
+    return this.http.post(this.localUrl + 'AbsHandler.svc/GetAbsDetailByDept',
+      JSON.stringify(GetAbsDetailByDept), {
+        headers: this.headers
+      })
+  }
+
+
+  /**
+   * @todo 取得員工考勤異常資料-依部門
+   */
+  getWebApiData_GetAttendExceptionalByDept(GetAttendExceptionalByDept: GetAttendExceptionalByDeptClass) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendExceptionalByDept',
+      JSON.stringify(GetAttendExceptionalByDept), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 取得班別代碼(依工號)
+   */
+  getWebApiData_GetRoteByEmpID(EmpID: string, DateB: string) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetRoteByEmpID',
+      JSON.stringify({ "EmpID": EmpID, "DateB": DateB }), {
+        headers: this.headers
+      })
+  }
+
+  /**
+   * @todo 抽單
+   */
+  getWebApiData_TakeSetFlowState(EmpID: string, ListProcessFlowID: number) {
+    return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/SetFlowState',
+      JSON.stringify({
+        "ListProcessFlowID": [ListProcessFlowID],
+        "enumState": "Take",
+        "EmpID": EmpID
+      }), {
+        headers: this.headers
+      })
+  }
+
+  
+  /**
+   * @todo 當天是否請假存入(審核-請假單 當日請假勾勾)
+   */
+  getWebApiData_SaveToday(AutoKey, Today: boolean) {
+    return this.http.post(this.localUrl + 'Flow/AbsFlowHandler.svc/SaveToday',
+      JSON.stringify({"AutoKey":AutoKey,"Today":Today}), {
+        headers: this.headers
+      })
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

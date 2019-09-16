@@ -1,0 +1,30 @@
+import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+
+declare let $: any; //use jquery
+@Component({
+  selector: 'app-sign-proxyman',
+  templateUrl: './sign-proxyman.component.html',
+  styleUrls: ['./sign-proxyman.component.css']
+})
+export class SignProxymanComponent implements OnInit,AfterContentInit , OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true
+  ngAfterContentInit(): void {
+  }
+
+  constructor() { }
+
+  ngOnInit() {
+
+  }
+
+  onSaveEmptoView(event) {
+    // event.split('，')[0]
+    // event.split('，')[1]
+    $('#chooseEmpdialog').modal('hide');
+  }
+  
+}

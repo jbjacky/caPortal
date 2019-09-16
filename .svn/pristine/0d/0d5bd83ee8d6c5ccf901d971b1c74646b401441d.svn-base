@@ -1,0 +1,211 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <h3>銷假單明細</h3>
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
+      <div class="col-md-6 " style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          申請單編號
+        </label>
+        <div class="col-md-8">
+          <div class="row ">
+            <div>
+              <span style="color: #028fcf">
+                <!-- 20180000000201104 -->{{getDelDataTitle.showProcessFlowID}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3 col-xs-12" style="padding: 0px">
+          <label class="control-label">
+            申請單狀態</label>
+        </div>
+        <div *ngIf="getDelDataTitle.ManageEmpName && getDelDataTitle.State =='1'" class="col-md-4 col-xs-12 P_leftZero"
+          style="padding-right: 0px">
+          <!--王小美-->{{getDelDataTitle.ManageEmpName}} <label style="color: #002f7b">呈核中</label>
+        </div>
+        <div *ngIf="getDelDataTitle.State == '3'" class="col-md-4 col-xs-12 P_leftZero" style="padding-right: 0px">
+          <label style="color: #00857d">已核准</label>
+        </div>
+        <div *ngIf="getDelDataTitle.State == '2'" class="col-md-4 col-xs-12 P_leftZero" style="padding-right: 0px">
+          <label style="color: #d0021b">重擬</label>
+        </div>
+        <div *ngIf="getDelDataTitle.State == '4'" class="col-md-4 col-xs-12 P_leftZero" style="padding-right: 0px">
+          <label style="color: #9b9b9b">已抽單</label>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 col-xs-12 control-label" style="padding-left: 0px;text-align: right">
+          員工
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span>
+                <!--644555 陳德華 -->{{getDelDataTitle.EmpCode}} {{getDelDataTitle.EmpNameC}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-md-6 " style="margin-bottom: 10px;">
+          <div class="col-md-12 " style="padding: 0px">
+            <label class="control-label">
+              <a>近期假單一覽</a>
+            </label>
+            <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+          </div>
+        </div> -->
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 col-xs-12 control-label" style="padding-left: 0px;text-align: right">
+          銷假事由
+        </label>
+        <div class="col-md-8">
+          <div class="row ">
+            <div>
+              <span>{{delNote}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;
+      padding: 15px;margin:0px;">
+      <label class="col-md-2 col-xs-12 control-label" style="padding-left: 0px;text-align: right">
+        銷假總工時
+      </label>
+      <div class="col-md-10 col-xs-12">
+        <div class="row ">
+          <div>
+            <span style="color:#d0021b;font-weight: bold;">{{getDelDataTitle.day}}</span> 日
+            <span style="color:#d0021b;font-weight: bold;">{{getDelDataTitle.hour}}</span> 時
+            <span style="color:#d0021b;font-weight: bold;">{{getDelDataTitle.minute}}</span> 分
+            <!-- 含有x個銷假時段
+            <div style="display: inline-block;">
+              (<a>以月曆模擬</a>)
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;" *ngFor="let showDelDetail of uishowDelDetail ; let del_i = index">
+      <div class="form-group" style="border:1px solid #028fcf;margin-top: 20px;padding-top: 15px;">
+        <div class="row" style="padding: 0px;margin: 0px">
+          <div class="col-md-2 col-xs-12 P_left" style="padding-top: 7px">
+            <label style="color: #028fcf">{{showDelDetail.titletext}}</label>
+          </div>
+          <div class="col-md-10 col-xs-12">
+            <div class="col-md-3 col-xs-12 D_leftP_toppadding">
+              <span style="color: #969696">起始：</span>{{showDelDetail.startdate}} {{showDelDetail.starttime}}</div>
+            <div class="col-md-3 col-xs-12 D_leftP_toppadding">
+              <span style="color: #969696">結束：</span>{{showDelDetail.enddate}} {{showDelDetail.endtime}}</div>
+            <div class="col-md-3 col-xs-12 col-md-offset-3 D_leftP_toppadding">本次欲銷 {{showDelDetail.calday}} 日
+              {{showDelDetail.calhour}}時 {{showDelDetail.calminute}}分</div>
+          </div>
+        </div>
+        <div class="row" style="padding: 0px;margin: 0px">
+          <div class="col-md-2 col-xs-12 control-label">
+          </div>
+          <div class="col-md-10 col-xs-12">
+            <div class="col-md-5 col-xs-12 D_leftP_toppadding">{{showDelDetail.holiday.name}}</div>
+          </div>
+        </div>
+
+        <div class="row" style="padding: 0px;margin:0px;margin-bottom: 20px">
+          <div class="col-md-2 col-xs-12 control-label">
+          </div>
+          <div class="col-md-10 col-xs-12">
+            <a [id]="'id_deldetail'+del_i" data-toggle="collapse" [href]="'#postdel'+del_i" (click)="onCheckCollapseIn(del_i)">
+              <span [id]="del_i+'deldetail_text'">收合銷假明細</span>
+              <img [id]="del_i+'deldetail_img'" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
+            </a>
+          </div>
+        </div>
+        <div [id]="'postdel'+del_i" class="collapse in">
+          <div class="row D_tabletop" style="padding: 0px;margin: 0px;background-color: #edf5ff">
+            <div class="col-md-3 " style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">日期</div>
+            <div class="col-md-3 " style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">原始請假時段</div>
+            <div class="col-md-3 " style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">狀態</div>
+            <div class="col-md-3 " style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0">欲銷假工時</div>
+          </div>
+          <div class="row" style="padding: 0px;margin: 0px" *ngFor="let onedetail of showDelDetail.detail_delform">
+            <div class="col-md-3 D_context">{{onedetail.startdate}}</div>
+            <div class="col-md-3 D_context">{{onedetail.starttime}}-{{onedetail.endtime}}</div>
+            <div class="col-md-3 D_context" *ngIf="onedetail.state=='1' && !onedetail.reallyDelShowState">請求銷假</div>
+            <div class="col-md-3 D_context" *ngIf="onedetail.reallyDelShowState">請求銷假(此單欲銷)</div>
+            <div class="col-md-3 D_context" *ngIf="onedetail.state=='2'">已銷假</div>
+            <div class="col-md-3 D_context" *ngIf="onedetail.state=='3'">無異動</div>
+            <div class="col-md-3 D_context" style="border-right: 1px">{{onedetail.calday}}日{{onedetail.calhour}}時{{onedetail.calminute}}分</div>
+            <!-- 電腦 -->
+            <div class="col-xs-12 P_date">{{onedetail.startdate}} {{onedetail.starttime}}-{{onedetail.endtime}}</div>
+            <div class="col-xs-12 P_context" style="padding-top: 10px" *ngIf="onedetail.state=='1' && !onedetail.reallyDelShowState">狀態:請求銷假</div>
+            <div class="col-xs-12 P_context" style="padding-top: 10px" *ngIf="onedetail.reallyDelShowState">狀態:請求銷假(此單愈銷)</div>
+            <div class="col-xs-12 P_context" style="padding-top: 10px" *ngIf="onedetail.state=='2'">狀態:已銷假</div>
+            <div class="col-xs-12 P_context" style="padding-top: 10px" *ngIf="onedetail.state=='3'">狀態:無異動</div>
+            <div class="col-xs-12 P_context">欲銷假工時:{{onedetail.calday}}日{{onedetail.calhour}}時{{onedetail.calminute}}分</div>
+            <!-- 手機 -->
+          </div>
+        </div>
+        <!-- end container -->
+
+
+      </div>
+      <!-- form-group end -->
+
+    </div>
+    <!--銷假時段-->
+
+    <div *ngIf="showFormSign.length >0" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px">
+      <div class="row" style="margin: 0;padding: 0%">
+        <div class="col-md-2 col-xs-8  P_left">歷程主管簽核意見</div>
+        <div class="col-md-10 col-xs-4">
+          <a data-toggle="collapse" href="#mangText" (click)="onCheckCollapseInpostOpinions()">
+            <a id="mangText_text" data-toggle="collapse" href="#mangText" (click)="onCheckCollapseInpostOpinions()">收合</a>
+            <img id="mangText_img" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-180deg);" />
+          </a>
+        </div>
+      </div>
+      <div class="row" style="margin: 0;padding: 0%">
+        <div class="col-md-2 "></div>
+        <div class="col-md-10">
+          <div id="mangText" class="collapse in">
+            <div *ngFor="let showFormSign of showFormSign" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 15px">
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核人員</div>
+                <div class="col-md-10" style="padding: 0">{{showFormSign.JobName}} {{showFormSign.EmpNameC}}</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核時間</div>
+                <div class="col-md-4" style="padding: 0">{{showFormSign.SignDate}}</div>
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">假單遞送</div>
+                <div class="col-md-4" style="padding: 0">{{showFormSign.NodeName}}</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核意見</div>
+                <div class="col-md-10" style="padding: 0">{{showFormSign.Note}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 P_left"></div>
+        <div class="col-md-"></div>
+
+      </div>
+    </div>
+    <!--歷程主管意見-->
+    <div style="text-align: center">
+      <a (click)="previouspage()" style="cursor: pointer;">回列表</a>
+    </div>
+
+  </div>
+</div>

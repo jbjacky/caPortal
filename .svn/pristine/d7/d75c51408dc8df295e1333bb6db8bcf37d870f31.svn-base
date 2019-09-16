@@ -1,0 +1,28 @@
+﻿# # 對象位置
+# $dest = '\\192.168.1.24\d$\JBHR\AC37F095-EE1B-4C23-B260-C848AEAFADD9'
+# # ng build --prod --base-href ./ 
+# ng build --prod --base-href /AC37F095-EE1B-4C23-B260-C848AEAFADD9/
+
+
+# $angConfig = (Get-Content .\angular.json | ConvertFrom-Json )
+# #排除web.config
+# Remove-Item -Path $dest -Exclude "web.config" -Force -Recurse
+# Copy-Item "$($angConfig.projects.caPortal.architect.build.options.outputPath)\**" -Destination $dest -Force -Recurse 
+# Start-Process -FilePath 'https://publish.jbjob.com.tw/AC37F095-EE1B-4C23-B260-C848AEAFADD9' -PassThru
+
+
+# # ng build --prod --base-href /CB1177A4-B087-4142-89CE-14604EFBF933/
+
+
+# 對象位置
+$dest = '\\192.168.1.46\cb1177a4-b087-4142-89ce-14604efbf933'
+# ng build --prod --base-href ./ 
+ng build --prod --base-href /CB1177A4-B087-4142-89CE-14604EFBF933/
+
+
+$angConfig = (Get-Content .\angular.json | ConvertFrom-Json )
+#排除web.config
+Remove-Item -Path $dest -Exclude "web.config" -Force -Recurse
+Copy-Item "$($angConfig.projects.caPortal.architect.build.options.outputPath)\**" -Destination $dest -Force -Recurse 
+Start-Process -FilePath 'http://60.250.52.108:18888/CB1177A4-B087-4142-89CE-14604EFBF933' -PassThru
+

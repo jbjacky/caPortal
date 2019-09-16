@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var sharemodel_module_1 = require("./sharemodel.module");
+describe('SharemodelModule', function () {
+    var sharemodelModule;
+    beforeEach(function () {
+        sharemodelModule = new sharemodel_module_1.SharemodelModule();
+    });
+    it('should create an instance', function () {
+        expect(sharemodelModule).toBeTruthy();
+    });
+});
+//# sourceMappingURL=sharemodel.module.spec.js.map

@@ -1,0 +1,34 @@
+﻿
+# 網站位置
+$dest = '\\192.168.1.24\d$\JBHR\AC37F095-EE1B-4C23-B260-C848AEAFADD9'
+
+# 虛擬目錄名稱
+$fileName = 'AC37F095-EE1B-4C23-B260-C848AEAFADD9'
+
+# 取得Api位置
+$ApiUrl = 'https://192.168.1.24/ChinaAirlines/eepWebService/'
+
+#index.html
+$ApiVariable = 'var apiPostURL ='
+
+#web.config位置
+$webconfig = '.\web.config'
+
+$setApiUrl = $ApiVariable+"'$ApiUrl'"
+$changeUrl = Get-Content .\src\index.html -Encoding UTF8 | Select-String $ApiVariable -CaseSensitive
+(Get-Content .\src\index.html  -Encoding UTF8) -replace ($changeUrl,$setApiUrl)  | Out-File -Encoding UTF8 .\src\index.html
+
+
+ng build --prod --base-href /$fileName/
+# ng build --prod --base-href /EAM/
+# ng build --prod --base-href ./ 
+
+$angConfig = (Get-Content .\angular.json | ConvertFrom-Json )
+
+#排除web.config
+# Remove-Item -Path $dest -Exclude "web.config" -Force -Recurse
+Remove-Item -Path $dest+'\*' -Force -Recurse
+Copy-Item $webconfig -Destination $dest -Force -Recurse 
+Copy-Item "$($angConfig.projects.caPortal.architect.build.options.outputPath)\**" -Destination $dest -Force -Recurse 
+# Start-Process -FilePath 'https://60.250.52.108/CB1177A4-B087-4142-89CE-14604EFBF933' -PassThru
+

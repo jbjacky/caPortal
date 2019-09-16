@@ -1,0 +1,158 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <h3>調班單明細</h3>
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
+      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          申請單編號
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span style="color: #028fcf">{{getChangeDataTitle.showProcessFlowID}}</span>
+
+              <a style="cursor: pointer;">
+                <span *ngIf="getChangeDataTitle.Take" data-toggle="modal" data-target="#Cancelformdialog">(抽單)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_right">
+          <label class="control-label ">
+            申請單狀態</label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_LFZero" style="padding-right: 0px">
+          <div *ngIf="getChangeDataTitle.ManageEmpName && getChangeDataTitle.State =='1'" style="padding-right: 0px">
+            <!--王小美-->{{getChangeDataTitle.ManageEmpName}} <label style="color: #002f7b">呈核中</label>
+          </div>
+          <div *ngIf="getChangeDataTitle.State == '3'" style="padding-top:2px;padding-right: 0px">
+            <label style="color: #00857d">已核准</label>
+          </div>
+          <div *ngIf="getChangeDataTitle.State == '2'" style="padding-top:2px;padding-right: 0px">
+            <label style="color: #d0021b">重擬</label>
+          </div>
+          <div *ngIf="getChangeDataTitle.State == '7'" style="padding-top:2px;padding-right: 0px">
+            <label style="color: #9b9b9b">已抽單</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          員工
+        </label>
+        <div class="col-md-8  col-xs-12">
+          <div class="row ">
+            <div>
+              <span>{{getChangeDataTitle.EmpID1}} {{getChangeDataTitle.EmpNameC1}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6 " style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          調班事由
+        </label>
+        <div class="col-md-8">
+          <div class="row ">
+            <div>
+              <span>{{getChangeDataTitle.Note}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row  seven-cols" style="margin: 0;margin-bottom: 10px;
+    border-bottom: 1px dashed #dcdcdc;padding: 25px 0px;">
+      <div class="col-md-2 row " [ngClass]="setDivStyle(selectData)" *ngFor="let selectData of oneP.work; let i = index">
+
+        <div *ngIf="!selectData.isSelect">
+          <div class="title col-md-12 col-xs-6 DivDateStyle">{{selectData.date}}</div>
+          <div class="job  col-md-12 col-xs-6 DivDateStyle">{{selectData.job}}</div>
+        </div>
+        <div *ngIf="selectData.isSelect">
+          <div class="title col-md-12 col-xs-6 DivDateStyle selectDateDiv">{{selectData.date}}</div>
+          <div class="job  col-md-12 col-xs-6 DivDateStyle selectJobDiv">{{selectData.job}}</div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="selectDay && selectChangeDay" style="padding: 25px;padding-top: 10px;border-bottom: 1px dashed #dcdcdc;">
+      <div>
+        <span style="color: #002f7b">{{selectDay.date}} ({{selectDay.dayofweek}}) <span style="color: #d0021b">{{selectDay.job}}</span>
+          與 {{selectChangeDay.date}} ({{selectChangeDay.dayofweek}})<span style="color: #d0021b">{{selectChangeDay.job}}</span>
+          RZ互換</span>
+      </div>
+    </div>
+
+    <div *ngIf="showFormSign.length >0" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px">
+      <div class="row" style="margin: 0;padding: 0%">
+        <div class="col-md-2 col-xs-8  P_left">歷程主管簽核意見</div>
+        <div class="col-md-10 col-xs-4">
+          <a data-toggle="collapse" href="#mangText" (click)="onCheckCollapseInpostOpinions()">
+            <a id="mangText_text" data-toggle="collapse" href="#mangText" (click)="onCheckCollapseInpostOpinions()">收合</a>
+            <img id="mangText_img" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-180deg);" />
+          </a>
+        </div>
+      </div>
+      <div class="row" style="margin: 0;padding: 0%">
+        <div class="col-md-2 "></div>
+        <div class="col-md-10">
+          <div id="mangText" class="collapse in">
+            <div *ngFor="let showFormSign of showFormSign" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 15px">
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核人員</div>
+                <div class="col-md-10" style="padding: 0">{{showFormSign.JobName}} {{showFormSign.EmpNameC}}</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核時間</div>
+                <div class="col-md-4" style="padding: 0">{{showFormSign.SignDate}}</div>
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">假單遞送</div>
+                <div class="col-md-4" style="padding: 0">{{showFormSign.NodeName}}</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核意見</div>
+                <div class="col-md-10" style="padding: 0">{{showFormSign.Note}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 P_left"></div>
+        <div class="col-md-"></div>
+
+      </div>
+    </div>
+    <!--歷程主管意見-->
+    <div style="text-align: center">
+      <a (click)="previouspage()" style="cursor: pointer;">回列表</a>
+    </div>
+
+  </div>
+  <div class="modal" id="Cancelformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="vertical-alignment-helper">
+        <div class="modal-dialog  modal-sm vertical-align-center">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認抽單?</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="Cancelform_Click()">送出</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--dialog確認抽單送出 -->

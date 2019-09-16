@@ -1,0 +1,117 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 25px">
+      <div class="row" style="padding-bottom: 10px;margin:0px">
+        <div class="col-md-3 col-xs-12" style="padding: 0">
+          <div class="col-md-4 col-xs-12 P_textLeft" style="padding-left: 0;">
+            <label class=" control-label">
+              員工
+            </label>
+          </div>
+          <div class="col-md-8  col-xs-12" style="padding:0px">
+            644488 張oo
+          </div>
+        </div>
+        <div class="col-md-9 col-xs-12" style="padding: 0px">
+          <div class="col-md-4 col-xs-12 P_textLeft" style="padding-left: 0;">
+            <label class=" control-label">
+              年度特休基準日
+            </label>
+          </div>
+          <div class="col-md-8  col-xs-12" style="padding:0px">
+            2008/1/1
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tableTitle">
+      ⌾餘假資訊
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-content-center table-style01">
+        <thead>
+          <tr>
+            <th style="background-image: unset;cursor: unset;width: 50%">假別</th>
+            <th>結餘</th>
+            <th>待扣</th>
+            <th>已請</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              特休
+            </td>
+            <td>
+              0日18時30分
+            </td>
+            <td>
+              20日18時30分
+            </td>
+            <td>
+              20日18時30分
+            </td>
+          </tr>
+          <tr>
+            <td>
+              福利補休
+            </td>
+            <td>
+              20日18時0分
+            </td>
+            <td>
+              20日18時30分
+            </td>
+            <td>
+              20日18時30分
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!--table day 1 end -->
+    </div>
+
+    <div class="tableTitle">
+      ⌾特別休假結餘明細
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+        <thead>
+          <tr>
+            <th style="background-image: unset;cursor: unset">特別休假年份</th>
+            <th>差假結餘</th>
+            <th>生效日</th>
+            <th>到期日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tableTitle">
+      ⌾福利補休結餘明細
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+        <thead>
+          <tr>
+            <th style="background-image: unset;cursor: unset">福利補休年份</th>
+            <th>差假結餘</th>
+            <th>生效日</th>
+            <th>到期日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

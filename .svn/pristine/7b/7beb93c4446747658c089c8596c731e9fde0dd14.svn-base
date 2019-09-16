@@ -1,0 +1,102 @@
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+
+@Component({
+  selector: 'app-select-signer',
+  templateUrl: './select-signer.component.html',
+  styleUrls: ['./select-signer.component.css']
+})
+export class SelectSignerComponent implements OnInit {
+
+  SelectApiData = [];
+  DeptSelectBox = [];
+  NgxBaseSelectBox = [];
+  constructor(private GetApiDataServiceService: GetApiDataServiceService, private GetApiUserService: GetApiUserService) { }
+
+  @Output() selectBaseChange: EventEmitter<any> = new EventEmitter<any>();
+  ngOnInit() {
+    this.GetApiUserService.counter$.subscribe(
+      x => {
+        this.SelectApiData = [];
+        this.DeptSelectBox = [];
+        this.NgxBaseSelectBox = [];
+        this.selectboxValue(x.EmpCode)
+      }
+    )
+  }
+
+  selectboxValue(_EmpCode) {
+    // console.log(_EmpCode)
+    if(_EmpCode){
+
+      this.GetApiDataServiceService.getWebApiData_GetDeptaBySign(_EmpCode).subscribe((x: any) => {
+        // console.log(x);
+        if (x) {
+          this.SelectApiData = x;
+          for (let Dept of x) {
+            this.DeptSelectBox.push({ DeptID: Dept.DeptID, DeptNameC: Dept.DeptNameC, Base: Dept.Base })
+          }
+          for (let Base of x[0].Base) {
+            if (Base.PosType == 'S') {
+              if (Base.ChiefCode != 999) {
+                this.NgxBaseSelectBox.push(Base.EmpCode + '，' + Base.EmpNameC + '，' + Base.JobName + '，' + Base.ChiefCode + '，' + '兼職')
+                // this.NgxBaseSelectBox.push({BaseCode:Base.EmpCode,BaseNameC:Base.EmpCode + ' ' + Base.EmpNameC + ' ' + Base.JobName + ' ' + Base.ChiefCode + ' ' + '兼職'})
+              } else {
+                this.NgxBaseSelectBox.push(Base.EmpCode + '，' + Base.EmpNameC + '，' + Base.ChiefCode + '，' + '兼職')
+                // this.NgxBaseSelectBox.push({BaseCode:Base.EmpCode,BaseNameC:Base.EmpCode + ' ' + Base.EmpNameC + ' ' + Base.ChiefCode + ' ' + '兼職'})
+  
+              }
+            }else{
+              if (Base.ChiefCode != 999) {
+                this.NgxBaseSelectBox.push(Base.EmpCode + '，' + Base.EmpNameC + '，' + Base.JobName + '，' + Base.ChiefCode)
+                // this.NgxBaseSelectBox.push({BaseCode:Base.EmpCode,BaseNameC:Base.EmpCode + ' ' + Base.EmpNameC + ' ' + Base.JobName + ' ' + Base.ChiefCode})
+              
+              } else {
+                this.NgxBaseSelectBox.push(Base.EmpCode + '，' + Base.EmpNameC + '，' + Base.ChiefCode )
+                // this.NgxBaseSelectBox.push({BaseCode:Base.EmpCode,BaseNameC:Base.EmpCode + ' ' + Base.EmpNameC + ' ' + Base.ChiefCode})
+  
+              }
+            }
+          }
+        }
+      })
+    }
+  }
+  onChangeDept(event) {
+    // console.log(event.target.value)
+    var bases = [];
+    for (let SelectApiData of this.SelectApiData) {
+      if (SelectApiData.DeptID == event.target.value) {
+        for (let Base of SelectApiData.Base) {
+          if (Base.PosType == 'S') {
+            if (Base.ChiefCode != 999) {
+              bases.push(Base.EmpCode + '，' + Base.EmpNameC + '，' + Base.JobName + '，' + Base.ChiefCode + '，' + '兼職')
+              // bases.push({BaseCode:Base.EmpCode,BaseNameC:Base.EmpCode + ' ' + Base.EmpNameC + ' ' + Base.JobName + ' ' + Base.ChiefCode + ' ' + '兼職'})
+
+            } else {
+              bases.push(Base.EmpCode + '，' + Base.EmpNameC + '，' + Base.ChiefCode + '，' + '兼職')
+              // bases.push({BaseCode:Base.EmpCode,BaseNameC:Base.EmpCode + ' ' + Base.EmpNameC + ' ' + Base.ChiefCode + ' ' + '兼職'})
+
+            }
+          } else {
+            if (Base.ChiefCode != 999) {
+              bases.push(Base.EmpCode + '，' + Base.EmpNameC + '，' + Base.JobName + '，' + Base.ChiefCode )
+              // bases.push({BaseCode:Base.EmpCode,BaseNameC:Base.EmpCode + ' ' + Base.EmpNameC + ' ' + Base.JobName + ' ' + Base.ChiefCode })
+            } else {
+              bases.push(Base.EmpCode + '，' + Base.EmpNameC + '，' + Base.ChiefCode )
+              // bases.push({BaseCode:Base.EmpCode,BaseNameC:Base.EmpCode + ' ' + Base.EmpNameC + ' ' + Base.ChiefCode })
+
+            }
+          }
+        }
+      }
+    }
+    this.NgxBaseSelectBox = bases;
+  }
+
+  onChangeBase(event) {
+    this.selectBaseChange.emit(event);
+  }
+
+}

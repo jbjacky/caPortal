@@ -1,0 +1,132 @@
+<div class="a-block" *ngIf="getChangeData.length!=0 && (!showChangeDataDetailRZ && !showChangeDataDetailDR && !showChangeDataDetailRR)">
+  <div class="a-block-body  a-block-container">
+    <h3>查詢結果</h3>
+    <div class="row P_div" *ngFor="let oneChangeData of changeSearchFlowSign">
+      <div class="row col-md-3 col-xs-12 P_borderBottom">
+        <div class="col-md-6   col-xs-6  col-md-push-6" style="color: #326299;padding:0px 0px;">
+          <div>
+            {{oneChangeData.showProcessFlowID}}
+          </div>
+          <div style="padding-bottom: 5px;">
+            調班單 <a style="cursor: pointer;" data-toggle="modal" data-target="#Cancelformdialog" (click)="takeForm = oneChangeData"><span *ngIf="oneChangeData.Take">(抽單)</span></a>
+          </div>
+          <div>
+            <div *ngIf="oneChangeData.isDR" class="tag_change_blue">請求調班</div>
+            <div *ngIf="oneChangeData.isRR" class="tag_change_fluorescentblue">雙人調班</div>
+            <div *ngIf="oneChangeData.isRZ" class="tag_change_skyblue">RZ互換</div>
+          </div>
+
+        </div>
+        <div class="col-md-6   col-xs-6  col-md-pull-6" style="padding: 0;text-align: center;
+            padding-top: 15px;">
+          <div class="tag_blue" *ngIf="oneChangeData.State=='1'">呈核中</div>
+          <div class="tag_skyblue" *ngIf="oneChangeData.State=='3'">已核准</div>
+          <div class="tag_red" *ngIf="oneChangeData.State=='2'">重擬</div>
+          <div class="tag_gray" *ngIf="oneChangeData.State=='7'">已抽單</div>
+        </div>
+      </div>
+      <div class="row col-md-8 col-xs-10" style="margin: 0px;padding: 0">
+        <div class="row col-md-12 col-xs-12" style="margin: 0;padding: 0;padding-bottom: 5px;">
+          <div class="col-md-4 col-xs-12" style="margin: 0;padding: 0">
+            <!-- 643345 李大仁  -->
+            {{oneChangeData.EmpCode1}} {{oneChangeData.EmpNameC1}}
+          </div>
+          <div class="col-md-8 col-xs-12" style="padding: 0">
+            <!-- 計劃發展部 -->
+            {{oneChangeData.AppDeptName}}
+          </div>
+        </div>
+        <div class="row col-md-12 col-xs-12" style="margin: 0;padding: 0;">
+          <div class="row col-md-8 col-xs-12" style="margin: 0;padding: 0px">
+            <div class="row" style="margin: 0;padding-bottom: 5px;">
+              <div class="col-md-6 col-xs-12" style="padding: 0">
+                <span style="color: #969696">互調人員：</span>
+                {{oneChangeData.EmpCode2}}
+                <span>{{oneChangeData.EmpNameC2}}</span>
+              </div>
+            </div>
+            <span style="color: #969696">調班日期：</span>
+            <div style="display: inline-block;" *ngFor="let oneYear of oneChangeData.YearAndDate">
+              {{oneYear.OneYear}}年-
+              <span *ngFor="let showdate of oneYear.YearofDate;let index_YearofDate = index">
+                {{showdate}}
+                <span *ngIf="oneYear.YearofDate.length != (index_YearofDate+1)">、</span>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-4 col-xs-12" style="padding: 0px">
+            <div style="padding-bottom: 5px;">
+              調班共計
+              <span style="color:#d0021b;font-weight: bold;">{{oneChangeData.numberOfVaData}}</span> 日
+            </div>
+            <div>
+              <div *ngIf="oneChangeData.ManageEmpName && oneChangeData.State=='1'">{{oneChangeData.ManageEmpName}} 簽核中</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row col-md-1 col-xs-2 P_ptop">
+        <a style="cursor: pointer;text-decoration:underline" (click)="nextShowDetail(oneChangeData)">
+          <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="a-block" *ngIf="getChangeData.length==0">
+  <div class="a-block-body  a-block-container">
+    此查詢條件查無資料
+  </div>
+</div>
+
+<app-search-change-detail-rz *ngIf="showChangeDataDetailRZ" [getChangeDataTitle]="setToNextChangeDataTitle" (goback)="onGoBackFunction()"></app-search-change-detail-rz>
+<app-search-change-detail-rr *ngIf="showChangeDataDetailRR" [getChangeDataTitle]="setToNextChangeDataTitle" (goback)="onGoBackFunction()"></app-search-change-detail-rr>
+<app-search-change-detail-dr *ngIf="showChangeDataDetailDR" [getChangeDataTitle]="setToNextChangeDataTitle" (goback)="onGoBackFunction()"></app-search-change-detail-dr>
+
+
+<div class="modal" id="Cancelformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認抽單?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="Cancelform_Click()">送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog核准確認送出 -->
+<div class="modal" id="sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">抽單完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            已成功抽單
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog送出成功 -->

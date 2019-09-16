@@ -1,0 +1,32 @@
+<div *ngFor="let write of writeTest" style="padding: 25px;">
+  <div style="font-size: 25px;">
+    {{write.version}}
+  </div>
+  <div *ngFor="let edit  of write.editArray">
+    <div style="padding: 10px 25px;">
+      {{edit.date}}
+    </div>
+    <div style="padding: 0px 45px;">
+        <table style="width: 100%;">
+            <tr *ngFor="let  issue of edit.issue" >
+              <td style="width:5%;text-align: center;">
+                  <span *ngIf="issue.state" class="glyphicon glyphicon-ok"></span>
+                  <span *ngIf="!issue.state" class="glyphicon glyphicon-pencil"></span>
+              </td>
+              <td  style="width:10%;text-align: center;">
+                  <!-- <span *ngIf="issue.action == '修正系統' || issue.action == '修正UI'" style="color: red">{{issue.action}}</span>
+                  <span *ngIf="issue.action == '開發'" style="color: blue">{{issue.action}}</span>
+                  <span *ngIf="issue.action == '優化'" style="color: green">{{issue.action}}</span> -->
+                  <span >{{issue.action}}</span>
+              </td>
+              <td  style="width:20%;text-align: center;">
+                  {{issue.page}}
+              </td>
+              <td  style="width:65%">
+                  {{issue.content}}
+              </td>
+            </tr>
+        </table>
+    </div>
+  </div>
+</div>

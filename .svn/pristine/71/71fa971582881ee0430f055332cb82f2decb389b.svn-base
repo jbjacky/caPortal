@@ -1,0 +1,181 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div class="form-group first-form-group" style="border: 1px solid #979797;">
+      <div class="row" style="margin:0px;    padding: 20px 0px 20px 0px;">
+        <div class="col-md-2 col-xs-12">
+          <h3 style="margin:0px">選擇查詢類型</h3>
+        </div>
+        <div class="col-md-8 col-xs-12 P_radio">
+          <div style="display: inline-block;margin-right:15px " *ngFor="let oneRadio of radiogroup">
+            <input type="radio" name="chooseRadio" [(ngModel)]="chooseRadio" [value]="oneRadio.id">{{oneRadio.name}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="chooseRadio == 1" class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-2 col-xs-12 P_title" style="margin-top: 7px;">
+          <label class=" control-label">
+            員工
+          </label>
+        </div>
+        <div class="col-md-10  col-xs-12 row" style="padding:0px;margin: 0px">
+          <div class="col-md-2 col-xs-6" style="padding:0px">
+            <input id="leavejobid" type="text" class="form-control" placeholder="員工號" [(ngModel)]="EmpBase.EmpCode">
+          </div>
+          <div class="col-md-1 col-xs-2">
+            <button data-toggle="modal" data-target="#chooseEmpdialog" style="cursor: pointer;border: 0;background: 0">
+              <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+            </button>
+          </div>
+          <div class="col-md-9 col-xs-4" style="padding-top: 8px;">
+            {{EmpBase.Name}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="chooseRadio == 2" class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-2 col-xs-12 P_title" style="margin-top: 7px;">
+          <label class=" control-label">
+            單位
+          </label>
+        </div>
+        <div class="col-md-1  col-xs-2 row" style="padding:0px;margin: 0px">
+          <button data-toggle="modal" data-target="#chooseDeptdialog" style="cursor: pointer;border: 0;background: 0">
+            <img src="./assets/images-template/icon-persongroup.png" style="cursor: pointer;padding-top: 5px" />
+          </button>
+        </div>
+        <div class="col-md-8  col-xs-10 row" style="margin-top: 8px;">
+          {{chooseDeptName}}
+        </div>
+
+      </div>
+    </div>
+    <div class="form-group first-form-group">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+          <div class="col-md-4 col-xs-12 P_title" style="margin-top: 8px;">
+            <label class=" control-label">
+              <span class="form-must-fill">*</span>起始日期
+            </label>
+          </div>
+          <div class="col-md-6 col-xs-10" style="padding:0px">
+            <input [matDatepicker]="StartDatePicker" [(ngModel)]="dateS" id="id_ipt_startday" type="text"  class="form-control"
+              style="background-color: #ffffff;margin-top: 4px" placeholder="年/月/日"  (dateChange)="blurStartDate()"/>
+            <div *ngIf="errorStartDateState.state" style="color: #e60012">{{errorStartDateState.errorString}}</div>
+
+            <mat-datepicker #StartDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+          </div>
+          <div class="col-md-2 col-xs-2" style="padding:0px">
+            <input (click)="StartDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                  cursor: pointer;
+                  color: transparent;
+                  border: 1px solid transparent;
+                  width: 50px;
+                  height: 40px;
+                  ">
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+          <div class="col-md-4 col-xs-12 P_title" style="margin-top: 8px;">
+            <label class=" control-label">
+              <span class="form-must-fill">*</span>結束日期
+            </label>
+          </div>
+          <div class="col-md-6  col-xs-10" style="padding:0px">
+            <input [matDatepicker]="EndDatePicker" [(ngModel)]="dateE" id="id_ipt_endday" type="text" class="form-control"
+              style="background-color: #ffffff;margin-top: 4px" placeholder="年/月/日" (dateChange)="blurEndDate()" />
+            <div *ngIf="errorEndtDateState.state" style="color: #e60012">{{errorEndtDateState.errorString}}</div>
+          <mat-datepicker #EndDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+          </div>
+          <div class="col-md-2  col-xs-2" style="padding:0px">
+            <input (click)="EndDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                    cursor: pointer;
+                    color: transparent;
+                    border: 1px solid transparent;
+                    width: 50px;
+                    height: 40px;
+                    ">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group first-form-group">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-2 col-xs-12 P_title" style="margin-top: 5px">
+          <label class=" control-label">
+            查詢條件
+          </label>
+        </div>
+        <div class="col-md-3  col-xs-12" style="padding:0px;margin-bottom: 15px">
+          <select id="selectDisplay" class="form-control" (change)="onSearchChange($event)">
+            <option>全部</option>
+            <option>正常出勤</option>
+            <option>異常出勤</option>
+          </select>
+        </div>
+        <div *ngIf="showSearchCheckbok" class="col-md-7  col-xs-12" style="margin-top: 10px">
+          <mat-checkbox [(ngModel)]="LateMins" style="margin-right: 15px;margin-bottom: 5px;font-weight: unset">遲到</mat-checkbox>
+          <mat-checkbox [(ngModel)]="EarlyMins" style="margin-right: 15px;margin-bottom: 5px">早退</mat-checkbox>
+          <mat-checkbox [(ngModel)]="IsAbsent" style="margin-right: 15px;margin-bottom: 5px">未刷卡</mat-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="chooseRadio == 1" class="form-group first-form-group">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-2 ">
+        </div>
+        <div class="col-md-3  col-xs-12" style="padding:0px">
+          <button type="button" class="btn btn-primary" (click)="onSearchClick()">搜尋</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="chooseRadio == 2" class="form-group first-form-group">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-2 ">
+        </div>
+        <div class="col-md-3  col-xs-12" style="padding:0px">
+          <button type="button" class="btn btn-primary" (click)="onSearchDeptClick()">搜尋</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="a-block" *ngIf="AttendanceApiData && AttendanceApiData.length>0">
+    <div class="a-block-body  a-block-container">
+      <h3>考勤資訊</h3>
+      <app-search-attendance [searchAttendanceApiData]='Ob_AttendanceApiData$'></app-search-attendance>
+    </div>
+  </div>
+
+<div class="modal" id="chooseEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <app-choosebase (saveEmptoView)="onSaveEmptoView($event)"></app-choosebase>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog選擇請假員工-->
+<div class="modal" id="chooseDeptdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <app-choosedept (saveDepttoView)="onSaveDepttoView($event)"></app-choosedept>
+          <button type="button" class="btn btn-default" data-dismiss="modal">確認</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog選擇請假部門-->

@@ -1,0 +1,16 @@
+<div style="display: inline-block;margin-right:15px ">
+  <input type="text" class="form-control" placeholder="輸入工號或姓名或部門名稱" style="width: 230px;" [(ngModel)]="searchVal" />
+</div>
+<div style="display: inline-block;margin-bottom: 10px">
+  <a (click)="search(searchVal)">
+      <img src="./assets/images-template/icon-search.png" style="cursor: pointer;padding-top: 5px" />
+  </a>
+</div>
+<div *ngIf="errorState.show">
+  <span style="color: rgb(255, 0, 0)">*{{errorState.errorString}}</span>
+</div>
+<div style="border-left: 2px solid #028fcf8c;padding-left:10px;">
+  <div  class="baselist" *ngFor="let base of base" (click)="onClick(base)" >
+      <span class="basetext">{{base.Dept}} / {{base.EmpCode}}  {{base.EmpNameC}}</span>
+  </div>
+</div>

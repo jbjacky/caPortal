@@ -1,0 +1,113 @@
+.P_div{
+    border:1px solid #028fcf;
+    margin: 0px;
+    margin-bottom:10px;
+    padding: 20px 10px;
+}
+.P_ptop{
+    padding-top: 20px;
+}
+.tag_blue{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 5px 10px 0px;
+    display: inline-block;
+    text-align: center;
+    border: solid 1px #002f7b;
+    color: #002f7b;
+}
+.tag_skyblue{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 5px 10px 0px;
+    display: inline-block;
+    text-align: center;
+    border: solid 1px #00857d;
+    color: #00857d;
+}
+.tag_red{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 5px 10px 0px;
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #d0021b;
+    color: #d0021b;
+}
+.tag_gray{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 5px 10px 0px;
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #9b9b9b;
+    color: #9b9b9b;
+}
+.P_height{
+    height: 22px;
+    margin-bottom: 5px;
+}
+.P_borderBottom{
+    margin: 0px;
+    padding: 0;
+    border-bottom: 0px
+}
+@media screen and (max-width:992px) {
+    .P_div{
+        padding: 10px 10px;
+        padding-left: 20px;
+    }
+    .P_height{
+        height: 0px;
+    }
+    .P_ptop{
+        padding-top: 50px;
+    }
+    .P_borderBottom{
+        border-bottom: 1px solid rgba(151, 151, 151, 0.32);
+        margin-bottom: 10px;
+    }
+}
+
+
+/** dialog */
+@media (max-width: 800px){
+    ::ng-deep #footer {
+        display: none;
+    }
+}
+::ng-deep .vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+  }
+  ::ng-deep .vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+  }
+  ::ng-deep .modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width:550px){
+    .modal-dialog{
+      width: 300px;
+    }
+    .modal-footer{
+      text-align: center
+    }
+  }
+  /** dialog */

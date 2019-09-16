@@ -1,0 +1,418 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-test-write',
+  templateUrl: './test-write.component.html',
+  styleUrls: ['./test-write.component.css']
+})
+export class TestWriteComponent implements OnInit {
+
+  constructor() { }
+  title = ['修正系統', '開發', '修正UI', '優化']
+  writeTest: testClass[] = [
+    {
+      version:'v1.3.3',
+      editArray:[
+        {
+          date:'2019/03/15',
+          issue:[
+            {
+              action: '開發',
+              state: true,
+              page: '班表查詢、首頁',
+              content: '查詢請假單、考勤異常',
+            },
+            {
+              action: '開發',
+              state: false,
+              page: '餘假畫面',
+              content: '畫面未串api資料',
+            }
+          ]
+        },
+        {
+          date:'2019/03/14',
+          issue:[
+            {
+              action: '開發',
+              state: true,
+              page: '選單功能置換',
+              content: '',
+            },
+            {
+              action: '修正系統',
+              state: true,
+              page: '填寫-RZ互換',
+              content: '填入日期後，alert關不掉，不斷跳出。',
+            }
+          ]
+        },
+      ]
+    },
+    {
+      version:'v1.3.2',
+      editArray:[
+        {
+          date:'2019/03/13',
+          issue:[
+            {
+              action: '修正系統',
+              state: false,
+              page: '所有頁面',
+              content: '抽單功能',
+            },
+            {
+              action: '開發',
+              state: true,
+              page: '審核-非輪班人員調班單',
+              content: '',
+            },
+            {
+              action: '修正系統',
+              state: true,
+              page: '表單查詢',
+              content: '調班單查不到',
+            },
+          ]
+        },
+      ]
+    },
+    {
+      version:'v1.3',
+      editArray:[
+        {
+          date:'2019/03/12',
+          issue:[
+            {
+              action: '開發',
+              state: true,
+              page: '首頁',
+              content: '查詢請假單、考勤異常按鈕',
+            },
+            {
+              action: '開發',
+              state: true,
+              page: '審核-請假單、審核-銷假單',
+              content: '近期假單一覽',
+            },
+            {
+              action: '開發',
+              state: true,
+              page: '審核-請假單',
+              content: '行事曆模擬',
+            },
+            {
+              action: '開發',
+              state: true,
+              page: '審核-請假單',
+              content: '流程查詢',
+            },
+            {
+              action: '開發',
+              state: true,
+              page: '審核-請假單',
+              content: '查詢請假規',
+            },
+            {
+              action: '修正UI',
+              state: true,
+              page: '填寫-請假單',
+              content: '瀏覽器縮小時，個人餘假的字太多會蓋住其他行：如 特殊病假(連續30天以上)',
+            },
+            {
+              action: '修正系統',
+              state: true,
+              page: '填寫-RZ互換',
+              content: '「確定互換」按鈕要先隱藏，按下本人同意...文字後才顯示',
+            },
+            {
+              action: '修正系統',
+              state: true,
+              page: '審核-銷假單',
+              content: '審核銷假時的時間明細狀態-[請求銷假]即可，不需要[(此單欲銷)]',
+            }
+          ]
+        },
+        {
+          date:'2019/03/11',
+          issue:[
+            {
+              action: '修正系統',
+              state: true,
+              page: '審核-請假單',
+              content: '當日請假勾選框功能',
+            },
+            {
+              action: '開發',
+              state: true,
+              page: '登入頁面',
+              content: 'Token身分驗證串接',
+            },
+            {
+              action: '修正系統',
+              state: true,
+              page: '填寫-請假單',
+              content: '預排假單沒有卡特定日期限制',
+            },
+            {
+              action: '修正系統',
+              state: true,
+              page: '填寫-意願備註表',
+              content: '如果填寫意願選超過一天的範圍(假設3/8-3/11)，查詢意願時查詢8-11號都會有這筆資料，但是日期全部都顯示3/8?',
+            },
+            {
+              action: '修正系統',
+              state: true,
+              page: '填寫-RZ互換',
+              content: '「確定互換」按鈕要先隱藏，按下本人同意...文字後才顯示',
+            }
+          ]
+        },
+        {
+          date:'2019/03/07',
+          issue:[
+            {
+              action: '修正系統',
+              state: false,
+              page: '請假單、審核-請假單、查詢請假明細所有頁面',
+              content: '跨天請假明細問題',
+            },
+            {
+              action: '修正UI',
+              state: false,
+              page: '填寫-銷假單',
+              content: '畫面調整',
+            },
+            {
+              action: '修正UI',
+              state: true,
+              page: '首頁',
+              content: '首頁的近期公告點擊之後，用Popup方式跳出內容即可，不需要換頁',
+            },
+          ]
+        },
+      ]
+    },
+    {
+      version: 'v1.2',
+      editArray: [
+        {
+          date: '2019/03/06',
+          issue: [
+            {
+              action: '開發',
+              state: true,
+              page: '員工表單查詢',
+              content: '模組化查詢與顯示區塊',
+            },
+            {
+              action: '修正UI',
+              state: true,
+              page: '審核-銷假單',
+              content: '1.時段之間不需要虛線 2.非全選時再出現[已選擇..段時間]的提示字',
+            },
+            {
+              action: '修正UI',
+              state: true,
+              page: '首頁',
+              content: '首頁的考勤表，左右移動可以鎖住七天嗎?因為如果滑動時日期忽然跳成循環很怪',
+            }
+          ]
+        },
+        {
+          date: '2019/03/05',
+          issue: [
+            {
+              action: '修正系統',
+              state: true,
+              page: '個人表單查詢-請假單',
+              content: '抽單',
+            },
+            {
+              action: '修正系統',
+              state: true,
+              page: '個人表單查詢、表單審核、填寫請假單',
+              content: '剛剛測試一張當日請假，結果表單查詢時卻沒有顯示當日請假',
+            }
+          ]
+        },
+        {
+          date: '2019/03/04',
+          issue: [
+            {
+              action: '修正系統',
+              state: true,
+              page: '填寫-檢視意願備註表',
+              content: '查詢組別應該要保留全部(因為舊的有)',
+            },
+            {
+              action: '修正系統',
+              state: false,
+              page: '所有頁面',
+              content: '更換日期套件',
+            }
+          ]
+        },
+        {
+          date: '2019/02/27',
+          issue: [{
+            action: '修正系統',
+            state: false,
+            page: '填寫-檢視意願備註表',
+            content: '查詢組別應該要保留全部(因為舊的有)，未測試'
+          }, {
+            action: '修正UI',
+            state: false,
+            page: '選員工的選單',
+            content: '單位沒人從紅字修正成反灰，單位向下沒人不出現，因效能不建議，待確認'
+          }, {
+            action: '開發',
+            state: false,
+            page: '抽單',
+            content: '功能寫好，串接api確認中'
+          }, {
+            action: '修正UI',
+            state: false,
+            page: '個人表單查詢',
+            content: '[呈核中] 應該是圓框的symbol,後面再接XXX審核中，(差調班單未修正)'
+          }, {
+            action: '開發',
+            state: false,
+            page: '非輪班人員調班單',
+            content: '等api考勤查詢的RoteCode、RoteName'
+          }, {
+            action: '優化',
+            state: true,
+            page: '填寫-請假單',
+            content: '搜尋員工打工號的地方，請問可以[按Enter] = [點擊放大鏡]嗎?因為打完工號按Enter很順'
+          }]
+        }
+      ]
+    },
+    {
+      version: 'v1.1',
+      editArray: [{
+        date: '2019/02/25',
+        issue: [{
+          action: '修正系統',
+          state: true,
+          page: '首頁',
+          content: '上面藍底的審核區塊點了不能連到審核'
+        }, {
+          action: '修正系統',
+          state: true,
+          page: '填寫-考勤異常確認單',
+          content: "考勤異常人已選擇別人，選擇填寫後，考勤異常人卻還是自己"
+        }, {
+          action: '修正系統',
+          state: true,
+          page: '填寫-請假單',
+          content: "點選起始日期和結束日期的月曆，跳出api連線錯誤，absIntegrationHandlerGetabsFlowApps"
+        }, {
+          action: '修正系統',
+          state: true,
+          page: '個人表單查詢',
+          content: "原表單僅填寫實際到勤時間，但查詢表單卻有顯示實際離勤時間"
+        }, {
+          action: '修正UI',
+          state: true,
+          page: '首頁',
+          content: '審核的藍底區塊，點數字可以連過去就好，不要有浮起來的邊框效果'
+        }, {
+          action: '修正UI',
+          state: true,
+          page: '填寫-請假單',
+          content: "如果填寫送出時有資訊有誤，在錯誤訊息之後，表單的請假日期會變回預設的當日(不是剛剛選好的日期)，請問可以保留已填寫的請假日期嗎?不然不小心某些地方點錯又要重選日期"
+        }, {
+          action: '修正UI',
+          state: true,
+          page: '填寫-請假單',
+          content: "填寫完收合成時段卡時，內容請上下置中(現在偏上)，行距也要調大(10px)，新增更多差假時段旁邊的+號icon要可以按"
+        }, {
+          action: '修正UI',
+          state: true,
+          page: '審核-列表頁',
+          content: "三個按鈕的間距太寬，5px即可，按鈕組離左右邊的距離為42px(現在太寬)"
+        }, {
+          action: '修正UI',
+          state: true,
+          page: '審核-列表頁',
+          content: "disable樣式為灰底(#e0e0e0)白字"
+        },
+        ]
+      },
+      {
+        date: '2019/02/26',
+        issue: [{
+          action: '開發',
+          state: false,
+          page: '非輪班人員調班單',
+          content: "功能撰寫中尚未完成"
+        }, {
+          action: '修正系統',
+          state: true,
+          page: '填寫-請假單',
+          content: "最後確認明細部分，假種跟差假原因位置上下相反"
+        }, {
+          action: '修正系統',
+          state: true,
+          page: '個人表單查詢',
+          content: "查詢結果與查詢日期不符"
+        }, {
+          action: '修正系統',
+          state: true,
+          page: '首頁',
+          content: "本週考勤表應該是以今天為基準點，顯示+-3的考勤，現在好像是今天+6"
+        }, {
+          action: '修正UI',
+          state: true,
+          page: '填寫-考勤異常確認單',
+          content: "填寫表單頁面歪掉了，整個跑到左邊去"
+        }, {
+          action: '修正UI',
+          state: true,
+          page: '填寫-考勤異常確認單',
+          content: "到離時間如果有異常，請顯示紅色"
+        },]
+      }
+      ]
+    }
+  ]
+  ngOnInit() {
+    for (let aa of this.writeTest) {
+      aa.editArray.sort(
+        (a: any, b: any) => {
+          var aDate: any = new Date(a.date)
+          var bDate: any = new Date(b.date)
+          return bDate - aDate
+        }
+      )
+    }
+
+    this.writeTest.sort(
+      (a: any, b: any) => {
+        var aV = a.version.split('v')
+        var bV = b.version.split('v')
+        var aV_num = parseFloat(aV[1])
+        var bV_num = parseFloat(bV[1])
+
+        return bV_num - aV_num
+      }
+    )
+  }
+
+}
+class testClass {
+  version: string
+  editArray: Array<editArray>
+}
+class editArray {
+  date: string
+  issue: Array<issueClass>
+}
+class issueClass {
+  action: string
+  state: boolean
+  page: string
+  content: string
+}

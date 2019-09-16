@@ -1,0 +1,38 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div>
+        <h2 style="
+        display: inline-block;
+        margin-right: 20px;
+        margin-top: 0px;">{{getNewsDetail.NewsHead}}</h2>
+        <span style="
+        font-size: 15px; 
+        color: #777777;">{{getNewsDetail.PostDate}}</span>
+    </div>
+    <div style="margin-bottom:20px" [innerHTML]="getNewsDetail.NewsBody | safeHtml">
+    </div>
+    <div *ngIf="getNewsDetail.UploadFileOld">
+        <ng-container *ngIf="getNewsDetail.UploadFileOld.length>0">
+            <div style="margin: 10px">
+                <span style="color: #777777;margin-right: 5px">
+                    附檔:
+                </span>
+                <ng-container style="margin-right: 5px" *ngFor="let upload of getNewsDetail.UploadFileOld">
+                    <ng-container *ngIf="upload">
+                        <div style="display: inline-block;margin-right: 20px;word-break: break-all;">
+                            <img src="./assets/images-template/attach@2x.png" height='16px' width="12px"
+                                style="margin-right: 5px" />
+                            <a (click)="base64_NotFlow(upload)" style="cursor:pointer">
+                                {{upload.UploadName}}
+                            </a>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </ng-container>
+    </div>
+    <div style="text-align: center" >
+      <a style="cursor: pointer;" (click)="previouspage()">回列表</a>
+    </div>
+  </div>
+</div>

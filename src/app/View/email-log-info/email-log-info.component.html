@@ -1,0 +1,80 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div style="margin-bottom: 5px">
+      <div style="display: inline-block">
+        表單編號:
+      </div>
+      <div style="display: inline-block">
+        <input class="form-control" [(ngModel)]="showGetSendMailLog.ProcessFlowID" />
+      </div>
+    </div>
+    <div style="margin-bottom: 5px">
+      <div style="display: inline-block">
+        Email:
+      </div>
+      <div style="display: inline-block">
+        <input style="width: 450px;" class="form-control" [(ngModel)]="showGetSendMailLog.ToAddress" />
+      </div>
+    </div>
+    <div style="margin-bottom: 5px">
+      <div style="display: inline-block">
+        主旨:
+      </div>
+      <div style="width: 450px;" style="display: inline-block">
+        <input class="form-control" [(ngModel)]="showGetSendMailLog.Subject" />
+      </div>
+    </div>
+    <div style="margin-bottom: 5px">
+      <div style="display: inline-block">
+        內容:
+      </div>
+      <div style="width: 450px;" style="display: inline-block">
+        <input class="form-control" [(ngModel)]="showGetSendMailLog.Body" />
+      </div>
+    </div>
+    <div>
+      <button (click)="bt_search()">查詢</button>
+    </div>
+  </div>
+</div>
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <h3>Email發送紀錄</h3>
+    <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+      <thead>
+        <tr>
+          <th style="background-image: unset;cursor: unset;width:5%">編號</th>
+          <th style="width:20%">送出位址</th>
+          <th style="width:50%">主旨</th>
+          <th style="width:20%">寄信時間</th>
+          <th style="width:5%">內文</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let LogData of showGetSendMailLogData">
+          <td>{{LogData.ProcessFlowID}}</td>
+          <td>{{LogData.ToAddress}}</td>
+          <td>{{LogData.Subject}}</td>
+          <td>{{LogData.KeyDate}}</td>
+          <td><a (click)="showBodyDetail(LogData.Body)">詳細</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="modal" id="ShowBodyDialog" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div style="margin-bottom:20px" [innerHTML]="showBodyString | safeHtml">
+          </div>
+          <div style="text-align: center">
+            <button type="button" class="btn btn-default" data-dismiss="modal">確認</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

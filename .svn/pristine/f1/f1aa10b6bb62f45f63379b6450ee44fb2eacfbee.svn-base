@@ -1,0 +1,38 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div class="row" style="margin:0;margin-bottom: 10px">
+      <label class="col-md-1 control-label" style="padding: 0px;
+    padding-top: 5px;">
+        <span class="form-must-fill">*</span>查詢日期
+      </label>
+      <div class="col-md-8">
+        <div class="row writerow">
+          <div class="col-md-4 col-xs-10" style="padding: 0px">
+            <input id="id_ipt_startday" type="text" class="form-control" [textMask]="MonthMask()" style="background-color: #ffffff;"
+              placeholder="年/月" />
+          </div>
+          <!--  -->
+          <div class="col-md-1 col-xs-2" style="padding: 0px">
+            <input id="id_bt_startday" type="button" data-modal="true" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                    cursor: pointer;
+                    color: transparent;
+                    border: 1px solid transparent;
+                    width: 50px;
+                    height: 40px;
+                    ">
+          </div>
+
+          <div class="col-md-6 col-xs-12" style="padding: 0px">
+            <button type="button" class="btn btn-primary" (click)="search()">查詢</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-sharecalendar [searchCalendarData]="Ob_RoteApiData$"></app-sharecalendar>
+<ngx-spinner bdOpacity=1 bdColor="rgba(51,51,51,0.41)" size="medium" color="#fff" type="ball-beat" fullScreen="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

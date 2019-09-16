@@ -1,0 +1,387 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <h3>調班單明細</h3>
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
+      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          表單編號
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span style="color: #028fcf">{{getChangeDataTitle.showProcessFlowID}}</span>
+
+              <a style="cursor: pointer;">
+                <span *ngIf="getChangeDataTitle.Take && getShowTakeDetail" data-toggle="modal" data-target="#Cancelformdialog">(抽單)</span>
+              </a>
+              <a style="cursor: pointer;" data-toggle="modal"
+                (click)="checkTransSignForm(getChangeDataTitle)">
+                <span *ngIf="getChangeDataTitle.TransSign && getShowTransSignDetail">(轉呈)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_right">
+          <label class="control-label ">
+            表單狀態</label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_LFZero" style="padding-right: 0px">
+          <div *ngIf="getChangeDataTitle.ManageEmpName && getChangeDataTitle.State =='1'" style="padding-right: 0px">
+            <label class="tag_blue" style="margin-right: 5px">呈核中</label> <span
+              *ngIf="getChangeDataTitle.ManageEmpName">{{getChangeDataTitle.ManageEmpName}} 審核中</span>
+          </div>
+          <div *ngIf="getChangeDataTitle.State == '3'" style="padding-right: 0px">
+            <label class="tag_skyblue" style="margin-right: 5px">已核准</label> <span
+              *ngIf="showAprovedName">{{showAprovedName}} 核單</span>
+          </div>
+          <div *ngIf="getChangeDataTitle.State == '2'" class="tag_red" style="padding-right: 0px">
+            <label style="color: #d0021b">重擬</label>
+          </div>
+          <div *ngIf="getChangeDataTitle.State == '7'" class="tag_gray" style="padding-right: 0px">
+            <label style="color: #9b9b9b">已抽單</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-12">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          員工
+        </label>
+        <div class="col-md-8  col-xs-12">
+          <div class="row ">
+            <div>
+              <span>{{getChangeDataTitle.EmpID1}} {{getChangeDataTitle.EmpNameC1}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-12 row" style="margin:0;margin-bottom: 10px">
+        <label class="col-md-2 control-label" style="padding-left: 0px;text-align: right;padding-right: 10px">
+          調班事由
+        </label>
+        <div class="col-md-8 row" style="margin: 0;padding: 0">
+          <div class="row " style="margin: 0;padding: 0">
+            <div class="P_LFiveZero">
+              <span>{{Note}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+
+    <div class="row" style="margin: 0;margin-bottom: 10px;text-align: center;padding-top: 15px">
+      <div class="desktopCalender">
+        <button id="bt_RoteShow" class="onShowButton" (click)="OriginalRote()" style="
+        border-top-left-radius: 23px;
+        border-bottom-left-radius: 23px;">原始調班前</button>
+        <button id="bt_TimeShow" class="offShowButton" (click)="SimulationRote()" style="
+        border-top-right-radius: 23px;
+        border-bottom-right-radius: 23px;">模擬調班後</button>
+      </div>
+    </div>
+    <div class="row two-seven-cols" style="margin: 0;margin-bottom: 10px;">
+
+      <div class="col-md-2 col-xs-12" style="margin: 5px 0px">
+
+        <div style="border:1px solid #e0e0e0;border-radius:5px ">
+
+          <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+            <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 datePadding">
+              <div class="DivDateStyle" style="background-color: #e8e8e8">
+                員工
+              </div>
+            </div>
+            <div id="onePadding_View2" class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle"
+              style="padding: 10px 0px;">
+              <div id="oneEmp_View2">
+                <div>
+                  {{getChangeDataTitle.EmpCode1}}
+                </div>
+                <div>
+                  {{getChangeDataTitle.EmpNameC1}}
+                </div>
+                <div class="routeTimeBlock_Emp">
+                </div>
+              </div>
+            </div>
+            <div id="twoPadding_View2" class="col-md-12 col-xs-4 twoDivJobStyle" style="padding: 10px 0px;">
+              <div id="twoEmp_View2">
+                <div>
+                  {{getChangeDataTitle.EmpCode2}}
+                </div>
+                <div>
+                  {{getChangeDataTitle.EmpNameC2}}
+                </div>
+                <div class="routeTimeBlock_Emp">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div *ngFor="let ui of uiShow ; let i = index" appSpyChangeformNgif>
+        <div class="col-md-2 col-xs-12 " style="margin: 5px 0px">
+          <div *ngIf="ui.Clickselect" class="DivStyle selectDiv" style="cursor: unset">
+
+            <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+              <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 datePadding">
+                <div class="DivDateStyle selectDateDiv_check">
+                  {{ui.date}}
+                </div>
+              </div>
+              <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle selectJobDiv">
+                <div [id]="'oneCheckHeight_View2_isCheck'+i"  class="RoteLink" (click)="bt_Show_RoteInfo(ui.onePRoteID)">
+                  <!-- {{ui.oneP}} -->
+                  {{ui.onePRoteName}}
+                </div>
+                <div class="routeTimeBlock">
+                  {{ui.oneP_OnTime}}-{{ui.oneP_OffTime}}
+                </div>
+              </div>
+              <div class="col-md-12 col-xs-4 twoDivJobStyle selectJobDiv">
+                <div [id]="'twoCheckHeight_View2_isCheck'+i"  class="RoteLink" (click)="bt_Show_RoteInfo(ui.twoPRoteID)">
+                  <!-- {{ui.twoP}} -->
+                  {{ui.twoPRoteName}}
+                </div>
+                <div class="routeTimeBlock">
+                  {{ui.twoP_OnTime}}-{{ui.twoP_OffTime}}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- 有選到的日期 -->
+          <div *ngIf="!ui.Clickselect" class="DivStyle" style="cursor: unset">
+
+            <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+              <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 datePadding">
+                <div class="DivDateStyle">
+                  {{ui.date}}
+                </div>
+              </div>
+              <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle">
+                <div [id]="'oneCheckHeight_View2'+i"  class="RoteLink" (click)="bt_Show_RoteInfo(ui.onePRoteID)">
+                  <!-- {{ui.oneP}} -->
+                  {{ui.onePRoteName}}
+                </div>
+                <div class="routeTimeBlock">
+                  {{ui.oneP_OnTime}}-{{ui.oneP_OffTime}}
+                </div>
+              </div>
+              <div class="col-md-12 col-xs-4 twoDivJobStyle">
+                <div [id]="'twoCheckHeight_View2'+i"  class="RoteLink" (click)="bt_Show_RoteInfo(ui.twoPRoteID)">
+                  <!-- {{ui.twoP}} -->
+                  {{ui.twoPRoteName}}
+                </div>
+                <div class="routeTimeBlock">
+                  {{ui.twoP_OnTime}}-{{ui.twoP_OffTime}}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- 沒選到的日期 -->
+        </div>
+      </div>
+
+    </div>
+    <div class="row"
+      style="margin: 0px ;margin-bottom:15px;padding: 15px 0px ;border-top:1px dashed #dcdcdc;border-bottom:1px dashed #dcdcdc">
+
+      <div class="col-md-6 col-xs-12 P_zero">
+        <div style="padding: 5px 12px">
+          {{getChangeDataTitle.EmpCode1}} {{getChangeDataTitle.EmpNameC1}}
+        </div>
+        <div class="">
+          <ng-container *ngIf="SimulationRoteData[0]">
+            <div *ngFor="let select of SimulationRoteData[0].ShiftRoteFlowAppsDetail" class="row" style="margin: 0">
+              <div>
+                <span style="color:#002f7b;" class="col-md-2 col-xs-3">{{FormatDate(select.ShiftRoteDate)}}</span>
+                <span class="col-md-4 col-xs-3 Rote RoteLink"  (click)="bt_Show_RoteInfo(select.RoteID1)">
+                  <!-- {{select.oneP}} -->
+                  {{select.RoteName1}}
+                  <!-- {{select.RoteID1Info.OnTime}} - {{select.RoteID1Info.OffTime}} -->
+                </span>
+                <span style="color:#002f7b;" class="col-md-2 col-xs-3">調成</span>
+                <span class="col-md-4 col-xs-3 Rote RoteLink"  (click)="bt_Show_RoteInfo(select.RoteID1c)">
+                  <!-- {{select.twoP}} -->
+                  {{select.RoteName1c}}
+                  <!-- {{select.RoteID1cInfo.OnTime}} - {{select.RoteID1cInfo.OffTime}} -->
+                </span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-6 col-xs-12 P_zero">
+        <div style="padding: 5px 12px">
+          {{getChangeDataTitle.EmpCode2}} {{getChangeDataTitle.EmpNameC2}}
+        </div>
+        <div class="">
+          <ng-container *ngIf="SimulationRoteData[0]">
+            <div *ngFor="let select of SimulationRoteData[0].ShiftRoteFlowAppsDetail" class="row" style="margin: 0">
+              <div>
+                <span style="color:#002f7b;" class="col-md-2 col-xs-3">{{FormatDate(select.ShiftRoteDate)}}</span>
+                <span class="col-md-4 col-xs-3 Rote RoteLink"  (click)="bt_Show_RoteInfo(select.RoteID2)">
+                  <!-- {{select.oneP}} -->
+                  {{select.RoteName2}}
+                  <!-- {{select.RoteID2Info.OnTime}} - {{select.RoteID2Info.OffTime}} -->
+                </span>
+                <span style="color:#002f7b;" class="col-md-2 col-xs-3">調成</span>
+                <span class="col-md-4 col-xs-3 Rote RoteLink"  (click)="bt_Show_RoteInfo(select.RoteID2c)">
+                  <!-- {{select.twoP}} -->
+                  {{select.RoteName2c}}
+                  <!-- {{select.RoteID2cInfo.OnTime}} - {{select.RoteID2cInfo.OffTime}} -->
+                </span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+
+    <app-from-sign [getProcessFlowID]="getChangeDataTitle.ProcessFlowID"></app-from-sign>
+    <!--歷程主管意見-->
+    <div style="text-align:center">
+      <button class="btn btn-primary btnFeatures" data-toggle="modal" (click)="show_signRecord()">簽核流程紀錄</button>
+      <button class="btn btn-default btnFeatures" (click)="previouspage()">回上一頁</button>
+    </div>
+
+  </div>
+
+  <div class="modal" id="Cancelformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="vertical-alignment-helper">
+      <div class="modal-dialog  modal-sm vertical-align-center">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認抽單?</h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="Cancelform_Click()">送出</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--dialog確認抽單送出 -->
+  <div class="modal" id="signRecord" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title" id="mySmallModalLabel">簽核流程紀錄</h4>
+          </div>
+          <div class="modal-body">
+            <app-from-sign-table *ngIf="signRecordDialog" [getProcessFlowID]="getChangeDataTitle.ProcessFlowID">
+            </app-from-sign-table>
+            <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--dialog簽核流程紀錄-->
+<div class="modal" id="TransSignformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="vertical-alignment-helper">
+  <div class="modal-dialog  modal-md vertical-align-center">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認轉呈?</h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <p>簽核人員</p>
+          <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+          </app-select-signer>
+        </div>
+      </div>
+      <div class="modal-footer" style="text-align: center">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+          (click)="TransSignform_Click()">送出</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--dialog轉呈確認送出 -->
+<div class="modal" id="TransSignformSussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="vertical-alignment-helper">
+  <div class="modal-dialog  modal-sm vertical-align-center">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <!-- <span aria-hidden="true">×</span> -->
+        </button>
+        <h4 class="modal-title" style="text-align: center">轉呈完成</h4>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;margin-bottom: 10px">
+          <img src="./assets/images-template/icon-success.png" />
+        </div>
+        <div style="text-align: center">
+          已成功轉呈
+        </div>
+      </div>
+      <div class="modal-footer" style="text-align: center">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--dialog轉呈送出成功 -->
+<div class="modal" id="RoteInf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <!-- <h4 class="modal-title" id="mySmallModalLabel">{{showSearchEmp.EmpCode}} 出勤班表</h4> -->
+          <h4 class="modal-title" id="mySmallModalLabel">班型資訊</h4>
+        </div>
+        <div class="modal-body">
+          <app-rote-inf [GetRoteInfo$]="Ob_setGetRoteInfo$"></app-rote-inf>
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog班表期間-->

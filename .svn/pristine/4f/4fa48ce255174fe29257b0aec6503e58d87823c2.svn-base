@@ -1,0 +1,77 @@
+<div class="a-block" *ngIf="getForgetData.length!=0 && !showForgetDataDetail">
+  <div class="a-block-body  a-block-container">
+    <h3>查詢結果</h3>
+    <div class="row P_div" *ngFor="let oneforgetData of forgetSearchFlowSign">
+      <div class="row col-md-3 col-xs-12 P_borderBottom">
+        <div class="col-md-6   col-xs-7  col-md-push-5" style="color: #326299;padding:3px 0px;">
+          <div>
+            <!-- 0000020110 -->{{oneforgetData.showProcessFlowID}}
+          </div>
+          <div>
+            考勤異常簽認單
+            <a style="cursor: pointer;" data-toggle="modal" data-target="#Cancelformdialog"><span *ngIf="oneforgetData.Take">(抽單)</span></a>
+          </div>
+
+        </div>
+        <div class="col-md-4   col-xs-5  col-md-pull-5" style="padding: 0;text-align: center;
+          padding-top: 10px;">
+          <div class="tag_blue" *ngIf="oneforgetData.State=='1'">呈核中</div>
+          <div class="tag_skyblue" *ngIf="oneforgetData.State=='3'">已核准</div>
+          <div class="tag_red" *ngIf="oneforgetData.State=='2'">重擬</div>
+          <div class="tag_gray" *ngIf="oneforgetData.State=='4'">已抽單</div>
+        </div>
+      </div>
+      <div class="row col-md-8 col-xs-10" style="margin: 0px;padding: 0">
+        <div class="col-md-9 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0">
+          <div class="row" style="margin: 0;padding-bottom: 5px;">
+            <div class="col-md-4 col-xs-12" style="padding: 0">
+              <!-- 643345 李大仁 --> {{oneforgetData.EmpCode}} {{oneforgetData.EmpNameC}}
+            </div>
+            <div class="col-md-8 col-xs-12" style="padding: 0">
+              <!-- 計劃發展部 --> {{oneforgetData.AppDeptName}}
+            </div>
+          </div>
+          <div class="row" style="margin: 0;padding-bottom: 5px;">
+            <div class="col-md-4 col-xs-12" style="padding: 0">
+              <span style="color: #969696">日期：</span>
+              <!--2019/01/18-->{{oneforgetData.DateB}}
+            </div>
+            <div class="col-md-4 col-xs-12" style="padding: 0">
+              <span style="color: #969696">班型：</span>
+              <!--040A_02-->{{oneforgetData.RouteCode}}
+            </div>
+            <div class="col-md-4 col-xs-12" style="padding: 0">
+              <span *ngIf="oneforgetData.isEarlyMins" style="color: #969696">異常狀態：
+                <span style="color: #4c4c4c">早退</span>
+              </span>
+              <span *ngIf="oneforgetData.isLateMins" style="color: #969696">異常狀態：
+                <span style="color: #4c4c4c">遲到</span>
+              </span>
+              <span *ngIf="oneforgetData.isForgetCard" style="color: #969696">異常狀態：
+                <span style="color: #4c4c4c">未刷卡</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-xs-12" style="padding: 0">
+          <div class="P_height"></div>
+          <div *ngIf="oneforgetData.ManageEmpName">{{oneforgetData.ManageEmpName}} 簽核中</div>
+        </div>
+      </div>
+      <div class="row col-md-1 col-xs-2 P_ptop">
+        <a style="cursor: pointer;text-decoration:underline" (click)="nextShowDetail(oneforgetData)">
+          <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="a-block" *ngIf="getForgetData.length==0">
+  <div class="a-block-body  a-block-container">
+    此查詢條件查無資料
+  </div>
+</div>
+
+
+<app-search-forget-detail *ngIf="showForgetDataDetail" [getForgetDataTitle]="setToNextForgetDataTitle" (goback)="onGoBackFunction()"></app-search-forget-detail>

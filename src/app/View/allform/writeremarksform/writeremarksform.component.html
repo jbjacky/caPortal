@@ -1,0 +1,382 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <ul class="nav nav-tabs" style="margin-bottom: 20px">
+      <li class="active" style="width: 25%;text-align: center">
+        <a data-toggle="tab" href="#wirte" style="text-decoration: none;">填寫意願
+          <span class="badge" style="background-color:#4a90e2;    padding: 5px 8px;
+            font-size: 10px;border-radius: 13px;
+            margin-bottom: 6px;"></span>
+        </a>
+      </li>
+      <li style="width: 25%;text-align: center">
+        <a id="ot_bt" data-toggle="tab" href="#ot" style="text-decoration: none;" (click)="GetAttendWish_ot()">加班資訊
+          <span class="badge" style="background-color:#4a90e2;    padding: 5px 8px;
+            font-size: 10px;border-radius: 13px;
+            margin-bottom: 6px;"></span>
+        </a>
+      </li>
+      <li style="width: 25%;text-align: center">
+        <a id="ch_bt" data-toggle="tab" href="#change" style="text-decoration: none;" (click)="GetAttendWish_ch()">調班資訊
+          <span class="badge" style="background-color:#4a90e2;    padding: 5px 8px;
+            font-size: 10px;border-radius: 13px;
+            margin-bottom: 6px;"></span>
+        </a>
+      </li>
+      <!-- <li style="width: 25%;text-align: center">
+        <a id="va_bt" data-toggle="tab" href="#va" style="text-decoration: none;" (click)="GetAttendWish_va()">請假資訊
+          <span class="badge" style="background-color:#4a90e2;    padding: 5px 8px;
+            font-size: 10px;border-radius: 13px;
+            margin-bottom: 6px;"></span>
+        </a>
+      </li> -->
+    </ul>
+
+    <div class="tab-content">
+      <div id="wirte" class="tab-pane in active">
+        <div class="panel-group">
+          <div class="form-group first-form-group" style="border: 1px solid #979797;">
+            <div class="row" style="margin:0px;    padding: 20px 0px 20px 0px;">
+              <div class="col-md-2 col-xs-12 P_title">
+                <h3 style="margin:0px;">選擇RQ類型</h3>
+              </div>
+              <div class="col-md-5 col-xs-12 P_radio">
+                <div class="col-md-3 col-xs-4 " style="display: inline-block" *ngFor="let oneRadio of radiogroup">
+                  <input type="radio" style="
+                              margin-right: 10px;" name="chooseRadio"
+                    [(ngModel)]="chooseRadio" [value]="oneRadio.id">{{oneRadio.name}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;">
+            <div class="row" style="padding-bottom: 15px;margin:0px">
+              <div class="col-md-2 col-xs-4 P_title">
+                <label class=" control-label">
+                  填寫人
+                </label>
+              </div>
+              <div class="col-md-10  col-xs-8" style="padding-left:5px">
+                {{toapiRemark.write_man_code}} {{toapiRemark.write_man_name}}
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="border: 0px;padding: 0;margin: 0">
+            <div class="col-md-6 col-xs-12" style="margin-bottom: 10px;padding: 0px">
+              <label class="col-md-4  col-xs-12 control-label P_timetitle" style="padding-top: 6px;">
+                <span class="form-must-fill">*</span>起始日期
+              </label>
+              <div class="col-md-8  col-xs-12">
+                <div class="row writerow">
+                  <div class="col-md-10 col-xs-10" style="padding: 0px">
+                    <input [matDatepicker]="StartDatePicker"  [(ngModel)]="dateB" id="id_ipt_startday"  type="text" class="form-control"
+                      style="background-color: #ffffff;" placeholder="年/月/日" (blur)="SerchStartDateChange()" (dateChange)="SerchStartDateChange()"/>
+                    <div *ngIf="errorStartDate.state" style="color: #e60012">{{errorStartDate.errorString}}</div>
+                    <mat-datepicker #StartDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+                  </div>
+                  <!--  -->
+                  <div class="col-md-2 col-xs-2" style="padding: 0px">
+                    <input (click)="StartDatePicker.open()" id="id_bt_startday" type="button"  style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                                cursor: pointer;
+                                color: transparent;
+                                border: 1px solid transparent;
+                                width: 50px;
+                                height: 40px;
+                                ">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;padding: 0">
+              <div class="col-md-3  col-xs-12 P_timetitle" style="padding-top: 6px">
+                <label class="control-label">
+                  <span class="form-must-fill">*</span>時間</label>
+              </div>
+              <div class="col-md-9  col-xs-12" style="padding:0">
+                <div class="col-md-6 col-xs-10" style="padding: 0px">
+                  <input id="id_ipt_starttime" (blur)="blurStartTime()" [textMask]="starttimeMask()" type="text" class="form-control"
+                    style="background-color: #ffffff">
+                  <div *ngIf="errorStartTime.state" style="color: #e60012">{{errorStartTime.errorString}}</div>
+                </div>
+                <!--  -->
+                <div class="col-md-4 col-xs-2" style="padding: 0px">
+                  <input #StartTimeView id="id_bt_starttime" type="button" (click)="changeStartTimeView()" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                              cursor: pointer;
+                              color: transparent;
+                              border: 1px solid transparent;
+                              width: 50px;
+                              height: 40px;
+                              padding: 0px;
+                              ">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+          <div class="row" style="border: 0px;padding: 0;padding-top: 10px;margin: 0">
+            <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;padding: 0px">
+              <label class="col-md-4  col-xs-12 control-label P_timetitle" style="padding-top: 6px">
+                <span class="form-must-fill">*</span>結束日期
+              </label>
+              <div class="col-md-8  col-xs-12">
+                <div class="row writerow">
+                  <div class="col-md-10 col-xs-10" style="padding: 0px">
+                    <input [matDatepicker]="EndDatePicker" id="id_ipt_endday" [(ngModel)]="dateE" (blur)="blurEndDate()" type="text" class="form-control"
+                      style="background-color: #ffffff" placeholder="年/月/日" (dateChange)="checkStartAndEndDate()">
+                    <div *ngIf="errorEndDate.state" style="color: #e60012">{{errorEndDate.errorString}}</div>
+
+                    <mat-datepicker #EndDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+                  </div>
+                  <div class="col-md-2 col-xs-2" style="padding: 0px">
+                    <input (click)="EndDatePicker.open()" id="id_bt_endday" type="button"  style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                                    cursor: pointer;
+                                    color: transparent;
+                                    border: 1px solid transparent;
+                                    width: 50px;
+                                    height: 40px;
+                                    ">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;padding: 0">
+              <div class="col-md-3  col-xs-12 P_timetitle" style="padding-top: 6px">
+                <label class="control-label ">
+                  <span class="form-must-fill">*</span>時間</label>
+              </div>
+              <div class="col-md-9  col-xs-12" style="padding:0">
+                <!--  -->
+                <div class="col-md-6 col-xs-10" style="padding: 0px">
+                  <input type="text" id="id_ipt_endtime" [textMask]="endtimeMask()" (blur)="blurEndTime()" class="form-control"
+                    style="background-color: #ffffff">
+                  <div *ngIf="errorEndTime.state" style="color: #e60012">{{errorEndTime.errorString}}</div>
+
+                </div>
+                <!--  -->
+                <div class="col-md-4 col-xs-2" style="padding: 0px">
+                  <input #EndTimeView type="button" id="id_bt_endtime" (click)="changeEndTimeView()" type="button"
+                    style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                                cursor: pointer;
+                                color: transparent;
+                                border: 1px solid transparent;
+                                width: 50px;
+                                height: 40px;
+                                padding: 0px;
+                                ">
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- form-group end -->
+
+          <div class="row" style="border: 0px;padding: 0;padding-top: 10px;margin: 0">
+            <div class="col-md-12 col-xs-12" style="padding: 0px">
+              <label class="col-md-2 control-label" style="padding-left: 0px;text-align: right;padding-top: 6px">
+                <span class="form-must-fill">*</span>申請備註
+              </label>
+              <div class="col-md-8 writerow" style="padding: 0">
+                <textarea id="remarkstring" (blur)="blurRemarkString()" class="inputTextarea" style="overflow-y: auto"
+                  placeholder="請填入備註"></textarea>
+                <div *ngIf="errorRemarkString.state" style="color: #e60012">{{errorRemarkString.errorString}}</div>
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+          <div class="row" style="border: 0px;padding: 0;padding-top: 10px;margin: 0">
+            <div class="col-md-12 col-xs-12" style="padding: 0">
+              <label class="col-md-2 control-label" style="padding-left: 0px">
+              </label>
+              <div class="col-md-8 writerow" style="padding: 0">
+
+                <button class="btn btn-primary " (click)="checkCanSubmit()" [disabled]="disableSendRemarksForm()">送出</button>
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+        </div>
+
+      </div>
+
+      <div id="ot" role="tabpanel" class="tab-pane">
+        <!-- <button (click)="toggleFormat()" [ngClass]="{'bt_desc' : updateDateToggle, 'bt_asc': !updateDateToggle}" [ngClass]="{'green' : updateDateToggle, 'red': !updateDateToggle}"></button> -->
+        <div *ngFor="let ot of otData | orderBy:format ">
+          <div class="row" style="border:1px solid #028fcf;margin: 0px;margin-bottom:10px;padding: 20px 10px;">
+            <div class="col-md-11 col-xs-11" style="margin:0;padding:0">
+              <div class="col-md-2 P_tag  col-xs-12">
+                <div class="tag_blue inner">加班</div>
+              </div>
+              <div class="col-md-7 col-xs-12">
+                <div class="row">
+                  <div class="col-md-6  col-xs-12" style="padding: 0">
+                    <span style="color: #969696">起始：</span>
+                    {{ot.DateB}} {{ot.TimeB}}
+                  </div>
+                  <div class="col-md-6  col-xs-12" style="padding: 0;margin-bottom:10px">
+                    <span style="color: #969696">結束：</span>
+                    {{ot.DateE}} {{ot.TimeE}}
+                  </div>
+                  <div class="col-md-12 col-xs-12" style="padding:0;margin-bottom:10px">
+                    {{ot.Note}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3  col-xs-12" style="padding: 0">
+                <span style="color: #969696">填單：</span>
+                {{ot.UpdateDate}}
+              </div>
+            </div>
+            <div class="col-md-1 col-xs-1" style="margin:0;padding:0">
+              <img _ngcontent-c2="" src="./assets/images-template/icon-delete.png" style="cursor: pointer;" (click)="checkDel(ot)">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- 加班資訊 -->
+      <div id="change" role="tabpanel" class="tab-pane">
+
+        <div *ngFor="let ch of chData | orderBy:format ">
+          <div class="row" style="border:1px solid #028fcf;margin: 0px;margin-bottom:10px;padding: 20px 10px;">
+            <div class="col-md-11 col-xs-11" style="margin:0;padding:0">
+              <div class="col-md-2 P_tag  col-xs-12">
+                <div class="tag_blue inner">調班</div>
+              </div>
+              <div class="col-md-7 col-xs-12">
+                <div class="row">
+                  <div class="col-md-6  col-xs-12" style="padding: 0">
+                    <span style="color: #969696">起始：</span>
+                    {{ch.DateB}} {{ch.TimeB}}
+                  </div>
+                  <div class="col-md-6  col-xs-12" style="padding: 0;margin-bottom:10px">
+                    <span style="color: #969696">結束：</span>
+                    {{ch.DateE}} {{ch.TimeE}}
+                  </div>
+                  <div class="col-md-12 col-xs-12" style="padding:0;margin-bottom:10px">
+                    {{ch.Note}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3  col-xs-12" style="padding: 0">
+                <span style="color: #969696">填單：</span>
+                {{ch.UpdateDate}}
+              </div>
+            </div>
+            <div class="col-md-1 col-xs-1" style="margin:0;padding:0">
+
+              <img _ngcontent-c2="" src="./assets/images-template/icon-delete.png" style="cursor: pointer;" (click)="checkDel(ch)">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- 調班資訊 -->
+      <div id="va" role="tabpanel" class="tab-pane">
+
+        <div *ngFor="let va of vaData | orderBy:format ">
+          <div class="row" style="border:1px solid #028fcf;margin: 0px;margin-bottom:10px;padding: 20px 10px;">
+            <div class="col-md-11 col-xs-11" style="margin:0;padding:0">
+              <div class="col-md-2 P_tag  col-xs-12">
+                <div class="tag_blue inner">請假</div>
+              </div>
+              <div class="col-md-7 col-xs-12">
+                <div class="row">
+                  <div class="col-md-6  col-xs-12" style="padding: 0">
+                    <span style="color: #969696">起始：</span>
+                    {{va.DateB}} {{va.TimeB}}
+                  </div>
+                  <div class="col-md-6  col-xs-12" style="padding: 0;margin-bottom:10px">
+                    <span style="color: #969696">結束：</span>
+                    {{va.DateE}} {{va.TimeE}}
+                  </div>
+                  <div class="col-md-12 col-xs-12" style="padding:0;margin-bottom:10px">
+                    {{va.Note}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3  col-xs-12" style="padding: 0">
+                <span style="color: #969696">填單：</span>
+                {{va.UpdateDate}}
+              </div>
+            </div>
+            <div class="col-md-1 col-xs-1" style="margin:0;padding:0">
+
+              <img _ngcontent-c2="" src="./assets/images-template/icon-delete.png" style="cursor: pointer;" (click)="checkDel(va)">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- 請假資訊 -->
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="modal" id="checksenddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認送出?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="onSubmit()">送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog確認送出 -->
+<div class="modal" id="checkDeldialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認刪除?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="delete()">刪除</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog確認刪除 -->
+<div class="modal" id="sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">申請完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            表單送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog送出成功 -->

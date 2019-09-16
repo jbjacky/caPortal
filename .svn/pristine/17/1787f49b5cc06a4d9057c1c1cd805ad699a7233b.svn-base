@@ -1,0 +1,119 @@
+<div class="a-block" *ngIf="getVaData.length!=0 && !showVaDataDetail">
+  <div class="a-block-body  a-block-container">
+    <h3>查詢結果</h3>
+    <div class="row P_div" *ngFor="let oneVaData of vaSearchFlowSign">
+      <div class="row col-md-3 col-xs-12 P_borderBottom">
+        <div class="col-md-6   col-xs-6  col-md-push-6" style="color: #326299;padding:10px 0px;">
+          <div>
+            {{oneVaData.showProcessFlowID}}
+          </div>
+          <div>
+            請假單 <a style="cursor: pointer;" data-toggle="modal" data-target="#Cancelformdialog" (click)="takeForm = oneVaData"><span
+                *ngIf="oneVaData.Take">(抽單)</span></a>
+          </div>
+
+        </div>
+        <div class="col-md-6   col-xs-6  col-md-pull-6" style="padding: 0;text-align: center;
+          padding-top: 15px;">
+          <div class="tag_blue" *ngIf="oneVaData.State=='1'">呈核中</div>
+          <div class="tag_skyblue" *ngIf="oneVaData.State=='3'">已核准</div>
+          <div class="tag_red" *ngIf="oneVaData.State=='2'">重擬</div>
+          <div class="tag_gray" *ngIf="oneVaData.State=='7'">已抽單</div>
+        </div>
+      </div>
+      <div class="row col-md-8 col-xs-10" style="margin: 0px;padding: 0">
+        <div class="col-md-8 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0">
+          <div class="row" style="margin: 0;padding-bottom: 5px;">
+            <div class="col-md-4 col-xs-12" style="padding: 0">
+              <!-- 643345 李大仁  -->
+              {{oneVaData.EmpCode}} {{oneVaData.EmpNameC}}
+            </div>
+            <div class="col-md-8 col-xs-12" style="padding: 0">
+              <!-- 計劃發展部 -->
+              {{oneVaData.AppDeptName}}
+            </div>
+          </div>
+          <div class="row" style="margin: 0;padding-bottom: 5px;">
+            <div class="col-md-6 col-xs-12" style="padding: 0">
+              <span style="color: #969696">起始：</span>
+              <!--2019/01/18 08:00-->{{oneVaData.DateB}} {{oneVaData.TimeB}}
+            </div>
+            <div class="col-md-6 col-xs-12" style="padding: 0">
+              <span style="color: #969696">結束：</span>
+              <!--2019/01/18 12:00-->{{oneVaData.DateE}} {{oneVaData.TimeE}}
+            </div>
+          </div>
+          <div class="row" style="margin: 0;padding-bottom: 5px;">
+            <!-- 特別休假 -->{{oneVaData.HoliDayNameC}}
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-12" style="padding: 0">
+          <div class="P_height"></div>
+          <div>共計 {{oneVaData.day}} 日{{oneVaData.hour}} 時 {{oneVaData.minute}}分</div>
+          <div *ngIf="oneVaData.ManageEmpName && oneVaData.State=='1'">{{oneVaData.ManageEmpName}} 簽核中</div>
+        </div>
+      </div>
+      <div class="row col-md-1 col-xs-2 P_ptop">
+        <a style="cursor: pointer;text-decoration:underline" (click)="nextShowDetail(oneVaData)">
+          <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="a-block" *ngIf="getVaData.length==0">
+  <div class="a-block-body  a-block-container">
+    此查詢條件查無資料
+  </div>
+</div>
+
+<app-search-va-detail *ngIf="showVaDataDetail" [getVaDataTitle]="setToNextVaDataTitle" (goback)="onGoBackFunction()"></app-search-va-detail>
+
+
+
+<div class="modal" id="Cancelformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認抽單?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="Cancelform_Click()">送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog抽單確認送出 -->
+<div class="modal" id="sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">抽單完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            已成功抽單
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" >確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog送出成功 -->

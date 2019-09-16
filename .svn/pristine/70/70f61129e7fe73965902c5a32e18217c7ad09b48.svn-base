@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var reviewform_module_1 = require("./reviewform.module");
+describe('ReviewformModule', function () {
+    var reviewformModule;
+    beforeEach(function () {
+        reviewformModule = new reviewform_module_1.ReviewformModule();
+    });
+    it('should create an instance', function () {
+        expect(reviewformModule).toBeTruthy();
+    });
+});
+//# sourceMappingURL=reviewform.module.spec.js.map

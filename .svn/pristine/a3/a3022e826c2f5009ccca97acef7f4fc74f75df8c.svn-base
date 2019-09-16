@@ -1,0 +1,37 @@
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var material_1 = require("@angular/material");
+var MatPaginatorIntlCro = /** @class */ (function (_super) {
+    __extends(MatPaginatorIntlCro, _super);
+    function MatPaginatorIntlCro() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.nextPageLabel = ''; //下一頁的tooltip不顯示
+        _this.previousPageLabel = ''; //上一頁的tooltip不顯示
+        _this.getRangeLabel = function (page, pageSize, length) {
+            if (length === 0 || pageSize === 0) {
+                return length + '筆資料';
+            }
+            length = Math.max(length, 0);
+            var startIndex = page * pageSize;
+            // If the start index exceeds the list length, do not try and fix the end index to the end.
+            var endIndex = startIndex < length ?
+                Math.min(startIndex + pageSize, length) :
+                startIndex + pageSize;
+            return '第' + (startIndex + 1) + '-' + endIndex + '筆，共' + length + '筆';
+        };
+        return _this;
+    }
+    return MatPaginatorIntlCro;
+}(material_1.MatPaginatorIntl));
+exports.MatPaginatorIntlCro = MatPaginatorIntlCro;
+//# sourceMappingURL=my-paginator.js.map

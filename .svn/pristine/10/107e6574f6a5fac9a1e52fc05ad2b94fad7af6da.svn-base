@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "src/app/Plgin/style2015/css/bootstrap.css";
+@import "src/app/Plgin/style2015/css/civd-content-style.css";
+@import "src/app/Plgin/style2015/css/temp-systemMain.css";
+@import "src/app/Plgin/style2015/css/page-systemMain-myCustom.css";
+
+
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+@import "src/app/Plgin/Datedropper3-master/datedropper.css";
+@import "src/app/Plgin/timedropper-master/timedropper.css";
+@import "src/app/Plgin/slick-1.8.1/slick/slick.css";
+@import "src/app/Plgin/slick-1.8.1/slick/slick-theme.css";
+@import "src/app/Plgin/dataTable/datatables.css";
+@import "src/app/Plgin/dataTable/FixedColumns-3.2.5/css/fixedColumns.dataTables.min.css";
+@import "src/app/Plgin/quill/quill.css";
+@import "src/app/Plgin/quill/font.css";
+
+@import '~angular-tree-component/dist/angular-tree-component.css';
+
+.cdk-overlay-container  {
+    z-index: 99999;
+}
+.mat-calendar-body-selected{
+    background-color: #3a5bb7;
+}

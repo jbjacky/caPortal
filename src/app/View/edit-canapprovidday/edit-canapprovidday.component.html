@@ -1,0 +1,65 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <h3>填寫請假簽核權限表</h3>
+    <div style="margin: 5px" class="row">
+      <span class="col-md-1 col-xs-3" style="padding: 0px;padding-top: 5px;text-align: right;">假別代碼:</span>
+      <div class="col-md-8 col-xs-9">
+          <ngx-select  [formControl]="selectControl" [items]="NgxBaseSelectBox"
+          optionValueField="HoliDayCode" optionTextField="HoliDayNameC" placeholder="請選擇請假類別" >
+        </ngx-select>
+      </div>
+    </div>
+    <div style="margin: 5px" class="row">
+      <span class="col-md-1 col-xs-3" style="padding: 0px;padding-top: 5px;text-align: right;">選擇層級:</span>
+      <div class="col-md-8 col-xs-9">
+        <select class="form-control" (change)="selectLevel($event)">
+          <option [value]='1'>一級主管</option>
+          <option [value]='2'>二級主管</option>
+          <option [value]='3'>三級主管</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin: 5px" class="row">
+      <span class="col-md-1 col-xs-3" style="padding: 0px;padding-top: 2px;text-align: right;">修改天數:</span>
+      <div class="col-md-2 col-xs-3">
+        <input type="number" [(ngModel)]="SaveHoliDayFlowCondition.AbsUseDay" style="padding-left: 12px;
+        width: 100%;">
+      </div>
+      <div class="col-md-9 col-xs-6" style="color: blue;padding-top: 5px">
+          <span>說明:『可批核小於等於{{SaveHoliDayFlowCondition.AbsUseDay}}天』</span>
+      </div>
+    </div>
+    <div style="margin: 5px" class="row">
+      <div class="col-md-1 col-xs-3"></div>
+      <div class="col-md-8 col-xs-9">
+        <!-- <button *ngIf='bt_Edit' class="btn btn-primary" (click)="onSubmit()" [disabled]="disable_submit()">修改</button> -->
+        <button  class="btn btn-primary" (click)="onSubmit()">儲存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <h3>請假簽核權限表</h3>
+    <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+      <thead>
+        <tr>
+          <th style="background-image: unset;cursor: unset">假別代碼</th>
+          <th>假別名稱</th>
+          <th>一級主管</th>
+          <th>二級主管</th>
+          <th>三級主管</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let HoliDayFlowConditionView of HoliDayFlowConditionView">
+          <td>{{HoliDayFlowConditionView.HoliDayCode}}</td>
+          <td style="text-align: left">{{HoliDayFlowConditionView.HoliDayNameC}}</td>
+          <td>{{HoliDayFlowConditionView.Max1}}</td>
+          <td>{{HoliDayFlowConditionView.Max2}}</td>
+          <td>{{HoliDayFlowConditionView.Max3}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

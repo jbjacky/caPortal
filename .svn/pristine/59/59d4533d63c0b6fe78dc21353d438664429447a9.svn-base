@@ -1,0 +1,43 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-error-page',
+  templateUrl: './error-page.component.html',
+  styleUrls: ['./error-page.component.css']
+})
+export class ErrorPageComponent implements OnInit {
+
+  constructor(private route: Router,
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private http: HttpClient) { }
+
+  ngOnInit() {
+  }
+  relogin(){
+    this.route.navigateByUrl('/LoginComponent')
+  }
+
+  testAPI(){
+    this.GetApiDataServiceService.getWebApiData_GetHoliDayByForm()
+    .subscribe(
+      x=>{
+        console.log(x)
+      },
+      err=>{
+        console.log(err)
+      }
+    )
+  }
+
+  jsonapi(){
+    this.http.post('https://jsonplaceholder.typicode.com/posts','')
+    .subscribe(
+      x=>{
+        console.log(x)
+      }
+    )
+  }
+}

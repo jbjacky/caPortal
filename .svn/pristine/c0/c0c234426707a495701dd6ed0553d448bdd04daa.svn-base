@@ -1,0 +1,28 @@
+ .btn{
+    padding: 0px
+  }
+  .basetext{
+    color: #028fcf;
+    margin: 10px;
+    font-size: 16px;
+  }
+.baselist{
+  border: 1px solid #028fcf ;
+  margin-bottom: 15px;
+  border-radius:5px;
+  padding: 5px;
+  cursor: pointer;
+}
+.baselist:hover{
+  background-color: #028fcf;
+}
+.baselist:focus { 
+  background-color: #028fcf;
+}
+.baselist:focus > .basetext { 
+  color: #fff
+}
+
+.baselist:hover > .basetext{
+  color: #fff
+}

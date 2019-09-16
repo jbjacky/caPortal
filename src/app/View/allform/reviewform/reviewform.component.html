@@ -1,0 +1,1064 @@
+<div *ngIf="isGetFlowSignRole" class="a-block" appSpyReformNgif>
+  <div class="a-block-body  a-block-container">
+    <div id="phonetopdiv" style="top: 128px;zoom: 1;z-index: 1;left: 0px;background-color: #fff;width: 100%">
+      <div class="row P_reviewDiv">
+        <div class="col-md-7 col-xs-10" style="display: inline-block;padding-top: 5px;">
+          目前審核身份：
+          <span style="color:#028fcf;font-size: 18px">{{ReviewformServiceService.showReviewMan.EmpNameC}}
+            {{ReviewformServiceService.showReviewMan.DeptName}}
+            {{ReviewformServiceService.showReviewMan.PosName}}</span>
+        </div>
+        <div id="showSelectBox_desktop" class="col-md-5 col-xs-6" style="padding: 0;">
+          <span style="display: inline-block;">切換審核身份：</span>
+          <select class="form-control" style="width: 290px;display: inline-block;" [(ngModel)]="selectReviewMan"
+            (change)="changeSelectReviewMan(selectReviewMan)">
+            <ng-container *ngFor="let oneGetReviewData of getReviewData">
+              <option [ngValue]="oneGetReviewData">
+                <span>{{oneGetReviewData.EmpNameC}} {{oneGetReviewData.DeptName}} {{oneGetReviewData.PosName}}</span>
+                ({{oneGetReviewData.Count}})
+              </option>
+            </ng-container>
+          </select>
+        </div>
+
+        <div id="showSelectBox_phone" class="col-xs-2" style="padding: 0;text-align: right;">
+          <button class="btn btn-info btn-sm" style="padding: 5px 12px;" data-toggle="modal"
+            data-target="#SwitchReviewDialog">切換</button>
+        </div>
+
+      </div>
+      <ul class="nav nav-tabs P_nav">
+        <li class="active" style="width: 25%;text-align: center"
+          (click)="vaTabClick(ReviewformServiceService.showReviewMan)">
+          <a id="vaTab" data-toggle="tab" href="#vaform" style="text-decoration: none;">請假單
+            <span class="badge">{{vaCount}}</span>
+          </a>
+
+        </li>
+        <li style="width: 25%;text-align: center">
+          <a id="delTab" data-toggle="tab" href="#delform" style="text-decoration: none;"
+            (click)="delTabClick(ReviewformServiceService.showReviewMan)">銷假單
+            <span class="badge">{{delCount}}</span>
+          </a>
+        </li>
+        <li style="width: 25%;text-align: center">
+          <a id="changeTab" data-toggle="tab" href="#changeform" style="text-decoration: none;"
+            (click)="changeTabClick(ReviewformServiceService.showReviewMan)">調班單
+            <span class="badge">{{changeCount}}</span>
+          </a>
+        </li>
+        <li style="width: 25%;text-align: center" (click)="forgetTabClick(ReviewformServiceService.showReviewMan)">
+          <a id="forgetTab" data-toggle="tab" href="#forgetform" style="text-decoration: none;">
+            <span id="forgetTabText">考勤異常簽認單</span>
+            <span class="badge">{{forgetCount}}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tab-content">
+
+      <div id="vaform" class="tab-pane in active">
+        <div class="panel-group">
+          <div class="row ReviewTitle_mobile">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>審核</span>
+            </div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">員工</div>
+            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
+            <div class="col-md-2" style="text-align: center">明細</div>
+          </div>
+          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
+            <button class="AllCheckLeftButtonClass btn btn-primary"
+              (click)="Approved_All_Check(vaFlowSigns,'vaTab')">全部核准</button>
+            <button class="btn btn-primary" (click)="Sendback_All_Check(vaFlowSigns,'vaTab')">全部退回</button>
+          </div>
+          <div class="row ReviewTitle_desktop">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>審核</span>
+            </div>
+            <div class="col-md-9 col-xs-12 row" style="margin: 0;padding: 0">
+              <div class="col-md-10 col-xs-12 row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">單號</div>
+                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
+                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">時數總和</div>
+              </div>
+              <div class="col-md-2 col-xs-12" style="margin: 0;padding: 0;text-align: center;">
+                明細
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row ReviewTitle_desktop">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>審核</span>
+            </div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">員工</div>
+            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
+            <div class="col-md-2" style="text-align: center">明細</div>
+          </div> delete-->
+
+
+          <!-- <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
+          <!-- class="Atooltips" -->
+          <div *ngFor="let vaFlowSign of vaFlowSigns | 
+                      slice: va_pagechange.lowValue : va_pagechange.highValue">
+            <div class="row ReviewDiv">
+              <div class="col-md-9 col-md-push-3 col-xs-12 row" style="margin: 0px;padding: 0px 0px;border-left: 1px solid #c9c9c9;
+                padding-top: 0px;">
+                <div class="row col-md-10 col-xs-10" style="padding: 0px;margin:0px">
+                  <div class="col-md-2 col-xs-12 uiProssID">
+                    <div style="color:#028fcf;">
+                      {{vaFlowSign.uiProcessFlowID}}
+                    </div>
+                  </div>
+                  <div class="col-md-7 col-xs-12 " style="margin-bottom: 5px;padding-top: 5px">
+                    <div>
+                      <div *ngIf="vaFlowSign.Appointment">
+                        <span style="color: #028fcf;border:#028fcf 1px solid;
+                          border-radius: 5px;padding: 2px">預排休假
+                        </span>
+                      </div>
+                      <div>
+                        {{vaFlowSign.EmpCode}}
+                        <span *ngIf="vaFlowSign.EmpNameC.length != 0">{{vaFlowSign.EmpNameC}}</span>
+                        <span *ngIf="vaFlowSign.EmpNameC.length == 0">{{vaFlowSign.EmpNameE}}</span>
+                        <span style="color: blue" *ngIf="vaFlowSign.checkProxy">(代)</span>
+                      </div>
+                      <div style="display: inline-block;margin-right: 10px">
+                        <span style="font-weight: bold;color: #969696">請假起始：</span>{{vaFlowSign.DateB}}
+                      </div>
+                      <div style="display: inline-block;">
+                        <span style="font-weight: bold;color: #969696">請假結束：</span>{{vaFlowSign.DateE}}
+                      </div>
+                      <div>
+                        <span style="font-weight: bold;color: #969696">請假假種：</span>
+                        <span *ngFor="let oneHolidayName of vaFlowSign.uiHolidayName; let i = index">
+                          {{oneHolidayName}}
+                          <span *ngIf="(i+1) != vaFlowSign.uiHolidayName.length">、</span>
+                        </span>
+                      </div>
+                      <!-- <div>
+                        <span style="font-weight: bold;color: #969696">請假起始：</span>{{vaFlowSign.DateB}} {{vaFlowSign.TimeB}} 
+                        <br class="D_br" />
+                        <span style="font-weight: bold;color: #969696">請假結束：</span>{{vaFlowSign.DateE}} {{vaFlowSign.TimeE}}
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-xs-12 uiTimeSum">
+                    <div>
+                      共計
+                      <span style="color:#d0021b;font-weight: bold;">{{vaFlowSign.day}}</span> 日
+                      <span style="color:#d0021b;font-weight: bold;">{{vaFlowSign.hour}}</span> 時
+                      <span style="color:#d0021b;font-weight: bold;">{{vaFlowSign.minute}}</span> 分
+                    </div>
+                    <div>
+                      (合有 {{vaFlowSign.numberOfVaData}} 個差假時段)
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
+                  <a style="cursor: pointer;padding-left: 30px;" (click)="vaDetail_click(vaFlowSign,'vaTab')"
+                    [routerLink]="['../ReviewformDetailVacationComponent']">
+                    <span class="P_notVisable">檢視</span>
+                    <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+                  </a>
+
+                </div>
+
+              </div>
+
+              <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
+
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="vaFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
+                    style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="checkAbsLimit_Approved(vaFlowSign,'vaTab')">
+                    核准
+                  </button>
+                  <div *ngIf="!vaFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-primary btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      核准
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="vaFlowSign.isSendback">
+                  <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
+                    style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="vaDetail_click(vaFlowSign,'vaTab')">
+                    退回
+                  </button>
+                  <div *ngIf="!vaFlowSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      退回
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="vaFlowSign.isPutForward" class="btn btn-info btn-sm"
+                    style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
+                    data-target="#PutForwarddialog" (click)="vaDetail_click(vaFlowSign,'vaTab')">
+                    呈核
+                  </button>
+                  <div *ngIf="!vaFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      呈核
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-paginator [length]="vaFlowSigns.length" [pageSize]="va_pagechange.pageSize"
+            (page)="va_pagechange.pageEvent = va_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+          </mat-paginator>
+        </div>
+      </div>
+      <!-- 請假單tab -->
+      <div id="delform" class="tab-pane">
+        <div class="panel-group">
+          <div class="row ReviewTitle_mobile">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>審核</span>
+            </div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">員工</div>
+            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
+            <div class="col-md-2" style="text-align: center">明細</div>
+          </div>
+          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
+            <button class="AllCheckLeftButtonClass btn btn-primary"
+              (click)="Approved_All_Check(delFlowSigns,'delTab')">全部核准</button>
+            <button class="btn btn-primary" (click)="Sendback_All_Check(delFlowSigns,'delTab')">全部退回</button>
+          </div>
+          <div class="row ReviewTitle_desktop">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>審核</span>
+            </div>
+            <div class="col-md-9 col-xs-12 row" style="margin: 0;padding: 0">
+              <div class="col-md-10 col-xs-12 row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">單號</div>
+                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
+                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">時數總和</div>
+              </div>
+              <div class="col-md-2 col-xs-12" style="margin: 0;padding: 0;text-align: center;">
+                明細
+              </div>
+            </div>
+          </div>
+          <!-- <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
+          <!-- class="Atooltips" -->
+          <div *ngFor="let delFlowSign of delFlowSigns | 
+                        slice: del_pagechange.lowValue : del_pagechange.highValue">
+            <div class="row ReviewDiv">
+              <div class="col-md-9 col-md-push-3 col-xs-12 row" style="margin: 0px;padding: 0px 0px;border-left: 1px solid #c9c9c9;
+                  padding-top: 0px;">
+                <div class="row col-md-10 col-xs-10" style="padding: 0px;margin:0px">
+                  <div class="col-md-2 col-xs-12 uiProssID">
+                    <div style="color:#028fcf;">
+                      {{delFlowSign.uiProcessFlowID}}
+                    </div>
+                  </div>
+                  <div class="col-md-7 col-xs-12 " style="margin-bottom: 5px;padding-top: 5px">
+                    <div>
+                      <div>
+                        {{delFlowSign.EmpCode}}
+                        <span *ngIf="delFlowSign.EmpNameC.length != 0">{{delFlowSign.EmpNameC}}</span>
+                        <span *ngIf="delFlowSign.EmpNameC.length == 0">{{delFlowSign.EmpNameE}}</span>
+                        <span style="color: blue" *ngIf="delFlowSign.checkProxy">(代)</span>
+                      </div>
+                      <div>
+                        <span style="font-weight: bold;color: #969696">銷假日期：</span>
+                        <div style="display: inline-block;margin-right: 5px"
+                          *ngFor="let oneYear of delFlowSign.YearAndDate">
+                          {{oneYear.OneYear}}年-
+                          <span *ngFor="let showdate of oneYear.YearofDate;let index_YearofDate = index">
+                            <ng-container *ngIf=" 5 > index_YearofDate">
+                              {{showdate}}
+                              <span *ngIf="oneYear.YearofDate.length != (index_YearofDate+1)">、</span>
+                            </ng-container>
+                            <ng-container *ngIf="index_YearofDate > 4">
+                              ...
+                            </ng-container>
+                          </span>
+                        </div>
+                      </div>
+                      <div>
+                        <span style="font-weight: bold;color: #969696">銷假假種：</span>
+                        <span *ngFor="let oneHolidayName of delFlowSign.uiHolidayName; let i = index">
+                          {{oneHolidayName}}
+                          <span *ngIf="(i+1) != delFlowSign.uiHolidayName.length">、</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-xs-12 uiTimeSum">
+                    <div>
+                      共計
+                      <span style="color:#d0021b;font-weight: bold;">{{delFlowSign.day}}</span> 日
+                      <span style="color:#d0021b;font-weight: bold;">{{delFlowSign.hour}}</span> 時
+                      <span style="color:#d0021b;font-weight: bold;">{{delFlowSign.minute}}</span> 分
+                    </div>
+                    <div>
+                      (合有 {{delFlowSign.numberOfVaData}} 個銷假時間)
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
+                  <a style="cursor: pointer;padding-left: 30px;" [routerLink]="['../ReviewformDetailDelformComponent']"
+                    (click)="delDetail_click(delFlowSign,'delTab')">
+                    <span class="P_notVisable">檢視</span>
+                    <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+                  </a>
+
+                </div>
+
+              </div>
+
+              <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
+
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="delFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
+                    data-target="#Approveddialog" style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="delDetail_click(delFlowSign,'delTab')">
+                    核准
+                  </button>
+                  <div *ngIf="!delFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-primary btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      核准
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="delFlowSign.isSendback">
+                  <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
+                    style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="delDetail_click(delFlowSign,'delTab')">
+                    退回
+                  </button>
+                  <div *ngIf="!delFlowSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      退回
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="delFlowSign.isPutForward" class="btn btn-info btn-sm"
+                    style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
+                    data-target="#PutForwarddialog" (click)="delDetail_click(delFlowSign,'delTab')">
+                    呈核
+                  </button>
+                  <div *ngIf="!delFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      呈核
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-paginator [length]="delFlowSigns.length" [pageSize]="del_pagechange.pageSize"
+            (page)="del_pagechange.pageEvent = del_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+          </mat-paginator>
+        </div>
+      </div>
+      <!-- 銷假單tab -->
+      <div id="changeform" class="tab-pane">
+        <div class="panel-group">
+          <div class="row ReviewTitle_mobile">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>審核</span>
+            </div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">員工</div>
+            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
+            <div class="col-md-2" style="text-align: center">明細</div>
+          </div>
+          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
+            <button class="AllCheckLeftButtonClass btn btn-primary"
+              (click)="Approved_All_Check(changeFlowSigns,'changeTab')">全部核准</button>
+            <button class="btn btn-primary" (click)="Sendback_All_Check(changeFlowSigns,'changeTab')">全部退回</button>
+          </div>
+          <div class="row ReviewTitle_desktop">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>審核</span>
+            </div>
+            <div class="col-md-9 col-xs-12 row" style="margin: 0;padding: 0">
+              <div class="col-md-10 col-xs-12 row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">單號</div>
+                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
+                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">時數總和</div>
+              </div>
+              <div class="col-md-2 col-xs-12" style="margin: 0;padding: 0;text-align: center;">
+                明細
+              </div>
+            </div>
+          </div>
+          <!-- <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
+          <!-- class="Atooltips" -->
+          <div *ngFor="let changeFlowSign of changeFlowSigns | 
+                        slice: change_pagechange.lowValue : change_pagechange.highValue">
+            <div class="row ReviewDiv">
+              <div class="col-md-9 col-md-push-3 col-xs-12 row" style="margin: 0px;padding: 0px 0px;border-left: 1px solid #c9c9c9;
+                  padding-top: 0px;">
+                <div class="row col-md-10 col-xs-10" style="padding: 0px;margin:0px">
+                  <div class="col-md-2 col-xs-12 uiProssID">
+                    <div style="color:#028fcf;">
+                      {{changeFlowSign.uiProcessFlowID}}
+                    </div>
+                  </div>
+                  <div class="col-md-7 col-xs-12 " style="margin-bottom: 5px;padding-top: 5px">
+                    <div>
+                      <div *ngIf="changeFlowSign.isRR">
+                        <div style="display: inline-block;margin-right: 15px;">
+                          {{changeFlowSign.EmpID1}}
+                          <span>{{changeFlowSign.EmpNameC1}}</span>
+                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">(代)</span>
+                        </div>
+                        <div style="display: inline-block;">
+                          {{changeFlowSign.EmpID2}}
+                          <span>{{changeFlowSign.EmpNameC2}}</span>
+                        </div>
+                      </div>
+                      <!-- 雙人調班要顯示兩個申請人 -->
+                      <div *ngIf="!changeFlowSign.isRR">
+                        <div>
+                          {{changeFlowSign.EmpID1}}
+                          <span>{{changeFlowSign.EmpNameC1}}</span>
+                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">(代)</span>
+                        </div>
+                      </div>
+                      <!-- 不是雙人調班顯示一個申請人 -->
+                      <div>
+                        <span style="font-weight: bold;color: #969696">調班日期：</span>
+                        <div style="display: inline-block;" *ngFor="let oneYear of changeFlowSign.YearAndDate">
+                          {{oneYear.OneYear}}年- <span
+                            *ngFor="let showdate of oneYear.YearofDate;let index_YearofDate = index">
+                            {{showdate}}
+                            <span *ngIf="oneYear.YearofDate.length != (index_YearofDate+1)">、</span>
+                          </span>
+                        </div>
+                      </div>
+                      <div *ngIf="changeFlowSign.isDR" class="tag_blue">請求調班</div>
+                      <div *ngIf="changeFlowSign.isRR" class="tag_fluorescentblue">雙人調班</div>
+                      <div *ngIf="changeFlowSign.isRZ" class="tag_skyblue">RZ互換</div>
+
+                    </div>
+                  </div>
+                  <div id="changeTimeSum" class="col-md-3 col-xs-12 uiTimeSum">
+                    <div>
+                      調班共計
+                      <span style="color:#d0021b;font-weight: bold;">{{changeFlowSign.numberOfVaData}}</span> 日
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
+                  <a style="cursor: pointer;padding-left: 30px;"
+                    (click)="changeDetail_click_checktoView(changeFlowSign,'changeTab')">
+                    <span class="P_notVisable">檢視</span>
+                    <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+                  </a>
+
+                </div>
+
+              </div>
+
+              <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
+
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="changeFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
+                    data-target="#Approveddialog" style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="changeDetail_click(changeFlowSign,'changeTab')">
+                    核准
+                  </button>
+                  <div *ngIf="!changeFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-primary btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      核准
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="changeFlowSign.isSendback">
+                  <button (click)="changeDetail_click(changeFlowSign,'changeTab')" class="btn btn-info btn-sm"
+                    data-toggle="modal" data-target="#Sendbackdialog"
+                    style="padding: 5px 0px;text-align: center;width: 100%;">
+                    退回
+                  </button>
+                  <div *ngIf="!changeFlowSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      退回
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="changeFlowSign.isPutForward" (click)="changeDetail_click(changeFlowSign,'changeTab')"
+                    class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                    data-toggle="modal" data-target="#PutForwarddialog">
+                    呈核
+                  </button>
+                  <div *ngIf="!changeFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      呈核
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-paginator [length]="changeFlowSigns.length" [pageSize]="change_pagechange.pageSize"
+            (page)="change_pagechange.pageEvent = change_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+          </mat-paginator>
+        </div>
+      </div>
+      <!-- 調班單tab -->
+      <div id="forgetform" class="tab-pane">
+        <div class="panel-group">
+          <div class="row ReviewTitle_mobile">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>審核</span>
+            </div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">員工</div>
+            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
+            <div class="col-md-2" style="text-align: center">明細</div>
+          </div>
+          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
+            <button class="AllCheckLeftButtonClass btn btn-primary"
+              (click)="Approved_All_Check(forgetFlowSigns,'forgetTab')">全部核准</button>
+            <button class="btn btn-primary" (click)="Sendback_All_Check(forgetFlowSigns,'forgetTab')">全部退回</button>
+          </div>
+          <div class="row ReviewTitle_desktop">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>審核</span>
+            </div>
+            <div class="col-md-9 col-xs-12 row" style="margin: 0;padding: 0">
+              <div class="col-md-10 col-xs-12 row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">單號</div>
+                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
+                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">異常狀態</div>
+              </div>
+              <div class="col-md-2 col-xs-12" style="margin: 0;padding: 0;text-align: center;">
+                明細
+              </div>
+            </div>
+          </div>
+          <!-- <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
+          <!-- class="Atooltips" -->
+          <div *ngFor="let forgetFlowSign of forgetFlowSigns | 
+                    slice: forget_pagechange.lowValue : forget_pagechange.highValue">
+            <div class="row ReviewDiv">
+              <div class="col-md-9 col-md-push-3 col-xs-12 row" style="margin: 0px;padding: 0px 0px;border-left: 1px solid #c9c9c9;
+              padding-top: 0px;">
+                <div class="row col-md-10 col-xs-10" style="padding: 0px;margin:0px">
+                  <div class="col-md-2 col-xs-12 uiProssID">
+                    <div style="color:#028fcf;">
+                      {{forgetFlowSign.uiProcessFlowID}}
+                    </div>
+                  </div>
+                  <div class="col-md-7 col-xs-12 " style="margin-bottom: 5px;padding-top: 5px">
+                    <div>
+                      <div>
+                        {{forgetFlowSign.EmpCode}}
+                        <span *ngIf="forgetFlowSign.EmpNameC.length != 0">{{forgetFlowSign.EmpNameC}}</span>
+                        <span *ngIf="forgetFlowSign.EmpNameC.length == 0">{{forgetFlowSign.EmpNameE}}</span>
+                        <span style="color: blue" *ngIf="forgetFlowSign.checkProxy">(代)</span>
+                      </div>
+                      <div>
+                        <!-- 2019年-1/02 -->
+                        <span style="font-weight: bold;color: #969696">異常日期：</span> {{forgetFlowSign.Date}}
+                      </div>
+                      <!-- <div>
+                        <span style="font-weight: bold;color: #969696">異常狀態：</span>
+                        <div *ngIf="forgetFlowSign.isLateMins" class="tag_red" style="margin: 0px">遲到</div>
+                        <div *ngIf="forgetFlowSign.isEarlyMins" class="tag_red" style="margin: 0px">早退</div>
+                        <div *ngIf="forgetFlowSign.isForgetCard" class="tag_red" style="margin: 0px">未刷卡</div>
+                      </div> -->
+                      <div>
+                        <span style="font-weight: bold;color: #969696">班型：</span>
+                        <span>{{forgetFlowSign.RoteCode}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="forgetTimeSum" class="col-md-3 col-xs-12 uiTimeSum">
+                    <span class="P_displayShow" style="font-weight: bold;color: #969696">異常狀態：</span>
+                    <div *ngIf="forgetFlowSign.isLateMins" class="tag_red" style="margin: 0px">遲到</div>
+                    <div *ngIf="forgetFlowSign.isEarlyMins" class="tag_red" style="margin: 0px">早退</div>
+                    <div *ngIf="forgetFlowSign.isForgetCard" class="tag_red" style="margin: 0px">未刷卡</div>
+                  </div>
+                </div>
+
+                <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
+                  <a style="cursor: pointer;padding-left: 30px;"
+                    [routerLink]="['../ReviewformDetailForgetformComponent']"
+                    (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
+                    <span class="P_notVisable">檢視</span>
+                    <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+                  </a>
+
+                </div>
+
+              </div>
+
+              <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
+
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="forgetFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
+                    data-target="#Approveddialog" style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
+                    核准
+                  </button>
+                  <div *ngIf="!forgetFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-primary btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      核准
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="forgetFlowSign.isSendback">
+                  <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
+                    style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
+                    退回
+                  </button>
+                  <div *ngIf="!forgetFlowSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      退回
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="forgetFlowSign.isPutForward" class="btn btn-info btn-sm"
+                    style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
+                    data-target="#PutForwarddialog" (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
+                    呈核
+                  </button>
+                  <div *ngIf="!forgetFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      呈核
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-paginator [length]="forgetFlowSigns.length" [pageSize]="forget_pagechange.pageSize"
+            (page)="forget_pagechange.pageEvent = forget_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+          </mat-paginator>
+        </div>
+
+      </div>
+      <!-- 考勤異常簽認單tab -->
+    </div>
+
+
+  </div>
+</div>
+
+<div *ngIf="isGetFlowSignRole" class="showForm">
+
+</div>
+<div *ngIf="!isGetFlowSignRole" class="a-block">
+  <div class="a-block-body  a-block-container">
+    目前無審核資料
+  </div>
+</div>
+<!-- 目前無審核資料 -->
+
+
+
+<div class="modal" id='SwitchReviewDialog' role="dialog" data-backdrop='static' style="padding: 0px">
+  <div class="modal-dialog" style="position: relative;
+    width: auto;
+    margin: 0px;
+    top: 60%;padding: 0px">
+    <div class="modal-content">
+      <div style="padding: 10px; background-color: #fafaf8;
+        box-shadow: inset 0 0.5px 0 0 #e1e0e0;">
+        <img (click)="bt_pre()" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(90deg);" />
+        <img (click)="bt_next()" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+        <a style="float: right" data-dismiss="modal">完成</a>
+      </div>
+      <div style="height:150px;overflow-y: auto;">
+        <div *ngFor="let getoneReviewData of getReviewData;let i = index">
+          <div [id]='getoneReviewData.EmpCode+getoneReviewData.RoleID' [class]="chooseReviewManClass(getoneReviewData)"
+            (click)="dialog_select_Click(getoneReviewData,i)">
+            <span *ngIf="getoneReviewData.EmpNameC.length != 0">{{getoneReviewData.EmpNameC}}
+              {{getoneReviewData.Count}}</span>
+            <span *ngIf="getoneReviewData.EmpNameC.length == 0">{{getoneReviewData.EmpNameE}}
+              {{getoneReviewData.Count}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- 切換審核人員的dialog -->
+
+
+<div class="modal" id="AllAproveDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認核准?</h4>
+        </div>
+        <div class="modal-body">
+          <div>
+            表單總筆數：{{AllReview.length}}
+          </div>
+          <div>
+            批核筆數：{{AllCanReviewFlow.length}}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="Approved_All_Click()">送出</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog全部核准確認送出 -->
+<div class="modal" id="AllSendBackDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認退回?</h4>
+        </div>
+        <div class="modal-body">
+          <div>
+            表單總筆數：{{AllReview.length}}
+          </div>
+          <div>
+            批核筆數：{{AllCanReviewFlow.length}}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="Sendback_All_Click()">送出</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog全部退回送出 -->
+
+<div class="modal" id="vaApproveddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認核准?</h4>
+        </div>
+        <div class="modal-body" *ngIf="vaShowLimitText.length>0">
+          {{vaShowLimitText}}
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="Approved_Click()">送出</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog請假單核准確認送出 -->
+<div class="modal" id="Approveddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認核准?</h4>
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="Approved_Click()">送出</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog核准確認送出 -->
+<div class="modal" id="Approveddialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">核准完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            核准送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog核准送出成功 -->
+<div class="modal" id="Sendbackdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認退回?</h4>
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="Sendback_Click()">送出</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog退回送出 -->
+<div class="modal" id="Sendbackdialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">退回完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            退回送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog退回送出成功 -->
+<div class="modal" id="vaPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  style="padding-right:0px;padding: 17px">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-md vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">填寫呈核資訊</h4>
+        </div>
+        <div class="modal-body">
+          <div>
+            {{vaShowLimitText}}
+          </div>
+          <div style="margin-bottom:10px">
+            <p>簽核意見</p>
+            <textarea class="inputTextarea" [(ngModel)]="signText" style="overflow-y: auto"></textarea>
+          </div>
+          <div>
+            <p>簽核人員</p>
+            <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            </app-select-signer>
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="PutForward_Click()" [disabled]="checkHaveFlowDynamic_EmpID()">送出</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog請假單呈核確認送出 -->
+<div class="modal" id="PutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  style="padding-right:0px;padding: 17px">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-md vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">填寫呈核資訊</h4>
+        </div>
+        <div class="modal-body">
+          <div style="margin-bottom:10px">
+            <p>簽核意見</p>
+            <textarea class="inputTextarea" [(ngModel)]="signText" style="overflow-y: auto"></textarea>
+          </div>
+          <div>
+            <p>簽核人員</p>
+            <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            </app-select-signer>
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="PutForward_Click()" [disabled]="checkHaveFlowDynamic_EmpID()">送出</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog呈核確認送出 -->
+<div class="modal" id="PutForwarddialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">呈核完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            呈核送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog呈核送出成功 -->
+
+
+
+
+
+<div class="modal" id="All_Approveddialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">核准完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div>
+            送出筆數:{{sendReviewLength}}
+          </div>
+          <div>
+            批核筆數:{{realReviewLength}}
+          </div>
+          <div style="text-align: center">
+            核准送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog全部核准送出成功 -->
+
+<div class="modal" id="All_Sendbackdialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">退回完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div>
+            送出筆數:{{sendReviewLength}}
+          </div>
+          <div>
+            批核筆數:{{realReviewLength}}
+          </div>
+          <div style="text-align: center">
+            退回送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog全部退回送出成功 -->

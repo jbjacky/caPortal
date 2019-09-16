@@ -1,0 +1,91 @@
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FileSaverService } from 'ngx-filesaver';
+import { LZStringService } from 'ng-lz-string';
+
+@Component({
+  selector: 'app-testviewtwo',
+  templateUrl: './testviewtwo.component.html',
+  styleUrls: ['./testviewtwo.component.css']
+})
+export class TestviewtwoComponent implements OnInit {
+  fileArray: File[] = [];
+  getApiFileData: any;
+  errorState ={state:false,errorString:''};
+  constructor(
+    private _httpClient: HttpClient,
+    private _FileSaverService: FileSaverService,
+    private lz: LZStringService
+  ) { }
+
+  ngOnInit() { }
+  @Output() fileChange: EventEmitter<any> = new EventEmitter<any>();//返回修改按鈕
+  onChangefile(eventFile) {
+    // console.log(eventFile[0])
+    if (eventFile[0].size > 10485760) {
+      //byte(位元組)為單位
+      // alert('檔案超過')
+      this.errorState = {state:true,errorString:'檔案大小不得超過10MB'}
+    } else if (this.fileArray.length >= 5) {
+      // alert('不得大於五筆')
+      this.errorState = {state:true,errorString:'檔案筆數不得超過五筆'}
+    }
+    else {
+      this.fileArray.push(eventFile[0])
+      this.errorState = {state:false,errorString:''}
+    }
+    this.uploadAllFile();
+    this.fileChange.emit(this.getApiFileData);
+
+  }
+  downOnefile(file) {
+    const txtBlob = new Blob([file], { type: file.type })
+    this._FileSaverService.save(txtBlob, file.name)
+  }
+  deleteOneFile(i) {
+    this.fileArray.splice(i, 1)
+    this.errorState = {state:false,errorString:''}
+  }
+
+  base64(apiFile) {
+    var base64_name = apiFile.name
+    var base64_type = apiFile.type
+    var base64_data = this.lz.decompress(apiFile.data)
+    var base64_size = apiFile.size
+    console.log('解壓縮' + base64_data.length)
+    var byteCharacters = atob(base64_data);
+    var byteNumbers = new Array(byteCharacters.length);
+    for (var i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    var byteArray = new Uint8Array(byteNumbers);
+
+    const txtBlob = new Blob([byteArray], { type: base64_type })
+    this._FileSaverService.save(txtBlob, base64_name)
+  }
+
+  uploadAllFile() {
+    var uploadAllFile_Data = [{ name: '', data: '', type: '', size: 0 }];
+
+    for (let i = 0; i < this.fileArray.length; i++) {
+      uploadAllFile_Data[i].name = this.fileArray[i].name
+      uploadAllFile_Data[i].size = this.fileArray[i].size
+      uploadAllFile_Data[i].type = this.fileArray[i].type
+
+      let reader = new FileReader();
+      reader.readAsDataURL(this.fileArray[i]);
+      reader.onload = () => {
+        uploadAllFile_Data[i].data = this.lz.compress(reader.result.toString().split(',')[1]);//壓縮過了
+        console.log('壓縮過' + uploadAllFile_Data[i].data.length)
+
+        console.log(JSON.stringify(uploadAllFile_Data[i].data))
+      };
+      uploadAllFile_Data.push({ name: '', data: '', type: '', size: 0 })
+
+    }
+    uploadAllFile_Data.splice(uploadAllFile_Data.length - 1, 1)
+    this.getApiFileData = uploadAllFile_Data;
+    console.log(this.getApiFileData)
+  }
+
+}

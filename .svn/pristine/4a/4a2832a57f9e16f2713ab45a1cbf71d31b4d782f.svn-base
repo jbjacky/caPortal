@@ -1,0 +1,34 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+import { VaFormRoutingModule } from 'src/app/View/allform/vaform/vaform-routes'
+import { WritevaformComponent } from 'src/app/View/allform/vaform/writevaform/writevaform.component';
+import { VaformdetailComponent } from 'src/app/View/allform/vaform/vaformdetail/vaformdetail.component';
+import { FormsModule,ReactiveFormsModule }   from '@angular/forms';
+import { SpyngifDirective } from 'src/app/View/allform/vaform/spyngif.directive';
+import { TextMaskModule } from 'angular2-text-mask';
+import { SharemodelModule } from 'src/app/Sharemodel/sharemodel.module'
+import { NgxSelectModule } from 'ngx-select-ex';
+import { chcekdialogModule } from '../../shareComponent/checkdialog/chcekdialog-module';
+
+@NgModule({
+  imports: [
+      CommonModule,
+      FormsModule,
+      ReactiveFormsModule,
+      chcekdialogModule,
+      VaFormRoutingModule,
+      TextMaskModule,
+      SharemodelModule,
+      NgxSelectModule,
+  ],
+  declarations: [
+      WritevaformComponent,
+      VaformdetailComponent,
+    //   SpyngifDirective,
+  ],
+  exports: [
+      RouterModule
+    ],
+})
+export class VaformModule { }

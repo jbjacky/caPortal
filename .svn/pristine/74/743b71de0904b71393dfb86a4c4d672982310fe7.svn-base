@@ -1,0 +1,46 @@
+import { uploadFileClass } from "./uploadFileClass";
+
+export class vaform {
+    ui_title: string;
+    leaveman_jobid: string;
+    leaveman_name: string;
+    wirteman_jobid: string;
+    wirteman_name: string;
+    writeman_worktime: string;
+    startday: string;
+    starttime: string;
+    endday: string;
+    endtime: string;
+    vacategrory: { HoliDayID: 0, HoliDayNameC: '', HoliDayKindID: '' }
+    proxyman_jobid: string;
+    proxyman_name: string;
+    keyname: string;
+    eventdate: string;
+    everydayloop: boolean;
+    upload: uploadFileClass[];
+    cause: string;
+    ui_day: string;
+    ui_hour: string;
+    ui_minute: string;
+    // AbsDetail: any[];
+    FlowApp: any;
+    uishowAbsFlowAppsDetails:showAbsFlowAppsDetailClass[]
+
+    beforholiday: boolean;
+    todayCheck: boolean;
+  
+  }
+
+  
+
+export class showAbsFlowAppsDetailClass {
+  vaOneDate: string
+  vaOneOnTime: string
+  vaOneOffTime: string
+  vaRestOnTime: string
+  vaRestOffTime: string
+  AllUse:number
+  vaUseDay: string
+  vaUseHour: string
+  vaUseMinute: string
+}

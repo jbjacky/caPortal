@@ -1,0 +1,8 @@
+
+
+.textdanger{
+  color: #d0021b
+}
+.ng-invalid:not(form)  {
+  border: 1px solid #e60012; /* red */
+}

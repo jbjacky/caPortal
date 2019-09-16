@@ -1,0 +1,77 @@
+
+  
+#isHandleDialog .modal-dialog {
+    width: 420px;
+}
+
+::ng-deep .vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+  }
+  ::ng-deep .vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+  }
+  ::ng-deep .modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+  }
+  
+  .P_base{
+    color: #6f6f6f;
+    border-right: 1px solid rgba(151, 151, 151, 0.32);
+    text-align: right;
+}
+.P_date{
+    padding: 0px;
+    padding-left: 20px;
+}
+
+.P_textLeft{
+    text-align: right
+}
+
+.errorInput{
+    border: 1px solid #e60012
+}
+.showForm{
+    padding-top:0px
+}
+@media screen and (max-width:992px) {
+   
+.P_base{
+    color: #6f6f6f;
+    border-right:0px;
+    border-bottom: 1px solid rgba(151, 151, 151, 0.32);
+    text-align: unset;
+}
+.P_date{
+    padding: 0px;
+    padding-top: 10px;
+}
+.P_textLeft{
+    text-align: left
+}
+.showForm{
+    padding-top:66px
+}
+.showForm_openDialog{
+    min-height: 100vh;
+}
+.showForm_closeDialog{
+    min-height: 100%;
+}
+#isHandleDialog .modal-dialog {
+    width: 300px;
+}
+}
+@media screen and (max-width:700px) {
+    .P_margin{
+        margin-bottom: 20px
+    }
+}

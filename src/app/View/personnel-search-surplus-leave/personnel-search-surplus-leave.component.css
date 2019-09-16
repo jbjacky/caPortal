@@ -1,0 +1,37 @@
+.tableTitle{
+    font-size: 18px;
+    margin-bottom: 15px;
+    
+}
+
+
+.P_textLeft{
+    text-align: right
+}
+
+.errorInput{
+    border: 1px solid #e60012
+}
+
+.showDayHourMin{
+    display: inline-block;
+    width: 15px;
+}
+.P_paddingtop{
+    padding-left: 0;
+    padding-top: 5px;
+}
+@media screen and (max-width:768px) {
+   
+    .P_textLeft{
+        text-align: left
+    }
+    .P_paddingtop{
+        padding: 0px;
+        padding-top: 0px;
+    }
+    .P_marginbottom{
+        margin-bottom: 10px 
+    }
+    
+}

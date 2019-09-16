@@ -1,0 +1,333 @@
+<div class="a-block">
+   <div class="a-block-body  a-block-container">
+      <div class="row" style="margin:0px;">
+         <h3 style="margin: 0px ; margin-bottom: 15px">新增代理人</h3>
+         <div class="row" style="margin: 0px;margin-bottom: 15px">
+            <div class="col-md-2 col-xs-12 P_textLeft" style="padding-top: 5px;">
+              <span class="form-must-fill">*</span>
+               <span>被代理人</span>
+            </div>
+            <div class="col-md-4 col-xs-5">
+               <input id="leavejobid" type="text" class="form-control" placeholder="員工號"
+                  [(ngModel)]='BeProxyMan.EmpCode' (blur)="blurBeProxyManEmpCode()">
+               <div *ngIf="errorBeProxyManState.state" style="color: #e60012">{{errorBeProxyManState.errorString}}</div>
+            </div>
+            <div class="col-md-1 col-xs-1" style="text-align: center;padding: 0px">
+               <button data-toggle="modal" data-target="#chooseEmpdialog" style="cursor: pointer;border: 0;background: 0">
+                  <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+               </button>
+            </div>
+            <div class="col-md-5 col-xs-6" style="padding: 7px;">
+               <label style="font-weight: normal;">{{BeProxyMan.EmpNameC}}</label>
+            </div>
+         </div>
+         <div class="row" style="margin: 0px;margin-bottom: 15px">
+            <div class="col-md-2 col-xs-12 P_textLeft" style="padding-top: 5px;">
+              <span class="form-must-fill">*</span>
+               <span>被代理人角色</span>
+            </div>
+            <div class="col-md-6 col-xs-12">
+               <select class="form-control" [(ngModel)]="selectBeProxyMan_ManInfo">
+                  <ng-container *ngFor="let oneGetReviewData of getBeProxyMan_ManInfo">
+                     <option [ngValue]="oneGetReviewData">
+                        <span>{{oneGetReviewData.DeptName}} {{oneGetReviewData.PosName}}</span>
+                     </option>
+                  </ng-container>
+               </select>
+            </div>
+         </div>
+         <div class="row" style="margin: 0px;margin-bottom: 15px">
+            <div class="col-md-2 col-xs-12 P_textLeft" style="padding-top: 5px;">
+              <span class="form-must-fill">*</span>
+               <span>代理人</span>
+            </div>
+            <div class="col-md-4 col-xs-5">
+               <input id="leavejobid_Proxy" class="form-control" [(ngModel)]="ProxyMan.EmpCode" maxlength="6" (blur)="blurProxyManCode()"/>
+               <div *ngIf="errorProxyManCodeState.state" style="color: #e60012">{{errorProxyManCodeState.errorString}}</div>
+            </div>
+            <div class="col-md-1 col-xs-1" style="text-align: center;padding: 0px">
+               <button data-toggle="modal" data-target="#chooseEmpdialog_Proxy"
+                  style="cursor: pointer;border: 0;background: 0">
+                  <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+               </button>
+            </div>
+            <div class="col-md-5 col-xs-6" style="padding: 7px;">
+               <span style="padding-top: 5px;">{{ProxyMan.EmpName}}</span>
+            </div>
+
+         </div>
+         <div class="row" style="margin: 0px;margin-bottom: 15px">
+            <div class="col-md-2 col-xs-12 P_textLeft" style="padding-top: 5px;">
+              <span class="form-must-fill">*</span>
+               <span>生效日</span>
+            </div>
+            <div class="col-md-4 col-xs-6">
+               <input [matDatepicker]="StartDatePicker" [(ngModel)]="dateS" id="id_ipt_startday" class="form-control"
+                  type="text" />
+               <mat-datepicker #StartDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+            </div>
+            <div class="col-md-6 col-xs-6">
+               <input (click)="StartDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+               cursor: pointer;
+               color: transparent;
+               border: 1px solid transparent;
+               width: 50px;
+               height: 40px;
+               ">
+            </div>
+
+         </div>
+         <div class="row" style="margin: 0px;margin-bottom: 15px">
+            <div class="col-md-2 col-xs-12 P_textLeft" style="padding-top: 5px;">
+              <span class="form-must-fill">*</span>
+               <span>失效日</span>
+            </div>
+            <div class="col-md-4 col-xs-6">
+               <input [matDatepicker]="EndDatePicker" [(ngModel)]="dateE" id="id_ipt_endday" class="form-control"
+                  type="text" />
+
+               <mat-datepicker #EndDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+            </div>
+            <div class="col-md-6 col-xs-6">
+               <input (click)="EndDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+               cursor: pointer;
+               color: transparent;
+               border: 1px solid transparent;
+               width: 50px;
+               height: 40px;
+               ">
+            </div>
+
+         </div>
+
+
+         <div class="col-md-12 col-xs-12" style="text-align: center">
+            <button type="button" class="btn btn-primary" (click)="OnSubmit()">儲存</button>
+
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<div class="a-block">
+   <!-- <div class="table-responsive"> -->
+   <div class="a-block-body  a-block-container">
+      <h3 style="margin: 0px ; margin-bottom: 15px;display: inline-block;">被代理人:</h3>
+      <div style="display: inline-block;">
+         <input [(ngModel)]="searchBeProxyMan.EmpID" />
+         <button style="margin: 0px 10px" (click)="CanSearchGetCheckAgent(searchBeProxyMan.EmpID)">查詢</button>
+      </div>
+      <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+               <thead>
+                  <tr>
+                     <th style="background-image: unset;cursor: unset;width: 20%">被代理人角色</th>
+                     <th style="width: 15%">代理人工號</th>
+                     <th style="width: 15%">代理人姓名</th>
+                     <th style="width: 10%">生效日</th>
+                     <th style="width: 10%">失效日</th>
+                     <th style="width: 10%">登入者</th>
+                     <th style="width: 10%">登入日期</th>
+                     <th style="width: 10%">功能</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr *ngFor="let oneAgent of SetAgentArray">
+                     <ng-container *ngIf="oneAgent.IsValid">
+                        <td style="width: 20%">
+                           {{oneAgent.RoleNameSource}}
+                        </td>
+                        <td style="width: 15%">
+                           {{oneAgent.EmpIdTarget}}
+                        </td>
+                        <td style="width: 15%">
+                           {{oneAgent.EmpNameTarget}}
+                        </td>
+                        <td style="width: 10%">
+                           {{oneAgent.DateB}}
+                        </td>
+                        <td style="width: 10%">
+                           {{oneAgent.DateE}}
+                        </td>
+                        <td style="width: 10%">
+                           {{oneAgent.KeyMan}}
+                        </td>
+                        <td style="width: 10%">
+                           {{oneAgent.KeyDate}}
+                        </td>
+                        <td style="width: 10%">
+                           <a (click)="editAgentDate(oneAgent)" style="cursor: pointer;padding: 2px">修改</a>
+                           <a (click)="checkDelAgent(oneAgent)" style="cursor: pointer;padding: 2px">刪除</a>
+                        </td>
+                     </ng-container>
+               </tbody>
+            </table>
+         </div>
+         
+   </div>
+   <!-- </div> -->
+</div>
+
+<div class="modal" id="chooseEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="vertical-alignment-helper">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+            <!-- <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel">選擇請假人</h4>
+        </div> -->
+            <div class="modal-body">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+               </button>
+               <app-choosebase-ma (saveEmptoView)="onSaveEmptoView($event)" [IsTop]="true">
+               </app-choosebase-ma>
+               <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!--dialog選擇被代理人-->
+<div class="modal" id="chooseEmpdialog_Proxy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="vertical-alignment-helper">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+            <!-- <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel">選擇請假人</h4>
+        </div> -->
+            <div class="modal-body">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+               </button>
+               <app-choosebase (saveEmptoView)="onSaveEmptoView_ProxyMan($event)" [IsTop]="true">
+               </app-choosebase>
+               <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!--dialog選擇代理人-->
+
+<div class="modal" id="DelAgentDialog" tabindex="-1" role="dialog">
+   <div class="vertical-alignment-helper">
+      <div class="modal-dialog  modal-sm vertical-align-center">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">
+                  <span aria-hidden="true">×</span>
+               </button>
+               <h4 class="modal-title" style="text-align: center">確認刪除?</h4>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-primary" data-dismiss="modal"
+                  (click)="bt_DelAgent(DelAgentKey)">刪除</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!--dialog確認刪除代理人 -->
+<div class="modal" id="editAgentDialog" tabindex="-1" role="dialog">
+   <div class="vertical-alignment-helper">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">
+                  <span aria-hidden="true">×</span>
+               </button>
+               <h3 style="margin: 0px;text-align: center">修改代理資訊</h3>
+            </div>
+            <div class="modal-body">
+
+               <div class="row" style="margin: 0px;margin-bottom: 15px">
+                  <div class="col-md-3 col-xs-4" style="text-align: right">
+                     <span>被代理人</span>
+                  </div>
+                  <div class="col-md-9 col-xs-8">
+                     <span>{{EditAgent.EmpIdSource}} {{EditAgent.EmpNameSource}}</span>
+                  </div>
+               </div>
+               <div class="row" style="margin: 0px;margin-bottom: 15px">
+                  <div class="col-md-3 col-xs-4" style="text-align: right;">
+                     <span>被代理人角色</span>
+                  </div>
+                  <div class="col-md-9 col-xs-8">
+                     <span>{{EditAgent.RoleNameSource}}</span>
+                  </div>
+               </div>
+               <div class="row" style="margin: 0px;margin-bottom: 15px">
+                  <div class="col-md-3 col-xs-4" style="text-align: right">
+                     <span>代理人</span>
+                  </div>
+                  <div class="col-md-9 col-xs-8">
+                     <span>{{EditAgent.EmpIdTarget}} {{EditAgent.EmpNameTarget}}</span>
+                  </div>
+               </div>
+               <div class="row" style="margin:0px;">
+                  <div class="row" style="margin: 0px;margin-bottom: 15px">
+                     <div class="col-md-3 col-xs-4" style="text-align: right;
+         padding-top: 8px;">
+                        <span>生效日</span>
+                     </div>
+                     <div class="col-md-4 col-xs-4" style="padding: 3px 15px">
+                        <input [matDatepicker]="editStartDatePicker" [(ngModel)]="editDateS" class="form-control"
+                           type="text" />
+                        <mat-datepicker #editStartDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+                     </div>
+                     <div class="col-md-5 col-xs-4">
+                        <input (click)="editStartDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+               cursor: pointer;
+               color: transparent;
+               border: 1px solid transparent;
+               width: 50px;
+               height: 40px;
+               ">
+                     </div>
+
+                  </div>
+                  <div class="row" style="margin: 0px;margin-bottom: 15px">
+                     <div class="col-md-3 col-xs-4" style="text-align: right;
+         padding-top: 8px;">
+                        <span>失效日</span>
+                     </div>
+                     <div class="col-md-4 col-xs-4" style="padding: 3px 15px">
+                        <input [matDatepicker]="editEndDatePicker" [(ngModel)]="editDateE" class="form-control"
+                           type="text" />
+
+                        <mat-datepicker #editEndDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+                     </div>
+                     <div class="col-md-5 col-xs-4">
+                        <input (click)="editEndDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+               cursor: pointer;
+               color: transparent;
+               border: 1px solid transparent;
+               width: 50px;
+               height: 40px;
+               ">
+                     </div>
+
+                  </div>
+
+               </div>
+            </div>
+            <div class="modal-footer">
+
+               <div style="text-align: center">
+                  <button type="button" class="btn btn-primary" (click)="bt_EditAgent()" style="margin-right: 10px">儲存</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!--dialog修改代理人 -->

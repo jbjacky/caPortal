@@ -1,0 +1,166 @@
+<div class="row" style="margin:0">
+  <label class="col-md-2 col-xs-12 control-label P_left" style="padding: 0px;padding-top: 6px;">
+    <span class="form-must-fill">*</span>起始日期
+  </label>
+  <div class="col-md-10 col-xs-12">
+    <div class="row" style="margin:0">
+      <div class="col-md-6 col-xs-10" style="padding: 0px">
+        <input [matDatepicker]="StartDatePicker" id="id_ipt_startday_RoteSum" [(ngModel)]="searchDateB" type="text"
+          class="form-control" style="background-color: #ffffff;" placeholder="年/月/日" (blur)="SerchStartDateChange()"
+          (dateChange)="SerchStartDateChange()" />
+        <div *ngIf="errorStartDate.state" style="color: #e60012">{{errorStartDate.errorString}}</div>
+
+        <mat-datepicker #StartDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+      </div>
+      <!--  -->
+      <div class="col-md-2 col-xs-2" style="padding: 0px">
+        <input (click)="StartDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                                    cursor: pointer;
+                                    color: transparent;
+                                    border: 1px solid transparent;
+                                    width: 50px;
+                                    height: 40px;
+                                    margin-left: 3px;">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" style="margin:0">
+  <label class="col-md-2 col-xs-12 control-label P_left" style="padding: 0px;padding-top: 6px;">
+    <span class="form-must-fill ">*</span>結束日期
+  </label>
+  <div class="col-md-10 col-xs-12">
+    <div class="row" style="margin:0">
+      <div class="col-md-6 col-xs-10" style="padding: 0px">
+        <input [matDatepicker]="EndDatePicker" id="id_ipt_endday_RoteSum" type="text" [(ngModel)]="searchDateE"
+          class="form-control" style="background-color: #ffffff;" placeholder="年/月/日" (blur)="blurEndDate()"
+          (dateChange)="blurEndDate()" />
+        <div *ngIf="errorEndDate.state" style="color: #e60012">{{errorEndDate.errorString}}</div>
+
+        <mat-datepicker #EndDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+      </div>
+      <!--  -->
+      <div class="col-md-2 col-xs-2" style="padding: 0px">
+        <input (click)="EndDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                                      cursor: pointer;
+                                      color: transparent;
+                                      border: 1px solid transparent;
+                                      width: 50px;
+                                      height: 40px;
+                                      margin-left: 3px;">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" style="margin: 0;margin-bottom: 10px">
+  <div class="col-md-2 col-xs-12 control-label">
+  </div>
+  <div class="col-md-10  col-xs-12">
+    <div style="display: inline-block;margin-right:15px " *ngFor="let oneRadio of radiogroup" (click)="changeRadio(oneRadio)">
+      <input type="radio" name="chooseRadio" [(ngModel)]="chooseRadio" [value]="oneRadio.id">{{oneRadio.name}}
+    </div>
+  </div>
+</div>
+<div *ngIf="chooseRadio == 1">
+  <div *ngIf="MyselfSearch" class="row" style="margin:0;margin-bottom: 10px">
+    <label class="col-md-2 col-xs-12 control-label P_left P_padding" style="padding-top: 6px;">
+      員工
+    </label>
+    <div class="col-md-10  col-xs-12" style="padding-top: 6px;">
+      {{setMan.EmpID}} {{setMan.EmpNameC}}
+    </div>
+  </div>
+  <div *ngIf="PersonSearch" class="row" style="margin:0;margin-bottom: 10px">
+    <label class="col-md-2 col-xs-12 control-label P_left P_padding" style="padding-top: 6px;">
+      員工
+    </label>
+    <div class="col-md-10  col-xs-12" style="padding:0px">
+      <div class="col-md-4 col-xs-5">
+        <input id="leavejobid_RoteSum" type="text" class="form-control" placeholder="員工號"
+          [(ngModel)]="SearchMan.EmpCode" (blur)="blurEmpCode()" maxlength="6">
+        <div *ngIf="errorLeavemanState.state" style="color: #e60012">{{errorLeavemanState.errorString}}</div>
+      </div>
+      <div class="col-md-1 col-xs-2" style="padding:0px">
+        <button data-toggle="modal" (click)="bt_ShowDialog_chooseEmpdialog()"
+          style="cursor: pointer;border: 0;background: 0">
+          <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+        </button>
+      </div>
+      <div class="col-md-6 col-xs-5" style="padding: 0px;padding-top: 8px;">
+        {{SearchMan.EmpNameC}}
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="chooseRadio == 2">
+  <div class="row" style="margin:0;margin-bottom: 10px">
+    <label class="col-md-2 col-xs-12 control-label P_left P_padding" style="padding-top: 6px;">
+      單位
+    </label>
+    <div class="col-md-10 col-xs-12">
+      <div class="P_fullwidth">
+        <ngx-select [items]="NgxDeptSelectBox" optionValueField="DeptID" optionTextField="uiShowDeptCodeAndName"
+          [(ngModel)]="SearchDeptID" (select)="selectDept()"></ngx-select>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" style="margin:0;margin-bottom: 10px">
+  <label class="col-md-2 col-xs-12 control-label P_left P_padding" style="padding-top: 6px;">
+    班型
+  </label>
+  <div class="col-md-10 col-xs-12">
+    <div class="P_fullwidth">
+      <ngx-select allowClear="true" [items]="NgxRoteSelectBox" optionValueField="RoteID" optionTextField="uiShowRoteName"
+        [(ngModel)]="SearchRoteID"></ngx-select>
+    </div>
+  </div>
+</div>
+<div class="row" style="
+margin: 0;
+padding-bottom: 10px;
+margin-bottom: 10px;
+border-bottom: 1px solid #a0a0a0;
+">
+  <label class="col-md-2 col-xs-12 control-label" style="padding: 0px;text-align: right;padding-top: 6px;">
+  </label>
+  <div style="display: inline-block;padding: 0px 15px;">
+    <button class="btn btn-primary" (click)="onSearch()">查詢</button>
+  </div>
+</div>
+
+
+<div style="padding: 0px 15px">
+  <div *ngIf="showSerchNonBlock">
+    查無資料
+  </div>
+</div>
+<div style="padding: 0px 15px">
+  <div *ngFor="let aa of showSearchRote">
+    {{aa.Rote.RoteNameC}}： {{aa.Sum}} 天
+  </div>
+</div>
+
+
+<div class="modal" id="chooseEmpdialogRoteSum" tabindex="-1" role="dialog">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="width: calc(100% - 30px);">
+        <div class="modal-body">
+          <button type="button" class="close" (click)="close_chooseEmpdialogRoteSum()" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+
+          <div *ngIf="SearchMan">
+            <app-choosebase-ma *ngIf="chooseEmpdialog_ShowDialog" (saveEmptoView)="onSaveEmptoView($event)"
+              [IsTop]="true" [SearchEmpID]="setMan.EmpID">
+            </app-choosebase-ma>
+          </div>
+          <!-- <app-choosebase (saveEmptoView)="onSaveEmptoView($event)"></app-choosebase> -->
+          <button type="button" class="btn btn-default" (click)="close_chooseEmpdialogRoteSum()">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog選擇員工-->

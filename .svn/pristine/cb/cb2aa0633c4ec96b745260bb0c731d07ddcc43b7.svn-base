@@ -1,0 +1,258 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <h3>調班單明細</h3>
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
+      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          申請單編號
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span style="color: #028fcf">{{getChangeDataTitle.showProcessFlowID}}</span>
+              
+              <a style="cursor: pointer;">
+                  <span *ngIf="getChangeDataTitle.Take" data-toggle="modal" data-target="#Cancelformdialog">(抽單)</span>
+                </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_right">
+          <label class="control-label ">
+            申請單狀態</label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_LFZero" style="padding-right: 0px">
+          <div *ngIf="getChangeDataTitle.ManageEmpName && getChangeDataTitle.State =='1'" 
+            style="padding-right: 0px">
+            <!--王小美-->{{getChangeDataTitle.ManageEmpName}} <label style="color: #002f7b">呈核中</label>
+          </div>
+          <div *ngIf="getChangeDataTitle.State == '3'"  style="padding-top:2px;padding-right: 0px">
+            <label style="color: #00857d">已核准</label>
+          </div>
+          <div *ngIf="getChangeDataTitle.State == '2'"  style="padding-top:2px;padding-right: 0px">
+            <label style="color: #d0021b">重擬</label>
+          </div>
+          <div *ngIf="getChangeDataTitle.State == '7'"  style="padding-top:2px;padding-right: 0px">
+            <label style="color: #9b9b9b">已抽單</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          員工
+        </label>
+        <div class="col-md-8  col-xs-12">
+          <div class="row ">
+            <div>
+              <span>{{getChangeDataTitle.EmpID1}} {{getChangeDataTitle.EmpNameC1}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6 " style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          調班事由
+        </label>
+        <div class="col-md-8">
+          <div class="row ">
+            <div>
+              <span>{{getChangeDataTitle.Note}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+
+    <div class="row" style="margin: 0;margin-bottom: 10px;text-align: center;padding-top: 15px">
+      <div class="desktopCalender">
+        <button id="bt_RoteShow" class="onShowButton" (click)="OriginalRote()" style="
+            border-top-left-radius: 23px;
+            border-bottom-left-radius: 23px;">原始調班前</button>
+        <button id="bt_TimeShow" class="offShowButton" (click)="SimulationRote()" style="
+            border-top-right-radius: 23px;
+            border-bottom-right-radius: 23px;">模擬調班後</button>
+      </div>
+    </div>
+    <div class="row two-seven-cols" style="margin: 0;margin-bottom: 10px;">
+
+      <div class="col-md-2 col-xs-12" style="margin: 5px 0px">
+
+        <div style="border:1px solid #e0e0e0;border-radius:5px ">
+
+          <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+            <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 ">
+              <div class="DivDateStyle" style="background-color: #e8e8e8">
+                員工
+              </div>
+            </div>
+            <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle" style="padding: 10px 0px;">
+              <div>
+                {{getChangeDataTitle.EmpCode1}}
+              </div>
+              <div>
+                {{getChangeDataTitle.EmpNameC1}}
+              </div>
+            </div>
+            <div class="col-md-12 col-xs-4 twoDivJobStyle" style="padding: 10px 0px;">
+              <div>
+                {{getChangeDataTitle.EmpCode2}}
+              </div>
+              <div>
+                {{getChangeDataTitle.EmpNameC2}}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div *ngFor="let ui of uiShow ; let i = index">
+        <div class="col-md-2 col-xs-12 " style="margin: 5px 0px">
+          <div *ngIf="ui.Clickselect" class="DivStyle selectDiv" style="cursor: unset">
+
+            <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+              <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 ">
+                <div class="DivDateStyle selectDateDiv_check">
+                  {{ui.date}}
+                </div>
+              </div>
+              <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle selectJobDiv">
+                <div>
+                  {{ui.oneP}}
+                </div>
+              </div>
+              <div class="col-md-12 col-xs-4 twoDivJobStyle selectJobDiv">
+                <div>
+                  {{ui.twoP}}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- 有選到的日期 -->
+          <div *ngIf="!ui.Clickselect" class="DivStyle" style="cursor: unset">
+
+            <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+              <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 ">
+                <div class="DivDateStyle">
+                  {{ui.date}}
+                </div>
+              </div>
+              <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle">
+                <div>
+                  {{ui.oneP}}
+                </div>
+              </div>
+              <div class="col-md-12 col-xs-4 twoDivJobStyle">
+                <div>
+                  {{ui.twoP}}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- 沒選到的日期 -->
+        </div>
+      </div>
+
+    </div>
+    <div class="row" style="margin: 0px ;margin-bottom:15px;padding: 15px 0px ;border-top:1px dashed #dcdcdc;border-bottom:1px dashed #dcdcdc">
+      <div class="col-md-1 col-xs-12 P_right" style="padding-top: 4px;">
+      </div>
+      <div class="col-md-11 col-xs-12 P_zero" style="padding-top: 4px;">
+        <label class="control-label col-md-2" style="font-weight: normal;color: #002f7b">
+          調班日期
+        </label>
+        <div class="col-md-5 row" style="margin: 0">
+          <div *ngFor="let select of RealRote">
+            <div *ngIf="select.Clickselect">
+              <span style="color:#d0021b;" class="col-md-3 col-xs-3">{{select.date}}</span>
+              <span style="color:#d0021b;" class="col-md-3 col-xs-3">{{select.oneP}}</span>
+              <span style="color:#002f7b;" class="col-md-3 col-xs-3">調成</span>
+              <span style="color:#d0021b;" class="col-md-3 col-xs-3">{{select.twoP}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div *ngIf="showFormSign.length >0" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px">
+      <div class="row" style="margin: 0;padding: 0%">
+        <div class="col-md-2 col-xs-8  P_left">歷程主管簽核意見</div>
+        <div class="col-md-10 col-xs-4">
+          <a data-toggle="collapse" href="#mangText" (click)="onCheckCollapseInpostOpinions()">
+            <a id="mangText_text" data-toggle="collapse" href="#mangText" (click)="onCheckCollapseInpostOpinions()">收合</a>
+            <img id="mangText_img" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-180deg);" />
+          </a>
+        </div>
+      </div>
+      <div class="row" style="margin: 0;padding: 0%">
+        <div class="col-md-2 "></div>
+        <div class="col-md-10">
+          <div id="mangText" class="collapse in">
+            <div *ngFor="let showFormSign of showFormSign" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 15px">
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核人員</div>
+                <div class="col-md-10" style="padding: 0">{{showFormSign.JobName}} {{showFormSign.EmpNameC}}</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核時間</div>
+                <div class="col-md-4" style="padding: 0">{{showFormSign.SignDate}}</div>
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">假單遞送</div>
+                <div class="col-md-4" style="padding: 0">{{showFormSign.NodeName}}</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核意見</div>
+                <div class="col-md-10" style="padding: 0">{{showFormSign.Note}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 P_left"></div>
+        <div class="col-md-"></div>
+
+      </div>
+    </div>
+    <!--歷程主管意見-->
+    <div style="text-align: center">
+      <a (click)="previouspage()" style="cursor: pointer;">回列表</a>
+    </div>
+
+  </div>
+  
+<div class="modal" id="Cancelformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+      <div class="modal-dialog  modal-sm vertical-align-center">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認抽單?</h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="Cancelform_Click()">送出</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--dialog確認抽單送出 -->

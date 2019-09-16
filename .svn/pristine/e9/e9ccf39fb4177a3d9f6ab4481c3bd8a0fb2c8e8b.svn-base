@@ -1,0 +1,10 @@
+
+export class SaveNewsClass{
+    NewsID: string
+    NewsHead: string
+    NewsBody: string
+    PostDate: string
+    PostDeadline: string
+    IsOn: boolean
+    Sort: number
+  }

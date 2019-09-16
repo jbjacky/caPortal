@@ -1,0 +1,509 @@
+import { Component, OnInit, HostListener, AfterViewInit, NgZone, OnChanges, DoCheck, AfterContentInit, AfterContentChecked, OnDestroy, ViewChild } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
+import { twonav, threenav } from '../nav/navmore';
+import { fromEvent, Observable } from 'rxjs';
+import { debounceTime, last, takeWhile } from 'rxjs/operators';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service'
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetDeptaByEmpClass } from 'src/app/Models/PostData_API_Class/GetDeptaByEmpClass';
+import { GetBaseInfoDetailClass } from 'src/app/Models/GetBaseInfoDetailClass';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+declare let $: any; //use jquery
+
+declare var ErrorPagePath
+
+declare var _redirect_uri_LoginComponent
+
+@Component({
+  selector: 'app-nav',
+  templateUrl: './nav.component.html',
+  styleUrls: ['./nav.component.css']
+})
+
+
+export class NavComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
+  ngOnDestroy(): void {
+    this.api_subscribe = false;
+
+  }
+
+  customCollapsedHeight: string = '48px';
+  customExpandedHeight: string = '48px';
+
+  api_subscribe = true; //ngOnDestroy時要取消
+  testEmpData = [
+    { EmpCode: '647156', Name: '', Dept: '', RoteNameC: '', WorkHours: 8 },
+    { EmpCode: '642288', Name: '張O楨', Dept: '營業管理組', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '051005', Name: '王O懿', Dept: '會計行政部', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '630075', Name: '黃O松', Dept: '會計行政部', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '635769', Name: '莫O博', Dept: '營業管理組', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '644488', Name: '張O倩', Dept: '財務系統部', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '627532', Name: '謝O謙', Dept: '總經理室', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '629794', Name: '李O蓉', Dept: '修護工廠', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '644488', Name: '二級員工', Dept: '', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '634438', Name: '二級正主管', Dept: '', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '628008', Name: '一級員工', Dept: '', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '632046', Name: '一級副主管', Dept: '', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '632050', Name: '一級正主管', Dept: '', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '632861', Name: '總經理室裡的員工', Dept: '', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '630223', Name: '總經理室裡的主管', Dept: '', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '640488', Name: '董事長室裡的員工', Dept: '', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '647156', Name: '董事長室裡的主管', Dept: '', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '638953', Name: '外站1級正主管', Dept: '', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '642420', Name: '外站1級正主管', Dept: '', RoteNameC: '常日班', WorkHours: 8 },
+    { EmpCode: '644888', Name: '地服處行李查找組', Dept: '', RoteNameC: '常日班', WorkHours: 8 },
+  ]
+
+
+  ngDoCheck(): void {
+    // this.UserData.Dept = this.GetApiUserService.getWebApiData_User().Dept;
+    // this.UserData.EmpCode = this.GetApiUserService.getWebApiData_User().EmpCode;
+    // this.UserData.Name = this.GetApiUserService.getWebApiData_User().Name;
+    // console.log('dochenk')
+
+  }
+  ngAfterViewInit(): void {
+    // $('#main-nav-menu').metisMenu().civdMetisMenuRecord();
+
+    // $('#main-nav-menu').metisMenu().civdMetisMenuRecord();
+  }
+  innerWidth: number;
+  checkIsHome: boolean = false;
+  checkIsOneNav: boolean = true;
+  minfirsttitle: string;
+  selectUserData: GetBaseInfoDetailClass = new GetBaseInfoDetailClass()
+  UserAllData: GetBaseInfoDetailClass[] = [] //選擇部門下拉選單
+
+  constructor(private router: Router,
+    private GetApiUserService: GetApiUserService,
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private LoadingPage: NgxSpinnerService) {
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.changeSencondTitle(event.url);
+      }
+    });//route位址改變時
+  }
+
+  ngZone: NgZone = new NgZone({ enableLongStackTrace: true });
+  ngOnInit() {
+    if (localStorage.getItem('NowLoginUserID')) {
+      this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(localStorage.getItem('NowLoginUserID'))
+        .subscribe(
+
+          (GetBaseInfoDetail: GetBaseInfoDetailClass[]) => {
+            this.LoadingPage.show()
+            // console.log(GetBaseInfoDetail)
+            this.GetApiUserService.onAllChange(GetBaseInfoDetail)
+
+            for (let BaseInfoDetail of GetBaseInfoDetail) {
+              if (BaseInfoDetail.PosType == 'M') {
+                this.GetApiUserService.onChange(BaseInfoDetail)
+              }
+            }
+
+            // this.two_nav = [
+            //   {
+            //     largetitle: '填寫申請單', site: [
+            //       { title: '請假單', routeurl: 'vaform/writevaform' },
+            //       { title: '銷假單', routeurl: 'delform' },
+            //       { title: '雙人調班單', routeurl: 'changeform' },
+            //       { title: '非輪班人員請求調班單', routeurl: 'ChangeNonShiftComponent' },
+            //       { title: 'RZ互換', routeurl: 'ChangeRzComponent' },
+            //       { title: '考勤異常確認單', routeurl: 'forgetform' },
+            //       { title: '意願備註表', routeurl: 'WriteremarksformComponent' },
+            //       { title: '檢視意願備註表', routeurl: 'RemarksComponent' },
+            //     ]
+            //   }]
+          },
+          error => {
+            alert('與api連線異常，getWebApiData_GetBaseInfoDetail')
+            // this.router.navigate(['ErrorPageComponent']);
+            this.LoadingPage.hide()
+          }
+        )
+    } else {
+
+    }
+    this.changeSencondTitle(this.router.url);
+
+
+    this.innerWidth = window.innerWidth;
+    this.checkdesktop();
+    // this.UserData.Dept = this.GetApiUserService.getWebApiData_User().Dept;
+    // this.UserData.EmpCode = this.GetApiUserService.getWebApiData_User().EmpCode;
+    // this.UserData.Name = this.GetApiUserService.getWebApiData_User().Name;
+
+
+    // this.GetApiUserService.onChange(this.testEmpData[0])
+
+    this.GetApiUserService.counter$
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((x: any) => {
+
+        this.selectUserData = x
+        console.log(x)
+        if (x == 0) {
+          this.LoadingPage.show()
+
+        } else {
+
+          this.LoadingPage.hide()
+        }
+
+      })
+    this.GetApiUserService.AllOneBaseDetailcounter$
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(x => {
+        this.UserAllData = x
+      })
+
+
+  }
+  // <!--透明黑色區塊處理開始-->
+  state: boolean = false; //透明黑色區塊顯示狀態
+  checkdesktop() {
+    //判斷是否為桌機
+    //ngOnInit、點透明黑色區塊執行
+    //civd2015-systemMain.js修正，手機畫面，就收合導覽列
+
+    //$('body').css("position", "unset");
+    $('body').css("overflow-y", "auto");
+    if (window.innerWidth > 1023) {
+      // $('body').addClass("offcanvas-active");
+      //civd2015-systemMain.js修正
+    } else {
+      $('body').removeClass("offcanvas-active");//如果是手機畫面，就收合導覽列
+      this.state = false;
+    }
+  }
+  bt_toggleactive() {
+    if ($('body').hasClass("offcanvas-active")) {
+      $('body').removeClass('offcanvas-active');
+    } else {
+      $('body').addClass('offcanvas-active');
+    }
+
+    //左上角收合導覽列按鈕
+    if (window.innerWidth > 800) {
+    } else {
+      if (!$('body').hasClass("offcanvas-active")) {
+        this.state = false;
+        //$('body').css("position", "unset");
+        $('body').css("overflow-y", "auto");
+      } else {
+        this.state = true;
+        // $('body').css("position", "fixed");
+        $('body').css("overflow-y", "hidden");
+      }
+    }
+  }
+  formEvent_reisze = fromEvent(window, 'resize')
+    .pipe(debounceTime(500))
+    .pipe(takeWhile(() => this.api_subscribe))
+    .subscribe((event) => {
+      this.state = false;
+      //$('body').css("position", "unset");
+      $('body').css("overflow-y", "auto");
+    })
+  // <!--透明黑色區塊處理結束-->
+  two_nav: twonav[] = [
+    {
+      largetitle: '填寫申請單', site: [
+        { title: '請假單', routeurl: 'vaform/writevaform' },
+        { title: '銷假單', routeurl: 'delform' },
+        { title: '雙人調班單', routeurl: 'changeform' },
+        { title: '非輪班人員請求調班單', routeurl: 'ChangeNonShiftComponent' },
+        { title: 'RZ互換', routeurl: 'ChangeRzComponent' },
+        { title: '考勤異常確認單', routeurl: 'forgetform' },
+        { title: '意願備註表', routeurl: 'WriteremarksformComponent' },
+        { title: '檢視意願備註表', routeurl: 'RemarksComponent' },
+      ]
+    },
+    {
+      largetitle: '個人差勤查詢', site: [
+        { title: '個人表單查詢', routeurl: 'SearchFormComponent' },
+        { title: '個人考勤查詢', routeurl: 'OwnSearchComponent' },
+        { title: '個人班表查詢', routeurl: 'OwnSearchRoteComponent' },
+        { title: '個人餘假查詢', routeurl: 'SurplusLeaveComponent' },
+      ]
+    },
+    {
+      largetitle: '員工差勤查詢', site: [
+        { title: '員工表單查詢', routeurl: 'PersonnelSearchFormComponentComponent' },
+        { title: '員工考勤查詢', routeurl: 'PersonnelSearchComponent' },
+        { title: '員工班表查詢', routeurl: 'PersonnelSearchRoteComponent' },
+        { title: '差假紀錄-主管', routeurl: 'PersonnelSearchTreeviewComponent' },
+        { title: '主管差假紀錄', routeurl: 'PersonnelSearchSupervisorlVaRecordComponent' },
+
+      ]
+    },
+    {
+      largetitle: '系統管理', site: [
+        { title: '核假標準', routeurl: 'EditCanapproviddayComponent' },
+        { title: '近期公告管理', routeurl: 'NewsManageComponent' },
+      ]
+    },
+  ]
+
+  // three_nav: threenav[] = [
+  //   {
+  //     title: '主管專區', second: [
+  //       {
+  //         stitle: '表單審核',
+  //         third: [
+  //           { title: '請假單審核', routeurl: '/machformva' },
+  //           { title: '銷假單審核', routeurl: '/machformdel' },
+  //           { title: '調班單審核', routeurl: '/machformch' },
+  //           { title: '考勤異常簽認單審核', routeurl: '/machformfo' },
+  //         ]
+  //       },
+  //       {
+  //         stitle: '員工差勤查詢',
+  //         third: [
+  //           { title: '員工假單查詢', routeurl: '/emsearchva' },
+  //           { title: '員工出勤查詢', routeurl: '/emsearchat' },
+  //           { title: '員工班表查詢', routeurl: '/emsearchwork' },
+  //         ]
+  //       }
+  //     ]
+  //   }
+  // ];
+
+
+
+  netImage: any = "./assets/images-template/img-temp-systemMain/logo-ci-tw.png";
+  secondtitle: string;
+
+  changeSencondTitle(eventRouteurl) {
+    // console.log(eventRouteurl.split('/')[2])
+    if (eventRouteurl == '/nav/home' || eventRouteurl == '/nav') {
+      this.secondtitle = '首頁';
+      this.checkIsHome = true;
+    }//一層nav
+    else if (eventRouteurl == '/nav/reviewform') {
+      this.secondtitle = '表單審核';
+      this.checkIsOneNav = true;
+      this.checkIsHome = false;
+    }
+    else if (eventRouteurl == '/nav/CanapproviddayComponent') {
+      this.secondtitle = '請假簽核權限表';
+      this.checkIsOneNav = true;
+      this.checkIsHome = false;
+    }
+    else if (eventRouteurl == '/nav/EditCanapproviddayComponent') {
+      this.secondtitle = '核假標準';
+      this.checkIsOneNav = true;
+      this.checkIsHome = false;
+    }
+    else if (eventRouteurl == '/nav/reviewform/ReviewformDetailVacationComponent') {
+      this.secondtitle = '表單審核-請假單';
+      this.checkIsOneNav = true;
+      this.checkIsHome = false;
+    }
+    else if (eventRouteurl == '/nav/reviewform/ReviewformDetailDelformComponent') {
+      this.secondtitle = '表單審核-銷假單';
+      this.checkIsOneNav = true;
+      this.checkIsHome = false;
+    }
+    else if (eventRouteurl == '/nav/reviewform/ReviewformDetailChangeformComponent') {
+      this.secondtitle = '表單審核-調班單';
+      this.checkIsOneNav = true;
+      this.checkIsHome = false;
+    }
+    else if (eventRouteurl == '/nav/reviewform/ReviewformDetailForgetformComponent') {
+      this.secondtitle = '表單審核-考勤異常確認單';
+      this.checkIsOneNav = true;
+      this.checkIsHome = false;
+    }
+    else if (eventRouteurl == '/nav/NewsShowAllComponent') {
+      this.secondtitle = '近期公告';
+      this.checkIsOneNav = true;
+      this.checkIsHome = false;
+    }
+    else if (eventRouteurl.split('/')[2] == 'NewsShowDetailComponent') {
+      this.secondtitle = '近期公告';
+      this.checkIsOneNav = true;
+      this.checkIsHome = false;
+    }
+    else if (eventRouteurl == '/nav/NewsManageComponent') {
+      this.secondtitle = '近期公告管理';
+      this.checkIsOneNav = true;
+      this.checkIsHome = false;
+    }
+    else if (eventRouteurl == '/nav/NewsAddComponent') {
+      this.secondtitle = '新增近期公告';
+      this.checkIsOneNav = true;
+      this.checkIsHome = false;
+    }
+    else if (eventRouteurl.split('/')[2] == 'NewsDataEditComponent') {
+      this.secondtitle = '編輯近期公告';
+      this.checkIsOneNav = true;
+      this.checkIsHome = false;
+    }
+
+    else {
+      var oneurl = eventRouteurl.split('/nav/')[1]
+
+      for (let i = 0; i < this.two_nav.length; i++) {
+        this.checkIsOneNav = false;
+        this.minfirsttitle = this.two_nav[i].largetitle;
+        for (let j = 0; j < this.two_nav[i].site.length; j++) {
+          // console.log(oneurl)
+          if (oneurl == this.two_nav[i].site[j].routeurl) {
+            this.secondtitle = this.two_nav[i].site[j].title;
+            this.checkIsHome = false;
+          }
+        }
+      }//兩層nav
+      // for (let i = 0; i < this.three_nav.length; i++) {
+      //   for (let j = 0; j < this.three_nav[i].second.length; j++) {
+      //     for (let k = 0; k < this.three_nav[i].second[j].third.length; k++) {
+      //       if (eventRouteurl == this.three_nav[i].second[j].third[k].routeurl) {
+      //         this.secondtitle = this.three_nav[i].second[j].third[k].title;
+      //       }
+      //     }
+      //   }
+      // }//三層nav
+
+    }
+  }
+
+  signOut() {
+    // var _url = window.location.href
+    // var _arr = _url.split("/");
+    // var _result = _arr[0] + "//" + _arr[2]
+    // var _redirect_uri = _result+'/LoginComponent'
+
+    // var URL = ErrorPagePath+'?'
+    // URL += "redirect_uri="+_redirect_uri_LoginComponent;         // Redirection URI to which the response will be sent.
+    // window.location.href = URL;
+    // console.log(URL)
+
+    var URL = 'https://iam.china-airlines.com/pkmslogout'
+    window.location.href = URL;
+    localStorage.removeItem('FirstLoginUserID')
+    localStorage.removeItem('NowLoginUserID')
+    localStorage.removeItem('apiState')
+  }
+
+  //切換人員起
+  baseArray: baseArrayClass[] = []
+  searchVal: string;//搜尋條件
+  errorState = { show: false, errorString: '' }
+  api_sendEmpCode = '647156' //董事長工號
+  searchLoading = false
+  onSearchButton() {
+    // console.log(searchVal.length)
+    this.errorState.show = false;
+    this.baseArray = []
+    this.searchLoading = true
+    if (this.searchVal) {
+      if (this.searchVal.length >= 2) {
+        var GetDeptaByEmpClass: GetDeptaByEmpClass = {
+          EmpCode: this.api_sendEmpCode,
+          DeptID: 0,
+          Level: 9,
+          DeptNameKey: '',
+          EmpCodeOrNameKey: this.searchVal,
+          EffectDate: ''
+        }
+        this.GetApiDataServiceService.getWebApiData_GetDeptaByEmp(GetDeptaByEmpClass)
+          .pipe(takeWhile(() => this.api_subscribe))
+          .subscribe((x: any) => {
+            if (x.length > 0) {
+              this.pushBase(x);
+              this.searchLoading = false;
+            }
+          }, error => {
+            this.searchLoading = false;
+            this.errorState.show = true;
+          })
+      } else {
+        // alert('請輸入2個字元以上')
+        this.errorState.show = true;
+        this.errorState.errorString = '請輸入2個字元以上'
+        this.searchLoading = false
+      }
+    }
+    else {
+      // alert('請不要空白')
+      this.errorState.show = true;
+      this.errorState.errorString = '請不要空白'
+      this.searchLoading = false
+    }
+  }
+  pushBase(x) {
+    for (let i = 0; i < x.length; i++) {
+      if (x[i].Dept.length > 0) {
+        for (let k = 0; k < x[i].Dept.length; k++) {
+          if (x[i].Dept[k].Base.length > 0) {
+            for (let u = 0; u < x[i].Dept[k].Base.length; u++) {
+              if (x[i].Dept[k].Base[u].EmpNameC == null) {
+                this.baseArray.push({ Dept: x[i].Dept[k].DeptNameC, EmpCode: x[i].Dept[k].Base[u].EmpCode, EmpNameC: x[i].Dept[k].Base[u].EmpNameE })
+              } else {
+                if (x[i].Dept[k].Base[u].EmpNameC.length == 0) {
+                  this.baseArray.push({ Dept: x[i].Dept[k].DeptNameC, EmpCode: x[i].Dept[k].Base[u].EmpCode, EmpNameC: x[i].Dept[k].Base[u].EmpNameE })
+                } else {
+                  this.baseArray.push({ Dept: x[i].Dept[k].DeptNameC, EmpCode: x[i].Dept[k].Base[u].EmpCode, EmpNameC: x[i].Dept[k].Base[u].EmpNameC })
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  /**
+   * @todo 選擇部門後會把Serivce人員資料置換
+   * @param BaseInfoDetail 
+   */
+  onChangeDept(BaseInfoDetail: GetBaseInfoDetailClass) {
+    this.GetApiUserService.onChange(BaseInfoDetail)
+    // this.router.navigateByUrl('', { skipLocationChange: true }).then(() =>
+    // this.router.navigate(["nav/"]));
+  }
+
+  onSelectEmpClick(base: baseArrayClass) {
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(base.EmpCode)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (GetBaseInfoDetail: GetBaseInfoDetailClass[]) => {
+
+          this.GetApiUserService.onAllChange(GetBaseInfoDetail)
+          //選到切換人員的時候把所有資料都進到這，給後續切換部門用
+
+          for (let BaseInfoDetail of GetBaseInfoDetail) {
+            if (BaseInfoDetail.PosType == 'M') {
+              this.GetApiUserService.onChange(BaseInfoDetail)
+              localStorage.setItem('NowLoginUserID', BaseInfoDetail.EmpID)
+            }
+          }
+          this.router.navigateByUrl('', { skipLocationChange: true }).then(() =>
+            this.router.navigate(["nav/"]));
+          this.LoadingPage.hide()
+        }
+      )
+    $('#switchEmpDialog').modal('hide')
+
+  }
+  //切換人員尾
+}
+
+class baseArrayClass {
+  Dept: string
+  EmpCode: string
+  EmpNameC: string
+}
+
+
+
+
+
+
+
+

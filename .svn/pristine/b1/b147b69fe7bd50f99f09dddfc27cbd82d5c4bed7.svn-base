@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="網頁關鍵字">
+  <meta name="description" content="這裡是網頁的簡短描述">
+  <meta name="copyright" content="網頁版權">
+  <meta name="distribution" content="網頁發佈地區">
+  <title>CaPortal</title>
+
+  <base href="/EAM/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+
+
+var OAuthPath = 'https://iam.china-airlines.com/mga/sps/oauth/oauth20/authorize'
+
+
+    var ErrorPagePath = 'https://hdqhr05t/eepWebService/OAuth20/Error.aspx'
+
+    var _redirect_uri_LinkOuthpage = 'https://hdqhr05t/EAM/LinkOuthpageComponent'
+    var _redirect_uri_LoginComponent = 'https://hdqhr05t/EAM/LoginComponent'
+
+    var _apiPostURL = 'https://hdqhr05t/eepWebService/'
+  </script>
+<link rel="stylesheet" href="styles.32721c733936d32659a8.css"></head>
+
+<body class="fixed-header  fixed-main-nav  ">
+  <app-root></app-root>
+<script type="text/javascript" src="runtime.9c9802906bdbe2f01f6a.js"></script><script type="text/javascript" src="polyfills.bc1eaad4709fc51904b4.js"></script><script type="text/javascript" src="scripts.c67807771987a3a06144.js"></script><script type="text/javascript" src="main.773a7139ae1f100e472c.js"></script></body>
+
+</html>

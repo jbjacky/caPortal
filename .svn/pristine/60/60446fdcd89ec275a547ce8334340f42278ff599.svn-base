@@ -1,0 +1,134 @@
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { drawCalendarClass, SearchMan } from 'src/app/Models/CalendarClass';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-own-search-rote',
+  templateUrl: './own-search-rote.component.html',
+  styleUrls: ['./own-search-rote.component.css']
+})
+export class OwnSearchRoteComponent implements OnInit, AfterViewInit {
+  ngAfterViewInit(): void {
+    var currentYear = new Date().getFullYear();
+    $("#id_bt_startday").change(function () {
+      $("#id_ipt_startday").val($("#id_bt_startday").val())
+    });
+    $('#id_bt_startday').dateDropper({
+      format: "Y/m",
+      lang: 'zh',
+      large: false,
+      minYear: currentYear - 1,
+      maxYear: currentYear + 1,
+      large_class: 'picker-lg',
+      bt_large: false,
+    });
+  }
+
+  MonthMask(): {
+    mask: Array<string | RegExp>;
+    keepCharPositions: boolean;
+  } {
+    return {
+      mask: [/[2]/, /[0]/, /\d/, /\d/, '/', /[0-1]/, /\d/],
+      keepCharPositions: true,
+    };
+  }
+  constructor(private GetApiUserService: GetApiUserService) { }
+  ngOnInit() {
+
+    this.GetApiUserService.counter$.subscribe(
+      x => {
+        this.SearchMan.jobID = x.EmpCode
+        if (x.EmpNameC) {
+          this.SearchMan.name = x.EmpNameC;
+        } else {
+          this.SearchMan.name = x.EmpNameE;
+        }
+      })
+    var drawCalendar = {
+      Year: '',
+      Month: '',
+      dateworks: []
+    }
+    this.Be_RoteApiData$.next(drawCalendar)
+  }
+
+  SearchMan: SearchMan = { jobID: '', name: '' }
+  private Be_RoteApiData$: BehaviorSubject<any> = new BehaviorSubject<any>(0);
+  Ob_RoteApiData$: Observable<any> = this.Be_RoteApiData$;
+
+  search() {
+    var checkYear = $('#id_ipt_startday').val().split('/')[0];
+    var checkMonth = $('#id_ipt_startday').val().split('/')[1];
+
+    // var d = new Date(checkYear, checkMonth, 0);
+    // alert(d); 該月的最後一天 
+
+    var drawCalendar: drawCalendarClass = {
+      Year: checkYear,
+      Month: checkMonth,
+      dateworks: [{
+        daytext: '2019/01/05',
+        showText: '',
+        routeName: '1205ABC',
+        onTime: '1205',
+        offTime: '1700',
+        isVa: false,
+        isAtterror: true
+      }, {
+        daytext: '2019/01/08',
+        showText: '',
+        routeName: '1201ABC',
+        onTime: '1201',
+        offTime: '1700',
+        isVa: true,
+        isAtterror: false
+      }, {
+        daytext: '2019/01/10',
+        showText: '',
+        routeName: '1201ABC',
+        onTime: '1201',
+        offTime: '1700',
+        isVa: false,
+        isAtterror: false
+      }, {
+        daytext: '2019/01/16',
+        showText: '',
+        routeName: '1201ABC',
+        onTime: '1201',
+        offTime: '1700',
+        isVa: true,
+        isAtterror: true
+      },{
+        daytext: '2019/01/25',
+        showText: '',
+        routeName: '1201ABC',
+        onTime: '1201',
+        offTime: '1700',
+        isVa: true,
+        isAtterror: false
+      }, {
+        daytext: '2019/01/21',
+        showText: '',
+        routeName: '1220_ABC',
+        onTime: '1220',
+        offTime: '1700',
+        isVa: false,
+        isAtterror: true
+      }, {
+        daytext: '2019/01/27',
+        showText: '',
+        routeName: '1227ABC',
+        onTime: '1227',
+        offTime: '1700',
+        isVa: true,
+        isAtterror: true
+      }],
+      SearchMan: this.SearchMan
+    }
+    this.Be_RoteApiData$.next(drawCalendar)
+  }
+
+}

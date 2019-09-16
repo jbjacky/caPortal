@@ -1,0 +1,90 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div style="
+    display: flex;
+    justify-content: space-between;">
+      <div style="text-align: left">
+        <span>搜尋：</span>
+        <mat-form-field>
+          <input matInput #filter placeholder="">
+        </mat-form-field>
+      </div>
+      <div style="text-align: right;
+      padding-top: 1.25em;">
+        <button (click)="newEditorClick()">
+          新增公告
+        </button>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table id="NewsTable" mat-table matSort #sortTable="matSort" [dataSource]="dataSource"
+        class="table table-bordered table-striped table-hover table-content-center table-style01">
+
+        <ng-container matColumnDef="ShowNewsHead">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> 標題 </th>
+          <td mat-cell *matCellDef="let element" style="text-align: left;"> {{element.ShowNewsHead}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="PostDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> 公告日期 </th>
+          <td mat-cell *matCellDef="let element"> {{element.PostDate}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="PostDeadline">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> 失效日期 </th>
+          <td mat-cell *matCellDef="let element"> {{element.PostDeadline}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Sort">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> 排序 </th>
+          <td mat-cell *matCellDef="let element"> {{element.Sort}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="KeyMan">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> 更新人員 </th>
+          <td mat-cell *matCellDef="let element"> {{element.KeyMan}} </td>
+        </ng-container>
+        <ng-container matColumnDef="UpdateDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> 更新時間 </th>
+          <td mat-cell *matCellDef="let element"> {{element.UpdateDate}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="NewsID">
+          <th mat-header-cell *matHeaderCellDef> 功能 </th>
+          <td mat-cell *matCellDef="let element">
+            <a (click)="editButtonClick(element.NewsID)" style="cursor: pointer;margin: 0px 5px">編輯</a>
+            <a (click)="delButtonClick(element.NewsID)" style="cursor: pointer;margin: 0px 5px">刪除</a>
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator #paginator [length]="totalCount" [pageIndex]="0" [pageSize]="10" [hidePageSize]="true">
+      </mat-paginator>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="delNews_checksenddialog" tabindex="-1" role="dialog">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" style="text-align: center">確認刪除?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delOneNewsData()">刪除</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog確認刪除 -->

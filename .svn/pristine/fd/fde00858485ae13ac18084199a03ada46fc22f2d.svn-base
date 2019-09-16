@@ -1,0 +1,42 @@
+// 記得上web.config
+// login url要改
+
+
+    // var OAuthPath = 'https://192.168.1.46/OAuth20/authorize.aspx'
+    // var ErrorPagePath = 'https://192.168.1.46/OAuth20/Error.aspx'
+
+    // var _redirect_uri_LinkOuthpage = 'https://192.168.1.46/EAM/LinkOuthpageComponent'
+    // var _redirect_uri_LoginComponent = 'https://192.168.1.46/EAM/LoginComponent'
+
+    // var apiPostURL = 'https://192.168.1.46/eepWebService/'
+
+    //上46
+
+
+
+
+
+
+
+    // var OAuthPath = 'https://iam.china-airlines.com/mga/sps/oauth/oauth20/authorize'
+
+    
+    // var ErrorPagePath = 'https://hdqhr05t/eepWebService/OAuth20/Error.aspx'
+
+    // var _redirect_uri_LinkOuthpage = 'https://hdqhr05t/EAM/LinkOuthpageComponent'
+    // var _redirect_uri_LoginComponent = 'https://hdqhr05t/EAM/LoginComponent'
+
+    // var apiPostURL = 'https://hdqhr05t/eepWebService/'
+
+    //上華航
+
+
+
+    // var OAuthPath = 'https://192.168.1.46/OAuth20/authorize.aspx'
+    // var ErrorPagePath = 'https://192.168.1.46/OAuth20/Error.aspx'
+    
+    // var _redirect_uri_LinkOuthpage = 'http://localhost:4200/LinkOuthpageComponent'
+    // var _redirect_uri_LoginComponent = 'http://localhost:4200/LoginComponent'
+
+    // var apiPostURL = 'https://192.168.1.46/eepWebService/'
+    // 本機

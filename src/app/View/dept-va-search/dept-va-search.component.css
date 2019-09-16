@@ -1,0 +1,16 @@
+.P_Right{
+    padding-left: 0px;
+    text-align: right;
+}
+.P_fullwidth{
+     width:300px
+}
+@media screen and (max-width:992px) {
+    .P_Right{
+        padding-left: 15px;
+        text-align: left;
+    }
+    .P_fullwidth{
+         width:100%
+    }
+}

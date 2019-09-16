@@ -1,0 +1,202 @@
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { showFlowView } from '../../search-form/search-form.component';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { formatDateTime, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { GetAttendExceptionalClass } from 'src/app/Models/PostData_API_Class/GetAttendExceptionalClass';
+import { void_completionTenNum } from 'src/app/UseVoid/void_CompletionTenNum';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { takeWhile } from 'rxjs/operators';
+import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-search-forget-form',
+  templateUrl: './search-forget-form.component.html',
+  styleUrls: ['./search-forget-form.component.css']
+})
+export class SearchForgetFormComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+
+  @Input() getForgetData: showFlowView[]
+  forgetSearchFlowSign: forgetSearchFlowSignClass[] = []
+
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private LoadingPage: NgxSpinnerService,
+    private GetApiUserService: GetApiUserService) { }
+  SearchMan = { EmpCode: '', EmpNameC: '' }
+
+  ngOnInit() {
+    this.GetApiUserService.counter$
+      .subscribe(
+        x => {
+          this.SearchMan.EmpCode = x.EmpID
+          this.SearchMan.EmpNameC = x.EmpNameC
+        }
+      )
+    for (let forget_FlowSign of this.getForgetData) {
+      this.GetApiDataServiceService.getWebApiData_GetCardFlowAppsByProcessFlowID(forget_FlowSign.ProcessFlowID, true)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          x => {
+            var GetAttendExceptional: GetAttendExceptionalClass = {
+              DateB: formatDateTime(x[0].DateB).getDate,
+              DateE: formatDateTime(x[0].DateB).getDate,
+              ListEmpID: [forget_FlowSign.AppEmpID]
+            }
+            this.GetApiDataServiceService.getWebApiData_GetAttendExceptional(GetAttendExceptional)
+              .pipe(takeWhile(() => this.api_subscribe))
+              .subscribe(
+                (y: any) => {
+                  var errorString = ''
+                  if (y[0].LateMins > 0) {
+                    errorString = '遲到'
+                  } else if (y[0].EarlyMins > 0) {
+                    errorString = '早退'
+                  } else if (y[0].IsAbsent) {
+                    errorString = '未刷卡'
+                  }
+
+                  var _ActualRote_calCrossDay: boolean = void_crossDay(y[0].ActualRote.OffTime).isCrossDay
+                  var _AttendCard_calCrossDay: boolean = void_crossDay(x[0].TimeE).isCrossDay
+                  var _WriteRote_calCrossDay: boolean = void_crossDay(formatDateTime(x[0].DateTimeE).getTime).isCrossDay
+
+                  var _RoteTimeE = void_crossDay(y[0].ActualRote.OffTime).EndTime
+                  var _writeTimeE = void_crossDay(formatDateTime(x[0].DateTimeE).getTime).EndTime
+                  var _cardTimeE = void_crossDay(x[0].TimeE).EndTime
+
+                  this.forgetSearchFlowSign.push({
+
+                    ProcessFlowID: forget_FlowSign.ProcessFlowID,
+                    showProcessFlowID: void_completionTenNum(forget_FlowSign.ProcessFlowID),
+                    EmpCode: forget_FlowSign.AppEmpID,
+                    EmpNameC: forget_FlowSign.AppEmpName,
+                    AppDeptName: forget_FlowSign.AppDeptName,
+                    State: forget_FlowSign.State,
+                    ManageEmpName: forget_FlowSign.ManageEmpName,
+                    Take: forget_FlowSign.Take,
+
+                    DateB: y[0].AttendDate ? formatDateTime(y[0].AttendDate).getDate : null,
+                    RouteCode: y[0].ActualRote.RoteCode,
+                    isForgetCard: y[0].IsAbsent,
+                    isEarlyMins: y[0].EarlyMins > 0 ? true : false,
+                    isLateMins: y[0].LateMins > 0 ? true : false,
+
+
+                    RoteTimeB: y[0].ActualRote.OnTime ? getapi_formatTimetoString(y[0].ActualRote.OnTime) : null,
+                    RoteTimeE: getapi_formatTimetoString(_RoteTimeE),
+
+                    writeDateB: x[0].DateTimeB ? formatDateTime(x[0].DateTimeB).getDate.toString() : null,
+                    writeTimeB: x[0].DateTimeB ? getapi_formatTimetoString(formatDateTime(x[0].DateTimeB).getTime.toString()) : null,
+                    writeDateE: x[0].DateTimeE ? formatDateTime(x[0].DateTimeE).getDate.toString() : null,
+                    writeTimeE: getapi_formatTimetoString(_writeTimeE),
+                    cardTimeB: x[0].TimeB ? getapi_formatTimetoString(x[0].TimeB) : null,
+                    cardTimeE: getapi_formatTimetoString(_cardTimeE),
+                    CauseID1: x[0].CauseID1,
+                    CauseName1: x[0].CauseName1,
+                    Note: x[0].Note,
+                    UploadFile: x[0].UploadFile,
+                    ActualRote_calCrossDay: _ActualRote_calCrossDay,
+                    AttendCard_calCrossDay: _AttendCard_calCrossDay,
+                    WriteRote_calCrossDay: _WriteRote_calCrossDay
+                  })
+                  this.forgetSearchFlowSign.sort(function(start, end) {
+                    return end.ProcessFlowID - start.ProcessFlowID ;
+                  });
+                }
+              )
+          }
+        )
+    }
+  }
+
+  showForgetDataDetail: boolean = false  // 顯示明細
+  @Output() gotoShowFormPlace: EventEmitter<number> = new EventEmitter<number>();
+  setToNextForgetDataTitle: forgetSearchFlowSignClass //給明細用的title資料
+  nextShowDetail(setToNextForgetDataTitle: forgetSearchFlowSignClass) {
+
+    // console.log(setToNextVaDataTitle)
+
+    this.gotoShowFormPlace.emit();
+
+    this.showForgetDataDetail = true
+    this.setToNextForgetDataTitle = setToNextForgetDataTitle
+  }
+
+  onGoBackFunction() {
+    this.showForgetDataDetail = false
+    this.gotoShowFormPlace.emit();
+    // window.scroll(0, 0);
+    //回列表
+  }
+
+  takeForm: any
+  /**
+   * @todo 抽單
+   */
+  Cancelform_Click() {
+    // console.log(this.SearchMan.EmpCode)
+    // console.log(this.takeForm.ProcessFlowID)
+    var ListProcessFlowID = this.takeForm.ProcessFlowID
+    this.LoadingPage.show()
+
+    this.GetApiDataServiceService.getWebApiData_TakeSetFlowState(this.SearchMan.EmpCode, ListProcessFlowID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        x => {
+          if (x) {
+            // this.forgetSearchFlowSign.splice(this.forgetSearchFlowSign.indexOf(this.takeForm), 1)
+            this.forgetSearchFlowSign[this.forgetSearchFlowSign.indexOf(this.takeForm)].State = '7'
+            this.forgetSearchFlowSign[this.forgetSearchFlowSign.indexOf(this.takeForm)].Take =false
+            $('#sussesdialog').modal('show')
+          }
+          this.LoadingPage.hide()
+        },
+        error => {
+          this.LoadingPage.hide()
+          alert('與api連線異常，getWebApiData_TakeSetFlowState')
+        }
+      )
+  }
+}
+export class forgetSearchFlowSignClass {
+  ProcessFlowID: number
+  showProcessFlowID: number
+  EmpCode: string
+  EmpNameC: string
+  AppDeptName: string
+  State: string
+  ManageEmpName: string
+  Take: boolean
+
+  DateB: string
+  RouteCode: string
+  isForgetCard: boolean
+  isEarlyMins: boolean
+  isLateMins: boolean
+
+  RoteTimeB: string
+  RoteTimeE: string
+
+  writeDateB: string
+  writeTimeB: string
+  writeDateE: string
+  writeTimeE: string
+  cardTimeB: string
+  cardTimeE: string
+  CauseID1: string
+  CauseName1: string
+  Note: string
+
+  ActualRote_calCrossDay: boolean
+  AttendCard_calCrossDay: boolean
+  WriteRote_calCrossDay: boolean
+  UploadFile: any
+}

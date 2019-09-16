@@ -1,0 +1,187 @@
+<div class="a-block" *ngIf="isdesktop">
+  <div class="a-block-body  a-block-container">
+    <div style="background-color: #fafafa;width: 100%;border:1px solid #cccccc;padding: 10px 15px;margin-bottom: 30px;">
+      <div style="display: inline-block;padding-top: 5px;">
+        目前審核身份：
+        <span style="color:#028fcf;font-size: 18px">李大仁</span>
+      </div>
+
+      <div style="float: right">
+        <span style="display: inline-block;">切換審核身份：</span>
+        <select class="form-control" style="width: 200px;display: inline-block;">
+          <option>李大仁(173)</option>
+        </select>
+      </div>
+    </div>
+    <ul class="nav nav-tabs" style="margin-bottom: 20px">
+      <li class="active" style="width: 25%;text-align: center">
+        <a data-toggle="tab" href="#vaform" style="text-decoration: none;">請假單
+          <span class="badge" style="background-color:#4a90e2;    padding: 5px 8px;
+          font-size: 10px;border-radius: 13px;
+          margin-bottom: 6px;">{{allvaformpeoele.length}}</span>
+        </a>
+      </li>
+      <li style="width: 25%;text-align: center">
+        <a data-toggle="tab" href="#delform" style="text-decoration: none;">銷假單
+          <span class="badge" style="background-color:#4a90e2;    padding: 5px 8px;
+          font-size: 10px;border-radius: 13px;
+          margin-bottom: 6px;">{{allvaformpeoele.length}}</span>
+        </a>
+      </li>
+      <li style="width: 25%;text-align: center">
+        <a data-toggle="tab" href="#changeform" style="text-decoration: none;">調班單
+          <span class="badge" style="background-color:#4a90e2;    padding: 5px 8px;
+          font-size: 10px;border-radius: 13px;
+          margin-bottom: 6px;">{{allvaformpeoele.length}}</span>
+        </a>
+      </li>
+      <li style="width: 25%;text-align: center">
+        <a data-toggle="tab" href="#forgetform" style="text-decoration: none;">考勤異常簽認單
+          <span class="badge" style="background-color:#4a90e2;    padding: 5px 8px;
+          font-size: 10px;border-radius: 13px;
+          margin-bottom: 6px;">{{allvaformpeoele.length}}</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div id="vaform" class="tab-pane in active">
+
+        <div class="panel-group" id="va_accordion">
+
+          <div class="row" style="margin: 0px;background-color: #eef6f9;border-top:1px solid #c9c9c9;padding: 5px 0px">
+            <div class="col-md-4" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>審核</span>
+            </div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">申請人</div>
+            <div class="col-md-4" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
+            <div class="col-md-2" style="text-align: center">明細</div>
+          </div>
+          <div *ngFor="let allvaformpeoele of allvaformpeoele | 
+              slice: pagechange.lowValue : pagechange.highValue" class="Atooltips">
+            <div style="padding-top: 20px;border: 1px solid #c9c9c9;margin-bottom: 20px;padding-bottom: 10px;">
+                <div class="row" style="margin: 0px">
+                  <div class="col-md-4 BtAll_Review">
+                    <div  style="display: inline-block;margin-right: 10px;margin-bottom: 5px;">
+                      <button *ngIf="allvaformpeoele.sendstate==1 || allvaformpeoele.sendstate==2" class="btn btn-primary btn-sm" data-toggle="modal"
+                        data-target="#checksenddialog" (click)="changesendsuesstext('表單核准')" style="padding: 5px 15px;">
+                        核准
+                      </button>
+                      <div  *ngIf="allvaformpeoele.sendstate==0" matTooltip="沒有核准權限" matTooltipPosition="below">
+                        <button class="btn btn-primary btn-sm" style="padding: 5px 15px;" disabled>
+                          核准
+                        </button>
+                      </div>
+                    </div>
+                    <div  style="display: inline-block;margin-right: 10px;margin-bottom: 5px;">
+                      <button class="btn btn-info btn-sm" style="padding: 5px 15px;" data-toggle="modal" data-target="#checksenddialog" (click)="changesendsuesstext('表單退回')"
+                        style="padding: 5px 15px;">
+                        退回
+                      </button>
+                    </div>
+                    <div  style="display: inline-block;;margin-bottom: 5px;">
+                      <button *ngIf="allvaformpeoele.sendstate==0 || allvaformpeoele.sendstate==2" class="btn btn-info btn-sm" style="padding: 5px 15px;" data-toggle="modal" data-target="#checksenddialog" (click)="changesendsuesstext('表單呈核')">
+                        呈核
+                      </button>
+                      <div *ngIf="allvaformpeoele.sendstate==1" matTooltip="沒有呈核權限" matTooltipPosition="below">
+                        <button class="btn btn-info btn-sm" style="padding: 5px 15px;" disabled>
+                          呈核
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-2" style="margin-bottom: 5px;padding-top: 15px;">
+                    <div style="margin-bottom: 5px">
+                      {{allvaformpeoele.jobnumber}} {{allvaformpeoele.name}}
+                    </div>
+                  </div>
+                  <div class="col-md-4" style="margin-bottom: 5px;padding: 0px">
+                    <div>
+                      <div >
+                        <span style="font-weight: bold;">請假起始日：</span>{{allvaformpeoele.startdate}}  <br class="D_br"/> <span style="font-weight: bold;">請假結束日：</span>{{allvaformpeoele.enddate}}
+                      </div>
+                      <div >
+                          共計
+                          <span style="color:#d0021b;font-weight: bold;">1</span> 日
+                          <span style="color:#d0021b;font-weight: bold;">0</span> 時
+                          <span style="color:#d0021b;font-weight: bold;">00</span> 分
+                          (合有 2 個差假時段)
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2" style="text-align: center;padding-top: 15px;">
+                    <a style="cursor: pointer;" routerLink="/reviewform/reviewformdetailvacation" >
+                      檢視
+                      <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);"/>
+                    </a>
+
+                  </div>
+                </div>
+            </div>
+
+            <div class="tooltiptext">
+                  {{showJson(allvaformpeoele)}}
+            </div>
+          
+          </div>
+          <mat-paginator [length]="allvaformpeoele.length" [pageSize]="pagechange.pageSize" (page)="pagechange.pageEvent = pagechange.getPaginatorData($event)" [hidePageSize]="true">
+          </mat-paginator>
+        </div>
+
+      </div>
+      <!-- 請假單tab -->
+    </div>
+
+  </div>
+</div>
+
+<div class="modal" id="upsendvaformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel">呈核</h4>
+        </div>
+        <div class="modal-body">
+          <div style="margin-bottom: 10px">
+            選擇呈核層級:
+            <select class="form-control">
+              <option>董事長</option>
+              <option>總經理</option>
+              <option>經理</option>
+              <option>副理</option>
+              <option>一級正</option>
+              <option>二級正</option>
+              <option>三級正</option>
+              <option>一級副</option>
+              <option>二級副</option>
+              <option>三級副</option>
+            </select>
+          </div>
+          <div style="margin-bottom: 10px">
+            選擇呈核對象:
+            <select class="form-control">
+              <option>蕭欣欣</option>
+              <option>劉姍姍</option>
+              <option>呂旻民</option>
+            </select>
+          </div>
+          <div style="margin-bottom: 10px">
+            填寫呈核意見:
+            <textarea class="inputTextarea"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#checksenddialog" >送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog呈核(請假單) -->

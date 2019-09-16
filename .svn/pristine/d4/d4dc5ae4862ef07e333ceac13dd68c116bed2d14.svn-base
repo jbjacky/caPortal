@@ -1,0 +1,199 @@
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+declare let $: any; //use jquery
+import { chinesenum } from 'src/app/UseVoid/void_chinesenumber'
+import { GetAttendInfoClass } from 'src/app/Models/PostData_API_Class/GetAttendInfoClass';
+import { doFormatDate, timeZone_tw } from 'src/app/UseVoid/void_doFormatDate';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Attendance } from 'src/app/Models/Attendance';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+
+@Component({
+  selector: 'app-own-search',
+  templateUrl: './own-search.component.html',
+  styleUrls: ['./own-search.component.css'],
+  providers: [GetAttendInfoClass, Attendance]
+
+})
+export class OwnSearchComponent implements OnInit, AfterViewInit {
+  ngAfterViewInit(): void {
+    var currentYear = new Date().getFullYear();
+    $('#id_bt_startday').dateDropper({
+      format: "Y/m/d",
+      lang: 'zh',
+      large: true,
+      minYear: currentYear - 1,
+      maxYear: currentYear + 1,
+      large_class: 'picker-lg',
+      bt_large: false
+    });
+    $('#id_bt_endday').dateDropper({
+      format: "Y/m/d",
+      lang: 'zh',
+      large: true,
+      minYear: currentYear - 1,
+      maxYear: currentYear + 1,
+      large_class: 'picker-lg',
+      bt_large: false
+    });
+    $("#id_bt_startday").change(function () {
+      $("#id_ipt_startday").val($("#id_bt_startday").val())
+      $("#id_ipt_endday").val($("#id_bt_startday").val())
+    });
+    $("#id_bt_endday").change(function () {
+      $("#id_ipt_endday").val($("#id_bt_endday").val())
+    });
+
+    
+  }
+
+  showSearchCheckbok = false;
+  EmpBase = { EmpCode: '', Name: '' };
+  LateMins = true; //遲到
+  EarlyMins = true; //早退
+  IsAbsent = true; //未刷卡
+
+  errorStartDateState = { state: false, errorString: '' }
+  errorEndtDateState = { state: false, errorString: '' }
+
+  constructor(private GetApiUserService: GetApiUserService,
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private GetAttendInfoClass: GetAttendInfoClass) { }
+
+  ngOnInit() {
+    this.GetApiUserService.counter$.subscribe(
+      x => {
+        this.EmpBase.EmpCode = x.EmpCode
+        if (x.EmpNameC) {
+          this.EmpBase.Name = x.EmpNameC;
+        } else {
+          this.EmpBase.Name = x.EmpNameE;
+        }
+      })
+      var dateS = new Date()
+      var dateE = new Date()
+      // console.log(dateS.getUTCDate())
+      dateS.setDate(dateS.getDate()-3)
+      dateE.setDate(dateE.getDate()+3)
+
+      $("#id_ipt_startday").val(doFormatDate(dateS)) 
+      $("#id_ipt_endday").val(doFormatDate(dateE)) 
+  }
+
+  onSearchChange(event) {
+    if (event.target.value == '全部') {
+      this.showSearchCheckbok = false;
+    } else if (event.target.value == '正常出勤') {
+      this.showSearchCheckbok = false;
+    } else if (event.target.value == '異常出勤') {
+      this.showSearchCheckbok = true;
+    }
+  }
+
+  blurStartDate() {
+    if (!($("#id_ipt_startday").val())) {
+      $("#id_ipt_startday").addClass("errorInput");
+      this.errorStartDateState = { state: true, errorString: '請填寫起始日期' }
+      return true
+    } else {
+      var startdate = new Date($("#id_ipt_startday").val())
+      var enddate = new Date($("#id_ipt_endday").val())
+      if (startdate > enddate) {
+        $("#id_ipt_startday").addClass("errorInput");
+        this.errorStartDateState = { state: true, errorString: '起始日期不能大於結束日期' }
+        return true
+      }else{
+        $("#id_ipt_startday").removeClass("errorInput");
+        this.errorStartDateState = { state: false, errorString: '' }
+        return false
+      }
+    }
+  }
+  blurEndDate() {
+    if (!($("#id_ipt_endday").val())) {
+      $("#id_ipt_endday").addClass("errorInput");
+      this.errorEndtDateState = { state: true, errorString: '請填寫結束日期' }
+      return true
+    } else {
+      $("#id_ipt_endday").removeClass("errorInput");
+      this.errorEndtDateState = { state: false, errorString: '' }
+      return false
+    }
+  }
+
+  AttendanceApiData: Array<Attendance> = new Array<Attendance>();
+  private Be_AttendanceApiData$: BehaviorSubject<any> = new BehaviorSubject<any>(0);
+  Ob_AttendanceApiData$: Observable<any> = this.Be_AttendanceApiData$;
+  onSearchClick() {
+    if (this.blurStartDate() || this.blurEndDate()) {
+
+    } else {
+      this.Be_AttendanceApiData$.next([])
+      var ipt_ListEmpID = [this.EmpBase.EmpCode]
+      var ipt_DateB = $("#id_ipt_startday").val()
+      var ipt_DateE = $("#id_ipt_endday").val()
+      var selectDisplay
+      var checkListState = []
+      if ($("#selectDisplay").val() == '全部') {
+        selectDisplay = '1'
+        checkListState = []
+      } else if ($("#selectDisplay").val() == '正常出勤') {
+        selectDisplay = '2'
+        checkListState = []
+      } else if ($("#selectDisplay").val() == '異常出勤') {
+        selectDisplay = '3'
+        if (this.LateMins) {//遲到
+          checkListState.push('2')
+        }
+        if (this.EarlyMins) {//早退
+          checkListState.push('1')
+        }
+        if (this.IsAbsent) {//未刷卡
+          checkListState.push('3')
+        }
+      }
+
+      // this.GetAttendInfoClass = { DateB: "2018/8/1", DateE: "2018/8/10", ListEmpID: ["051005"], EffectDate: "", Display: "1", ListState: ["1", "2", "3"] }
+      // //顯示所有
+      // this.GetAttendInfoClass = { DateB: "2018/8/1", DateE: "2018/8/10", ListEmpID: ["051005"], EffectDate: "", Display: "3", ListState: ["3"] }
+      // //只顯示異常且未刷卡
+      // this.GetAttendInfoClass = { DateB: "2018/8/1", DateE: "2018/8/10", ListEmpID: ["051005"], EffectDate: "", Display: "2", ListState: [""] }
+      // //只顯示正常
+      // this.GetAttendInfoClass = { DateB: "2018/8/1", DateE: "2018/8/10", ListEmpID: ["051005"], EffectDate: "", Display: "3", ListState: ["1", "2", "3"] }
+      // //只顯示異常
+      this.GetAttendInfoClass = { DateB: ipt_DateB, DateE: ipt_DateE, ListEmpID: ipt_ListEmpID, EffectDate: "", Display: selectDisplay, ListState: checkListState }
+
+
+      this.GetApiDataServiceService.getWebApiData_GetAttendInfo(this.GetAttendInfoClass).subscribe(
+        (x: any) => {
+          for (let i = 0; i < x.length; i++) {
+            if (x[i].AttendAbsInfo) {
+              x[i].AttendAbsInfo = true
+            } else {
+              x[i].AttendAbsInfo = false
+            }
+          }
+          this.AttendanceApiData = x;
+          // for(let i = 0 ; i<this.AttendanceApiData.length; i++){
+          //   this.AttendanceApiData[i].AttendDate = new Date(this.AttendanceApiData[i].AttendDate).toString()
+          // }
+          for (let i = 0; i < this.AttendanceApiData.length; i++) {
+            var date = new Date(this.AttendanceApiData[i].AttendDate)
+            this.AttendanceApiData[i].AttendDate = doFormatDate(timeZone_tw(date))
+            if (date.getDay() == 0) {
+              this.AttendanceApiData[i].DayOfweek = '日'
+            } else {
+              this.AttendanceApiData[i].DayOfweek = chinesenum(date.getDay())
+            }
+          }
+          this.Be_AttendanceApiData$.next(this.AttendanceApiData)
+
+        }
+      )
+    }
+  }
+
+
+}
+
+

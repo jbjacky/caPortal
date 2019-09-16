@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="網頁關鍵字">
+  <meta name="description" content="這裡是網頁的簡短描述">
+  <meta name="copyright" content="網頁版權">
+  <meta name="distribution" content="網頁發佈地區">
+  <title>CaPortal</title>
+
+  <base href="/EAM/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+var apiPostURL ='http://hdqhr05t/eepWebService/'
+  </script>
+<link rel="stylesheet" href="styles.03582a302784fee25fbe.css"></head>
+
+<body class="fixed-header  fixed-main-nav  ">
+  <app-root></app-root>
+<script type="text/javascript" src="runtime.73fb9ed6711750ed5f42.js"></script><script type="text/javascript" src="polyfills.6136bbb7db992ed1216f.js"></script><script type="text/javascript" src="scripts.c01f92a6b23456408d6e.js"></script><script type="text/javascript" src="main.142a57c55719ed70eb75.js"></script></body>
+</html>

@@ -1,0 +1,250 @@
+import { Component, OnInit } from '@angular/core';
+import { pagechange } from 'src/app/Models/pagechange';
+import { GetFlowSignRoleClass } from 'src/app/Models/GetFlowSignRoleClass'
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+// import { ThrowStmt } from '@angular/compiler';
+@Component({
+  selector: 'app-reviewform-desktop',
+  templateUrl: './reviewform-desktop.component.html',
+  styleUrls: ['./reviewform-desktop.component.css'],
+  providers: [GetFlowSignRoleClass]
+})
+export class ReviewformDesktopComponent implements OnInit {
+  SendSussesText='批次核准成功!';
+  pagechange:pagechange;//頁面切換按鈕動作
+  isdesktop :boolean = true;
+  
+  showJson(a){
+    var aq = JSON.stringify(a);
+    return aq
+  }
+  changesendsuesstext(e){
+    this.SendSussesText = e ;
+  }
+  routerlink='/testcheckform';
+  constructor(private GetApiDataServiceService:GetApiDataServiceService,
+    private GetFlowSignRoleClass:GetFlowSignRoleClass) { }
+
+  ngOnInit() {
+    this.pagechange = new pagechange();
+    this.GetFlowSignRoleClass = {
+      SignEmpID:'642288',
+      SignRoleID:'',
+      RealSignEmpID:'',
+      RealSignRoleID:'',
+      FlowTreeID:'',
+      SignDate:''
+    }
+    
+    this.GetApiDataServiceService.getWebApiData_GetFlowSignRole(this.GetFlowSignRoleClass)
+    .subscribe((x:any)=>{
+      console.log(x)
+
+    })
+     
+  }
+
+  //0-呈核，1-核准，2-呈核&核准
+  allvaformpeoele: vaform[] = [
+    {
+      id: 1,
+      jobnumber: '612341',
+      name: '張大名',
+      division: '資訊管理處/計劃發展部',
+      startdate: '2018/08/01',
+      starttime: '08:30',
+      enddate: '2018/08/02',
+      endtime: '20:30',
+      category: '事假',
+      cause: '請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因請假原因',
+      message: [
+          { man_name: '一級主管/李小龍',
+            man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明',
+            man_time:'2018/08/03' 
+          },
+          {
+            man_name: '二級主管/姚蓮舟',
+            man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈',
+            man_time:'2018/08/03' 
+          }
+      ],
+      sendstate: 2,
+      checkedstate: false
+    },
+    {
+      id: 2,
+      jobnumber: '123213',
+      name: '陳小一',
+      division: '修復工廠/物料採購部',
+      startdate: '2018/08/19',
+      starttime: '08:30',
+      enddate: '2018/08/20',
+      endtime: '20:30',
+      category: '特休',
+      cause: '請假原因',
+      message: [
+        { man_name: '一級主管/李小龍',
+          man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明',
+          man_time:'2018/08/03' 
+        },
+        {
+          man_name: '二級主管/姚蓮舟',
+          man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈',
+          man_time:'2018/08/03' 
+        }
+    ],
+      sendstate: 0,
+      checkedstate: false
+    },
+    {
+      id: 3,
+      jobnumber: '223213',
+      name: '陳小二',
+      division: '資訊管理處/計劃發展部',
+      startdate: '2018/08/19',
+      starttime: '08:30',
+      enddate: '2018/08/20',
+      endtime: '20:30',
+      category: '家庭照顧假',
+      cause: '請假原因',
+      message: [
+        { man_name: '一級主管/李小龍',
+          man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明',
+          man_time:'2018/08/03' 
+        },
+        {
+          man_name: '二級主管/姚蓮舟',
+          man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈',
+          man_time:'2018/08/03' 
+        }
+    ],
+      sendstate: 1,
+      checkedstate: false
+    },
+    {
+      id: 4,
+      jobnumber: '323213',
+      name: '陳小三',
+      division: '資訊管理處/計劃發展部',
+      startdate: '2018/08/19',
+      starttime: '08:30',
+      enddate: '2018/08/20',
+      endtime: '20:30',
+      category: '產假',
+      cause: '請假原因',
+      message: [
+        { man_name: '一級主管/李小龍',
+          man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明',
+          man_time:'2018/08/03' 
+        },
+        {
+          man_name: '二級主管/姚蓮舟',
+          man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈',
+          man_time:'2018/08/03' 
+        }
+    ],
+      sendstate: 2,
+      checkedstate: false
+    },
+    {
+      id: 5,
+      jobnumber: '423213',
+      name: '陳小四',
+      division: '資訊管理處/計劃發展部',
+      startdate: '2018/08/19',
+      starttime: '08:30',
+      enddate: '2018/08/20',
+      endtime: '20:30',
+      category: '病假',
+      cause: '請假原因',
+      message: [
+        { man_name: '一級主管/李小龍',
+          man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明',
+          man_time:'2018/08/03' 
+        },
+        {
+          man_name: '二級主管/姚蓮舟',
+          man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈',
+          man_time:'2018/08/03' 
+        }
+    ],
+      sendstate: 1,
+      checkedstate: false
+    },
+    {
+      id: 6,
+      jobnumber: '523213',
+      name: '陳小五',
+      division: '資訊管理處/計劃發展部',
+      startdate: '2018/08/19',
+      starttime: '08:30',
+      enddate: '2018/08/20',
+      endtime: '20:30',
+      category: '病假',
+      cause: '請假原因',
+      message: [
+        { man_name: '一級主管/李小龍',
+          man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明',
+          man_time:'2018/08/03' 
+        },
+        {
+          man_name: '二級主管/姚蓮舟',
+          man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈',
+          man_time:'2018/08/03' 
+        }
+    ],
+      sendstate: 0,
+      checkedstate: false
+    },
+    {
+      id: 7,
+      jobnumber: '843213',
+      name: '陳小六',
+      division: '資訊管理處/計劃發展部',
+      startdate: '2018/08/19',
+      starttime: '08:30',
+      enddate: '2018/08/20',
+      endtime: '20:30',
+      category: '病假',
+      cause: '請假原因',
+      message: [
+        { man_name: '一級主管/李小龍',
+          man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明',
+          man_time:'2018/08/03' 
+        },
+        {
+          man_name: '二級主管/姚蓮舟',
+          man_message: '呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈核情況說明呈',
+          man_time:'2018/08/05' 
+        }
+    ],
+      sendstate: 1,
+      checkedstate: false
+    }
+  ]//請假單
+
+
+
+}
+
+class vaform {
+  id: number;
+  jobnumber: string;
+  name: string;
+  division: string;
+  startdate: string;
+  starttime: string;
+  enddate: string;
+  endtime: string;
+  category: string;
+  cause: string;
+  message: mangemessage[] = [];
+  sendstate: number;
+  checkedstate: boolean;
+
+}
+class mangemessage {
+  man_name: string;
+  man_message: string;
+  man_time:string;
+}

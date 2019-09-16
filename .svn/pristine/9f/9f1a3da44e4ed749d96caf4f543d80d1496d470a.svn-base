@@ -1,0 +1,291 @@
+import { Component, OnInit, AfterViewInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { EmpArray } from 'src/app/Models/chooseBase';
+import { drawCalendarClass, SearchMan } from 'src/app/Models/CalendarClass';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByFormClass';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GetAttendCalendarClass } from 'src/app/Models/PostData_API_Class/GetAttendCalendarClass';
+import { takeWhile } from 'rxjs/operators';
+import { formatDateTime, doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
+import { MatDatepicker } from '@angular/material';
+import { isValidDate } from 'src/app/UseVoid/void_isVaildDatetime';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-personnel-search-rote',
+  templateUrl: './personnel-search-rote.component.html',
+  styleUrls: ['./personnel-search-rote.component.css']
+})
+export class PersonnelSearchRoteComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  chosenMonthHandler(a, datepicker: MatDatepicker<any>) {
+    // const ctrlValue = this.date.value;
+    // this.date.setValue(ctrlValue);
+    console.log(a)
+    var choose = new Date(a)
+    var chDate = doFormatDate(choose).split('/')
+    $('#id_ipt_startday').val(chDate[0] + '/' + chDate[1])
+    datepicker.close();
+  }
+
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true
+  ngAfterViewInit(): void {
+  }
+
+  constructor(
+    private GetApiUserService: GetApiUserService,
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private LoadingPage: NgxSpinnerService) { }
+
+  ngOnInit() {
+
+    this.GetApiUserService.counter$.subscribe(
+      (x:any) => {
+        if(x==0){
+        }else{
+          this.SearchMan.jobID = x.EmpCode
+          if (x.EmpNameC) {
+            this.SearchMan.name = x.EmpNameC;
+          } else {
+            this.SearchMan.name = x.EmpNameE;
+          }
+          var today = new Date()
+          
+          var todayMonString = (today.getMonth()+1)<10 ? today.getFullYear()+'/0'+(today.getMonth()+1) : todayMonString = today.getFullYear()+'/'+(today.getMonth()+1)
+          $('#id_ipt_startday').val(todayMonString)
+          this.search()
+        }
+      })
+    var drawCalendar = {
+      Year: '',
+      Month: '',
+      dateworks: []
+    }
+    this.Be_RoteApiData$.next(drawCalendar)
+  }
+
+  onSaveEmptoView(event) {
+    // console.log(event)
+    this.SearchMan.jobID = event.split('，')[0]
+    this.SearchMan.name = event.split('，')[1]
+    $('#chooseEmpdialog').modal('hide');
+    this.outPutEmpValue(this.SearchMan.jobID, this.SearchMan.name, this.SearchMan.name)
+
+  }
+  @Output() outPutChoose: EventEmitter<any> = new EventEmitter<any>();//選到的員工回傳
+  outPutEmpValue(EmpCode, EmpNameC, EmpNameE) {
+    var EmpArray: EmpArray[] = []
+    EmpArray.push({ EmpCode: EmpCode, EmpNameC: EmpNameC, EmpNameE: EmpNameE })
+    this.outPutChoose.emit(EmpArray)
+  }
+  blurEmpCode() {
+    if (this.SearchMan.jobID.length == 6) {
+      var GetBaseByFormClass: GetBaseByFormClass = {
+        EmpCode: this.SearchMan.jobID,
+        AppEmpCode: this.SearchMan.jobID,
+        EffectDate: ''
+      }
+      this.GetApiDataServiceService.getWebApiData_GetBaseByForm(GetBaseByFormClass).
+        subscribe((x: any) => {
+          if (x == null) {
+            this.SearchMan.name = ''
+            this.outPutEmpValue('', '', '')
+            // alert('工號輸入錯誤')
+            // this.errorLeavemanState = { state: true, errorString: '無效的員工號' }
+            // this.writevaform.leaveman_name = ''
+            // $("#leavejobid").addClass("errorInput");
+          } else if (x.length == 0) {
+            this.SearchMan.name = ''
+            this.outPutEmpValue('', '', '')
+            // alert('工號輸入錯誤')
+            // this.writevaform.leaveman_name = ''
+            // this.errorLeavemanState = { state: true, errorString: '無效的員工號' }
+            // $("#leavejobid").addClass("errorInput");
+          } else {
+            // alert('工號正確')
+            if (x[0].EmpNameC == null) {
+              this.SearchMan.name = x[0].EmpNameE
+            } else if (x[0].EmpNameC.length == 0) {
+              this.SearchMan.name = x[0].EmpNameE
+            } else {
+              this.SearchMan.name = x[0].EmpNameC
+            }
+            this.outPutEmpValue(this.SearchMan.jobID, this.SearchMan.name, this.SearchMan.name)
+            // this.errorLeavemanState = { state: false, errorString: '' }
+            // $("#leavejobid").removeClass("errorInput");
+
+          }
+        })
+    } else {
+      this.SearchMan.name = ''
+      this.outPutEmpValue('', '', '')
+    }
+  }
+
+  MonthMask(): {
+    mask: Array<string | RegExp>;
+    keepCharPositions: boolean;
+  } {
+    return {
+      mask: [/[2]/, /[0]/, /\d/, /\d/, '/', /[0-1]/, /\d/],
+      keepCharPositions: true,
+    };
+  }
+
+  SearchMan: SearchMan = { jobID: '', name: '' }
+  private Be_RoteApiData$: BehaviorSubject<any> = new BehaviorSubject<any>(0);
+  Ob_RoteApiData$: Observable<any> = this.Be_RoteApiData$;
+  search() {
+    var startday = new Date($('#id_ipt_startday').val())
+    if (!isValidDate(doFormatDate(startday))) {
+      // alert('請填寫正確日期格式')
+    } else {
+      var checkYear: any = doFormatDate(startday).toString().split('/')[0];
+      var checkMonth: any = doFormatDate(startday).toString().split('/')[1];
+      var MonthFirstDate = new Date(checkYear, checkMonth, 1).getDate()
+      var MonthEndDate = new Date(checkYear, checkMonth, 0).getDate()
+      var searchFirstDate = checkYear + '/' + checkMonth + '/' + MonthFirstDate
+      var searchEndDate = checkYear + '/' + checkMonth + '/' + MonthEndDate
+      // alert(searchFirstDate.toString() + '\n' + searchEndDate.toString())
+      // alert(searchFirstDate.toString() + '\n' + searchEndDate.toString())
+      this.LoadingPage.show()
+      var GetAttendCalendar: GetAttendCalendarClass = {
+        DateB: searchFirstDate.toString(),
+        DateE: searchEndDate.toString(),
+        EmpID: this.SearchMan.jobID.toString()
+      }
+      this.GetApiDataServiceService.getWebApiData_GetAttendCalendar(GetAttendCalendar)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (x: any) => {
+            // console.log(x);
+            if (x) {
+              if (x.length == 0) {
+                alert('查無班表資料')
+                this.LoadingPage.hide()
+              } else {
+                var drawCalendar: drawCalendarClass = new drawCalendarClass();
+                drawCalendar.SearchMan = new SearchMan()
+                drawCalendar.Year = checkYear
+                drawCalendar.Month = checkMonth
+                drawCalendar.SearchMan.jobID = this.SearchMan.jobID.toString()
+                drawCalendar.SearchMan.name = this.SearchMan.name.toString()
+                drawCalendar.dateworks = []
+                for (let data of x) {
+                  var todayVa: boolean = false
+                  var todayAtterror: boolean = false
+                  var todayHoliday: boolean = false
+                  if (data.AbsFlowAppsDetail) {
+                    todayVa = true
+                  }
+                  if (data.LateMins > 0 || data.EarlyMins > 0 || data.ForgetCard > 0) {
+                    todayAtterror = true
+                  }
+                  if (data.ActualRote.RoteNameC == '例假日' || data.ActualRote.RoteNameC == '休息日' || data.ActualRote.RoteNameC == '國定假日') {
+                    todayHoliday = true
+                  }
+                  drawCalendar.dateworks.push({
+                    daytext: formatDateTime(data.AttendDate).getDate,
+                    showText: '',
+                    routeName: data.ActualRote.RoteCode + data.ActualRote.RoteNameC,
+                    onTime: data.ActualRote.OnTime,
+                    offTime: data.ActualRote.OffTime,
+                    isVa: todayVa,
+                    isAtterror: todayAtterror,
+                    isHoliday: todayHoliday
+                  })
+
+                  this.Be_RoteApiData$.next(drawCalendar)
+                }
+                this.LoadingPage.hide()
+              }
+            } else {
+              alert('查無出勤資料')
+              this.LoadingPage.hide()
+            }
+          }, error => {
+            alert('與api連線異常，getWebApiData_GetAttendCalendar')
+            this.LoadingPage.hide()
+
+          }
+        )
+    }
+    // var drawCalendar: drawCalendarClass = {
+    //   Year: checkYear,
+    //   Month: checkMonth,
+    //   dateworks: [{
+    //     daytext: '2019/01/05',
+    //     showText: '',
+    //     routeName: '1205ABC',
+    //     onTime: '1205',
+    //     offTime: '1700',
+    //     isVa: false,
+    //     isAtterror: true,
+    // isHoliday:false
+    //   }, {
+    //     daytext: '2019/01/08',
+    //     showText: '',
+    //     routeName: '1201ABC',
+    //     onTime: '1201',
+    //     offTime: '1700',
+    //     isVa: true,
+    //     isAtterror: false,
+    // isHoliday:false
+    //   }, {
+    //     daytext: '2019/01/10',
+    //     showText: '',
+    //     routeName: '1201ABC',
+    //     onTime: '1201',
+    //     offTime: '1700',
+    //     isVa: false,
+    //     isAtterror: false,
+    // isHoliday:false
+    //   }, {
+    //     daytext: '2019/01/16',
+    //     showText: '',
+    //     routeName: '1201ABC',
+    //     onTime: '1201',
+    //     offTime: '1700',
+    //     isVa: true,
+    //     isAtterror: true,
+    // isHoliday:false
+    //   }, {
+    //     daytext: '2019/01/25',
+    //     showText: '',
+    //     routeName: '1201ABC',
+    //     onTime: '1201',
+    //     offTime: '1700',
+    //     isVa: true,
+    //     isAtterror: false,
+    // isHoliday:false
+    //   }, {
+    //     daytext: '2019/01/21',
+    //     showText: '',
+    //     routeName: '1220_ABC',
+    //     onTime: '1220',
+    //     offTime: '1700',
+    //     isVa: false,
+    //     isAtterror: true,
+    // isHoliday:false
+    //   }, {
+    //     daytext: '2019/01/27',
+    //     showText: '',
+    //     routeName: '1227ABC',
+    //     onTime: '1227',
+    //     offTime: '1700',
+    //     isVa: true,
+    //     isAtterror: true,
+    // isHoliday:false
+    //   }],
+    //   SearchMan: this.SearchMan
+    // }
+    // this.Be_RoteApiData$.next(drawCalendar)
+  }
+}

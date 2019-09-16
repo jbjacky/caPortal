@@ -1,0 +1,62 @@
+<div *ngIf="showAttendArray.length==0">
+  無班表時間
+</div>
+<div *ngFor="let showAttend of showAttendArray" class="row dayRoteClass">
+  <div class="col-md-3 col-xs-12 P_grayLine">
+    <div style="color: #028fcf;font-weight: bold;
+    margin-bottom: 5px;">{{showAttend.AttendDate}}</div>
+    <div style="color: #028fcf;
+    margin-bottom: 5px;">
+      {{showAttend.ActualRote.RoteNameC}}
+      /
+      {{showAttend.ActualRote.OnTime}}
+      <div *ngIf="showAttend.ActualRote_OnTime_calCrossDay" style="display: inline-block;
+      height: 20px;
+      font-size: 13px;
+      width: 40px;
+      text-align: center;
+      color: #fff;
+      background-color: #408cb6;
+      border: 1px solid;
+      border-radius: 15px;">+1日</div>- {{showAttend.ActualRote.OffTime}}
+      <div *ngIf="showAttend.ActualRote_OffTime_calCrossDay" style="display: inline-block;
+            height: 20px;
+            font-size: 13px;
+            width: 40px;
+            text-align: center;
+            color: #fff;
+            background-color: #408cb6;
+            border: 1px solid;
+            border-radius: 15px;">+1日</div>
+    </div>
+  </div>
+  <div class="col-md-9 col-xs-12 row" style="margin:0;padding: 0">
+    <div class="col-md-5 col-xs-12">
+      <div class="graytitle">
+        休息時間
+      </div>
+      <div *ngFor="let rest of showAttend.ActualRote.RoteRest;let i = index "  style="display: inline-block">
+        <span>
+          {{rest.TimeB}} - {{rest.TimeE}}
+        </span>
+        <span *ngIf="i != (showAttend.ActualRote.RoteRest.length-1)">、</span>
+      </div>
+    </div>
+    <div class="col-md-3 col-xs-6">
+      <div class="graytitle">
+        工時
+      </div>
+      <div>
+        {{showAttend.ActualRote.uiWorkTime.Hour}} 時 {{showAttend.ActualRote.uiWorkTime.Min}} 分
+      </div>
+    </div>
+    <div class="col-md-4 col-xs-6">
+      <div class="graytitle">
+        彈性
+      </div>
+      <div>
+        前{{showAttend.ActualRote.FlexibleMinuteForward}}分/後{{showAttend.ActualRote.FlexibleMinuteBehind}}分
+      </div>
+    </div>
+  </div>
+</div>

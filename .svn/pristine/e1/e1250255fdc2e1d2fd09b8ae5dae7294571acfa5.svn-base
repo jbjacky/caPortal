@@ -1,0 +1,8 @@
+::ng-deep .ngx-select__selected .btn{
+    padding: 6px 20px
+}
+::ng-deep .dropdown-menu>li>a:hover {
+    text-decoration: none;
+    color: #fff;
+    background-color: #428bca;
+}

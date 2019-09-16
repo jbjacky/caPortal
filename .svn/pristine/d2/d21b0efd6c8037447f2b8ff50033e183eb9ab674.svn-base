@@ -1,0 +1,14 @@
+<mat-list>
+  <ng-container *ngFor="let record of Records">
+    <mat-list-item>
+      <!-- <mat-icon>access_time</mat-icon> -->
+      <span class="glyphicon glyphicon-time"></span>
+        {{record.date}}
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item class="recordcontent">
+        {{record.content}}
+    </mat-list-item>
+    <mat-divider></mat-divider>
+  </ng-container>
+</mat-list>

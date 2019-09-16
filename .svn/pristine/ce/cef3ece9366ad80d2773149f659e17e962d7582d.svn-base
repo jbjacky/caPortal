@@ -1,0 +1,19 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-record',
+  templateUrl: './record.component.html',
+  styleUrls: ['./record.component.css']
+})
+export class RecordComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+  Records = [
+    {date: '2018-12-12前', content: 'ng platform initial'},
+    //{date: moment('2018-05-08'), content: 'ng platform initial'},
+  ];
+}

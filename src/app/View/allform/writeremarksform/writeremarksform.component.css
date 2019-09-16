@@ -1,0 +1,110 @@
+.P_radio{
+    padding: 0px
+}
+
+.inputTextarea{
+    width: 100%;
+    resize: none;
+    height:83px;
+    margin-top: 5px;
+    display: block;
+    padding: 6px 12px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+
+.tag_blue{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 5px 10px 0px;
+    display: inline-block;
+    text-align: center;
+    border: solid 1px #002f7b;
+    color: #002f7b;
+}
+.P_tag{
+    text-align: center;
+    padding: 0
+}
+
+
+.P_title{
+    text-align: right
+}
+.P_timetitle{
+    text-align: right
+}
+
+  
+.errorInput{
+    border: 1px solid #e60012
+}
+
+.bt_desc {
+    background: #fff url(../../../../assets/images-template/down-arrow-desc.png) center center no-repeat;
+    border: 0;
+    width: 20px;
+    height: 25px;
+
+}
+  
+  .bt_asc {
+    background: #fff url(../../../../assets/images-template/down-arrow-desc.png) center center no-repeat;
+    transform: rotate(-180deg);
+    border: 0;
+    width: 20px;
+    height: 25px;
+}
+@media screen and (max-width:992px) {
+    .P_tag{
+        text-align: left;
+        padding: 0
+    }
+    .P_title{
+        text-align: left;
+        margin-bottom:10px 
+    }
+    
+    .P_timetitle{
+        padding: 0;
+        text-align: left
+
+    }
+}
+
+::ng-deep .vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+  }
+  ::ng-deep .vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+  }
+  ::ng-deep .modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width:550px){
+    #checksenddialog .modal-dialog{
+      width: 300px;
+    }
+    #checksenddialog .modal-footer{
+      text-align: center
+    }
+  }

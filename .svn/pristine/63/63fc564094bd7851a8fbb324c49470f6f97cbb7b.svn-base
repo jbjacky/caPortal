@@ -1,0 +1,238 @@
+<div class="a-block" *ngIf="loading==false && alldelformpeople.length>0">
+  <div class="a-block-body  a-block-container">
+    <h2>填寫銷假單</h2>
+    <section class="form-horizontal  form-style01">
+
+      <div class="form-group ">
+        <div class="col-md-6 ">
+          <label class="col-md-4 control-label" style="padding-left: 0px">
+            員工
+          </label>
+          <div class="col-md-8" style="padding: 0;padding-top: 7px">
+            <label style="font-weight: normal;">{{searchEmpCode}} {{searchEmpName}}</label>
+          </div>
+        </div>
+      </div>
+      <!-- form-group end -->
+      <div class="form-group formgroup_modify" style="border-bottom: 1px dashed #dcdcdc">
+        <div>
+          <label>
+            <span class="form-must-fill">*</span>選擇銷假單
+          </label>
+        </div>
+        <!-- <button  id="accordion_show">全部展開</button>
+        <button  id="accordion_hide">全部收合</button> -->
+        <div class="panel-group" id="del_accordion" *ngFor="let alldelformpeople of alldelformpeople">
+          <div class="panel panel-default" style="border: 1px #028fcf solid;">
+            <div class="panel-heading row" style="padding: 20px;background-color: #f3f8fc;border-bottom: 1px #028fcf solid;margin: 0px">
+
+              <div class="col-md-1 col-xs-2 P_textLeft" style="padding: 0px;">
+                <mat-checkbox [(ngModel)]="alldelformpeople.checkedstate" style="margin-right: 5px;margin-bottom: 5px"
+                  (click)="checkAll(alldelformpeople)" [disabled]="disabled_checkAll(alldelformpeople)"></mat-checkbox>
+              </div>
+              <div class="col-md-11 col-xs-10  row" (click)="onCheckCollapseIn(alldelformpeople._id)" style="margin: 0px;padding: 0px;cursor: pointer;"
+                data-toggle="collapse" [attr.data-target]="alldelformpeople._idherf">
+                <div class="col-md-8 row" style="margin: 0px;padding: 0px">
+                  <div class="col-md-12" style="margin: 0px;padding: 0px">
+                    <div class="col-md-6 " style="padding: 0">
+                      <span style="color: #7e7e7e">起始：</span>
+                      {{alldelformpeople.startdate}} <span *ngIf="!alldelformpeople.everyday">{{alldelformpeople.starttime}}</span>
+                    </div>
+                    <div class="col-md-6 " style="padding: 0">
+                      <span style="color: #7e7e7e">結束：</span>
+                      {{alldelformpeople.enddate}} <span *ngIf="!alldelformpeople.everyday">{{alldelformpeople.endtime}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-12 " style="padding: 0;" *ngIf="alldelformpeople.everyday">
+                    每日循環時段 {{alldelformpeople.starttime}} - {{alldelformpeople.endtime}}
+                  </div>
+                  <div class="col-md-12" style="margin: 0px;padding: 0px">
+                    {{alldelformpeople.holiday.name}}
+                  </div>
+                </div>
+                <div class="col-md-3 " style="padding: 0;">
+                  共計：{{alldelformpeople.calday}}日{{alldelformpeople.calhour}}時{{alldelformpeople.calminute}}分
+                  <div style="color: #E0004D" *ngIf="alldelformpeople.selectDetailSeveral != '0' ">
+                    (已選{{alldelformpeople.selectDetailSeveral}}段時間)
+                  </div>
+                </div>
+                <div class="col-md-1" style="padding: 0px">
+                  <a data-toggle="collapse" data-parent="#del_accordion" [href]="alldelformpeople._idherf">
+                    <span [id]="textid(alldelformpeople._id)">收合</span>
+                    <img [id]="imgid(alldelformpeople._id)" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
+                  </a>
+                </div>
+              </div>
+
+            </div>
+            <div [id]="alldelformpeople._id" class="panel-collapse collapse in active">
+              <div class="panelBody">
+                <div *ngFor="let detail_vaform of alldelformpeople.detail_vaform">
+                  <div *ngIf="detail_vaform.state == '2'" class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 10px 0px;margin: 0px">
+                    <div class="col-md-1 col-xs-2" style="padding: 0px;text-align: right;">
+                      <mat-checkbox [(ngModel)]="detail_vaform.checkState" style="margin-right: 5px;margin-bottom: 5px"
+                        disabled='true'></mat-checkbox>
+                    </div>
+                    <div class="col-md-10 col-xs-10" style="padding: 0">
+                      <div class="col-md-5 col-xs-12" style="padding: 0px;color: #a9a9a9">{{detail_vaform.startdate}}
+                        {{detail_vaform.starttime}} - {{detail_vaform.endtime}}</div>
+                      <div class="col-md-7 col-xs-12" style="padding: 0px;color: #a9a9a9">共計：{{detail_vaform.calday}}日{{detail_vaform.calhour}}時{{detail_vaform.calminute}}分
+                        (已銷假)</div>
+                    </div>
+                  </div>
+                  <!-- (2已銷假) -->
+                  <div *ngIf="detail_vaform.state == '3'" class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 10px 0px;margin: 0px">
+                    <div class="col-md-1 col-xs-2" style="padding: 0px;text-align: right;">
+                      <mat-checkbox [(ngModel)]="detail_vaform.checkState" style="margin-right: 5px;margin-bottom: 5px"
+                        (change)="checkIsALL(alldelformpeople)"></mat-checkbox>
+                    </div>
+                    <div class="col-md-10 col-xs-10" style="padding: 0">
+                      <div class="col-md-5 col-xs-12" style="padding: 0px">{{detail_vaform.startdate}}
+                        {{detail_vaform.starttime}} - {{detail_vaform.endtime}}</div>
+                      <div class="col-md-7 col-xs-12" style="padding: 0px">共計：{{detail_vaform.calday}}日{{detail_vaform.calhour}}時{{detail_vaform.calminute}}分</div>
+                    </div>
+                  </div>
+                  <!-- (3可以銷假) -->
+                  <div *ngIf="detail_vaform.state == '1'" class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 10px 0px;margin: 0px">
+                    <div class="col-md-1 col-xs-2" style="padding: 0px;text-align: right;">
+                      <mat-checkbox [(ngModel)]="detail_vaform.checkState" style="margin-right: 5px;margin-bottom: 5px"
+                        disabled='true'></mat-checkbox>
+                    </div>
+                    <div class="col-md-10 col-xs-10" style="padding: 0">
+                      <div class="col-md-5 col-xs-12" style="padding: 0px;color: #a9a9a9">{{detail_vaform.startdate}}
+                        {{detail_vaform.starttime}} - {{detail_vaform.endtime}}</div>
+                      <div class="col-md-7 col-xs-12" style="padding: 0px;color: #a9a9a9">共計：{{detail_vaform.calday}}日{{detail_vaform.calhour}}時{{detail_vaform.calminute}}分
+                        (銷假呈核中)</div>
+                    </div>
+                  </div>
+                  <!-- (1銷假呈核中) -->
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+      <!-- form-group end -->
+      <div class="form-group  formgroup_modify" style="border-bottom: 1px dashed #dcdcdc">
+        <div>
+          <div class="col-md-2" style="padding-left: 0px">
+            <label class="control-label" style="padding-left: 0px;padding-right: 15px;">
+              <span class="form-must-fill">*</span> 銷假事由</label>
+          </div>
+          <div class="col-md-8">
+            <textarea [(ngModel)]="NoteText" class="inputTextarea" style="color:#020202;overflow-y: auto;height: 83px;" placeholder="請輸入銷假事由"></textarea>
+          </div>
+        </div>
+      </div>
+      <!-- form-group end -->
+      <div class="form-group  formgroup_modify">
+        <div>
+          <div class="col-md-2" style="padding-left: 0px">
+            <label class="control-label" style="padding-left: 0px;padding-right: 15px;">
+              <span class="form-must-fill">*</span> 簽核人員</label>
+          </div>
+          <div class="col-md-10 row" style="margin:0px;">
+            <app-select-signer (selectBaseChange)="chooseBase($event)"></app-select-signer>
+          </div>
+        </div>
+      </div>
+      <!-- form-group end -->
+
+      <div class="form-group  formgroup_modify">
+        <div>
+          <div class="col-md-2" style="padding-left: 0px">
+          </div>
+          <div class="col-md-8 row" style="margin:0px;padding: 0px">
+            <div class="col-md-6">
+              <button class="btn btn-primary" data-toggle="modal"  (click)="checkError()">送出申請單</button>
+            </div>
+            <div class="col-md-6">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- form-group end -->
+      <div class="form-group  formgroup_modify">
+
+        <div style="border-top: 1px dashed #dcdcdc;padding: 15px 0px;margin-top: 20px;margin-bottom: 20px">
+          <div style="border:1px solid #d9edf7;">
+            <div style="background-color: #d9edf7;padding-left: 10px;padding-top: 5px;">
+              <label style="color: 
+                  #31708f">人力處提醒您</label>
+            </div>
+            <div style="height: 50px;overflow-y: auto;padding: 10px 10px;">
+              僅顯示出過去七天內及未來所有已核可之假單，若欲銷未在列表之日期，請洽單位行政處。
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- form-group end -->
+
+    </section>
+  </div>
+</div>
+
+
+<div *ngIf="loading">
+  <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+</div>
+
+<div class="a-block" *ngIf="showdataIsEmpty">
+  <div class="a-block-body  a-block-container">
+    <div *ngIf="!loading && alldelformpeople.length==0 && showdataIsEmpty">
+      沒有可填寫的銷假單
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal" id="checksenddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認送出?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="sendandSaveDelform()">送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog確認送出 -->
+<div class="modal" id="sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">申請完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            銷假單送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog送出成功 -->

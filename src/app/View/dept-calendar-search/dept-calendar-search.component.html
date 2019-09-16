@@ -1,0 +1,38 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <!-- <h3>{{setMan.DeptaName}}</h3> -->
+    <div class="P_fullwidth" style="margin-bottom: 20px">
+      <ngx-select [items]="NgxDeptSelectBox" optionValueField="DeptID" optionTextField="uiShowDeptCodeAndName"
+        [(ngModel)]="SearchDeptID" (select)=onSelectChange()></ngx-select>
+    </div>
+    <ngx-fullcalendar #calendar id="calendar" defaultView="month" [header]='plugin' [events]="events" [options]="options"
+      (onDatesRender)="SearchDeptCalendar(SearchDeptID)" (onEventClick)="dateClick($event)">
+    </ngx-fullcalendar>
+  </div>
+</div>
+
+<div class="modal" id="showPerson" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <div>{{showDialogDate}}</div>
+        </div>
+        <div class="modal-body" style="padding: 25px;padding-top: 15px;">
+            <div *ngFor="let oneTitle of showDialogTitles">
+              <span class="basetext">{{oneTitle}}</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- dialog顯示人員 -->

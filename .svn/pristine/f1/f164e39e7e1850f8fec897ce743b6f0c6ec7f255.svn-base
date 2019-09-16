@@ -1,0 +1,92 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var http_1 = require("@angular/common/http");
+var HomeComponent = /** @class */ (function () {
+    function HomeComponent(http) {
+        this.http = http;
+        this.shownews = [];
+        this.weekjobs = [
+            { date: '8/28(二)', jobtime: '09:30~12:30', error: '', today: false, lastday: false },
+            { date: '8/29(三)', jobtime: '15:30~21:30', error: '', today: false, lastday: false },
+            { date: '8/30(四)', jobtime: '12:30~08:30', error: '考勤異常', today: false, lastday: false },
+            { date: '8/31(五)', jobtime: '07:30~17:30', error: '', today: true, lastday: false },
+            { date: '9/3(一)', jobtime: '15:30~21:30', error: '', today: false, lastday: false },
+            { date: '9/4(二)', jobtime: '12:30~08:30', error: '', today: false, lastday: false },
+            { date: '9/5(三)', jobtime: '06:30~17:30', error: '查閱請假單', today: false, lastday: true },
+        ];
+    }
+    HomeComponent.prototype.ngOnInit = function () {
+        this.showallnews();
+    };
+    HomeComponent.prototype.ngAfterViewInit = function () {
+        $('.slideblock').slick({
+            slidesToShow: 7,
+            slidesToScroll: 7,
+            dots: false,
+            infinite: false,
+            speed: 300,
+            centerMode: false,
+            variableWidth: true,
+            responsive: [
+                {
+                    breakpoint: 1900,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        initialSlide: 3,
+                        dots: false,
+                        infinite: false,
+                        speed: 300,
+                        centerMode: true,
+                        variableWidth: true,
+                    }
+                }
+            ]
+        });
+    };
+    HomeComponent.prototype.showallnews = function () {
+        var titleadd = "每一航班以一票號及一艙等為原則，嚴禁持不同艙等優待機票重複空位登記。";
+        for (var i = 0; i < 5; i++) {
+            this.shownews.push({ title: titleadd, date: '2018/08/14' });
+        }
+        for (var i = 0; i < this.shownews.length; i++) {
+            var title_fontlength = 33;
+            if (this.shownews[i].title.length > title_fontlength) {
+                var title_slice = this.shownews[i].title.slice(0, title_fontlength);
+                title_slice += '......更多';
+                this.shownews[i].title = title_slice;
+            }
+        }
+    };
+    HomeComponent = __decorate([
+        core_1.Component({
+            selector: 'app-home',
+            templateUrl: './home.component.html',
+            styleUrls: ['./home.component.css'],
+        }),
+        __metadata("design:paramtypes", [http_1.HttpClient])
+    ], HomeComponent);
+    return HomeComponent;
+}());
+exports.HomeComponent = HomeComponent;
+var news = /** @class */ (function () {
+    function news() {
+    }
+    return news;
+}());
+var weekjobs = /** @class */ (function () {
+    function weekjobs() {
+    }
+    return weekjobs;
+}());
+//# sourceMappingURL=home.component.js.map

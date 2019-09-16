@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var spyngif_directive_1 = require("./spyngif.directive");
+describe('SpyngifDirective', function () {
+    it('should create an instance', function () {
+        var directive = new spyngif_directive_1.SpyngifDirective();
+        expect(directive).toBeTruthy();
+    });
+});
+//# sourceMappingURL=spyngif.directive.spec.js.map

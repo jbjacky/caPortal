@@ -1,0 +1,19 @@
+
+export class AttendCard {
+    forget_man_code:string;
+    forget_man_name:string;
+    write_man_code:string;
+    write_man_name:string;
+    AttendDate: string;
+    LateMins: boolean;
+    EarlyMins: boolean;
+    IsAbsent: boolean;
+    RoteCode: string
+    ActualRote_OnTime: string
+    ActualRote_OffTime: string
+    AttendCard_OnTime: string
+    AttendCard_OffTime: string
+    ActualRote_calCrossDay:boolean
+    AttendCard_calCrossDay:boolean
+  }
+  

@@ -1,0 +1,6 @@
+
+export class GetAbsDetailByDeptClass{
+    DateB:string
+    DateE:string
+    DeptaID:string
+  }

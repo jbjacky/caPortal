@@ -1,0 +1,46 @@
+// import { registerLocaleData } from '@angular/common';
+// import localezhHant from '@angular/common/locales/zh-Hant';
+// registerLocaleData(localezhHant, 'zh-Hant');
+import { NgModule } from '@angular/core';
+import { CommonModule, APP_BASE_HREF } from '@angular/common';
+import { AppRoutingModule } from 'src/app/app-routing.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { AppComponent } from 'src/app/app.component';
+import { LoginComponent } from 'src/app/View/login/login.component';
+import { FormsModule } from '@angular/forms';
+import { ErrorPageComponent } from './View/error-page/error-page.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { HttpClientModule } from '@angular/common/http';
+import { LinkOuthpageComponent } from './View/link-outhpage/link-outhpage.component';
+import { AgentWriteComponent } from './View/agent-write/agent-write.component';
+import { HrDeptComponent } from './View/hr-dept/hr-dept.component';
+
+
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    ErrorPageComponent,
+    LinkOuthpageComponent,
+
+  ],
+  imports: [
+    CommonModule,
+    AppRoutingModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    NgxSpinnerModule, 
+    HttpClientModule
+
+  ],
+  providers: [
+
+  ],
+  bootstrap: [AppComponent],
+})
+export class AppModule { }
+

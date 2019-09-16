@@ -1,0 +1,157 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div style="margin-bottom: 20px">
+      <h3 style="margin: 0px ; margin-bottom: 20px">新增管理員</h3>
+      <div class="row" style="margin:0;margin-bottom: 15px">
+        <div class="col-md-6 col-xs-12">
+          <div class="col-md-2 col-xs-12" style="padding-top: 6px;">
+
+            <button data-toggle="modal" data-target="#chooseDeptdialog" style="cursor: pointer;border: 0;background: 0">
+              <img src="./assets/images-template/icon-persongroup.png" style="cursor: pointer;" />
+            </button>
+          </div>
+          <div class="col-md-4 col-xs-12" style="padding-top: 5px;">
+
+            <span>
+              資訊管理處
+            </span>
+          </div>
+          <div class="col-md-6 col-xs-12">
+
+            <select class="form-control" style="width: 200px;display: inline-block;">
+              <option>
+                單位系統管理人員
+              </option>
+              <option>
+                假單候補人員
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-12 row" style="margin: 0px">
+          <div class="col-md-2 col-xs-12" style="padding-top: 6px;">
+            <span>員工</span>
+          </div>
+          <div class="col-md-4 col-xs-12">
+            <input [(ngModel)]="NewEmp.EmpCode" type="text" class="form-control" placeholder="員工號">
+          </div>
+          <div class="col-md-2 col-xs-12" style="padding-top: 6px;">
+            <button data-toggle="modal" data-target="#chooseEmpdialog" style="cursor: pointer;border: 0;background: 0">
+              <img src="./assets/images-template/icon-person.png" style="cursor: pointer;" />
+            </button>
+          </div>
+          <div class="col-md-4 col-xs-12" style="padding-top: 6px;">
+            <label style="font-weight: normal;">{{NewEmp.EmpName}}</label>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center">
+        <div style="display: inline-block;padding: 0px 15px">
+          <button type="button">新增</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div style="width:300px;margin-bottom: 20px">
+      <ngx-select [(ngModel)]="selectDept" [items]="NgxBaseSelectBox" optionValueField="ID" optionTextField="DeptNameC"
+        placeholder="請選擇單位">
+      </ngx-select>
+    </div>
+    <div>
+
+      <div class="row">
+        <div class="col-md-6 col-xs-12">
+          <p style="font-size: 16px;text-align: center">單位系統管理人員</p>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+              <thead>
+                <tr>
+                  <th style="background-image: unset;cursor: unset">員工號</th>
+                  <th>姓名</th>
+                  <th>功能</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>644488</td>
+                  <td>李大仁</td>
+                  <td>
+                    <a style="padding-right: 10px;">編輯</a>
+                    <a>刪除</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <div class="col-md-6 col-xs-12">
+          <p style="font-size: 16px;text-align: center">假單候補人員</p>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+              <thead>
+                <tr>
+                  <th style="background-image: unset;cursor: unset">員工號</th>
+                  <th>姓名</th>
+                  <th>功能</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>644488</td>
+                  <td>李大仁</td>
+                  <td>
+                    <a style="padding-right: 10px;">編輯</a>
+                    <a>刪除</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <div style="margin-bottom: 10px;">
+        <label>☆單位管理員授權 : 請洽單位管理員(行政)授權，若管理員已不在原單位，請洽人力處IA協助處理</label>
+        <div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="chooseEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <!-- <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel">選擇請假人</h4>
+        </div> -->
+        <div class="modal-body">
+          <app-choosebase (saveEmptoView)="onSaveEmptoView($event)" [systemID]="647156"></app-choosebase>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog選擇員工-->
+<div class="modal" id="chooseDeptdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <app-choosedept (saveDepttoView)="onSaveDepttoView($event)" [systemID]="647156"></app-choosedept>
+          <button type="button" class="btn btn-default" data-dismiss="modal">確認</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog選擇部門-->

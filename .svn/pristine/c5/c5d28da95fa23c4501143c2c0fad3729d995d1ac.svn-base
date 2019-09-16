@@ -1,0 +1,18 @@
+import { Component, OnInit } from '@angular/core';
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-designated-auditor',
+  templateUrl: './designated-auditor.component.html',
+  styleUrls: ['./designated-auditor.component.css']
+})
+export class DesignatedAuditorComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+  
+
+}

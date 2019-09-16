@@ -1,0 +1,514 @@
+<section class="a-block stateblock">
+  <div class="a-block-body  a-block-container">
+    <ol class="steps-indicator row">
+      <li class="col-sm-3">填寫請假單</li>
+      <li class="col-sm-3 active">請假明細確認</li>
+      <li class="col-sm-3">請假完成</li>
+    </ol>
+  </div>
+  <!-- a-block-body End -->
+</section>
+<img *ngIf="sendLoading"
+  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+<div class="a-block" [hidden]="sendLoading">
+  <div class="a-block-body  a-block-container">
+    <h3 style="margin-bottom: 20px">請假明細確認</h3>
+    <div class=" row" style="margin: 0px">
+      <div class="col-md-2 col-xs-12 P_left">
+        <label>
+          員工
+        </label>
+      </div>
+      <div class="col-md-8 col-xs-12">
+        {{getsendvaform[0].leaveman_jobid}} {{getsendvaform[0].leaveman_name}}
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="form-group" style="border:1px solid #028fcf;margin-top: 20px;"
+      *ngFor="let sendvaform of getsendvaform ; let i = index">
+      <div class="row" style="padding: 0px;margin: 0px;padding-top: 8px;">
+        <div class="col-md-2 P_left" style="padding-top: 7px">
+          <label style="color: #028fcf">{{sendvaform.ui_title}}</label>
+          <div *ngIf="sendvaform.todayCheck" class="todaycs">
+            <span style="color: #028fcf;border:#028fcf 1px solid;
+                border-radius: 5px;padding: 6px">當日請假
+            </span>
+          </div>
+          <div *ngIf="sendvaform.beforholiday" class="todaycs">
+            <span style="color: #028fcf;border:#028fcf 1px solid;
+                border-radius: 5px;padding: 6px">預排休假
+            </span>
+          </div>
+        </div>
+        <div class="col-md-10">
+
+          <div class="col-md-3 D_leftP_toppadding">
+            <span style="color: #969696">起始：</span>
+            {{sendvaform.startday}}
+            <span *ngIf="!sendvaform.everydayloop">{{sendvaform.starttime}}</span>
+          </div>
+          <div class="col-md-3 D_leftP_toppadding">
+            <span style="color: #969696">結束：</span>
+            {{sendvaform.endday}}
+            <span *ngIf="!sendvaform.everydayloop">{{sendvaform.endtime}}</span>
+          </div>
+          <div class="col-md-3 D_leftP_toppadding">代理人 <span
+              *ngIf="sendvaform.proxyman_name">{{sendvaform.proxyman_name}}</span>
+            <span *ngIf="!sendvaform.proxyman_name">無</span></div>
+          <div class="col-md-3 D_leftP_toppadding">
+            共計 {{sendvaform.ui_day}} 日
+            {{sendvaform.ui_hour}} 時
+            {{sendvaform.ui_minute}} 分
+          </div>
+
+          <div *ngIf="sendvaform.everydayloop" class="col-md-12 col-xs-12  D_leftP_toppadding">
+            <span style="color: #969696">每日循環時段：</span>{{sendvaform.starttime}} - {{sendvaform.endtime}}
+          </div>
+          <div class="col-md-12 col-xs-12  D_leftP_toppadding">
+            <span style="color: #969696">假別：</span>{{sendvaform.vacategrory.HoliDayNameC}}
+          </div>
+          <div *ngIf="sendvaform.keyname" class="col-md-12 col-xs-12  D_leftP_toppadding">
+            <span style="color: #969696">稱謂：</span>{{sendvaform.keyname}}
+          </div>
+          <div *ngIf="sendvaform.eventdate" class="col-md-12 col-xs-12  D_leftP_toppadding">
+            <span style="color: #969696">事件發生日：</span>{{sendvaform.eventdate}}
+          </div>
+          <div class="col-md-12 col-xs-12  D_leftP_toppadding">
+            <span style="color: #969696">事由：</span>{{sendvaform.cause}}
+          </div>
+          <div class="col-md-12 col-xs-12  D_leftP_toppadding">
+            <div class="col-md-3 col-xs-12" style="padding: 0px;word-break: break-all;"
+              *ngFor="let upload of sendvaform.upload">
+              <img src="./assets/images-template/attach@2x.png" height='16px' width="12px" style="margin-right: 5px" />
+              <a (click)="base64(upload)" style="cursor:pointer">{{upload.UploadName}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="padding: 0px;margin:0px;margin-bottom: 20px">
+        <div class="col-md-2 control-label">
+        </div>
+        <div class="col-md-10">
+          <a [id]="'id'+i" data-toggle="collapse" [href]="'#post'+i" (click)="onCheckCollapseIn(i)">
+            <span [id]="i+'_text'">收合請假明細</span>
+            <img [id]="i+'_img'" src="./assets/images-template/icon-arrow.png"
+              style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
+          </a>
+        </div>
+      </div>
+      <div [id]="'post'+i" class="panel-collapse collapse in active five-cols">
+        <div class="row D_tabletop" style="padding: 0px;margin: 0px;background-color: #edf5ff">
+          <div class="col-md-3 "
+            style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">
+            請假日期</div>
+          <div class="col-md-3  col-xs-12"
+            style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">
+            當日班型</div>
+          <div class="col-md-3 "
+            style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">
+            時間</div>
+          <div class="col-md-3 "
+            style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">
+            休息時間</div>
+          <div class="col-md-3 "
+            style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0">請假工時</div>
+        </div>
+        <div class="row" style="padding: 0px;margin: 0px"
+          *ngFor="let uishowAbsFlowAppsDetail of  sendvaform.uishowAbsFlowAppsDetails">
+
+          <!-- <div class="col-md-3 D_context">2018/08/26</div> -->
+          <!-- <div class="col-md-3 D_context">08:00~17:00</div> -->
+
+          <div class="col-md-3 D_context">{{uishowAbsFlowAppsDetail.vaOneDate}}</div>
+          <!-- 請假日期 -->
+          <div class="col-md-3  col-xs-12 D_context">
+            <span *ngIf="uishowAbsFlowAppsDetail.vaRote"
+              (click)="bt_Show_RoteInfo(uishowAbsFlowAppsDetail.vaRote.RoteID)">{{uishowAbsFlowAppsDetail.vaRote.RoteNameC}}</span>
+            <span *ngIf="!uishowAbsFlowAppsDetail.vaRote">無</span>
+          </div>
+          <!-- 當日班 -->
+          <div class="col-md-3 D_context">
+            {{uishowAbsFlowAppsDetail.vaOneOnTime}} -
+            {{uishowAbsFlowAppsDetail.vaOneOffTime}}
+            <div *ngIf="uishowAbsFlowAppsDetail.ActualRote_calCrossDay" style="display: inline-block;
+            height: 20px;
+            font-size: 13px;
+            width: 40px;
+            text-align: center;
+            color: #fff;
+            background-color: #408cb6;
+            border: 1px solid;
+            border-radius: 15px;">+1日</div>
+          </div>
+          <!-- 時間 -->
+          <div class="col-md-3 D_context" style="height: 33px; overflow-y: auto;">
+            <div *ngFor="let vaRest of uishowAbsFlowAppsDetail.vaRest">
+              {{vaRest.vaRestOnTime}} -
+              {{vaRest.vaRestOffTime}}
+            </div>
+            <div *ngIf="uishowAbsFlowAppsDetail.vaRest.length == 0">
+              -
+            </div>
+          </div>
+          <!-- 休息時間 -->
+          <div class="col-md-3 D_context" style="border-right: 1px">
+            {{uishowAbsFlowAppsDetail.vaUseDay}} 日
+            {{uishowAbsFlowAppsDetail.vaUseHour}} 時
+            {{uishowAbsFlowAppsDetail.vaUseMinute}} 分
+          </div>
+          <!-- 請假工時 -->
+          <!-- 電腦明細畫面 -->
+
+          <div class="col-xs-12 P_date">
+            {{uishowAbsFlowAppsDetail.vaOneDate}}
+            {{uishowAbsFlowAppsDetail.vaOneOnTime}} ~
+            {{uishowAbsFlowAppsDetail.vaOneOffTime}}
+            <div *ngIf="uishowAbsFlowAppsDetail.ActualRote_calCrossDay" style="display: inline-block;
+            height: 20px;
+            font-size: 13px;
+            width: 40px;
+            text-align: center;
+            color: #fff;
+            background-color: #408cb6;
+            border: 1px solid;
+            border-radius: 15px;">+1日</div>
+          </div>
+          <div class="col-xs-12 P_context" style="padding-top: 10px">當日班型:
+            <span *ngIf="uishowAbsFlowAppsDetail.vaRote"
+              (click)="bt_Show_RoteInfo(uishowAbsFlowAppsDetail.vaRote.RoteID)">{{uishowAbsFlowAppsDetail.vaRote.RoteNameC}}</span>
+            <span *ngIf="!uishowAbsFlowAppsDetail.vaRote">無</span>
+          </div>
+          <!-- 當日班 -->
+          <div class="col-xs-12 P_context">休息時間:
+            <div style="display: inline-block;" *ngFor="let vaRest of uishowAbsFlowAppsDetail.vaRest ; let i = index">
+              {{vaRest.vaRestOnTime}} -
+              {{vaRest.vaRestOffTime}}
+              <span *ngIf="(i+1) != uishowAbsFlowAppsDetail.vaRest.length">、</span>
+            </div>
+          </div>
+          <div class="col-xs-12 P_context">
+            請假工時:
+            {{uishowAbsFlowAppsDetail.vaUseDay}}日
+            {{uishowAbsFlowAppsDetail.vaUseHour}}時
+            {{uishowAbsFlowAppsDetail.vaUseMinute}}分
+          </div>
+          <!-- 手機明細畫面 -->
+        </div>
+      </div>
+      <!-- end container -->
+
+
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border: 0px">
+      <div class="col-md-6"></div>
+      <div class="col-md-6 col-xs-12 P_left" style="padding-left: 35px;">
+        請假總工時：
+        <span style="color:#d0021b;font-weight: bold;">{{showAllVatime().allday}}</span> 日
+        <span style="color:#d0021b;font-weight: bold;">{{showAllVatime().allhour}}</span> 時
+        <span style="color:#d0021b;font-weight: bold;">{{showAllVatime().allminute}}</span> 分
+      </div>
+      <div class="col-md-12 col-xs-12 P_left" style="padding-left: 35px;">
+        <a style="cursor: pointer;text-decoration:underline;" data-toggle="modal"
+          (click)="getRecentHoliday(getsendvaform[0].leaveman_jobid)">近期假單一覽 ></a>
+      </div>
+    </div>
+
+    <!-- form-group end -->
+    <div
+      style="border-top: 1px dashed #dcdcdc;border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin-top: 20px;margin-bottom: 20px">
+      <div style="border:1px solid #d9edf7;">
+        <div style="background-color: #d9edf7;padding-left: 10px;padding-top: 5px;">
+          <label style="color: 
+            #31708f">人力處提醒您</label>
+        </div>
+        <div style="height: 110px;
+            overflow-y: auto;padding: 5px 10px;">{{showNote}}
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+
+    <div class="row" style="margin: 0px;margin-bottom: 20px">
+      <div class="col-md-2 col-xs-12 P_left" style="padding:0px;padding-top: 6px;margin-bottom: 10px;">
+        <span class="form-must-fill">*</span>簽核人員
+      </div>
+      <div class="col-md-10 col-xs-12">
+        <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeSingMan$"></app-select-signer>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="col-md-2 col-xs-12 " style="margin-bottom: 10px;margin-right: 20px;"></div>
+      <div class="col-md-6 col-xs-12 row" style="margin: 0px;padding: 0px">
+        <div class="col-md-8 col-md-push-4  col-xs-12 " style="margin-bottom: 15px;"><button class="btn btn-primary"
+            data-toggle="modal" (click)="checkSendError()">確認送出</button></div>
+        <div class="col-md-4 col-md-pull-8  col-xs-12 "><button class="btn btn-default"
+            (click)='previouspage()'>返回修改</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal" id="checksenddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認送出?</h4>
+        </div>
+        <div class="modal-body">
+          『提醒您，此張假單依准假規定，將由{{getshowSendTree}}級主管批核。』
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+            (click)="sendVaform_click()">送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog確認送出 -->
+<div class="modal" id="sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">申請完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            表單送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='["../../home"]'>確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog送出成功 -->
+
+
+
+
+<div class="modal" id="RecentHoliday" *ngIf="getsendvaform" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div>
+            <div class="row" style="margin:0px">
+              <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+                <div class="col-md-4 col-xs-12 P_title">
+                  <label class=" control-label">
+                    員工
+                  </label>
+                </div>
+                <div class="col-md-6 col-xs-10" style="padding:0px">
+                  {{getsendvaform[0].leaveman_jobid}} {{getsendvaform[0].leaveman_name}}
+                </div>
+                <div class="col-md-2 col-xs-2" style="padding:0px">
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+              </div>
+            </div>
+            <div class="row" style="margin:0px">
+              <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+                <div class="col-md-4 col-xs-12 P_title" style="margin-top: 8px;">
+                  <label class=" control-label">
+                    <span class="form-must-fill">*</span>起始日期
+                  </label>
+                </div>
+                <div class="col-md-6 col-xs-10" style="padding:0px">
+                  <input [(ngModel)]="SearchDateB" [matDatepicker]="StartDatepicker" id="id_ipt_startday" type="text"
+                    (blur)="SerchStartDateChange()" (dateChange)="SerchStartDateChange()" class="form-control"
+                    style="background-color: #ffffff;margin-top: 4px" placeholder="年/月/日" />
+                  <div *ngIf="errorStartDateState.state" style="color: #e60012">{{errorStartDateState.errorString}}
+                  </div>
+
+                  <mat-datepicker #StartDatepicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+                </div>
+                <div class="col-md-2 col-xs-2" style="padding:0px">
+                  <input (click)="StartDatepicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                        cursor: pointer;
+                        color: transparent;
+                        border: 1px solid transparent;
+                        width: 50px;
+                        height: 40px;
+                        ">
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+                <div class="col-md-4 col-xs-12 P_title" style="margin-top: 8px;">
+                  <label class=" control-label">
+                    <span class="form-must-fill">*</span>結束日期
+                  </label>
+                </div>
+                <div class="col-md-6  col-xs-10" style="padding:0px">
+                  <input [(ngModel)]="SearchDateE" [matDatepicker]="EndDatePicker" id="id_ipt_endday"
+                    (blur)="blurEndDate()" type="text" class="form-control"
+                    style="background-color: #ffffff;margin-top: 4px" placeholder="年/月/日" />
+                  <div *ngIf="errorEndtDateState.state" style="color: #e60012">{{errorEndtDateState.errorString}}</div>
+
+                  <mat-datepicker #EndDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+                </div>
+                <div class="col-md-2  col-xs-2" style="padding:0px">
+                  <input (click)="EndDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                          cursor: pointer;
+                          color: transparent;
+                          border: 1px solid transparent;
+                          width: 50px;
+                          height: 40px;
+                          ">
+                </div>
+              </div>
+            </div>
+            <div style="text-align: center">
+              <button type="button" class="btn btn-primary"
+                (click)="getRecentHoliday(getsendvaform[0].leaveman_jobid)">查詢</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-body" style="padding: 25px;padding-top: 15px;">
+
+          <div class="row P_div" *ngFor="let oneVaData of vaSearchFlowSign">
+            <div class="row col-md-3 col-xs-12 P_borderBottom">
+              <div class="col-md-6   col-xs-6  col-md-push-6" style="color: #326299;padding:10px 0px;">
+                <div *ngIf="oneVaData.ProcessFlowID > 0">
+                  {{oneVaData.showProcessFlowID}}
+                </div>
+                <ng-container *ngIf="oneVaData.key != '0'">
+                  {{oneVaData.key}}
+                </ng-container>
+                <div>
+                  請假單
+                  <!-- <ng-container *ngIf="oneVaData.ProcessFlowID > 0">
+                    <span style="color: #969696">(前)</span>
+                  </ng-container> -->
+                  <ng-container *ngIf="oneVaData.key != '0'">
+                    <ng-container *ngIf="!oneVaData.OldKey">
+                      <span style="color: #969696">(後)</span>
+                    </ng-container>
+                    <ng-container *ngIf="oneVaData.OldKey">
+                      <span *ngIf="oneVaData.OldKey!='0'" style="color: #969696">(舊)</span>
+                      <span *ngIf="oneVaData.OldKey=='0'" style="color: #969696">(後)</span>
+                    </ng-container>
+                  </ng-container>
+                  <!-- <div>
+                    <a style="cursor: pointer;" data-toggle="modal" data-target="#Cancelformdialog"
+                      (click)="takeForm = oneVaData">
+                      <span *ngIf="oneVaData.Take">(抽單)</span>
+                    </a>
+                  </div> -->
+                </div>
+                <!-- <div *ngIf="oneVaData.key > 0" style="color: #969696">
+            (後台新增)
+          </div> -->
+
+              </div>
+              <div class="col-md-6   col-xs-6  col-md-pull-6" style="padding: 0;text-align: center;
+          padding-top: 15px;">
+                <div class="tag_blue" *ngIf="oneVaData.State=='1'">呈核中</div>
+                <div class="tag_skyblue" *ngIf="oneVaData.State=='3'">已核准</div>
+                <div class="tag_red" *ngIf="oneVaData.State=='2'">重擬</div>
+                <div class="tag_gray" *ngIf="oneVaData.State=='7'">已抽單</div>
+                <div class="tag_lightblue" *ngIf="oneVaData.State=='6'">預排中</div>
+                <div class="tag_red" *ngIf="oneVaData.State=='8'">已異動</div>
+              </div>
+            </div>
+            <div class="row col-md-8 col-xs-10" style="margin: 0px;padding: 0">
+              <div class="col-md-8 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0">
+                <div class="row" style="margin: 0;padding-bottom: 5px;">
+                  <div class="col-md-4 col-xs-12" style="padding: 0">
+                    <!-- 643345 李大仁  -->
+                    {{oneVaData.EmpCode}} {{oneVaData.EmpNameC}} <span *ngIf="oneVaData.checkProxy"
+                      style="color: blue">(代)</span>
+                  </div>
+                  <div class="col-md-8 col-xs-12" style="padding: 0">
+                    <!-- 計劃發展部 -->
+                    {{oneVaData.AppDeptName}}
+                  </div>
+                </div>
+                <div class="row" style="margin: 0;padding-bottom: 5px;">
+                  <div class="col-md-6 col-xs-12" style="padding: 0">
+                    <span style="color: #969696">起始：</span>
+                    <!--2019/01/18 08:00-->{{oneVaData.DateB}} {{oneVaData.TimeB}}
+                  </div>
+                  <div class="col-md-6 col-xs-12" style="padding: 0">
+                    <span style="color: #969696">結束：</span>
+                    <!--2019/01/18 12:00-->{{oneVaData.DateE}} {{oneVaData.TimeE}}
+                  </div>
+                </div>
+                <div class="row" style="margin: 0;">
+                  <span style="font-weight: bold;color: #969696">請假假種：</span>
+                  <span *ngFor="let oneHolidayName of oneVaData.uiHolidayName; let i = index">
+                    {{oneHolidayName}}
+                    <span *ngIf="(i+1) != oneVaData.uiHolidayName.length">、</span>
+                  </span>
+                </div>
+                <div class="row" style="margin: 0;">
+                  (合有{{oneVaData.numberOfVaData}}個差假時段)
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12" style="padding: 0">
+                <div class="P_height"></div>
+                <div style="padding-bottom: 5px;">共計 {{oneVaData.day}} 日 {{oneVaData.hour}} 時 {{oneVaData.minute}} 分
+                </div>
+                <div *ngIf="oneVaData.ManageEmpName && oneVaData.State=='1'">{{oneVaData.ManageEmpName}} 簽核中</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog近期假單一覽-->
+<div class="modal" id="RoteInf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <!-- <h4 class="modal-title" id="mySmallModalLabel">{{showSearchEmp.EmpCode}} 出勤班表</h4> -->
+          <h4 class="modal-title" id="mySmallModalLabel">班型資訊</h4>
+        </div>
+        <div class="modal-body">
+          <app-rote-inf [GetRoteInfo$]="Ob_setGetRoteInfo$"></app-rote-inf>
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog班表期間-->

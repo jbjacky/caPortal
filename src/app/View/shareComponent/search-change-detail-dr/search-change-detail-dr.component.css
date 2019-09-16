@@ -1,0 +1,93 @@
+
+
+@media (min-width: 800px){
+    #RoteInf .modal-dialog {
+      width: 800px;
+      margin: 30px auto;
+    }
+  }
+  .Rote{
+  color: #d0021b
+  }
+  .RoteLink:hover, .RoteLink:focus {
+  color: #ff6600;
+  cursor: pointer;
+  text-decoration: underline;
+  }
+  
+.tag_blue{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    /* margin: 0px 5px 10px 0px; */ 
+    display: inline-block;
+    text-align: center;
+    border: solid 1px #002f7b;
+    color: #002f7b;
+}
+.tag_skyblue{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    /* margin: 0px 5px 10px 0px; */
+    display: inline-block;
+    text-align: center;
+    border: solid 1px #00857d;
+    color: #00857d;
+}
+.tag_red{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    /* margin: 0px 5px 10px 0px; */
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #d0021b;
+    color: #d0021b;
+}
+.tag_gray{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    /* margin: 0px 5px 10px 0px; */
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #9b9b9b;
+    color: #9b9b9b;
+}
+.tag_lightblue{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    /* margin: 0px 5px 10px 0px; */
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #028fcf;
+    color: #028fcf;
+}
+.P_left{
+    text-align: right;
+}
+.btnFeatures{
+    margin-right: 10px;
+    padding: 6px 30px;
+}
+.P_right{
+  padding-top: 2px;
+  padding-left: 15px;
+  text-align: right;
+}
+@media screen and (max-width:1000px) {
+    .P_left{
+        text-align: left;
+    }
+    .P_right{
+      padding-left: 0px;
+      text-align: left
+    }
+}

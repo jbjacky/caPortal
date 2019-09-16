@@ -1,0 +1,101 @@
+<div id="wrapper">
+    <div id="header">
+        <div id="header-inner">
+            <div id="website-title-group">
+                <div id="ci-logo" class="">
+                    <img src="./assets/images-template/img-temp-login/logo-ci-tw.png" alt="China Airlines Logo">
+                </div>
+                <h1 id="website-title" class="">差勤系統</h1>
+            </div>
+        </div>
+    </div>
+    <!--Header End -->
+
+    <div id="main">
+        <div id="main-inner">
+
+            <div id="block01">
+                <div id="block01-head">
+                    <p>* 請登入您的EIP帳號密碼.</p>
+                </div>
+                <!--block-header End-->
+
+                <div id="block01-body">
+                    <section id="login_area">
+
+                        <div id="login_form" class="">
+                            <dl class="form-group-civd-style001">
+                                <dt class="prop">
+                                    <label for="user_id" class="label-tw">帳 號</label>
+                                </dt>
+                                <dd class="value">
+                                    <input id="user_id" class="input-style001" type="text" [(ngModel)]="account" />
+                                </dd>
+                            </dl>
+
+
+                            <dl class="form-group-civd-style001">
+                                <dt class="prop">
+                                    <label for="user_password" class="label-tw">密 碼</label>
+                                </dt>
+                                <dd class="value">
+                                    <input id="user_password" class="input-style001" type="password" [(ngModel)]="password" />
+                                </dd>
+                            </dl>
+
+
+                        </div>
+                        <!--login_form -->
+                        <!--錯誤訊息 Start   如果要出現則將class hide拿掉-->
+                        <p class="text-center   text-danger   hide">
+                            錯誤訊息錯誤訊息錯誤訊息錯誤訊息
+                        </p>
+                        <!--錯誤訊息 End -->
+
+
+                        <p class="text-center">
+                            <input id="btn-login-style001" type="button" class="btn btn-primary" value="登入" (click)="login()"
+                                [disabled]="loading" />
+                        </p>
+                        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                        <p class="text-center  m-b-xs">
+                            <a class="pg-login-links" href="">忘記密碼?</a>
+                        </p>
+                        <p class="text-center  m-b-xs">
+                            <a class="pg-login-links" href="login_thm01sty01_登入基礎頁_英文.html">English Version</a>
+                        </p>
+
+
+                    </section>
+                    <!--login area End -->
+
+
+                    <!-- <hr class="hr-style01" > -->
+                </div>
+                <!--block-body End-->
+
+                <div id="block01-foot">
+                    <!--補充的內容可寫在這裡 -->
+                </div>
+                <!--block-body End-->
+
+
+            </div><!-- block01 End -->
+        </div>
+        <!--Main-inner End -->
+    </div>
+    <!--Main End -->
+
+    <div id="footer">
+        <!-- 如果有頁尾內容，可寫在這 -->
+    </div>
+    <!--footer End -->
+
+</div>
+<!--Wrapper End -->
+
+<div id="htmlversion">CIVD2015-temp-login</div>
+<!--htmlversion: for Reference, Dont Delete this 檢查HTML版本註記用, 不會出現，不要把我刪掉-->
+<ngx-spinner bdOpacity=1 bdColor="rgba(51,51,51,0.41)" size="medium" color="#fff" type="ball-beat" fullScreen="true">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

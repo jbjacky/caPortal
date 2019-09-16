@@ -1,0 +1,291 @@
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetAttendExceptionalClass } from 'src/app/Models/PostData_API_Class/GetAttendExceptionalClass';
+import { getapi_formatTimetoString, doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
+import { AttendCard } from 'src/app/Models/AttendCard'
+import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByFormClass';
+import { isValidDate } from 'src/app/UseVoid/void_isVaildDatetime';
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-forgetform',
+  templateUrl: './forgetform.component.html',
+  styleUrls: ['./forgetform.component.css']
+})
+export class ForgetformComponent implements OnInit {
+  EmpBase = { EmpCode: '', Name: '' }
+  isWriteforgetform = false; //Angular顯示用，選擇異常確認單時為false，填寫時為true
+  GetAttendExceptional: GetAttendExceptionalClass = { DateB: "2018/11/25", DateE: "2018/12/03", ListEmpID: ["051005"] }
+
+  ActualRote_calCrossDay: boolean = false //出勤是否跨天
+  AttendCard_calCrossDay: boolean = false //刷卡紀錄是否跨天
+
+  AttendCard: AttendCard[] = [];
+  selectAttendCard: AttendCard = new AttendCard();
+
+  User = {
+    forget_man_code: '',
+    forget_man_name: '',
+    write_man_code: '',
+    write_man_name: ''
+  }
+
+  loading: boolean = false;
+
+  errorEmp = { state: false, errorString: '' };
+  errorStartDate = { state: false, errorString: '' };
+  errorEndDate = { state: false, errorString: '' };
+
+
+  constructor(
+    private GetApiUserService: GetApiUserService,
+    private GetApiDataServiceService: GetApiDataServiceService) { }
+
+  ngOnInit() {
+    var sendDate = new Date();
+    var sendEndDate = doFormatDate(sendDate)
+    sendDate.setDate(sendDate.getDate() - 6)
+    var sendStartDate = doFormatDate(sendDate)
+
+    this.GetAttendExceptional.DateB = sendStartDate
+    this.GetAttendExceptional.DateE = sendEndDate
+    this.GetApiUserService.counter$.subscribe(
+      x => {
+        this.GetAttendExceptional.ListEmpID = [x.EmpCode]
+
+        var ForgetName = ''
+        if (x.EmpNameC) {
+          ForgetName = x.EmpNameC;
+        } else {
+          ForgetName = x.EmpNameE;
+        }
+        this.User = {
+          forget_man_code: x.EmpCode,
+          forget_man_name: ForgetName,
+          write_man_code: x.EmpCode,
+          write_man_name: ForgetName
+        }
+
+
+        this.loading = true
+        this.AttendCard = [];
+        this.GetApiDataServiceService.getWebApiData_GetAttendExceptional(this.GetAttendExceptional)
+          .subscribe((data: any) => {
+            if (data.length == 0) {
+              this.loading = false
+            }
+            for (let x of data) {
+              var AttendData: AttendCard = new AttendCard()
+              AttendData.forget_man_code = this.User.forget_man_code
+              AttendData.forget_man_name = this.User.forget_man_name
+              AttendData.write_man_code = this.User.write_man_code
+              AttendData.write_man_name = this.User.write_man_name
+
+              AttendData.AttendDate = doFormatDate(x.AttendDate)
+
+              if (x.LateMins > 0) {
+                AttendData.LateMins = true
+              } else {
+                AttendData.LateMins = false
+              }
+
+              if (x.EarlyMins > 0) {
+                AttendData.EarlyMins = true
+              } else {
+                AttendData.EarlyMins = false
+              }
+
+              AttendData.IsAbsent = x.IsAbsent
+              AttendData.RoteCode = x.ActualRote.RoteCode
+
+              var ActualRote_OnTime = new Date(doFormatDate(x.AttendDate) + ' ' + getapi_formatTimetoString(x.ActualRote.OnTime))
+              var ActualRote_OffTime = new Date(doFormatDate(x.AttendDate) + ' ' + getapi_formatTimetoString(x.ActualRote.OffTime))
+              if (ActualRote_OnTime > ActualRote_OffTime && ActualRote_OnTime && ActualRote_OffTime && getapi_formatTimetoString(x.ActualRote.OnTime).length > 0 && getapi_formatTimetoString(x.ActualRote.OffTime).length > 0) {
+                this.ActualRote_calCrossDay = true
+              } else {
+                this.ActualRote_calCrossDay = false
+              }
+
+              var AttendCard_OnTime = new Date(doFormatDate(x.AttendDate) + ' ' + getapi_formatTimetoString(x.AttendCard[0].OnTime))
+              var AttendCard_OnTime = new Date(doFormatDate(x.AttendDate) + ' ' + getapi_formatTimetoString(x.AttendCard[0].OffTime))
+              if (AttendCard_OnTime > AttendCard_OnTime && AttendCard_OnTime && AttendCard_OnTime && getapi_formatTimetoString(x.AttendCard[0].OnTime).length > 0 && getapi_formatTimetoString(x.AttendCard[0].OffTime).length > 0) {
+                this.AttendCard_calCrossDay = true
+              } else {
+                this.AttendCard_calCrossDay = false
+              }
+
+              AttendData.ActualRote_OnTime = getapi_formatTimetoString(x.ActualRote.OnTime)
+              AttendData.ActualRote_OffTime = getapi_formatTimetoString(x.ActualRote.OffTime)
+
+              AttendData.AttendCard_OnTime = getapi_formatTimetoString(x.AttendCard[0].OnTime)
+              AttendData.AttendCard_OffTime = getapi_formatTimetoString(x.AttendCard[0].OffTime)
+
+              this.AttendCard.push(AttendData)
+
+              this.loading = false
+            }
+
+          })
+      })
+
+  }
+  onGoWriteForm(Attend) {
+    this.isWriteforgetform = true
+    window.scroll(0, 0)
+    this.selectAttendCard = Attend
+  }
+  onisWriteforgetformChange() {
+    //按返回，切換到選擇異常確認單頁面
+    this.isWriteforgetform = false;
+    window.scroll(0, 0)
+  }
+
+  CanSearch() {
+    var startDate = $('#id_ipt_startday').val()
+    var endDate = $('#id_ipt_endday').val()
+    if (this.EmpBase.EmpCode.length == 0) {
+      this.errorEmp = { state: true, errorString: '請輸入員工號' }
+      return false
+    } else if (this.errorEmp.state == true) {
+      this.errorEmp = { state: true, errorString: '請輸入正確員工號' }
+      return false
+    } else if (startDate.length == 0) {
+      this.errorStartDate = { state: true, errorString: '請輸入起始日期' };
+      return false
+    } else if (endDate.length == 0) {
+      this.errorEndDate = { state: true, errorString: '請輸入結束日期' };
+      return false
+    } else if (!isValidDate(startDate)) {
+      this.errorStartDate = { state: true, errorString: '起始日期格式錯誤' };
+      return false
+    } else if (!isValidDate(endDate)) {
+      this.errorEndDate = { state: true, errorString: '結束日期格式錯誤' };
+      return false
+    }
+    else {
+      return true
+    }
+  }
+  onSearch() {
+    if (this.CanSearch()) {
+      var startDate = $('#id_ipt_startday').val()
+      var endDate = $('#id_ipt_endday').val()
+      this.GetAttendExceptional = { DateB: startDate, DateE: endDate, ListEmpID: [this.EmpBase.EmpCode] }
+
+      this.loading = true
+      this.AttendCard = [];
+      this.GetApiDataServiceService.getWebApiData_GetAttendExceptional(this.GetAttendExceptional)
+        .subscribe((data: any) => {
+          console.log(data)
+          if (data) {
+            if (data.length != 0) {
+
+              for (let x of data) {
+                var AttendData: AttendCard = new AttendCard()
+                AttendData.forget_man_code = this.User.forget_man_code
+                AttendData.forget_man_name = this.User.forget_man_name
+                AttendData.write_man_code = this.User.write_man_code
+                AttendData.write_man_name = this.User.write_man_name
+
+                AttendData.AttendDate = doFormatDate(x.AttendDate)
+
+                if (x.LateMins > 0) {
+                  AttendData.LateMins = true
+                } else {
+                  AttendData.LateMins = false
+                }
+
+                if (x.EarlyMins > 0) {
+                  AttendData.EarlyMins = true
+                } else {
+                  AttendData.EarlyMins = false
+                }
+
+                AttendData.IsAbsent = x.IsAbsent
+                AttendData.RoteCode = x.ActualRote.RoteCode
+
+                var ActualRote_OnTime = new Date(doFormatDate(x.AttendDate) + ' ' + getapi_formatTimetoString(x.ActualRote.OnTime))
+                var ActualRote_OffTime = new Date(doFormatDate(x.AttendDate) + ' ' + getapi_formatTimetoString(x.ActualRote.OffTime))
+                if (ActualRote_OnTime > ActualRote_OffTime && ActualRote_OnTime && ActualRote_OffTime && getapi_formatTimetoString(x.ActualRote.OnTime).length > 0 && getapi_formatTimetoString(x.ActualRote.OffTime).length > 0) {
+                  this.ActualRote_calCrossDay = true
+                } else {
+                  this.ActualRote_calCrossDay = false
+                }
+
+                var AttendCard_OnTime = new Date(doFormatDate(x.AttendDate) + ' ' + getapi_formatTimetoString(x.AttendCard[0].OnTime))
+                var AttendCard_OnTime = new Date(doFormatDate(x.AttendDate) + ' ' + getapi_formatTimetoString(x.AttendCard[0].OffTime))
+                if (AttendCard_OnTime > AttendCard_OnTime && AttendCard_OnTime && AttendCard_OnTime && getapi_formatTimetoString(x.AttendCard[0].OnTime).length > 0 && getapi_formatTimetoString(x.AttendCard[0].OffTime).length > 0) {
+                  this.AttendCard_calCrossDay = true
+                } else {
+                  this.AttendCard_calCrossDay = false
+                }
+
+                AttendData.ActualRote_OnTime = getapi_formatTimetoString(x.ActualRote.OnTime)
+                AttendData.ActualRote_OffTime = getapi_formatTimetoString(x.ActualRote.OffTime)
+
+                AttendData.AttendCard_OnTime = getapi_formatTimetoString(x.AttendCard[0].OnTime)
+                AttendData.AttendCard_OffTime = getapi_formatTimetoString(x.AttendCard[0].OffTime)
+
+                this.AttendCard.push(AttendData)
+
+                this.loading = false
+              }
+            } else {
+              alert('查無資料')
+              this.loading = false
+            }
+          } else {
+            alert('查無資料')
+            this.loading = false
+          }
+
+        })
+    }
+
+  }
+
+
+  onSaveEmptoView(event) {
+    // console.log(event)
+    this.errorEmp = { state: false, errorString: '' }
+    this.EmpBase.EmpCode = event.split('，')[0]
+    this.EmpBase.Name = event.split('，')[1]
+    $('#chooseEmpdialog').modal('hide');
+  }
+
+  chooseEmp() {
+    if (this.EmpBase.EmpCode.length == 6) {
+      var GetBaseByFormClass: GetBaseByFormClass = {
+        EmpCode: this.EmpBase.EmpCode,
+        AppEmpCode: '',
+        EffectDate: ''
+      }
+      this.GetApiDataServiceService.getWebApiData_GetBaseByForm(GetBaseByFormClass).
+        subscribe((x: any) => {
+          if (!x) {
+            this.errorEmp = { state: true, errorString: '員工號輸入錯誤' }
+          } else {
+            if (x[0].EmpNameC == null) {
+              this.EmpBase.Name = x[0].EmpNameE
+            } else if (x[0].EmpNameC.length == 0) {
+              this.EmpBase.Name = x[0].EmpNameE
+            } else {
+              this.EmpBase.Name = x[0].EmpNameC
+            }
+            this.errorEmp = { state: false, errorString: '' }
+          }
+
+        })
+    } else {
+      this.errorEmp = { state: true, errorString: '請輸入6個數字員工號' }
+    }
+  }
+  changeStartDateView() {
+    $("#id_bt_startday").change(function () {
+      $("#id_ipt_endday").val($("#id_bt_startday").val())
+    });
+  }
+}

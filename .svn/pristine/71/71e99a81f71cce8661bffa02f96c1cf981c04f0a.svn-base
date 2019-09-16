@@ -1,0 +1,45 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div style="margin-bottom: 10px;">
+      <div style="margin-bottom: 10px;">
+        <button type="button">新增</button>
+      </div>
+      <label style="margin-right: 2px;">請輸入人力處窗口員工編號</label>
+      <input type="text" style="margin-right: 5px">
+      <button type="button" style="margin-right: 5px">查詢</button>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+        <thead>
+          <tr>
+            <!-- <th style="background-image: unset;cursor: unset"><input id="chkAll" type="checkbox"></th> -->
+            <th style="background-image: unset;cursor: unset">人力處窗口</th>
+            <th>窗口姓名</th>
+            <th>管轄單位代碼</th>
+            <th>管轄單位名稱</th>
+            <th>功能</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let aa of HrDeptData">
+            <td>
+              {{aa.EmpCode}}
+            </td>
+            <td>
+              {{aa.EmpNameC}}
+            </td>
+            <td>
+              {{aa.DeptCode}}
+            </td>
+            <td>
+              {{aa.DeptName}}
+            </td>
+            <td>
+              <a style="padding-right: 5px">編輯</a>
+              <a>刪除</a>
+            </td>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,117 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var forms_1 = require("@angular/forms");
+var get_api_data_service_service_1 = require("../../Service/get-api-data-service.service");
+var rxjs_1 = require("rxjs");
+var operators_1 = require("rxjs/operators");
+var TestformComponent = /** @class */ (function () {
+    function TestformComponent(httpPostService) {
+        this.httpPostService = httpPostService;
+        this.checkdata = false;
+        this.array = [];
+        this.Empdata = { EmpCode: "627532", AppEmpCode: "627532", EmpNameC: "蔡O美", };
+        this.formgroup = new forms_1.FormGroup({
+            'name': new forms_1.FormControl(this.Empdata.EmpCode, [forms_1.Validators.required, forms_1.Validators.minLength(6), forms_1.Validators.maxLength(6)], //sync validators
+            [this.Empcode_AsyncValidatorFn('627532', '2018/7/3')] //async validators
+            ),
+            'jacky': new forms_1.FormControl(this.Empdata.EmpNameC, [forms_1.Validators.required,
+                forms_1.Validators.required, this.forbiddenNameValidator()])
+        });
+    }
+    TestformComponent.prototype.btarray = function () {
+        this.array.push(this.formgroup.value);
+    };
+    TestformComponent.prototype.ngOnInit = function () {
+    };
+    TestformComponent.prototype.forbiddenNameValidator = function () {
+        return function (control) {
+            if (control.value != '123') {
+                return { 'forbiddenName': true };
+            }
+            else {
+                return null;
+            }
+        };
+    };
+    /**
+     * @todo 驗證輸入請假單員工號
+     * @param {string} _AppEmpCode :被申請工號
+     * @param {string} _EffectDate :生效日
+     * @author jacky
+     */
+    TestformComponent.prototype.Empcode_AsyncValidatorFn = function (_AppEmpCode, _EffectDate) {
+        var _this = this;
+        if (this.formgroup) {
+            console.log(this.formgroup);
+            return function (control) {
+                return rxjs_1.timer(1000).pipe(operators_1.map(function (Level) {
+                    return { emailTaken: true };
+                }));
+            };
+        }
+        else {
+            return function (control) {
+                return rxjs_1.timer(1000)
+                    .pipe(operators_1.switchMap(function () {
+                    console.log('串api');
+                    return _this.httpPostService.getWebApiData_GetBaseByForm(control.value, _AppEmpCode, _EffectDate);
+                })).pipe(operators_1.map(function (Level) {
+                    return (Level) ? null : { emailTaken: true };
+                }));
+            };
+        }
+    };
+    TestformComponent.prototype.calDay = function () {
+        var startday = '2019/02/28';
+        var checkstartday = '2019/02/28';
+        var newdate = new Date(startday);
+        var newcheckstartday = new Date(checkstartday);
+        if (newcheckstartday > newdate) {
+            console.log('大於');
+        }
+        else {
+            if (newcheckstartday < newdate) {
+                console.log('小於');
+            }
+            else {
+                if (newdate.toString() == newcheckstartday.toString()) {
+                    console.log('等於');
+                }
+            }
+        }
+        // newdate.setDate(newdate.getDate()+num_addday)
+        // console.log(newdate.getMonth()+1);
+        // console.log(newdate.getDate());
+    };
+    TestformComponent.prototype.setval = function () {
+        this.formgroup.patchValue({
+            name: '123'
+        });
+        console.log(this.formgroup.value);
+        console.log(this.formgroup.value.name);
+    };
+    TestformComponent.prototype.onSubmit = function () {
+        console.log(this.formgroup.value);
+    };
+    TestformComponent = __decorate([
+        core_1.Component({
+            selector: 'app-testform',
+            templateUrl: './testform.component.html',
+            styleUrls: ['./testform.component.css']
+        }),
+        __metadata("design:paramtypes", [get_api_data_service_service_1.GetApiDataServiceService])
+    ], TestformComponent);
+    return TestformComponent;
+}());
+exports.TestformComponent = TestformComponent;
+//# sourceMappingURL=testform.component.js.map

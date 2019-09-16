@@ -1,0 +1,335 @@
+.AllCheckClass{
+    text-align: right;
+    margin-bottom: 5px;
+}
+.AllCheckLeftButtonClass{
+    margin-right: 10px;
+}
+.AllCheckClass .btn{
+    padding:2px 5px
+}
+.AllCheckClass .btn-primary{
+    background-color: #FFF;
+    color: #028fcf;
+    border: solid 1px cornflowerblue;
+}
+.AllCheckClass .btn-primary:hover{
+    background-color: #028fcf;
+    color:  #FFF;
+}
+.uiDelProssID{
+    text-align: center;
+    padding: 0;
+    line-height: 50px
+}
+.uiProssID{
+    text-align: center;
+    padding: 0;
+    padding-top: 10px;
+    line-height: 50px;
+}
+
+.uiTimeSum{
+    text-align: center;
+    padding: 0;
+    padding-top: 10px;
+    line-height: 25px;
+}
+#changeTimeSum.uiTimeSum{
+    line-height: 50px;
+}
+#forgetTimeSum.uiTimeSum{
+    line-height: 50px;
+}
+.BtAll_Review{
+    line-height: 50px;
+    margin: 0px;
+    padding: 0px 12px;
+    padding-top: 10px;
+    text-align: center;
+}
+.P_TopZero{
+    padding-top: 10px;
+}
+.ReviewTitle_desktop{
+    margin: 0px;
+    background-color: #eef6f9;
+    border-top:1px solid #c9c9c9;
+    padding: 5px 0px;
+    display: block;
+}
+.ReviewTitle_mobile{
+    margin: 0px;
+    background-color: #eef6f9;
+    border-top:1px solid #c9c9c9;
+    padding: 5px 0px;
+    display: none;
+}
+.ReviewDiv{
+    margin: 0;
+    padding-top: 10px;
+    border: 1px solid #c9c9c9;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+.ReviewButtonDiv{
+    padding: 0px 5px;
+}
+.P_notVisable{
+    visibility: visible
+}
+.P_base{
+    color: #6f6f6f;
+    border-right: 1px solid rgba(151, 151, 151, 0.32);
+    text-align: right;
+}
+.P_date{
+    padding: 0px;
+    padding-left: 20px;
+}
+
+.P_textLeft{
+    text-align: right
+}
+
+.errorInput{
+    border: 1px solid #e60012
+}
+.showForm{
+    min-height: 0px;
+    padding-top:0px
+}
+.P_reviewDiv{
+    background-color: #fafafa;
+    width: 100%;
+    border:1px solid #cccccc;
+    padding: 10px 15px;
+    margin:0px;
+    margin-bottom: 30px;
+}
+
+.SwitchReviews{
+  text-align: center;    
+  font-size: 18px;
+  color: #9d9d9d;
+}
+.clicked {
+  /* background-color: yellow; */
+  font-size: 23px;
+  color: #000;
+  border-top: 1px solid #aba9a2;
+  border-bottom: 1px solid #aba9a2;
+}
+
+.tag_blue{
+border-radius: 4px;
+width: 68px;
+height: 21px;
+/* margin: 0px 5px 10px 0px; */
+display: inline-block;
+text-align: center;
+border: solid 1px #002f7b;
+color: #002f7b;
+}
+.tag_fluorescentblue{
+border-radius: 4px;
+width: 68px;
+height: 21px;
+/* margin: 0px 5px 10px 0px; */
+display: inline-block;
+text-align: center;
+border: solid 1px #00bbdc;
+color: #00bbdc;
+}
+.tag_skyblue{
+border-radius: 4px;
+width: 68px;
+height: 21px;
+/* margin: 0px 5px 10px 0px; */
+display: inline-block;
+text-align: center;
+border: solid 1px #4a90e2;
+color: #4a90e2;
+}
+.tag_red{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 10px 10px 0px;
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #d0021b;
+    color: #d0021b;
+}
+.P_nav{
+    margin-bottom: 10px;
+}
+.badge{
+    background-color:#4a90e2;
+    padding: 5px 8px;
+    font-size: 10px;
+    border-radius: 13px;
+    margin-bottom: 6px;
+}
+.inputTextarea{
+    width: 100%;
+    resize: none;
+    height:88px;
+    margin-top: 5px;
+    display: block;
+    padding: 6px 12px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  
+  }
+  .P_displayShow{
+      display: none;
+  }
+@media screen and (max-width:992px) {
+   
+.P_base{
+    color: #6f6f6f;
+    border-right:0px;
+    border-bottom: 1px solid rgba(151, 151, 151, 0.32);
+    text-align: unset;
+}
+.P_date{
+    padding: 0px;
+    padding-top: 10px;
+}
+.P_textLeft{
+    text-align: left
+}
+.showForm{
+    min-height: 500px;
+    padding-top:66px
+}
+.P_reviewDiv{
+    margin-bottom: 0px;
+}
+.P_nav{
+    margin-bottom: 0px;
+}
+.nav-tabs > li > a {
+  margin-right: 0px;
+  line-height: unset;
+  border: 0px;
+  border-radius: 0px;
+  padding: 5px 5px;
+  padding-top: 10px;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+  color: #23569d;
+  background-color: #fff;
+  border: 0px;
+  border-bottom: 5px solid #23569d;
+  cursor: default;
+}
+.nav-tabs > li > a {
+  color: #4c4c4c;
+}
+.badge{
+    background-color:unset;
+    padding: 5px 8px;
+    font-size: 14px;
+    border-radius: 13px;
+    margin-bottom: 6px;
+    color: #d0021b;
+    display: block;
+}
+.ReviewTitle{
+    visibility: hidden;
+}
+.ReviewTitle_desktop{
+    display: none
+}
+.ReviewTitle_mobile{
+    visibility: hidden;
+    display: block
+}
+.P_displayShow{
+    display: inline-block;
+}
+
+.ReviewDiv{
+    border: 1px solid #028fcf;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+.BtAll_Review{
+    padding: 0px 0px;
+    line-height: 0px;
+    padding-top: 10px;
+}
+.ReviewButtonDiv{
+    padding: 0px 0px;
+}
+.P_notVisable{
+    visibility: hidden
+}
+}
+
+
+
+@media (max-width: 990px){
+    ::ng-deep #footer {
+        display: none;
+    }
+    .uiProssID{
+        text-align: left;
+        padding: 15px;
+        padding-bottom: 5px;
+        line-height: unset;
+    }
+    .uiDelProssID{
+        text-align: left;
+        padding: 15px;
+        padding-bottom: 5px;
+        line-height: unset;
+    }
+    .uiTimeSum{
+        text-align: left;
+        padding: 0px 15px;
+        line-height: unset;
+    }
+    #changeTimeSum.uiTimeSum{
+        line-height: unset;
+    }
+    #forgetTimeSum.uiTimeSum{
+        line-height: unset;
+    }
+}
+::ng-deep .vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+  }
+  ::ng-deep .vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+  }
+  ::ng-deep .modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width:550px){
+    .modal-dialog{
+      width: 300px;
+    }
+    .modal-footer{
+      text-align: center
+    }
+  }

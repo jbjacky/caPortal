@@ -1,0 +1,18 @@
+.tableTitle{
+    font-size: 18px;
+    margin-bottom: 15px;
+    
+}
+
+
+.P_textLeft{
+    text-align: right
+}
+
+
+@media screen and (max-width:992px) {
+   
+    .P_textLeft{
+        text-align: left
+    }
+    }

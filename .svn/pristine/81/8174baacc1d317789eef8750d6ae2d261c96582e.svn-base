@@ -1,0 +1,51 @@
+<div id="phonetopdiv" class="a-block" style="top: 138px;zoom: 1;z-index: 1;left: 0px;background-color: #fff;width: 100%">
+    <div class="a-block-body  a-block-container">
+
+        <a [id]="'id'+1" data-toggle="collapse" [href]="'#post'+1" (click)="onCheckCollapseIn()">
+            <span [id]="1+'_text'">收合查詢選單</span>
+            <img [id]="1+'_img'" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
+        </a>
+        <div [id]="'post'+1" class="panel-collapse collapse in active">
+
+            <app-choose-base-or-dept (outPutChoose)="getEmpCode($event)"></app-choose-base-or-dept>
+
+            <app-form-condition (outPutSearch)="getSearchFormCondition($event)"></app-form-condition>
+
+            <div class="form-group first-form-group">
+                <div class="row" style="padding-bottom: 15px;margin:0px">
+                    <div class="col-md-4  col-xs-12" style="padding:0px">
+                        <div class="col-md-4  col-xs-12" style="padding:0px">
+                        </div>
+                        <div class="col-md-8  col-xs-12" style="padding:0px">
+                            <button type="button" class="btn btn-primary" (click)="onSearchForm()">搜尋</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div style="background-color: rgba(73, 73, 73, 0.322);
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden"
+    *ngIf="diolog_state" (click)="hideSearchDialog()">
+</div>
+
+<div id="showFormPalce"></div>
+<div  class="showForm">
+
+    <app-search-va-form [getVaData]="setFlowView" (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Abs'"></app-search-va-form>
+    <app-search-del-form [getDelData]="setFlowView" (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Absc'"></app-search-del-form>
+    <app-search-forget-form [getForgetData]="setFlowView" (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'"></app-search-forget-form>
+    <app-search-change-form [getChangeData]="setFlowView" (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Card'"></app-search-change-form>
+</div>
+

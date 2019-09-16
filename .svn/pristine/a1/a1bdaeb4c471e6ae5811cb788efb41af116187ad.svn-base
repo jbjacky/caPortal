@@ -1,0 +1,1150 @@
+import { Component, OnInit, OnChanges, SimpleChanges, AfterViewInit, NgZone, ViewChild, ElementRef, DoCheck, OnDestroy } from '@angular/core';
+declare let $: any; //use jquery
+import { ViewportScroller } from '@angular/common';
+import { chinesenum } from 'src/app/UseVoid/void_chinesenumber'
+import { GetApiUserService } from 'src/app/Service/get-api-user.service'
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service'
+import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByFormClass';
+import { GetHoliDayBalanceClass } from 'src/app/Models/PostData_API_Class/GetHoliDayBalanceClass';
+import { doFormatDate, sumbit_formatTimetoString, getapi_formatTimetoString, formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
+import { isValidDate, isValidTime } from 'src/app/UseVoid/void_isVaildDatetime';
+import { CalculateFlowDataClass } from 'src/app/Models/PostData_API_Class/CalculateFlowDataClass';
+import { timeOfDay } from 'src/app/UseVoid/void_timeofday';
+import { vaform } from 'src/app/Models/vaform';
+import { uploadFileClass } from 'src/app/Models/uploadFileClass';
+import { FileDownloadService } from 'src/app/Service/file-download.service';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { takeWhile } from 'rxjs/operators';
+import { showBalanceClass } from 'src/app/Models/showBalanceClass';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+@Component({
+  selector: 'app-writevaform',
+  templateUrl: './writevaform.component.html',
+  styleUrls: ['./writevaform.component.css'],
+  providers: [GetBaseByFormClass]
+
+})
+export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
+  ngAfterViewInit(): void {
+
+  }
+  dateS = new Date()
+  dateE = new Date()
+  ngOnDestroy(): void {
+    // $(this.eventDateView.nativeElement).off('change');
+    // $(this.StartDateView.nativeElement).off('change');
+    // $(this.EndDateView.nativeElement).off('change');
+    // $(this.StartTimeView.nativeElement).off('change');
+    // $(this.EndTimeView.nativeElement).off('change');
+    this.api_subscribe = false;
+  }
+
+  api_subscribe = true; //ngOnDestroy時要取消
+
+  WriteformPage: boolean = true;
+  firstnotshow: boolean = false;//差假時段文字
+  titlechinesenum = 0; //差假時段中文數字計算
+  newtitle = '差假時段' + chinesenum(this.titlechinesenum + 1);//差假時段文字
+  writevaform: vaform;
+  sendvaform: vaform[] = []
+  NowIsWirteForm: boolean = true;
+  HoliDay = [];
+  showHoliDay = [];
+  checkbox_beforholiday = false;
+  promptVaStirng = { state: false, promptString: '' };//喪假分類提示字
+  errorDateAndTime = { state: false, errorString: '' };
+  errorKeyNameState = { state: false, errorString: '' };
+  errorEventDateState = { state: false, errorString: '' };
+  errorLeavemanState = { state: false, errorString: '' };
+  errorProxymanState = { state: false, errorString: '' };
+  errorCauseState = { state: false, errorString: '' };
+  errorVaSelect = { state: false, errorString: '' };
+  showKeyNameState = false;//喪假的對沖姓名欄位
+  showEventDate = false;//喪假、婚假、產假、陪產假的事件發生日欄位
+
+  showAllHoliDayBalance: showBalanceClass[] = []
+
+  constructor(private viewScroller: ViewportScroller,
+    private GetApiUserService: GetApiUserService,
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private FileDownload: FileDownloadService,
+    private LoadingPage: NgxSpinnerService) {
+  }
+
+  ngOnInit() {
+    this.writevaform = new vaform();
+
+    this.GetApiUserService.counter$.subscribe(
+      (x: any) => {
+        this.writevaform.leaveman_jobid = x.EmpCode
+        this.writevaform.wirteman_jobid = x.EmpCode
+        if (x.EmpNameC) {
+          this.writevaform.leaveman_name = x.EmpNameC;
+          this.writevaform.wirteman_name = x.EmpNameC;
+        } else {
+          this.writevaform.leaveman_name = x.EmpNameE;
+          this.writevaform.wirteman_name = x.EmpNameE;
+        }
+
+        if (x != 0) {
+          this.showHoliDayBalance(this.writevaform.leaveman_jobid)
+        }
+
+        this.firstGetHolday()
+
+      })
+
+    // console.log(this.writevaform)
+  }
+
+  showHoliDayBalance(EmpID: string) {
+    // console.log('xxx')
+    this.LoadingPage.show()
+
+    this.showAllHoliDayBalance = []
+    var GetHoliDayBalance: GetHoliDayBalanceClass = {
+      EmpID: EmpID,
+      DateB: doFormatDate(new Date()),
+      DateE: doFormatDate(new Date())
+    }
+    this.GetApiDataServiceService.getWebApiData_GetHoliDayBalance(GetHoliDayBalance)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((x: any) => {
+        var showBalance = []
+        for (let data of x) {
+          if (data.Sort > 0) {
+            showBalance.push(data)
+          }
+        }
+        this.LoadingPage.hide()
+
+        for (let oneBalance of showBalance) {
+          this.showAllHoliDayBalance.push({
+            HoliDayKindNameC: oneBalance.HoliDayKindNameC,
+            Balance: oneBalance.Balance,
+            useday: timeOfDay(true, oneBalance.Balance, 8).day.toString(),
+            usehour: timeOfDay(true, oneBalance.Balance, 8).hour.toString(),
+            useminute: timeOfDay(true, oneBalance.Balance, 8).minute.toString()
+          })
+        }
+      }, error => {
+        this.LoadingPage.hide()
+        alert('與api連線異常，getWebApiData_GetHoliDayBalance')
+      });
+
+  }
+
+  blurEmpCode() {
+    if (this.writevaform.leaveman_jobid) {
+      if (this.writevaform.leaveman_jobid.length == 6) {
+        var GetBaseByFormClass: GetBaseByFormClass = {
+          EmpCode: this.writevaform.wirteman_jobid,
+          AppEmpCode: this.writevaform.leaveman_jobid,
+          EffectDate: ''
+        }
+        this.GetApiDataServiceService.getWebApiData_GetBaseByForm(GetBaseByFormClass)
+          .pipe(takeWhile(() => this.api_subscribe))
+          .subscribe((x: any) => {
+            if (x == null) {
+              // alert('工號輸入錯誤')
+              this.errorLeavemanState = { state: true, errorString: '無效的員工號' }
+              this.writevaform.leaveman_name = ''
+              $("#leavejobid").addClass("errorInput");
+            } else if (x.length == 0) {
+              // alert('工號輸入錯誤')
+              this.writevaform.leaveman_name = ''
+              this.errorLeavemanState = { state: true, errorString: '無效的員工號' }
+              $("#leavejobid").addClass("errorInput");
+            } else {
+              // alert('工號正確')
+              if (x[0].EmpNameC == null) {
+                this.writevaform.leaveman_name = x[0].EmpNameE
+              } else if (x[0].EmpNameC.length == 0) {
+                this.writevaform.leaveman_name = x[0].EmpNameE
+              } else {
+                this.writevaform.leaveman_name = x[0].EmpNameC
+              }
+              this.errorLeavemanState = { state: false, errorString: '' }
+              $("#leavejobid").removeClass("errorInput");
+            }
+          }
+            , error => {
+              alert('與api連線異常，getWebApiData_GetBaseByForm')
+            }
+          )
+      } else {
+        // alert('工號輸入錯誤')
+        this.writevaform.leaveman_name = ''
+        this.errorLeavemanState = { state: true, errorString: '無效的員工號' }
+        $("#leavejobid").addClass("errorInput");
+      }
+    } else {
+      this.errorLeavemanState = { state: true, errorString: '無效的員工號' }
+      $("#leavejobid").addClass("errorInput");
+    }
+  }
+  blurProxyEmpCode() {
+    if (this.writevaform.proxyman_jobid) {
+      if (this.writevaform.proxyman_jobid.length == 6) {
+
+        if (this.writevaform.proxyman_jobid == this.writevaform.leaveman_jobid) {
+          this.errorProxymanState = { state: true, errorString: '代理人不能與請假人相同' }
+          $("#proxymanjobid").addClass("errorInput");
+          return
+        } else {
+
+          var GetBaseByFormClass: GetBaseByFormClass = {
+            EmpCode: this.writevaform.leaveman_jobid,
+            AppEmpCode: this.writevaform.proxyman_jobid,
+            EffectDate: ''
+          }
+          this.GetApiDataServiceService.getWebApiData_GetBaseByForm(GetBaseByFormClass)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe((x: any) => {
+
+              if (x == null) {
+                // alert('工號輸入錯誤')
+                this.errorProxymanState = { state: true, errorString: '無效的員工號' }
+                $("#proxymanjobid").addClass("errorInput");
+                this.writevaform.proxyman_name = ''
+              } else if (x.length == 0) {
+                // alert('工號輸入錯誤')
+                this.errorProxymanState = { state: true, errorString: '無效的員工號' }
+                $("#proxymanjobid").addClass("errorInput");
+                this.writevaform.proxyman_name = ''
+              } else {
+                // alert('工號正確')
+                this.writevaform.proxyman_name = x[0].EmpNameC
+                this.errorProxymanState = { state: false, errorString: '' }
+                $("#proxymanjobid").removeClass("errorInput");
+                if (x[0].EmpNameC == null) {
+                  this.writevaform.proxyman_name = x[0].EmpNameE
+                } else {
+                  if (x[0].EmpNameC.length == 0) {
+                    this.writevaform.proxyman_name = x[0].EmpNameE
+                  } else {
+                    this.writevaform.proxyman_name = x[0].EmpNameC
+                  }
+                }
+              }
+            }
+              , error => {
+                alert('與api連線異常，getWebApiData_GetBaseByForm')
+              })
+        }
+
+      } else if (this.writevaform.proxyman_jobid.length > 0) {
+        // alert('工號輸入錯誤')
+        this.errorProxymanState = { state: true, errorString: '無效的員工號' }
+        $("#proxymanjobid").addClass("errorInput");
+        this.writevaform.proxyman_name = ''
+      } else {
+        this.errorProxymanState = { state: false, errorString: '' }
+        $("#proxymanjobid").removeClass("errorInput");
+        this.writevaform.proxyman_name = ''
+      }
+    } else {
+      this.writevaform.proxyman_name = ''
+      this.errorProxymanState = { state: false, errorString: '' }
+      $("#proxymanjobid").removeClass("errorInput");
+    }
+  }
+  blurCause() {
+    if (this.writevaform.cause) {
+      if (this.writevaform.cause.length == 0) {
+        this.errorCauseState = { state: true, errorString: '請輸入請假事由' }
+        $("#cause").addClass("errorInput");
+        return true
+      } else {
+        this.errorCauseState = { state: false, errorString: '' }
+        $("#cause").removeClass("errorInput");
+        return false
+      }
+    } else {
+      this.errorCauseState = { state: true, errorString: '請輸入請假事由' }
+      $("#cause").addClass("errorInput");
+      return true
+    }
+  }
+  blurKeyName() {
+    if (this.showKeyNameState) {
+      if (!$("#ipt_keyname").val()) {
+        this.errorKeyNameState = { state: true, errorString: '請填寫稱謂' }
+        $("#ipt_keyname").addClass("errorInput");
+        return true
+      } else {
+        this.errorKeyNameState = { state: false, errorString: '' }
+        $("#ipt_keyname").removeClass("errorInput");
+        if ($("#ipt_keyname").val().length == 0) {
+          this.errorKeyNameState = { state: true, errorString: '請填寫稱謂' }
+          $("#ipt_keyname").addClass("errorInput");
+          return true
+        } else {
+          this.errorKeyNameState = { state: false, errorString: '' }
+          $("#ipt_keyname").removeClass("errorInput");
+          return false
+        }
+      }
+    }
+  }
+  blurEventDate() {
+    if (this.showEventDate) {
+      if (!$("#id_ipt_eventday")) {
+        this.errorEventDateState = { state: true, errorString: '請填寫事件發生日' }
+        $("#id_ipt_eventday").addClass("errorInput");
+      } else {
+        this.errorEventDateState = { state: false, errorString: '' }
+        $("#id_ipt_eventday").removeClass("errorInput");
+        if ($("#id_ipt_eventday").val().length == 0) {
+          this.errorEventDateState = { state: true, errorString: '請填寫事件發生日' }
+          $("#id_ipt_eventday").addClass("errorInput");
+        } else {
+          if ($("#id_ipt_eventday").val().toString().split('/')[0].split('_')[0].length < 4) {
+            this.errorEventDateState = { state: true, errorString: '年份格式錯誤' }
+            $("#id_ipt_eventday").addClass("errorInput");
+          } else if ($("#id_ipt_eventday").val().toString().split('/')[1].split('_')[0].length < 2) {
+            this.errorEventDateState = { state: true, errorString: '月份格式錯誤' }
+            $("#id_ipt_eventday").addClass("errorInput");
+          } else if ($("#id_ipt_eventday").val().toString().split('/')[2].split('_')[0].length < 2) {
+            this.errorEventDateState = { state: true, errorString: '日期格式錯誤' }
+            $("#id_ipt_eventday").addClass("errorInput");
+          } else if (!isValidDate($("#id_ipt_eventday").val())) {
+            this.errorEventDateState = { state: true, errorString: '日期格式錯誤' }
+            $("#id_ipt_eventday").addClass("errorInput");
+          }
+          else {
+            this.errorEventDateState = { state: false, errorString: '' }
+            $("#id_ipt_eventday").removeClass("errorInput");
+          }
+        }
+      }
+    }
+  }
+  blurDateAndTime() {
+    var today = new Date()
+    today.setDate(today.getDate() - 6)
+    today.setHours(0, 0, 0)
+    today.setMinutes(0, 0, 0)
+    today.setSeconds(0, 0)
+    if (this.dateS < today) {
+      // alert('不能請')
+      this.errorDateAndTime = { state: true, errorString: '7天限制' }
+      $("#id_ipt_startday").addClass("errorInput");
+    } else {
+      this.errorDateAndTime = { state: false, errorString: '' }
+      this.writevaform.startday = doFormatDate(this.dateS);
+      this.writevaform.endday = doFormatDate(this.dateE);
+      this.writevaform.starttime = $('#id_ipt_starttime').val();
+      this.writevaform.endtime = $("#id_ipt_endtime").val();
+      if (this.writevaform.startday && this.writevaform.endday && this.writevaform.starttime && this.writevaform.endtime) {
+        if (this.writevaform.startday.length == 0) {
+          this.errorDateAndTime = { state: true, errorString: '請填寫起始日期' }
+          $("#id_ipt_startday").addClass("errorInput");
+          return
+        } else if (!isValidDate($("#id_ipt_startday").val())) {
+          this.errorDateAndTime = { state: true, errorString: '起始日期格式錯誤' };
+          $("#id_ipt_startday").addClass("errorInput");
+          return
+        }
+
+        if (this.writevaform.endday.length == 0) {
+          this.errorDateAndTime = { state: true, errorString: '請填寫結束日期' }
+          $("#id_ipt_endday").addClass("errorInput");
+          return
+        } else if (!isValidDate($("#id_ipt_endday").val())) {
+          this.errorDateAndTime = { state: true, errorString: '結束日期格式錯誤' };
+          $("#id_ipt_endday").addClass("errorInput");
+          return
+        }
+
+        if (this.writevaform.starttime.length == 0) {
+          this.errorDateAndTime = { state: true, errorString: '請填寫起始時間' }
+          $("#id_ipt_starttime").addClass("errorInput");
+          return
+        } else if (!isValidTime($("#id_ipt_starttime").val())) {
+          this.errorDateAndTime = { state: true, errorString: '起始時間格式錯誤' };
+          $("#id_ipt_starttime").addClass("errorInput");
+          return
+        }
+
+        if (this.writevaform.endtime.length == 0) {
+          this.errorDateAndTime = { state: true, errorString: '請填寫結束時間' }
+          $("#id_ipt_endtime").addClass("errorInput");
+          return
+        } else if (!isValidTime($("#id_ipt_endtime").val())) {
+          this.errorDateAndTime = { state: true, errorString: '結束時間格式錯誤' };
+          $("#id_ipt_endtime").addClass("errorInput");
+          return
+        }
+      }
+      var startDateTime = new Date(this.writevaform.startday + ' ' + this.writevaform.starttime);
+      var endDateTime = new Date(this.writevaform.endday + ' ' + this.writevaform.endtime);
+      if (startDateTime > endDateTime) {
+        this.errorDateAndTime = { state: true, errorString: '起始區間大於結束區間' }
+        $("#id_ipt_startday").addClass("errorInput");
+        $("#id_ipt_starttime").addClass("errorInput");
+        $("#id_ipt_endday").addClass("errorInput");
+        $("#id_ipt_endtime").addClass("errorInput");
+        return;
+      } else if (this.checkinArray(startDateTime, endDateTime)) {//檢查重複
+        $("#id_ipt_startday").addClass("errorInput");
+        $("#id_ipt_starttime").addClass("errorInput");
+        $("#id_ipt_endday").addClass("errorInput");
+        $("#id_ipt_endtime").addClass("errorInput");
+        return;
+      }
+      $("#id_ipt_startday").removeClass("errorInput");
+      $("#id_ipt_starttime").removeClass("errorInput");
+      $("#id_ipt_endday").removeClass("errorInput");
+      $("#id_ipt_endtime").removeClass("errorInput");
+    }
+  }
+
+  blurOneHour() {
+
+    this.writevaform.startday = $('#id_ipt_startday').val();
+    this.writevaform.endday = $('#id_ipt_endday').val();
+    this.writevaform.starttime = $('#id_ipt_starttime').val();
+    this.writevaform.endtime = $("#id_ipt_endtime").val();
+    var startDate = new Date(this.writevaform.startday + ' ' + this.writevaform.starttime)
+    var endDate = new Date(this.writevaform.endday + ' ' + this.writevaform.endtime)
+
+    if (startDate.getDate() == endDate.getDate()) {
+      if (Math.abs((endDate.getHours() * 60 + endDate.getMinutes()) - (startDate.getHours() * 60 + startDate.getMinutes())) < 20) {
+        this.errorDateAndTime = { state: true, errorString: '請假區間最小單位為20分鐘' }
+        $("#id_ipt_starttime").addClass("errorInput");
+        $("#id_ipt_endtime").addClass("errorInput");
+        return true
+      } else {
+        return false
+      }
+    } else {
+      return false
+    }
+
+
+
+  }
+  changeStartDateView() {
+    var today = new Date()
+    today.setDate(today.getDate() - 6)
+    today.setHours(0, 0, 0)
+    today.setMinutes(0, 0, 0)
+    today.setSeconds(0, 0)
+    if (this.dateS < today) {
+      // alert('不能請')
+      this.errorDateAndTime = { state: true, errorString: '7天限制' }
+      $("#id_ipt_startday").addClass("errorInput");
+    } else {
+      this.LoadingPage.show()
+      this.dateE = this.dateS
+      var _DateB = doFormatDate(this.dateS)
+      var _DateE = doFormatDate(this.dateE)
+      var GetAttend: GetAttendClass = {
+        DateB: _DateB,
+        DateE: _DateE,
+        ListEmpID: [this.writevaform.leaveman_jobid],
+        ListRoteID: null
+      }
+      this.GetApiDataServiceService.getWebApiData_GetAttend(GetAttend)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (Attends: any[]) => {
+            // console.log(Attends)
+            for (let Attend of Attends) {
+
+              $("#id_ipt_starttime").val(getapi_formatTimetoString(Attend.ActualRote.OnTime));
+              if (parseInt(Attend.ActualRote.OffTime) > 2400) {
+                var overNight_OffTime = parseInt(Attend.ActualRote.OffTime) - 2400
+                if (overNight_OffTime.toString().length < 4) {
+                  $("#id_ipt_endtime").val(getapi_formatTimetoString('0' + overNight_OffTime.toString()));
+                } else {
+                  $("#id_ipt_endtime").val(getapi_formatTimetoString(overNight_OffTime.toString()));
+                }
+                this.dateE = new Date(formatDateTime(Attend.AttendDate).getDate)
+                this.dateE.setDate(this.dateE.getDate() + 1)
+                $('#id_ipt_endday').val(formatDateTime(this.dateE).getDate)
+              } else {
+                $("#id_ipt_endtime").val(getapi_formatTimetoString(Attend.ActualRote.OffTime));
+              }
+              this.blurDateAndTime()
+            }
+            this.LoadingPage.hide()
+          }
+          , error => {
+            this.LoadingPage.hide()
+            alert('與api連線異常，getWebApiData_GetAttend')
+          }
+        )
+    }
+  }
+  @ViewChild('StartTimeView') StartTimeView: ElementRef;
+  changeStartTimeView() {
+    $("#id_ipt_starttime").val($("#id_bt_starttime").val());
+    this.blurDateAndTime();
+    $(this.StartTimeView.nativeElement)
+      .on('change', (e, args) => {
+        $("#id_ipt_starttime").val($("#id_bt_starttime").val());
+        this.blurDateAndTime();
+      });
+  }
+  @ViewChild('EndTimeView') EndTimeView: ElementRef;
+  changeEndTimeView() {
+    $("#id_ipt_endtime").val($("#id_bt_endtime").val());
+    this.blurDateAndTime();
+    $(this.EndTimeView.nativeElement)
+      .on('change', (e, args) => {
+        $("#id_ipt_endtime").val($("#id_bt_endtime").val());
+        this.blurDateAndTime();
+      });
+  }
+
+  dayMask(): {
+    mask: Array<string | RegExp>;
+    keepCharPositions: boolean;
+  } {
+    return {
+      mask: [/[2]/, /[0]/, /\d/, /\d/, '/', /[0-1]/, /\d/, '/', /[0-3]/, /\d/],
+      keepCharPositions: true,
+    };
+  }
+
+  starttimeMask(): {
+    mask: Array<string | RegExp>;
+    keepCharPositions: boolean;
+  } {
+    return {
+      mask: [/[0-2]/, $("#id_ipt_starttime").val() && parseInt($("#id_ipt_starttime").val()[0]) > 1 ? /[0-3]/ : /\d/, ':', /[0-5]/, /\d/],
+      keepCharPositions: true
+    };
+  }
+
+  endtimeMask(): {
+    mask: Array<string | RegExp>;
+    keepCharPositions: boolean;
+  } {
+    return {
+      mask: [/[0-2]/, $("#id_ipt_starttime").val() && parseInt($("#id_ipt_endtime").val()[0]) > 1 ? /[0-3]/ : /\d/, ':', /[0-5]/, /\d/],
+      keepCharPositions: true
+    };
+  }
+  btn_del(uisendvaform) {
+    //刪除按鈕
+    this.sendvaform.splice(this.sendvaform.indexOf(uisendvaform), 1)
+    this.titlechinesenum = this.sendvaform.length;
+    if (this.sendvaform.length > 0) {
+      for (let i = 0; i < this.sendvaform.length; i++) {
+        this.sendvaform[i].ui_title = '差假時段' + chinesenum(i + 1)
+      }
+      this.newtitle = '差假時段' + chinesenum(this.titlechinesenum + 1);
+    } else {
+      this.NowIsWirteForm = true;
+      this.firstnotshow = false;
+      this.newtitle = '差假時段' + chinesenum(this.titlechinesenum + 1);
+
+      this.showWriteform()
+
+    }
+
+    var startDateTime = new Date(this.writevaform.startday + ' ' + this.writevaform.starttime);
+    var endDateTime = new Date(this.writevaform.endday + ' ' + this.writevaform.endtime);
+    this.checkinArray(startDateTime, endDateTime)//檢查重複
+    // this.writevaform.upload = []
+
+    var GetAttend: GetAttendClass = {
+      DateB: doFormatDate(this.dateS),
+      DateE: doFormatDate(this.dateE),
+      ListEmpID: [this.writevaform.leaveman_jobid],
+      ListRoteID: null
+    }
+    // console.log(GetAttend)
+    this.GetApiDataServiceService.getWebApiData_GetAttend(GetAttend)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (Attends: any[]) => {
+          console.log(Attends)
+          for (let Attend of Attends) {
+            $("#id_ipt_starttime").val(getapi_formatTimetoString(Attend.ActualRote.OnTime));
+            $("#id_ipt_endtime").val(getapi_formatTimetoString(Attend.ActualRote.OffTime));
+            this.blurDateAndTime()
+          }
+          this.LoadingPage.hide()
+        }
+        , error => {
+          this.LoadingPage.hide()
+          alert('與api連線異常，getWebApiData_GetAttend')
+        }
+      )
+  }
+  hideWriteform() {
+    //刪除本時段按鈕
+    this.NowIsWirteForm = false;
+    this.writevaform.upload = []
+    // this.writevaform = new vaform()
+  }
+  showWriteform() {
+    //新增差假時段按鈕
+    this.dateS = new Date()
+    this.dateE = new Date()
+    this.NowIsWirteForm = true;
+    this.newtitle = '差假時段' + chinesenum(this.titlechinesenum + 1)
+    this.writevaform.everydayloop = false;
+    this.writevaform.todayCheck = false
+    this.writevaform.proxyman_jobid = '';
+    this.writevaform.proxyman_name = '';
+    this.writevaform.cause = '';
+    this.errorDateAndTime = { state: false, errorString: '' };
+    this.errorKeyNameState = { state: false, errorString: '' };
+    this.errorEventDateState = { state: false, errorString: '' };
+    this.errorLeavemanState = { state: false, errorString: '' };
+    this.errorProxymanState = { state: false, errorString: '' };
+    this.errorCauseState = { state: false, errorString: '' };
+    this.showKeyNameState = false;//喪假的對沖姓名欄位
+    this.showEventDate = false;//喪假、婚假、產假、陪產假的事件發生日欄位
+
+    this.writevaform.FlowApp = this.nextsendCheckFlowApp;
+    this.writevaform.upload = []
+
+    var GetAttend: GetAttendClass = {
+      DateB: doFormatDate(this.dateS),
+      DateE: doFormatDate(this.dateE),
+      ListEmpID: [this.writevaform.leaveman_jobid],
+      ListRoteID: null
+    }
+
+    this.GetApiDataServiceService.getWebApiData_GetAttend(GetAttend)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (Attends: any[]) => {
+          console.log(Attends)
+          for (let Attend of Attends) {
+            $("#id_ipt_starttime").val(getapi_formatTimetoString(Attend.ActualRote.OnTime));
+            $("#id_ipt_endtime").val(getapi_formatTimetoString(Attend.ActualRote.OffTime));
+            this.blurDateAndTime()
+          }
+          this.LoadingPage.hide()
+        }
+        , error => {
+          this.LoadingPage.hide()
+          alert('與api連線異常，getWebApiData_GetAttend')
+        }
+      )
+  }
+  disableSendvaform() {
+
+    if (this.errorCauseState.state ||
+      this.errorLeavemanState.state ||
+      this.errorProxymanState.state ||
+      this.errorKeyNameState.state ||
+      this.errorEventDateState.state ||
+      this.errorDateAndTime.state ||
+      this.errorVaSelect.state) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  //預排卡15天後才能請
+  ScheduledVacation() {
+    var startDate = new Date($('#id_ipt_startday').val())
+    var endDate = new Date(($('#id_ipt_endday').val()))
+
+    var today = new Date()
+    var calstart_today = new Date()
+    var calend_today = new Date()
+    calstart_today.setHours(0, 0, 0)
+    calstart_today.setMinutes(0, 0, 0)
+    calend_today.setMinutes(0, 0, 0)
+    calend_today.setHours(0, 0, 0)
+    today.setDate(today.getDate() + 10)
+    if (this.checkbox_beforholiday) {
+      if (today.getDate() > 15) {
+
+        calstart_today.setMonth(calstart_today.getMonth() + 2)
+        calstart_today.setDate(1)
+        var canStartDate = calstart_today
+        calend_today.setMonth(calstart_today.getMonth() + 3)
+        calend_today.setDate(0)
+        var canEndDate = calend_today
+
+        if (!(startDate >= canStartDate && startDate <= canEndDate)) {
+          // alert(startDate)
+          alert('起始日期不合規則，可預排休假期間：' + doFormatDate(canStartDate) + '到' + doFormatDate(canEndDate))
+          return true
+        } else if (!(endDate >= canStartDate && endDate <= canEndDate)) {
+
+          alert('結束日期不合規則，可預排休假期間：' + doFormatDate(canStartDate) + '到' + doFormatDate(canEndDate))
+          return true
+        } else {
+          return false
+        }
+
+      } else {
+
+        calstart_today.setMonth(calstart_today.getMonth() + 1)
+        calstart_today.setDate(1)
+        var canStartDate = calstart_today
+        calend_today.setMonth(calstart_today.getMonth() + 3)
+        calend_today.setDate(0)
+        var canEndDate = calend_today
+
+        if (!(startDate >= canStartDate && startDate <= canEndDate)) {
+          // alert(startDate)
+          console.log(startDate)
+          console.log(canStartDate)
+          console.log(canEndDate)
+          alert('起始日期不合規則，可預排休假期間：' + doFormatDate(canStartDate) + '到' + doFormatDate(canEndDate))
+          return true
+        } else if (!(endDate >= canStartDate && endDate <= canEndDate)) {
+
+          alert('結束日期不合規則，可預排休假期間：' + doFormatDate(canStartDate) + '到' + doFormatDate(canEndDate))
+          return true
+        } else {
+          return false
+        }
+
+      }
+    } else {
+      return false
+    }
+  }
+
+  loading: boolean = false;
+  addsendvaform() {
+    this.blurEmpCode()
+    this.blurProxyEmpCode()
+    if (this.disableSendvaform() || this.blurKeyName() || this.blurCause() || this.errorVaSelect.state || this.ScheduledVacation()) {
+    } else {
+
+      this.writevaform.startday = $('#id_ipt_startday').val();
+      this.writevaform.endday = $('#id_ipt_endday').val();
+      this.writevaform.starttime = $('#id_ipt_starttime').val();
+      this.writevaform.endtime = $("#id_ipt_endtime").val();
+
+      if (this.showEventDate) {
+        this.writevaform.eventdate = $("#id_ipt_eventday").val();
+      }
+      if (this.showKeyNameState) {
+        this.writevaform.keyname = $('#ipt_keyname').val();
+      }
+      var startDateTime = new Date(this.writevaform.startday + ' ' + this.writevaform.starttime);
+      var endDateTime = new Date(this.writevaform.endday + ' ' + this.writevaform.endtime);
+      if (this.checkinArray(startDateTime, endDateTime)) {//檢查重複
+        return;
+      } else {
+
+      }
+      this.canSendArray()
+    }
+  }
+  /////判斷日期，檢核用
+  checkinArray(startTime, endTime) {
+    if (startTime == 'everyday' && endTime == 'everyday') {
+      startTime = new Date(this.writevaform.startday + ' ' + this.writevaform.starttime);
+      endTime = new Date(this.writevaform.endday + ' ' + this.writevaform.endtime);
+    }
+    
+
+    if (this.sendvaform.length > 0) {
+      for (var i = 0; i < this.sendvaform.length; i++) {
+        var x = this.sendvaform[i]
+        if (x.everydayloop) {
+          var sendStartDate = new Date(x.startday);
+          var sendEndDate = new Date(x.endday);
+          var subday = ((sendEndDate.valueOf() - sendStartDate.valueOf()) / 1000 / 60 / 60 / 24) + 1;
+          for (var k = 0; k < subday; k++) {
+            var sendstart = new Date(doFormatDate(sendStartDate) + ' ' + x.starttime) //11/09 0800
+            var sendend = new Date(doFormatDate(sendStartDate) + ' ' + x.endtime) //11/09 1700
+
+            var write_start = new Date(doFormatDate($('#id_ipt_startday').val()) + ' ' + $('#id_ipt_starttime').val())
+            var write_end = new Date(doFormatDate($('#id_ipt_startday').val()) + ' ' + $("#id_ipt_endtime").val())
+            var subWriteSubday = ((write_end.valueOf() - write_start.valueOf()) / 1000 / 60 / 60 / 24);
+            if (this.writevaform.everydayloop == true) {
+              for (var h = 0; h < subWriteSubday; h++) {
+                if (write_start < sendend && write_end > sendstart) {
+                  this.errorDateAndTime = { state: true, errorString: '與差假時段' + chinesenum(i + 1) + '重複' }
+
+                  $("#id_ipt_startday").addClass("errorInput");
+                  $("#id_ipt_starttime").addClass("errorInput");
+                  $("#id_ipt_endday").addClass("errorInput");
+                  $("#id_ipt_endtime").addClass("errorInput");
+                  return true;
+                } else {
+                  this.errorDateAndTime = { state: false, errorString: '' }
+
+                  $("#id_ipt_startday").removeClass("errorInput");
+                  $("#id_ipt_starttime").removeClass("errorInput");
+                  $("#id_ipt_endday").removeClass("errorInput");
+                  $("#id_ipt_endtime").removeClass("errorInput");
+                }
+                write_start.setDate(write_start.getDate() + 1)
+              }
+            } else {
+              var start = new Date(doFormatDate(sendStartDate) + ' ' + x.starttime)
+              var end = new Date(doFormatDate(sendStartDate) + ' ' + x.endtime)
+              if (startTime < end && endTime > start)//判斷重複
+              {
+                this.errorDateAndTime = { state: true, errorString: '與差假時段' + chinesenum(i + 1) + '重複' }
+
+                $("#id_ipt_startday").addClass("errorInput");
+                $("#id_ipt_starttime").addClass("errorInput");
+                $("#id_ipt_endday").addClass("errorInput");
+                $("#id_ipt_endtime").addClass("errorInput");
+                return true;
+              }
+            }
+            sendStartDate.setDate(sendStartDate.getDate() + 1)
+          }
+
+        }
+        else {
+          var sendStartDateTime = new Date(x.startday + ' ' + x.starttime);
+          var sendEndDateTime = new Date(x.endday + ' ' + x.endtime);
+
+          if (startTime < sendEndDateTime && endTime > sendStartDateTime)//判斷重複
+          {
+            this.errorDateAndTime = { state: true, errorString: '與差假時段' + chinesenum(i + 1) + '重複' }
+
+            $("#id_ipt_startday").addClass("errorInput");
+            $("#id_ipt_starttime").addClass("errorInput");
+            $("#id_ipt_endday").addClass("errorInput");
+            $("#id_ipt_endtime").addClass("errorInput");
+            return true;
+          }
+        }
+
+
+      };
+    } else {
+      this.errorDateAndTime = { state: false, errorString: '' }
+
+      $("#id_ipt_startday").removeClass("errorInput");
+      $("#id_ipt_starttime").removeClass("errorInput");
+      $("#id_ipt_endday").removeClass("errorInput");
+      $("#id_ipt_endtime").removeClass("errorInput");
+      return false;
+    }
+  }
+
+  nextsendCheckFlowApp: any;
+  canSendArray() {
+    this.LoadingPage.show()
+    this.firstnotshow = true;
+    // this.showKeyNameState = false
+    // this.showEventDate = false
+
+    if (this.checkbox_beforholiday) {
+      this.writevaform.beforholiday = true
+    } else {
+      this.writevaform.beforholiday = false
+    }
+
+
+    if (!this.writevaform.keyname) { this.writevaform.keyname = '' }
+    if (!this.writevaform.eventdate) { this.writevaform.eventdate = '' }
+
+    var sendCalculateFlowData: CalculateFlowDataClass = {
+      EmpID: this.writevaform.leaveman_jobid,
+      HoliDayID: this.writevaform.vacategrory.HoliDayID,
+      DateB: this.writevaform.startday,
+      DateE: this.writevaform.endday,
+      TimeB: sumbit_formatTimetoString(this.writevaform.starttime),
+      TimeE: sumbit_formatTimetoString(this.writevaform.endtime),
+      CalculateWorkTime: true,
+      CalculateRes: true,
+      FixedCycle: this.writevaform.everydayloop,
+      Exception: 0,
+      RoteID: 0,
+      Time24: true,
+      KeyName: this.writevaform.keyname,
+      EventDate: this.writevaform.eventdate,
+      FlowApps: this.sendFlowAppsArray()
+    }
+    console.log(sendCalculateFlowData)
+    this.scrollTo('NowIsWirteFormTop');
+    this.GetApiDataServiceService.getWebApiData_GetCalculateFlowData(sendCalculateFlowData)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          // console.log(x)
+          if (x.ErrorMsg.length == 0) {
+            this.titlechinesenum = this.titlechinesenum + 1;
+            this.writevaform.ui_title = this.newtitle;
+            if (x.FlowApps[0].HoliDayUnitName == '小時') {
+              console.log(x)
+              this.writevaform.ui_day = timeOfDay(true, x.TotalUse, 8).day.toString()
+              this.writevaform.ui_hour = timeOfDay(true, x.TotalUse, 8).hour.toString()
+              this.writevaform.ui_minute = timeOfDay(true, x.TotalUse, 8).minute.toString()
+            } else {
+              this.writevaform.ui_day = timeOfDay(false, x.TotalUse, 8).day.toString()
+              this.writevaform.ui_hour = timeOfDay(false, x.TotalUse, 8).hour.toString()
+              this.writevaform.ui_minute = timeOfDay(false, x.TotalUse, 8).minute.toString()
+            }
+            this.nextsendCheckFlowApp = x.FlowApps[0];
+            this.writevaform.FlowApp = this.nextsendCheckFlowApp
+            this.sendvaform.push(this.writevaform);
+            // console.log(this.sendvaform)
+            this.new_writevaform(this.writevaform);
+            this.hideWriteform();
+            this.scrollTo('NowIsWirteFormTop');
+
+
+            this.LoadingPage.hide()
+
+          } else {
+            alert(x.ErrorMsg)
+            if (this.sendvaform.length > 0) {
+            } else {
+              this.NowIsWirteForm = true;
+              this.firstnotshow = false;
+            }
+            // this.writevaform.upload = []
+            this.LoadingPage.hide()
+          }
+        }
+        , error => {
+          this.loading = false
+          alert('與api連線異常，getWebApiData_GetCalculateFlowData')
+          this.LoadingPage.hide()
+        }
+      )
+  }
+
+  sendFlowAppsArray() {
+    var returnFlowAppsArray = []
+    for (let va of this.sendvaform) {
+      returnFlowAppsArray.push(va.FlowApp)
+    }
+    return returnFlowAppsArray;
+  }
+  /**
+   * @todo  select請假類別切換
+   */
+  onChange_vacategrory(event) {
+    var selectHoliDayCode = '';
+    for (let holiday of this.showHoliDay) {
+      if (holiday.HoliDayID == event.target.value) {
+        selectHoliDayCode = holiday.HoliDayCode
+      }
+    }
+    this.showKeyNameState = false;
+    this.showEventDate = false;
+    this.errorKeyNameState = { state: false, errorString: '' }
+    this.errorEventDateState = { state: false, errorString: '' }
+
+    this.writevaform.vacategrory.HoliDayID = event.target.value;
+    for (let i = 0; i < this.HoliDay.length; i++) {
+      if (this.HoliDay[i].HoliDayID == event.target.value) {
+        this.writevaform.vacategrory.HoliDayNameC = this.HoliDay[i].HoliDayNameC;
+        this.writevaform.vacategrory.HoliDayKindID = this.HoliDay[i].HoliDayKindID;
+      }
+    }
+    var HoliDayID = this.writevaform.vacategrory.HoliDayID.toString()
+    var HoliDayKindID = this.writevaform.vacategrory.HoliDayKindID.toString()
+
+    this.promptVaStirng = { state: false, promptString: '' }
+    if (HoliDayKindID == '9') {
+
+      // console.log('喪假')
+      if (selectHoliDayCode == '010-1')
+        this.promptVaStirng = { state: true, promptString: '員工之父母、養父母、繼父母、配偶喪假' }
+      if (selectHoliDayCode == '010-2')
+        this.promptVaStirng = { state: true, promptString: '員工之祖父母、外祖父母、子女、員工配偶之祖父母、父母、養父母或繼父母' }
+      if (selectHoliDayCode == '010-3')
+        this.promptVaStirng = { state: true, promptString: '員工之曾祖父母、兄弟姐妹、員工配偶之外祖父母喪亡' }
+
+      this.showKeyNameState = true;
+      this.showEventDate = true;
+    } else if (HoliDayKindID == '7') {
+      // console.log('婚假')
+      this.showEventDate = true;
+    } else if (HoliDayKindID == '8') {
+      // console.log('產假')
+      this.showEventDate = true;
+    } else if (HoliDayKindID == '10') {
+      // console.log('陪產假')
+      this.showEventDate = true;
+    }
+
+    this.writevaform.keyname = ''
+    this.writevaform.eventdate = ''
+  }
+  /**
+   * @todo 跳到tag的位置 
+   * @param tag id連結位置
+   * @author jacky
+   */
+  scrollTo(tag: string) {
+    this.viewScroller.scrollToAnchor(tag);
+    //tag=id連結位置
+  }
+
+  nextpage() {
+    //下一步按鈕
+    if (this.sendvaform.length > 0) {
+      this.WriteformPage = false;
+      window.scroll(0, 0);
+    } else {
+      alert('請先新增差假時段')
+    }
+
+  }
+  firstGetHolday() {
+
+
+    this.GetApiDataServiceService.getWebApiData_GetHoliDayByForm()
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((x: any) => {
+        this.showHoliDay = []
+        if (this.HoliDay.length == 0) {
+          for (let i = 0; i < x.length; i++) {
+            this.HoliDay.push({ HoliDayID: x[i].HoliDayID, HoliDayNameC: x[i].HoliDayNameC, AutoFlowStart: x[i].AutoFlowStart, HoliDayKindID: x[i].HoliDayKindID, HoliDayCode: x[i].HoliDayCode })
+          }
+        } else { }
+        for (let holiday of this.HoliDay) {
+          // if (holiday.AutoFlowStart == false) {
+          this.showHoliDay.push(holiday);
+          // }
+        }
+
+        this.new_writevaform(this.writevaform)
+
+      }
+        , error => {
+          alert('與api連線異常，getWebApiData_GetHoliDayByForm')
+        }
+      )
+
+  }
+  beforholiday() {
+    //勾預排假
+    this.showHoliDay = []
+    this.errorKeyNameState = { state: false, errorString: '' }
+    this.errorEventDateState = { state: false, errorString: '' }
+    this.showKeyNameState = false;
+    this.showEventDate = false;
+    if (this.checkbox_beforholiday == true) {
+      for (let holiday of this.HoliDay) {
+        if (holiday.AutoFlowStart == true) {
+          this.showHoliDay.push(holiday);
+        }
+      }
+
+    } else {
+
+      for (let holiday of this.HoliDay) {
+        // if (holiday.AutoFlowStart == false) {
+        this.showHoliDay.push(holiday);
+        // }
+      }
+    }
+    this.new_writevaform(this.writevaform)
+  }
+  new_writevaform(writevaform) {
+    var leaveman_jobid = writevaform.leaveman_jobid
+    var leaveman_name = writevaform.leaveman_name
+    var wirteman_jobid = writevaform.wirteman_jobid
+    var wirteman_name = writevaform.wirteman_name
+    var writeman_worktime = writevaform.writeman_worktime
+
+    this.writevaform = new vaform();
+    this.writevaform.leaveman_jobid = leaveman_jobid
+    this.writevaform.leaveman_name = leaveman_name
+    this.writevaform.wirteman_jobid = wirteman_jobid
+    this.writevaform.wirteman_name = wirteman_name
+    this.writevaform.writeman_worktime = writeman_worktime
+    this.writevaform.upload = writevaform.upload
+
+    if (this.checkbox_beforholiday) {
+      this.writevaform.beforholiday = true
+    } else {
+      this.writevaform.beforholiday = false
+    }
+
+    var be_holiday = [] //預排
+    var no_be_holiday = [] //非預排
+
+    for (let holiDay of this.HoliDay) {
+      if (holiDay.AutoFlowStart) {
+        be_holiday.push({ HoliDayID: holiDay.HoliDayID.toString(), HoliDayNameC: holiDay.HoliDayNameC, HoliDayKindID: holiDay.HoliDayKindID })
+      } else {
+
+      }
+      no_be_holiday.push({ HoliDayID: holiDay.HoliDayID.toString(), HoliDayNameC: holiDay.HoliDayNameC, HoliDayKindID: holiDay.HoliDayKindID })
+    }
+    if (this.checkbox_beforholiday) {
+      this.writevaform.vacategrory = be_holiday[0]
+    } else {
+      this.writevaform.vacategrory = no_be_holiday[0]
+    }
+
+    this.promptVaStirng = { state: false, promptString: '' }
+    // console.log(this.checkbox_beforholiday)
+
+    this.changeStartDateView()
+
+  }
+
+  disable_leavejobid() {
+    if (this.sendvaform.length != 0) {
+      return true
+    } else {
+      return false
+    }
+  }
+  disable_beforholiday() {
+
+    if (this.disable_leavejobid()) {
+      return true
+    } else {
+      if (this.writevaform.todayCheck) {
+        return true
+      } else {
+        return false
+      }
+    }
+
+  }
+  base64(apiFile: uploadFileClass) {
+    // console.log(apiFile)
+    this.FileDownload.base64(apiFile)
+  }
+
+  onCounterChange() {
+    this.WriteformPage = true;
+    window.scroll(0, 0);
+    //返回修改按鈕，在vaformdetail.component.html
+  }
+  onSaveEmptoView(event) {
+    this.writevaform.leaveman_jobid = event.split('，')[0]
+    this.writevaform.leaveman_name = event.split('，')[1]
+    $('#chooseEmpdialog').modal('hide');
+    this.errorLeavemanState = { state: false, errorString: '' }
+    $("#leavejobid").removeClass("errorInput");
+  }
+  onSaveProxyEmptoView(event) {
+    this.writevaform.proxyman_jobid = event.split('，')[0]
+    this.writevaform.proxyman_name = event.split('，')[1]
+    $('#chooseProxyEmpdialog').modal('hide');
+    this.errorProxymanState = { state: false, errorString: '' }
+    $("#proxymanjobid").removeClass("errorInput");
+  }
+  onSaveFile(event) {
+    this.writevaform.upload = event;
+  }
+  todayDisable() {
+    if (this.checkbox_beforholiday) {
+      return true
+    }
+
+    return false
+  }
+
+  setWriteEmp() {
+    return { EmpID: this.writevaform.wirteman_jobid, EmpNameC: this.writevaform.wirteman_name };
+  }
+}
+
+

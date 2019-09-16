@@ -1,0 +1,96 @@
+
+.week{
+    float: left;
+    width: 14.28%;
+    color: #fff;
+    background-color: #0068b7;
+    border: 1px solid #5198ce;
+    border-bottom: solid #02599b;
+    text-align: center;
+    height: 35px;
+    line-height: 30px;
+  }
+    
+  .day{
+    float: left;
+    width: 14.28%;
+    color: #000;
+    /* border: 1px solid #e0e0e0; */
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .daytext{
+      padding: 2px 8px;
+  }
+  .Rote{
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    word-break: break-all;
+  }
+  .state{
+    text-align: center;
+    height: 35px;
+    line-height: 30px;
+  }
+
+  .desktopCalender{
+    display: inline;
+  }
+  .phoneCalender{
+    display: none;
+  }
+  .phoneDiv{
+    margin: 0px;
+    margin-bottom: 10px;
+    border: 1px solid #e0e0e0
+  }
+  .phoneDate{
+    padding:10px;
+    color: #fff;
+    background-color: #0068b7;
+    border: 1px solid #5198ce;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center
+  }
+  .phoneRote{
+    padding: 20px 5px;
+    
+  }
+
+  .onShowButton{
+    color: #fff;
+    background: 0;
+    border: 0;
+    background-color: #006dbc;
+    padding: 4px 10px;
+  }
+  .offShowButton{
+    color: #028fcf;
+    background: 0;
+    background-color: #fff;
+    padding: 4px 10px;
+    border: 1px solid #c3c3c3;
+  }
+  @media screen and (max-width:540px) {
+
+    .desktopCalender{
+      display: none;
+    }
+    .phoneCalender{
+      display: inline;
+    }
+
+  }
+
+
+@media (min-width:1000px) and (max-width:1236px) {
+    .Rote{
+      height: 50px;
+    }
+  }
+@media (min-width:541px) and (max-width:1000px) {
+  .Rote{
+    height: 70px;
+  }
+}

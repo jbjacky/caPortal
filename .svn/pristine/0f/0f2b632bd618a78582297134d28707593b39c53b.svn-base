@@ -1,0 +1,495 @@
+<div id="goPageChange"></div>
+<section class="a-block stateblock">
+  <div class="a-block-body  a-block-container">
+    <ol id="navs" class="steps-indicator row">
+      <li id="li1" class="col-sm-3 active">填寫調班人員與日期</li>
+      <li id="li2" class="col-sm-3">選擇調班日期</li>
+      <li id="li3" class="col-sm-3">檢核與確認班型</li>
+      <li id="li4" class="col-sm-3">申請單完成送出</li>
+    </ol>
+  </div>
+  <!-- a-block-body End -->
+</section>
+<!-- <div *ngFor="let ui of uiShow" style="display: inline-block;width: 150px;">
+  <div>
+      {{ui.date}} 
+  </div>
+  <div>
+      <input type="text" [(ngModel)]="ui.oneP"/>
+  </div>
+  <div>
+      <input type="text" [(ngModel)]="ui.twoP"/>
+  </div>
+</div> -->
+<div class="a-block" *ngIf="writeState==1">
+  <div class="a-block-body  a-block-container">
+    <div class="row" style="margin: 0px ;margin-bottom:15px;border-bottom: 1px dashed#dcdcdc ; padding-bottom: 15px">
+      <div class="col-md-4 col-xs-12" style="padding: 0px">
+        <div class="col-md-3 col-xs-12 P_right" style="padding-top: 4px;">
+          <label class="control-label">員工</label>
+        </div>
+        <div class="col-md-9 col-xs-12 P_zero" style="padding-top: 4px;">
+          <label class="control-label" style="font-weight: normal;">
+            {{Emp.EmpCode}} {{Emp.EmpName}}
+          </label>
+        </div>
+      </div>
+      <div class="col-md-8 col-xs-12" style="padding: 0px">
+        <label class="col-md-4  col-xs-12 P_right" style="padding-top: 5px">
+          <span class="form-must-fill">*</span>互調員工
+        </label>
+        <div class="col-md-8  col-xs-12" style="padding: 0px">
+          <div class="row" style="margin: 0px">
+            <div class="col-md-6 col-xs-6 P_zero">
+              <input id="leavejobid" type="text" class="form-control" placeholder="員工號" [(ngModel)]="ChangeEmp.EmpCode" (keyup)="blurProxyEmpCode()">
+              <div *ngIf="errorProxymanState.state" style="color: #e60012">{{errorProxymanState.errorString}}</div>
+            </div>
+            <div class="col-md-2 col-xs-3" style="height: 23px;padding: 0px;padding-left: 2px;text-align: center;">
+              <button data-toggle="modal" data-target="#chooseProxyEmpdialog" style="cursor: pointer;border: 0;background: 0">
+                <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+              </button>
+            </div>
+            <div class="col-md-4 col-xs-3" style="padding: 0;padding-top: 7px">
+              <label style="font-weight: normal;">{{ChangeEmp.EmpName}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0px ;margin-bottom: 10px">
+      <div class="col-md-1 col-xs-12 P_right" style="padding: 0px;padding-top: 5px">
+        <span class="form-must-fill">*</span><label class="control-label">調班日</label>
+      </div>
+      <div class="col-md-11 col-xs-12 row P_LFZero" style="margin:0px">
+        <div class="col-md-4 col-xs-10" style="padding:0px">
+          <input id="id_ipt_startday" [matDatepicker]="StartDatePicker"  type="text" class="form-control" style="background-color: #ffffff;"
+            placeholder="年/月/日" />
+          <mat-datepicker touchUi  #StartDatePicker></mat-datepicker>
+        </div>
+        <div class="col-md-1 col-xs-2">
+          <input (click)="StartDatePicker.open()"  data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+            cursor: pointer;
+            color: transparent;
+            border: 1px solid transparent;
+            width: 50px;
+            height: 40px;
+            ">
+        </div>
+        <div class="col-md-5 col-xs-12 P_LFZero" style="padding-top: 10px;">
+          <span style="color: #4a4a4a">＊將顯示雙方當週班型，可同週多日調班</span>
+        </div>
+
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0px ">
+      <div class="col-md-4 col-xs-12" style="padding: 0">
+        <div class="col-md-3 col-xs-12 ">
+        </div>
+        <div class="col-md-9 col-xs-12 P_LFZero">
+          <button  class="btn btn-primary" (click)="onSearch()">搜尋</button>
+        </div>
+      </div>
+
+    </div>
+    <!-- form-group end -->
+  </div>
+</div>
+
+<div class="a-block" *ngIf="writeState==2">
+  <div class="a-block-body  a-block-container">
+    <h3>選擇調班日期</h3>
+    <div class="row" style="margin: 0px ;margin-bottom:15px;border-bottom: 1px dashed#dcdcdc ; padding-bottom: 15px">
+      <div class="col-md-4 col-xs-12" style="padding: 0px">
+        <div class="col-md-3 col-xs-12 P_right" style="padding-top: 4px;">
+          <label class="control-label">員工</label>
+        </div>
+        <div class="col-md-9 col-xs-12 P_zero" style="padding-top: 4px;">
+          <label class="control-label" style="font-weight: normal;">
+            {{Emp.EmpCode}} {{Emp.EmpName}}
+          </label>
+        </div>
+      </div>
+      <div class="col-md-8 col-xs-12" style="padding: 0px">
+        <label class="col-md-4  col-xs-12 P_right" style="padding-top: 5px">
+          互調員工
+        </label>
+        <div class="col-md-8  col-xs-12" style="padding: 0px">
+          <div class="row" style="margin: 0px">
+            <div class="col-md-6 col-xs-6 P_zero">
+              <label class="control-label" style="font-weight: normal;padding-top: 5px">
+                {{ChangeEmp.EmpCode}} {{ChangeEmp.EmpName}}
+              </label>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0px ;margin-bottom:15px;">
+      <div class="col-md-1 col-xs-12 P_right" style="padding-top: 4px;">
+      </div>
+      <div class="col-md-11 col-xs-12 P_zero" style="padding-top: 4px;">
+        <label class="control-label" style="font-weight: normal;color: #002f7b">
+          請點選欲互調班型之日期（可多選）
+        </label>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0;margin-bottom: 10px;">
+
+      <div class="col-md-2 col-xs-12" style="margin: 5px 0px">
+
+        <div style="border:1px solid #e0e0e0;border-radius:5px ">
+
+          <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+            <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 ">
+              <div class="DivDateStyle" style="background-color: #e8e8e8">
+                員工
+              </div>
+            </div>
+            <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle" style="padding: 10px 0px;">
+              <div>
+                {{Emp.EmpCode}}
+              </div>
+              <div>
+                {{Emp.EmpName}}
+              </div>
+            </div>
+            <div class="col-md-12 col-xs-4 twoDivJobStyle" style="padding: 10px 0px;">
+              <div>
+                {{ChangeEmp.EmpCode}}
+              </div>
+              <div>
+                {{ChangeEmp.EmpName}}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div *ngFor="let ui of uiShow ; let i = index">
+        <div class="col-md-2 col-xs-12 " style="margin: 5px 0px" (click)="selectDiv(ui,i)">
+          <div [class]="DivStyleClass_disable(ui.disable)" [ngClass]="'ui'+i">
+
+            <div style="padding:2px" style="margin: 0;padding: 5px" [class]="Date_disable(ui.disable)">
+
+              <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 ">
+                <div [class]="DivDateStyleClass_disable(ui.disable)" [ngClass]="'uidate'+i">
+                  {{ui.date}}
+                </div>
+              </div>
+              <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle" [ngClass]="'uijob'+i">
+                <div>
+                  <!-- {{ui.oneP}} -->
+                  {{ui.onePRoteName}}
+                </div>
+              </div>
+              <div class="col-md-12 col-xs-4 twoDivJobStyle" [ngClass]="'uijob'+i">
+                <div>
+                  <!-- {{ui.twoP}} -->
+                  {{ui.twoPRoteName}}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row" style="margin: 0px ;margin-bottom:15px;padding: 15px 0px ;border-top:1px dashed #dcdcdc;border-bottom:1px dashed #dcdcdc">
+      <div class="col-md-1 col-xs-12 P_right" style="padding-top: 4px;">
+      </div>
+      <div class="col-md-11 col-xs-12 P_zero" style="padding-top: 4px;">
+        <label class="control-label" style="font-weight: normal;color: #002f7b">
+          已選取<span style="color: #d0021b;padding-left: 5px;">{{selectDay.length}}</span> 個日期
+        </label>
+        <div *ngIf="showRerror()" style="color: #d0021b;">(選取R班型必須選另一個對應)</div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0px ;margin-bottom:15px;padding: 15px 0px ;">
+      <div class="col-md-1 col-xs-12 P_right">
+      </div>
+      <div class="col-md-11 col-xs-12 " style="padding: 0px;">
+        <div class="col-md-10 col-md-push-2  col-xs-12 " style="margin-bottom: 15px;">
+          <button class="btn btn-primary" (click)="nextPage()" [disabled]="showRerror()">下一步</button>
+        </div>
+        <div class="col-md-2 col-md-pull-10  col-xs-12 " style="padding-top:0px">
+          <button class="btn btn-default" (click)="prePage()">返回重選</button>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+  </div>
+</div>
+
+
+<div class="a-block" *ngIf="writeState==3">
+  <div class="a-block-body  a-block-container">
+    <h3>確認調班日期班型</h3>
+    <div class="row" style="margin: 0px ;margin-bottom:15px;border-bottom: 1px dashed#dcdcdc ; padding-bottom: 15px">
+      <div class="col-md-4 col-xs-12" style="padding: 0px">
+        <div class="col-md-3 col-xs-12 P_right" style="padding-top: 4px;">
+          <label class="control-label">員工</label>
+        </div>
+        <div class="col-md-9 col-xs-12 P_zero" style="padding-top: 4px;">
+          <label class="control-label" style="font-weight: normal;">
+            {{Emp.EmpCode}} {{Emp.EmpName}}
+          </label>
+        </div>
+      </div>
+      <div class="col-md-8 col-xs-12" style="padding: 0px">
+        <label class="col-md-4  col-xs-12 P_right" style="padding-top: 5px">
+          互調員工
+        </label>
+        <div class="col-md-8  col-xs-12" style="padding: 0px">
+          <div class="row" style="margin: 0px">
+            <div class="col-md-6 col-xs-6 P_zero">
+              <label class="control-label" style="font-weight: normal;padding-top: 5px">
+                {{ChangeEmp.EmpCode}} {{ChangeEmp.EmpName}}
+              </label>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- form-group end -->
+    <!-- <div class="row" style="margin: 0px ;margin-bottom:15px;">
+      <div class="col-md-1 col-xs-12 P_right" style="padding-top: 4px;">
+      </div>
+      <div class="col-md-11 col-xs-12 P_zero" style="padding-top: 4px;">
+        <label class="control-label" style="font-weight: normal;color: #002f7b">
+          請點選欲互調班型之日期（可多選）
+        </label>
+      </div>
+    </div> -->
+    <!-- form-group end -->
+    <div class="row" style="margin: 0;margin-bottom: 10px;">
+
+      <div class="col-md-2 col-xs-12" style="margin: 5px 0px">
+
+        <div style="border:1px solid #e0e0e0;border-radius:5px ">
+
+          <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+            <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 ">
+              <div class="DivDateStyle" style="background-color: #e8e8e8">
+                員工
+              </div>
+            </div>
+            <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle" style="padding: 10px 0px;">
+              <div>
+                {{Emp.EmpCode}}
+              </div>
+              <div>
+                {{Emp.EmpName}}
+              </div>
+            </div>
+            <div class="col-md-12 col-xs-4 twoDivJobStyle" style="padding: 10px 0px;">
+              <div>
+                {{ChangeEmp.EmpCode}}
+              </div>
+              <div>
+                {{ChangeEmp.EmpName}}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div *ngFor="let ui of uiShow ; let i = index">
+        <div class="col-md-2 col-xs-12 " style="margin: 5px 0px">
+          <div *ngIf="ui.Clickselect" class="DivStyle selectDiv" style="cursor: unset">
+
+            <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+              <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 ">
+                <div class="DivDateStyle selectDateDiv_check">
+                  {{ui.date}}
+                </div>
+              </div>
+              <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle selectJobDiv">
+                <div>
+                  <!-- {{ui.oneP}} -->
+                  {{ui.onePRoteName}}
+                </div>
+              </div>
+              <div class="col-md-12 col-xs-4 twoDivJobStyle selectJobDiv">
+                <div>
+                  <!-- {{ui.twoP}} -->
+                  {{ui.twoPRoteName}}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- 有選到的日期 -->
+          <div *ngIf="!ui.Clickselect" class="DivStyle" style="cursor: unset">
+
+            <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+              <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 ">
+                <div class="DivDateStyle">
+                  {{ui.date}}
+                </div>
+              </div>
+              <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle">
+                <div>
+                  <!-- {{ui.oneP}} -->
+                  {{ui.onePRoteName}}
+                </div>
+              </div>
+              <div class="col-md-12 col-xs-4 twoDivJobStyle">
+                <div>
+                  <!-- {{ui.twoP}} -->
+                  {{ui.twoPRoteName}}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- 沒選到的日期 -->
+        </div>
+      </div>
+
+    </div>
+    <div class="row" style="margin: 0px ;margin-bottom:15px;padding: 15px 0px ;border-top:1px dashed #dcdcdc;border-bottom:1px dashed #dcdcdc">
+      <div class="col-md-1 col-xs-12 P_right" style="padding-top: 4px;">
+      </div>
+      <div class="col-md-11 col-xs-12 P_zero" style="padding-top: 4px;">
+        <label class="control-label col-md-2" style="font-weight: normal;color: #002f7b">
+          調班日期
+        </label>
+        <div class="col-md-7 col-xs-12 row" style="margin: 0">
+          <div *ngFor="let select of uiShow">
+            <div *ngIf="select.Clickselect">
+              <span style="color:#d0021b;" class="col-md-3 col-xs-3">{{select.date}}</span>
+              <span style="color:#d0021b;" class="col-md-3 col-xs-3">
+                <!-- {{select.oneP}} -->
+                {{select.onePRoteName}}
+              </span>
+              <span style="color:#002f7b;" class="col-md-3 col-xs-3">調成</span>
+              <span style="color:#d0021b;" class="col-md-3 col-xs-3">
+                <!-- {{select.twoP}} -->
+                {{select.twoPRoteName}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0px ;padding: 15px 0px ;">
+      <div class="col-md-2 col-xs-12 P_right" style="padding-left: 0px;padding-top: 5px;">
+        <label class="control-label" style="padding-left: 0px;padding-right: 15px;">
+          <span class="form-must-fill">*</span> 調班事由</label>
+      </div>
+      <div class="col-md-10 col-xs-12">
+        <textarea [(ngModel)]="NoteText" class="inputTextarea" style="color:#020202;overflow-y: auto;height: 83px;"
+          placeholder="請輸入調班事由"></textarea>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0px ;margin-bottom:15px;padding: 15px 0px;">
+      <div class="col-md-2 P_right" style="padding-left: 0px;padding-top: 5px;">
+        <label class="control-label" style="padding-left: 0px;padding-right: 15px;">
+          <span class="form-must-fill">*</span> 簽核人員</label>
+      </div>
+      <div class="col-md-10 row" style="margin:0px;">
+        <app-select-signer (selectBaseChange)="chooseBase($event)"></app-select-signer>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0px ;margin-bottom:15px;padding: 15px 0px ;">
+      <div class="col-md-1 col-xs-12 P_right">
+      </div>
+      <div class="col-md-11 col-xs-12 " style="padding: 0px;">
+        <div class="col-md-10 col-md-push-2  col-xs-12 " style="margin-bottom: 15px;">
+          <button  class="btn btn-primary" (click)="sendPreCheckError()">送出申請</button>
+        </div>
+        <div class="col-md-2 col-md-pull-10  col-xs-12 " style="padding-top:0px">
+          <button class="btn btn-default" (click)="prePage()">返回重選</button>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+  </div>
+</div>
+
+<div class="modal" id="chooseProxyEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <app-choosebase (saveEmptoView)="onSaveProxyEmptoView($event)" [proxyLockID]='oneP.code'></app-choosebase>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog選擇代理人-->
+
+
+
+<div class="modal" id="checksenddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認送出?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="sendandSaveChangeform()">送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog確認送出 -->
+<div class="modal" id="sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">申請完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            雙人調班單送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='["../home"]'>確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog送出成功 -->

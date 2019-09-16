@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var testing_1 = require("@angular/core/testing");
+var get_api_user_service_1 = require("./get-api-user.service");
+describe('GetApiUserService', function () {
+    beforeEach(function () { return testing_1.TestBed.configureTestingModule({}); });
+    it('should be created', function () {
+        var service = testing_1.TestBed.get(get_api_user_service_1.GetApiUserService);
+        expect(service).toBeTruthy();
+    });
+});
+//# sourceMappingURL=get-api-user.service.spec.js.map

@@ -1,0 +1,257 @@
+
+.P_div{
+    border:1px solid #028fcf;
+    margin: 0px;
+    margin-bottom:10px;
+    padding: 20px 10px;
+}
+.P_borderBottom{
+    margin: 0px;
+    padding: 0;
+    border-bottom: 0px
+}
+.P_height{
+    height: 22px;
+    margin-bottom: 5px;
+}
+.information_row{
+    padding:0px 20px;
+    margin-right: 0px;
+    margin-left: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.information_one{
+    border: 1px #e0e0e0    solid;
+}
+.information_title{
+    background-color: #f9f9f9;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+}
+.information_content{
+    /* text-align: center; */
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.writerow{
+    padding-left: 20px;
+    padding-right: 0px
+}
+.inputTextarea {
+    width: 100%;
+    resize: none;
+    height: 83px;
+    border: 0px;
+    padding: 5px 10px;
+    background-color:#fff 
+}
+.oneintwotitle{
+    text-align: right
+}
+.D_left_P_toppadding{
+    text-align: left;
+    padding: 0px;
+    padding-top: 7px;
+}
+.D_tabletop{
+    display: inherit;
+}
+.P_date{
+    display: none;
+}
+.P_context{
+    display: none;
+}
+.D_context{
+    text-align: center;
+    border:1px solid #e0e0e0;
+    border-right: 0px;
+    border-top:0px;
+    padding:5px 15px;
+}
+.P_left{
+    text-align: right;
+}
+.D_button{
+    display: inline;
+}
+.P_button{
+    display: none;
+}
+
+.P_show{
+    display: none;
+}
+.todaycs{
+    /* display: inline-block; */
+    padding: 10px;
+    padding-right: 0px;
+    float: right;
+}
+
+.D_leftP_toppadding{
+    text-align: left;
+    padding: 0px;
+    padding-top: 7px;
+}
+.tag_blue{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 5px 10px 0px;
+    display: inline-block;
+    text-align: center;
+    border: solid 1px #002f7b;
+    color: #002f7b;
+}
+.tag_skyblue{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 5px 10px 0px;
+    display: inline-block;
+    text-align: center;
+    border: solid 1px #00857d;
+    color: #00857d;
+}
+.tag_red{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 5px 10px 0px;
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #d0021b;
+    color: #d0021b;
+}
+.tag_gray{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 5px 10px 0px;
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #9b9b9b;
+    color: #9b9b9b;
+}
+@media screen and (max-width:1000px) {
+    .stateblock{
+        display: none;
+    }
+    .first-form-group{
+        padding-bottom: 5px
+    }
+    .firstinone-form-group{
+        padding-bottom: 10px;
+     } 
+     .firstintwo-form-group{
+         padding-top:10px
+     }
+     .oneintwotitle{
+        text-align: left;
+        padding: 0px
+    }
+     .oneintwocontent{
+         padding: 0px
+     }
+     .writerow{
+        padding-left: 0px;
+        padding-right: 0px
+    }
+    .D_left_P_toppadding{
+        padding-top: 0px;
+    }
+    .D_tabletop{
+        display: none;
+    }
+    .P_date{
+        background-color: #edf5ff;
+        text-align: left;
+        font-weight: bolder;
+        display: block;
+        position: unset;
+        padding: 5px 20px;
+        border:1px solid #e0e0e0;
+    }
+    .P_context{
+        /* background-color: #ffffff; */
+        text-align: left;
+        display:inherit;
+        padding: 3px 20px;
+    }
+    .D_context{
+        display: none;
+    }
+    .P_left{
+        text-align: left;
+    }
+    .D_button{
+        display: none;
+    }
+    .P_button{
+        display: inherit;
+    }
+    
+    .P_show{
+        display: inherit;
+    }
+    .todaycs{
+        padding: 0px
+    }
+    
+    .D_leftP_toppadding{
+        padding-top: 0px;
+    }
+    
+.P_borderBottom{
+    border-bottom: 1px solid rgba(151, 151, 151, 0.32);
+    margin-bottom: 10px;
+}
+
+.P_height{
+    height: 0px;
+}
+.P_div{
+    padding: 10px 15px;
+}
+}
+    
+
+
+@media (max-width: 800px){
+    ::ng-deep #footer {
+        display: none;
+    }
+}
+::ng-deep .vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+  }
+  ::ng-deep .vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+  }
+  ::ng-deep .modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width:550px){
+    .modal-dialog{
+      width: 300px;
+    }
+    .modal-footer{
+      text-align: center
+    }
+  }

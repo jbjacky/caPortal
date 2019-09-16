@@ -1,0 +1,298 @@
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { chinesenum } from 'src/app/UseVoid/void_chinesenumber';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { vaSearchFlowSignClass } from '../search-va-form/search-va-form.component';
+import { formatDateTime, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { timeOfDay } from 'src/app/UseVoid/void_timeofday';
+import { AbsFlowAppsDetailClass } from 'src/app/Models/PostData_API_Class/AbsSaveAndFlowStart';
+import { showAbsFlowAppsDetailClass } from 'src/app/Models/vaform';
+import { uploadFileClass } from 'src/app/Models/uploadFileClass';
+import { FileDownloadService } from 'src/app/Service/file-download.service';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { takeWhile } from 'rxjs/operators';
+import { showUploadFileClass } from 'src/app/Models/showUploadFileClass';
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-search-va-detail',
+  templateUrl: './search-va-detail.component.html',
+  styleUrls: ['./search-va-detail.component.css']
+})
+export class SearchVaDetailComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+
+  @Input() getVaDataTitle: vaSearchFlowSignClass
+  // @Input() getVaDataDetail: vaGetAbsFlowApps[] = [];
+
+
+
+  @Output() goback: EventEmitter<number> = new EventEmitter<number>();//回列表
+
+  previouspage() {
+    //回列表
+    this.goback.emit();
+  }
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private FileDownloadService: FileDownloadService) { }
+
+  uishowVaDetail: uishowVaDetailClass[] = [];//顯示差假時段資料
+  
+  showFormSign: FormSign[] = [];
+
+  ngOnInit() {
+    // 差假時段多筆資料
+    this.GetApiDataServiceService.getWebApiData_GetAbsFlowAppsByProcessFlowID(this.getVaDataTitle.ProcessFlowID, true).subscribe(
+      (x: ReviewVaDetailClass[]) => {
+        // this.showVaDetail = x;
+        this.uishowVaDetail = []
+        var i = 0
+        for (let data of x) {
+          var GetAttend: GetAttendClass = {
+            DateB: formatDateTime(data.DateTimeB).getDate,
+            DateE: formatDateTime(data.DateTimeE).getDate,
+            ListEmpID: [data.EmpCode],
+            ListRoteID: null
+          }
+          // console.log(GetAttend)
+          this.GetApiDataServiceService.getWebApiData_GetAttend(GetAttend).subscribe(
+            (Attend: any[]) => {
+              i++
+              // console.log(x)
+              // var workhourArray = []
+              var getSetAbsFlowAppsDetail: showAbsFlowAppsDetailClass[] = []
+
+              for (let AbsFlowAppsDetail of data.AbsFlowAppsDetail) {
+                if (!AbsFlowAppsDetail.RoteRestList) {
+                  AbsFlowAppsDetail.RoteRestList = []
+                  AbsFlowAppsDetail.RoteRestList.push({
+                    RoteID: 0,
+                    Seq: 0,
+                    TimeB: '1200',
+                    TimeE: '1300',
+                    Minute: 0,
+                    IsNormalAbs: true,
+                    IsNormalOt: true,
+                    IsHoliDayAbs: true,
+                    IsHoliDayOt: true
+                  })
+                }///休息時間請阿明加上
+                getSetAbsFlowAppsDetail.push(
+                  {
+                    vaOneDate: formatDateTime(AbsFlowAppsDetail.DateB).getDate,
+                    vaOneOnTime: getapi_formatTimetoString(formatDateTime(AbsFlowAppsDetail.DateTimeB).getTime),
+                    vaOneOffTime: getapi_formatTimetoString(formatDateTime(AbsFlowAppsDetail.DateTimeE).getTime),
+                    vaRestOnTime: getapi_formatTimetoString(AbsFlowAppsDetail.RoteRestList[0].TimeB),
+                    vaRestOffTime: getapi_formatTimetoString(AbsFlowAppsDetail.RoteRestList[0].TimeE),
+                    AllUse: AbsFlowAppsDetail.Use,
+                    vaUseDay: '0',
+                    vaUseHour: '0',
+                    vaUseMinute: '0'
+                  })
+              }
+              for (let ActualRote_WorkHours of Attend) {
+                var oneDayWorkHour = ActualRote_WorkHours.ActualRote.WorkHours
+                // workhourArray.push(oneDayWorkHour)
+
+                var AllUse = { day: 0, hour: 0, minute: 0 }
+                for (let uishowAbsFlowAppsDetail of getSetAbsFlowAppsDetail) {
+                  uishowAbsFlowAppsDetail.vaUseDay = timeOfDay(true, uishowAbsFlowAppsDetail.AllUse, oneDayWorkHour).day.toString()
+                  uishowAbsFlowAppsDetail.vaUseHour = timeOfDay(true, uishowAbsFlowAppsDetail.AllUse, oneDayWorkHour).hour.toString()
+                  uishowAbsFlowAppsDetail.vaUseMinute = timeOfDay(true, uishowAbsFlowAppsDetail.AllUse, oneDayWorkHour).minute.toString()
+
+                  AllUse.day = AllUse.day + timeOfDay(true, uishowAbsFlowAppsDetail.AllUse, oneDayWorkHour).day
+                  AllUse.hour = AllUse.hour + timeOfDay(true, uishowAbsFlowAppsDetail.AllUse, oneDayWorkHour).hour
+                  AllUse.minute = AllUse.minute + timeOfDay(true, uishowAbsFlowAppsDetail.AllUse, oneDayWorkHour).minute
+                }
+              }
+              // console.log(workhourArray)
+              // var AllUse = moreDaytimeOfDay_hour(parseFloat(data.Use), workhourArray)
+              this.uishowVaDetail.push({
+                uitext: '差假時段' + chinesenum(i),
+                startDate: formatDateTime(data.DateTimeB).getDate,
+                startTime: formatDateTime(data.DateTimeB).getTime,
+                endDate: formatDateTime(data.DateTimeE).getDate,
+                endTime: formatDateTime(data.DateTimeE).getTime,
+                proxyName: data.AgentName1,
+                cause: data.Note,
+                AllUseDay: AllUse.day,
+                AllUseHour: AllUse.hour,
+                AllUseMinute: AllUse.minute,
+                HolidayName: data.HoliDayNameC,
+                uploadFile: data.UploadFile,
+                AbsFlowAppsDetail: data.AbsFlowAppsDetail,
+                uishowAbsFlowAppsDetail: getSetAbsFlowAppsDetail
+              })
+              console.log(this.uishowVaDetail)
+            }
+          ),
+            (error) => {
+              alert('與api取得資料錯誤，getWebApiData_GetAttend')
+              console.log(error)
+            }
+        }
+        // console.log(x[0].EmpID)
+      },
+      (error) => {
+        alert('與api取得資料錯誤，GetAbsFlowAppsByProcessFlowID')
+        console.log(error)
+      }
+    )
+
+    
+      //歷程主管意見多筆資料
+      this.GetApiDataServiceService.getWebApiData_GetFormSign(this.getVaDataTitle.ProcessFlowID).subscribe(
+        (x_GetFormSigns: FormSign[]) => {
+          this.showFormSign = []
+          for (let x_GetFormSign of x_GetFormSigns) {
+            this.showFormSign.push({
+              DeptNameC: x_GetFormSign.DeptNameC,
+              EmpCode: x_GetFormSign.EmpCode,
+              EmpID: x_GetFormSign.EmpID,
+              EmpNameC: x_GetFormSign.EmpNameC,
+              JobName: x_GetFormSign.JobName,
+              Key1: x_GetFormSign.Key1,
+              Key2: x_GetFormSign.Key2,
+              NodeName: x_GetFormSign.NodeName,
+              Note: x_GetFormSign.Note,
+              ProcessFlowID: x_GetFormSign.ProcessFlowID,
+              SignDate: formatDateTime(x_GetFormSign.SignDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(x_GetFormSign.SignDate).getTime)
+            })
+          }
+        },
+        (error) => {
+          alert('與api取得資料錯誤，GetFormSign')
+          console.log(error)
+        }
+      )
+
+  }
+
+
+  uishowVaDetailLoading:boolean = false;
+  base64(upload: showUploadFileClass) {
+    // console.log(upload)
+    this.uishowVaDetailLoading = true
+    this.GetApiDataServiceService.getWebApiData_GetUploadFileByOnly(upload.ServerName)
+    .pipe(takeWhile(() => this.api_subscribe))
+    .subscribe(
+      (data:Array<any>)=>{
+        this.FileDownloadService.base64(data[0])
+        this.uishowVaDetailLoading = false
+      }
+      ,error=>{
+        this.uishowVaDetailLoading = false
+        alert('與api連線異常，getWebApiData_GetUploadFileByOnly')
+      }
+    )
+  }
+  onCheckCollapseIn(i) {
+    //確認是否收合請假明細
+    if ($('#id_vadetail' + i).hasClass('collapsed')) {
+      $('#' + i + 'vadetail_text').text('收合請假明細')
+      $('#' + i + 'vadetail_img').css({ "transition": "transform 0.5s" });
+      $('#' + i + 'vadetail_img').css({ "transform": "rotate(-180deg)" });
+
+    } else {
+      $('#' + i + 'vadetail_text').text('展開請假明細')
+      $('#' + i + 'vadetail_img').css({ "transition": "transform 0.5s" });
+      $('#' + i + 'vadetail_img').css({ "transform": "rotate(0deg)" });
+    }
+  }
+
+  onCheckCollapseInpostOpinions() {
+    //確認是否收合歷程主管簽核意見
+    if (!$('#' + 'mangText').hasClass('collapse in')) {
+      $('#' + 'mangText' + '_text').text('收合')
+      $('#' + 'mangText' + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 'mangText' + '_img').css({ "transform": "rotate(-180deg)" });
+
+    } else {
+      $('#' + 'mangText' + '_text').text('展開')
+      $('#' + 'mangText' + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 'mangText' + '_img').css({ "transform": "rotate(0deg)" });
+    }
+  }
+
+
+  /**
+   * @todo 抽單
+   */
+  Cancelform_Click(){
+    
+  }
+
+}
+
+
+
+
+
+class uishowVaDetailClass {
+  uitext: string
+  startDate: string
+  startTime: string
+  endDate: string
+  endTime: string
+  proxyName: string
+  cause: string
+  AllUseDay: number
+  AllUseHour: number
+  AllUseMinute: number
+  HolidayName: string
+  uploadFile: uploadFileClass[]
+  AbsFlowAppsDetail: AbsFlowAppsDetailClass[]
+  uishowAbsFlowAppsDetail: showAbsFlowAppsDetailClass[]
+}
+
+class ReviewVaDetailClass {
+  ProcessID: number
+  Serno: string
+  HoliDayName: string
+  DateB: string
+  DateE: string
+  DateTimeB: string
+  DateTimeE: string
+  EventDate: string
+  AbsFlowAppsDetail: AbsFlowAppsDetailClass[]
+  EmpID: string
+  EmpCode: string
+  EmpNameC: string
+  RoteID: string
+  TimeB: string
+  TimeE: string
+  HoliDayID: string
+  HoliDayNameC: string
+  Use: string
+  Day: string
+  Balance: string
+  HoliDayUnitName: string
+  AgentNobr1: string
+  AgentName1: string
+  AgentNote: string
+  Note: string
+  Info: string
+  KeyName: string
+  UploadFile: any[]
+  MailBody: string
+  State: string
+  Today: boolean
+  Circulate: boolean
+  Appointment: boolean
+}
+class FormSign {
+  DeptNameC: string
+  EmpCode: string
+  EmpID: string
+  EmpNameC: string
+  JobName: string
+  Key1: string
+  Key2: string
+  NodeName: string
+  Note: string
+  ProcessFlowID: number
+  SignDate: string
+}

@@ -1,0 +1,237 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div style="background-color: #fafafa;width: 100%;border: 1px solid #cccccc;padding: 2px 15px;padding-bottom: 5px;margin-bottom: 30px;">
+      <div style="display: inline-block;padding-top: 5px;">
+        目前審核身份：
+        <span style="color:#028fcf;font-size: 18px">李大仁</span>
+      </div>
+
+    </div>
+
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;">
+      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          申請單編號
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span style="color: #028fcf">20180000000201104</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3 col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label">
+            申請單狀態</label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <label style="color: #d0021b">簽核中</label>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          員工
+        </label>
+        <div class="col-md-8  col-xs-12">
+          <div class="row ">
+            <div>
+              <span>644555 陳德華</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label">
+            調班日</label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          請求調班共<label style="color: #d0021b">1</label>日
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;">
+      <div class="form-group" style="border:1px solid #028fcf;margin-top: 20px;padding: 15px 0px">
+        <div class="row" style="padding: 0px;margin: 0px">
+          <div class="col-md-2 col-xs-12 P_left">
+            <span style="color: #028fcf">2019/01/14(一)</span>
+          </div>
+          <div class="col-md-10  col-xs-12">
+            原始 <span style="color: #d0021b;margin: 0px 10px;">1030A</span>
+            請求調成 <span style="color: #d0021b;margin: 0px 10px;">0800D</span>
+          </div>
+        </div>
+      </div>
+      <!-- form-group end -->
+    </div>
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;">
+      <div class="form-group" style="border:1px solid #028fcf;margin-top: 20px;padding: 15px 0px">
+        <div class="row" style="padding: 0px;margin: 0px">
+          <div class="col-md-2 col-xs-6 P_left">
+            <span style="color: #028fcf">2019/01/14(一)</span>
+          </div>
+          <div class="col-md-2 col-xs-6">
+              原始 <span style="color: #d0021b;margin: 0px 10px;">R</span>
+              請求與
+            </div>
+          <div class="col-md-8  col-xs-12"> 
+            <span class="col-md-3 col-xs-6" style="color: #028fcf;padding: 0">2019/01/14(一)</span>
+            <div class="col-md-9 col-xs-6">
+                <span style="color: #d0021b;">Z</span>
+                對調班型
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- form-group end -->
+    </div>
+
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px">
+      <div class="row" style="margin: 0;padding: 0%">
+        <div class="col-md-2 col-xs-8  P_left">歷程主管簽核意見</div>
+        <div class="col-md-10 col-xs-4">
+          <a data-toggle="collapse" href="#post2">收合</a>
+          <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-180deg);" />
+        </div>
+      </div>
+      <div class="row" style="margin: 0;padding: 0%">
+        <div class="col-md-2 "></div>
+        <div class="col-md-10">
+          <div id="post2" class="collapse in">
+            <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 15px">
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核人員</div>
+                <div class="col-md-10" style="padding: 0">值班經理 何晶晶</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核時間</div>
+                <div class="col-md-4" style="padding: 0">2018/08/23 13:12:02</div>
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">假單遞送</div>
+                <div class="col-md-4" style="padding: 0">呈核</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核意見</div>
+                <div class="col-md-10" style="padding: 0">准，去吧</div>
+              </div>
+            </div>
+            <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 15px">
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核人員</div>
+                <div class="col-md-10" style="padding: 0">值班經理 何晶晶</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核時間</div>
+                <div class="col-md-4" style="padding: 0">2018/08/23 13:12:02</div>
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">假單遞送</div>
+                <div class="col-md-4" style="padding: 0">呈核</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核意見</div>
+                <div class="col-md-10" style="padding: 0">准，去吧</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 P_left"></div>
+        <div class="col-md-"></div>
+
+      </div>
+    </div>
+    <!--歷程主管意見-->
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 20px">
+      <div class="row" style="margin: 0;padding: 0">
+        <label class="col-md-2 P_left">簽核意見</label>
+        <div class="col-md-10">
+          <textarea class="inputTextarea" style="overflow-y: auto"></textarea>
+        </div>
+
+      </div>
+    </div>
+    <!--簽核意見-->
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 20px">
+      <div class="row" style="margin: 0;padding: 0">
+        <div class="col-md-2 P_left">簽核人員</div>
+        <div class="col-md-10">
+          <div class="col-md-3 col-xs-12" style="padding:0px;margin-bottom: 5px;margin-right: 15px">
+            <select class="form-control">
+              <option>計畫發展部</option>
+            </select>
+          </div>
+          <div class="col-md-3 col-xs-12" style="padding:0px;">
+            <select class="form-control">
+              <option>經理 李富人</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!--簽核人員-->
+    <div [style.display]='inbodybuttomdiv' class="row" style="margin: 0;padding: 0">
+      <div class="col-md-2"></div>
+      <div class="col-md-10">
+        <button class="btn btn-primary" style="margin-right: 15px;padding: 6px 25px;">核准</button>
+        <button class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;">退回</button>
+        <button class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;">呈核</button>
+        <a style="margin-right: 15px">查詢請假規定</a>
+        <a style="margin-right: 15px">流程查詢</a>
+        <a style="margin-right: 15px" (click)="backReview()" [routerLink]="['..']">回列表1</a>
+      </div>
+    </div>
+
+    <div [style.display]='inbodybuttomdiv_phone' class="row" style="margin: 0;padding: 0">
+      <div class="col-md-12">
+        <div class="col-xs-5" style="padding: 0px;text-align: center">
+          <a>查詢請假規定</a>
+        </div>
+        <div class="col-xs-4" style="padding: 0px;text-align: center">
+          <a>流程查詢</a>
+        </div>
+        <div class="col-xs-3" style="padding: 0px;text-align: center" (click)="backReview()" [routerLink]="['..']">
+          <a>回列表2</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div [style.display]='buttomdiv' class="row" style="position: fixed;
+bottom: 32px;width: 100%;
+background-color: #fff;
+padding: 20px;
+">
+  <div class="a-block-buttom">
+
+    <button class="btn btn-primary" style="margin-right: 15px">核准</button>
+    <button class="btn btn-info" style="margin-right: 15px">退回</button>
+    <button class="btn btn-info" style="margin-right: 15px">呈核</button>
+    <a style="margin-right: 15px">查詢請假規定</a>
+    <a style="margin-right: 15px">流程查詢</a>
+    <a style="margin-right: 15px" (click)="backReview()" [routerLink]="['..']">回列表3</a>
+
+  </div>
+
+</div>
+<div [style.display]='buttomdiv_phone' class="row" style="position: fixed;
+bottom: 0px;width: 100%;
+background-color: #fff;padding: 20px 5px;
+">
+  <div class="col-xs-4" style="padding: 0px;text-align: center;">
+    <button class="btn btn-primary btm-sm" style="padding: 6px 40px;">核准</button>
+  </div>
+  <div class="col-xs-4" style="padding: 0px;text-align: center;">
+    <button class="btn btn-info" style="padding: 6px 40px;">退回</button>
+  </div>
+  <div class="col-xs-4" style="padding: 0px;text-align: center;">
+    <button class="btn btn-info" style="padding: 6px 40px;">呈核</button>
+  </div>
+
+</div>

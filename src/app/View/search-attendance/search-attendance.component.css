@@ -1,0 +1,105 @@
+@media (min-width: 800px){
+    #RoteInf .modal-dialog {
+      width: 800px;
+      margin: 30px auto;
+    }
+}
+.Rote{
+  color: #028fcf
+}
+.RoteLink:hover, .RoteLink:focus {
+  color: #ff6600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.tag_blue{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    /* margin: 0px 5px 10px 0px; */
+    display: inline-block;
+    text-align: center;
+    border: solid 1px #002f7b;
+    color: #002f7b;
+}
+.tag_skyblue{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    /* margin: 0px 5px 10px 0px; */
+    display: inline-block;
+    text-align: center;
+    border: solid 1px #00857d;
+    color: #00857d;
+}
+.tag_red{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    /* margin: 0px 5px 10px 0px; */
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #d0021b;
+    color: #d0021b;
+}
+.tag_gray{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    /* margin: 0px 5px 10px 0px; */
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #9b9b9b;
+    color: #9b9b9b;
+}
+
+.P_left{
+    text-align: right
+  }
+
+.P_base{
+    color: #6f6f6f;
+    border-right: 1px solid rgba(151, 151, 151, 0.32);
+    text-align: right;
+}
+.P_date{
+    padding: 0px;
+    /* padding-left: 20px; */
+}
+
+.errorInput{
+    border: 1px solid #e60012
+}
+
+.P_div{
+    border:1px solid #028fcf;
+    margin: 0px;
+    margin-bottom:10px;
+    padding: 15px 10px;
+    /* padding-top: 20px; */
+}
+
+@media screen and (max-width:992px) {
+.P_base{
+    color: #6f6f6f;
+    border-right:0px;
+    border-bottom: 1px solid rgba(151, 151, 151, 0.32);
+    text-align: unset;
+}
+.P_date{
+    padding: 0px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+  .P_left{
+    text-align: left
+  }
+
+  .P_div{
+    padding: 10px 15px;
+}
+}

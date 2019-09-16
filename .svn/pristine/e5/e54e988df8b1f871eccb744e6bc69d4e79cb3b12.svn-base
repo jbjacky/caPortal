@@ -1,0 +1,368 @@
+import { Component, OnInit, AfterContentInit, OnDestroy, NgZone } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { isValidDate } from 'src/app/UseVoid/void_isVaildDatetime';
+import { takeWhile, concatMap } from 'rxjs/operators';
+import { doFormatDate, doFormatDate_getMonthAndDay, formatDateTime, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { chinesenum } from 'src/app/UseVoid/void_chinesenumber';
+import { ShiftRoteSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/ShiftRoteSaveAndFlowStartClass';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-change-rz',
+  templateUrl: './change-rz.component.html',
+  styleUrls: ['./change-rz.component.css']
+})
+export class ChangeRzComponent implements OnInit, AfterContentInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true
+  ngAfterContentInit(): void {
+    var currentYear = new Date().getFullYear();
+    var self = this;
+    $('#id_bt_startday').dateDropper({
+      format: "Y/m/d",
+      lang: 'zh',
+      large: true,
+      minYear: currentYear - 1,
+      maxYear: currentYear + 1,
+      large_class: 'picker-lg',
+      bt_large: false
+    });
+
+    $("#id_bt_startday").change(function () {
+      $("#id_ipt_startday").val($("#id_bt_startday").val())
+      self.setSelectRzChangeBox()
+    });
+  }
+  blurDate() {
+    if (isValidDate($("#id_ipt_startday").val())) {
+      //合法
+      console.log('合法')
+      this.setSelectRzChangeBox()
+    } else {
+      //不合法
+      console.log('不合法')
+    }
+  }
+
+  selectRZBoxArray: any;
+  selectRZLoading: boolean = false
+  ngZone: NgZone = new NgZone({ enableLongStackTrace: true });
+  setSelectRzChangeBox() {
+    this.LoadingPage.show()
+    var selectDateB = $("#id_ipt_startday").val()
+    this.GetApiDataServiceService.getWebApiData_GetHolidayShiftRote(selectDateB, this.oneP.EmpCode)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: Array<any>) => {
+          this.selectRZBoxArray = []
+
+          this.selectRZLoading = false
+          this.ngZone.run(() => { });
+          var checkHaveDate = x.filter(item => {
+            return doFormatDate(item.AttendDate) == selectDateB
+          })
+          if (x.length > 1) {
+            if (checkHaveDate.length > 0) {
+              console.log('可換')
+              for (let data of x) {
+                data.AttendDate = doFormatDate(data.AttendDate)
+                if (checkHaveDate[0].ActualRote.RoteID == data.ActualRote.RoteID) {
+
+                } else {
+                  this.selectRZBoxArray.push(data)
+                }
+              }
+              // console.log(this.selectRZBoxArray)
+              this.selectRZLoading = true
+              this.ngZone.run(() => { });
+            } else {
+              alert('此日期不符合休假與例假互換規則')
+            }
+          } else {
+            alert('此日期無互換假別')
+          }
+          
+this.LoadingPage.hide()
+        }
+        , error => {
+          alert('與api連線錯誤，getWebApiData_GetHolidayShiftRote')
+this.LoadingPage.hide()
+        }
+      )
+  }
+
+  selectChangeRZ: any = ''
+  onChangeselectChangeRZ(e) {
+
+  }
+
+
+  writeState = 1; //步驟一
+
+  oneP: oneP_Class = new oneP_Class()
+
+  constructor(
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private GetApiUserService: GetApiUserService,
+    private viewScroller: ViewportScroller,
+    private LoadingPage: NgxSpinnerService) { }
+
+  ngOnInit() {
+    this.GetApiUserService.counter$.subscribe(
+      x => {
+        this.oneP.EmpCode = x.EmpCode
+        if (x.EmpNameC) {
+          this.oneP.EmpName = x.EmpNameC
+        } else {
+          this.oneP.EmpName = x.EmpNameE
+        }
+      }
+    )
+
+  }
+
+  selectDay: selectuiShow
+  selectChangeDay: selectuiShow
+
+  scrollTo() {
+    this.viewScroller.scrollToAnchor('goPageChange');
+    //tag=id連結位置
+  }
+
+  SetUiActive() {
+    $('#navs li').filter('.active').removeClass('active');
+    $('#li' + this.writeState.toString()).addClass('active')
+    this.scrollTo();
+  }
+  nextPage() {
+    if (this.selectRZLoading && this.selectChangeRZ.length != 0) {
+      // console.log(this.selectChangeRZ)
+      this.writeState += 1;
+      this.SetUiActive()
+
+      this.GetApiDataServiceService.getWebApiData_GetShiftRoteDateRange(this.selectChangeRZ.AttendDate, this.oneP.EmpCode)
+        .pipe(
+          concatMap(
+            (x: any) => {
+              var Attend: GetAttendClass = {
+                DateB: x.DateA,
+                DateE: x.DateD,
+                ListEmpID: [this.oneP.EmpCode],
+                ListRoteID: null
+              }
+              return this.GetApiDataServiceService.getWebApiData_GetAttend(Attend)
+            }
+          )
+        )
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (x: any) => {
+            // console.log(x)
+            this.selectDay = null
+            this.selectChangeDay = null
+            this.oneP = {
+              EmpCode: this.oneP.EmpCode,
+              EmpName: this.oneP.EmpName,
+              work: []
+            }
+            for (let data of x) {
+              var setAttendDate = doFormatDate_getMonthAndDay(formatDateTime(data.AttendDate).getDate)
+              var isSelect: boolean = false
+              var dataAttenDate = doFormatDate(data.AttendDate)
+              var calDate = new Date(formatDateTime(data.AttendDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(data.AttendDate).getTime))
+              var calDate_dayofweek = calDate.getDay()
+              if (calDate_dayofweek == 0) {
+                calDate_dayofweek = 7
+              }
+              if (dataAttenDate == this.selectChangeRZ.AttendDate || dataAttenDate == $("#id_ipt_startday").val()) {
+                isSelect = true
+                var showDayofWeek = ''
+                if (calDate_dayofweek == 7) {
+                  showDayofWeek = '日'
+                } else {
+                  showDayofWeek = chinesenum(calDate_dayofweek)
+                }
+
+                if (!this.selectDay) {
+
+                  this.selectDay = {
+                    date: setAttendDate,
+                    job: data.ActualRote.RoteCode,
+                    RoteName: data.ActualRote.RoteNameC,
+                    RoteID: data.ActualRote.RoteID,
+                    realdate: formatDateTime(data.AttendDate).getDate,
+                    isSelect: isSelect,
+                    dayofweek: showDayofWeek
+                  }
+                } else {
+                  this.selectChangeDay = {
+                    date: setAttendDate,
+                    job: data.ActualRote.RoteCode,
+                    RoteName: data.ActualRote.RoteNameC,
+                    RoteID: data.ActualRote.RoteID,
+                    realdate: formatDateTime(data.AttendDate).getDate,
+                    isSelect: isSelect,
+                    dayofweek: showDayofWeek
+                  }
+                }
+
+              }
+              this.oneP.work.push(
+                {
+                  date: setAttendDate,
+                  job: data.ActualRote.RoteCode,
+                  realdate: formatDateTime(data.AttendDate).getDate,
+                  RoteName: data.ActualRote.RoteNameC,
+                  RoteID: data.ActualRote.RoteID,
+                  isSelect: isSelect,
+                  dayofweek: chinesenum(calDate_dayofweek)
+                })
+            }
+            // this.SetUiChangeDate()
+            console.log(this.oneP)
+          },
+          (error: any) => {
+            alert('與api連線異常，第一個人員，getWebApiData_GetShiftRoteDateRange')
+          }
+        )
+    } else {
+      alert('請選擇互換例休日')
+    }
+  }
+
+  setDivStyle(selectData: selectuiShow) {
+    if (selectData.isSelect) {
+      return 'selectDiv'
+    } else {
+      return 'DivStyle'
+    }
+  }
+
+  prePage() {
+    this.selectChangeRZ = ''
+    this.writeState -= 1;
+    // this.selectDay = []
+    // for (let ui of this.uiShow) {
+    //   ui.Clickselect = false
+    // }
+    this.SetUiActive()
+  }
+
+  NoteString: string
+  FlowDynamic_EmpID: string;
+
+  chooseBase(e) {
+    var id
+    if (e.length == 0) {
+      id = null
+      // console.log('清除員工資料')
+    } else {
+      id = e[0].value.split('，')[0]
+    }
+    this.FlowDynamic_EmpID = id
+
+  }
+
+  checksenderror() {
+
+    if (!this.NoteString) {
+      alert('請輸入調班事由')
+    } else if (!this.FlowDynamic_EmpID) {
+      alert('請選擇簽核人員')
+    } else {
+      $('#checksenddialog').modal('show');
+    }
+  }
+
+  sendandSaveChangeform() {
+    // console.log(this.selectDay)
+    var sendShift = []
+    sendShift.push(
+      {
+        "ShiftRoteDate": this.selectDay.realdate,
+        "RoteID1": this.selectDay.RoteID,
+        "RoteCode1": this.selectDay.job,
+        "RoteName1": this.selectDay.RoteName,
+        "RoteID2": this.selectChangeDay.RoteID,
+        "RoteCode2": this.selectChangeDay.job,
+        "RoteName2": this.selectChangeDay.RoteName
+      }
+    )
+    sendShift.push(
+      {
+        "ShiftRoteDate": this.selectChangeDay.realdate,
+        "RoteID1": this.selectChangeDay.RoteID,
+        "RoteCode1": this.selectChangeDay.job,
+        "RoteName1": this.selectChangeDay.RoteName,
+        "RoteID2": this.selectDay.RoteID,
+        "RoteCode2": this.selectDay.job,
+        "RoteName2": this.selectDay.RoteName
+      }
+    )
+
+    var ShiftRoteSaveAndFlowStart: ShiftRoteSaveAndFlowStartClass = {
+      "FlowApp": {
+        "ShiftRoteType": "RZ",
+        "ShiftRoteName": "例休互調",
+        "FlowApps": [
+          {
+            "EmpID1": this.oneP.EmpCode,
+            "EmpCode1": this.oneP.EmpCode,
+            "EmpNameC1": this.oneP.EmpName,
+            "EmpID2": this.oneP.EmpCode,
+            "EmpCode2": this.oneP.EmpCode,
+            "EmpNameC2": this.oneP.EmpName,
+            "Note": this.NoteString,
+            "Info": "",
+            "MailBody": "",
+            "State": "1",
+            "ShiftRoteFlowAppsDetail": sendShift
+          }
+        ],
+        "EmpID": this.oneP.EmpCode,
+        "EmpCode": this.oneP.EmpCode,
+        "EmpNameC": this.oneP.EmpName,
+        "State": "1" //1是要簽核
+      },
+      "FlowDynamic": {
+        "FlowNode": "502",
+        "RoleID": "",
+        "EmpID": this.FlowDynamic_EmpID
+      }
+    }
+    console.log(ShiftRoteSaveAndFlowStart)
+    this.GetApiDataServiceService.getWebApiData_ShiftRoteSaveAndFlowStart(ShiftRoteSaveAndFlowStart)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          $('#sussesdialog').modal('show');
+        }, error => {
+          alert('與api連線異常，getWebApiData_ShiftRoteSaveAndFlowStart')
+        }
+      )
+  }
+
+}
+
+export class oneP_Class {
+  EmpCode: string
+  EmpName: string
+  work: selectuiShow[]
+}
+export class selectuiShow {
+  date: string;
+  job: string;
+  RoteID:string;
+  RoteName: string;
+  realdate: string;
+  isSelect: boolean;
+  dayofweek: string
+}

@@ -1,0 +1,11 @@
+
+export class GetNewsClass{
+    NewsID: string
+    ShowNewsHead: string
+    NewsHead: string
+    NewsBody: string
+    PostDate: any
+    PostDeadline: any
+    IsOn: boolean
+    Sort: number
+  }

@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var vaform_module_1 = require("./vaform.module");
+describe('VaformModule', function () {
+    var vaformModule;
+    beforeEach(function () {
+        vaformModule = new vaform_module_1.VaformModule();
+    });
+    it('should create an instance', function () {
+        expect(vaformModule).toBeTruthy();
+    });
+});
+//# sourceMappingURL=vaform.module.spec.js.map

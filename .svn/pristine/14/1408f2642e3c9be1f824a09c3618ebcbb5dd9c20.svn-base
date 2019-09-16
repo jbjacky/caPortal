@@ -1,0 +1,191 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var DelformComponent = /** @class */ (function () {
+    function DelformComponent(router) {
+        this.router = router;
+        this.SendSussesText = '銷假單已送出!';
+        this.routerlink = '/delform';
+        this.alldelformpeople = [
+            {
+                id: 1,
+                jobnumber: '',
+                name: '1',
+                division: '',
+                startdate: '',
+                starttime: '',
+                enddate: '',
+                endtime: '',
+                category: '',
+                cause: '',
+                _id: '',
+                _idherf: '#',
+                checkedstate: false
+            },
+            {
+                id: 1,
+                jobnumber: '',
+                name: '2',
+                division: '',
+                startdate: '',
+                starttime: '',
+                enddate: '',
+                endtime: '',
+                category: '',
+                cause: '',
+                _id: '',
+                _idherf: '#',
+                checkedstate: false
+            },
+            {
+                id: 1,
+                jobnumber: '',
+                name: '3',
+                division: '',
+                startdate: '',
+                starttime: '',
+                enddate: '',
+                endtime: '',
+                category: '',
+                cause: '',
+                _id: '',
+                _idherf: '#',
+                checkedstate: false
+            },
+            {
+                id: 1,
+                jobnumber: '',
+                name: '4',
+                division: '',
+                startdate: '',
+                starttime: '',
+                enddate: '',
+                endtime: '',
+                category: '',
+                cause: '',
+                _id: '',
+                _idherf: '#',
+                checkedstate: false
+            },
+            {
+                id: 1,
+                jobnumber: '',
+                name: '5',
+                division: '',
+                startdate: '',
+                starttime: '',
+                enddate: '',
+                endtime: '',
+                category: '',
+                cause: '',
+                _id: '',
+                _idherf: '#',
+                checkedstate: false
+            },
+            {
+                id: 1,
+                jobnumber: '',
+                name: '6',
+                division: '',
+                startdate: '',
+                starttime: '',
+                enddate: '',
+                endtime: '',
+                category: '',
+                cause: '',
+                _id: '',
+                _idherf: '#',
+                checkedstate: false
+            },
+            {
+                id: 1,
+                jobnumber: '',
+                name: '7',
+                division: '',
+                startdate: '',
+                starttime: '',
+                enddate: '',
+                endtime: '',
+                category: '',
+                cause: '',
+                _id: '',
+                _idherf: '#',
+                checkedstate: false
+            }
+        ];
+    }
+    DelformComponent.prototype.ngAfterViewInit = function () {
+        var a_lenght = 0;
+        for (var i = 0; i < this.alldelformpeople.length; i++) {
+            a_lenght++;
+        }
+        // $('#accordion_show').on('click', function () {
+        //   for (let i = 0; i < a_lenght; i++) {
+        //     $('#del_id' + i).collapse('show');
+        //   }
+        // });
+        // //全部展開按鈕
+        // $('#accordion_hide').on('click', function () {
+        //   for (let i = 0; i < a_lenght; i++) {
+        //     $('#del_id' + i).collapse('hide');
+        //   }
+        // });
+        // //全部收合按鈕
+    };
+    DelformComponent.prototype.ngOnInit = function () {
+        for (var i = 0; i < this.alldelformpeople.length; i++) {
+            this.alldelformpeople[i]._id = 'del_id' + i;
+            this.alldelformpeople[i]._idherf = '#del_id' + i;
+        }
+    };
+    DelformComponent.prototype.go = function () {
+        this.router.navigate(['/delform1']);
+    };
+    DelformComponent.prototype.onCheckCollapseIn = function (id) {
+        //確認是否收合
+        if (!$('#' + id).hasClass('collapse in')) {
+            $('#' + id + '_text').text('收合');
+            $('#' + id + '_img').css({ "transition": "transform 0.5s" });
+            $('#' + id + '_img').css({ "transform": "rotate(-180deg)" });
+        }
+        else {
+            $('#' + id + '_text').text('展開');
+            $('#' + id + '_img').css({ "transition": "transform 0.5s" });
+            $('#' + id + '_img').css({ "transform": "rotate(0deg)" });
+        }
+    };
+    DelformComponent.prototype.textid = function (id) {
+        return id + '_text';
+        //收合、展開文字的id
+    };
+    DelformComponent.prototype.imgid = function (id) {
+        return id + '_img';
+        //收合、展開箭頭圖案的id
+    };
+    DelformComponent = __decorate([
+        core_1.Component({
+            selector: 'app-delform',
+            templateUrl: './delform.component.html',
+            styleUrls: ['./delform.component.css'],
+        }),
+        __metadata("design:paramtypes", [router_1.Router])
+    ], DelformComponent);
+    return DelformComponent;
+}());
+exports.DelformComponent = DelformComponent;
+var vaform = /** @class */ (function () {
+    function vaform() {
+    }
+    return vaform;
+}());
+//# sourceMappingURL=delform.component.js.map

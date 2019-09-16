@@ -1,0 +1,66 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var home_component_1 = require("./View/home/home.component");
+var delform_component_1 = require("./View/allform/delform/delform.component");
+var changeform_component_1 = require("./View/allform/changeform/changeform.component");
+var forgetform_component_1 = require("./View/allform/forgetform/forgetform.component");
+//電子簽核
+var testviewtwo_component_1 = require("./View/testviewtwo/testviewtwo.component");
+var testform_component_1 = require("./View/testform/testform.component");
+var testthree_component_1 = require("./View/testthree/testthree.component");
+var testselectbox_component_1 = require("./View/testselectbox/testselectbox.component");
+var choosebase_component_1 = require("src/app/View/dialog/choosebase/choosebase.component");
+var routes = [
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: 'home', component: home_component_1.HomeComponent },
+    //首頁
+    // {
+    //   path: 'vaform',
+    //   loadChildren: () => VaFormModule
+    // },
+    { path: 'vaform', loadChildren: './View/allform/vaform/vaform.module#VaformModule' },
+    //請假單
+    { path: 'delform', component: delform_component_1.DelformComponent },
+    { path: 'changeform', component: changeform_component_1.ChangeformComponent },
+    { path: 'forgetform', component: forgetform_component_1.ForgetformComponent },
+    //電子簽核
+    { path: 'login', loadChildren: './View/login/login.module#LoginModule' },
+    //lazylodingtest
+    { path: 'reviewform', loadChildren: './View/allform/reviewform/reviewform.module#ReviewformModule' },
+    // { path: 'reviewform', component: ReviewformComponent },
+    // { path: 'reviewformdetailvacation', component: ReviewformDetailVacationComponent },
+    { path: 'TestviewtwoComponent', component: testviewtwo_component_1.TestviewtwoComponent },
+    { path: 'TestformComponent', component: testform_component_1.TestformComponent },
+    { path: 'TestthreeComponent', component: testthree_component_1.TestthreeComponent },
+    { path: 'TestselectboxComponent', component: testselectbox_component_1.TestselectboxComponent },
+    { path: 'ChoosebaseComponent', component: choosebase_component_1.ChoosebaseComponent },
+];
+var AppRoutingModule = /** @class */ (function () {
+    function AppRoutingModule() {
+    }
+    AppRoutingModule = __decorate([
+        core_1.NgModule({
+            exports: [
+                router_1.RouterModule
+            ],
+            imports: [
+                router_1.RouterModule.forRoot(routes, {
+                    scrollPositionRestoration: 'top',
+                    anchorScrolling: 'enabled',
+                    scrollOffset: [0, 64] // [x, y]回頂部按鈕設置，讓href到正確的位置
+                })
+            ]
+        })
+    ], AppRoutingModule);
+    return AppRoutingModule;
+}());
+exports.AppRoutingModule = AppRoutingModule;
+//# sourceMappingURL=app-routing.module.js.map

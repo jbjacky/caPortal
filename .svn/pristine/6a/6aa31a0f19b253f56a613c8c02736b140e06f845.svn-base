@@ -1,0 +1,3 @@
+帳號:<input  type="text"/>
+密碼:<input type="text"/>
+<button style="margin: 5px" (click)="login()">登入</button>

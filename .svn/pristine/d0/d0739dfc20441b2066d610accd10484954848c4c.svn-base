@@ -1,0 +1,12 @@
+.InputTitle{
+  padding: 0px;
+  padding-top: 7px;
+  text-align: right;
+}
+
+
+@media screen and (max-width:992px) {
+  .InputTitle{
+    text-align: left;
+  }
+}

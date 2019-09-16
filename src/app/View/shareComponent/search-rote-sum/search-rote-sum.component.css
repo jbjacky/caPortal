@@ -1,0 +1,35 @@
+.P_left{
+    text-align: right
+}
+.P_padding{
+    padding: 0px
+}
+.btn-myself{
+    color: #004d8e;
+    background-color: #fff;
+    border-color: #003f75;
+}
+.btn-myself:hover{
+    color: #fff;
+    background-color: #004d8e;
+    border-color: #003f75;
+}
+
+.P_fullwidth{
+    width:100%
+}
+.btn {
+    padding: 6px 20px;
+}
+@media screen and (max-width:992px) {
+    .P_left{
+        text-align: left
+    }
+    .P_padding{
+        padding: 0px 15px
+    }
+    .P_fullwidth{
+         width:100%
+    }
+
+}

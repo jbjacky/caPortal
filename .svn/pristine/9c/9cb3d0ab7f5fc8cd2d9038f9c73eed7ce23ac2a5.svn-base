@@ -1,0 +1,36 @@
+<div class="a-block">
+    <div class="a-block-body  a-block-container">
+      <div style="margin-bottom: 10px;">
+        <input type="radio" name="personnel" value="Officer">呈核人員<br>
+        <input type="radio" name="personnel" value="Approved">被呈核人員<br>
+      <div>
+      <div style="margin-bottom: 10px;">
+        <label style="margin-right: 2px;">請輸入主管員工編號</label>
+        <input type="text" id="Txt_SearchDeptCode" style="margin-right: 5px">
+        <button type="button" style="margin-right: 5px">查詢</button>
+        <button type="button">新增</button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+          <thead>
+            <tr>
+              <th style="background-image: unset;cursor: unset">呈核人員編號</th>
+              <th>呈核人員姓名</th>
+              <th>被呈核人員編號</th>
+              <th>被呈核人員說明</th>
+              <th>功能</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  

@@ -1,0 +1,45 @@
+
+.P_title{
+    padding-left: 15px;
+    padding-right: 35px;
+    text-align: right;
+}
+.P_base{
+    color: #6f6f6f;
+    border-right: 1px solid rgba(151, 151, 151, 0.32);
+    text-align: right;
+}
+.P_date{
+    padding: 0px;
+    padding-left: 20px;
+}
+.P_radio{
+    padding: 0px
+}
+.errorInput{
+    border: 1px solid #e60012
+}
+@media screen and (max-width:992px) {
+   
+.P_title{
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: left;
+}
+
+.P_base{
+    color: #6f6f6f;
+    border-right:0px;
+    border-bottom: 1px solid rgba(151, 151, 151, 0.32);
+    text-align: unset;
+}
+.P_date{
+    padding: 0px;
+    padding-top: 10px;
+}
+
+.P_radio{
+    padding-top: 15px;
+    padding-left: 15px;
+}
+}

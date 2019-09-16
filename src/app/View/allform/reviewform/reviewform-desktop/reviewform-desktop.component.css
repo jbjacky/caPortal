@@ -1,0 +1,104 @@
+
+.Atooltips .tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.Atooltips:hover .tooltiptext {
+  visibility: visible;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background: #002f7B !important; 
+  }
+  
+  ::ng-deep .mat-ripple-element {
+    background: rgba(27, 141, 241, 0.233)  !important;
+  }
+  
+  
+  ::ng-deep .vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+  }
+  ::ng-deep .vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+  }
+  ::ng-deep .modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+  }
+  
+  ::ng-deep .mat-paginator-range-label {
+    color: #337ab7;
+  }
+  .inputTextarea{
+    width: 100%;
+    resize: none;
+    height:120px;
+    margin-top: 5px;
+    display: block;
+    padding: 6px 12px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  
+  }
+  
+  button:disabled{
+    background: #dddddd;
+    color: #a8a8a8;
+  }
+  .bt_button{
+    font-family: inherit;
+      line-height: inherit;
+      font-size: 15px;
+      padding: 5px 6px;
+  }
+  .BtAll_Review{
+    margin-bottom: 20px;border-right: 1px solid #c9c9c9;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center
+  }
+  @media (min-width:1400px)  {
+  
+    .D_br{
+      display: none;
+    }
+  }
+  @media screen and (max-width:1365px) {
+  
+    .D_br{
+      display: inherit;
+    }
+  }
+  
+  @media (min-width:1024px) and (max-width:1073px) {
+    .BtAll_Review{
+      text-align: left;
+      padding-left: 10px;
+      padding-right: 0px;
+    }
+  }
+  
+  

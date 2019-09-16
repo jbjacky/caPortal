@@ -1,0 +1,49 @@
+
+export class GetBaseInfoDetailClass {
+    Birthday: string
+    IDNo: string
+    PassWord:string
+    Ttscode: string
+    DateOut: string
+    DeptcName: string
+    DeptName: string
+    DeptaName: string
+    JobName: string
+    JoblCode: string
+    JoblName:string
+    JoboCode: string
+    JoboName:string
+    JobsCode: string
+    JobsName: string
+    DI:string
+    HoliCode:string
+    CompName: string
+    Saladr:string
+    Mang: boolean
+    Mang1: boolean
+    DateIn: string
+    EmpcdCode:string
+    EmpcdName:string
+    WorkID: number
+    WorkName:string
+    AgentNobr1:string
+    AgentNobr2:string
+    BaseHour:number
+    DeptID: number
+    DeptcID: number
+    DeptaID: number
+    JobID: number
+    Email: string
+    EffectDate: string
+    CompID: number
+    GroupID: string
+    Sex:string
+    ChiefCode:string
+    PosType:string
+    BnftDate:string
+    EmpID: string
+    EmpCode: string
+    EmpNameC: string
+    EmpNameE: string
+    IsAssistant: boolean
+}

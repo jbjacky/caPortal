@@ -1,0 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var GetDeptaByEmpToJson = /** @class */ (function () {
+    function GetDeptaByEmpToJson() {
+    }
+    return GetDeptaByEmpToJson;
+}());
+exports.GetDeptaByEmpToJson = GetDeptaByEmpToJson;
+var Dept = /** @class */ (function () {
+    function Dept() {
+    }
+    return Dept;
+}());
+var Base = /** @class */ (function () {
+    function Base() {
+    }
+    return Base;
+}());
+var ChildDept = /** @class */ (function () {
+    function ChildDept() {
+    }
+    return ChildDept;
+}());
+//# sourceMappingURL=apidata.js.map

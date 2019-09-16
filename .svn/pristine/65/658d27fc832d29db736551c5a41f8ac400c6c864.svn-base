@@ -1,0 +1,248 @@
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { EmpArray } from 'src/app/Models/chooseBase';
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-personnel-search-form-component',
+  templateUrl: './personnel-search-form-component.component.html',
+  styleUrls: ['./personnel-search-form-component.component.css']
+})
+export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewInit, OnDestroy {
+  ngOnDestroy(): void {
+    this.formEvent_WindowResize.unsubscribe();
+    this.formEvent_TopDivGoTop.unsubscribe();
+    $('#chooseEmpdialog').off('show.bs.modal')
+    $('#chooseEmpdialog').off('hidden.bs.modal')
+    $('#chooseDeptdialog').off('show.bs.modal')
+    $('#chooseDeptdialog').off('hidden.bs.modal')
+  }
+  diolog_state:boolean = false;
+
+  selectSearchForm = 'vaform'; //選擇表單種類
+  selectFilterCondition = 'All' //選擇篩選條件
+  selcetHolidayID = '78';//選擇假別種類
+
+  isSearch: boolean = false; //第一次沒按不顯示查詢結果
+  showSelectSearchForm = ''; //顯示表單種類
+  HoliDay: HoliDay[] = []; //假別種類
+  constructor(private GetApiDataServiceService: GetApiDataServiceService) { }
+  ngOnInit() {
+    this.GetApiDataServiceService.getWebApiData_GetHoliDayByForm().subscribe(
+      (x: any) => {
+        for (let data of x) {
+          this.HoliDay.push(
+            {
+              HoliDayID: data.HoliDayID,
+              HoliDayNameC: data.HoliDayNameC,
+              AutoFlowStart: data.AutoFlowStart,
+              HoliDayKindID: data.HoliDayKindID,
+              HoliDayCode: data.HoliDayCode
+            })
+            this.selcetHolidayID = this.HoliDay[0].HoliDayID
+
+        }
+      }
+    )
+  }
+  chooseForm = [{
+    select: '請假單',
+    value: 'vaform',
+    filter: [{ value: 'All', name: '全部' }, { value: 'vaType', name: '假別種類' }, { value: 'Sameday', name: '當日請假' }]
+  }, {
+    select: '銷假單',
+    value: 'delform',
+    filter: [{ value: 'All', name: '全部' }]
+  }, {
+    select: '考勤異常確認單',
+    value: 'forgetform',
+    filter: [{ value: 'All', name: '全部' }]
+  }]
+  changeChooseForm() {
+    for (let i = 0; i < this.chooseForm.length; i++) {
+      if (this.selectSearchForm == this.chooseForm[i].value) {
+        return this.chooseForm[i].filter
+      }
+    }
+  }
+  selectSearchFormChange() {
+    this.selectFilterCondition = 'All'
+  }
+  onSearch() {
+    if (window.innerWidth < 800) {
+      $('#' + 1 + '_text').text('展開查詢選單')
+      $('#' + 1 + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 1 + '_img').css({ "transform": "rotate(0deg)" });
+      $('#post1').collapse('hide')
+      $('#phonetopdiv').css({ "height": "inherit" });
+      this.diolog_state = false
+      $('body').css("overflow-y", "auto");
+    }
+    // alert(this.selectSearchForm);
+    this.showSelectSearchForm = this.selectSearchForm;
+    this.isSearch = true;
+    if (this.selectSearchForm == 'vaform' && this.selectFilterCondition == 'vaType') {
+      //表單種類為請假單，篩選條件為假別種類
+    } else{}
+  }
+
+
+  ngAfterViewInit(): void {
+    this.formEvent_TopDivGoTop;
+    this.formEvent_WindowResize;
+    this.windowSize()
+
+    $('#chooseEmpdialog').on('show.bs.modal', function (e) {
+      // 選擇員工dilog開啟時
+      if (window.innerWidth < 800) {
+        document.getElementById("phonetopdiv").style.position = 'unset';
+      }
+    })
+    $('#chooseEmpdialog').on('hidden.bs.modal', function (e) {
+      // 選擇員工dilog關閉時
+      if (window.innerWidth < 800) {
+        document.getElementById("phonetopdiv").style.position = 'fixed';
+      }
+    })
+    $('#chooseDeptdialog').on('show.bs.modal', function (e) {
+      // 選擇部門dilog開啟時
+      if (window.innerWidth < 800) {
+        document.getElementById("phonetopdiv").style.position = 'unset';
+      }
+    })
+    $('#chooseDeptdialog').on('hidden.bs.modal', function (e) {
+      // 選擇部門dilog關閉時
+      if (window.innerWidth < 800) {
+        document.getElementById("phonetopdiv").style.position = 'fixed';
+      }
+    })
+
+
+
+  }
+
+  onCheckCollapseIn() {
+    //確認是否收合
+    if ($('#id' + 1).hasClass('collapsed')) {
+      $('#' + 1 + '_text').text('收合查詢選單')
+      $('#' + 1 + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 1 + '_img').css({ "transform": "rotate(-180deg)" });
+
+      document.getElementById("phonetopdiv").style.height = '400px';
+      this.diolog_state = true
+      $('body').css("overflow-y", "hidden");
+    } else {
+      $('#' + 1 + '_text').text('展開查詢選單')
+      $('#' + 1 + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 1 + '_img').css({ "transform": "rotate(0deg)" });
+      document.getElementById("phonetopdiv").style.height = '90px';
+      this.diolog_state = false
+      $('body').css("overflow-y", "auto");
+    }
+  }
+
+  formEvent_WindowResize = fromEvent(window, 'resize')
+    //視窗大小改變時，修正width:800~1024的phonediv寬度及位置
+    .pipe(debounceTime(0))
+    .subscribe((event) => {
+      this.TopresizeNav();
+      this.windowSize()
+    })
+  windowSize() {
+
+    if (window.innerWidth > 800) {
+      document.getElementById("phonetopdiv").style.position = 'unset';
+      document.getElementById("id1").style.visibility = 'hidden';
+      $('#post1').collapse('show')
+      document.getElementById("phonetopdiv").style.overflowY = 'unset';
+      document.getElementById("phonetopdiv").style.height = ' 100%';
+      $('#' + 1 + '_text').text('收合查詢選單')
+      $('#' + 1 + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 1 + '_img').css({ "transform": "rotate(-180deg)" });
+      this.diolog_state = false
+      // $('body').css("overflow-y", "hidden");
+
+    } else {
+      if ($('#chooseEmpdialog').hasClass('modal in') || $('#chooseDeptdialog').hasClass('modal in')) {
+        document.getElementById("phonetopdiv").style.position = 'unset';
+      } else {
+        document.getElementById("phonetopdiv").style.position = 'fixed';
+      }
+      document.getElementById("phonetopdiv").style.height = '90px';
+      // document.getElementById("phonetopdiv").style.height = '400px';
+      document.getElementById("phonetopdiv").style.overflowY = 'auto';
+
+      $('#' + 1 + '_text').text('展開查詢選單')
+      $('#' + 1 + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 1 + '_img').css({ "transform": "rotate(0deg)" });
+      $('#post1').collapse('hide')
+      document.getElementById("id1").style.visibility = 'visible'
+
+      this.diolog_state = false
+      $('body').css("overflow-y", "auto");;
+    }
+  }
+  hideSearchDialog(){
+    document.getElementById("phonetopdiv").style.position = 'fixed';
+    document.getElementById("phonetopdiv").style.height = '90px';
+    // document.getElementById("phonetopdiv").style.height = '400px';
+    document.getElementById("phonetopdiv").style.overflowY = 'auto';
+
+    $('#' + 1 + '_text').text('展開查詢選單')
+    $('#' + 1 + '_img').css({ "transition": "transform 0.5s" });
+    $('#' + 1 + '_img').css({ "transform": "rotate(0deg)" });
+    $('#post1').collapse('hide')
+    document.getElementById("id1").style.visibility = 'visible';
+    
+    this.diolog_state = false
+    $('body').css("overflow-y", "auto");
+  }
+  formEvent_TopDivGoTop = fromEvent(window, 'scroll')
+    //scroll向下拖拉把藍色區塊副標題蓋住
+    .pipe(debounceTime(0)) //當使用者在0.01秒內沒動作就執行
+    .subscribe((event) => { //66~138
+      var _wYnow = 0;
+      if (window.scrollY > 71) {
+        document.getElementById("phonetopdiv").style.top = '66px';
+      } else {
+        _wYnow = window.scrollY;
+        var divtop = 138 - _wYnow;
+        document.getElementById("phonetopdiv").style.top = divtop + 'px';
+        //div隨著scroll拖拉上下移動
+      }
+      this.TopresizeNav();
+    })
+  TopresizeNav() {
+    //修正width:800~1024的phonediv寬度及位置
+    if (window.innerWidth > 800 && window.innerWidth < 1024) {
+      if ($("body").hasClass("offcanvas-active")) {
+        document.getElementById('phonetopdiv').style.left = '0px';
+        document.getElementById('phonetopdiv').style.width = '100%';
+      } else {
+        document.getElementById('phonetopdiv').style.left = '220px';
+        var rightwidth = window.innerWidth - 220;
+        document.getElementById('phonetopdiv').style.width = rightwidth + 'px';
+      }
+    } else if (window.innerWidth < 800) {
+      document.getElementById('phonetopdiv').style.left = '0px';
+      document.getElementById('phonetopdiv').style.width = '100%';
+    }
+  }
+
+  EmpArray: EmpArray[] = []
+  getEmpCode(r: EmpArray[]) {
+    this.EmpArray = r;
+  }
+
+}
+
+
+class HoliDay {
+  HoliDayID: string
+  HoliDayNameC: string
+  AutoFlowStart: string
+  HoliDayKindID: string
+  HoliDayCode: string
+}

@@ -1,0 +1,761 @@
+<div *ngIf="WriteformPage">
+  <section class="a-block stateblock">
+    <div class="a-block-body  a-block-container">
+      <ol class="steps-indicator row">
+        <li class="col-sm-3  active">填寫請假單</li>
+        <li class="col-sm-3">請假明細確認</li>
+        <li class="col-sm-3">請假完成</li>
+      </ol>
+    </div>
+    <!-- a-block-body End -->
+  </section>
+
+
+  <!-- <div class="a-block">
+    <div class="a-block-body  a-block-container">
+      <h3>個人餘假資訊</h3>
+      <div class="P_inf">
+        <div class="row" style="margin: 0px">
+          <div *ngFor="let HoliDayBalance of showSurplusLeaveAbsDeduction" class="col-md-5ths" appHolidayblock>
+            <div class="col-md-5ths-title">{{HoliDayBalance.HoliDayKindNameC}}</div>
+            <div class="col-md-5ths-content">{{HoliDayBalance.BalanceDayHourMin.Day}} 日
+              {{HoliDayBalance.BalanceDayHourMin.Hour}} 時
+              {{HoliDayBalance.BalanceDayHourMin.Minute}} 分</div>
+          </div>
+
+        </div>
+        <div *ngIf="showSurplusLeaveAbsDeduction.length == 0 && nonHoliDayBalance">
+          無剩餘時數
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="a-block">
+    <div class="a-block-body  a-block-container">
+      <div>
+        <div style="display: inline-block">
+          <h3 style="display: inline-block;margin-top:0px;margin-right: 10px;">填寫假單資訊</h3>
+        </div>
+        <div style="display: inline-block">
+          <div style="display: inline-block">
+            <input type="checkbox" [(ngModel)]='checkbox_beforholiday' (change)="beforholiday()"
+              [disabled]="disable_beforholiday()" />
+            <span>地勤正班預排休假</span>
+            <a data-toggle="modal" data-target="#beforholidayDialog" style="cursor: pointer;">
+              <img src="./assets/images-template/icon-question.png" />
+            </a>
+          </div>
+          <div style="display: inline-block">
+            <a data-toggle="modal" data-target="#signDay" (click)="bt_Show_signDay()"
+              style="cursor: pointer;padding-left: 15px">
+              請假簽核權限表
+            </a>
+          </div>
+          <div style="display: inline-block">
+            <a data-toggle="modal" (click)="showHoliDayBalance(SearchMan.EmpCode)"
+              style="cursor: pointer;padding-left: 15px">
+              餘假資訊
+            </a>
+          </div>
+        </div>
+      </div>
+      <section class="form-horizontal  form-style01">
+        <div *ngIf="!loading" class="form-group first-form-group">
+          <div class="col-md-6 firstinone-form-group">
+            <label class="col-md-4 control-label" style="padding-left: 0px">
+              <span class="form-must-fill">*</span>員工
+            </label>
+            <div class="col-md-8">
+              <div class="row writerow">
+                <div class="col-md-6 col-xs-6" style="padding: 0;">
+                  <input id="leavejobid" type="text" class="form-control" placeholder="員工號"
+                    [(ngModel)]='writevaform.leaveman_jobid' (blur)="blurEmpCode()" [disabled]="disable_leavejobid()">
+                  <div *ngIf="errorLeavemanState.state" style="color: #e60012">{{errorLeavemanState.errorString}}</div>
+
+                </div>
+                <div class="col-md-2 col-xs-3" style="height: 23px;padding: 0px;padding-left: 2px;text-align: center;">
+                  <button data-toggle="modal" data-target="#chooseEmpdialog" (click)="bt_Show_chooseEmpdialog()"
+                    style="cursor: pointer;border: 0;background: 0" [disabled]="disable_leavejobid()">
+                    <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+                  </button>
+                </div>
+                <div class="col-md-4 col-xs-3" style="padding: 0;padding-top: 7px">
+                  <label style="font-weight: normal;">{{writevaform.leaveman_name}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 firstintwo-form-group">
+            <div class="col-md-3 oneintwotitle" style="padding: 0px;">
+              <label class="control-label">填寫人</label>
+            </div>
+            <div class="col-md-9 oneintwocontent">
+              <label class="control-label" style="font-weight: normal;">{{writevaform.wirteman_jobid}}
+                {{writevaform.wirteman_name}}</label>
+            </div>
+          </div>
+        </div>
+        <!-- form-group end -->
+        <div *ngFor="let uisendvaform of sendvaform" class="form-group"
+          style="border:1px solid #028fcf;border-left-width: 10px;margin-top: 20px">
+          <div class="col-md-2 D_right col-xs-10">
+            <label style="color: #028fcf;margin-bottom: 10px">{{uisendvaform.ui_title}}</label>
+            <div *ngIf="uisendvaform.beforholiday" style="display: inline-block;padding-left: 10px;">
+              <span style="color: #028fcf;border:#028fcf 1px solid;
+              border-radius: 5px;padding: 6px">預排休假
+              </span>
+            </div>
+            <div *ngIf="uisendvaform.todayCheck" style="display: inline-block;padding-left: 10px;">
+              <span style="color: #028fcf;border:#028fcf 1px solid;
+                border-radius: 5px;padding: 6px">當日請假
+              </span>
+            </div>
+          </div>
+          <div class="col-md-1 col-md-push-9 col-xs-2" style="padding:0px;">
+            <a (click)="btn_del(uisendvaform)" style="margin-right: 10px;cursor: pointer;">刪除</a>
+          </div>
+          <div class="col-md-9 col-md-pull-1 col-xs-12">
+            <div class="row" style="margin: 0px ;padding: 0px">
+              <div class="col-md-7" style="padding: 0px;">
+                <div class="row" style="margin: 0px;padding: 0px;margin-bottom: 10px;">
+                  <div class="col-md-6 col-xs-12" style="padding: 0px">
+                    <span style="color: #969696">起始：</span>{{uisendvaform.startday}}
+                    <span *ngIf="!uisendvaform.everydayloop">{{uisendvaform.starttime}}</span>
+                  </div>
+                  <div class="col-md-6 col-xs-12" style="padding: 0px">
+                    <span style="color: #969696">結束：</span>{{uisendvaform.endday}}
+                    <span *ngIf="!uisendvaform.everydayloop">{{uisendvaform.endtime}}</span>
+                  </div>
+                </div>
+                <div *ngIf="uisendvaform.everydayloop" style="margin-bottom: 10px;">
+                  <span style="color: #969696">每日循環時段：</span>{{uisendvaform.starttime}} - {{uisendvaform.endtime}}
+                </div>
+                <div style="margin-bottom: 10px;">
+                  <span style="color: #969696">假別：</span>{{uisendvaform.vacategrory.HoliDayNameC}}
+                </div>
+                <div *ngIf="uisendvaform.keyname" style="margin-bottom: 10px;">
+                  <span style="color: #969696">稱謂：</span>{{uisendvaform.keyname}}
+                </div>
+                <div *ngIf="uisendvaform.eventdate" style="margin-bottom: 10px;">
+                  <span style="color: #969696">事件發生日：</span>{{uisendvaform.eventdate}}
+                </div>
+              </div>
+              <div class="col-md-2" style="padding: 0px;" *ngIf="uisendvaform.proxyman_name">代理人
+                {{uisendvaform.proxyman_name}}</div>
+              <div class="col-md-2" style="padding: 0px;" *ngIf="!uisendvaform.proxyman_name">代理人 無</div>
+
+
+              <div class="col-md-3 D_center" style="padding: 0px;margin-bottom: 15px;">共計
+                <span style="color:#d0021b;font-weight: bold;">{{uisendvaform.ui_day}}</span> 日
+                <span style="color:#d0021b;font-weight: bold;">{{uisendvaform.ui_hour}}</span> 時
+                <span style="color:#d0021b;font-weight: bold;">{{uisendvaform.ui_minute}}</span> 分
+              </div>
+
+              <div class="col-md-12" style="margin-bottom: 10px;padding: 0px;
+              word-wrap: break-word;">
+                <span style="color: #969696">事由：</span>{{uisendvaform.cause}}
+              </div>
+              <div class="col-md-12 col-xs-12 row" style="padding: 0px;margin: 0px">
+                <div class="col-md-3 col-xs-12" *ngFor='let upload of uisendvaform.upload'>
+                  <a style="margin-right: 25px;cursor: pointer;word-break: break-all;" (click)="base64(upload)">
+                    <img src="./assets/images-template/attach@2x.png" height='16px' width="12px"
+                      style="margin-right: 5px" />
+                    {{upload.UploadName}}
+                    <br class="P_show" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- form-group end -->
+        <div id="NowIsWirteFormTop"></div>
+
+        <div *ngIf="NowIsWirteForm" appSpyngif>
+          <div class="form-group" style="border: 0px">
+            <!-- 手機顯示 -->
+            <div *ngIf="firstnotshow" class="col-md-2 D_right" style="margin-top: 10px;padding-right: 5px;">
+              <label style="color: #028fcf;border-left: 3px solid #028fcf;padding-left: 5px;">{{newtitle}}</label>
+              <a class="P_button" style="padding-top: 2px;cursor: pointer;" (click)="hideWriteform()">刪除</a>
+            </div>
+          </div>
+          <div class="form-group" style="border: 0px;padding: 0;">
+            <div class="col-md-6 ">
+              <label class="col-md-4 control-label" style="padding-left: 0px">
+                <span class="form-must-fill">*</span>起始日期
+              </label>
+              <div class="col-md-8 ">
+                <div class="row writerow">
+                  <div class="col-md-10 col-xs-10" style="padding: 0px">
+                    <input [(ngModel)]="dateS" [matDatepicker]="StartDatePicker" id="id_ipt_startday" type="text"
+                      class="form-control" style="background-color: #ffffff;" placeholder="年/月/日"
+                      (blur)="changeStartDateView()" (dateChange)="changeStartDateView()" />
+                    <mat-datepicker #StartDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+                    <div *ngIf="errorDateAndTime.state" style="color: #e60012">{{errorDateAndTime.errorString}}</div>
+                  </div>
+                  <!--  -->
+                  <div class="col-md-2 col-xs-2" style="padding: 0px">
+                    <input (click)="StartDatePicker.open()" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                          cursor: pointer;
+                          color: transparent;
+                          border: 1px solid transparent;
+                          width: 50px;
+                          height: 40px;
+                          ">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 ">
+              <div class="col-md-3 oneintwotitle" style="padding: 0px">
+                <label class="control-label">
+                  <span class="form-must-fill">*</span>時間</label>
+              </div>
+              <div class="col-md-9 oneintwocontent">
+                <div class="col-md-6 col-xs-10" style="padding: 0px">
+                  <input id="id_ipt_starttime" [(ngModel)]="dateTimeS" type="text" class="form-control"
+                    style="background-color: #ffffff" (blur)="blurDateAndTime()" [textMask]="starttimeMask()">
+                  <div *ngIf="errorDateAndTime.state" style="color: #e60012">{{errorDateAndTime.errorString}}</div>
+
+                </div>
+                <!--  -->
+                <div class="col-md-4 col-xs-2" style="padding: 0px">
+                  <input #StartTimeView id="id_bt_starttime" (click)="changeStartTimeView()" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                        cursor: pointer;
+                        color: transparent;
+                        border: 1px solid transparent;
+                        width: 50px;
+                        height: 40px;
+                        padding: 0px;
+                        ">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+          <div class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+            <div class="col-md-6 ">
+              <label class="col-md-4 control-label" style="padding-left: 0px">
+                <span class="form-must-fill">*</span>結束日期
+              </label>
+              <div class="col-md-8">
+                <div class="row writerow">
+                  <div class="col-md-10 col-xs-10" style="padding: 0px">
+                    <input [(ngModel)]="dateE" [matDatepicker]="EndDatePicker" id="id_ipt_endday" type="text"
+                      class="form-control" style="background-color: #ffffff" (blur)="blurDateAndTime()"
+                      (dateChange)="blurDateAndTime()" placeholder="年/月/日">
+                    <div *ngIf="errorDateAndTime.state" style="color: #e60012">{{errorDateAndTime.errorString}}</div>
+                    <mat-datepicker #EndDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+                  </div>
+                  <div class="col-md-2 col-xs-2" style="padding: 0px">
+                    <input (click)="EndDatePicker.open()" (change)="blurDateAndTime()" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                              cursor: pointer;
+                              color: transparent;
+                              border: 1px solid transparent;
+                              width: 50px;
+                              height: 40px;
+                              ">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 ">
+              <div class="col-md-3 oneintwotitle" style="padding: 0px">
+                <label class="control-label">
+                  <span class="form-must-fill">*</span>時間</label>
+              </div>
+              <div class="col-md-9 oneintwocontent">
+                <!--  -->
+                <div class="col-md-6 col-xs-10" style="padding: 0px">
+                  <input type="text" id="id_ipt_endtime" [(ngModel)]="dateTimeE" class="form-control"
+                    style="background-color: #ffffff" [textMask]="endtimeMask()" (blur)="blurDateAndTime()">
+                  <div *ngIf="errorDateAndTime.state" style="color: #e60012">{{errorDateAndTime.errorString}}</div>
+                </div>
+                <!--  -->
+                <div class="col-md-4 col-xs-2" style="padding: 0px">
+                  <input #EndTimeView type="button" id="id_bt_endtime" (click)="changeEndTimeView()"
+                    (blur)="changeEndTimeView()" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                          cursor: pointer;
+                          color: transparent;
+                          border: 1px solid transparent;
+                          width: 50px;
+                          height: 40px;
+                          padding: 0px;
+                          ">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+          <div class="form-group" style="border: 0px;padding: 0;">
+            <div class="col-md-6">
+              <div class="col-md-4">
+              </div>
+              <div class="col-md-8">
+                <div class="row writerow">
+                  <button data-toggle="modal" (click)="bt_Show_DayRote()" class="btn btn-default"
+                    style="padding: 2px 10px;">請假期間班型</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+            </div>
+          </div>
+          <!-- form-group end -->
+          <div class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+            <div class="col-md-6 " style="margin-bottom: 5px;">
+              <label class="col-md-4 control-label" style="padding-left: 0px">
+                <span class="form-must-fill">*</span>請假類別
+              </label>
+              <div class="col-md-8">
+                <div class="row writerow">
+                  <select class="form-control" (change)="onChange_vacategrory()" [(ngModel)]="writeHoliday">
+                    <ng-container *ngFor="let holiDay of showHoliDay">
+                      <option [ngValue]="holiDay">{{holiDay.HoliDayNameC}}</option>
+                    </ng-container>
+                  </select>
+                  <span *ngIf="errorVaSelect.state" style="color: #e60012">{{errorVaSelect.errorString}}</span>
+                  <div *ngIf="promptVaStirng.state" style="padding: 10px 0px 0px 0px;color: blue;
+                  font-size: 12px;">
+                    提示:
+                    {{promptVaStirng.promptString}}
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 ">
+              <div class="col-md-3 oneintwotitle" style="padding: 0px">
+                <label class="control-label">代理人</label>
+              </div>
+              <div class="col-md-9 oneintwocontent">
+                <div class="col-md-6 col-xs-6" style="padding: 0;">
+                  <input id="proxymanjobid" type="text" class="form-control" placeholder="員工號"
+                    [(ngModel)]='writevaform.proxyman_jobid' (blur)="blurProxyEmpCode()">
+                  <div *ngIf="errorProxymanState.state" style="color: #e60012">{{errorProxymanState.errorString}}</div>
+
+                </div>
+                <div class="col-md-2 col-xs-3" style="height: 23px;padding: 0px;padding-left: 2px;text-align: center;">
+                  <button data-toggle="modal" data-target="#chooseProxyEmpdialog"
+                    (click)="bt_Show_chooseProxyEmpdialog()" style="cursor: pointer;border: 0;background: 0">
+                    <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+                  </button>
+                </div>
+                <div class="col-md-4 col-xs-3" style="padding: 0;padding-top: 7px">
+                  <label style="font-weight: normal;">{{writevaform.proxyman_name}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+          <div *ngIf="showKeyNameState" class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+            <div class="col-md-6 col-xs-12">
+              <label class="col-md-4 control-label" style="padding-left: 0px">
+                <span class="form-must-fill">*</span>稱謂
+              </label>
+              <div class="col-md-8">
+                <div class="row writerow">
+                  <input id="ipt_keyname" type="text" class="form-control" (blur)="blurKeyName()" />
+                  <div *ngIf="errorKeyNameState.state" style="color: #e60012">{{errorKeyNameState.errorString}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+          <div *ngIf="showEventDate" class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+            <div class="col-md-6 col-xs-12">
+              <label class="col-md-4 control-label" style="padding-left: 0px">
+                <span class="form-must-fill">*</span>事件發生日
+              </label>
+              <div class="col-md-8">
+                <div class="row writerow">
+                  <div class="col-md-10 col-xs-10" style="padding: 0px">
+                    <input [matDatepicker]="EventDatePicker" [(ngModel)]="eventDate" id="id_ipt_eventday" type="text"
+                      (blur)="blurEventDate()" (dateChange)="blurEventDate()" class="form-control"
+                      style="background-color: #ffffff;" placeholder="年/月/日" />
+                    <div *ngIf="errorEventDateState.state" style="color: #e60012">{{errorEventDateState.errorString}}
+                    </div>
+                    <mat-datepicker #EventDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+                  </div>
+                  <!--  -->
+                  <div class="col-md-2 col-xs-2" style="padding: 0px">
+                    <input (click)="EventDatePicker.open()" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                              cursor: pointer;
+                              color: transparent;
+                              border: 1px solid transparent;
+                              width: 50px;
+                              height: 40px;
+                              ">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+          <!-- <div *ngIf="showEventDate" class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+            <div class="col-md-6 col-xs-12">
+              <label class="col-md-4 control-label" style="padding-left: 0px">
+                上次事件發生日
+              </label>
+              <div class="col-md-8">
+                <div class="row writerow">
+                  <div>2019/08/08</div>
+                  <div>2019/08/09</div>
+                  <div>2019/08/10</div>
+                  <div>2019/08/11</div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <!-- form-group end -->
+          <div class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+            <div class="col-md-6 ">
+              <div class="col-md-4">
+              </div>
+              <div class="col-md-8 writerow">
+                <input type="checkbox" [(ngModel)]='writevaform.todayCheck' [disabled]="todayDisable()" />
+                <span style="margin-right: 10px">當日請假</span>
+                <span *ngIf="writeHoliday.IsCycle">
+                  <input type="checkbox" [(ngModel)]='writevaform.everydayloop' (change)="checkBoxEveryDay()" />
+                  <span>每日循環請假</span>
+                  <a data-toggle="modal" data-target="#informationdialog" style="cursor: pointer;">
+                    <img src="./assets/images-template/icon-question.png" />
+                  </a>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-6 ">
+
+            </div>
+          </div>
+          <!-- form-group end -->
+          <div class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+            <div class="row" style="margin: 0px">
+              <label class="col-md-2 control-label" style="padding-right: 10px">
+                上傳附件
+              </label>
+              <div class="col-md-10 oneLineWrite">
+                <!-- <button class="btn btn-default" style="padding: 5px 15px;" data-toggle="modal" data-target="#uploadfiledialog">瀏覽...</button> -->
+
+                <app-fileuploadbutton (fileChange)="onSaveFile($event)"></app-fileuploadbutton>
+
+                <br class="br_phone" />
+
+                <!-- <button (click)="qlog()">checkfile</button> -->
+              </div>
+            </div>
+            <div class="col-md-6">
+
+            </div>
+          </div>
+          <!-- form-group end -->
+          <div class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+            <div class="row" style="margin:0px">
+              <label class="col-md-2 control-label" style="padding-right: 10px">
+                <span class="form-must-fill">*</span>請假事由
+              </label>
+              <div class="col-md-8 oneLineWrite">
+                <!-- <button class="btn btn-default" style="padding: 5px 15px;">瀏覽...</button> -->
+                <textarea id="cause" [(ngModel)]='writevaform.cause' (blur)="blurCause()" class="inputTextarea"
+                  style="overflow-y: auto" placeholder="請輸入事由或代理資訊" maxlength="1000"></textarea>
+                <div *ngIf="errorCauseState.state" style="color: #e60012">{{errorCauseState.errorString}}</div>
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+          <div class="form-group"
+            style="border: 0px;padding: 0;padding-top: 10px;padding-bottom: 20px;border-bottom: 1px dashed #dcdcdc;">
+            <div class="row" style="margin:0px">
+              <div class="col-md-2 control-label" style="padding-left: 0px">
+              </div>
+              <div class="col-md-6 col-xs-5 oneLineWrite">
+                <button type="button" class="btn btn-primary" (click)='addsendvaform()'
+                  [disabled]="disableSendvaform()">確認</button>
+              </div>
+              <div *ngIf="firstnotshow" class="col-md-2 col-xs-7 D_button" style="padding-right: 0px;text-align: right">
+                <div style="margin-bottom: 20px">
+                  <div style="display: inline-block;">
+                    <img src="./assets/images-template/icon-delete.png"
+                      style="cursor: pointer;padding-top: 5px;height: 30px;" />
+                  </div>
+                  <div style="display: inline-block;vertical-align: bottom;">
+                    <a style="cursor: pointer;padding-top: 5px;padding-left: 10px;" (click)="hideWriteform()">刪除本時段</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+        </div>
+
+        <div *ngIf="!NowIsWirteForm">
+          <div class="form-group" style="border: 0px;padding: 0;padding-top: 20px;">
+            <div class="col-md-12 col-xs-12">
+              <div class="col-md-2 control-label" style="padding-left: 0px">
+              </div>
+              <div class="col-md-8 writerow">
+                <div style="margin-bottom: 10px">
+                  <div (click)="showWriteform()" style="display: inline-block;vertical-align: bottom;cursor: pointer">
+                    <img src="./assets/images-template/icon-add.png" />
+                    <a style="padding-top: 5px;padding-left: 10px;">新增更多請假時段</a>
+                  </div>
+                </div>
+                <div style="margin-bottom: 10px">
+                  <button type="button" class="btn btn-primary  m-r-xs   m-b-s--screen-xs"
+                    (click)="nextpage()">下一步</button>
+                </div>
+                <!-- <div>此假單將送到簽核層級:{{showSendTree}} (此功能修正中)</div> -->
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+        </div>
+      </section>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="modal" id="beforholidayDialog" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-lg   vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title">地勤正班預排休假說明</h4>
+        </div>
+        <div class="modal-body">
+          <p>預排休假可讓員工提前管理特休運用，鼓勵員工安排假期，適度休假，相關規範說明如下:</p>
+          <ul type="circle" style="margin: 0;padding-left: 20px;margin-bottom: 20px">
+            <li style="padding: 5px;">預排假單之假別僅限 <span style="font-weight: bold;">特別休假</span></li>
+            <li style="padding: 5px;">
+              每月<span style="font-weight: bold;">15號以前</span>可填寫<span
+                style="font-weight: bold;">次月開始三個月內</span>的預排假單，<span style="font-weight: bold;">16號以後</span>可填寫<span
+                style="font-weight: bold;">下下個月開始三個月</span>內的預排假單
+              <br>
+              例如:1/14可填寫2-4月份的預排假單，1/18可填寫3-5月份的預排假單
+            </li>
+            <li style="padding: 5px;">每月16號系統會自動送初<span style="font-weight: bold;">次月</span>之預排假單，若欲 提前呈核
+              或取消預排，請至表單查詢點選操作</li>
+            <li style="padding: 5px;">若選取預排休假，則整張表單之每個差假時段皆會是預排休假，若有其他非預排之差假需求，請另填新單</li>
+          </ul>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">關閉視窗</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog循環假單提示 -->
+
+
+<div class="modal" id="informationdialog" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-lg   vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel">循環請假填寫方式</h4>
+        </div>
+        <div class="modal-body">
+          <div class="D_img">
+            <img src="./assets/images-template/D_inf_T.png" />
+          </div>
+          <div class="D_img" style="margin-bottom: 20px">
+            <img src="./assets/images-template/D_inf_D.png" />
+          </div>
+          <div class="P_img" style="margin-bottom: 20px">
+            <img src="./assets/images-template/P_inf.png" />
+          </div>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">關閉視窗</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog循環假單提示 -->
+
+<div *ngIf="Show_chooseEmpdialog" class="modal" id="chooseEmpdialog" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <!-- <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel">選擇請假人</h4>
+        </div> -->
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <app-choosebaselevel (saveEmptoView)="onSaveEmptoView($event)"></app-choosebaselevel>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog選擇請假人-->
+<div *ngIf="Show_chooseProxyEmpdialog" class="modal" id="chooseProxyEmpdialog" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <app-choosebaselevel (saveEmptoView)="onSaveProxyEmptoView($event)"
+            [proxyLockID]='writevaform.leaveman_jobid'></app-choosebaselevel>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog選擇代理人-->
+
+<div *ngIf="Show_signDay" class="modal" id="signDay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel">請假簽核權限表</h4>
+        </div>
+        <div class="modal-body">
+          <app-canapprovidday></app-canapprovidday>
+          <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog請假簽核權限表-->
+
+<div id="holidayInfo" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <!-- <div class="vertical-alignment-helper"> -->
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="mySmallModalLabel">餘假資訊</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row" style="padding-bottom: 10px;margin:0px">
+          <div class="col-md-6 col-xs-6" style="padding: 0">
+            <div class="col-md-2 col-xs-12 P_textLeft" style="padding-left: 0;">
+              <label class=" control-label">
+                員工
+              </label>
+            </div>
+            <div class="col-md-10  col-xs-12" style="padding:0px">
+              {{SearchMan.EmpCode}} {{SearchMan.EmpNameC}}
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-6" style="padding: 0px">
+            <div class="col-md-6 col-xs-12 P_textLeft" style="padding-left: 0;">
+              <label class=" control-label">
+                年度特休基準日
+              </label>
+            </div>
+            <div class="col-md-6  col-xs-12" style="padding:0px">
+              {{showBnftDate}}
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="showSurplusLeaveAbsDeduction.length > 0" class="table-responsive">
+          <table class="table table-bordered  table-striped table-hover table-content-center table-style01">
+            <thead>
+              <tr>
+                <th style="background-image: unset;cursor: unset;width: 40%">假別</th>
+                <th style="width:20%">結餘</th>
+                <th style="width:20%">呈核中</th>
+                <th style="width:20%">已請</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let surplusLeave of showSurplusLeaveAbsDeduction">
+                <td>
+                  {{surplusLeave.HoliDayKindNameC}}
+                </td>
+                <td>
+                  <!-- 結餘 -->
+                  <div *ngIf="surplusLeave.BalanceDayHourMin != null">
+                    <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Day}}</div> 日
+                    <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Hour}}</div> 時
+                    <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Minute}}</div> 分
+                  </div>
+                </td>
+                <td>
+                  <!-- 呈核中 -->
+                  <div *ngIf="surplusLeave.FlowUseDayHourMin != null">
+                    <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Day}}</div> 日
+                    <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Hour}}</div> 時
+                    <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Minute}}</div> 分
+                  </div>
+                </td>
+                <td>
+                  <!-- 已請 -->
+                  <div *ngIf="surplusLeave.UseDayHourMin != null">
+                    <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Day}}</div> 日
+                    <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Hour}}</div> 時
+                    <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Minute}}</div> 分
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!--table day 1 end -->
+        </div>
+        <div style="text-align: center">
+          <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+</div>
+<!--dialog餘假資訊-->
+
+<div class="modal" id="DayRote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel">{{showSearchEmp.EmpCode}} 出勤班表</h4>
+        </div>
+        <div class="modal-body">
+          <app-day-rote [GetAttendInfo$]="Ob_setGetAttendInfo$"></app-day-rote>
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog班表期間-->
+
+<div *ngIf="!WriteformPage">
+  <app-vaformdetail (counterChange)="onCounterChange()" [getsendvaform]='sendvaform' [getwrite_Emp]="setWriteEmp()"
+    [getshowSendTree]="showSendTree"></app-vaformdetail>
+</div>

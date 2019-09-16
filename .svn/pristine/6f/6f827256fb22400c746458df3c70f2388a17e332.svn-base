@@ -1,0 +1,80 @@
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color:  #002f7B !important;
+  }
+  
+::ng-deep .mat-ripple-element {
+    background: rgba(27, 142, 241, .4) !important;
+}
+::ng-deep .mat-checkbox-layout{
+    font-weight: unset;
+}
+.P_title{
+    padding-left: 15px;
+    padding-right: 35px;
+    text-align: right;
+}
+.P_base{
+    color: #6f6f6f;
+    border-right: 1px solid rgba(151, 151, 151, 0.32);
+    text-align: right;
+}
+.P_date{
+    padding: 0px;
+    padding-left: 20px;
+}
+.tag_blue{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 10px 10px 0px;
+    display: inline-block;
+    text-align: center;
+    border: solid 1px #002f7b;
+    color: #002f7b;
+}
+.tag_yellow{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 10px 10px 0px;
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #f5a623;
+    color: #f5a623;
+}
+.tag_red{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 10px 10px 0px;
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #d0021b;
+    color: #d0021b;
+}
+
+.errorInput{
+    border: 1px solid #e60012
+}
+@media screen and (max-width:992px) {
+   
+.P_title{
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: left;
+}
+
+.P_base{
+    color: #6f6f6f;
+    border-right:0px;
+    border-bottom: 1px solid rgba(151, 151, 151, 0.32);
+    text-align: unset;
+}
+.P_date{
+    padding: 0px;
+    padding-top: 10px;
+}
+}

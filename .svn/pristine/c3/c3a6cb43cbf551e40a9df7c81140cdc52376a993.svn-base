@@ -1,0 +1,136 @@
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+declare let $: any; //use jquery
+import { GetAttendInfoClass } from 'src/app/Models/PostData_API_Class/GetAttendInfoClass';
+import { Attendance } from 'src/app/Models/Attendance';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByFormClass';
+@Component({
+  selector: 'app-choose-base-or-dept',
+  templateUrl: './choose-base-or-dept.component.html',
+  styleUrls: ['./choose-base-or-dept.component.css'],
+  providers: [GetAttendInfoClass, Attendance]
+})
+export class ChooseBaseOrDeptComponent implements OnInit {
+
+  @Output() outPutChoose: EventEmitter<any> = new EventEmitter<any>();//選到的員工回傳
+
+  showSearchCheckbok = false;
+  EmpBase = { EmpCode: '', Name: '' };
+  chooseDeptName = '';
+  chooseDeptBase = [];
+  radiogroup: any = [
+    { id: 1, name: '查詢單一員工' },
+    { id: 2, name: '查詢單位' }
+  ];
+  chooseRadio: number = 1;
+
+  constructor(private GetApiUserService: GetApiUserService
+    , private GetApiDataServiceService: GetApiDataServiceService) { }
+
+  ngOnInit() {
+    this.GetApiUserService.counter$.subscribe(
+      x => {
+        this.EmpBase.EmpCode = x.EmpCode
+        if (x.EmpNameC) {
+          this.EmpBase.Name = x.EmpNameC;
+        } else {
+          this.EmpBase.Name = x.EmpNameE;
+        }
+        this.outPutEmpValue(this.EmpBase.EmpCode, this.EmpBase.Name)
+      })
+
+  }
+
+  onSaveEmptoView(event) {
+    // console.log(event)
+    this.EmpBase.EmpCode = event.split('，')[0]
+    this.EmpBase.Name = event.split('，')[1]
+    $('#chooseEmpdialog').modal('hide');
+    this.outPutEmpValue(this.EmpBase.EmpCode, this.EmpBase.Name)
+
+  }
+  onSaveDepttoView(event) {
+    // console.log(event)
+    var DeptName = event.DeptNameC;
+    var BaseArray: EmpArray[] = [];
+    if (event.BaseArray) {
+      for (let base of event.BaseArray) {
+        BaseArray.push({ EmpCode: base.EmpCode, EmpNameC: base.EmpNameC })
+      }
+    }
+
+    this.chooseDeptName = DeptName;
+    this.chooseDeptBase = BaseArray;
+    this.outPutEmpValue(this.EmpBase.EmpCode, this.EmpBase.Name)
+
+  }
+  onChange() {
+    this.outPutEmpValue(this.EmpBase.EmpCode, this.EmpBase.Name)
+  }
+
+  outPutEmpValue(EmpCode, EmpNameC) {
+    if (this.chooseRadio == 1) {
+      var EmpArray: EmpArray[] = []
+      EmpArray.push({ EmpCode: EmpCode, EmpNameC: EmpNameC })
+      this.outPutChoose.emit(EmpArray)
+    } else if (this.chooseRadio == 2) {
+      this.outPutChoose.emit(this.chooseDeptBase)
+    }
+  }
+  blurEmpCode() {
+    if (this.EmpBase.EmpCode.length == 6) {
+      var GetBaseByFormClass: GetBaseByFormClass = {
+        EmpCode: this.EmpBase.EmpCode,
+        AppEmpCode: this.EmpBase.EmpCode,
+        EffectDate: ''
+      }
+      this.GetApiDataServiceService.getWebApiData_GetBaseByForm(GetBaseByFormClass).
+        subscribe((x: any) => {
+          if (x == null) {
+            this.EmpBase.Name = ''
+            this.outPutEmpValue('', '')
+            // alert('工號輸入錯誤')
+            // this.errorLeavemanState = { state: true, errorString: '無效的員工號' }
+            // this.writevaform.leaveman_name = ''
+            // $("#leavejobid").addClass("errorInput");
+          } else if (x.length == 0) {
+            this.EmpBase.Name = ''
+            this.outPutEmpValue('', '')
+            // alert('工號輸入錯誤')
+            // this.writevaform.leaveman_name = ''
+            // this.errorLeavemanState = { state: true, errorString: '無效的員工號' }
+            // $("#leavejobid").addClass("errorInput");
+          } else {
+            // alert('工號正確')
+            if (x[0].EmpNameC == null) {
+              this.EmpBase.Name = x[0].EmpNameE
+            } else if (x[0].EmpNameC.length == 0) {
+              this.EmpBase.Name = x[0].EmpNameE
+            } else {
+              this.EmpBase.Name = x[0].EmpNameC
+            }
+            this.outPutEmpValue(this.EmpBase.EmpCode, this.EmpBase.Name)
+            // this.errorLeavemanState = { state: false, errorString: '' }
+            // $("#leavejobid").removeClass("errorInput");
+
+          }
+        })
+    } else {
+      this.EmpBase.Name = ''
+      this.outPutEmpValue('', '')
+    }
+  }
+
+  removePhonePostion(){
+    // document.getElementById("phonetopdiv").style.position = 'unset';
+    // document.getElementById("phonetopdiv").style.position = 'fixed';
+    // alert('')
+  }
+}
+
+class EmpArray {
+  EmpCode: string;
+  EmpNameC: string;
+}
+

@@ -1,0 +1,92 @@
+<div class="a-block">
+  <div  class="a-block-body  a-block-container">
+    <div class="form-group first-form-group" style="border: 1px solid #979797;">
+      <div class="row" style="margin:0px;    padding: 20px 0px 20px 0px;">
+        <div class="col-md-2 col-xs-12 P_title">
+          <h3 style="margin:0px">意願備註類別</h3>
+        </div>
+        <div class="col-md-7 col-xs-12 P_radio">
+          <div class="col-md-3 col-xs-6 " style="display: inline-block" *ngFor="let oneRadio of radiogroup">
+            <input type="radio" style="
+                margin-right: 10px;" name="chooseRadio" [(ngModel)]="chooseRadio"
+              [value]="oneRadio.id">{{oneRadio.name}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group first-form-group">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-5 col-xs-12" style="margin: 0px ; padding: 0px">
+          <div class="col-md-5 col-xs-12 P_secondtitle" style="margin-top: 8px;">
+            <label class=" control-label">
+              <span class="form-must-fill">*</span>查詢日期
+            </label>
+          </div>
+          <div class="col-md-5 col-xs-10" style="padding:0px">
+            <input [(ngModel)]="dateS" id="id_ipt_startday" [matDatepicker]="StartDatePicker" type="text" class="form-control" style="background-color: #ffffff;margin-top: 4px"
+              placeholder="年/月/日" />
+            <span *ngIf="errorSearchDateState.state" style="color: #e60012">{{errorSearchDateState.errorString}}</span>
+            <mat-datepicker #StartDatePicker touchUi></mat-datepicker>
+          </div>
+          <div class="col-md-2 col-xs-2" style="padding:0px">
+            <input (click)="StartDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                    cursor: pointer;
+                    color: transparent;
+                    border: 1px solid transparent;
+                    width: 50px;
+                    height: 40px;
+                    ">
+          </div>
+        </div>
+        <div class="col-md-3 col-xs-12" style="margin: 0px ; padding: 0px">
+          <div class="col-md-4 col-xs-12 " style="margin-top: 8px;padding: 0px">
+            <label class=" control-label">查詢組別
+            </label>
+          </div>
+          <div class="col-md-8 col-xs-10" style="padding:0px">
+            <select id="select_dept" class="form-control">
+              <ng-container *ngFor="let dept of selectDept">
+                <option [value]="dept.DeptID">{{dept.DeptNameC}}</option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-12" style="margin: 0px ; padding: 0px">
+          <div class="col-md-6 col-xs-12 P_button">
+            <button class="btn btn-primary " (click)="onClick()">查詢</button>
+          </div>
+          <div class="col-md-6 col-xs-10 P_button">
+            <button class="btn btn-default " (click)="onExportExcel()">匯出Excel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="a-block" *ngIf="visibility() == 'hidden' && clickSearch>0">
+  <div class="a-block-body  a-block-container" style="text-align: center">
+    查無資料
+  </div>
+</div>
+<div id="searchBlock" class="a-block" [style.visibility]="visibility()">
+  <div class="a-block-body  a-block-container">
+    <div class="table-responsive">
+      <table id="remarksTable" class=" row-border  cell-border" style="width:100%;margin: 0px;">
+        <thead>
+          <tr>
+            <!-- <th style="background-image: unset;cursor: unset"><input id="chkAll" type="checkbox"></th> -->
+            <th style="background-image: unset;cursor: unset">工號</th>
+            <th>姓名</th>
+            <th>類別</th>
+            <th>開始日期</th>
+            <th>結束日期</th>
+            <th id="lastheader" >備註</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>

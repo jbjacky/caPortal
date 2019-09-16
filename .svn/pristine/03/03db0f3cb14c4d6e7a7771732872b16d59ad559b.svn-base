@@ -1,0 +1,112 @@
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { SaveNewsClass } from 'src/app/Models/PostData_API_Class/SaveNewsClass';
+import { GetNewsClass } from 'src/app/Models/PostData_API_Class/GetNewsClass';
+import { Router } from '@angular/router';
+import { takeWhile } from 'rxjs/operators';
+declare var $
+@Component({
+  selector: 'app-news-add',
+  templateUrl: './news-add.component.html',
+  styleUrls: ['./news-add.component.css']
+})
+export class NewsAddComponent implements OnInit, AfterViewInit , OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true
+  ngAfterViewInit(): void {
+    var currentYear = new Date().getFullYear();
+    $('#id_bt_startday').dateDropper({
+      format: "Y/m/d",
+      lang: 'zh',
+      large: true,
+      minYear: currentYear - 1,
+      maxYear: currentYear + 1,
+      large_class: 'picker-lg',
+      bt_large: false
+    });
+    $('#id_bt_endday').dateDropper({
+      format: "Y/m/d",
+      lang: 'zh',
+      large: true,
+      minYear: currentYear - 1,
+      maxYear: currentYear + 1,
+      large_class: 'picker-lg',
+      bt_large: false
+    });
+
+    $("#id_ipt_startday").val($("#id_bt_startday").val())
+    $("#id_ipt_endday").val($("#id_bt_endday").val())
+
+    $("#id_bt_startday").change(function () {
+      $("#id_ipt_startday").val($("#id_bt_startday").val())
+    });
+    $("#id_bt_endday").change(function () {
+      $("#id_ipt_endday").val($("#id_bt_endday").val())
+    });
+  }
+  // fonts = ['Helvetica','fantasy','SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong', 'Arial', 'Times-New-Roman', 'sans-serif'];
+  htmlContent: any = ``
+  config = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      [{ 'align': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      ['link', 'image',],                      // link and image, video
+
+      // [{'font': []}],
+      // [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+      // [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+      // [{ 'direction': 'rtl' }],                         // text direction
+      // ['blockquote', 'code-block'],
+      // [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      // ['link', 'image', 'video'],                      // link and image, video
+      // ['clean'],                                         // remove formatting button
+    ],
+  };
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private router: Router,) { }
+  ngOnInit() {
+    this.getNewsDetail.Sort = 9
+  }
+  checkUploadClick() {
+    $('#AddNews_checksenddialog').modal('show');
+  }
+
+  getNewsDetail: GetNewsClass = new GetNewsClass();
+  uploadClick() {
+    var SaveNewsClass: SaveNewsClass = {
+      "NewsID": "",
+      "NewsHead": this.getNewsDetail.NewsHead,
+      "NewsBody": this.htmlContent,
+      "PostDate": $('#id_ipt_startday').val(),
+      "PostDeadline": $('#id_ipt_endday').val(),
+      "IsOn": true,
+      "Sort": this.getNewsDetail.Sort
+    }
+    // console.log(SaveNewsClass)
+    this.GetApiDataServiceService.getWebApiData_SaveNews(SaveNewsClass)
+    .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        x => {
+          // console.log(x)
+          if (x == 2) {
+            this.router.navigate(['nav/NewsManageComponent']);
+          }
+        },
+        error => {
+          alert('與api連線異常，getWebApiData_SaveNews')
+        }
+      )
+
+  }
+
+
+
+}
+

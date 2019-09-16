@@ -1,0 +1,460 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div style="background-color: #fafafa;width: 100%;border: 1px solid #cccccc;padding: 2px 15px;padding-bottom: 5px;margin-bottom: 30px;">
+      <div style="display: inline-block;padding-top: 5px;">
+        目前審核身份：
+        <span style="color:#028fcf;font-size: 18px">{{ReviewformServiceService.showReviewName}}</span>
+      </div>
+
+    </div>
+
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;">
+      <div class="col-md-6 " style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          申請單編號
+        </label>
+        <div class="col-md-8">
+          <div class="row ">
+            <div>
+              <span style="color: #028fcf">{{uishowProcessFlowID}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 " style="margin-bottom: 10px;">
+        <div class="col-md-3 " style="padding: 0px">
+          <label class="control-label">
+            申請單狀態</label>
+        </div>
+        <div class="col-md-7 P_leftZero" style="padding-right: 0px">
+          <label style="color: #d0021b">簽核中</label>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6 " style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          員工
+        </label>
+        <div class="col-md-8">
+          <div class="row ">
+            <div>
+              <span>{{ReviewformServiceService.vaDetail.EmpCode}} {{ReviewformServiceService.vaDetail.EmpNameC}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 " style="margin-bottom: 10px;">
+        <div class="col-md-12 " style="padding: 0px">
+          <label class="control-label">
+            <a>近期假單一覽</a>
+          </label>
+          <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6 " style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          請假總工時
+        </label>
+        <div class="col-md-8">
+          <div class="row ">
+            <div>
+
+              <span style="color:#d0021b;font-weight: bold;">{{ReviewformServiceService.vaDetail.day}}</span> 日
+              <span style="color:#d0021b;font-weight: bold;">{{ReviewformServiceService.vaDetail.hour}}</span> 時
+              <span style="color:#d0021b;font-weight: bold;">{{ReviewformServiceService.vaDetail.minute}}</span> 分 (
+              <a>以月曆模擬</a>)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;" *ngFor="let LeaveArray of uishowVaDetail ; let va_i = index">
+      <div class="form-group" style="border:1px solid #028fcf;margin-top: 20px;padding-top: 15px;">
+        <div class="row" style="padding: 0px;margin: 0px">
+          <div class="col-md-2 P_left" style="padding-top: 7px">
+            <label style="color: #028fcf">{{LeaveArray.uitext}}</label>
+          </div>
+          <div class="col-md-10">
+            <div class="col-md-3 D_leftP_toppadding">
+              <span style="color: #969696">起始：</span>{{LeaveArray.startDate}} {{LeaveArray.startTime}}</div>
+            <div class="col-md-3 D_leftP_toppadding">
+              <span style="color: #969696">結束：</span>{{LeaveArray.endDate}} {{LeaveArray.endTime}}</div>
+            <div class="col-md-3 D_leftP_toppadding">代理人 <span *ngIf="LeaveArray.proxyName">{{LeaveArray.proxyName}}</span>
+              <span *ngIf="!LeaveArray.proxyName">無</span></div>
+            <div class="col-md-3 D_leftP_toppadding">
+              共計 {{LeaveArray.AllUseDay}} 日
+              {{LeaveArray.AllUseHour}}時
+              {{LeaveArray.AllUseMinute}}分
+            </div>
+          </div>
+        </div>
+        <div class="row" style="padding: 0px;margin: 0px">
+          <div class="col-md-2 control-label">
+          </div>
+          <div class="col-md-10">
+            <div class="col-md-5 D_leftP_toppadding">{{LeaveArray.HolidayName}}</div>
+          </div>
+        </div>
+        <div class="row" style="padding: 0px;margin: 0px">
+          <div class="col-md-2 control-label">
+          </div>
+          <div class="col-md-10">
+            <div class="col-md-5 D_leftP_toppadding">{{LeaveArray.cause}}</div>
+          </div>
+        </div>
+        <div class="row" style="padding: 0px;margin-bottom: 20px">
+          <div class="col-md-2 control-label">
+          </div>
+          <div class="col-md-10">
+            <div class="col-md-10 D_leftP_toppadding">
+              <div class="col-md-3" style="padding: 0px;padding-left: 15px" *ngFor="let upload of LeaveArray.uploadFile">
+                <img src="./assets/images-template/attach@2x.png" height='16px' width="12px" style="margin-right: 5px" />
+                <a (click)="base64(upload)" style="cursor:pointer">{{upload.UploadName}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="padding: 0px;margin:0px;margin-bottom: 20px">
+          <div class="col-md-2 control-label">
+          </div>
+          <div class="col-md-10">
+            <a [id]="'id'+va_i" data-toggle="collapse" [href]="'#post'+va_i" (click)="onCheckCollapseIn(va_i)">
+              <span [id]="va_i+'_text'">收合請假明細</span>
+              <img [id]="va_i+'_img'" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
+            </a>
+          </div>
+        </div>
+        <div [id]="'post'+va_i" class="collapse in">
+          <div class="row D_tabletop" style="padding: 0px;margin: 0px;background-color: #edf5ff">
+            <div class="col-md-3 " style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">請假日期</div>
+            <div class="col-md-3 " style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">時間</div>
+            <div class="col-md-3 " style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">休息時間</div>
+            <div class="col-md-3 " style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0">請假工時</div>
+          </div>
+          <div class="row" style="padding: 0px;margin: 0px" *ngFor="let uishowAbsFlowAppsDetail of LeaveArray.uishowAbsFlowAppsDetail">
+            <div class="col-md-3 D_context">{{uishowAbsFlowAppsDetail.vaOneDate}}</div>
+            <div class="col-md-3 D_context">{{uishowAbsFlowAppsDetail.vaOneOnTime}} ~
+              {{uishowAbsFlowAppsDetail.vaOneOffTime}}</div>
+            <div class="col-md-3 D_context">{{uishowAbsFlowAppsDetail.vaRestOnTime}} ~
+              {{uishowAbsFlowAppsDetail.vaRestOffTime}}</div>
+            <div class="col-md-3 D_context" style="border-right: 1px">{{uishowAbsFlowAppsDetail.vaUseDay}} 日
+              {{uishowAbsFlowAppsDetail.vaUseHour}} 時 {{uishowAbsFlowAppsDetail.vaUseMinute}} 分</div>
+            <!-- 電腦 -->
+            <div class="col-xs-12 P_date">{{uishowAbsFlowAppsDetail.vaOneDate}} {{uishowAbsFlowAppsDetail.vaOneOnTime}}
+              ~ {{uishowAbsFlowAppsDetail.vaOneOffTime}}</div>
+            <div class="col-xs-12 P_context" style="padding-top: 10px">休息時間:{{uishowAbsFlowAppsDetail.vaRestOnTime}} ~
+              {{uishowAbsFlowAppsDetail.vaRestOffTime}}</div>
+            <div class="col-xs-12 P_context">請假工時:{{uishowAbsFlowAppsDetail.vaUseDay}} 日
+              {{uishowAbsFlowAppsDetail.vaUseHour}} 時 {{uishowAbsFlowAppsDetail.vaUseMinute}} 分</div>
+            <!-- 手機 -->
+          </div>
+        </div>
+        <!-- end container -->
+
+
+      </div>
+      <!-- form-group end -->
+
+    </div>
+    <!--差假時段-->
+
+    <div *ngIf="showFormSign.length >0" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px">
+      <div class="row" style="margin: 0;padding: 0%">
+        <div class="col-md-2 col-xs-8  P_left">歷程主管簽核意見</div>
+        <div class="col-md-10 col-xs-4">
+          <a data-toggle="collapse" href="#mangText" (click)="onCheckCollapseInpostOpinions()">
+            <a id="mangText_text" data-toggle="collapse" href="#mangText" (click)="onCheckCollapseInpostOpinions()">收合</a>
+            <img id="mangText_img" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-180deg);" />
+          </a>
+        </div>
+      </div>
+      <div class="row" style="margin: 0;padding: 0%">
+        <div class="col-md-2 "></div>
+        <div class="col-md-10">
+          <div id="mangText" class="collapse in">
+            <div *ngFor="let showFormSign of showFormSign" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 15px">
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核人員</div>
+                <div class="col-md-10" style="padding: 0">{{showFormSign.JobName}} {{showFormSign.EmpNameC}}</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核時間</div>
+                <div class="col-md-4" style="padding: 0">{{showFormSign.SignDate}}</div>
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">假單遞送</div>
+                <div class="col-md-4" style="padding: 0">{{showFormSign.NodeName}}</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核意見</div>
+                <div class="col-md-10" style="padding: 0">{{showFormSign.Note}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 P_left"></div>
+        <div class="col-md-"></div>
+
+      </div>
+    </div>
+    <!--歷程主管意見-->
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 20px">
+      <div class="row" style="margin: 0;padding: 0">
+        <div class="col-md-2 P_left">簽核意見</div>
+        <div class="col-md-10">
+          <textarea [(ngModel)]="signText" class="inputTextarea" style="overflow-y: auto"></textarea>
+        </div>
+
+      </div>
+    </div>
+    <!--簽核意見-->
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 20px">
+      <div class="row" style="margin: 0;padding: 0">
+        <div class="col-md-2 col-xs-12 P_left">簽核人員</div>
+        <div class="col-md-8 col-xs-12">
+          <app-select-signer (selectBaseChange)="chooseBase($event)"></app-select-signer>
+        </div>
+
+      </div>
+    </div>
+    <!--簽核人員-->
+    <!-- <div [style.display]='inbodybuttomdiv' class="row" style="margin: 0;padding: 0">
+      <div class="col-md-2"></div>
+      <div class="col-md-10">
+        <button *ngIf="ReviewformServiceService.vaDetail.isApproved" class="btn btn-primary" style="margin-right: 15px;padding: 6px 25px;"
+          data-toggle="modal" data-target="#Approveddialog">核准</button>
+        <button *ngIf="!ReviewformServiceService.vaDetail.isApproved" class="btn btn-primary" style="margin-right: 15px;padding: 6px 25px;"
+          disabled>核准</button>
+        <button *ngIf="ReviewformServiceService.vaDetail.isSendback" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;"
+          data-toggle="modal" data-target="#Sendbackdialog">退回</button>
+        <button *ngIf="!ReviewformServiceService.vaDetail.isSendback" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;"
+          disabled>退回</button>
+        <button *ngIf="ReviewformServiceService.vaDetail.isPutForward" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;"
+          data-toggle="modal" (click)="checkCanSendPutForward()">呈核</button>
+        <button *ngIf="!ReviewformServiceService.vaDetail.isPutForward" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;"
+          disabled>呈核</button>
+        <a style="margin-right: 15px;cursor: pointer;">查詢請假規定</a>
+        <a style="margin-right: 15px;cursor: pointer;">流程查詢</a>
+        <a style="margin-right: 15px;cursor: pointer;" (click)="backReview()" [routerLink]="['..']">回列表</a>
+      </div>
+    </div> -->
+
+    <div [style.display]='inbodybuttomdiv_phone' class="row" style="margin: 0;padding: 0">
+      <div class="col-md-12">
+        <div class="col-xs-5" style="padding: 0px;text-align: center">
+          <a style="cursor: pointer;">查詢請假規定</a>
+        </div>
+        <div class="col-xs-4" style="padding: 0px;text-align: center">
+          <a style="cursor: pointer;">流程查詢</a>
+        </div>
+        <div class="col-xs-3" style="padding: 0px;text-align: center" (click)="backReview()" [routerLink]="['..']">
+          <a style="cursor: pointer;">回列表</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div [style.display]='buttomdiv' class="row" style="position: fixed;
+bottom: 32px;width: 100%;
+background-color: #fff;
+padding: 20px;
+">
+  <div class="a-block-buttom">
+
+    <button *ngIf="ReviewformServiceService.vaDetail.isApproved" class="btn btn-primary" style="margin-right: 15px"
+      data-toggle="modal" data-target="#Approveddialog">核准</button>
+    <button *ngIf="!ReviewformServiceService.vaDetail.isApproved" class="btn btn-primary" style="margin-right: 15px"
+      disabled>核准</button>
+    <button *ngIf="ReviewformServiceService.vaDetail.isSendback" class="btn btn-info" style="margin-right: 15px"
+      data-toggle="modal" data-target="#Sendbackdialog">退回</button>
+    <button *ngIf="!ReviewformServiceService.vaDetail.isSendback" class="btn btn-info" style="margin-right: 15px"
+      disabled>退回</button>
+    <button *ngIf="ReviewformServiceService.vaDetail.isPutForward" class="btn btn-info" style="margin-right: 15px"
+      data-toggle="modal" (click)="checkCanSendPutForward()">呈核</button>
+    <button *ngIf="!ReviewformServiceService.vaDetail.isPutForward" class="btn btn-info" style="margin-right: 15px"
+      disabled>呈核</button>
+    <a style="margin-right: 15px;cursor: pointer;">查詢請假規定</a>
+    <a style="margin-right: 15px;cursor: pointer;">流程查詢</a>
+    <a style="margin-right: 15px;cursor: pointer;" (click)="backReview()" [routerLink]="['..']">回列表</a>
+
+  </div>
+
+</div>
+<div [style.display]='buttomdiv_phone' class="row" style="position: fixed;
+bottom: 0px;width: 100%;
+background-color: #fff;padding: 20px 5px;
+">
+  <div class="col-xs-4" style="padding: 0px;text-align: center;">
+    <button *ngIf="ReviewformServiceService.vaDetail.isApproved" class="btn btn-primary btm-sm" style="padding: 6px 40px;"
+      data-toggle="modal" data-target="#Approveddialog">核准</button>
+    <button *ngIf="!ReviewformServiceService.vaDetail.isApproved" class="btn btn-primary btm-sm" style="padding: 6px 40px;"
+      disabled>核准</button>
+  </div>
+  <div class="col-xs-4" style="padding: 0px;text-align: center;">
+    <button *ngIf="ReviewformServiceService.vaDetail.isSendback" class="btn btn-info" style="padding: 6px 40px;"
+      data-toggle="modal" data-target="#Sendbackdialog">退回</button>
+    <button *ngIf="!ReviewformServiceService.vaDetail.isSendback" class="btn btn-info" style="padding: 6px 40px;"
+      disabled>退回</button>
+  </div>
+  <div class="col-xs-4" style="padding: 0px;text-align: center;">
+    <button *ngIf="ReviewformServiceService.vaDetail.isPutForward" class="btn btn-info" style="padding: 6px 40px;"
+      data-toggle="modal" (click)="checkCanSendPutForward()">呈核</button>
+    <button *ngIf="!ReviewformServiceService.vaDetail.isPutForward" class="btn btn-info" style="padding: 6px 40px;"
+      disabled>呈核</button>
+  </div>
+
+</div>
+
+
+
+<div class="modal" id="Approveddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認核准?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="Approved_Click()">送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog核准確認送出 -->
+<div class="modal" id="Approveddialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">核准完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            核准送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog核准送出成功 -->
+<div class="modal" id="Sendbackdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認退回?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="Sendback_Click()">送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog退回送出 -->
+<div class="modal" id="Sendbackdialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">退回完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            退回送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog退回送出成功 -->
+<div class="modal" id="PutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認呈核?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="PutForward_Click()">送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog呈核確認送出 -->
+<div class="modal" id="PutForwarddialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">呈核完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            呈核送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog呈核送出成功 -->
+
+
+<ngx-spinner bdOpacity=1 bdColor="rgba(51,51,51,0.41)" size="medium" color="#fff" type="ball-beat" fullScreen="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

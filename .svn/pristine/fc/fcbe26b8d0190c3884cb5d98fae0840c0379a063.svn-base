@@ -1,0 +1,158 @@
+import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetNewsClass } from 'src/app/Models/PostData_API_Class/GetNewsClass';
+import { formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
+import { asQueryList } from '@angular/core/src/view';
+import { Router } from '@angular/router';
+import { takeWhile } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
+declare var $;
+
+@Component({
+  selector: 'app-news-manage',
+  templateUrl: './news-manage.component.html',
+  styleUrls: ['./news-manage.component.css']
+})
+export class NewsManageComponent implements OnInit, AfterContentInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true
+  ngAfterContentInit(): void {
+    this.bindDataTable();
+  }
+
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private router: Router,
+    private LoadingPage: NgxSpinnerService) { }
+  ngOnInit() {
+    this.getAllEditNews();
+  }
+  getAllEditNews() {
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetNews()
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: GetNewsClass[]) => {
+          for (let data of x) {
+            data.PostDate = formatDateTime(data.PostDate).getDate
+            data.PostDeadline = formatDateTime(data.PostDeadline).getDate
+          }
+          this.AllNewsList = x
+
+          $('#NewsTable').DataTable().clear().rows.add(this.AllNewsList).order([1, 'desc']).draw();
+
+          var self = this
+          $('#NewsTable tbody').on('click', '.editButton', function () {
+            //編輯按鈕
+            var data = self.table.row($(this).parents('tr')).data();
+            self.editButtonClick(data.NewsID)
+          });
+
+          $('#NewsTable tbody').on('click', '.deleteButton', function () {
+            //刪除按鈕
+            var data = self.table.row($(this).parents('tr')).data();
+            self.delButtonClick(data.NewsID)
+          });
+          this.LoadingPage.hide()
+        },
+        error=>{
+          alert('與api連線異常，getWebApiData_GetNews')
+          this.LoadingPage.hide()
+        }
+      )
+  }
+  table: any;
+  bindDataTable() {
+
+    this.table = $('#NewsTable').DataTable({
+    });
+    this.table.destroy();
+
+    this.table = $('#NewsTable').DataTable({
+      data: this.AllNewsList,
+      columnDefs: [
+        { "searchable": false, "orderable": false, "visible": false, targets: 'no-sort' },
+      ],
+      columns: [
+        {
+          title: "標題", data: "NewsHead", sorting: false,
+        },
+        {
+          title: "生效日期", data: "PostDate",
+          class: "dt-body-center"
+        },
+        {
+          title: "失效日期", data: "PostDeadline",
+          class: "dt-body-center"
+        },
+        {
+          title: "排序", data: "Sort",
+          class: "dt-body-center"
+        },
+        {
+          title: "功能", data: "NewsID", sorting: false,
+          class: "dt-body-center",
+          render: function (data, type, obj, meta) {
+            return '<a class="editButton">編輯</a>'
+              + '<a class="deleteButton">刪除</a>';
+          },
+        }
+      ],
+      scrollY: "500px",
+      scrollX: true,
+      searching: false,
+      info: false,
+      scrollCollapse: true,
+      paging: true,
+      lengthChange: false,
+      iDisplayLength: 10,  //預設顯示比數
+      language: {
+        zeroRecords: "",
+        emptyTable: "查無資料",
+        paginate: {
+          previous: "<",
+          next: ">"
+        }
+      },
+    });
+
+
+  }
+  AllNewsList = []
+
+  delID: string; //刪除的ID
+  delOneNewsData() {
+
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_DeleteNews(this.delID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          // console.log(x)
+          if (x == 1) {
+            this.getAllEditNews();
+            this.LoadingPage.hide()
+          }
+        },
+        error => {
+          alert('與api連線失敗，getWebApiData_DeleteNews')
+          this.LoadingPage.hide()
+        }
+      )
+  }
+  delButtonClick(NewsID: string) {
+    // alert('del'+NewsID)
+    this.delID = NewsID;
+    $('#delNews_checksenddialog').modal('show');
+
+  }
+  editButtonClick(NewsID: string) {
+    this.router.navigate(['/nav/NewsDataEditComponent', NewsID])
+  }
+
+  newEditorClick() {
+    this.router.navigate(['/nav/NewsAddComponent'])
+  }
+}

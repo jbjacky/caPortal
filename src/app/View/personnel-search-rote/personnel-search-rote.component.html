@@ -1,0 +1,126 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div class="row" style="padding-bottom: 15px;margin:0px">
+      <div class="col-md-2 col-xs-12 P_title">
+        <label class=" control-label">
+          <span class="form-must-fill">*</span>員工
+        </label>
+      </div>
+      <div class="col-md-10  col-xs-12" style="padding:0px">
+        <div class="col-md-2 col-xs-4" style="padding:0px">
+          <input id="leavejobid" type="text" class="form-control" placeholder="員工號" [(ngModel)]="SearchMan.EmpCode"
+            (blur)="blurEmpCode()" maxlength="6">
+          <div *ngIf="errorLeavemanState.state" style="color: #e60012">{{errorLeavemanState.errorString}}</div>
+        </div>
+        <div class="col-md-1 col-xs-2 P_zero">
+          <button data-toggle="modal" (click)="bt_ShowDialog_chooseEmpdialog()"
+            style="cursor: pointer;border: 0;background: 0">
+            <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+          </button>
+        </div>
+        <div class="col-md-7 col-xs-6" style="padding: 0px;padding-top: 8px;">
+          {{SearchMan.EmpNameC}}
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin:0;margin-bottom: 10px">
+      <label class="col-md-2 col-xs-12 P_title">
+        <span class="form-must-fill">*</span>查詢日期
+      </label>
+      <div class="col-md-10 col-xs-12" style="padding: 0">
+        <div class="row writerow" style="margin:0">
+          <div class="col-md-2 col-xs-4" style="padding: 0px">
+            <input id="id_ipt_SearchMonth" [matDatepicker]="StartDatePicker" [(ngModel)]="dateS" type="text"
+              class="form-control" style="background-color: #ffffff;" placeholder="年/月" (blur)="blurSearchMonth()"
+              (dateChange)="blurSearchMonth()" />
+            <div *ngIf="errorSearchMonthState.state" style="color: #e60012">{{errorSearchMonthState.errorString}}</div>
+          </div>
+          <mat-datepicker #StartDatePicker touchUi startView="year"
+            (monthSelected)="chosenMonthHandler($event,StartDatePicker)" [calendarHeaderComponent]="exampleHeader">
+          </mat-datepicker>
+          <!--  -->
+          <div class="col-md-1 col-xs-2 P_zero">
+            <input (click)="StartDatePicker.open()" type="button" data-modal="true" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                      cursor: pointer;
+                      color: transparent;
+                      border: 1px solid transparent;
+                      width: 40px;
+                      height: 35px;
+                      ">
+          </div>
+
+          <div class="col-md-6 col-xs-12" style="padding: 0px">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin: 0px">
+      <div class="col-md-2 col-xs-12"></div>
+      <div class="col-md-10 col-xs-12" style="padding: 0">
+        <div style="display: inline-block;margin-right: 50px;">
+            <button type="button" class="btn btn-primary" (click)="search(dateS)">查詢</button>
+        </div>
+        <div style="display: inline-block">
+            <a data-toggle="modal" style="cursor: pointer;" (click)="bt_showroteSumDialog()">班別統計表</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="nonRote" class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div>查無班表資料</div>
+  </div>
+</div>
+<app-sharecalendar *ngIf="!nonRote" [searchCalendarData]="Ob_RoteApiData$"></app-sharecalendar>
+
+
+
+<div class="modal" id="chooseEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+
+          <div *ngIf="SearchMan">
+            <app-choosebase-ma *ngIf="chooseEmpdialog_ShowDialog" (saveEmptoView)="onSaveEmptoView($event)"
+              [IsTop]="true" [SearchEmpID]="SearchMan.EmpCode">
+            </app-choosebase-ma>
+          </div>
+          <!-- <app-choosebase (saveEmptoView)="onSaveEmptoView($event)"></app-choosebase> -->
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog選擇員工-->
+
+
+
+<div class="modal" id="roteSumDialog" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h5 class="modal-title">班別統計表</h5>
+      </div>
+      <div class="modal-body">
+        <app-search-rote-sum *ngIf="showroteSumDialog" [setMan]="SearchRoteMan" [MyselfSearch]=false
+          [PersonSearch]="true"></app-search-rote-sum>
+      </div>
+      <div class="modal-footer" style="text-align: center">
+        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog班別統計表-->

@@ -1,0 +1,147 @@
+<div class="a-block">
+   <div class="a-block-body  a-block-container">
+      <div class="row" style="margin:0px">
+         <h3 style="margin: 0px ; margin-bottom: 15px">新增代理人</h3>
+         <div class="col-md-12 col-xs-12 row" style="margin: 0px; padding: 0px;margin-bottom: 20px;">
+            <div class="col-md-6 col-xs-12">
+
+               <span class="col-md-3 col-xs-12" style="padding-top: 5px;
+               font-weight: bold;
+               text-align: right;">被代理人</span>
+               <div class="col-md-4 col-xs-12">
+                  <input class="form-control" />
+               </div>
+               <div class="col-md-2 col-xs-12">
+                  <button data-toggle="modal" data-target="#chooseEmpdialog"
+                     style="cursor: pointer;border: 0;background: 0">
+                     <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+                  </button>
+               </div>
+               <span class="col-md-3 col-xs-12" style="padding-top: 5px;">李大仁</span>
+            </div>
+            <div class="col-md-6 col-xs-12" style="padding-top: 2px;">
+
+               <span class="col-md-2 col-xs-12" style="padding-top: 5px;
+               font-weight: bold;
+               text-align: right;">
+                  部門
+               </span>
+               <div class="col-md-10 col-xs-12">
+                  <select class="form-control">
+                     <option>
+                        財務系統部
+                     </option>
+                  </select>
+               </div>
+            </div>
+         </div>
+
+         <div class="col-md-12 col-xs-12 row" style="margin: 0px; padding: 0px;margin-bottom: 20px;">
+            <div class="col-md-6 col-xs-12">
+
+               <span class="col-md-3 col-xs-12" style="padding-top: 5px;
+               font-weight: bold;
+               text-align: right;">代理人</span>
+               <div class="col-md-4 col-xs-12">
+                  <input class="form-control" />
+               </div>
+               <div class="col-md-2 col-xs-12">
+                  <button data-toggle="modal" data-target="#chooseEmpdialog"
+                     style="cursor: pointer;border: 0;background: 0">
+                     <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+                  </button>
+               </div>
+               <span class="col-md-3 col-xs-12" style="padding-top: 5px;">李大仁</span>
+            </div>
+            <div class="col-md-6 col-xs-12">
+               <span class="col-md-2 col-xs-12" style="padding-top: 5px;
+               font-weight: bold;
+               text-align: right;">
+                  順位
+               </span>
+               <div class="col-md-3 col-xs-12">
+                  <select class="form-control">
+                     <option>
+                        1
+                     </option>
+                  </select>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-12 col-xs-12" style="text-align: center">
+            <button type="button">新增</button>
+
+         </div>
+      </div>
+   </div>
+</div>
+<div class="a-block">
+   <div class="a-block-body  a-block-container">
+      <div class="table-responsive">
+         <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+            <thead>
+               <tr>
+                  <!-- <th style="background-image: unset;cursor: unset"><input id="chkAll" type="checkbox"></th> -->
+                  <th style="background-image: unset;cursor: unset">被代理人部門</th>
+                  <th>被代理人職稱</th>
+                  <th>代理人工號</th>
+                  <th>代理人姓名</th>
+                  <th>代理人部門</th>
+                  <th>代理人職稱</th>
+                  <th>代理表單</th>
+                  <th>順位</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>
+                     人事課
+                  </td>
+                  <td>
+                     資深管理師
+                  </td>
+                  <td>
+                     612345
+                  </td>
+                  <td>
+                     李大仁
+                  </td>
+                  <td>
+                     製造部
+                  </td>
+                  <td>
+                     資深經理
+                  </td>
+                  <td>
+                     全部
+                  </td>
+                  <td>
+                     1
+                  </td>
+            </tbody>
+         </table>
+      </div>
+   </div>
+</div>
+<div class="modal" id="chooseEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="vertical-alignment-helper">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+            <!-- <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel">選擇請假人</h4>
+        </div> -->
+            <div class="modal-body">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+               </button>
+               <app-choosebase (saveEmptoView)="onSaveEmptoView($event)" [systemID]="647156"></app-choosebase>
+               <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!--dialog選擇被代理人-->

@@ -1,0 +1,62 @@
+    th, td { white-space: nowrap; }
+    div.dataTables_wrapper {
+        width: 100%;
+        margin: 0 auto;
+    }
+    ::ng-deep table.dataTable.row-border tbody td{
+        white-space: nowrap;
+        text-align: center
+    }
+    ::ng-deep table.dataTable thead th{
+        white-space: nowrap;
+        text-align: center
+
+    }
+    ::ng-deep .dataTables_wrapper.no-footer .dataTables_scrollBody {
+        border-bottom:0px;
+    }
+
+    ::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+        color: #ff6600 !important;
+        border: 0px;
+        background: 0;
+    }
+    .P_title{
+        padding-top: 2px;
+        text-align: right
+    }
+    .P_secondtitle{
+        padding-top: 2px;
+        text-align: right
+    }
+
+    .P_button{    
+        padding-left: 20px;
+        padding: 0px;
+        text-align: center
+    }
+    .qwe{
+        background-image: 0
+    }
+    .errorInput{
+        border: 1px solid #e60012
+    }
+    @media screen and (max-width:992px) {
+        
+    .P_title{
+        text-align: left;
+    }
+    
+    .P_secondtitle{
+        padding: 0px;
+        text-align: left
+    }
+    .P_radio{
+        padding-top: 15px
+    }
+    .P_button{
+        padding: 0;
+        padding-top: 10px;
+        text-align: left
+    }
+    }

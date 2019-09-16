@@ -1,0 +1,7 @@
+<!-- <app-nav></app-nav> -->
+
+<router-outlet></router-outlet>
+
+<ngx-spinner bdOpacity=1 bdColor="rgba(51,51,51,0.41)" size="medium" color="#fff" type="ball-beat" fullScreen="true">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

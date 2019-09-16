@@ -1,0 +1,102 @@
+
+
+@media (min-width: 992px){
+    .row.rowmargin.col2change .col-md-2  {
+      width: 13%;
+    }
+    .col-md-12{
+      padding: 0;
+    }
+    .seven-cols .col-md-2  {
+      width: 13.8%;
+      padding: 0;
+      text-align: center;
+      margin: 0px 2px;
+      padding: 5px;
+    }
+  }
+
+  .seven-cols .col-md-2 .title  {
+    background-color: #edf5ff;
+    border-radius: 5px;
+    padding: 30px 5px;
+    margin-bottom: 5px;
+    /* margin: 5px; */
+  }
+  .seven-cols .col-md-2 .job  {
+    border-radius: 5px;
+    padding: 30px 5px;
+    /* margin: 5px; */
+  }
+.selectDiv{
+  box-shadow: 0 2px 9px 0 rgba(123, 123, 123, 0.5);
+  border: 1px solid #4a90e2;
+  border-radius: 5px;
+}
+
+.selectDateDiv{
+  color:  #4a90e2;
+}
+
+.selectJobDiv{
+  color: #fff;
+  background-color: #64aadf
+}
+
+.DivStyle{
+  border:1px solid #e0e0e0;
+  border-radius:5px 
+}
+  
+  .P_right{
+    padding: 0px;
+    text-align: right;
+  }
+  .P_zero{
+    padding: 0;
+    padding-left: 15px
+  }
+  .P_LFZero{
+    padding-left: 15px;
+    padding-right: 15px
+  }
+  .a-block-buttom {
+      width: 850px;
+      margin: 0 auto;
+      
+  }
+  .P_left{
+      text-align: right;
+  }
+  @media screen and (max-width:992px) {
+  
+    .stateblock{
+      display: none;
+  }
+    .P_right{
+      text-align: left
+    }
+    .P_zero{
+      padding: 0;
+    }
+    .P_LFZero{
+      padding-left: 0px;
+      padding-right: 0px
+    }
+    
+    .P_left{
+      text-align: left;
+    }
+    .seven-cols .col-md-2  {
+      padding: 0px;
+      text-align: center;
+      margin: 5px
+    }
+    
+    .seven-cols .col-md-2 .title {
+      margin-bottom: 0px;
+    }
+  }
+  
+  
+    

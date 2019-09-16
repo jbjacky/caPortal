@@ -1,0 +1,122 @@
+
+.P_title{
+    padding-left: 15px;
+    padding-right: 35px;
+    text-align: right;
+}
+
+
+@media (min-width: 992px){
+    .seven-cols .col-md-2  {
+      width: 13.8%;
+      padding: 0;
+      text-align: center;
+      margin: 0px 2px;
+      padding: 5px;
+    }
+  }
+
+  .seven-cols .col-md-2 .title  {
+    background-color: #edf5ff;
+    border-radius: 5px;
+    padding: 30px 5px;
+    margin-bottom: 5px;
+    /* margin: 5px; */
+  }
+  .seven-cols .col-md-2 .job  {
+    border-radius: 5px;
+    padding: 30px 5px;
+    /* margin: 5px; */
+  }
+
+  
+.selectDiv{
+  box-shadow: 0 2px 9px 0 rgba(123, 123, 123, 0.5);
+  border: 1px solid #4a90e2;
+  border-radius: 5px;
+}
+
+.selectDateDiv{
+  color:  #4a90e2;
+}
+
+.selectJobDiv{
+  color: #fff;
+  background-color: #64aadf
+}
+
+.DivStyle{
+  border:1px solid #e0e0e0;
+  border-radius:5px 
+}
+
+.DivStyle_disable{
+  border:1px solid #e0e0e0;
+  border-radius:5px ;
+  color: #e0e0e0;
+}
+
+.inputTextarea{
+    width: 100%;
+    resize: none;
+    height:83px;
+    display: block;
+    padding: 6px 12px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+@media screen and (max-width:992px) {
+  
+  .P_title{
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: left;
+  }
+  .seven-cols .col-md-2  {
+    padding: 0px;
+    text-align: center;
+    margin: 5px
+  }
+  
+  .seven-cols .col-md-2 .title {
+    margin-bottom: 0px;
+  }
+}
+
+
+
+
+::ng-deep .vertical-alignment-helper {
+  display:table;
+  height: 100%;
+  width: 100%;
+}
+::ng-deep .vertical-align-center {
+  /* To center vertically */
+  display: table-cell;
+  vertical-align: middle;
+}
+::ng-deep .modal-content {
+  /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+  width:inherit;
+  height:inherit;
+  /* To center horizontally */
+  margin: 0 auto;
+}
+
+@media screen and (max-width:550px){
+  .modal-dialog{
+    width: 300px;
+  }
+  .modal-footer{
+    text-align: center
+  }
+}

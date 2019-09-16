@@ -1,0 +1,281 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div style="margin-bottom: 10px;">
+      <div>
+        <div style="margin-bottom: 10px;">
+          <button type="button" (click)="bt_insertCheck()">新增</button>
+        </div>
+        <div style="margin-bottom: 10px;">
+          <div style="display: inline-block;margin: 0px 5px">
+            <input type="radio"  value="1" [(ngModel)]="searchGetBaseSpecialFlowGetApi.SearchCate">呈核人員<br>
+          </div>
+          <div style="display: inline-block;margin: 0px 5px">
+            <input type="radio" value="2" [(ngModel)]="searchGetBaseSpecialFlowGetApi.SearchCate">被呈核人員<br>
+          </div>
+          <div style="display: inline-block;margin: 0px 5px">
+            <label style="margin-right: 2px;" >請輸入主管員工編號</label>
+          </div>
+          <div style="display: inline-block;margin: 0px 5px">
+            <input type="text" [(ngModel)]="searchGetBaseSpecialFlowGetApi.EmpID" style="margin-right: 5px">
+          </div>
+          <div style="display: inline-block;margin: 0px 5px">
+            <button type="button" style="margin-right: 5px" (click)="bt_search()">查詢</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+            <thead>
+              <tr>
+                <th style="background-image: unset;cursor: unset">呈核人員編號</th>
+                <th>呈核人員姓名</th>
+                <th>被呈核人員編號</th>
+                <th>被呈核人員姓名</th>
+                <th>被呈核人員說明</th>
+                <th>功能</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let oneBaseSpecialFlowData of BaseSpecialFlowData">
+                <tr *ngIf="oneBaseSpecialFlowData.IsValid">
+                  <td>
+                    {{oneBaseSpecialFlowData.SourceEmpID}}
+                  </td>
+                  <td>
+                    {{oneBaseSpecialFlowData.SourceName}}
+                  </td>
+                  <td>
+                    {{oneBaseSpecialFlowData.TargetEmpID}}
+                  </td>
+                  <td>
+                    {{oneBaseSpecialFlowData.TargetName}}
+                  </td>
+                  <td>
+                    {{oneBaseSpecialFlowData.Note}}
+                  </td>
+                  <td>
+                    <a style="padding-right: 5px;cursor: pointer" (click)="bt_editCheck(oneBaseSpecialFlowData)">編輯</a>
+                    <a style="cursor: pointer" (click)="bt_delCheck(oneBaseSpecialFlowData)">刪除</a>
+                  </td>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="delDesignatedAuditor_checksenddialog" tabindex="-1" role="dialog">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" style="text-align: center">確認刪除?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_delSend()">刪除</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog確認刪除 -->
+<div class="modal" id="editDesignatedAuditorDialog" tabindex="-1" role="dialog">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" style="text-align: center">修改資料</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title"
+              style="margin-top: 7px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                呈核人員編號
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <div class="col-md-4 col-xs-6" style="padding:0px">
+                <input id="leavejobid" type="text" class="form-control" [(ngModel)]="editDesignatedAuditor.SourceEmpID"
+                  maxlength="6">
+              </div>
+              <div class="col-md-2 col-xs-2" style="padding: 0px">
+                <button data-toggle="modal" data-target="#chooseEmpdialog"
+                  style="cursor: pointer;border: 0;background: 0">
+                  <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+                </button>
+              </div>
+              <div class="col-md-6 col-xs-4" style="padding: 0px;padding-top: 8px;">
+                {{editDesignatedAuditor.SourceName}}
+              </div>
+            </div>
+          </div>
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title"
+              style="margin-top: 7px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                被呈核人員編號
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <div class="col-md-4 col-xs-6" style="padding:0px">
+                <input id="leavejobid" type="text" class="form-control" [(ngModel)]="editDesignatedAuditor.TargetEmpID"
+                  maxlength="6">
+              </div>
+              <div class="col-md-2 col-xs-2" style="padding: 0px">
+                <button data-toggle="modal" data-target="#chooseTargetEmpdialog"
+                  style="cursor: pointer;border: 0;background: 0">
+                  <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+                </button>
+              </div>
+              <div class="col-md-6 col-xs-4" style="padding: 0px;padding-top: 8px;">
+                {{editDesignatedAuditor.TargetName}}
+              </div>
+            </div>
+          </div>
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title"
+              style="margin-top: 7px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                被呈核人員說明
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <textarea [(ngModel)]="editDesignatedAuditor.Note" class="inputTextarea"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer" style="text-align: center;">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_editSave()">儲存</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog編輯-->
+<div class="modal" id="insertDesignatedAuditorDialog" tabindex="-1" role="dialog">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" style="text-align: center">新增資料</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title"
+              style="margin-top: 7px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                呈核人員編號
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <div class="col-md-4 col-xs-6" style="padding:0px">
+                <input id="leavejobid" type="text" class="form-control" [(ngModel)]="insertBaseSpecialFlow.SourceEmpID"
+                  maxlength="6">
+              </div>
+              <div class="col-md-2 col-xs-2" style="padding: 0px">
+                <button data-toggle="modal" data-target="#chooseEmpdialog"
+                  style="cursor: pointer;border: 0;background: 0">
+                  <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+                </button>
+              </div>
+              <div class="col-md-6 col-xs-4" style="padding: 0px;padding-top: 8px;">
+                {{insertBaseSpecialFlowSourceName}}
+              </div>
+            </div>
+          </div>
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title"
+              style="margin-top: 7px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                被呈核人員編號
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <div class="col-md-4 col-xs-6" style="padding:0px">
+                <input id="leavejobid" type="text" class="form-control" [(ngModel)]="insertBaseSpecialFlow.TargetEmpID"
+                  maxlength="6">
+              </div>
+              <div class="col-md-2 col-xs-2" style="padding: 0px">
+                <button data-toggle="modal" data-target="#chooseTargetEmpdialog"
+                  style="cursor: pointer;border: 0;background: 0">
+                  <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+                </button>
+              </div>
+              <div class="col-md-6 col-xs-4" style="padding: 0px;padding-top: 8px;">
+                {{insertBaseSpecialFlowTargetName}}
+              </div>
+            </div>
+          </div>
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title"
+              style="margin-top: 7px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                被呈核人員說明
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <textarea [(ngModel)]="insertBaseSpecialFlow.Note" class="inputTextarea"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer" style="text-align: center;">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_insertSave()">儲存</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog新增-->
+
+
+<div class="modal" id="chooseEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <app-choosebase (saveEmptoView)="onSaveEmptoView($event)" [IsTop]="true"></app-choosebase>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--dialog編輯選擇-呈核人員-->
+<div class="modal" id="chooseTargetEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <app-choosebase (saveEmptoView)="onSaveTargetEmptoView($event)" [IsTop]="true"></app-choosebase>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--dialog編輯選擇-被呈核人員-->

@@ -1,0 +1,8 @@
+    .filenamesort{
+        display: inline-block;
+    }
+@media screen and (max-width:992px){
+    .filenamesort{
+        display: block;
+    }
+}

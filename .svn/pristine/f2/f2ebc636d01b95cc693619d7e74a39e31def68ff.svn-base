@@ -1,0 +1,383 @@
+@charset "utf-8";
+/* CSS Document */
+/*
+  為了能以中文註解，一定要宣告為UTF-8
+*/
+/*------------------------------------------------------------------------*-
+
+
+說明
+IE CSS hack
+*屬性:值;  for IE7,6
+_屬性:值;  for IE6
+
+-*------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*-
+	$Globle
+-*------------------------------------------------------------------------*/
+/*所有元素採用border-box呈現，意思是:寬高的尺吋將包含內距與邊框尺吋*/
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/*------------------------------------------------------------------------*-
+  $Globle > $clearfix 
+  視覺化小組:使用float元素的父元素高度正常展開的方法
+-*------------------------------------------------------------------------*/
+/*方法一:clearfix*/
+  /*使用方法 於父元素的class增加一名稱為clearfix，
+    如果父元素的class已有名稱，請空格再加上clearfix
+      <div class="thereIsAlreadyAClass clearfix">
+    裡面的元素有用到float喔
+      </div>
+  */
+.clearfix:after {
+  content: " ";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+/*方法二:清除文繞圖 (dirty easy way) */
+/*
+  使用方法
+  在有用到float元素的同一階層之後，於html中撰寫以下一行
+  <div class="clearboth"></div>
+*/
+.clearboth {
+  clear: both;
+}
+/*------------------------------------------------------------------------*-
+    $Bootstrap Adjust and Extend / Bootstrap調整與擴充
+-*------------------------------------------------------------------------*/
+.btn{
+	padding-top: 9px;
+	padding-bottom: 9px;
+	font-size: 16px;
+	border-radius:2px;
+}
+.btn-primary{
+	background-color: #017dc3;
+	border: none;
+}
+.btn-primary:hover{
+	background-color: #004064;	
+}
+
+
+.btn-default{
+	background-color: #e1e1e1;	
+}
+.btn-default:hover{
+	background-color: #d7d7d7;	
+}
+
+
+.text-danger{
+	color:#e60012;
+}
+
+
+/*------------------------------------------------------------------------*-
+    $Component
+    $元件 可共用部份
+-*------------------------------------------------------------------------*/
+/*輸入欄位*/
+.input-style001{
+	padding: 2px 10px;
+	border: none;
+	_border: 1px solid #fff;
+	background-color: transparent;
+	line-height: 1.42857143;
+}
+.input-style001:focus{
+	outline: none;
+}
+
+
+
+
+/*表單樣式 style01*/
+.form-group-civd-style001{
+	padding-bottom: 9px;
+	margin-bottom: 25px;
+	border-bottom: 1px solid #9babb7;	
+}
+.form-group-civd-style001  .prop{
+	width: 90px;
+	padding-left: 3px;
+	float: left;
+	border-right: 1px solid #9babb7;
+	line-height: 1;
+}
+.form-group-civd-style001  .value{
+	margin-left: 90px;
+	padding-left: 3px;
+}
+.form-group-civd-style001  label{
+	font-size: 13px;
+	padding-top: 5px;
+	font-weight: normal;
+}
+.form-group-civd-style001  label.label-tw{
+	font-size: 15px;
+}
+
+
+
+
+/*------------------------------------------------------------------------*-
+    $Globle > $General
+    做為這個樣版網頁基礎字型、文字顏色的基礎設定
+-*------------------------------------------------------------------------*/
+body {
+  color: #4c4c4c;
+  font-family: Helvetica, Arial, "微軟正黑體","Microsoft JhengHei","蘋果儷中黑", "Lucida Sans Unicode","Microsoft Yahei", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+/*------------------------------------------------------------------------*-
+    $Structure
+    頁面Layout基礎結構
+-*------------------------------------------------------------------------*/
+/*頁面高度100% start*/
+html, body {
+  height: 100%;
+}
+/*頁面高度100% end*/
+
+html{
+
+}
+body {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  /* background: #fff url(../images-template/img-temp-login/bg_extend.jpg) 0 0 repeat-x; */
+}
+
+#wrapper {
+  margin: 0 auto;
+}
+#header{
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+#main{
+  position: relative;
+  width: 600px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  background-color: #fff;
+  box-shadow:0 2px 10px #ddd;
+  letter-spacing: 0.35px;
+}
+@media (max-width: 620px){
+	#wrapper {
+	}
+	#main{
+	  position: relative;
+	  width: 100%;
+	  margin: 0 auto;
+	  margin-bottom: 10px;
+	  background-color: #fff;
+	  box-shadow:0 0px 0px #ddd;
+	}
+}
+
+#htmlversion{
+  display: none;
+}
+/*------------------------------------------------------------------------*-
+    $Header
+-*------------------------------------------------------------------------*/
+#header-inner{
+  width: 600px;
+  margin: 0 auto;
+  padding-top: 35px;
+  min-height: 120px;
+  _height:85px;
+}
+.lt-ie9  #header-inner{
+  min-height: 85px;
+}
+#website-title-group{
+	position: relative;	
+}
+#ci-logo{
+	position: absolute;
+	top: 4px;
+	left: 15px;
+	width: 142px;
+	height: 28px;		
+}
+#website-title{
+	margin: 0;
+	padding-left: 180px;
+	font-weight: normal;
+	font-size: 30px;
+	color:#081346;	
+}
+#website-title.website-title-en{
+	padding-top: 5px;
+	font-size: 26px;
+}
+@media (max-width: 620px){
+	#header-inner{
+		width: 100%;
+		padding-top: 0;
+		padding-bottom: 20px;
+  		background-color: #fff;
+	}
+	#ci-logo{
+		position: static;	
+		top: auto;	
+		left: auto;
+		width: 100%;
+		height: auto;
+		margin: 0 auto 50px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		background-color: #fafafa;
+		border-bottom: 3px solid #83bede;
+		text-align: center;
+	}
+	#website-title{
+		padding-left: 0;
+		text-align: center;	
+	}
+}
+/*------------------------------------------------------------------------*-
+    $main
+-*------------------------------------------------------------------------*/
+#main-inner{
+	border-bottom: 15px solid #0b1a5d;
+}
+@media (max-width: 620px){
+	#main-inner{
+		border-bottom: none;
+	}
+}
+#block01-head{
+	padding: 15px 20px 0;
+	color:#0b1a5d;
+	font-size: 15px;
+}
+#block01-body{
+	position: relative;
+	margin-bottom: 10px;
+	padding-top: 55px;
+	padding-bottom: 45px;
+	background:  url(../images-template/img-temp-login/bg_icon_lock.png) right 140px no-repeat;
+}
+#block01-foot{
+}
+.hr-style01{
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	width: 380px;
+	margin: 0;
+	margin-left: -190px;
+}
+
+
+#login_area{
+	width: 380px;
+	margin: 0 auto;	
+}
+#login_form{
+	width: 300px;
+	margin: 0 auto;
+	margin-bottom: 50px;		
+}
+@media (max-width: 620px){
+	#block01-head{
+		text-align: center;
+	}
+	#block01-body{
+		background-image: none;
+	}
+
+
+	#login_area{
+		width: 94%;	
+	}
+	#login_form{
+		width: 100%;
+		padding: 0 20px;
+	}
+
+	.hr-style01{
+		position: absolute;
+		left: 5%;
+		bottom: 0;
+		width: 90%;
+		margin: 0 auto;
+	}
+
+	.form-group-civd-style001{
+		width: 100%;
+	}
+	.form-group-civd-style001 > .prop{
+		width: 25%;
+	}
+	.form-group-civd-style001 > .value{
+		margin-left: 25%;
+		width: 75%;
+	}
+}
+
+
+
+#btn-login-style001{
+	width: 260px;
+	line-height: 1.42857143;
+}
+
+.pg-login-links{
+	font-size: 13px;
+	color:#4c4c4c;
+	text-decoration: none;
+	border-bottom: none;
+}
+.pg-login-links:hover{
+	color:#ff6600;
+	text-decoration: none;	
+	border-bottom: none;
+}
+/*------------------------------------------------------------------------*-
+    $footer
+-*------------------------------------------------------------------------*/
+
+
+/*------------------------------------------------------------------------*-
+    $Other
+    $其他
+-*------------------------------------------------------------------------*/
+.bg-warning{
+  background-color: #fff799;
+}
+
+
+
+
+
+
+
+

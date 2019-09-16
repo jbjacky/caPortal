@@ -1,0 +1,176 @@
+import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
+import { isNumber } from 'util';
+import { isNum_checkString } from 'src/app/UseVoid/void_doFormatDate';
+import { Observable, BehaviorSubject } from 'rxjs';
+
+@Component({
+  selector: 'app-change-non-shift',
+  templateUrl: './change-non-shift.component.html',
+  styleUrls: ['./change-non-shift.component.css']
+})
+export class ChangeNonShiftComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    this.api_subscribe = false
+  }
+
+  writeState = 1 //步驟一
+  api_subscribe = true
+
+  chooseNow: boolean = true
+  str_DEFAULT = '對應班型'
+  item_disable: boolean = true
+
+  changeClass: changeClass[] = []
+
+  showCheckDetailDateArray :showViewRote[] = []
+
+  constructor() { }
+
+  ngOnInit() {
+    this.changeClass = [{
+      Date: '2018/08/10',
+      RoteID: 1,
+      RoteCode: 'B',
+      RoteNameC: 'B常日班',
+      OnTime: '0800',
+      RoteSelectBox: [{
+        RoteID: 1,
+        OnTime: '0800',
+        RoteCode: 'A',
+        RoteName: '常日班',
+        outPutSelectText: '0800A'
+      }, {
+        RoteID: 2,
+        OnTime: '1000',
+        RoteCode: 'X',
+        RoteName: '機型班',
+        outPutSelectText: '1000X'
+      }]
+    }, {
+      Date: '2018/08/11',
+      RoteID: 2,
+      RoteCode: 'C',
+      RoteNameC: 'C常日班',
+      OnTime: '0900',
+      RoteSelectBox: [{
+        RoteID: 2,
+        OnTime: '1000',
+        RoteCode: 'X',
+        RoteName: '機型班',
+        outPutSelectText: '1000X'
+      }]
+    }, {
+      Date: '2018/08/12',
+      RoteID: 1,
+      RoteCode: 'A',
+      RoteNameC: 'A常日班',
+      OnTime: '0800',
+      RoteSelectBox: [{
+        RoteID: 3,
+        OnTime: '0900',
+        RoteCode: 'B',
+        RoteName: '機型班',
+        outPutSelectText: '0900B'
+      }]
+    }
+    ]
+  }
+
+
+  setMap = new Map()
+  onChangeChooseRote(e, change: changeClass) {
+    var dateString = change.Date
+    if (e.length > 0) {
+      var showData: RoteSelectBoxClass = e[0].data
+      // console.log(dateString)
+      // console.log(showData.outPutSelectText)
+      var setData: showViewRote = new showViewRote()
+      setData = {
+        ShiftRoteDate: dateString,
+        OnTime1: change.OnTime,
+        RoteID1: change.RoteID,
+        RoteCode1: change.RoteCode,
+        RoteName1: change.RoteNameC,
+        OnTime2: showData.OnTime,
+        RoteID2: showData.RoteID,
+        RoteCode2: showData.RoteCode,
+        RoteName2: showData.RoteName
+      }
+      this.setMap.set(dateString, setData)
+      // console.log(this.setMap)
+    } else {
+      this.setMap.delete(dateString)
+      // console.log(this.setMap)
+    }
+
+
+  }
+
+  
+  prePage() {
+    this.writeState = this.writeState - 1
+  }
+  nextPageToWrite() {
+    this.writeState = 2
+    var startDate = new Date('2019/02/20')
+    var endDate = new Date('2019/02/28')
+
+    startDate.setDate(startDate.getDate()+1)
+    // for(let a of )
+    // if(startDate == endDate){
+      
+    // }
+    
+  }
+
+  
+  nextPageToSendDetail() {
+    this.writeState = 3
+
+    var ChangeRoteArray:showViewRote[] = []
+    this.setMap.forEach(
+      (value: showViewRote, key, map) => {
+        ChangeRoteArray.push(value)
+      }
+    )
+    // console.log(ChangeRoteArray)
+    this.showCheckDetailDateArray = ChangeRoteArray
+    this.showCheckDetailDateArray.sort((a,b) => {
+      let left = Number(new Date(a.ShiftRoteDate));
+      let right = Number(new Date(b.ShiftRoteDate));
+      return left - right;
+    });
+  }
+
+
+}
+class changeClass {
+  Date: string;
+  RoteID: number;
+  RoteCode: string;
+  RoteNameC: string;
+  OnTime: string;
+  RoteSelectBox: RoteSelectBoxClass[];
+}
+class RoteSelectBoxClass {
+  RoteID: number
+  OnTime: string
+  RoteCode: string
+  RoteName: string
+  outPutSelectText: string
+
+}
+
+class ShiftRoteFlowAppsDetailClass {
+  ShiftRoteDate: string
+  RoteID1: number
+  RoteCode1: string
+  RoteName1: string
+  RoteID2: number
+  RoteCode2: string
+  RoteName2: string
+}
+class showViewRote extends ShiftRoteFlowAppsDetailClass {
+  OnTime1: string
+  OnTime2: string
+}

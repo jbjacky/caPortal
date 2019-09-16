@@ -1,0 +1,242 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var void_chinesenumber_1 = require("src/app/Service/void_chinesenumber");
+var angular2_uuid_1 = require("angular2-uuid");
+var forms_1 = require("@angular/forms");
+var get_api_user_service_1 = require("src/app/Service/get-api-user.service");
+var get_api_data_service_service_1 = require("src/app/Service/get-api-data-service.service");
+var WritevaformComponent = /** @class */ (function () {
+    function WritevaformComponent(viewScroller, ngZone, formBuild, GetApiUserService, GetApiDataServiceService) {
+        this.viewScroller = viewScroller;
+        this.ngZone = ngZone;
+        this.formBuild = formBuild;
+        this.GetApiUserService = GetApiUserService;
+        this.GetApiDataServiceService = GetApiDataServiceService;
+        this.WriteformPage = true;
+        this.firstnotshow = false; //差假時段文字
+        this.titlechinesenum = 0; //差假時段中文數字計算
+        this.newtitle = '差假時段' + void_chinesenumber_1.chinesenum(this.titlechinesenum + 1); //差假時段文字
+        this.sendvaform = [];
+        this.NowIsWirteForm = true;
+        this.uuid = angular2_uuid_1.UUID.UUID();
+        this.array_uuid = [];
+        this.HoliDay = [];
+    }
+    WritevaformComponent.prototype.ngOnInit = function () {
+        this.new_writevaform();
+    };
+    WritevaformComponent.prototype.dayMask = function (day) {
+        return {
+            mask: [/[2]/, /[0]/, /\d/, /\d/, '/', /[0-1]/, /\d/, '/', /[0-3]/, /\d/],
+            keepCharPositions: true,
+        };
+    };
+    WritevaformComponent.prototype.starttimeMask = function () {
+        return {
+            mask: [/[0-2]/, $("#id_ipt_starttime").val() && parseInt($("#id_ipt_starttime").val()[0]) > 1 ? /[0-3]/ : /\d/, ':', /[0-5]/, /\d/],
+            keepCharPositions: true
+        };
+    };
+    WritevaformComponent.prototype.endtimeMask = function () {
+        return {
+            mask: [/[0-2]/, $("#id_ipt_starttime").val() && parseInt($("#id_ipt_endtime").val()[0]) > 1 ? /[0-3]/ : /\d/, ':', /[0-5]/, /\d/],
+            keepCharPositions: true
+        };
+    };
+    WritevaformComponent.prototype.starttimeBindtime = function () {
+        $("#id_bt_starttime").unbind();
+        $("#id_bt_starttime").val($("#id_ipt_starttime").val());
+        $("#id_bt_starttime").timeDropper({
+            format: 'HH:mm',
+            autoswitch: false,
+            mousewheel: true,
+            setCurrentTime: false
+        });
+        $("#id_bt_starttime").change(function () {
+            $("#id_ipt_starttime").val($("#id_bt_starttime").val());
+        });
+    };
+    WritevaformComponent.prototype.endtimeBindtime = function () {
+        $("#id_bt_endtime").unbind();
+        $("#id_bt_endtime").val($("#id_ipt_endtime").val());
+        $("#id_bt_endtime").timeDropper({
+            format: 'HH:mm',
+            autoswitch: false,
+            mousewheel: true,
+            setCurrentTime: false
+        });
+        $("#id_bt_endtime").change(function () {
+            $("#id_ipt_endtime").val($("#id_bt_endtime").val());
+        });
+    };
+    WritevaformComponent.prototype.btn_del = function (uisendvaform) {
+        //刪除按鈕
+        this.sendvaform.splice(this.sendvaform.indexOf(uisendvaform), 1);
+        this.titlechinesenum = this.sendvaform.length;
+        if (this.sendvaform.length > 0) {
+            for (var i = 0; i < this.sendvaform.length; i++) {
+                this.sendvaform[i].ui_title = '差假時段' + void_chinesenumber_1.chinesenum(i + 1);
+            }
+            this.newtitle = '差假時段' + void_chinesenumber_1.chinesenum(this.titlechinesenum + 1);
+        }
+        else {
+            this.NowIsWirteForm = true;
+            this.firstnotshow = false;
+            this.newtitle = '差假時段' + void_chinesenumber_1.chinesenum(this.titlechinesenum + 1);
+        }
+    };
+    WritevaformComponent.prototype.hideWriteform = function () {
+        //刪除本時段按鈕
+        this.NowIsWirteForm = false;
+    };
+    WritevaformComponent.prototype.showWriteform = function () {
+        //新增差假時段按鈕
+        this.NowIsWirteForm = true;
+        this.newtitle = '差假時段' + void_chinesenumber_1.chinesenum(this.titlechinesenum + 1);
+    };
+    WritevaformComponent.prototype.addsendvaform = function () {
+        this.writevaform.startday = $('#id_ipt_startday').val();
+        this.writevaform.endday = $('#id_ipt_endday').val();
+        this.writevaform.starttime = $('#id_ipt_starttime').val();
+        this.writevaform.endtime = $("#id_ipt_endtime").val();
+        var startDateTime = new Date(this.writevaform.startday + ' ' + this.writevaform.starttime);
+        var endDateTime = new Date(this.writevaform.endday + ' ' + this.writevaform.endtime);
+        if (startDateTime > endDateTime) {
+            alert('開始日大於結束日');
+            return;
+        }
+        else if (this.checkinArray(startDateTime, endDateTime)) { //檢查重複
+            alert('重複資料');
+            return;
+        }
+        this.canSendArray();
+    };
+    /////判斷日期
+    WritevaformComponent.prototype.checkinArray = function (startTime, endTime) {
+        for (var i = 0; i < this.sendvaform.length; i++) {
+            var x = this.sendvaform[i];
+            var sendStartDateTime = new Date(x.startday + ' ' + x.starttime);
+            var sendEndDateTime = new Date(x.endday + ' ' + x.endtime);
+            if (startTime < sendEndDateTime && endTime > sendStartDateTime) //判斷重複
+             {
+                return true;
+            }
+        }
+        ;
+        return false;
+    };
+    WritevaformComponent.prototype.canSendArray = function () {
+        this.firstnotshow = true;
+        this.titlechinesenum = this.titlechinesenum + 1;
+        this.writevaform.ui_title = this.newtitle;
+        this.sendvaform.push(this.writevaform);
+        this.new_writevaform();
+        this.hideWriteform();
+        this.scrollTo('NowIsWirteFormTop');
+        console.log(this.sendvaform);
+    };
+    /////判斷日期
+    /**
+     * @todo  select請假類別切換
+     */
+    WritevaformComponent.prototype.onChange_vacategrory = function (event) {
+        this.writevaform.vacategrory.HoliDayID = event.target.value;
+        for (var i = 0; i < this.HoliDay.length; i++) {
+            if (this.HoliDay[i].HoliDayID == event.target.value) {
+                this.writevaform.vacategrory.HoliDayNameC = this.HoliDay[i].HoliDayNameC;
+            }
+        }
+    };
+    WritevaformComponent.prototype.scrollTo = function (tag) {
+        this.viewScroller.scrollToAnchor(tag);
+        //tag=id連結位置
+    };
+    WritevaformComponent.prototype.nextpage = function () {
+        //下一步按鈕
+        this.WriteformPage = false;
+        window.scroll(0, 0);
+    };
+    WritevaformComponent.prototype.new_writevaform = function () {
+        var _this = this;
+        this.writevaform = {
+            ui_title: '',
+            leaveman_jobid: this.GetApiUserService.getWebApiData_User().EmpCode,
+            leaveman_name: this.GetApiUserService.getWebApiData_User().Name,
+            wirteman_jobid: this.GetApiUserService.getWebApiData_User().EmpCode,
+            wirteman_name: this.GetApiUserService.getWebApiData_User().Name,
+            startday: '',
+            starttime: '',
+            endday: '',
+            endtime: '',
+            vacategrory: { HoliDayID: 0, HoliDayNameC: '' },
+            proxyman_jobid: '',
+            proxyman_name: '',
+            everydayloop: false,
+            upload: [],
+            cause: ''
+        };
+        this.GetApiDataServiceService.getWebApiData_GetHoliDayByForm().subscribe(function (x) {
+            if (_this.HoliDay.length == 0) {
+                for (var i = 0; i < x.length; i++) {
+                    _this.HoliDay.push({ HoliDayID: x[i].HoliDayID, HoliDayNameC: x[i].HoliDayNameC });
+                }
+            }
+            else { }
+            _this.writevaform = {
+                ui_title: '',
+                leaveman_jobid: _this.GetApiUserService.getWebApiData_User().EmpCode,
+                leaveman_name: _this.GetApiUserService.getWebApiData_User().Name,
+                wirteman_jobid: _this.GetApiUserService.getWebApiData_User().EmpCode,
+                wirteman_name: _this.GetApiUserService.getWebApiData_User().Name,
+                startday: '',
+                starttime: '',
+                endday: '',
+                endtime: '',
+                vacategrory: { HoliDayID: _this.HoliDay[0].HoliDayID, HoliDayNameC: _this.HoliDay[0].HoliDayNameC },
+                proxyman_jobid: '',
+                proxyman_name: '',
+                everydayloop: false,
+                upload: [],
+                cause: ''
+            };
+        });
+    };
+    WritevaformComponent.prototype.onCounterChange = function () {
+        this.WriteformPage = true;
+        window.scroll(0, 0);
+        //返回修改按鈕，在vaformdetail.component.html
+    };
+    WritevaformComponent.prototype.onSaveEmptoView = function (event) {
+        console.log(event);
+    };
+    WritevaformComponent = __decorate([
+        core_1.Component({
+            selector: 'app-writevaform',
+            templateUrl: './writevaform.component.html',
+            styleUrls: ['./writevaform.component.css'],
+        }),
+        __metadata("design:paramtypes", [common_1.ViewportScroller,
+            core_1.NgZone, forms_1.FormBuilder,
+            get_api_user_service_1.GetApiUserService,
+            get_api_data_service_service_1.GetApiDataServiceService])
+    ], WritevaformComponent);
+    return WritevaformComponent;
+}());
+exports.WritevaformComponent = WritevaformComponent;
+var vaform = /** @class */ (function () {
+    function vaform() {
+    }
+    return vaform;
+}());
+//# sourceMappingURL=writevaform.component.js.map

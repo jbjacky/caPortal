@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var testing_1 = require("@angular/core/testing");
+var get_api_data_service_service_1 = require("./get-api-data-service.service");
+describe('GetApiDataServiceService', function () {
+    beforeEach(function () { return testing_1.TestBed.configureTestingModule({}); });
+    it('should be created', function () {
+        var service = testing_1.TestBed.get(get_api_data_service_service_1.GetApiDataServiceService);
+        expect(service).toBeTruthy();
+    });
+});
+//# sourceMappingURL=get-api-data-service.service.spec.js.map

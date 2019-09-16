@@ -1,0 +1,66 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div class="row" style="margin:0;margin-bottom: 10px">
+      <label class="col-md-1 control-label" style="padding: 0px;
+    padding-top: 5px;">
+        <span class="form-must-fill">*</span>查詢日期
+      </label>
+      <div class="col-md-8">
+        <div class="row writerow">
+          <div class="col-md-4 col-xs-10" style="padding: 0px">
+            <input id="id_ipt_SearchMonth" [(ngModel)]="dateS" [matDatepicker]="StartDatePicker" type="text"
+              class="form-control" style="background-color: #ffffff;" placeholder="年/月" (blur)="blurSearchMonth()"
+              (dateChange)="blurSearchMonth()" />
+            <div *ngIf="errorSearchMonthState.state" style="color: #e60012">{{errorSearchMonthState.errorString}}</div>
+          </div>
+          <mat-datepicker #StartDatePicker touchUi startView="year"
+            (monthSelected)="chosenMonthHandler($event,StartDatePicker)" [calendarHeaderComponent]="exampleHeader">
+          </mat-datepicker>
+          <!--  -->
+          <div class="col-md-1 col-xs-2" style="padding: 0px">
+            <input (click)="StartDatePicker.open()" type="button" data-modal="true" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                    cursor: pointer;
+                    color: transparent;
+                    border: 1px solid transparent;
+                    width: 50px;
+                    height: 40px;
+                    ">
+          </div>
+
+          <div class="col-md-6 col-xs-12" style="padding: 0px">
+            <button type="button" class="btn btn-primary" (click)="search(dateS)">查詢</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <a data-toggle="modal" style="cursor: pointer;" (click)="bt_showroteSumDialog()">班別統計表</a>
+    </div>
+  </div>
+</div>
+<div *ngIf="nonRote" class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div>查無班表資料</div>
+  </div>
+</div>
+<app-sharecalendar *ngIf="!nonRote" [searchCalendarData]="Ob_RoteApiData$"></app-sharecalendar>
+
+<div class="modal" id="roteSumDialog" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h5 class="modal-title">班別統計表</h5>
+      </div>
+      <div class="modal-body">
+        <app-search-rote-sum *ngIf="showroteSumDialog" [setMan]="SearchRoteMan" [MyselfSearch]=true [PersonSearch]="false"></app-search-rote-sum>
+      </div>
+      <div class="modal-footer" style="text-align: center">
+        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog班別統計表-->

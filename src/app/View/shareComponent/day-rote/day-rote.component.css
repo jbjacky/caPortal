@@ -1,0 +1,23 @@
+.dayRoteClass{
+    border: 1px solid #028fcf;
+    padding: 20px 10px;
+    margin: 0px;
+    margin-bottom: 10px
+}
+.P_grayLine{
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+.graytitle{
+    color: #969696
+}
+
+@media screen and (max-width:1000px) {
+    .P_grayLine{
+        border-right: 0px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        margin-bottom: 5px;
+    }
+    .graytitle{
+        margin-bottom: 5px
+    }
+}

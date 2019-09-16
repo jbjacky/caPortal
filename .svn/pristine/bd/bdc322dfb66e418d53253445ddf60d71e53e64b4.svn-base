@@ -1,0 +1,73 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">            
+    <div class="row" style="padding-bottom: 15px;margin:0px">
+      <div class="col-md-2 col-xs-12 P_title">
+          <label class=" control-label">
+              員工
+          </label>
+      </div>
+      <div class="col-md-10  col-xs-12 row" style="padding:0px;margin: 0px">
+          <div class="col-md-1 col-xs-3" style="padding: 0;">
+              <button data-toggle="modal" data-target="#chooseEmpdialog" style="cursor: pointer;border: 0;background: 0">
+                  <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+              </button>
+          </div>
+          <div class="col-md-1 col-xs-3" style="padding:0px;
+          padding-top: 8px;">
+              <!-- <input id="leavejobid" type="text" class="form-control" placeholder="員工號" [(ngModel)]="SearchMan.jobID" (keyup)="blurEmpCode()" maxlength="6"> -->
+              {{SearchMan.jobID}}
+          </div>
+          <div class="col-md-9 col-xs-6" style="padding-top: 8px;">
+              {{SearchMan.name}}
+          </div>
+      </div>
+  </div>
+    
+    <div class="row" style="margin:0;margin-bottom: 10px">
+        <label class="col-md-2 col-xs-12 P_title">
+          <span class="form-must-fill">*</span>查詢日期
+        </label>
+        <div class="col-md-10 col-xs-12" style="padding: 0">
+          <div class="row writerow" style="margin:0">
+            <div class="col-md-4 col-xs-10" style="padding: 0px">
+              <input [matDatepicker]="StartDatePicker" id="id_ipt_startday" type="text" class="form-control"  style="background-color: #ffffff;"
+                placeholder="年/月" />
+            </div>
+            <mat-datepicker #StartDatePicker touchUi startView="year" (monthSelected)="chosenMonthHandler($event,StartDatePicker)" [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+            <!--  -->
+            <div class="col-md-1 col-xs-2" style="padding: 0px">
+              <input  (click)="StartDatePicker.open()" type="button" data-modal="true" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                      cursor: pointer;
+                      color: transparent;
+                      border: 1px solid transparent;
+                      width: 50px;
+                      height: 40px;
+                      ">
+            </div>
+  
+            <div class="col-md-6 col-xs-12" style="padding: 0px">
+              <button type="button" class="btn btn-primary" (click)="search()">查詢</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<app-sharecalendar [searchCalendarData]="Ob_RoteApiData$"></app-sharecalendar>
+
+
+
+<div class="modal" id="chooseEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <app-choosebase (saveEmptoView)="onSaveEmptoView($event)"></app-choosebase>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--dialog選擇請假員工-->

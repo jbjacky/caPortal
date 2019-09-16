@@ -1,0 +1,185 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var rxjs_1 = require("rxjs");
+var operators_1 = require("rxjs/operators");
+var get_api_user_service_1 = require("src/app/Service/get-api-user.service");
+var NavComponent = /** @class */ (function () {
+    function NavComponent(router, ngZone, GetApiUserService) {
+        var _this = this;
+        this.router = router;
+        this.ngZone = ngZone;
+        this.GetApiUserService = GetApiUserService;
+        this.checkIsHome = false;
+        this.checkIsOneNav = true;
+        this.UserData = { EmpCode: '', Name: '', Dept: '' };
+        // <!--透明黑色區塊處理開始-->
+        this.state = false; //透明黑色區塊顯示狀態
+        this.formEvent_reisze = rxjs_1.fromEvent(window, 'resize')
+            .pipe(operators_1.debounceTime(500))
+            .subscribe(function (event) {
+            _this.state = false;
+            $('body').css("position", "unset");
+            $('body').css("overflow-y", "auto");
+        });
+        // <!--透明黑色區塊處理結束-->
+        this.two_nav = [
+            {
+                largetitle: '填寫申請單', site: [
+                    { title: '請假單', routeurl: '/vaform' },
+                    { title: '銷假單', routeurl: '/delform' },
+                    { title: '調班單', routeurl: '/changeform' },
+                    { title: '考勤異常確認單', routeurl: '/forgetform' },
+                ]
+            },
+        ];
+        // three_nav: threenav[] = [
+        //   {
+        //     title: '主管專區', second: [
+        //       {
+        //         stitle: '表單審核',
+        //         third: [
+        //           { title: '請假單審核', routeurl: '/machformva' },
+        //           { title: '銷假單審核', routeurl: '/machformdel' },
+        //           { title: '調班單審核', routeurl: '/machformch' },
+        //           { title: '考勤異常簽認單審核', routeurl: '/machformfo' },
+        //         ]
+        //       },
+        //       {
+        //         stitle: '員工差勤查詢',
+        //         third: [
+        //           { title: '員工假單查詢', routeurl: '/emsearchva' },
+        //           { title: '員工出勤查詢', routeurl: '/emsearchat' },
+        //           { title: '員工班表查詢', routeurl: '/emsearchwork' },
+        //         ]
+        //       }
+        //     ]
+        //   }
+        // ];
+        this.netImage = "./assets/images-template/img-temp-systemMain/logo-ci-tw.png";
+        router.events.subscribe(function (event) {
+            if (event instanceof router_1.NavigationStart) {
+                // console.log(event.url);
+                _this.changeSencondTitle(event.url);
+            }
+        }); //route位址改變時
+    }
+    NavComponent.prototype.ngAfterViewInit = function () {
+        $('#main-nav-menu').metisMenu().civdMetisMenuRecord();
+    };
+    NavComponent.prototype.ngOnInit = function () {
+        this.innerWidth = window.innerWidth;
+        this.checkdesktop();
+        this.UserData.Dept = this.GetApiUserService.getWebApiData_User().Dept;
+        this.UserData.EmpCode = this.GetApiUserService.getWebApiData_User().EmpCode;
+        this.UserData.Name = this.GetApiUserService.getWebApiData_User().Name;
+    };
+    NavComponent.prototype.checkdesktop = function () {
+        //判斷是否為桌機
+        //ngOnInit、點透明黑色區塊執行
+        //civd2015-systemMain.js修正，手機畫面，就收合導覽列
+        $('body').css("position", "unset");
+        $('body').css("overflow-y", "auto");
+        if (window.innerWidth > 1023) {
+            // $('body').addClass("offcanvas-active");
+            //civd2015-systemMain.js修正
+        }
+        else {
+            $('body').removeClass("offcanvas-active"); //如果是手機畫面，就收合導覽列
+            this.state = false;
+        }
+    };
+    NavComponent.prototype.bt_toggleactive = function () {
+        //左上角收合導覽列按鈕
+        if (window.innerWidth > 800) {
+        }
+        else {
+            if ($('body').hasClass("offcanvas-active")) {
+                this.state = false;
+                $('body').css("position", "unset");
+                $('body').css("overflow-y", "auto");
+            }
+            else {
+                this.state = true;
+                $('body').css("position", "fixed");
+                $('body').css("overflow-y", "scroll");
+            }
+        }
+    };
+    NavComponent.prototype.changeSencondTitle = function (eventRouteurl) {
+        if (eventRouteurl == '/home' || eventRouteurl == '/') {
+            this.secondtitle = '首頁';
+            this.checkIsHome = true;
+        } //一層nav
+        else if (eventRouteurl == '/reviewform/reviewform') {
+            this.secondtitle = '表單審核';
+            this.checkIsOneNav = true;
+            this.checkIsHome = false;
+        } //一層nav
+        else if (eventRouteurl == '/reviewform/reviewformdetailvacation') {
+            this.secondtitle = '表單審核';
+            this.checkIsOneNav = true;
+            this.checkIsHome = false;
+        }
+        else if (eventRouteurl == '/TestviewtwoComponent') {
+            this.secondtitle = '檔案上傳範例';
+            this.checkIsOneNav = true;
+            this.checkIsHome = false;
+        }
+        else if (eventRouteurl == '/TestthreeComponent') {
+            this.secondtitle = '部門人員選擇範例';
+            this.checkIsOneNav = true;
+            this.checkIsHome = false;
+        }
+        else {
+            var oneurl = eventRouteurl.split('/');
+            for (var i = 0; i < this.two_nav.length; i++) {
+                this.checkIsOneNav = false;
+                this.minfirsttitle = this.two_nav[i].largetitle;
+                for (var j = 0; j < this.two_nav[i].site.length; j++) {
+                    for (var k = 0; k < oneurl.length; k++) {
+                        if ('/' + oneurl[k] == this.two_nav[i].site[j].routeurl) {
+                            this.secondtitle = this.two_nav[i].site[j].title;
+                            this.checkIsHome = false;
+                        }
+                    }
+                    if (eventRouteurl == this.two_nav[i].site[j].routeurl) {
+                        this.secondtitle = this.two_nav[i].site[j].title;
+                        this.checkIsHome = false;
+                    }
+                }
+            } //兩層nav
+            // for (let i = 0; i < this.three_nav.length; i++) {
+            //   for (let j = 0; j < this.three_nav[i].second.length; j++) {
+            //     for (let k = 0; k < this.three_nav[i].second[j].third.length; k++) {
+            //       if (eventRouteurl == this.three_nav[i].second[j].third[k].routeurl) {
+            //         this.secondtitle = this.three_nav[i].second[j].third[k].title;
+            //       }
+            //     }
+            //   }
+            // }//三層nav
+        }
+    };
+    NavComponent = __decorate([
+        core_1.Component({
+            selector: 'app-nav',
+            templateUrl: './nav.component.html',
+            styleUrls: ['./nav.component.css']
+        }),
+        __metadata("design:paramtypes", [router_1.Router, core_1.NgZone,
+            get_api_user_service_1.GetApiUserService])
+    ], NavComponent);
+    return NavComponent;
+}());
+exports.NavComponent = NavComponent;
+//# sourceMappingURL=nav.component.js.map

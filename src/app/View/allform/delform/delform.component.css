@@ -1,0 +1,83 @@
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color:  #002f7B !important;
+  }
+  
+::ng-deep .mat-ripple-element {
+    background: rgba(27, 142, 241, .4) !important;
+}
+.P_paddingLRZ{
+    padding-left: 15px;
+    padding-right: 0px;
+}
+.inputTextarea{
+    width: 100%;
+    border-width:1px;
+    border-style:solid;
+    resize: none;
+    height:150px;
+    margin-top: 5px;
+    display: block;
+    padding: 6px 12px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+.formgroup_modify{
+    border: 0px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 20px;
+}
+.panelBody{
+    padding: 10px 100px
+}
+.P_textLeft{
+    padding: 0px;
+    text-align: right;
+    padding-top: 6px;
+}
+.showAllText{
+    display: none;
+    color:#4c4c4c;
+    font-weight: 500;
+}
+.P_CtextLeft{
+    text-align: center;
+}
+@media screen and (max-width:960px) {
+    .P_paddingLRZ{
+        padding-left:  0px;
+        padding-right: 0px;
+        
+    }
+     .formgroup_modify{
+        border: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 20px;
+    }
+    .panelBody{
+        padding: 10px 0px
+    }
+    .P_textLeft{
+        text-align: left;
+    }
+    .showAllText{    
+        display: initial;
+        color:#4c4c4c;
+        font-weight: 500;
+    }
+    .P_startday{
+    padding-top: 10px;
+    }
+    .P_CtextLeft{
+        text-align: left;
+    }
+}
+    

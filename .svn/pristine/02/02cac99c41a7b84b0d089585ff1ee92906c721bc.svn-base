@@ -1,0 +1,48 @@
+<!-- <form [formGroup]="formgroup" (ngSubmit)="onSubmit()">
+  <span style="color: red">*</span>
+  <span>請假人</span>
+  <input type="text" formControlName="name" placeholder="員工號" class="form-control" />
+  <div *ngIf="formgroup.controls['name'].invalid && ( formgroup.controls['name'].dirty || formgroup.controls['name'].touched)"
+    class="textdanger ">
+    <div *ngIf="formgroup.controls['name'].errors.required">
+      請輸入員工號
+    </div>
+    <div *ngIf="formgroup.controls['name'].errors.minlength">
+      請輸入正確的員工號
+    </div>
+    <div *ngIf="formgroup.controls['name'].errors.maxlength">
+      請輸入正確的員工號
+    </div>
+    <div *ngIf="formgroup.controls['name'].errors.emailTaken">
+      員工號錯誤
+    </div>
+  </div>
+  <input type="text" formControlName="jacky">
+  <div *ngIf="formgroup.controls['jacky'].invalid && ( formgroup.controls['jacky'].dirty || formgroup.controls['jacky'].touched)"
+    class="textdanger ">
+    <div *ngIf="formgroup.controls['jacky'].errors.required">
+      請輸入姓名
+    </div>
+    <div *ngIf="formgroup.controls['jacky'].errors.forbiddenName">
+      輸入不合法
+    </div>
+  </div>
+</form>
+
+<button (click)="calDay()">calDay</button>
+<button (click)="setval()">setval</button>
+<button (click)="btarray()">array</button>
+<button type="submit" class="btn btn-success" [disabled]="!formgroup.valid">Submit</button>
+<div *ngFor="let array of array">{{array.name}} {{array.jacky}}</div>
+
+
+<input class="form-control" required minlength="1" appForbiddenName="bob" [(ngModel)]="Empdata.EmpCode" #name="ngModel"> -->
+
+
+
+<app-choose-base-or-dept (outPutChoose)="getEmpCode($event)"></app-choose-base-or-dept>
+<div *ngFor="let Emp  of  EmpArray">
+  {{Emp.EmpCode}}
+  {{Emp.EmpNameC}}
+  {{Emp.EmpNameE}}
+</div>

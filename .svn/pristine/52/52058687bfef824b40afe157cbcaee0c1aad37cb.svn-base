@@ -1,0 +1,96 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var http_1 = require("@angular/common/http");
+var ngx_filesaver_1 = require("ngx-filesaver");
+var ng_lz_string_1 = require("ng-lz-string");
+var TestviewtwoComponent = /** @class */ (function () {
+    function TestviewtwoComponent(_httpClient, _FileSaverService, lz) {
+        this._httpClient = _httpClient;
+        this._FileSaverService = _FileSaverService;
+        this.lz = lz;
+        this.fileArray = [];
+    }
+    TestviewtwoComponent.prototype.ngOnInit = function () { };
+    TestviewtwoComponent.prototype.onChangefile = function (eventFile) {
+        // console.log(eventFile[0])
+        if (eventFile[0].size > 99999999) {
+            alert('檔案超過');
+        }
+        else if (this.fileArray.length >= 5) {
+            alert('不得大於五筆');
+        }
+        else {
+            var reader = new FileReader();
+            this.fileArray.push(eventFile[0]);
+        }
+    };
+    TestviewtwoComponent.prototype.downOnefile = function (file) {
+        var txtBlob = new Blob([file], { type: file.type });
+        this._FileSaverService.save(txtBlob, file.name);
+    };
+    TestviewtwoComponent.prototype.deleteOneFile = function (i) {
+        this.fileArray.splice(i, 1);
+    };
+    TestviewtwoComponent.prototype.base64 = function (apiFile) {
+        var base64_name = apiFile.name;
+        var base64_type = apiFile.type;
+        var base64_data = this.lz.decompress(apiFile.data);
+        var base64_size = apiFile.size;
+        console.log('解壓縮' + base64_data.length);
+        var byteCharacters = atob(base64_data);
+        var byteNumbers = new Array(byteCharacters.length);
+        for (var i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        var byteArray = new Uint8Array(byteNumbers);
+        var txtBlob = new Blob([byteArray], { type: base64_type });
+        this._FileSaverService.save(txtBlob, base64_name);
+    };
+    TestviewtwoComponent.prototype.uploadAllFile = function () {
+        var _this = this;
+        var uploadAllFile_Data = [{ name: '', data: '', type: '', size: 0 }];
+        var _loop_1 = function (i) {
+            uploadAllFile_Data[i].name = this_1.fileArray[i].name;
+            uploadAllFile_Data[i].size = this_1.fileArray[i].size;
+            uploadAllFile_Data[i].type = this_1.fileArray[i].type;
+            var reader = new FileReader();
+            reader.readAsDataURL(this_1.fileArray[i]);
+            reader.onload = function () {
+                uploadAllFile_Data[i].data = _this.lz.compress(reader.result.split(',')[1]); //壓縮過了
+                console.log('壓縮過' + uploadAllFile_Data[i].data.length);
+                console.log(JSON.stringify(uploadAllFile_Data[i].data));
+            };
+            uploadAllFile_Data.push({ name: '', data: '', type: '', size: 0 });
+        };
+        var this_1 = this;
+        for (var i = 0; i < this.fileArray.length; i++) {
+            _loop_1(i);
+        }
+        uploadAllFile_Data.splice(uploadAllFile_Data.length - 1, 1);
+        this.getApiFileData = uploadAllFile_Data;
+        console.log(this.getApiFileData);
+    };
+    TestviewtwoComponent = __decorate([
+        core_1.Component({
+            selector: 'app-testviewtwo',
+            templateUrl: './testviewtwo.component.html',
+            styleUrls: ['./testviewtwo.component.css']
+        }),
+        __metadata("design:paramtypes", [http_1.HttpClient,
+            ngx_filesaver_1.FileSaverService,
+            ng_lz_string_1.LZStringService])
+    ], TestviewtwoComponent);
+    return TestviewtwoComponent;
+}());
+exports.TestviewtwoComponent = TestviewtwoComponent;
+//# sourceMappingURL=testviewtwo.component.js.map

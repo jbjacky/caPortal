@@ -1,0 +1,55 @@
+  <div class="a-block" *ngIf="AttendanceApiData && AttendanceApiData.length>0">
+    <div class="a-block-body  a-block-container">
+      <h3>考勤資訊</h3> 
+      <div class="row" *ngFor="let OneAttendance of AttendanceApiData" style="border:1px solid #028fcf;margin: 0px;margin-bottom:10px;padding: 20px 10px;">
+        <div class="col-md-2 P_base">
+          <p >{{OneAttendance.EmpCode}} {{OneAttendance.EmpName}}</p>
+          <p >{{OneAttendance.DeptName}}</p>
+        </div>
+        <div class="col-md-10 row" style="margin: 0px">
+          <div class="col-md-3 P_date">
+            <p style="color: #028fcf;font-weight: bold">{{OneAttendance.AttendDate}} ({{OneAttendance.DayOfweek}})</p>
+            <p style="color: #028fcf" *ngIf="OneAttendance.RoteNameC!='休息日' && OneAttendance.RoteNameC!='例假日'">{{OneAttendance.RoteNameC}} / {{OneAttendance.OnTime}}-{{OneAttendance.OffTime}}</p>
+            <p style="color: #028fcf" *ngIf="OneAttendance.RoteNameC=='休息日' || OneAttendance.RoteNameC=='例假日'">{{OneAttendance.RoteNameC}}</p>
+          </div>
+          <div class="col-md-4 row" style="margin: 0px;padding:0px">
+            <div class="col-md-4 col-xs-4" style="padding: 0px;">
+              <p style="color: #969696">刷到</p>
+              <p>{{OneAttendance.OnCardTime}}</p>
+              <p *ngIf="!OneAttendance.OnCardTime">無</p>
+            </div>
+            <div class="col-md-4 col-xs-4" style="padding: 0px;">
+                <p style="color: #969696">刷離</p>
+                <p>{{OneAttendance.OffCardTime}}</p>
+                <p *ngIf="!OneAttendance.OffCardTime">無</p>
+            </div>
+            <div class="col-md-4 col-xs-4" style="padding: 0px;">
+                <p style="color: #969696">假單</p>
+                <a *ngIf="OneAttendance.AttendAbsInfo">請假單</a>
+                <p *ngIf="!OneAttendance.AttendAbsInfo">無</p>
+            </div>
+          </div>
+          <div class="col-md-3" style="padding: 0px;">
+            <p style="color: #969696">通勤狀態</p>
+            <div class="tag_blue " *ngIf="OneAttendance.Ride">搭車</div>
+            <div class="tag_yellow" *ngIf="OneAttendance.Behind">車誤</div>
+            <div class="tag_blue"  *ngIf="OneAttendance.FlexibleMinute">彈性</div>
+            <p *ngIf="!OneAttendance.Ride && !OneAttendance.Behind && !OneAttendance.FlexibleMinute">無</p>
+          </div>
+          <div class="col-md-2" style="padding: 0px;">
+            <p style="color: #969696">考勤狀態</p>
+            <div class="tag_red" *ngIf="OneAttendance.LateMins">遲到</div>
+            <div class="tag_blue" *ngIf="!OneAttendance.LateMins && !OneAttendance.IsAbsent && !OneAttendance.EarlyMins">正常</div>
+            <div class="tag_red" style="width: 65px;" *ngIf="OneAttendance.IsAbsent">未刷卡</div>
+            <div class="tag_red" *ngIf="OneAttendance.EarlyMins">早退</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-block" *ngIf="AttendanceApiData && AttendanceApiData.length==0">
+      <div class="a-block-body  a-block-container">
+        此查詢區間無資料
+      </div>
+  </div>

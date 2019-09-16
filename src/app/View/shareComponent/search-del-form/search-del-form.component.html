@@ -1,0 +1,185 @@
+<div class="a-block" *ngIf="getDelData.length!=0 && !showDelDataDetail">
+  <div class="a-block-body  a-block-container">
+    <h3>查詢結果</h3>
+    <div class="row P_div" *ngFor="let onedelData of delSearchFlowSign">
+      <div class="row col-md-3 col-xs-12 P_borderBottom">
+        <div class="col-md-6   col-xs-6  col-md-push-6" style="color: #326299;padding:10px 0px;">
+          <div>
+            {{onedelData.showProcessFlowID}}
+          </div>
+          <div>
+            銷假單
+            <a style="cursor: pointer;" data-toggle="modal" data-target="#Cancelformdialog"
+              (click)="takeForm = onedelData">
+              <span *ngIf="onedelData.Take && getShowTake">(抽單)</span>
+            </a>
+            <a style="cursor: pointer;" data-toggle="modal"
+              (click)="checkTransSignForm(onedelData)">
+              <span *ngIf="onedelData.TransSign && getShowTransSign">(轉呈)</span>
+            </a>
+          </div>
+
+        </div>
+        <div class="col-md-6   col-xs-6  col-md-pull-6" style="padding: 0;text-align: center;
+          padding-top: 15px;">
+          <div class="tag_blue" *ngIf="onedelData.State=='1'">呈核中</div>
+          <div class="tag_skyblue" *ngIf="onedelData.State=='3'">已核准</div>
+          <div class="tag_red" *ngIf="onedelData.State=='2'">重擬</div>
+          <div class="tag_gray" *ngIf="onedelData.State=='7'">已抽單</div>
+          <div class="tag_red" *ngIf="onedelData.State=='8'">已異動</div>
+          <div class="tag_gray" *ngIf="onedelData.Handle">處理中</div>
+        </div>
+      </div>
+      <div class="row col-md-8 col-xs-10" style="margin: 0px;padding: 0">
+        <div class="row col-md-12 col-xs-12" style="margin: 0;padding: 0;padding-bottom: 5px;">
+          <div class="col-md-4 col-xs-12" style="padding: 0">
+            <!-- 643345 李大仁 -->{{onedelData.EmpCode}} {{onedelData.EmpNameC}} <span *ngIf="onedelData.checkProxy"
+              style="color: blue">(代)</span>
+          </div>
+          <div class="col-md-8 col-xs-12" style="padding: 0">
+            <!-- 計劃發展部 -->{{onedelData.AppDeptName}}
+          </div>
+        </div>
+        <div class="row col-md-12 col-xs-12" style="margin: 0;padding: 0;padding-bottom: 5px;">
+          <div class="col-md-8 col-xs-12" style="padding: 0">
+            <span style="color: #969696">銷假日期：</span>
+            <div style="display: inline-block;" *ngFor="let oneYear of onedelData.YearAndDate">
+              {{oneYear.OneYear}}年-
+              <span *ngFor="let showdate of oneYear.YearofDate;let index_YearofDate = index">
+                {{showdate}}
+                <span *ngIf="oneYear.YearofDate.length != (index_YearofDate+1)">、</span>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-4 col-xs-12">
+            <div>
+              共計
+              <span>{{onedelData.day}}</span> 日
+              <span>{{onedelData.hour}}</span> 時
+              <span>{{onedelData.minute}}</span> 分
+              <!-- (合有 {{onedelData.numberOfVaData}} 個銷假時間) -->
+            </div>
+            <div *ngIf="onedelData.ManageEmpName && onedelData.State=='1'">{{onedelData.ManageEmpName}} 簽核中</div>
+          </div>
+        </div>
+      </div>
+      <div class="row col-md-1 col-xs-2 P_ptop">
+        <a style="cursor: pointer;text-decoration:underline" (click)="nextShowDetail(onedelData)">
+          <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="a-block" *ngIf="getDelData.length==0">
+  <div class="a-block-body  a-block-container">
+    此查詢條件查無資料
+  </div>
+</div>
+
+<app-search-del-detail *ngIf="showDelDataDetail" [getDelDataTitle]="setToNextDelDataTitle" [getShowTakeDetail]="getShowTake" [getShowTransSignDetail]="getShowTransSign" 
+  (goback)="onGoBackFunction()"></app-search-del-detail>
+
+
+<div class="modal" id="Cancelformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認抽單?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+            (click)="Cancelform_Click()">送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog核准確認送出 -->
+<div class="modal" id="sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">抽單完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            已成功抽單
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog送出成功 -->
+<div class="modal" id="TransSignformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="vertical-alignment-helper">
+  <div class="modal-dialog  modal-md vertical-align-center">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認轉呈?</h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <p>簽核人員</p>
+          <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+          </app-select-signer>
+        </div>
+      </div>
+      <div class="modal-footer" style="text-align: center">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+          (click)="TransSignform_Click()">送出</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--dialog轉呈確認送出 -->
+<div class="modal" id="TransSignformSussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="vertical-alignment-helper">
+  <div class="modal-dialog  modal-sm vertical-align-center">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <!-- <span aria-hidden="true">×</span> -->
+        </button>
+        <h4 class="modal-title" style="text-align: center">轉呈完成</h4>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;margin-bottom: 10px">
+          <img src="./assets/images-template/icon-success.png" />
+        </div>
+        <div style="text-align: center">
+          已成功轉呈
+        </div>
+      </div>
+      <div class="modal-footer" style="text-align: center">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--dialog轉呈送出成功 -->

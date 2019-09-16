@@ -1,0 +1,60 @@
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { GetNewsClass } from 'src/app/Models/PostData_API_Class/GetNewsClass';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { formatDateTime, doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
+import { Router } from '@angular/router';
+import { pagechange } from 'src/app/Models/pagechange';
+import { takeWhile } from 'rxjs/operators';
+import { GetNewsByDateNowGetApiClass } from 'src/app/Models/PostData_API_Class/GetNewsByDateNowGetApiClass';
+
+declare var $;
+
+@Component({
+  selector: 'app-news-show-all',
+  templateUrl: './news-show-all.component.html',
+  styleUrls: ['./news-show-all.component.css']
+})
+export class NewsShowAllComponent implements OnInit ,OnDestroy {
+  ngOnDestroy(): void {
+    this.api_subscribe = false;
+  }
+
+  api_subscribe = true; //ngOnDestroy時要取消
+  
+  AllNewsList: GetNewsClass[] = []
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private router:Router) { }
+  setOneNew: GetNewsClass
+
+  AllNewsList_pagechange = new pagechange();
+
+  ngOnInit() {
+    var DateB = new Date()
+    var GetNewsByDateNowGetApi:GetNewsByDateNowGetApiClass ={
+      "DateNow":doFormatDate(DateB.toString()),
+      "Miniature":true
+    }
+    this.GetApiDataServiceService.getWebApiData_GetNewsByDateNow(GetNewsByDateNowGetApi)
+    .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: GetNewsClass[]) => {
+          for(let data of x){
+            data.PostDate = formatDateTime(data.PostDate).getDate
+          }
+          // function custom_sort(a, b) {
+          //   return new Date(b.PostDate).getTime() - new Date(a.PostDate).getTime();
+          // }
+          // x.sort(custom_sort)
+          this.AllNewsList = x
+        }
+      )
+
+  }
+
+  setOneNewClick(oneNews: GetNewsClass) {
+    this.router.navigate(['/nav/NewsShowDetailComponent',oneNews.NewsID.toString()])
+   
+  }
+
+
+}

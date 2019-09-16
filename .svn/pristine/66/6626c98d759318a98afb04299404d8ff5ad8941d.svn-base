@@ -1,0 +1,355 @@
+import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-agent-write',
+  templateUrl: './agent-write.component.html',
+  styleUrls: ['./agent-write.component.css']
+})
+export class AgentWriteComponent implements OnInit, AfterContentInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true
+  ngAfterContentInit(): void {
+  }
+
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+  saveEdit(data: any) {
+    var key = this.AgentWriteData_One.findIndex(x => x.AutoKey == data.AutoKey)
+    this.AgentWriteData_One[key] = this.write_AgentWriteData_One
+    this.AgentWriteData_One[key].Edit = false
+  }
+  bt_edit(data: AgentWriteData_OneClass) {
+    var key = this.AgentWriteData_One.findIndex(x => x.AutoKey == data.AutoKey)
+    this.AgentWriteData_One[key].Edit = true
+    this.write_AgentWriteData_One = {
+      DeptCode: data.DeptCode,
+      DeptName: data.DeptName,
+      AgentNobr: data.AgentNobr,
+      AgentName: data.AgentName,
+      Note: data.Note,
+      AutoKey: data.AutoKey,
+      Edit: data.Edit
+    }
+  }
+  bt_del(data: AgentWriteData_OneClass) {
+    var key = this.AgentWriteData_One.findIndex(x => x.AutoKey == data.AutoKey)
+    this.AgentWriteData_One.splice(key, 1)
+  }
+  bt_search(e) {
+    var searData =[]
+    for (let aa of this.AgentWriteData_One) {
+      if (aa.DeptCode == e) {
+        searData.push(aa)
+      }
+    }
+    this.AgentWriteData_One = []
+    this.AgentWriteData_One = searData
+  }
+  write_AgentWriteData_One: AgentWriteData_OneClass = new AgentWriteData_OneClass()
+  AgentWriteData_One: AgentWriteData_OneClass[] = [
+    {
+      DeptCode: '841B841B29514844444444444444',
+      DeptName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處',
+      AutoKey: '0',
+      Edit: false
+    },
+    {
+      DeptCode: '962B',
+      DeptName: '資訊處',
+      AgentNobr: '628347',
+      AgentName: '張小心',
+      Note: '資訊營業處',
+      AutoKey: '1',
+      Edit: false
+    },
+    {
+      DeptCode: '962B',
+      DeptName: '資訊qweqwe處',
+      AgentNobr: '628347',
+      AgentName: '張qwewqeqweqweqw小心',
+      Note: '資訊營業eqweqweqeqweqwe處',
+      AutoKey: '2',
+      Edit: false
+    },
+    {
+      DeptCode: '841B841B29514844444444444444',
+      DeptName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處貨運營業處',
+      AutoKey: '3',
+      Edit: false
+    },
+    {
+      DeptCode: '962B',
+      DeptName: '資訊處',
+      AgentNobr: '628347',
+      AgentName: '張小心',
+      Note: '資訊營業處',
+      AutoKey: '4',
+      Edit: false
+    },
+    {
+      DeptCode: '962B',
+      DeptName: '資訊qweqwe處',
+      AgentNobr: '628347',
+      AgentName: '張qwewqeqweqweqw小心',
+      Note: '資訊營業eqweqweqeqweqwe處',
+      AutoKey: '5',
+      Edit: false
+    },
+  ]
+
+  AgentWriteData_OutSide: AgentWriteData_OutSideClass[] = [
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    },
+    {
+      OfficerNobr: '841B',
+      OfficerName: '貨運處',
+      AgentNobr: '612345',
+      AgentName: '李大仁',
+      Note: '貨運營業處',
+      AutoKey: '0'
+    }
+  ]
+
+
+}
+
+
+class AgentWriteData_OneClass {
+  DeptCode: string
+  DeptName: string
+  AgentNobr: string
+  AgentName: string
+  Note: string
+  AutoKey: string
+  Edit: boolean
+}
+
+class AgentWriteData_OutSideClass {
+  OfficerNobr: string
+  OfficerName: string
+  AgentNobr: string
+  AgentName: string
+  Note: string
+  AutoKey: string
+}

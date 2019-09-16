@@ -1,0 +1,78 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var get_api_data_service_service_1 = require("../../Service/get-api-data-service.service");
+var TestselectboxComponent = /** @class */ (function () {
+    function TestselectboxComponent(httpPostService) {
+        this.httpPostService = httpPostService;
+        this.base = [];
+    }
+    TestselectboxComponent.prototype.ngOnInit = function () {
+    };
+    TestselectboxComponent.prototype.search = function (searchVal) {
+        var _this = this;
+        console.log(searchVal.length);
+        if (searchVal) {
+            if (searchVal.length >= 2) {
+                this.httpPostService.getWebApiData_GetDeptaByEmp('644671', 0, 9, '', searchVal, '').subscribe(function (x) {
+                    _this.base = [];
+                    if (x.length > 0) {
+                        _this.pushBase(x);
+                        if (_this.base.length != 0) {
+                        }
+                        else {
+                            _this.httpPostService.getWebApiData_GetDeptaByEmp('644671', 0, 9, searchVal, '', '').subscribe(function (y) {
+                                if (y.length > 0) {
+                                    _this.pushBase(y);
+                                    if (_this.base.length == 0) {
+                                        alert('此條件查不到員工');
+                                    }
+                                    console.log(y);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+            else {
+                alert('請輸入2個字元以上');
+            }
+        }
+        else {
+            alert('請不要空白');
+        }
+    };
+    TestselectboxComponent.prototype.pushBase = function (x) {
+        for (var i = 0; i < x.length; i++) {
+            if (x[i].Dept.length > 0) {
+                for (var k = 0; k < x[i].Dept.length; k++) {
+                    if (x[i].Dept[k].Base.length > 0) {
+                        for (var u = 0; u < x[i].Dept[k].Base.length; u++) {
+                            this.base.push({ Dept: x[i].Dept[k].DeptNameC, EmpCode: x[i].Dept[k].Base[u].EmpCode, EmpNameC: x[i].Dept[k].Base[u].EmpNameC });
+                        }
+                    }
+                }
+            }
+        }
+    };
+    TestselectboxComponent = __decorate([
+        core_1.Component({
+            selector: 'app-testselectbox',
+            templateUrl: './testselectbox.component.html',
+            styleUrls: ['./testselectbox.component.css']
+        }),
+        __metadata("design:paramtypes", [get_api_data_service_service_1.GetApiDataServiceService])
+    ], TestselectboxComponent);
+    return TestselectboxComponent;
+}());
+exports.TestselectboxComponent = TestselectboxComponent;
+//# sourceMappingURL=testselectbox.component.js.map

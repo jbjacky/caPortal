@@ -1,0 +1,283 @@
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { debounceTime, takeWhile } from 'rxjs/operators';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { SearchMan } from 'src/app/Models/CalendarClass';
+import { GetFlowViewClass } from 'src/app/Models/PostData_API_Class/GetFlowViewClass';
+import { SearchVaFormComponent } from '../shareComponent/search-va-form/search-va-form.component';
+import { ViewportScroller } from '@angular/common';
+import { SearchDelFormComponent } from '../shareComponent/search-del-form/search-del-form.component';
+import { SearchForgetFormComponent } from '../shareComponent/search-forget-form/search-forget-form.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-search-form',
+  templateUrl: './search-form.component.html',
+  styleUrls: ['./search-form.component.css']
+})
+export class SearchFormComponent implements OnInit, AfterViewInit, OnDestroy {
+  ngOnDestroy(): void {
+    this.formEvent_WindowResize.unsubscribe();
+    this.formEvent_TopDivGoTop.unsubscribe();
+    this.api_subscribe= false;
+  }
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+
+  
+  diolog_state: boolean = false;
+  Search_FormCondition:GetFlowViewClass = new GetFlowViewClass()
+  isSearch: boolean = false; //第一次沒按不顯示查詢結果
+  showSelectSearchForm = ''; //顯示表單種類
+  SearchMan: SearchMan = new SearchMan();
+  setFlowView: showFlowView[] = []//傳給查詢結果-表單
+
+
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private GetApiUserService: GetApiUserService,
+    private viewScroller: ViewportScroller,
+    private LoadingPage: NgxSpinnerService ) { }
+
+  ngOnInit() {
+    this.GetApiUserService.counter$
+    .pipe(takeWhile(()=>this.api_subscribe))
+    .subscribe(
+      (x: any) => {
+        this.SearchMan.jobID = x.EmpCode
+        if(x.EmpNameC){
+        this.SearchMan.name = x.EmpNameC
+        }else{
+        this.SearchMan.name = x.EmpNameE
+          
+        }
+      }
+    )
+  }
+
+  @ViewChild(SearchVaFormComponent) SearchVaFormComponent: SearchVaFormComponent;
+  @ViewChild(SearchDelFormComponent) SearchDelFormComponent: SearchDelFormComponent;
+  // @ViewChild(SearchDelFormComponent) SearchDelFormComponent: SearchDelFormComponent;
+  @ViewChild(SearchForgetFormComponent) SearchForgetFormComponent: SearchForgetFormComponent;
+  showVaDataDetails: boolean // 每點一次搜尋Detil
+  onSearchForm() {
+    this.showSelectSearchForm =''//勿刪!! 讓搜尋後的結果重新載入一遍
+
+    if (window.innerWidth < 800) {
+      $('#bt_sideMenu_text').text('展開查詢選單')
+      $('#bt_sideMenu_img').css({ "transition": "transform 0.5s" });
+      $('#bt_sideMenu_img').css({ "transform": "rotate(0deg)" });
+      $('#searchMenu').collapse('hide')
+      $('#phonetopdiv').css({ "height": "inherit" });
+
+      $('body').css("overflow-y", "auto");
+      this.diolog_state = false
+
+    }
+
+    this.Search_FormCondition.ListEmpID = [this.SearchMan.jobID]
+
+    // console.log(this.Search_FormCondition)
+
+    this.getSearchFlowForm(this.Search_FormCondition)
+
+  }
+
+  getSearchFlowForm(GetFlowView: GetFlowViewClass) {
+    // console.log(GetFlowView)
+    
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetFlowView(GetFlowView)
+    .pipe(takeWhile(()=>this.api_subscribe))
+    .subscribe(
+      (x: any) => {
+        // console.log(x)
+        this.setFlowView = x
+
+        this.LoadingPage.hide()
+        this.showSelectSearchForm = GetFlowView.FormCode; //顯示查詢結果
+        this.isSearch = true;//顯示查詢結果
+
+        // console.log(this.setFlowView)
+
+        if (this.SearchVaFormComponent) {
+          this.SearchVaFormComponent.onGoBackFunction();
+        }else if(this.SearchForgetFormComponent){
+          this.SearchForgetFormComponent.onGoBackFunction();
+        }else if(this.SearchDelFormComponent){
+          this.SearchDelFormComponent.onGoBackFunction();
+        }
+
+      },
+      error =>{
+        alert('與api連線異常，getWebApiData_GetFlowView')  
+        this.LoadingPage.hide()
+      }
+    )
+  }
+
+
+  ngAfterViewInit(): void {
+    this.formEvent_TopDivGoTop;
+    this.formEvent_WindowResize;
+    this.windowSize()
+    $("#id_bt_startday").change(function () {
+      $("#id_ipt_startday").val($("#id_bt_startday").val())
+      $("#id_ipt_endday").val($("#id_bt_startday").val())
+    });
+  }
+
+  onCheckCollapseIn() {
+    //確認是否收合
+    if ($('#bt_sideMenu').hasClass('collapsed')) {
+      $('#bt_sideMenu_text').text('收合查詢選單')
+      $('#bt_sideMenu_img').css({ "transition": "transform 0.5s" });
+      $('#bt_sideMenu_img').css({ "transform": "rotate(-180deg)" });
+      document.getElementById("phonetopdiv").style.height = '400px';
+      $('#searchMenu').collapse('show')
+
+      this.diolog_state = true
+      $('body').css("overflow-y", "hidden");
+
+    } else {
+      $('#bt_sideMenu_text').text('展開查詢選單')
+      $('#bt_sideMenu_img').css({ "transition": "transform 0.5s" });
+      $('#bt_sideMenu_img').css({ "transform": "rotate(0deg)" });
+      document.getElementById("phonetopdiv").style.height = '90px';
+      $('#searchMenu').collapse('hide')
+
+      this.diolog_state = false
+      $('body').css("overflow-y", "auto");
+    }
+  }
+
+  formEvent_WindowResize = fromEvent(window, 'resize')
+    //視窗大小改變時，修正width:800~1024的phonediv寬度及位置
+    .pipe(debounceTime(0))
+    .subscribe((event) => {
+      // alert('改變視窗大小了')
+      this.TopresizeNav();
+      this.windowSize()
+    })
+  windowSize() {
+
+    if (window.innerWidth > 800) {
+      document.getElementById("phonetopdiv").style.position = 'unset';
+      // document.getElementById("bt_sideMenu").style.visibility = 'hidden';
+      $('#bt_sideMenu').css({ "visibility": "hidden" });
+      $('#searchMenu').collapse('show')
+      document.getElementById("phonetopdiv").style.overflowY = 'unset';
+      document.getElementById("phonetopdiv").style.height = ' 100%';
+      $('#bt_sideMenu_text').text('收合查詢選單')
+      $('#bt_sideMenu_img').css({ "transition": "transform 0.5s" });
+      $('#bt_sideMenu_img').css({ "transform": "rotate(-180deg)" });
+
+
+      this.diolog_state = false
+      // $('body').css("overflow-y", "hidden");
+
+    } else {
+      document.getElementById("phonetopdiv").style.position = 'fixed';
+      document.getElementById("phonetopdiv").style.height = '90px';
+      // document.getElementById("phonetopdiv").style.height = '400px';
+      document.getElementById("phonetopdiv").style.overflowY = 'auto';
+
+      $('#bt_sideMenu_text').text('展開查詢選單')
+      $('#bt_sideMenu_img').css({ "transition": "transform 0.5s" });
+      $('#bt_sideMenu_img').css({ "transform": "rotate(0deg)" });
+      $('#searchMenu').collapse('hide')
+      // document.getElementById("bt_sideMenu").style.visibility = 'visible';
+      $('#bt_sideMenu').css({ "visibility": "visible" });
+
+
+      this.diolog_state = false
+      $('body').css("overflow-y", "auto");
+    }
+  }
+  hideSearchDialog() {
+    document.getElementById("phonetopdiv").style.position = 'fixed';
+    document.getElementById("phonetopdiv").style.height = '90px';
+    // document.getElementById("phonetopdiv").style.height = '400px';
+    document.getElementById("phonetopdiv").style.overflowY = 'auto';
+
+    $('#bt_sideMenu_text').text('展開查詢選單')
+    $('#bt_sideMenu_img').css({ "transition": "transform 0.5s" });
+    $('#bt_sideMenu_img').css({ "transform": "rotate(0deg)" });
+    $('#searchMenu').collapse('hide')
+    // document.getElementById("bt_sideMenu").style.visibility = 'visible';
+    $('#bt_sideMenu').css({ "visibility": "visible" });
+
+    this.diolog_state = false
+    $('body').css("overflow-y", "auto");
+  }
+  formEvent_TopDivGoTop = fromEvent(window, 'scroll')
+    //scroll向下拖拉把藍色區塊副標題蓋住
+    .pipe(debounceTime(0)) //當使用者在0.01秒內沒動作就執行
+    .pipe(takeWhile(()=>this.api_subscribe))
+    .subscribe((event) => { //66~138
+      var _wYnow = 0;
+      if (window.scrollY > 71) {
+        document.getElementById("phonetopdiv").style.top = '66px';
+      } else {
+        _wYnow = window.scrollY;
+        var divtop = 138 - _wYnow;
+        document.getElementById("phonetopdiv").style.top = divtop + 'px';
+        //div隨著scroll拖拉上下移動
+      }
+      this.TopresizeNav();
+    })
+  TopresizeNav() {
+    //修正width:800~1024的phonediv寬度及位置
+    if (window.innerWidth > 800 && window.innerWidth < 1024) {
+      if ($("body").hasClass("offcanvas-active")) {
+        document.getElementById('phonetopdiv').style.left = '0px';
+        document.getElementById('phonetopdiv').style.width = '100%';
+      } else {
+        document.getElementById('phonetopdiv').style.left = '220px';
+        var rightwidth = window.innerWidth - 220;
+        document.getElementById('phonetopdiv').style.width = rightwidth + 'px';
+      }
+    } else if (window.innerWidth < 800) {
+      document.getElementById('phonetopdiv').style.left = '0px';
+      document.getElementById('phonetopdiv').style.width = '100%';
+    }
+  }
+
+  scrollTo(tag: string) {
+    this.viewScroller.scrollToAnchor(tag);
+    //tag=id連結位置
+  }
+
+  
+  getSearchFormCondition(flowcondition:GetFlowViewClass){
+    this.Search_FormCondition = flowcondition
+    // console.log(q)
+  }
+}
+
+class HoliDay {
+  HoliDayID: string
+  HoliDayNameC: string
+  AutoFlowStart: string
+  HoliDayKindID: string
+  HoliDayCode: string
+}
+
+
+
+
+
+export class showFlowView {
+  ProcessFlowID: number
+  FormName: string
+  AppEmpID: string
+  AppEmpName: string
+  AppDeptName: string
+  ManageEmpName: string
+  RealManageEmpName: string
+  SignDate: string
+  PendingDay: number
+  Info: string
+  State: string
+  Take: boolean
+}

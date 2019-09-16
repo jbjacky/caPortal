@@ -1,0 +1,970 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { pagechange } from 'src/app/Models/pagechange';
+import { AllformReview, FlowSign, vaFlowSign, forgetFlowSign, delFlowSign, dateArrayClass, changeFlowSign } from 'src/app/Models/AllformReview';
+import { ReviewformServiceService } from 'src/app/Service/reviewform-service.service';
+import { GetFlowSignRoleClass } from 'src/app/Models/PostData_API_Class/GetFlowSignRoleClass';
+import { formatDateTime, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { timeOfDay } from 'src/app/UseVoid/void_timeofday';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { GetAttendExceptionalClass } from 'src/app/Models/PostData_API_Class/GetAttendExceptionalClass';
+import { FlowNodeFinishClass } from 'src/app/Models/PostData_API_Class/FlowNodeFinishClass';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { concatAll, concatMap, map, toArray, takeWhile } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { calYearindate } from 'src/app/UseVoid/void_calYearindate';
+import { Router } from '@angular/router';
+import { dataClass } from 'src/app/Models/CalendarClass';
+import { NgxSpinnerService } from 'ngx-spinner';
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-reviewform',
+  templateUrl: './reviewform.component.html',
+  styleUrls: ['./reviewform.component.css']
+})
+
+export class ReviewformComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+
+
+  pagechange = new pagechange();
+  va_pagechange = new pagechange();
+  del_pagechange = new pagechange();
+  change_pagechange = new pagechange();
+  forget_pagechange = new pagechange();
+  jumpPage_forget(e) {
+    this.forget_pagechange.lowValue = e
+    this.forget_pagechange.highValue = e + 5
+    console.log(e)
+  }
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    public ReviewformServiceService: ReviewformServiceService,
+    private GetApiUserService: GetApiUserService,
+    private router: Router,
+    private LoadingPage: NgxSpinnerService) { }
+  // loading: boolean;
+  ngOnInit() {
+    this.GetApiUserService.counter$.subscribe(
+      x => {
+        this.firstInTab(x.EmpCode)
+      }
+    )
+
+  }
+  getReviewData: AllformReview[]
+
+
+  getclickSwitchReview_num: number = 0;
+  selectReviewMan: string;
+  showReviewName: string;
+
+  bt_next() {
+    //切換審核人員下一個人
+    if (this.getReviewData.length - 1 != this.getclickSwitchReview_num) {
+      $('#' + this.getReviewData[this.getclickSwitchReview_num + 1].EmpCode).addClass('clicked');
+      $('#' + this.getReviewData[this.getclickSwitchReview_num].EmpCode).removeClass('clicked');
+      this.getclickSwitchReview_num = this.getclickSwitchReview_num + 1;
+
+      this.ReviewformServiceService.changeReviewMan(this.getReviewData[this.getclickSwitchReview_num].EmpCode)
+
+      this.selectReviewMan = this.getReviewData[this.getclickSwitchReview_num].EmpCode
+      this.firstInTab(this.selectReviewMan)
+      // this.chooseEmpIDReviewForm(this.selectReviewMan, this.getReviewData)
+    }
+  }
+  bt_pre() {
+    //切換審核人員上一個人
+    if (this.getclickSwitchReview_num != 0) {
+      $('#' + this.getReviewData[this.getclickSwitchReview_num - 1].EmpCode).addClass('clicked');
+      $('#' + this.getReviewData[this.getclickSwitchReview_num].EmpCode).removeClass('clicked');
+      this.getclickSwitchReview_num = this.getclickSwitchReview_num - 1;
+
+      this.ReviewformServiceService.changeReviewMan(this.getReviewData[this.getclickSwitchReview_num].EmpCode)
+
+      this.selectReviewMan = this.getReviewData[this.getclickSwitchReview_num].EmpCode
+      this.firstInTab(this.selectReviewMan)
+      // this.chooseEmpIDReviewForm(this.selectReviewMan, this.getReviewData)
+    }
+  }
+
+
+  changeSelectReviewMan(selectEmpCode) {
+    for (let i = 0; i < this.getReviewData.length; i++) {
+      $('#' + this.getReviewData[i].EmpCode).removeClass('clicked');
+    }
+    $('#' + selectEmpCode).addClass('clicked');
+
+    this.firstInTab(selectEmpCode)
+    // this.chooseEmpIDReviewForm(selectEmpCode, this.getReviewData)
+    this.ReviewformServiceService.changeReviewMan(selectEmpCode)
+  }
+
+  dialog_select_Click(e, index) {
+    for (let i = 0; i < this.getReviewData.length; i++) {
+      $('#' + this.getReviewData[i].EmpCode).removeClass('clicked');
+    }
+
+    this.selectReviewMan = e
+    this.ReviewformServiceService.changeReviewMan(e)
+    this.getclickSwitchReview_num = index;
+    // this.chooseEmpIDReviewForm(e, this.getReviewData)
+    this.firstInTab(this.selectReviewMan)
+    $('#' + e).addClass('clicked');
+  }
+
+  vaCount = '0';
+  delCount = '0';
+  changeCount = '0';
+  forgetCount = '0';
+
+  vaFlowSigns: vaFlowSign[] = [];
+  forgetFlowSigns: forgetFlowSign[] = [];
+  delFlowSigns: delFlowSign[] = [];
+  changeFlowSigns: changeFlowSign[] = [];
+
+  chooseEmpIDReviewForm(EmpID, getReviewDatas: AllformReview[]) {
+    //取得明細
+    this.vaFlowSigns = [];
+    this.forgetFlowSigns = [];
+    this.delFlowSigns = [];
+    this.changeFlowSigns = [];
+
+
+    // console.log(this.ReviewformServiceService.showReviewTab)
+    // console.log(this.isFirstTab)
+
+    if (this.isFirstTab) {
+      for (let getReviewData of getReviewDatas) {
+        if (EmpID == getReviewData.EmpCode) {
+          for (let FlowSignForm of getReviewData.FlowSignForm) {
+            if (FlowSignForm.FormCode == 'Abs') {
+              //請假單
+              this.vaCount = FlowSignForm.Count
+            } else if (FlowSignForm.FormCode == 'Absc') {
+              //銷假單
+              this.delCount = FlowSignForm.Count
+            } else if (FlowSignForm.FormCode == 'Card') {
+              //考勤異常確認單
+              this.forgetCount = FlowSignForm.Count
+            } else if (FlowSignForm.FormCode == 'ShiftRote') {
+              //調班單
+              this.changeCount = FlowSignForm.Count
+            }
+
+          }
+        }
+      }
+      var arr = {
+        vaCount: parseInt(this.vaCount),
+        delCount: parseInt(this.delCount),
+        changeCount: parseInt(this.changeCount),
+        forgetCount: parseInt(this.forgetCount)
+      }
+      var sortable = [];
+      for (var vehicle in arr) {
+        sortable.push([vehicle, arr[vehicle]]);
+      }
+      sortable.sort(function (a, b) {
+        return b[1] - a[1];
+      });
+      if (sortable[0][0] == 'vaCount') {
+
+        this.ReviewformServiceService.changeReview('vaTab', this.ReviewformServiceService.showReviewManCode)
+        $('#' + this.ReviewformServiceService.showReviewTab).click();
+        this.vaTabClick(this.ReviewformServiceService.showReviewManCode)
+
+      } else if (sortable[0][0] == 'delCount') {
+
+        this.ReviewformServiceService.changeReview('delTab', this.ReviewformServiceService.showReviewManCode)
+        $('#' + this.ReviewformServiceService.showReviewTab).click();
+        this.delTabClick(this.ReviewformServiceService.showReviewManCode)
+
+      } else if (sortable[0][0] == 'changeCount') {
+
+        this.ReviewformServiceService.changeReview('changeTab', this.ReviewformServiceService.showReviewManCode)
+        $('#' + this.ReviewformServiceService.showReviewTab).click();
+        this.changeTabClick(this.ReviewformServiceService.showReviewManCode)
+
+      } else if (sortable[0][0] == 'forgetCount') {
+
+        this.ReviewformServiceService.changeReview('forgetTab', this.ReviewformServiceService.showReviewManCode)
+        $('#' + this.ReviewformServiceService.showReviewTab).click();
+        this.forgetTabClick(this.ReviewformServiceService.showReviewManCode)
+
+      }
+
+      this.isFirstTab = false;
+    } else {
+      for (let getReviewData of getReviewDatas) {
+        if (EmpID == getReviewData.EmpCode) {
+          for (let FlowSignForm of getReviewData.FlowSignForm) {
+            if (FlowSignForm.FormCode == 'Abs') {
+              //請假單
+              this.vaCount = FlowSignForm.Count
+              this.ReviewformServiceService.changeReview('vaTab', this.ReviewformServiceService.showReviewManCode)
+              if (FlowSignForm.FlowSign.length > 0) {
+                // of(FlowSignForm.FlowSign).pipe(
+                //   map((x:any)=>{
+                //     console.log(x)
+                //   })
+                // ).subscribe()
+                for (let FlowSign of FlowSignForm.FlowSign) {
+
+                  this.GetApiDataServiceService.getWebApiData_GetAbsFlowAppsByProcessFlowID(FlowSign.ProcessFlowID, true).pipe(
+                    concatMap((o: any) => from(o).pipe(
+                      map((q: any) => {
+                        var get = []
+                        q.AbsFlowAppsDetail.map((x: any) => {
+                          var GetAttend: GetAttendClass = {
+                            DateB: formatDateTime(x.DateB).getDate,
+                            DateE: formatDateTime(x.DateB).getDate,
+                            ListEmpID: [q.EmpCode],
+                            ListRoteID: null
+                          }
+                          get.push({ Attend: GetAttend, Use: x.Use, numberOfVaData: o.length, DateTimeB: x.DateTimeB, DateTimeE: x.DateTimeE })
+                        })
+                        return get
+                      })
+                    )),
+                    concatMap((w: any) => from(w)),
+                    concatMap((y: any) => this.GetApiDataServiceService.getWebApiData_GetAttend(y.Attend).pipe(
+                      map((z: any) => {
+                        if (z.length == 0) {
+                          console.log(y.Attend.ListEmpID[0] + ' ' + y.Attend.DateB + '沒有出勤資料')
+                          return z
+                        } else {
+                          z[0]["TodayUse"] = y.Use
+                          z[0]["vaDateTimeB"] = y.DateTimeB
+                          z[0]["vaDateTimeE"] = y.DateTimeE
+                          z[0]["numberOfVaData"] = y.numberOfVaData
+                          return z[0]
+                        }
+                      }),
+
+                    )),
+                    toArray()
+
+                    // last()
+                  ).pipe(takeWhile(() => this.api_subscribe))
+                    .subscribe(
+                      (x: any) => {
+                        // console.log(x)
+                        if (x.length > 0) {
+                          var allDay = 0
+                          var allHour = 0
+                          var allMinute = 0
+                          var calDateArray = []
+                          for (let data of x) {
+                            if (data.length == 0) {
+                              // console.log('沒有出勤資料')
+                            } else {
+                              var calDay
+                              var calHour
+                              var calMinute
+                              if (data.ActualRote.WorkHours == 0) {
+                                calDay = 0
+                                calHour = 0
+                                calMinute = 0
+                                // console.log(data)
+                              } else {
+
+                                calDay = timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).day
+                                calHour = timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).hour
+                                calMinute = timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).minute
+                              }
+                              // console.log(calDay)
+                              allDay = allDay + calDay
+                              allHour = allHour + calHour
+                              allMinute = allMinute + calMinute
+                              calDateArray.push(data.vaDateTimeB)
+                              calDateArray.push(data.vaDateTimeE)
+                            }
+                          }
+
+                          calDateArray.sort((a: any, b: any) => {
+                            let left = Number(new Date(a));
+                            let right = Number(new Date(b));
+                            return left - right;
+                          });
+
+                          var output = {
+                            allDay: allDay,
+                            allHour: allHour,
+                            allMinute: allMinute,
+                            startdate: formatDateTime(calDateArray[0]).getDate,
+                            ontime: formatDateTime(calDateArray[0]).getTime,
+                            enddate: formatDateTime(calDateArray[calDateArray.length - 1]).getDate,
+                            offtime: formatDateTime(calDateArray[calDateArray.length - 1]).getTime,
+                            numberOfVaData: x[0].numberOfVaData
+                          }
+                          // console.log(output)
+                          this.vaFlowSigns.push({
+                            ProcessFlowID: FlowSign.ProcessFlowID,
+                            FlowTreeID: FlowSign.FlowTreeID,
+                            FlowNodeID: FlowSign.FlowNodeID,
+                            ProcessApParmAuto: FlowSign.ProcessApParmAuto,
+                            EmpCode: FlowSign.EmpCode,
+                            EmpNameC: FlowSign.EmpNameC,
+                            EmpNameE: FlowSign.EmpNameE,
+                            isApproved: FlowSign.isApproved,
+                            isSendback: FlowSign.isSendback,
+                            isPutForward: FlowSign.isPutForward,
+
+
+                            DateB: output.startdate,
+                            DateE: output.enddate,
+                            TimeB: getapi_formatTimetoString(output.ontime),
+                            TimeE: getapi_formatTimetoString(output.offtime),
+                            numberOfVaData: output.numberOfVaData,
+
+                            day: output.allDay.toString(),
+                            hour: output.allHour.toString(),
+                            minute: output.allMinute.toString()
+                          })
+                        }
+                        // this.loading = false
+                        this.LoadingPage.hide()
+                      }
+                    )
+                }
+
+              }
+              // this.vaFlowSign = FlowSignForm.FlowSign
+              // console.log(this.vaFlowSign)
+            } else if (FlowSignForm.FormCode == 'Absc') {
+              //銷假單
+              this.delCount = FlowSignForm.Count
+              this.ReviewformServiceService.changeReview('delTab', this.ReviewformServiceService.showReviewManCode)
+
+              for (let del_FlowSign of FlowSignForm.FlowSign) {
+                this.GetApiDataServiceService.getWebApiData_GetAbscFlowAppsByProcessFlowID(del_FlowSign.ProcessFlowID)
+                  .pipe(
+                    concatMap((o: any) => from(o).pipe(
+                      map((q: any) => {
+                        // console.log(q)
+                        var get = []
+                        var GetAttend: GetAttendClass = {
+                          DateB: formatDateTime(q.DateB).getDate,
+                          DateE: formatDateTime(q.DateB).getDate,
+                          ListEmpID: [q.EmpCode],//q.EmpCode
+                          ListRoteID: null
+                        }
+                        get.push({ Attend: GetAttend, Use: q.Use, numberOfVaData: o.length, DateTimeB: q.DateTimeB, DateTimeE: q.DateTimeE, Note: q.Note })
+                        return get
+                      })
+                    )),
+                    concatMap((w: any) => from(w)),
+                    concatMap((y: any) => this.GetApiDataServiceService.getWebApiData_GetAttend(y.Attend).pipe(
+                      map((z: any) => {
+                        if (z.length == 0) {
+                          console.log(y.Attend.ListEmpID[0] + ' ' + y.Attend.DateB + '沒有出勤資料')
+                          return z
+                        } else {
+                          z[0]["TodayUse"] = y.Use
+                          z[0]["vaDateTimeB"] = y.DateTimeB
+                          z[0]["vaDateTimeE"] = y.DateTimeE
+                          z[0]["numberOfVaData"] = y.numberOfVaData
+                          z[0]["DataNote"] = y.Note
+                          return z[0]
+                        }
+                      }),
+
+                    )),
+                    toArray()
+                  ).pipe(takeWhile(() => this.api_subscribe))
+
+                  .subscribe(
+                    (x: any) => {
+                      console.log(x)
+                      var cal_Day = 0
+                      var cal_hour = 0
+                      var cal_minute = 0
+                      var dateArray: dateArrayClass[] = []
+                      var YearAndDateArray = []
+                      for (let data of x) {
+                        var oneDate = { DateB: data.vaDateTimeB, DateE: data.vaDateTimeE }
+                        var oneYearAndDate = formatDateTime(data.AttendDate).getDate
+                        cal_Day = cal_Day + timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).day
+                        cal_hour = cal_hour + timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).hour
+                        cal_minute = cal_minute + timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).minute
+                        dateArray.push(oneDate)
+                        YearAndDateArray.push(oneYearAndDate)
+                      }
+                      // console.log(dateArray)
+                      this.delFlowSigns.push({
+                        ProcessFlowID: del_FlowSign.ProcessFlowID,
+                        FlowTreeID: del_FlowSign.FlowTreeID,
+                        FlowNodeID: del_FlowSign.FlowNodeID,
+                        ProcessApParmAuto: del_FlowSign.ProcessApParmAuto,
+                        EmpCode: del_FlowSign.EmpCode,
+                        EmpNameC: del_FlowSign.EmpNameC,
+                        EmpNameE: del_FlowSign.EmpNameE,
+                        isApproved: del_FlowSign.isApproved,
+                        isSendback: del_FlowSign.isSendback,
+                        isPutForward: del_FlowSign.isPutForward,
+
+                        YearAndDate: calYearindate(YearAndDateArray),
+                        dateArray: dateArray,
+                        Note: x[0].DataNote,
+                        day: cal_Day.toString(),
+                        hour: cal_hour.toString(),
+                        minute: cal_minute.toString(),
+                        numberOfVaData: x[0].numberOfVaData.toString()
+                      })
+                      // console.log(this.delFlowSign)
+                    }
+                  )
+              }
+              // this.loading = false
+              this.LoadingPage.hide()
+
+            } else if (FlowSignForm.FormCode == 'Card') {
+              //考勤異常確認單
+              this.forgetCount = FlowSignForm.Count
+              this.ReviewformServiceService.changeReview('forgetTab', this.ReviewformServiceService.showReviewManCode)
+              // console.log(FlowSignForm)
+              if (FlowSignForm.FlowSign.length > 0) {
+                for (let FlowSign of FlowSignForm.FlowSign) {
+
+                  this.GetApiDataServiceService.getWebApiData_GetCardFlowAppsByProcessFlowID(FlowSign.ProcessFlowID)
+                    .pipe(takeWhile(() => this.api_subscribe))
+                    .subscribe(
+                      (x: any) => {
+                        var GetAttendExceptional: GetAttendExceptionalClass = {
+                          DateB: formatDateTime(x[0].DateB).getDate.toString(),
+                          DateE: formatDateTime(x[0].DateB).getDate.toString(),
+                          ListEmpID: [FlowSign.EmpCode]
+                        }
+
+                        this.GetApiDataServiceService.getWebApiData_GetAttendExceptional(GetAttendExceptional)
+                          .pipe(takeWhile(() => this.api_subscribe))
+                          .subscribe(
+                            (y: any) => {
+
+                              this.forgetFlowSigns.push({
+                                ProcessFlowID: FlowSign.ProcessFlowID,
+                                FlowTreeID: FlowSign.FlowTreeID,
+                                FlowNodeID: FlowSign.FlowNodeID,
+                                ProcessApParmAuto: FlowSign.ProcessApParmAuto,
+                                EmpCode: FlowSign.EmpCode,
+                                EmpNameC: FlowSign.EmpNameC,
+                                EmpNameE: FlowSign.EmpNameE,
+                                isApproved: FlowSign.isApproved,
+                                isSendback: FlowSign.isSendback,
+                                isPutForward: FlowSign.isPutForward,
+
+                                isForgetCard: y[0].IsAbsent,
+                                isEarlyMins: y[0].EarlyMins > 0 ? true : false,
+                                isLateMins: y[0].LateMins > 0 ? true : false,
+
+                                DateB: x[0].DateB ? formatDateTime(x[0].DateB).getDate.toString() : null,
+                                RoteCode: y[0].ActualRote.RoteCode,
+                                RoteTimeB: y[0].ActualRote.OnTime ? getapi_formatTimetoString(y[0].ActualRote.OnTime) : null,
+                                RoteTimeE: y[0].ActualRote.OffTime ? getapi_formatTimetoString(y[0].ActualRote.OffTime) : null,
+
+                                writeDateB: x[0].DateTimeB ? formatDateTime(x[0].DateTimeB).getDate.toString() : null,
+                                writeTimeB: x[0].DateTimeB ? getapi_formatTimetoString(formatDateTime(x[0].DateTimeB).getTime.toString()) : null,
+                                writeDateE: x[0].DateTimeE ? formatDateTime(x[0].DateTimeE).getDate.toString() : null,
+                                writeTimeE: x[0].DateTimeE ? getapi_formatTimetoString(formatDateTime(x[0].DateTimeE).getTime.toString()) : null,
+                                cardTimeB: x[0].TimeB ? getapi_formatTimetoString(x[0].TimeB) : null,
+                                cardTimeE: x[0].TimeE ? getapi_formatTimetoString(x[0].TimeE) : null,
+                                CauseID1: x[0].CauseID1,
+                                CauseName1: x[0].CauseName1,
+                                Note: x[0].Note
+                              })
+                              // this.loading = false
+                              
+                              this.LoadingPage.hide()
+                            }
+                          )
+                      }
+                    )
+                }
+              }
+              // this.forgetFlowSign = FlowSignForm.FlowSign
+              // console.log(this.forgetFlowSign)
+
+            } else if (FlowSignForm.FormCode == 'ShiftRote') {
+              //調班單
+              this.changeCount = FlowSignForm.Count
+              this.ReviewformServiceService.changeReview('changeTab', this.ReviewformServiceService.showReviewManCode)
+              if (FlowSignForm.FlowSign.length > 0) {
+                for (let FlowSign of FlowSignForm.FlowSign) {
+                  this.GetApiDataServiceService.getWebApiData_GetShiftFlowAppsByProcessFlowID(FlowSign.ProcessFlowID)
+                    .pipe(takeWhile(() => this.api_subscribe))
+                    .subscribe(
+                      (x: any) => {
+                        var YearAndDateArray = []
+                        var RR: boolean
+                        var DR: boolean
+                        var RZ: boolean
+                        for (let data of x) {
+                          for (let ShiftRoteFlowAppsDetail of data.ShiftRoteFlowAppsDetail) {
+                            var ShiftRoteDate = formatDateTime(ShiftRoteFlowAppsDetail.ShiftRoteDate).getDate.toString()
+                            YearAndDateArray.push(ShiftRoteDate)
+                          }
+                          if (data.ShiftRoteType == 'RR') {
+                            RR = true
+                          } else if (data.ShiftRoteType == 'DR') {
+                            DR = true
+                          } else if (data.ShiftRoteType == 'RZ') {
+                            RZ = true
+                          }
+                        }
+                        this.changeFlowSigns.push({
+                          ProcessFlowID: FlowSign.ProcessFlowID,
+                          FlowTreeID: FlowSign.FlowTreeID,
+                          FlowNodeID: FlowSign.FlowNodeID,
+                          ProcessApParmAuto: FlowSign.ProcessApParmAuto,
+                          EmpID1: x[0].EmpID1,
+                          EmpCode1: x[0].EmpCode1,
+                          EmpNameC1: x[0].EmpNameC1,
+                          EmpID2: x[0].EmpID2,
+                          EmpCode2: x[0].EmpCode2,
+                          EmpNameC2: x[0].EmpNameC2,
+                          isApproved: FlowSign.isApproved,
+                          isSendback: FlowSign.isSendback,
+                          isPutForward: FlowSign.isPutForward,
+                          Note: x[0].Note,
+
+                          YearAndDate: calYearindate(YearAndDateArray),
+                          dateArray: YearAndDateArray,
+                          isDR: DR,
+                          isRR: RR,
+                          isRZ: RZ,
+                          numberOfVaData: YearAndDateArray.length.toString()
+
+                        })
+                        // this.loading = false
+                        this.LoadingPage.hide()
+
+                      },
+                      error => {
+                        alert('與api連線異常，getWebApiData_GetShiftFlowAppsByProcessFlowID')
+                      }
+                    )
+                }
+              }
+              // $('#' + this.ReviewformServiceService.showReviewTab).click();
+              // this.changeTabClick(this.ReviewformServiceService.showReviewManCode)
+              // console.log(this.changeFlowSign)
+            }
+
+          }
+        }
+      }
+    }
+
+  }
+
+  chooseReviewManClass(chooseReviewManCode) {
+    if (chooseReviewManCode == this.ReviewformServiceService.showReviewManCode) {
+      return 'SwitchReviews clicked'
+    } else {
+      return 'SwitchReviews'
+    }
+
+  }
+
+  // vaDetailClick(e) {
+  //   this.ReviewformServiceService.setVaDetailProcessFlowID(e);
+  //   console.log(this.vaFlowSign)
+  // }
+
+  isFirstTab: boolean;
+  firstInTab(SignEmpID) {
+
+    this.isGetFlowSignRole = true;
+
+    this.vaCount = '0';
+    this.delCount = '0';
+    this.changeCount = '0';
+    this.forgetCount = '0';
+    // this.loading = true;
+    this.LoadingPage.show()
+    this.isFirstTab = true;
+    this.getReviewData = []
+    this.vaFlowSigns = [];
+    this.forgetFlowSigns = [];
+    this.changeFlowSigns = [];
+    this.delFlowSigns = [];
+    this.ReviewformServiceService.showReviewManCode = '';
+    this.ReviewformServiceService.showReviewName = '';
+    this.ReviewformServiceService.getReviewData = [];
+
+    var GetFlowSignRole: GetFlowSignRoleClass = {
+      "SignEmpID": SignEmpID,
+      "SignRoleID": "",
+      "RealSignEmpID": "",
+      "RealSignRoleID": "",
+      "FlowTreeID": "",
+      "SignDate": ""
+    }
+    this.void_GetFlowSignRole(GetFlowSignRole)
+  }
+
+  vaTabClick(SignEmpID) {
+    if (this.vaFlowSigns.length == 0 && SignEmpID.length != 0) {
+      // this.loading = true;
+      this.LoadingPage.show()
+      var GetFlowSignRole: GetFlowSignRoleClass = {
+        "SignEmpID": SignEmpID,
+        "SignRoleID": "",
+        "RealSignEmpID": "",
+        "RealSignRoleID": "",
+        "FlowTreeID": "81",
+        "SignDate": ""
+      }
+      this.void_GetFlowSignRole(GetFlowSignRole)
+      window.scroll(0, 0)
+    }
+  }
+  forgetTabClick(SignEmpID) {
+    if (this.forgetFlowSigns.length == 0 && SignEmpID.length != 0) {
+      // this.loading = true;
+      this.LoadingPage.show()
+      var GetFlowSignRole: GetFlowSignRoleClass = {
+        "SignEmpID": SignEmpID,
+        "SignRoleID": "",
+        "RealSignEmpID": "",
+        "RealSignRoleID": "",
+        "FlowTreeID": "60",
+        "SignDate": ""
+      }
+      this.void_GetFlowSignRole(GetFlowSignRole)
+      window.scroll(0, 0)
+    }
+  }
+  delTabClick(SignEmpID) {
+    if (this.delFlowSigns.length == 0 && SignEmpID.length != 0) {
+      // this.loading = true;
+      this.LoadingPage.show()
+      var GetFlowSignRole: GetFlowSignRoleClass = {
+        "SignEmpID": SignEmpID,
+        "SignRoleID": "",
+        "RealSignEmpID": "",
+        "RealSignRoleID": "",
+        "FlowTreeID": "17",
+        "SignDate": ""
+      }
+      this.void_GetFlowSignRole(GetFlowSignRole)
+      window.scroll(0, 0)
+    }
+  }
+  changeTabClick(SignEmpID) {
+    if (this.changeFlowSigns.length == 0 && SignEmpID.length != 0) {
+      // this.loading = true;
+      this.LoadingPage.show()
+      var GetFlowSignRole: GetFlowSignRoleClass = {
+        "SignEmpID": SignEmpID,
+        "SignRoleID": "",
+        "RealSignEmpID": "",
+        "RealSignRoleID": "",
+        "FlowTreeID": "66",
+        "SignDate": ""
+      }
+      this.void_GetFlowSignRole(GetFlowSignRole)
+      window.scroll(0, 0)
+    }
+  }
+
+  isGetFlowSignRole: boolean = true;
+  void_GetFlowSignRole(GetFlowSignRole: GetFlowSignRoleClass) {
+    this.GetApiDataServiceService.getWebApiData_GetFlowSignRole(GetFlowSignRole)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          if (x) {
+            if (x.length > 0) {
+
+              var getAPI_ReviewData: AllformReview[] = []
+              var FlowSign_index = 0
+              for (let FlowSign of x) {
+                getAPI_ReviewData.push({
+                  EmpCode: FlowSign.EmpID,
+                  EmpNameC: FlowSign.EmpName,
+                  EmpNameE: FlowSign.EmpName,
+                  Count: FlowSign.Count,
+                  FlowSignForm: []
+                })
+                var FlowSignForm_index = 0
+                for (let FlowSignForm of FlowSign.FlowSignForm) {
+                  getAPI_ReviewData[FlowSign_index].FlowSignForm.push(
+                    {
+                      Count: FlowSignForm.Count,
+                      FormCode: FlowSignForm.FormCode,
+                      FormName: FlowSignForm.FormName,
+                      FlowTreeID: FlowSignForm.FlowTreeID,
+                      FlowSign: []
+                    }
+                  )
+                  for (let FlowSign of FlowSignForm.FlowSign) {
+                    getAPI_ReviewData[FlowSign_index].FlowSignForm[FlowSignForm_index].FlowSign.push(
+                      {
+                        ProcessFlowID: FlowSign.ProcessFlowID,
+                        FlowTreeID: FlowSign.FlowTreeID,
+                        FlowNodeID: FlowSign.FlowNodeID,
+                        ProcessApParmAuto: FlowSign.ProcessApParmAuto,
+                        EmpCode: FlowSign.AppEmpID,
+                        EmpNameC: FlowSign.AppEmpName,
+                        EmpNameE: FlowSign.AppEmpName,
+                        Note: FlowSign.Note,
+                        isApproved: FlowSign.SignCondition.SignComplete,
+                        isSendback: FlowSign.SignCondition.Reject,
+                        isPutForward: FlowSign.SignCondition.Sign
+                      }
+                    )
+                  }
+                  FlowSignForm_index = FlowSignForm_index + 1
+                }
+                FlowSign_index = FlowSign_index + 1;
+              }
+
+              // console.log(getAPI_ReviewData)
+              this.ReviewformServiceService.getReviewData = getAPI_ReviewData
+              this.getReviewData = this.ReviewformServiceService.getReviewData
+              if (this.ReviewformServiceService.showReviewManCode.length == 0) {
+                this.ReviewformServiceService.changeReviewMan(this.getReviewData[0].EmpCode)
+                this.selectReviewMan = this.ReviewformServiceService.showReviewManCode;
+                this.showReviewName = this.ReviewformServiceService.showReviewName
+              } else {
+                this.selectReviewMan = this.ReviewformServiceService.showReviewManCode;
+                this.showReviewName = this.ReviewformServiceService.showReviewName
+              }
+
+
+              this.chooseEmpIDReviewForm(this.getReviewData[0].EmpCode, this.getReviewData)
+            } else {
+              // this.loading = false;
+              this.LoadingPage.hide()
+              this.isGetFlowSignRole = false;
+              console.log('沒有審核資料')
+            }
+          }
+
+        },
+        (error) => {
+          alert('取不到資料，與api連線異常，void_GetFlowSignRole')
+          this.LoadingPage.hide()
+        }
+      )
+  }
+
+  FinallyReviewForm: FlowSign = new FlowSign();
+  ReloadTabData = '';
+  vaDetail_click(e_vaFlowSign: vaFlowSign, ReloadTabData) {
+    this.ReloadTabData = ReloadTabData;
+    this.signText = '';
+    this.ReviewformServiceService.vaDetail = e_vaFlowSign
+    this.FinallyReviewForm.ProcessFlowID = this.ReviewformServiceService.vaDetail.ProcessFlowID
+    this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.vaDetail.ProcessApParmAuto
+    this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.vaDetail.FlowTreeID
+    this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.vaDetail.FlowNodeID
+
+  }
+  delDetail_click(e_delFlowSign: delFlowSign, ReloadTabData) {
+
+    this.ReloadTabData = ReloadTabData;
+    this.signText = '';
+    this.ReviewformServiceService.delDetail = e_delFlowSign
+    this.FinallyReviewForm.ProcessFlowID = this.ReviewformServiceService.delDetail.ProcessFlowID
+    this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.delDetail.ProcessApParmAuto
+    this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.delDetail.FlowTreeID
+    this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.delDetail.FlowNodeID
+  }
+  forgetDetail_click(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
+    this.ReloadTabData = ReloadTabData;
+    this.signText = '';
+    this.ReviewformServiceService.forgetDetail = e_forgetFlowSign
+    this.FinallyReviewForm.ProcessFlowID = this.ReviewformServiceService.forgetDetail.ProcessFlowID
+    this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.forgetDetail.ProcessApParmAuto
+    this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.forgetDetail.FlowTreeID
+    this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.forgetDetail.FlowNodeID
+  }
+
+  changeDetail_click_checktoView(e_changeFlowSign: changeFlowSign, ReloadTabData) {
+    if (e_changeFlowSign.isRR) {
+      this.router.navigate(["../nav/reviewform/ReviewformDetailChangeformRRComponent"]);
+    } else if (e_changeFlowSign.isDR) {
+      this.router.navigate(['../nav/reviewform/ReviewformDetailChangeformComponent']);
+    } else if (e_changeFlowSign.isRZ) {
+      this.router.navigate(['../nav/reviewform/ReviewformDetailChangeformRZComponent']);
+
+    }
+    this.changeDetail_click(e_changeFlowSign, ReloadTabData)
+  }
+  changeDetail_click(e_changeFlowSign: changeFlowSign, ReloadTabData) {
+    this.ReloadTabData = ReloadTabData;
+    this.signText = '';
+    this.ReviewformServiceService.changeDetail = e_changeFlowSign
+    this.FinallyReviewForm.ProcessFlowID = this.ReviewformServiceService.changeDetail.ProcessFlowID
+    this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.changeDetail.ProcessApParmAuto
+    this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.changeDetail.FlowTreeID
+    this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.changeDetail.FlowNodeID
+  }
+
+
+  FlowDynamic_EmpID: string;
+  chooseBase(e) {
+    var id
+    if (e.length == 0) {
+      id = null
+      // console.log('清除員工資料')
+    } else {
+      id = e[0].value.split('，')[0]
+    }
+    this.FlowDynamic_EmpID = id
+
+  }
+  signText: string;
+  ReloadData() {
+    if (this.ReloadTabData == 'vaTab') {
+      this.vaFlowSigns = []
+      this.vaTabClick(this.ReviewformServiceService.showReviewManCode);
+    } else if (this.ReloadTabData == 'forgetTab') {
+      this.forgetFlowSigns = []
+      this.forgetTabClick(this.ReviewformServiceService.showReviewManCode);
+    } else if (this.ReloadTabData == 'delTab') {
+      this.delFlowSigns = []
+      this.delTabClick(this.ReviewformServiceService.showReviewManCode);
+    } else if (this.ReloadTabData == 'changeTab') {
+      this.changeFlowSigns = []
+      this.changeTabClick(this.ReviewformServiceService.showReviewManCode);
+    } else {
+      alert('取值錯誤')
+    }
+  }
+  Approved_Click() {
+    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.ReviewformServiceService.showReviewManCode)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        y => {
+          if (!this.signText) {
+            this.signText = ''
+          }
+          var FlowNodeFinish: FlowNodeFinishClass = {
+            ProcessFlowID: parseInt(this.FinallyReviewForm.ProcessFlowID),
+            ProcessApParmAuto: parseInt(this.FinallyReviewForm.ProcessApParmAuto),
+            State: "3",
+            FlowTreeID: this.FinallyReviewForm.FlowTreeID,
+            FlowNodeID: this.FinallyReviewForm.FlowNodeID,
+            Note: this.signText,
+            NodeName: "核准",
+            ManInfo: y[0],
+            FlowDynamic: {
+              FlowNode: this.FinallyReviewForm.FlowNodeID,
+              RoleID: y[0].RoleID,
+              EmpID: this.ReviewformServiceService.showReviewManCode
+            }
+          }
+          console.log(FlowNodeFinish)
+          this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish).subscribe(
+            (x: any) => {
+              if (x) {
+                $('#Approveddialog_sussesdialog').modal('show');
+                this.ReloadData()
+              }
+            }
+          )
+        }
+      )
+  }
+  Sendback_Click() {
+
+    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.ReviewformServiceService.showReviewManCode)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        y => {
+          if (!this.signText) {
+            this.signText = ''
+          }
+          var FlowNodeFinish: FlowNodeFinishClass = {
+            ProcessFlowID: parseInt(this.FinallyReviewForm.ProcessFlowID),
+            ProcessApParmAuto: parseInt(this.FinallyReviewForm.ProcessApParmAuto),
+            State: "2",
+            FlowTreeID: this.FinallyReviewForm.FlowTreeID,
+            FlowNodeID: this.FinallyReviewForm.FlowNodeID,
+            Note: this.signText,
+            NodeName: "退回",
+            ManInfo: y[0],
+            FlowDynamic: {
+              FlowNode: this.FinallyReviewForm.FlowNodeID,
+              RoleID: y[0].RoleID,
+              EmpID: this.ReviewformServiceService.showReviewManCode
+            }
+          }
+          console.log(FlowNodeFinish)
+          this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish).subscribe(
+            (x: any) => {
+              if (x) {
+                $('#Sendbackdialog_sussesdialog').modal('show');
+                this.ReloadData()
+              }
+            }
+          )
+        }
+      )
+  }
+  PutForward_Click() {
+
+    if (!this.FlowDynamic_EmpID) {
+      alert('請選擇呈核人員')
+    } else {
+      this.GetApiDataServiceService.getWebApiData_GetManInfo(this.ReviewformServiceService.showReviewManCode)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          y => {
+            this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FlowDynamic_EmpID).subscribe(
+              x => {
+                if (!this.signText) {
+                  this.signText = ''
+                }
+                var FlowNodeFinish: FlowNodeFinishClass = {
+                  ProcessFlowID: parseInt(this.FinallyReviewForm.ProcessFlowID),
+                  ProcessApParmAuto: parseInt(this.FinallyReviewForm.ProcessApParmAuto),
+                  State: "1",
+                  FlowTreeID: this.FinallyReviewForm.FlowTreeID,
+                  FlowNodeID: this.FinallyReviewForm.FlowNodeID,
+                  Note: this.signText,
+                  NodeName: "呈核",
+                  ManInfo: y[0],
+                  FlowDynamic: {
+                    FlowNode: this.FinallyReviewForm.FlowNodeID,
+                    RoleID: x[0].RoleID,
+                    EmpID: x[0].EmpID
+                  }
+                }
+                console.log(FlowNodeFinish)
+                this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish).subscribe(
+                  (x: any) => {
+                    if (x) {
+                      $('#PutForwarddialog_sussesdialog').modal('show');
+                      this.ReloadData()
+                    }
+                  }
+                )
+              }
+            )
+          }
+        )
+    }
+  }
+
+  checkHaveFlowDynamic_EmpID() {
+
+    if (!this.FlowDynamic_EmpID) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+
+}
+
+

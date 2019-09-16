@@ -1,0 +1,205 @@
+<section class="a-block stateblock">
+  <div class="a-block-body  a-block-container">
+    <ol class="steps-indicator row">
+      <li class="col-sm-3  active">選擇請求區間日期</li>
+      <li class="col-sm-3">輸入請求班型</li>
+      <li class="col-sm-3">確認請求明細</li>
+      <li class="col-sm-3">送出申請單</li>
+    </ol>
+  </div>
+  <!-- a-block-body End -->
+</section>
+
+<div class="a-block" appSpyngif>
+  <div class="a-block-body  a-block-container">
+
+    <div class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-2 col-xs-12 P_title">
+          <label class=" control-label">
+            調班人
+          </label>
+        </div>
+        <div class="col-md-10  col-xs-12 row" style="padding:0px;margin: 0px">
+          {{SearchMan.EmpCode}} {{SearchMan.EmpName}}
+        </div>
+      </div>
+    </div>
+    <div class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+          <div class="col-md-4 col-xs-12 P_title" style="margin-top: 8px;">
+            <label class=" control-label">
+              <span class="form-must-fill">*</span>起始日期
+            </label>
+          </div>
+          <div class="col-md-6 col-xs-10" style="padding:0px">
+            <input id="id_ipt_startday" type="text" class="form-control" style="background-color: #ffffff;margin-top: 4px"
+              placeholder="年/月/日" />
+            <!-- <div *ngIf="errorStartDateState.state" style="color: #e60012">{{errorStartDateState.errorString}}</div> -->
+          </div>
+          <div class="col-md-2 col-xs-2" style="padding:0px">
+            <input id="id_bt_startday" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                    cursor: pointer;
+                    color: transparent;
+                    border: 1px solid transparent;
+                    width: 50px;
+                    height: 40px;
+                    ">
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+          <div class="col-md-4 col-xs-12 P_title" style="margin-top: 8px;">
+            <label class=" control-label">
+              <span class="form-must-fill">*</span>結束日期
+            </label>
+          </div>
+          <div class="col-md-6  col-xs-10" style="padding:0px">
+            <input id="id_ipt_endday" type="text" class="form-control" style="background-color: #ffffff;margin-top: 4px"
+              placeholder="年/月/日" />
+            <!-- <div *ngIf="errorEndtDateState.state" style="color: #e60012">{{errorEndtDateState.errorString}}</div> -->
+          </div>
+          <div class="col-md-2  col-xs-2" style="padding:0px">
+            <input id="id_bt_endday" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                      cursor: pointer;
+                      color: transparent;
+                      border: 1px solid transparent;
+                      width: 50px;
+                      height: 40px;
+                      ">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group first-form-group">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+          <div class="col-md-4 col-xs-12 " style="margin-top: 8px;">
+          </div>
+          <div class="col-md-6 col-xs-10" style="padding:0px">
+            <button class="btn btn-primary" (click)="nextPageToWrite()">下一步</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <h3>輸入請求班型</h3>
+    <div class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-2 col-xs-12 P_title">
+          <label class=" control-label">
+            調班人
+          </label>
+        </div>
+        <div class="col-md-10  col-xs-12 row" style="padding:0px;margin: 0px">
+          {{SearchMan.EmpCode}} {{SearchMan.EmpName}}
+        </div>
+      </div>
+    </div>
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 15px">
+      <div class="row" *ngFor="let ch of changeClass" style="border:1px solid #028fcf;margin: 0px;margin-bottom:10px;padding: 15px 10px">
+        <div class="col-md-4 col-xs-12 row" style="margin:0;margin-top: 5px;margin-bottom: 15px;padding: 0">
+          <div class="col-md-6 col-xs-6" style="color: #028fcf;text-align: center">{{ch.Date}}</div>
+          <div class="col-md-6 col-xs-6">
+            <span style="margin-right: 15px">原始</span>
+            <span style="color: #d0021b;font-weight: 500;">{{ch.OnTime}}{{ch.RoteCode}}</span>
+          </div>
+        </div>
+        <div class="col-md-8 col-xs-12 row" style="padding: 0;margin: 0">
+          <ngx-select [items]="ch.RoteSelectBox" allowClear="true" optionValueField="RoteCode" optionTextField="outPutSelectText"
+            (selectionChanges)="onChangeChooseRote($event,ch)" placeholder="請選擇欲調班型" noResultsFound="此條件找不到班型"></ngx-select>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin:0;margin-top: 5px;margin-bottom: 15px">
+      <div class="col-md-2 col-xs-12"></div>
+      <div class="col-md-10 col-xs-12 row" style="margin:0;padding:0">
+        <div class="col-md-8 col-md-push-3  col-xs-12 " style="margin-bottom: 15px;">
+          <button class="btn btn-primary" (click)="nextPageToSendDetail()">下一步</button>
+        </div>
+        <div class="col-md-3 col-md-pull-8  col-xs-12 "><button class="btn btn-default">返回重選</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <h3>請求調班-確認明細</h3>
+
+    <div class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-2 col-xs-12 P_title">
+          <label class=" control-label">
+            調班人
+          </label>
+        </div>
+        <div class="col-md-10  col-xs-12 row" style="padding:0px;margin: 0px">
+          {{SearchMan.EmpCode}} {{SearchMan.EmpName}}
+        </div>
+      </div>
+    </div>
+    <div class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;">
+      <div class="row" style="padding-bottom: 15px;margin:0px">
+        <div class="col-md-2 col-xs-12 P_title">
+          <label class=" control-label">
+            調班日
+          </label>
+        </div>
+        <div class="col-md-10  col-xs-12 row" style="padding:0px;margin: 0px">
+          請求調班共<span style="color: #d0021b">{{showCheckDetailDateArray.length}}</span>日
+        </div>
+      </div>
+    </div>
+
+    <div style="border-bottom: 1px dashed #dcdcdc;">
+      <div *ngFor="let showCheckDetail of showCheckDetailDateArray" class="row" style="border:1px solid #028fcf;margin: 0px;margin-bottom:10px;padding: 15px 10px">
+        <div class=" row" style="margin:0;margin-top: 5px;margin-bottom: 15px;padding: 0px">
+          <div class="col-md-2 col-xs-12" style="color: #028fcf">{{showCheckDetail.ShiftRoteDate}}({{showCheckDetail.ShiftRoteDateDay}})</div>
+          <div class="col-md-2 col-xs-6 P_Zero">
+            <span style="margin-right: 15px">原始</span>
+            <span style="color: #d0021b;font-weight: 500;">{{showCheckDetail.OnTime1}}{{showCheckDetail.RoteCode1}}</span>
+          </div>
+          <div class="col-md-8 col-xs-6" style="padding: 0">
+            <span style="margin-right: 15px">請求調成</span>
+            <span style="color: #d0021b;font-weight: 500;">{{showCheckDetail.OnTime2}}{{showCheckDetail.RoteCode2}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="border: 0px;padding: 0;padding: 20px 0px;margin: 0;border-bottom: 1px dashed #dcdcdc;">
+      <label class="col-md-2 control-label P_title">
+        <span class="form-must-fill">*</span>調班事由
+      </label>
+      <div class="col-md-8 " style="padding: 0">
+        <textarea id="cause" class="inputTextarea" style="overflow-y: auto" placeholder="請輸入調班事由"></textarea>
+        <!-- <div *ngIf="errorCauseState.state" style="color: #e60012">{{errorCauseState.errorString}}</div> -->
+      </div>
+    </div>
+    <div class="row" style="border: 0px;padding: 0;padding: 20px 0px;margin: 0;border-bottom: 1px dashed #dcdcdc;">
+      <label class="col-md-2 control-label P_title">
+        <span class="form-must-fill">*</span>簽核人員
+      </label>
+      <div class="col-md-8 " style="padding: 0">
+        <app-select-signer></app-select-signer>
+      </div>
+    </div>
+    <div class="P_text">
+      <input type="checkbox">本人同意因個人理由自願調換班別，並遵照勞基法例假日及休息日出勤規定，且連續出勤不逾六日，勾選同意並確認後，其效力等同書面同意。
+    </div>
+
+    <div class="row" style="margin:0;margin-top: 5px;margin-bottom: 15px">
+      <div class="col-md-2 col-xs-12"></div>
+      <div class="col-md-10 col-xs-12 row" style="margin:0;padding:0">
+        <div class="col-md-8 col-md-push-3  col-xs-12 " style="margin-bottom: 15px;">
+          <button class="btn btn-primary">送出申請</button>
+        </div>
+        <div class="col-md-3 col-md-pull-8  col-xs-12 "><button class="btn btn-default">上一步</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

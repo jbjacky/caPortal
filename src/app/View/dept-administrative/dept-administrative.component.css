@@ -1,0 +1,54 @@
+/* ::ng-deep .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    color: #fff;
+    outline: 0;
+    background-color: #428bca;
+
+}
+
+::ng-deep .ngx-select__toggle{
+    padding: 5px 12px;
+}
+
+table.deptTable{
+  width:100%  
+}
+
+table.deptTable  th{
+    border: 1px solid black;
+    text-align: center;
+  }
+  table.deptTable td {
+    border: 1px solid black;
+    text-align: center;
+  } */
+  
+table.deptTable  th{
+  text-align: center;
+}
+table.deptTable td {
+  text-align: center;
+}
+.P_title{
+  text-align: right
+}
+.P_fullwidth{
+     width:300px
+}
+
+@media (min-width: 768px){
+
+  #insertDeptmanDialog .modal-sm {
+      width: 500px;
+  }
+      
+}
+
+@media screen and (max-width:992px) {
+
+  .P_title{
+      text-align: left
+  }
+  .P_fullwidth{
+       width:100%
+  }
+}

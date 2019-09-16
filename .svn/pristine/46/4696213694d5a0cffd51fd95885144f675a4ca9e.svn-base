@@ -1,0 +1,74 @@
+import { Component, OnInit } from '@angular/core';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetNewsClass } from 'src/app/Models/PostData_API_Class/GetNewsClass';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+import { formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
+import { SaveNewsClass } from 'src/app/Models/PostData_API_Class/SaveNewsClass';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+@Component({
+  selector: 'app-news-data-edit',
+  templateUrl: './news-data-edit.component.html',
+  styleUrls: ['./news-data-edit.component.css']
+})
+export class NewsDataEditComponent implements OnInit {
+  id: any;
+  config = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      [{ 'align': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      ['link', 'image',],                      // link and image, video
+
+      // [{'font': []}],
+      // [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+      // [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+      // [{ 'direction': 'rtl' }],                         // text direction
+      // ['blockquote', 'code-block'],
+      // [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      // ['link', 'image', 'video'],                      // link and image, video
+      // ['clean'],                                         // remove formatting button
+    ],
+  };
+
+  getNewsDetail:GetNewsClass = new GetNewsClass();
+  constructor(private route: ActivatedRoute,
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private router: Router,
+    private LoadingPage: NgxSpinnerService) {}
+  ngOnInit() {
+    this.route.paramMap.subscribe((params: ParamMap) => {
+       this.id = params.get('id'); // (+) converts string 'id' to a number
+        // console.log(this.id)
+        this.GetApiDataServiceService.getWebApiData_GetNewsByID(this.id)
+        .subscribe(
+          (x:GetNewsClass[])=>{
+            // console.log(x)
+            x[0].PostDate = formatDateTime(x[0].PostDate).getDate
+            x[0].PostDeadline = formatDateTime(x[0].PostDeadline).getDate
+            this.getNewsDetail = x[0]
+          },error=>{
+            alert('與api連線異常，getWebApiData_GetNewsByID')
+          }
+        )
+    });
+  }
+
+  editClick(){
+    var SaveNews:SaveNewsClass = this.getNewsDetail
+    this.GetApiDataServiceService.getWebApiData_SaveNews(SaveNews)
+    .subscribe(
+      x=>{
+        if(x==1){
+          alert('修改成功')
+          this.router.navigate(['/nav/NewsManageComponent'])
+        }
+      }
+      
+    )
+  }
+
+}

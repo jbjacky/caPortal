@@ -1,0 +1,9 @@
+.filenamesort{
+    display: inline-block;
+    word-break: break-all;
+}
+@media screen and (max-width:992px){
+.filenamesort{
+    display: block;
+}
+}

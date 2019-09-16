@@ -1,0 +1,344 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <h3>考勤異常確認單明細</h3>
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
+      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px;padding-top: 2px">
+        <label class="col-md-4 col-xs-12 control-label P_left">
+          表單編號
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span style="color: #028fcf">
+                <!-- 20180000000201104 -->
+                {{getForgetDataTitle.showProcessFlowID}}
+              </span>
+              <a style="cursor: pointer;">
+                <span *ngIf="getForgetDataTitle.Take" data-toggle="modal" data-target="#Cancelformdialog">(抽單)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3 col-xs-12 P_state" style="padding-top:2px ">
+          <label class="control-label">
+            表單狀態</label>
+        </div>
+        <div *ngIf="getForgetDataTitle.ManageEmpName && getForgetDataTitle.State =='1'" class="col-md-9 col-xs-12 P_leftZero"
+          style="padding-right: 0px">
+          <!--王小美--><label class="tag_blue">呈核中</label> {{getForgetDataTitle.ManageEmpName}} 審核中
+        </div>
+        <div *ngIf="getForgetDataTitle.State == '3'" class="col-md-9 col-xs-12 P_leftZero" style="padding-top:2px;padding-right: 0px">
+          <label style="color: #00857d">已核准</label>
+        </div>
+        <div *ngIf="getForgetDataTitle.State == '2'" class="col-md-9 col-xs-12 P_leftZero" style="padding-top:2px;padding-right: 0px">
+          <label style="color: #d0021b">重擬</label>
+        </div>
+        <div *ngIf="getForgetDataTitle.State == '7'" class="col-md-9 col-xs-12 P_leftZero" style="padding-top:2px;padding-right: 0px">
+          <label style="color: #9b9b9b">已抽單</label>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 col-xs-12 control-label P_left">
+          員工
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span>
+                <!-- 612345 李大仁 -->
+                {{getForgetDataTitle.EmpCode}} {{getForgetDataTitle.EmpNameC}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label ">
+            異常狀態</label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <div *ngIf="getForgetDataTitle.isLateMins" class="tag_red" style="margin: 0px">遲到</div>
+          <div *ngIf="getForgetDataTitle.isEarlyMins" class="tag_red" style="margin: 0px">早退</div>
+          <div *ngIf="getForgetDataTitle.isForgetCard" class="tag_red" style="margin: 0px">未刷卡</div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          工作日
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span>
+                <!-- 2018/10/30 -->
+                {{getForgetDataTitle.DateB}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label ">
+            班型</label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <span>
+            <!-- 0830_A -->
+            {{getForgetDataTitle.RouteCode}}
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          應到勤時間
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span>
+                <!-- 0800 -->
+                {{getForgetDataTitle.RoteTimeB}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label ">
+            應離勤時間</label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <span>
+            <!-- 1700 -->
+            {{getForgetDataTitle.RoteTimeE}}
+          </span>
+          <div *ngIf="getForgetDataTitle.RoteTimeB > getForgetDataTitle.RoteTimeE" style="display: inline-block;
+          height: 20px;
+          font-size: 13px;
+          width: 40px;
+          text-align: center;
+          color: #fff;
+          background-color: #408cb6;
+          border: 1px solid;
+          border-radius: 15px;
+          margin: 0px 10px;">+1日</div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          原始到勤時間
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span>
+                <!-- 0800 -->
+                {{getForgetDataTitle.cardTimeB}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;color: #d0021b">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label ">
+            原始離勤時間</label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <span>
+            <!-- 1700 -->
+            {{getForgetDataTitle.cardTimeE}}
+          </span>
+          <div *ngIf="getForgetDataTitle.cardTimeB > getForgetDataTitle.cardTimeE" style="display: inline-block;
+              height: 20px;
+              font-size: 13px;
+              width: 40px;
+              text-align: center;
+              color: #fff;
+              background-color: #408cb6;
+              border: 1px solid;
+              border-radius: 15px;
+              margin: 0px 10px;">+1日</div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          實際到勤時間
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span>
+                <!-- 0800 -->
+                {{getForgetDataTitle.writeTimeB}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;color:#028fcf">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label ">
+            實際離勤時間</label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <span>
+            <!-- 1700 -->
+            {{getForgetDataTitle.writeTimeE}}
+          </span>
+          <div *ngIf="getForgetDataTitle.writeTimeB > getForgetDataTitle.writeTimeE" style="display: inline-block;
+                height: 20px;
+                font-size: 13px;
+                width: 40px;
+                text-align: center;
+                color: #fff;
+                background-color: #408cb6;
+                border: 1px solid;
+                border-radius: 15px;
+                margin: 0px 10px;">+1日</div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          異常原因
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span>
+                {{getForgetDataTitle.CauseName1}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          上傳附件
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div class="col-md-12 col-xs-12" style="padding: 0px;padding-left: 15px" *ngFor="let upload of getForgetDataTitle.UploadFile">
+              <img src="./assets/images-template/attach@2x.png" height='16px' width="12px" style="margin-right: 5px" />
+              <a (click)="base64(upload)" style="cursor:pointer">{{upload.UploadName}}</a>
+            </div>
+            <span *ngIf="getForgetDataTitle.UploadFile.length ==0">無</span>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;margin: 0;padding:20px 0px;">
+      <div class="col-md-12 col-xs-12">
+        <label class="col-md-2 control-label" style="padding-left: 0px;
+          padding-right: 20px;text-align: right">
+          補充說明
+        </label>
+        <div class="col-md-8 col-xs-12" style="padding: 0px 0px;">
+          <span>
+            {{getForgetDataTitle.Note}}
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+
+    <div *ngIf="showFormSign.length >0" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px">
+      <div class="row" style="margin: 0;padding: 0%">
+        <div class="col-md-2 col-xs-8  P_left">歷程主管簽核意見</div>
+        <div class="col-md-10 col-xs-4">
+          <a data-toggle="collapse" href="#mangText" (click)="onCheckCollapseInpostOpinions()">
+            <a id="mangText_text" data-toggle="collapse" href="#mangText" (click)="onCheckCollapseInpostOpinions()">收合</a>
+            <img id="mangText_img" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-180deg);" />
+          </a>
+        </div>
+      </div>
+      <div class="row" style="margin: 0;padding: 0%">
+        <div class="col-md-2 "></div>
+        <div class="col-md-10">
+          <div id="mangText" class="collapse in">
+            <div *ngFor="let showFormSign of showFormSign" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 15px">
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核人員</div>
+                <div class="col-md-10" style="padding: 0">{{showFormSign.JobName}} {{showFormSign.EmpNameC}}</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核時間</div>
+                <div class="col-md-4" style="padding: 0">{{showFormSign.SignDate}}</div>
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">假單遞送</div>
+                <div class="col-md-4" style="padding: 0">{{showFormSign.NodeName}}</div>
+              </div>
+              <div class="row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="padding: 0;font-weight: bold;">簽核意見</div>
+                <div class="col-md-10" style="padding: 0">{{showFormSign.Note}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 P_left"></div>
+        <div class="col-md-"></div>
+
+      </div>
+    </div>
+    <!--歷程主管意見-->
+    <div style="text-align: center">
+      <a (click)="previouspage()" style="cursor: pointer;">回列表</a>
+    </div>
+
+  </div>
+</div>
+<div class="modal" id="Cancelformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認抽單?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="Cancelform_Click()">送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog確認抽單送出 -->

@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-surplus-leave',
+  templateUrl: './surplus-leave.component.html',
+  styleUrls: ['./surplus-leave.component.css']
+})
+export class SurplusLeaveComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

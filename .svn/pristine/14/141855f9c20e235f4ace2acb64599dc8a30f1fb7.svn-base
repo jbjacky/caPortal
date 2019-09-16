@@ -1,0 +1,52 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div>
+      <div style="margin-bottom: 10px;">
+        <div style="width:300px">
+          <label style="margin-right: 2px;">單位</label>
+          <ngx-select [items]="NgxBaseSelectBox" optionValueField="ID" optionTextField="DeptNameC" placeholder="請選擇單位">
+          </ngx-select>
+        </div>
+        <select class="form-control" style="
+            width: 300px;
+            display: inline-block;">
+          <option>
+            單位系統管理人員
+          </option>
+          <option>
+            假單候補人員
+          </option>
+        </select>
+        工號<input>
+        <button type="button">新增</button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+          <thead>
+            <tr>
+              <th style="background-image: unset;cursor: unset">單位系統管理人員</th>
+              <th>假單候補人員</th>
+              <th>功能</th>
+            </tr>
+          </thead>
+          <tbody>
+             <tr>
+                <td>
+
+                </td>
+                <td>
+                  
+                </td>
+             </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-bottom: 10px;">
+        <label>☆單位管理員授權 : 請洽單位管理員(行政)授權，若管理員已不在原單位，請洽人力處IA協助處理</label>
+        <div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<p>
+  連線異常，請洽資訊人員。
+</p>
+
+<button (click)=relogin()>
+  重新登入
+</button>
+
+<button (click)="testAPI()">IE測試api連線用</button>
+
+<button (click)="jsonapi()">jsonapi</button>

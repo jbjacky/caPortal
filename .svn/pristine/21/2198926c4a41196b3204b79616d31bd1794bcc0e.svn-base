@@ -1,0 +1,198 @@
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+declare var $;
+@Component({
+  selector: 'app-choosedatetime-se',
+  templateUrl: './choosedatetime-se.component.html',
+  styleUrls: ['./choosedatetime-se.component.css']
+})
+export class ChoosedatetimeSeComponent implements OnInit, AfterViewInit,OnDestroy {
+  ngOnDestroy(): void {
+      $(this.StartDateView.nativeElement).off('change');
+      $(this.EndDateView.nativeElement).off('change');
+      $(this.StartTimeView.nativeElement).off('change');
+      $(this.EndTimeView.nativeElement).off('change');
+  }
+  ngAfterViewInit(): void {
+
+    var currentYear = new Date().getFullYear();
+    $("#id_bt_startday").change(function () {
+      $("#id_ipt_startday").val($("#id_bt_startday").val())
+    });
+    $("#id_bt_endday").change(function () {
+      $("#id_ipt_endday").val($("#id_bt_endday").val())
+    });
+    $("#id_bt_starttime").change(function () {
+      $("#id_ipt_starttime").val($("#id_bt_starttime").val());
+    });
+    $("#id_bt_endtime").change(function () {
+      $("#id_ipt_endtime").val($("#id_bt_endtime").val());
+    });
+
+    $('#id_bt_startday').dateDropper({
+      format: "Y/m/d",
+      lang: 'zh',
+      large: true,
+      minYear: currentYear - 1,
+      maxYear: currentYear + 1,
+      large_class: 'picker-lg',
+      bt_large: false
+    });
+    $('#id_bt_endday').dateDropper({
+      format: "Y/m/d",
+      lang: 'zh',
+      large: true,
+      minYear: currentYear - 1,
+      maxYear: currentYear + 1,
+      large_class: 'picker-lg',
+      bt_large: false
+    });
+    $('#id_bt_eventday').dateDropper({
+      format: "Y/m/d",
+      lang: 'zh',
+      large: true,
+      minYear: currentYear - 1,
+      maxYear: currentYear + 1,
+      large_class: 'picker-lg',
+      bt_large: false
+    });
+    //綁定顯示時間選擇器
+    $("#id_bt_starttime").val('08:00');
+    $("#id_bt_starttime").timeDropper({
+      format: 'HH:mm',
+      autoswitch: false,
+      mousewheel: true,
+      setCurrentTime: false
+    });
+    $("#id_bt_endtime").val('17:00');
+    $("#id_bt_endtime").timeDropper({
+      format: 'HH:mm',
+      autoswitch: false,
+      mousewheel: true,
+      setCurrentTime: false
+    });
+
+  }
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+  errorDateAndTime = { state: false, errorString: '' };
+
+  blurDateAndTime() {
+    this.errorDateAndTime = { state: false, errorString: '' }
+    var startday = $('#id_ipt_startday').val();
+    var endday = $('#id_ipt_endday').val();
+    var starttime = $('#id_ipt_starttime').val();
+    var endtime = $("#id_ipt_endtime").val();
+    if (startday.length == 0) {
+      this.errorDateAndTime = { state: true, errorString: '請填寫起始日期' }
+      $("#id_ipt_startday").addClass("errorInput");
+      return
+    }
+    if ( endday.length == 0) {
+      this.errorDateAndTime = { state: true, errorString: '請填寫結束日期' }
+      $("#id_ipt_endday").addClass("errorInput");
+      return
+    }
+    if (starttime.length == 0) {
+      this.errorDateAndTime = { state: true, errorString: '請填寫起始時間' }
+      $("#id_ipt_starttime").addClass("errorInput");
+      return
+    }
+    if (endtime.length == 0) {
+      this.errorDateAndTime = { state: true, errorString: '請填寫結束時間' }
+      $("#id_ipt_endtime").addClass("errorInput");
+      return
+    }
+    var startDateTime = new Date(startday + ' ' +  starttime);
+    var endDateTime = new Date(endday + ' ' +  endtime);
+    if (startDateTime > endDateTime) {
+      this.errorDateAndTime = { state: true, errorString: '起始區間大於結束區間' }
+      $("#id_ipt_startday").addClass("errorInput");
+      $("#id_ipt_starttime").addClass("errorInput");
+      $("#id_ipt_endday").addClass("errorInput");
+      $("#id_ipt_endtime").addClass("errorInput");
+      return;
+    } else 
+    {
+      this.errorDateAndTime = { state: false, errorString: '' }
+    }
+    $("#id_ipt_startday").removeClass("errorInput");
+    $("#id_ipt_starttime").removeClass("errorInput");
+    $("#id_ipt_endday").removeClass("errorInput");
+    $("#id_ipt_endtime").removeClass("errorInput");
+  }
+  @ViewChild('StartDateView') StartDateView: ElementRef;
+  changeStartDateView() {
+    $("#id_ipt_startday").val($("#id_bt_startday").val());
+    this.blurDateAndTime();
+    $(this.StartDateView.nativeElement)
+      .on('change', (e, args) => {
+        $("#id_ipt_startday").val($("#id_bt_startday").val());
+        this.blurDateAndTime();
+      });
+  }
+  @ViewChild('EndDateView') EndDateView: ElementRef;
+  changeEndDateView() {
+    $("#id_ipt_endday").val($("#id_bt_endday").val());
+    this.blurDateAndTime();
+    $(this.EndDateView.nativeElement)
+      .on('change', (e, args) => {
+        $("#id_ipt_endday").val($("#id_bt_endday").val());
+        this.blurDateAndTime();
+      });
+  }
+  @ViewChild('StartTimeView') StartTimeView: ElementRef;
+  changeStartTimeView() {
+    $("#id_ipt_starttime").val($("#id_bt_starttime").val());
+    this.blurDateAndTime();
+    $(this.StartTimeView.nativeElement)
+      .on('change', (e, args) => {
+        $("#id_ipt_starttime").val($("#id_bt_starttime").val());
+        this.blurDateAndTime();
+      });
+  }
+  @ViewChild('EndTimeView') EndTimeView: ElementRef;
+  changeEndTimeView() {
+    $("#id_ipt_endtime").val($("#id_bt_endtime").val());
+    this.blurDateAndTime();
+    $(this.EndTimeView.nativeElement)
+      .on('change', (e, args) => {
+        $("#id_ipt_endtime").val($("#id_bt_endtime").val());
+        this.blurDateAndTime();
+      });
+  }
+  dayMask(): {
+    mask: Array<string | RegExp>;
+    keepCharPositions: boolean;
+  } {
+    return {
+      mask: [/[2]/, /[0]/, /\d/, /\d/, '/', /[0-1]/, /\d/, '/', /[0-3]/, /\d/],
+      keepCharPositions: true,
+    };
+  }
+
+  starttimeMask(): {
+    mask: Array<string | RegExp>;
+    keepCharPositions: boolean;
+  } {
+    return {
+      mask: [/[0-2]/, $("#id_ipt_starttime").val() && parseInt($("#id_ipt_starttime").val()[0]) > 1 ? /[0-3]/ : /\d/, ':', /[0-5]/, /\d/],
+      keepCharPositions: true
+    };
+  }
+
+  endtimeMask(): {
+    mask: Array<string | RegExp>;
+    keepCharPositions: boolean;
+  } {
+    return {
+      mask: [/[0-2]/, $("#id_ipt_starttime").val() && parseInt($("#id_ipt_endtime").val()[0]) > 1 ? /[0-3]/ : /\d/, ':', /[0-5]/, /\d/],
+      keepCharPositions: true
+    };
+  }
+}
+
+

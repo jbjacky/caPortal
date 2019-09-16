@@ -1,0 +1,21 @@
+<div *ngIf="showFormSign.length==0" style="margin: 10px">
+  無簽核流程紀錄
+</div>
+<table *ngIf="showFormSign.length>0"
+  class="table table-bordered table-striped table-hover table-content-center table-style01">
+  <thead>
+    <tr>
+      <th style="background-image: unset;cursor: unset">姓名</th>
+      <th>時間</th>
+      <th>動作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let showFormSign of showFormSign">
+      <td>{{showFormSign.EmpNameC}}</td>
+      <td>{{showFormSign.SignDate}}</td>
+      <td>{{showFormSign.NodeName}}</td>
+    </tr>
+  </tbody>
+</table>
+<!--dialog簽核流程紀錄-->

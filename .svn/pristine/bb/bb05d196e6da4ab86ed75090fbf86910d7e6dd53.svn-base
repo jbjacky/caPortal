@@ -1,0 +1,35 @@
+// import { registerLocaleData } from '@angular/common';
+// import localezhHant from '@angular/common/locales/zh-Hant';
+// registerLocaleData(localezhHant, 'zh-Hant');
+import { NgModule } from '@angular/core';
+import { CommonModule, APP_BASE_HREF } from '@angular/common';
+import { AppRoutingModule } from 'src/app/app-routing.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { AppComponent } from 'src/app/app.component';
+import { LoginComponent } from 'src/app/View/login/login.component';
+import { FormsModule } from '@angular/forms';
+
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    LoginComponent,
+
+  ],
+  imports: [
+    CommonModule,
+    AppRoutingModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule
+
+  ],
+  providers: [
+
+  ],
+  bootstrap: [AppComponent],
+})
+export class AppModule { }
+

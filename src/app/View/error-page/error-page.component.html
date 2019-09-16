@@ -1,0 +1,74 @@
+<div *ngIf="errorState==0">
+  <p>系統異常。</p>
+  <div style="display: inline-block;margin: 5px">
+    <button (click)="logout()">
+      登出
+    </button>
+  </div>
+  <div style="display: inline-block;margin: 5px">
+    <button (click)=relogin()>
+      重新登入
+    </button>
+  </div>
+</div>
+<div *ngIf="errorState==3">
+  <p>連線異常，請確認連線狀態。</p>
+  <div style="display: inline-block;margin: 5px">
+    <button (click)="logout()">
+      登出
+    </button>
+  </div>
+  <div style="display: inline-block;margin: 5px">
+    <button (click)=relogin()>
+      重新登入
+    </button>
+  </div>
+</div>
+<div *ngIf="errorState==5">
+  <p>連線異常，請確認連線狀態(GetToken)。</p>
+  <div style="display: inline-block;margin: 5px">
+    <button (click)="logout()">
+      登出
+    </button>
+  </div>
+  <div style="display: inline-block;margin: 5px">
+    <button (click)=relogin()>
+      重新登入
+    </button>
+  </div>
+</div>
+<div *ngIf="errorState==1">
+  <p>
+    您可能沒有該系統的權限，權限問題請聯絡單位行政或人力處管理員。
+  </p>
+  <p>
+    離開公用電腦，請記得登出。
+  </p>
+
+  <button (click)="logout()">
+    登出
+  </button>
+</div>
+<div *ngIf="errorState==2">
+  <!-- TimeOut -->
+  <!-- Token失效 -->
+  <p>登入認證已過期，請重新登入。</p>
+
+  <button (click)=relogin()>
+    重新登入
+  </button>
+</div>
+<div *ngIf="errorState==4">
+  <!-- TimeOut -->
+  <!-- Token失效 -->
+  <p>登入認證已過期(TimeOut)，請重新登入。</p>
+
+  <button (click)=relogin()>
+    重新登入
+  </button>
+</div>
+
+
+<!-- <button (click)="testAPI()">IE測試api連線用</button> -->
+
+<!-- <button (click)="jsonapi()">jsonapi</button> -->

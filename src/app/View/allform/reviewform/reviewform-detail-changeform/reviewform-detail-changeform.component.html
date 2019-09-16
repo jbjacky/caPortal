@@ -1,0 +1,419 @@
+<div class="a-block" *ngIf="ReviewformServiceService.changeDetail">
+  <div class="a-block-body  a-block-container">
+    <div
+      style="background-color: #fafafa;width: 100%;border: 1px solid #cccccc;padding: 2px 15px;padding-bottom: 5px;margin-bottom: 30px;">
+      <div style="display: inline-block;padding-top: 5px;">
+        目前審核身份：
+        <span style="color:#028fcf;font-size: 18px">{{ReviewformServiceService.showReviewMan.EmpNameC}}
+          {{ReviewformServiceService.showReviewMan.DeptName}} {{ReviewformServiceService.showReviewMan.PosName}}</span>
+      </div>
+
+    </div>
+
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;">
+      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          表單編號
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span style="color: #028fcf">{{uishowProcessFlowID}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3 col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label">
+            表單狀態</label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <label style="color: #d0021b">簽核中</label>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          員工
+        </label>
+        <div class="col-md-8  col-xs-12">
+          <div class="row ">
+            <div>
+              <span>{{Emp.EmpCode}} {{Emp.EmpName}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label">
+            調班日</label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          請求調班共<label style="color: #d0021b">{{ReviewformServiceService.changeDetail.numberOfVaData}}</label>日
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          填寫人
+        </label>
+        <div class="col-md-8  col-xs-12">
+          <div class="row ">
+            <div>
+              <span>{{ReviewformServiceService.changeDetail.WriteEmpCode}}
+                {{ReviewformServiceService.changeDetail.WriteEmpNameC}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+          <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+            <label class="control-label">
+              調班日</label>
+          </div>
+          <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+            請求調班共<label style="color: #d0021b">{{ReviewformServiceService.changeDetail.numberOfVaData}}</label>日
+          </div>
+        </div> -->
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6 " style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          調班事由
+        </label>
+        <div class="col-md-8">
+          <div class="row ">
+            <div>
+              <span>{{ReviewformServiceService.changeDetail.Note}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div *ngFor="let showCheckDetail of ShiftRoteFlowAppsDetailArray" style="margin-bottom: 20px;">
+      <div class="form-group" style="border:1px solid #028fcf;margin-top: 20px;padding: 15px 0px">
+        <div class="row" style="padding: 0px;margin: 0px">
+          <div class="col-md-2 col-xs-12 P_left">
+            <span style="color: #028fcf">{{showCheckDetail.ShiftRoteDate}}</span>
+          </div>
+          <div class="col-md-10  col-xs-12">
+            原始 <span style="margin: 0px 10px;" class="Rote RoteLink"   (click)="bt_Show_RoteInfo(showCheckDetail.RoteID1)">{{showCheckDetail.RoteName1}}</span>
+            請求調成 <span style="margin: 0px 10px;" class="Rote RoteLink"   (click)="bt_Show_RoteInfo(showCheckDetail.RoteID2)">{{showCheckDetail.RoteName2}}</span>
+          </div>
+        </div>
+      </div>
+      <!-- form-group end -->
+    </div>
+
+    <app-from-sign [getProcessFlowID]="ReviewformServiceService.changeDetail.ProcessFlowID"></app-from-sign>
+    <!--歷程主管意見-->
+
+    <div class="row" style="margin: 0px ;padding: 15px 0px ;">
+      <div class="col-md-2 col-xs-12 P_right" style="padding-left: 0px;">
+        <label class="control-label" style="padding-left: 0px;padding-right: 15px;">
+          簽核意見</label>
+      </div>
+      <div class="col-md-10 col-xs-12">
+        <textarea [(ngModel)]="signText" class="inputTextarea"
+          style="color:#020202;overflow-y: auto;height: 83px;"></textarea>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0px ;margin-bottom:15px;padding: 15px 0px;">
+      <div class="col-md-2 P_right" style="padding-left: 0px;padding-top: 5px;">
+        <label class="control-label" style="padding-left: 0px;padding-right: 15px;">
+          簽核人員</label>
+      </div>
+      <div class="col-md-10 row" style="margin:0px;">
+        <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeSingMan$"></app-select-signer>
+      </div>
+    </div>
+    <!-- form-group end -->
+
+    <!-- <div [style.display]='inbodybuttomdiv' class="row" style="margin: 0;padding: 0">
+      <div class="col-md-2"></div>
+      <div class="col-md-10">
+        <button *ngIf="ReviewformServiceService.changeDetail.isApproved" class="btn btn-primary" style="margin-right: 15px;padding: 6px 25px;"
+          data-toggle="modal" data-target="#Approveddialog">核准</button>
+        <button *ngIf="!ReviewformServiceService.changeDetail.isApproved" class="btn btn-primary" style="margin-right: 15px;padding: 6px 25px;"
+          disabled>核准</button>
+        <button *ngIf="ReviewformServiceService.changeDetail.isSendback" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;"
+          data-toggle="modal" data-target="#Sendbackdialog">退回</button>
+        <button *ngIf="!ReviewformServiceService.changeDetail.isSendback" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;"
+          disabled>退回</button>
+        <button *ngIf="ReviewformServiceService.changeDetail.isPutForward" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;"
+          data-toggle="modal" (click)="checkCanSendPutForward()">呈核</button>
+        <button *ngIf="!ReviewformServiceService.changeDetail.isPutForward" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;"
+          disabled>呈核</button>
+        <a style="margin-right: 15px;cursor: pointer;" (click)="backReview()" [routerLink]="['..']">回列表</a>
+      </div>
+    </div> -->
+
+    <div [style.display]='inbodybuttomdiv_phone' class="row" style="margin: 0;padding: 0">
+      <div class="col-md-12">
+        <div class="col-xs-5" style="padding: 0px;text-align: center">
+          <!-- <a>查詢請假規定</a> -->
+        </div>
+        <div class="col-xs-4" style="padding: 0px;text-align: center">
+          <a style="cursor: pointer;" data-toggle="modal" (click)="show_signRecord()">流程查詢</a>
+        </div>
+        <div class="col-xs-3" style="padding: 0px;text-align: center" (click)="backReview()" [routerLink]="['..']">
+          <a style="cursor: pointer;">回列表</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [style.display]='buttomdiv' class="row" style="position: fixed;
+bottom: 20px;width: 100%;
+background-color: #fff;
+padding: 20px;
+">
+  <div class="a-block-buttom" *ngIf="ReviewformServiceService.changeDetail">
+
+    <button *ngIf="ReviewformServiceService.changeDetail.isApproved" class="btn btn-primary" style="margin-right: 15px"
+      data-toggle="modal" data-target="#Approveddialog">核准</button>
+    <button *ngIf="!ReviewformServiceService.changeDetail.isApproved" class="btn btn-primary" style="margin-right: 15px"
+      disabled>核准</button>
+    <button *ngIf="ReviewformServiceService.changeDetail.isSendback" class="btn btn-info" style="margin-right: 15px"
+      data-toggle="modal" data-target="#Sendbackdialog">退回</button>
+    <button *ngIf="!ReviewformServiceService.changeDetail.isSendback" class="btn btn-info" style="margin-right: 15px"
+      disabled>退回</button>
+    <button *ngIf="ReviewformServiceService.changeDetail.isPutForward" class="btn btn-info" style="margin-right: 15px"
+      data-toggle="modal" (click)="checkCanSendPutForward()">呈核</button>
+    <button *ngIf="!ReviewformServiceService.changeDetail.isPutForward" class="btn btn-info" style="margin-right: 15px"
+      disabled>呈核</button>
+    <!-- <a style="margin-right: 15px">查詢請假規定</a> -->
+    <a style="margin-right: 15px;cursor: pointer;" data-toggle="modal" (click)="show_signRecord()">流程查詢</a>
+    <a style="margin-right: 15px;cursor: pointer;" (click)="backReview()" [routerLink]="['..']">回列表</a>
+
+  </div>
+
+</div>
+<div *ngIf="ReviewformServiceService.changeDetail" [style.display]='buttomdiv_phone' class="row" style="position: fixed;
+bottom: 0px;width: 100%;
+background-color: #fff;padding: 20px 5px;
+">
+  <div class="col-xs-4" style="padding: 0px;text-align: center;">
+    <button *ngIf="ReviewformServiceService.changeDetail.isApproved" class="btn btn-primary btm-sm"
+      style="padding: 6px 40px;" data-toggle="modal" data-target="#Approveddialog">核准</button>
+    <button *ngIf="!ReviewformServiceService.changeDetail.isApproved" class="btn btn-primary btm-sm"
+      style="padding: 6px 40px;" disabled>核准</button>
+  </div>
+  <div class="col-xs-4" style="padding: 0px;text-align: center;">
+    <button *ngIf="ReviewformServiceService.changeDetail.isSendback" class="btn btn-info" style="padding: 6px 40px;"
+      data-toggle="modal" data-target="#Sendbackdialog">退回</button>
+    <button *ngIf="!ReviewformServiceService.changeDetail.isSendback" class="btn btn-info" style="padding: 6px 40px;"
+      disabled>退回</button>
+  </div>
+  <div class="col-xs-4" style="padding: 0px;text-align: center;">
+    <button *ngIf="ReviewformServiceService.changeDetail.isPutForward" class="btn btn-info" style="padding: 6px 40px;"
+      data-toggle="modal" (click)="checkCanSendPutForward()">呈核</button>
+    <button *ngIf="!ReviewformServiceService.changeDetail.isPutForward" class="btn btn-info" style="padding: 6px 40px;"
+      disabled>呈核</button>
+  </div>
+
+</div>
+
+<div class="modal" id="Approveddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認核准?</h4>
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="Approved_Click()">送出</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog核准確認送出 -->
+<div class="modal" id="Approveddialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">核准完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            核准送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog核准送出成功 -->
+<div class="modal" id="Sendbackdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認退回?</h4>
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="Sendback_Click()">送出</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog退回送出 -->
+<div class="modal" id="Sendbackdialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">退回完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            退回送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog退回送出成功 -->
+<div class="modal" id="PutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認呈核?</h4>
+        </div>
+        <div class="modal-body" *ngIf="FlowDynamic_Base">
+          送呈: {{FlowDynamic_Base.DeptaName}} {{FlowDynamic_Base.EmpID}} {{FlowDynamic_Base.EmpNameC}}
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="PutForward_Click()">送出</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog呈核確認送出 -->
+<div class="modal" id="PutForwarddialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">呈核完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            呈核送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog呈核送出成功 -->
+<div class="modal" id="signRecord" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel">簽核流程紀錄</h4>
+        </div>
+        <div class="modal-body">
+          <app-from-sign-table *ngIf="signRecordDialog"
+            [getProcessFlowID]="ReviewformServiceService.changeDetail.ProcessFlowID">
+          </app-from-sign-table>
+          <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog簽核流程紀錄-->
+<div class="modal" id="RoteInf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <!-- <h4 class="modal-title" id="mySmallModalLabel">{{showSearchEmp.EmpCode}} 出勤班表</h4> -->
+            <h4 class="modal-title" id="mySmallModalLabel">班型資訊</h4>
+          </div>
+          <div class="modal-body">
+            <app-rote-inf [GetRoteInfo$]="Ob_setGetRoteInfo$"></app-rote-inf>
+            <div style="text-align: center">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--dialog班表期間-->

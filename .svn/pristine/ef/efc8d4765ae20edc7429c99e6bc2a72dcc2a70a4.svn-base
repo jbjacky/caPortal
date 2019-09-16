@@ -1,0 +1,458 @@
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { vaform, showAbsFlowAppsDetailClass } from 'src/app/Models/vaform';
+import { formatDateTime, getapi_formatTimetoString, doFormatDate, sumbit_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { timeOfDay } from 'src/app/UseVoid/void_timeofday';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { AbsFlowAppsDetailClass, FlowAppsClass, AbsSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/AbsSaveAndFlowStart';
+import { uploadFileClass } from 'src/app/Models/uploadFileClass';
+import { FileDownloadService } from 'src/app/Service/file-download.service';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { takeWhile, concatMap, map, toArray } from 'rxjs/operators';
+import { GetFlowViewClass } from 'src/app/Models/PostData_API_Class/GetFlowViewClass';
+import { from } from 'rxjs';
+import { void_completionTenNum } from 'src/app/UseVoid/void_CompletionTenNum';
+import { showFlowView } from 'src/app/View/search-form/search-form.component';
+import { vaSearchFlowSignClass } from 'src/app/View/shareComponent/search-va-form/search-va-form.component';
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-vaformdetail',
+  templateUrl: './vaformdetail.component.html',
+  styleUrls: ['./vaformdetail.component.css']
+})
+export class VaformdetailComponent implements OnInit, OnDestroy {
+
+  api_subscribe = true; //ngOnDestroy時要取消
+  ngOnDestroy(): void {
+    this.api_subscribe = false;
+  }
+  onCheckCollapseIn(i) {
+    //確認是否收合
+    if ($('#id' + i).hasClass('collapsed')) {
+      $('#' + i + '_text').text('收合請假明細')
+      $('#' + i + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + i + '_img').css({ "transform": "rotate(-180deg)" });
+
+    } else {
+      $('#' + i + '_text').text('展開請假明細')
+      $('#' + i + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + i + '_img').css({ "transform": "rotate(0deg)" });
+    }
+  }
+
+  @Input() getsendvaform: vaform[];
+  @Input() getwrite_Emp = { EmpID: '', EmpNameC: '' };
+  @Output() counterChange: EventEmitter<number> = new EventEmitter<number>();//返回修改按鈕
+
+  constructor(
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private FileDownload: FileDownloadService,
+    private LoadingPage: NgxSpinnerService) { }
+  previouspage() {
+    //返回修改按鈕
+    this.counterChange.emit();
+  }
+  ngOnInit() {
+    // console.log(this.getsendvaform)
+    this.getRecentHoliday(this.getsendvaform[0].leaveman_jobid)
+
+    for (let send of this.getsendvaform) {
+      var GetAttend: GetAttendClass = {
+        DateB: send.startday,
+        DateE: send.endday,
+        ListEmpID: [send.wirteman_jobid],
+        ListRoteID: null
+      }
+      // console.log(GetAttend)
+      this.GetApiDataServiceService.getWebApiData_GetAttend(GetAttend)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (Attend: any[]) => {
+            var uishowAbsFlowAppsDetails: showAbsFlowAppsDetailClass[] = [];
+            for (let sendvaform_FlowApp_AbsFlowAppsDetail of send.FlowApp.AbsFlowAppsDetail) {
+              var _vaRestOffTime = ''
+              var _vaRestOnTime = ''
+              if (sendvaform_FlowApp_AbsFlowAppsDetail.RoteRestList.length != 0) {
+                _vaRestOffTime = getapi_formatTimetoString(sendvaform_FlowApp_AbsFlowAppsDetail.RoteRestList[0].TimeE)
+                _vaRestOnTime = getapi_formatTimetoString(sendvaform_FlowApp_AbsFlowAppsDetail.RoteRestList[0].TimeB)
+              }
+              var _vaUseDay ='0'
+              var _vaUseHour ='0'
+              var _vaUseMinute ='0'
+              // console.log(sendvaform_FlowApp_AbsFlowAppsDetail)
+              Attend.filter(
+                (x, y, z) => {
+                  var oneDayWorkHour = x.ActualRote.WorkHours
+
+                  if (formatDateTime(x.AttendDate).getDate == formatDateTime(sendvaform_FlowApp_AbsFlowAppsDetail.DateB).getDate && x.ActualRote.WorkHours) {
+                    _vaUseDay = timeOfDay(true, sendvaform_FlowApp_AbsFlowAppsDetail.Use, oneDayWorkHour).day.toString()
+                    _vaUseHour = timeOfDay(true, sendvaform_FlowApp_AbsFlowAppsDetail.Use, oneDayWorkHour).hour.toString()
+                    _vaUseMinute = timeOfDay(true, sendvaform_FlowApp_AbsFlowAppsDetail.Use, oneDayWorkHour).minute.toString()
+                  }
+                }
+              )
+              uishowAbsFlowAppsDetails.push(
+                {
+                  vaOneDate: formatDateTime(sendvaform_FlowApp_AbsFlowAppsDetail.DateB).getDate,
+                  vaOneOffTime: getapi_formatTimetoString(sendvaform_FlowApp_AbsFlowAppsDetail.TimeE),
+                  vaOneOnTime: getapi_formatTimetoString(sendvaform_FlowApp_AbsFlowAppsDetail.TimeB),
+                  vaRestOffTime: _vaRestOffTime,
+                  vaRestOnTime: _vaRestOnTime,
+                  AllUse: sendvaform_FlowApp_AbsFlowAppsDetail.Use,
+                  vaUseDay: _vaUseDay,
+                  vaUseHour: _vaUseHour,
+                  vaUseMinute: _vaUseMinute
+                }
+              )
+            }
+            // console.log(Attend)
+            // console.log(uishowAbsFlowAppsDetails)
+            // for (let ActualRote_WorkHours of Attend) {
+            //   var oneDayWorkHour = ActualRote_WorkHours.ActualRote.WorkHours
+            //   for (let uishowAbsFlowAppsDetail of uishowAbsFlowAppsDetails) {
+            //     if (formatDateTime(ActualRote_WorkHours.AttendDate).getDate == uishowAbsFlowAppsDetail.vaOneDate) {
+            //       uishowAbsFlowAppsDetail.vaUseDay = timeOfDay(true, uishowAbsFlowAppsDetail.AllUse, oneDayWorkHour).day.toString()
+            //       uishowAbsFlowAppsDetail.vaUseHour = timeOfDay(true, uishowAbsFlowAppsDetail.AllUse, oneDayWorkHour).hour.toString()
+            //       uishowAbsFlowAppsDetail.vaUseMinute = timeOfDay(true, uishowAbsFlowAppsDetail.AllUse, oneDayWorkHour).minute.toString()
+            //       // console.log(uishowAbsFlowAppsDetail.AllUse)
+            //       // console.log(oneDayWorkHour)
+            //     }
+            //   }
+            // }
+
+            send.uishowAbsFlowAppsDetails = uishowAbsFlowAppsDetails
+            console.log(uishowAbsFlowAppsDetails)
+          }
+        )
+    }
+  }
+
+  chooseEmpID: string = '';
+  chooseBase(event: Array<any>) {
+    if (event.length == 0) {
+      this.chooseEmpID = ''
+    } else {
+      var ev_string: string = event[0].value;
+      this.chooseEmpID = ev_string.split('，')[0];
+    }
+    // console.log(ev_string.split('，')[0]);
+  }
+
+  base64(apiFile: uploadFileClass) {
+    this.FileDownload.base64(apiFile)
+  }
+
+
+  // showDate(datetime) {
+  //   return formatDateTime(datetime).getDate
+  // }
+
+  showtimeOfDay(Use, writeman_worktime) {
+    var v_day = timeOfDay(true, Use, writeman_worktime).day
+    var v_hour = timeOfDay(true, Use, writeman_worktime).hour
+    var v_minute = timeOfDay(true, Use, writeman_worktime).minute
+
+    return { day: v_day, hour: v_hour, minute: v_minute }
+  }
+
+
+  showAllVatime() {
+    var v_allday = 0;
+    var v_allhour = 0;
+    var v_allminute = 0;
+    for (let send of this.getsendvaform) {
+      v_allday += parseInt(send.ui_day)
+      v_allhour += parseInt(send.ui_hour)
+      v_allminute += parseInt(send.ui_minute)
+
+    }
+    return { allday: v_allday, allhour: v_allhour, allminute: v_allminute }
+  }
+  checkSendError() {
+    // console.log(this.chooseEmpID)
+    if (this.chooseEmpID.length == 0) {
+      alert('請選擇簽核人員')
+    } else {
+      $('#checksenddialog').modal('show');
+    }
+  }
+
+  sendLoading = false;
+  sendVaform_click() {
+    // this.sendLoading = true
+    this.LoadingPage.show()
+    // $('#sussesdialog').modal('show');
+    var reallysendvaformFlowApps: FlowAppsClass[] = [];
+    for (let sendvaform of this.getsendvaform) {
+      var sendAbsFlowAppsDetail: AbsFlowAppsDetailClass[] = [];
+      for (let reallysendvaformFlowApps_AbsFlowAppsDetail of sendvaform.FlowApp.AbsFlowAppsDetail) {
+        sendAbsFlowAppsDetail.push({
+          EmpID: reallysendvaformFlowApps_AbsFlowAppsDetail.EmpID,
+          HoliDayID: reallysendvaformFlowApps_AbsFlowAppsDetail.HoliDayID,
+          DateB: doFormatDate(reallysendvaformFlowApps_AbsFlowAppsDetail.DateB),
+          TimeB: reallysendvaformFlowApps_AbsFlowAppsDetail.TimeB,
+          TimeE: reallysendvaformFlowApps_AbsFlowAppsDetail.TimeE,
+          DateTimeB: reallysendvaformFlowApps_AbsFlowAppsDetail.DateTimeB,
+          DateTimeE: reallysendvaformFlowApps_AbsFlowAppsDetail.DateTimeE,
+          Use: reallysendvaformFlowApps_AbsFlowAppsDetail.Use,
+          AbsFlowAppsTrans: reallysendvaformFlowApps_AbsFlowAppsDetail.AbsFlowAppsTrans,
+          RoteRestList: reallysendvaformFlowApps_AbsFlowAppsDetail.RoteRestList,
+        })
+      }
+      reallysendvaformFlowApps.push(
+        {
+          EmpID: sendvaform.leaveman_jobid,
+          EmpCode: sendvaform.leaveman_jobid,
+          EmpNameC: sendvaform.leaveman_name,
+          RoteID: 0,
+          DateB: sendvaform.startday,
+          DateE: sendvaform.endday,
+          TimeB: sumbit_formatTimetoString(sendvaform.starttime),
+          TimeE: sumbit_formatTimetoString(sendvaform.endtime),
+          DateTimeB: sendvaform.startday + ' ' + sendvaform.starttime,
+          DateTimeE: sendvaform.endday + ' ' + sendvaform.endtime,
+          HoliDayID: sendvaform.vacategrory.HoliDayID,
+          HoliDayNameC: sendvaform.vacategrory.HoliDayNameC,
+          Use: sendvaform.FlowApp.Use,
+          Balance: sendvaform.FlowApp.Balance,
+          HoliDayUnitName: sendvaform.FlowApp.HoliDayUnitName,
+          AgentNobr1: sendvaform.proxyman_jobid,
+          AgentName1: sendvaform.proxyman_name,
+          AgentNote: "",
+          Note: sendvaform.cause,
+          Info: "",
+          KeyName: sendvaform.keyname,
+          EventDate: sendvaform.eventdate,
+          AbsFlowAppsDetail: sendAbsFlowAppsDetail,
+          UploadFile: sendvaform.upload,
+          MailBody: "",
+          State: "1",
+          Today: sendvaform.todayCheck,
+          Circulate: sendvaform.everydayloop,
+          Appointment: sendvaform.beforholiday
+        }
+      )
+
+    }
+
+    var send_AbsSaveAndFlowStartClass: AbsSaveAndFlowStartClass = new AbsSaveAndFlowStartClass();
+    send_AbsSaveAndFlowStartClass.FlowApp = {
+      Day: this.getsendvaform.length,
+      FlowApps: reallysendvaformFlowApps,
+      EmpID: this.getwrite_Emp.EmpID,
+      EmpCode: this.getwrite_Emp.EmpID,
+      EmpNameC: this.getwrite_Emp.EmpNameC
+    }
+    send_AbsSaveAndFlowStartClass.FlowDynamic = {
+      FlowNode: '',
+      RoleID: '',
+      EmpID: this.chooseEmpID
+    }
+    console.log(send_AbsSaveAndFlowStartClass)
+    this.GetApiDataServiceService.getWebApiData_AbsSaveAndFlowStart(send_AbsSaveAndFlowStartClass)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        x => {
+          // console.log(x)
+          if (x == 1) {
+            $('#sussesdialog').modal('show');
+          }
+          // this.sendLoading = false;
+          this.LoadingPage.hide()
+        },
+        error => {
+          alert('與api連線異常，getWebApiData_AbsSaveAndFlowStar，')
+          // this.sendLoading = false;
+          this.LoadingPage.hide()
+        }
+      )
+
+
+  }
+
+
+  
+  RecentHoliday_DateB: string = '';
+  RecentHoliday_DateE: string = '';
+  
+  getVaData: showFlowView[] = []//近期假單
+  vaSearchFlowSign: vaSearchFlowSignClass[] = []; //近期假單
+  
+  getRecentHoliday(EmpCode) {
+    ///近期假單一覽
+    this.vaSearchFlowSign = []
+    var _todayB = new Date()
+    _todayB.setMonth(_todayB.getMonth() - 1)
+    _todayB.setDate(1)
+    this.RecentHoliday_DateB = doFormatDate(_todayB)
+    var _todayE = new Date()
+    _todayE.setMonth(_todayE.getMonth() + 2)
+    _todayE.setDate(0)
+    this.RecentHoliday_DateE = doFormatDate(_todayE)
+    var GetFlowView: GetFlowViewClass = {
+      ListEmpID: [EmpCode],
+      DateB: doFormatDate(_todayB),
+      DateE: doFormatDate(_todayE),
+      FormCode: 'Abs',
+      State: '0',
+      ProcessFlowID: '0',
+      Cond1: '0',
+      Cond2: '0',
+      Cond3: '0'
+    }
+
+    this.GetApiDataServiceService.getWebApiData_GetFlowView(GetFlowView)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          // console.log(x)
+
+          for (let FlowSign of x) {
+            this.GetApiDataServiceService.getWebApiData_GetAbsFlowAppsByProcessFlowID(FlowSign.ProcessFlowID, true).pipe(
+              concatMap((o: any) => from(o).pipe(
+                map((q: any) => {
+                  var get = []
+                  q.AbsFlowAppsDetail.map((x: any) => {
+                    var GetAttend: GetAttendClass = {
+                      DateB: formatDateTime(x.DateB).getDate,
+                      DateE: formatDateTime(x.DateB).getDate,
+                      ListEmpID: [q.EmpCode],
+                      ListRoteID: null
+                    }
+
+                    // console.log(q)
+                    get.push({
+                      Attend: GetAttend,
+                      Use: x.Use,
+                      numberOfVaData: o.length,
+                      DateTimeB: x.DateTimeB,
+                      DateTimeE: x.DateTimeE,
+                      HoliDayID: q.HoliDayID,
+                      HoliDayNameC: q.HoliDayNameC
+                    })
+                  })
+                  return get
+                })
+              )),
+              concatMap((w: any) => from(w)),
+              concatMap((y: any) => this.GetApiDataServiceService.getWebApiData_GetAttend(y.Attend).pipe(
+                map((z: any) => {
+                  if (z.length == 0) {
+                    console.log(y.Attend.ListEmpID[0] + ' ' + y.Attend.DateB + '沒有出勤資料')
+                    return z
+                  } else {
+                    z[0]["TodayUse"] = y.Use
+                    z[0]["vaDateTimeB"] = y.DateTimeB
+                    z[0]["vaDateTimeE"] = y.DateTimeE
+                    z[0]["numberOfVaData"] = y.numberOfVaData
+                    z[0]["HoliDayID"] = y.HoliDayID
+                    z[0]["HoliDayNameC"] = y.HoliDayNameC
+                    return z[0]
+                  }
+                }),
+
+              )),
+              toArray()
+
+              // last()
+            ).pipe(takeWhile(() => this.api_subscribe))
+              .subscribe(
+                (x: any) => {
+                  // console.log(x)
+                  if (x.length > 0) {
+                    var allDay = 0
+                    var allHour = 0
+                    var allMinute = 0
+                    var calDateArray = []
+                    for (let data of x) {
+                      if (data.length == 0) {
+                        // console.log('沒有出勤資料')
+                      } else {
+                        var calDay
+                        var calHour
+                        var calMinute
+                        if (data.ActualRote.WorkHours == 0) {
+                          calDay = 0
+                          calHour = 0
+                          calMinute = 0
+                          // console.log(data)
+                        } else {
+
+                          calDay = timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).day
+                          calHour = timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).hour
+                          calMinute = timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).minute
+                        }
+                        // console.log(calDay)
+                        allDay = allDay + calDay
+                        allHour = allHour + calHour
+                        allMinute = allMinute + calMinute
+                        calDateArray.push(data.vaDateTimeB)
+                        calDateArray.push(data.vaDateTimeE)
+                      }
+                    }
+
+                    calDateArray.sort((a: any, b: any) => {
+                      let left = Number(new Date(a));
+                      let right = Number(new Date(b));
+                      return left - right;
+                    });
+
+                    var output = {
+                      allDay: allDay,
+                      allHour: allHour,
+                      allMinute: allMinute,
+                      startdate: formatDateTime(calDateArray[0]).getDate,
+                      ontime: formatDateTime(calDateArray[0]).getTime,
+                      enddate: formatDateTime(calDateArray[calDateArray.length - 1]).getDate,
+                      offtime: formatDateTime(calDateArray[calDateArray.length - 1]).getTime,
+                      numberOfVaData: x[0].numberOfVaData
+                    }
+                    // console.log(output)
+
+                    this.vaSearchFlowSign.push({
+                      ProcessFlowID: FlowSign.ProcessFlowID,
+                      showProcessFlowID: void_completionTenNum(FlowSign.ProcessFlowID),
+                      EmpCode: FlowSign.AppEmpID,
+                      EmpNameC: FlowSign.AppEmpName,
+                      AppDeptName: FlowSign.AppDeptName,
+                      State: FlowSign.State,
+                      ManageEmpName: FlowSign.ManageEmpName,
+                      Take: FlowSign.Take,
+                      HoliDayID: x[0].HoliDayID,
+                      HoliDayNameC: x[0].HoliDayNameC,
+
+                      DateB: output.startdate,
+                      DateE: output.enddate,
+                      TimeB: getapi_formatTimetoString(output.ontime),
+                      TimeE: getapi_formatTimetoString(output.offtime),
+                      numberOfVaData: output.numberOfVaData,
+
+                      day: output.allDay.toString(),
+                      hour: output.allHour.toString(),
+                      minute: output.allMinute.toString()
+                    })
+                  }
+                  function custom_sort(a, b) {
+                    return b.ProcessFlowID - a.ProcessFlowID;
+                  }
+                  this.vaSearchFlowSign.sort(custom_sort)
+                  // console.log(this.vaSearchFlowSign)
+                }
+
+                ,
+                (error: any) => {
+                  alert('與api連線異常，getWebApiData_GetAbsFlowAppsByProcessFlowID')
+                }
+              )
+          }
+
+        },
+        error => {
+          alert('與api連線異常，getWebApiData_GetFlowView')
+          this.LoadingPage.hide()
+        }
+      )
+  }
+}
+

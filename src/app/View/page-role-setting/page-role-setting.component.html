@@ -1,0 +1,12 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div class="P_fullwidth" style="margin-bottom: 20px">
+      <ngx-select [items]="NgxRoleSelectBox"  optionValueField="RoleCode" optionTextField="RoleName"
+        [(ngModel)]="searchRole.RoleCode" (select)="searchRolePage()"></ngx-select>
+    </div>
+    <tree-root [(state)]="state" id="tree1" [nodes]="nodes" [options]="options">
+    </tree-root>
+
+    <button (click)="saveNode()">儲存</button>
+  </div>
+</div>

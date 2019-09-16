@@ -1,0 +1,134 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators, AsyncValidatorFn, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { GetApiDataServiceService } from '../../Service/get-api-data-service.service'
+import { Observable, timer } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
+import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByFormClass';
+import { timeZone_tw, doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
+@Component({
+  selector: 'app-testform',
+  templateUrl: './testform.component.html',
+  styleUrls: ['./testform.component.css'],
+  providers: [GetBaseByFormClass]
+})
+export class TestformComponent implements OnInit {
+  
+  formgroup: FormGroup;
+  checkdata: boolean = false;
+  array = [];
+  Empdata = { EmpCode: "627532", AppEmpCode: "627532", EmpNameC: "蔡O美", }
+  constructor(private httpPostService: GetApiDataServiceService, ) {
+    this.formgroup = new FormGroup({
+      'name': new FormControl(this.Empdata.EmpCode,
+        [Validators.required, Validators.minLength(6), Validators.maxLength(6)], //sync validators
+        [this.Empcode_AsyncValidatorFn('627532', '')] //async validators
+      ),
+      'jacky': new FormControl(this.Empdata.EmpNameC,
+        [Validators.required,
+        Validators.required, this.forbiddenNameValidator()]
+      )
+    });
+  }
+  btarray() {
+    this.array.push(this.formgroup.value)
+  }
+  ngOnInit() {
+    var dateString  = '2018-09-19T00:00:00+08:00';
+
+    console.log(doFormatDate(timeZone_tw(new Date(dateString))))
+  }
+  forbiddenNameValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (control.value != '123') {
+        return { 'forbiddenName': true };
+      } else {
+        return null
+      }
+    };
+  }
+  /**
+   * @todo 驗證輸入請假單員工號
+   * @param {string} _AppEmpCode :被申請工號
+   * @param {string} _EffectDate :生效日
+   * @author jacky
+   */
+  Empcode_AsyncValidatorFn(_AppEmpCode, _EffectDate): AsyncValidatorFn {
+    if (this.formgroup) {
+      console.log(this.formgroup)
+      return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+        return timer(1000).pipe(
+          map(
+            Level => {
+              return { emailTaken: true };
+            }
+          ));
+      };
+    } else {
+
+      return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+        return timer(1000)
+          .pipe(
+            switchMap(() => {
+              console.log('串api')
+              var GetBaseByFormClass: GetBaseByFormClass = {
+                EmpCode: control.value,
+                AppEmpCode: _AppEmpCode,
+                EffectDate: _EffectDate
+              }
+              return this.httpPostService.getWebApiData_GetBaseByForm(GetBaseByFormClass)
+            })
+          ).pipe(
+            map(
+              Level => {
+                return (Level) ? null : { emailTaken: true };
+              }
+            ));
+      };
+    }
+  }
+
+  calDay() {
+    var startday = '2019/02/28'
+    var checkstartday = '2019/02/28'
+    var newdate = new Date(startday)
+    var newcheckstartday = new Date(checkstartday)
+    if (newcheckstartday > newdate) {
+      console.log('大於')
+    } else {
+      if (newcheckstartday < newdate) {
+        console.log('小於')
+      }
+      else {
+
+        if (newdate.toString() == newcheckstartday.toString()) {
+          console.log('等於')
+        }
+      }
+    }
+    // newdate.setDate(newdate.getDate()+num_addday)
+
+    // console.log(newdate.getMonth()+1);
+    // console.log(newdate.getDate());
+
+  }
+
+  setval() {
+    this.formgroup.patchValue({
+      name: '123'
+    });
+
+  }
+  onSubmit() {
+    console.log(this.formgroup.value)
+  }
+
+  EmpArray:EmpArray[] = []
+  getEmpCode(r:EmpArray[]){
+    this.EmpArray = r;
+  }
+}
+class EmpArray {
+  EmpCode:string;
+  EmpNameC:string;
+  EmpNameE:string;
+}

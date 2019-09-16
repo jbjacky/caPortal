@@ -1,0 +1,125 @@
+<div id="searchMenu" class="panel-collapse collapse in active">
+  <div class="form-group first-form-group">
+    <div class="row" style="padding-bottom: 15px;margin:0px">
+      <div class="col-md-4 col-xs-12" style="margin: 0px ; padding: 0px">
+        <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 8px;padding-left: 0;">
+          <label class=" control-label">
+            <span class="form-must-fill">*</span>起始日期
+          </label>
+        </div>
+        <div class="col-md-6 col-xs-10" style="padding:0px">
+          <input [matDatepicker]="StartDatePicker" [(ngModel)]="dateS" id="id_ipt_startday" type="text" class="form-control"
+            style="background-color: #ffffff;margin-top: 4px" placeholder="年/月/日" (dateChange)="StartDateChange()" />
+          <mat-datepicker #StartDatePicker touchUi></mat-datepicker>
+        </div>
+        <div class="col-md-2 col-xs-2" style="padding:0px">
+          <input (click)="StartDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                            cursor: pointer;
+                            color: transparent;
+                            border: 1px solid transparent;
+                            width: 50px;
+                            height: 40px;
+                            ">
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12" style="margin: 0px ; padding: 0px">
+        <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 8px;padding-left: 0;">
+          <label class=" control-label">
+            <span class="form-must-fill">*</span>結束日期
+          </label>
+        </div>
+        <div class="col-md-6  col-xs-10" style="padding:0px">
+          <input [matDatepicker]="EndDatePicker" [(ngModel)]="dateE" id="id_ipt_endday" type="text" class="form-control"
+            style="background-color: #ffffff;margin-top: 4px" placeholder="年/月/日" (dateChange)="EndDateChange()"/>
+          <mat-datepicker #EndDatePicker touchUi></mat-datepicker>
+        </div>
+        <div class="col-md-2  col-xs-2" style="padding:0px">
+          <input (click)="EndDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                              cursor: pointer;
+                              color: transparent;
+                              border: 1px solid transparent;
+                              width: 50px;
+                              height: 40px;
+                              ">
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12" style="margin: 0px ; padding: 0px">
+        <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 8px;padding-left: 0;">
+          <label class=" control-label">
+            <span class="form-must-fill">*</span>表單種類
+          </label>
+        </div>
+        <div class="col-md-8  col-xs-12" style="padding:0px">
+          <select class="form-control" [(ngModel)]="selectSearchForm" (change)="selectSearchFormChange()">
+            <ng-container *ngFor="let choose of chooseForm">
+              <option [value]="choose.value">{{choose.select}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group first-form-group">
+    <div class="row" style="padding-bottom: 15px;margin:0px">
+      <div class="col-md-4 col-xs-12" style="padding: 0">
+        <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
+          <label class=" control-label">
+            表單狀態
+          </label>
+        </div>
+        <div class="col-md-8  col-xs-12" style="padding:0px;margin-bottom: 15px">
+          <select id="selectDisplay" class="form-control" [(ngModel)]="selectState" (change)="setSearchVal()">
+            <option [value]='0'>全部</option>
+            <option [value]='1'>呈核中</option>
+            <option [value]='2'>重擬</option>
+            <option [value]='3'>已核准</option>
+            <option [value]='7'>已抽單</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12" style="padding: 0">
+        <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
+          <label class=" control-label">
+            篩選條件
+          </label>
+        </div>
+        <div class="col-md-8  col-xs-12" style="padding:0px;margin-bottom: 15px">
+          <select class="form-control" [(ngModel)]="selectFilterCondition" (change)="setSearchVal()">
+            <ng-container *ngFor="let filter of changeChooseForm()">
+              <option [value]="filter.value">{{filter.name}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12" style="padding: 0" *ngIf="selectFilterCondition=='vaType'">
+        <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
+          <label class=" control-label">
+            假別種類
+          </label>
+        </div>
+        <div class="col-md-8  col-xs-12" style="padding:0px;margin-bottom: 15px">
+          <select class="form-control" [(ngModel)]="selcetHolidayID" (change)="setSearchVal()">
+            <ng-container *ngFor="let HoliDay of HoliDay">
+              <option [value]="HoliDay.HoliDayID">{{HoliDay.HoliDayNameC}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12" style="padding: 0" *ngIf="selectFilterCondition=='Sameday'">
+        <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
+          <label class=" control-label">
+            當日請假
+          </label>
+        </div>
+        <div class="col-md-8  col-xs-12" style="padding:0px;margin-bottom: 15px">
+          <select class="form-control" [(ngModel)]="selcetTodaychooseID" (change)="setSearchVal()">
+            <ng-container *ngFor="let Todaychoose of TodayVa">
+              <option [value]="Todaychoose.id">{{Todaychoose.name}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

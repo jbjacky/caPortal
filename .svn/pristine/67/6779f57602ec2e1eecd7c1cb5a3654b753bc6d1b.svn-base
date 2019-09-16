@@ -1,0 +1,406 @@
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { doFormatDate, formatDateTime, doFormatDate_getMonthAndDay, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { weekDate } from 'src/app/UseVoid/void_weekDate';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { concatMap, takeWhile, debounceTime } from 'rxjs/operators';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { ViewportScroller } from '@angular/common';
+import { ShiftRoteSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/ShiftRoteSaveAndFlowStartClass';
+import { ReviewformServiceService } from 'src/app/Service/reviewform-service.service';
+import { Router } from '@angular/router';
+import { fromEvent } from 'rxjs';
+import { void_completionTenNum } from 'src/app/UseVoid/void_CompletionTenNum';
+import { FlowNodeFinishClass } from 'src/app/Models/PostData_API_Class/FlowNodeFinishClass';
+import { chinesenum } from 'src/app/UseVoid/void_chinesenumber';
+import { selectuiShow, oneP_Class } from '../../change-rz/change-rz.component';
+import { FormSign } from '../reviewform-detail-delform/reviewform-detail-delform.component';
+declare let $: any; //use jquery;
+
+@Component({
+  selector: 'app-reviewform-detail-changeform-rz',
+  templateUrl: './reviewform-detail-changeform-rz.component.html',
+  styleUrls: ['./reviewform-detail-changeform-rz.component.css']
+})
+export class ReviewformDetailChangeformRZComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+
+  loading: boolean = false;
+
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+
+
+  Emp = { EmpCode: '', EmpName: '' }
+
+  oneP: oneP_Class = new oneP_Class()
+
+
+  showFormSign: FormSign[] = [];
+  
+  selectDay: selectuiShow
+  selectChangeDay: selectuiShow
+
+  inbodybuttomdiv = 'inherit';
+  buttomdiv = 'inherit';
+
+  inbodybuttomdiv_phone = 'inherit';
+  buttomdiv_phone = 'inherit';
+  isdesktop: boolean = true;
+
+  desktopOrphone() {
+    if (window.innerWidth > 768) {
+      this.inbodybuttomdiv = 'inherit';
+      this.buttomdiv = 'inherit';
+      this.inbodybuttomdiv_phone = 'none';
+      this.buttomdiv_phone = 'none';
+      this.isdesktop = true;
+    } else {
+      this.inbodybuttomdiv = 'none';
+      this.buttomdiv = 'none';
+      this.inbodybuttomdiv_phone = 'inherit';
+      this.buttomdiv_phone = 'inherit';
+      this.isdesktop = false;
+    }
+  }
+  constructor(private GetApiUserService: GetApiUserService,
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private viewScroller: ViewportScroller,
+    private router: Router,
+    public ReviewformServiceService: ReviewformServiceService, ) { }
+
+  uishowProcessFlowID
+
+  ngOnInit() {
+    if (!this.ReviewformServiceService.changeDetail) {
+      this.router.navigate(['../nav/reviewform']);
+    } else {
+      this.desktopOrphone();
+      fromEvent(window, 'resize')
+        .pipe(debounceTime(500))
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe((event) => {
+          this.desktopOrphone();
+        })
+      fromEvent(window, 'scroll')
+        .pipe(debounceTime(100)) //當使用者在0.1秒內沒動作就執行
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe((event) => {
+          var last = document.body.scrollHeight - window.innerHeight
+          //https://pjchender.blogspot.com/2015/04/jquery.html
+          if (window.scrollY >= last) {
+            //當scrollbar到底時
+            if (this.isdesktop) {
+              this.inbodybuttomdiv = 'inherit';
+              this.buttomdiv = 'none';
+            } else {
+              this.inbodybuttomdiv_phone = 'inherit';
+              this.buttomdiv_phone = 'inherit';
+            }
+          } else {
+            if (this.isdesktop) {
+              this.inbodybuttomdiv = 'none';
+              this.buttomdiv = 'inherit';
+            } else {
+              this.inbodybuttomdiv_phone = 'inherit';
+              this.buttomdiv_phone = 'inherit';
+            }
+          }
+        })
+
+      this.uishowProcessFlowID = void_completionTenNum(this.ReviewformServiceService.changeDetail.ProcessFlowID)
+      console.log(this.ReviewformServiceService.changeDetail.dateArray)
+      this.Emp = {
+        EmpCode: this.ReviewformServiceService.changeDetail.EmpID1
+        , EmpName: this.ReviewformServiceService.changeDetail.EmpNameC1
+      }
+      this.GetApiDataServiceService.getWebApiData_GetShiftRoteDateRange(this.ReviewformServiceService.changeDetail.dateArray[0], this.ReviewformServiceService.changeDetail.EmpID1)
+        .pipe(
+          concatMap(
+            (x: any) => {
+              var Attend: GetAttendClass = {
+                DateB: x.DateA,
+                DateE: x.DateD,
+                ListEmpID: [this.ReviewformServiceService.changeDetail.EmpID1],
+                ListRoteID: null
+              }
+              return this.GetApiDataServiceService.getWebApiData_GetAttend(Attend)
+            }
+          )
+        )
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (x: any) => {
+            console.log(x)
+            this.selectDay = null
+            this.selectChangeDay = null
+            this.oneP = {
+              EmpCode: this.ReviewformServiceService.changeDetail.EmpID1,
+              EmpName: this.ReviewformServiceService.changeDetail.EmpNameC1,
+              work: []
+            }
+            for (let data of x) {
+              var setAttendDate = doFormatDate_getMonthAndDay(formatDateTime(data.AttendDate).getDate)
+              var isSelect: boolean = false
+              var dataAttenDate = doFormatDate(data.AttendDate)
+              var calDate = new Date(formatDateTime(data.AttendDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(data.AttendDate).getTime))
+              var calDate_dayofweek = calDate.getDay()
+              if (calDate_dayofweek == 0) {
+                calDate_dayofweek = 7
+              }
+              if (dataAttenDate == this.ReviewformServiceService.changeDetail.dateArray[0] || dataAttenDate == this.ReviewformServiceService.changeDetail.dateArray[1]) {
+                isSelect = true
+                var showDayofWeek = ''
+                if (calDate_dayofweek == 7) {
+                  showDayofWeek = '日'
+                } else {
+                  showDayofWeek = chinesenum(calDate_dayofweek)
+                }
+
+                if (!this.selectDay) {
+
+                  this.selectDay = {
+                    date: setAttendDate,
+                    job: data.ActualRote.RoteCode,
+                    RoteName: data.ActualRote.RoteNameC,
+                    RoteID: data.ActualRote.RoteID,
+                    realdate: formatDateTime(data.AttendDate).getDate,
+                    isSelect: isSelect,
+                    dayofweek: showDayofWeek
+                  }
+                } else {
+                  this.selectChangeDay = {
+                    date: setAttendDate,
+                    job: data.ActualRote.RoteCode,
+                    RoteName: data.ActualRote.RoteNameC,
+                    RoteID: data.ActualRote.RoteID,
+                    realdate: formatDateTime(data.AttendDate).getDate,
+                    isSelect: isSelect,
+                    dayofweek: showDayofWeek
+                  }
+                }
+
+              }
+              this.oneP.work.push(
+                {
+                  date: setAttendDate,
+                  job: data.ActualRote.RoteCode,
+                  realdate: formatDateTime(data.AttendDate).getDate,
+                  RoteName: data.ActualRote.RoteNameC,
+                  RoteID: data.ActualRote.RoteID,
+                  isSelect: isSelect,
+                  dayofweek: chinesenum(calDate_dayofweek)
+                })
+            }
+            // this.SetUiChangeDate()
+            console.log(this.oneP)
+          },
+          (error: any) => {
+            alert('與api連線異常，第一個人員，getWebApiData_GetShiftRoteDateRange')
+          }
+        )
+
+
+      //歷程主管意見多筆資料
+      this.GetApiDataServiceService.getWebApiData_GetFormSign(this.ReviewformServiceService.changeDetail.ProcessFlowID)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (x_GetFormSigns: FormSign[]) => {
+            this.showFormSign = []
+            for (let x_GetFormSign of x_GetFormSigns) {
+              this.showFormSign.push({
+                DeptNameC: x_GetFormSign.DeptNameC,
+                EmpCode: x_GetFormSign.EmpCode,
+                EmpID: x_GetFormSign.EmpID,
+                EmpNameC: x_GetFormSign.EmpNameC,
+                JobName: x_GetFormSign.JobName,
+                Key1: x_GetFormSign.Key1,
+                Key2: x_GetFormSign.Key2,
+                NodeName: x_GetFormSign.NodeName,
+                Note: x_GetFormSign.Note,
+                ProcessFlowID: x_GetFormSign.ProcessFlowID,
+                SignDate: formatDateTime(x_GetFormSign.SignDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(x_GetFormSign.SignDate).getTime)
+              })
+            }
+          },
+          (error) => {
+            alert('與api取得資料錯誤，GetFormSign')
+            console.log(error)
+          }
+        )
+    }
+  }
+
+  FlowDynamic_EmpID: string;
+  chooseBase(e) {
+    var id
+    if (e.length == 0) {
+      id = null
+      // console.log('清除員工資料')
+    } else {
+      id = e[0].value.split('，')[0]
+    }
+    this.FlowDynamic_EmpID = id
+
+  }
+
+
+  setDivStyle(selectData: selectuiShow) {
+    if (selectData.isSelect) {
+      return 'selectDiv'
+    } else {
+      return 'DivStyle'
+    }
+  }
+
+
+  backReview() {
+    this.ReviewformServiceService.changeReview('changeTab', this.ReviewformServiceService.showReviewManCode)
+  }
+  checkCanSendPutForward() {
+    if (!this.FlowDynamic_EmpID) {
+      alert('請選擇呈核人員')
+    } else {
+      $('#PutForwarddialog').modal('show');
+    }
+  }
+
+  onCheckCollapseInpostOpinions() {
+    //確認是否收合歷程主管簽核意見
+    if (!$('#' + 'mangText').hasClass('collapse in')) {
+      $('#' + 'mangText' + '_text').text('收合')
+      $('#' + 'mangText' + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 'mangText' + '_img').css({ "transform": "rotate(-180deg)" });
+
+    } else {
+      $('#' + 'mangText' + '_text').text('展開')
+      $('#' + 'mangText' + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 'mangText' + '_img').css({ "transform": "rotate(0deg)" });
+    }
+  }
+
+  signText: string;
+  Approved_Click() {
+
+    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.ReviewformServiceService.showReviewManCode)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        y => {
+          if (!this.signText) {
+            this.signText = ''
+          }
+          var FlowNodeFinish: FlowNodeFinishClass = {
+            ProcessFlowID: parseInt(this.ReviewformServiceService.changeDetail.ProcessFlowID),
+            ProcessApParmAuto: parseInt(this.ReviewformServiceService.changeDetail.ProcessApParmAuto),
+            State: "3",
+            FlowTreeID: this.ReviewformServiceService.changeDetail.FlowTreeID,
+            FlowNodeID: this.ReviewformServiceService.changeDetail.FlowNodeID,
+            Note: this.signText,
+            NodeName: "核准",
+            ManInfo: y[0],
+            FlowDynamic: {
+              FlowNode: this.ReviewformServiceService.changeDetail.FlowNodeID,
+              RoleID: y[0].RoleID,
+              EmpID: this.ReviewformServiceService.showReviewManCode
+            }
+          }
+          console.log(FlowNodeFinish)
+          this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish).subscribe(
+            (x: any) => {
+              if (x) {
+                $('#Approveddialog_sussesdialog').modal('show');
+              }
+            }
+          )
+        }
+      )
+  }
+  Sendback_Click() {
+
+    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.ReviewformServiceService.showReviewManCode)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        y => {
+          if (!this.signText) {
+            this.signText = ''
+          }
+          var FlowNodeFinish: FlowNodeFinishClass = {
+            ProcessFlowID: parseInt(this.ReviewformServiceService.changeDetail.ProcessFlowID),
+            ProcessApParmAuto: parseInt(this.ReviewformServiceService.changeDetail.ProcessApParmAuto),
+            State: "2",
+            FlowTreeID: this.ReviewformServiceService.changeDetail.FlowTreeID,
+            FlowNodeID: this.ReviewformServiceService.changeDetail.FlowNodeID,
+            Note: this.signText,
+            NodeName: "退回",
+            ManInfo: y[0],
+            FlowDynamic: {
+              FlowNode: this.ReviewformServiceService.changeDetail.FlowNodeID,
+              RoleID: y[0].RoleID,
+              EmpID: this.ReviewformServiceService.showReviewManCode
+            }
+          }
+          console.log(FlowNodeFinish)
+          this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish).subscribe(
+            (x: any) => {
+              if (x) {
+                $('#Sendbackdialog_sussesdialog').modal('show');
+              }
+            }
+          )
+        }
+      )
+  }
+  PutForward_Click() {
+    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.ReviewformServiceService.showReviewManCode)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        y => {
+          this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FlowDynamic_EmpID)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              x => {
+                if (!this.signText) {
+                  this.signText = ''
+                }
+                var FlowNodeFinish: FlowNodeFinishClass = {
+                  ProcessFlowID: parseInt(this.ReviewformServiceService.changeDetail.ProcessFlowID),
+                  ProcessApParmAuto: parseInt(this.ReviewformServiceService.changeDetail.ProcessApParmAuto),
+                  State: "1",
+                  FlowTreeID: this.ReviewformServiceService.changeDetail.FlowTreeID,
+                  FlowNodeID: this.ReviewformServiceService.changeDetail.FlowNodeID,
+                  Note: this.signText,
+                  NodeName: "呈核",
+                  ManInfo: y[0],
+                  FlowDynamic: {
+                    FlowNode: this.ReviewformServiceService.changeDetail.FlowNodeID,
+                    RoleID: x[0].RoleID,
+                    EmpID: x[0].EmpID
+                  }
+                }
+                console.log(FlowNodeFinish)
+                this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish).subscribe(
+                  (x: any) => {
+                    if (x) {
+                      $('#PutForwarddialog_sussesdialog').modal('show');
+                    }
+                  }
+                )
+              }
+            )
+        }
+      )
+
+    // this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish).subscribe(
+    //   x=>{
+
+    //   }
+    // )
+  }
+  sendFinish() {
+    this.backReview()
+    this.router.navigate(['../nav/reviewform']);
+  }
+}
+

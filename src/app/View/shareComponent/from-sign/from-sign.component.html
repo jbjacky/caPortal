@@ -1,0 +1,40 @@
+<div *ngIf="showFormSign.length >0" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px">
+  <div class="row" style="margin: 0;padding: 0%">
+    <div class="col-md-2 col-xs-8  P_left">歷程主管簽核意見</div>
+    <div class="col-md-10 col-xs-4">
+      <a data-toggle="collapse" href="#mangText" (click)="onCheckCollapseInpostOpinions()">
+        <a id="mangText_text" data-toggle="collapse" href="#mangText" (click)="onCheckCollapseInpostOpinions()">收合</a>
+        <img id="mangText_img" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-180deg);" />
+      </a>
+    </div>
+  </div>
+  <div class="row" style="margin: 0;padding: 0%">
+    <div class="col-md-2 col-xs-12"></div>
+    <div class="col-md-10 col-xs-12">
+      <div id="mangText" class="collapse in">
+        <div *ngFor="let showFormSign of showFormSign" style="margin-bottom: 20px;padding-bottom: 15px">
+          <div class="row" style="margin: 0;padding: 0">
+            <div class="col-md-2 col-xs-12" style="padding: 0;font-weight: bold;">簽核人員</div>
+            <div class="col-md-10 col-xs-12" style="padding: 0">{{showFormSign.JobName}} {{showFormSign.EmpNameC}}
+            </div>
+          </div>
+          <div class="row" style="margin: 0;padding: 0">
+            <div class="col-md-2 col-xs-12" style="padding: 0;font-weight: bold;">簽核時間</div>
+            <div class="col-md-4 col-xs-12" style="padding: 0">{{showFormSign.SignDate}}</div>
+            <div class="col-md-2 col-xs-12" style="padding: 0;font-weight: bold;">假單遞送</div>
+            <div class="col-md-4 col-xs-12" style="padding: 0">{{showFormSign.NodeName}}</div>
+          </div>
+          <div class="row" style="margin: 0;padding: 0">
+            <div class="col-md-2 col-xs-12" style="padding: 0;font-weight: bold;">簽核意見</div>
+            <div class="col-md-10 col-xs-12" style="padding: 0">{{showFormSign.Note}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-md-2 P_left"></div> -->
+    <!-- <div class="col-md-"></div> -->
+
+  </div>
+</div>
+<!--歷程主管意見-->

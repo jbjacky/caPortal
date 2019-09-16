@@ -1,0 +1,249 @@
+<div *ngIf="!isWriteforgetform">
+  <section class="a-block stateblock">
+    <div class="a-block-body  a-block-container">
+      <ol class="steps-indicator row">
+        <li class="col-sm-3  active">選擇欲填寫之簽認單</li>
+        <li class="col-sm-3">填寫考勤異常確認單</li>
+        <li class="col-sm-3">送出申請單</li>
+      </ol>
+    </div>
+    <!-- a-block-body End -->
+  </section>
+  <div class="a-block">
+    <div class="a-block-body  a-block-container row" style="margin-bottom: 15px;">
+      <div class="col-md-6 col-xs-12  P_dashed">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right;padding-top: 6px;">
+          考勤異常人
+        </label>
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-6 col-xs-6" style="padding: 0;">
+              <input type="text" class="form-control" placeholder="員工號" [(ngModel)]="EmpBase.EmpCode" maxlength="6"
+                (keyup)="chooseEmp()">
+              <div *ngIf="errorEmp.state" style="color: #e60012">{{errorEmp.errorString}}</div>
+            </div>
+            <div class="col-md-2 col-xs-3" style="height: 23px;padding: 0px;padding-left: 2px;text-align: center;">
+              <button data-toggle="modal" data-target="#chooseEmpdialog" style="cursor: pointer;border: 0;background: 0">
+                <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+              </button>
+            </div>
+
+            <div class="col-md-4 col-xs-3" style="height: 23px;padding: 0px;padding-left: 2px;text-align: center;padding-top: 6px;">
+              {{EmpBase.Name}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-xs-12  P_dashed">
+        <div class="col-md-3 col-xs-12  P_textLeft">
+          <label class="control-label">填寫人</label>
+        </div>
+        <div class="col-md-9  col-xs-12 P_paddingLRZ">
+          <label class="control-label" style="font-weight: normal;padding-top: 6px;">{{User.write_man_code}}
+            {{User.write_man_name}}</label>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="a-block-body  a-block-container row">
+      <div class="col-md-6 firstinone-form-group">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right;padding-top: 6px;">
+          <span class="form-must-fill">*</span>起始日期
+        </label>
+        <div class="col-md-8">
+          <div class="row writerow">
+            <div class="col-md-6 col-xs-10" style="padding: 0px">
+              <input [matDatepicker]="StartDatePicker" id="id_ipt_startday" type="text" class="form-control" style="background-color: #ffffff;"
+                placeholder="年/月/日" />
+              <div *ngIf="errorStartDate.state" style="color: #e60012">{{errorStartDate.errorString}}</div>
+
+              <mat-datepicker #StartDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+            </div>
+            <!--  -->
+            <div class="col-md-2 col-xs-2" style="padding: 0px">
+              <input (click)="StartDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                            cursor: pointer;
+                            color: transparent;
+                            border: 1px solid transparent;
+                            width: 50px;
+                            height: 40px;
+                            margin-left: 3px;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 firstintwo-form-group">
+        <label class="col-md-3 control-label" style="padding: 0px;text-align: right;padding-top: 6px;">
+          <span class="form-must-fill">*</span>結束日期
+        </label>
+        <div class="col-md-8">
+          <div class="row ">
+            <div class="col-md-6 col-xs-10 P_paddingLRZ">
+              <input [matDatepicker]="EndDatePicker" id="id_ipt_endday" type="text" class="form-control" style="background-color: #ffffff;"
+                placeholder="年/月/日" />
+              <div *ngIf="errorEndDate.state" style="color: #e60012">{{errorEndDate.errorString}}</div>
+
+              <mat-datepicker #EndDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+            </div>
+            <!--  -->
+            <div class="col-md-2 col-xs-2" style="padding: 0px">
+              <input (click)="EndDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                              cursor: pointer;
+                              color: transparent;
+                              border: 1px solid transparent;
+                              width: 50px;
+                              height: 40px;
+                              margin-left: 3px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="a-block-body  a-block-container row">
+      <div class="col-md-6">
+        <div class="col-md-4 col-md-offset-4" style="padding: 0">
+          <button class="btn btn-primary" (click)="onSearch()">搜尋</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-block">
+    <div class="a-block-body  a-block-container">
+      <h3>出勤異常日</h3>
+      <div *ngIf=" AttendCard.length == 0">目前無考勤異常資料</div>
+      <div *ngFor="let Attend of AttendCard" style="border:1px solid #028fcf;padding: 20px 20px;margin: 0px;margin-bottom: 10px"
+        class="row">
+        <div class="col-md-11 col-xs-11 row" style="margin: 0px ;padding: 0px">
+
+          <div class="col-md-3 row P_paddingZ">
+            <div class="col-md-6  col-xs-6">
+              <span style="color: #028fcf">{{Attend.AttendDate}}</span>
+            </div>
+            <div class="col-md-6  col-xs-6">
+              <div *ngIf="Attend.LateMins" style="color: #23569D;
+                  background-color: #fff;
+                  border: 1px solid #23569D;
+                  border-radius: 15px;
+                  width: 70px;
+                  height: 23px;
+                  font-size: 15px;
+                  text-align: center;">遲到</div>
+              <div *ngIf="Attend.EarlyMins" style="color: #23569D;
+                  background-color: #fff;
+                  border: 1px solid #23569D;
+                  border-radius: 15px;
+                  width: 70px;
+                  height: 23px;
+                  font-size: 15px;
+                  text-align: center;">早退</div>
+              <div *ngIf="Attend.IsAbsent" style="color: #23569D;
+                  background-color: #fff;
+                  border: 1px solid #23569D;
+                  border-radius: 15px;
+                  width: 70px;
+                  height: 23px;
+                  font-size: 15px;
+                  text-align: center;">未刷卡</div>
+            </div>
+          </div>
+          <div class="col-md-5 row P_bottomLine">
+            <div class="col-md-4 col-xs-12 P_paddingBottom">
+              <div style="color: rgb(150, 149, 148);">班型</div>
+              <div>{{Attend.RoteCode}}</div>
+            </div>
+            <div class="col-md-4 col-xs-6">
+              <div style="color: rgb(150, 149, 148);">應上班時間</div>
+              <div>{{Attend.ActualRote_OnTime}}</div>
+            </div>
+            <div class="col-md-4 col-xs-6 P_paddingRZ" style="padding-right: 0px">
+              <div style="color: rgb(150, 149, 148);">應下班時間</div>
+              <div style="display: inline-block;padding-right: 10px">{{Attend.ActualRote_OffTime}}</div>
+              <div *ngIf="Attend.ActualRote_calCrossDay" style="display: inline-block;
+                  height: 20px;
+                  font-size: 13px;
+                  width: 40px;
+                  text-align: center;
+                  color: #fff;
+                  background-color: #408cb6;
+                  border: 1px solid;
+                  border-radius: 15px;">+1日</div>
+            </div>
+          </div>
+          <div class="col-md-4 row P_paddingTop">
+            <div class="col-md-6 col-xs-6">
+              <div style="color: rgb(150, 149, 148);" [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.LateMins)">到勤時間</div>
+              <div *ngIf="Attend.AttendCard_OnTime.length>0" [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.LateMins)">{{Attend.AttendCard_OnTime}}</div>
+              <div *ngIf="Attend.AttendCard_OnTime.length==0" [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.LateMins)">無</div>
+            </div>
+            <div class="col-md-6 col-xs-6 P_paddingRZ">
+              <div style="color: rgb(150, 149, 148);" [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.EarlyMins)">離勤時間</div>
+              <div>
+                <div *ngIf="Attend.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px"
+                  [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.EarlyMins)">{{Attend.AttendCard_OffTime}}</div>
+                <div *ngIf="Attend.AttendCard_OffTime.length==0" style="display: inline-block;padding-right: 10px"
+                  [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.EarlyMins)">無</div>
+                <div *ngIf="Attend.AttendCard_calCrossDay" style="display: inline-block;
+                    height: 20px;
+                    font-size: 13px;
+                    width: 40px;
+                    text-align: center;
+                    color: #fff;
+                    background-color: #408cb6;
+                    border: 1px solid;
+                    border-radius: 15px;">+1日</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1 col-xs-1 row" style="margin: 0px ;padding: 0px">
+          <div class="P_lineHeight">
+            <a style="cursor: pointer;text-decoration:underline" (click)="onGoWriteForm(Attend)">
+              <span class="P_textNotshow">填寫</span>
+              <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div style="border-top: 1px dashed #dcdcdc;padding: 15px 0px;margin-top: 20px;margin-bottom: 20px">
+        <div style="border:1px solid #d9edf7;">
+          <div style="background-color: #d9edf7;padding-left: 10px;padding-top: 5px;">
+            <label style="color: 
+                #31708f">人力處提醒您</label>
+          </div>
+          <div style="height: 50px;
+                overflow-y: auto;padding: 10px 10px;">僅顯示過去七天內之異常出勤，若欲查詢未在列表之日期，請洽單位行政處。
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<app-forgetform-write *ngIf="isWriteforgetform" (outputWriteforgetformChange)="onisWriteforgetformChange()"
+  [getAttendCard]="selectAttendCard"></app-forgetform-write>
+
+
+
+<div class="modal" id="chooseEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <app-choosebase (saveEmptoView)="onSaveEmptoView($event)"></app-choosebase>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog選擇請假員工-->

@@ -1,0 +1,186 @@
+<div *ngIf="dateworks.length>0">
+  <div>
+    <div style="text-align: center">
+      <button class="bt" (click)="lessMonth(dateworks)">
+        <img style="height: 20px;width: 20px;" src="./assets/images-template/icon-left.png" />
+      </button>
+      <span style="color: #028fcf;font-size: 18px">{{Year}}年{{Month}}月</span>
+      <button class="bt" (click)="addMonth(dateworks)">
+        <img style="height: 20px;width: 20px;" src="./assets/images-template/icon-right.png" />
+      </button>
+    </div>
+    <!-- {{SearchMan.jobID}}{{SearchMan.name}}的班表 -->
+    <!-- <div class="desktopCalender" style="float: right">
+        <button id="bt_RoteShow" class="onShowButton" (click)="RoteCalendarShow(Cathch_drawCalendar)" style="
+        border-top-left-radius: 23px;
+        border-bottom-left-radius: 23px;">依班型顯示</button>
+        <button id="bt_TimeShow" class="offShowButton" (click)="TimeCalendarShow(Cathch_drawCalendar)" style="
+        border-top-right-radius: 23px;
+        border-bottom-right-radius: 23px;">依時間顯示</button>
+      </div> -->
+    <div style="padding: 10px">
+      <img style="height: 20px;width: 20px;" src="./assets/images-template/icon_va.png" />
+      <span *ngIf="!isDelString"  style="padding: 10px">請假</span>
+      <span *ngIf="isDelString" style="padding: 10px">銷假</span>
+      <!-- <img style="height: 20px;width: 20px;" src="./assets/images-template/exclamation_mark.png" />
+        考勤異常 -->
+
+    </div>
+
+  </div>
+
+  <div class="desktopCalender">
+    <div>
+      <div class="week">日</div>
+      <div class="week">一</div>
+      <div class="week">二</div>
+      <div class="week">三</div>
+      <div class="week">四</div>
+      <div class="week">五</div>
+      <div class="week">六</div>
+    </div>
+    <div>
+
+      <div *ngFor="let weekdata of data">
+        <div class="day" style="border-left: 1px solid #e0e0e0;">
+          <div class="daytext" [style.color]="colorisThisMonth(weekdata.Sunday.isthisMonth,weekdata.Sunday.isToday)">
+            {{weekdata.Sunday.daytext}}
+          </div>
+          <!-- <div class="Rote" [style.color]="colorisThisHoliday(weekdata.Sunday.isHoliday)">
+
+              {{weekdata.Sunday.showText}}
+            </div> -->
+          <div class="state">
+            <!-- <a *ngIf="weekdata.Sunday.isVa">請假單</a> -->
+            <a *ngIf="weekdata.Sunday.isVa" style="cursor: pointer;margin: 5px">
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/icon_va.png" />
+            </a>
+            <!-- 請假單 -->
+            <!-- <a *ngIf="weekdata.Sunday.isAtterror" style="cursor: pointer;margin: 5px" (click)="AtterrorClick(weekdata.Sunday.YearMonthDayText,SearchMan.jobID)">
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/exclamation_mark.png" />
+            </a> -->
+            <!-- 考勤異常 -->
+          </div>
+        </div>
+        <div class="day">
+          <div class="daytext" [style.color]="colorisThisMonth(weekdata.Monday.isthisMonth,weekdata.Monday.isToday)">
+            {{weekdata.Monday.daytext}}
+          </div>
+          <!-- <div class="Rote" [style.color]="colorisThisHoliday(weekdata.Monday.isHoliday)">
+              {{weekdata.Monday.showText}}
+            </div> -->
+          <div class="state">
+            <!-- <a *ngIf="weekdata.Monday.isVa">請假單</a> -->
+            <a *ngIf="weekdata.Monday.isVa" style="cursor: pointer;margin: 5px" >
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/icon_va.png" />
+            </a>
+            <!-- 請假單 -->
+            <!-- <a *ngIf="weekdata.Monday.isAtterror" style="cursor: pointer;margin: 5px">
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/exclamation_mark.png" (click)="AtterrorClick(weekdata.Monday.YearMonthDayText,SearchMan.jobID)" />
+            </a> -->
+            <!-- 考勤異常 -->
+          </div>
+        </div>
+        <div class="day">
+          <div class="daytext" [style.color]="colorisThisMonth(weekdata.Tuesday.isthisMonth,weekdata.Tuesday.isToday)">
+            {{weekdata.Tuesday.daytext}}
+          </div>
+          <!-- <div class="Rote"  [style.color]="colorisThisHoliday(weekdata.Tuesday.isHoliday)">
+              {{weekdata.Tuesday.showText}}
+            </div> -->
+          <div class="state">
+            <!-- <a *ngIf="weekdata.Tuesday.isVa">請假單</a> -->
+            <a *ngIf="weekdata.Tuesday.isVa" style="cursor: pointer;margin: 5px">
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/icon_va.png" />
+            </a>
+            <!-- 請假單 -->
+            <!-- <a *ngIf="weekdata.Tuesday.isAtterror" style="cursor: pointer;margin: 5px">
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/exclamation_mark.png" (click)="AtterrorClick(weekdata.Tuesday.YearMonthDayText,SearchMan.jobID)" />
+            </a> -->
+            <!-- 考勤異常 -->
+          </div>
+        </div>
+        <div class="day">
+          <div class="daytext" [style.color]="colorisThisMonth(weekdata.Wednesday.isthisMonth,weekdata.Wednesday.isToday)">
+            {{weekdata.Wednesday.daytext}}
+          </div>
+          <!-- <div class="Rote" [style.color]="colorisThisHoliday(weekdata.Wednesday.isHoliday)">
+              {{weekdata.Wednesday.showText}}
+            </div> -->
+          <div class="state">
+            <!-- <a *ngIf="weekdata.Wednesday.isVa">請假單</a> -->
+            <a *ngIf="weekdata.Wednesday.isVa" style="cursor: pointer;margin: 5px" >
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/icon_va.png" />
+            </a>
+            <!-- 請假單 -->
+            <!-- <a *ngIf="weekdata.Wednesday.isAtterror" style="cursor: pointer;margin: 5px">
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/exclamation_mark.png" (click)="AtterrorClick(weekdata.Wednesday.YearMonthDayText,SearchMan.jobID)" />
+            </a> -->
+            <!-- 考勤異常 -->
+          </div>
+        </div>
+        <div class="day">
+          <div class="daytext" [style.color]="colorisThisMonth(weekdata.Thursday.isthisMonth,weekdata.Thursday.isToday)">
+            {{weekdata.Thursday.daytext}}
+          </div>
+          <!-- <div class="Rote" [style.color]="colorisThisHoliday(weekdata.Thursday.isHoliday)">
+              {{weekdata.Thursday.showText}}
+            </div> -->
+          <div class="state">
+            <!-- <a *ngIf="weekdata.Thursday.isVa">請假單</a> -->
+            <a *ngIf="weekdata.Thursday.isVa" style="cursor: pointer;margin: 5px">
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/icon_va.png"/>
+            </a>
+            <!-- 請假單 -->
+            <!-- <a *ngIf="weekdata.Thursday.isAtterror" style="cursor: pointer;margin: 5px">
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/exclamation_mark.png" (click)="AtterrorClick(weekdata.Thursday.YearMonthDayText,SearchMan.jobID)" />
+            </a> -->
+            <!-- 考勤異常 -->
+          </div>
+        </div>
+        <div class="day">
+          <div class="daytext" [style.color]="colorisThisMonth(weekdata.Friday.isthisMonth,weekdata.Friday.isToday)">
+            {{weekdata.Friday.daytext}}
+          </div>
+          <!-- <div class="Rote" [style.color]="colorisThisHoliday(weekdata.Friday.isHoliday)">
+              {{weekdata.Friday.showText}}
+            </div> -->
+          <div class="state">
+            <!-- <a *ngIf="weekdata.Friday.isVa">請假單</a> -->
+            <a *ngIf="weekdata.Friday.isVa" style="cursor: pointer;margin: 5px">
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/icon_va.png" />
+            </a>
+            <!-- 請假單 -->
+            <!-- <a *ngIf="weekdata.Friday.isAtterror" style="cursor: pointer;margin: 5px">
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/exclamation_mark.png" (click)="AtterrorClick(weekdata.Friday.YearMonthDayText,SearchMan.jobID)" />
+            </a> -->
+            <!-- 考勤異常 -->
+          </div>
+        </div>
+        <div class="day">
+          <div class="daytext" [style.color]="colorisThisMonth(weekdata.Saturday.isthisMonth,weekdata.Saturday.isToday)">
+            {{weekdata.Saturday.daytext}}
+          </div>
+          <!-- <div class="Rote" [style.color]="colorisThisHoliday(weekdata.Saturday.isHoliday)">
+              {{weekdata.Saturday.showText}}
+            </div> -->
+          <div class="state">
+            <!-- <a *ngIf="weekdata.Saturday.isVa">請假單</a> -->
+            <a *ngIf="weekdata.Saturday.isVa" style="cursor: pointer;margin: 5px">
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/icon_va.png" />
+            </a>
+            <!-- 請假單 -->
+            <!-- <a *ngIf="weekdata.Saturday.isAtterror" style="cursor: pointer;margin: 5px">
+              <img style="height: 20px;width: 20px;" src="./assets/images-template/exclamation_mark.png" (click)="AtterrorClick(weekdata.Saturday.YearMonthDayText,SearchMan.jobID)" />
+            </a> -->
+            <!-- 考勤異常 -->
+          </div>
+        </div>
+      </div>
+
+      <br style="clear: left;" />
+    </div>
+  </div>
+
+
+</div>

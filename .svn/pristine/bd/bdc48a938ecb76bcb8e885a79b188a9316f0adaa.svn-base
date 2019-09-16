@@ -1,0 +1,91 @@
+import { Component, OnInit, NgZone } from '@angular/core';
+import { isNumber } from 'util';
+import { isNum_checkString } from 'src/app/UseVoid/void_doFormatDate';
+import { Observable, BehaviorSubject } from 'rxjs';
+
+@Component({
+  selector: 'app-change-non-shift',
+  templateUrl: './change-non-shift.component.html',
+  styleUrls: ['./change-non-shift.component.css']
+})
+export class ChangeNonShiftComponent implements OnInit {
+  chooseNow: boolean = true
+  str_DEFAULT = '對應班型'
+  item_disable: boolean = true
+
+  changeClass: changeClass[] = []
+
+  placeholder() {
+    if (this.item_disable) {
+      return '對應班型'
+    } else {
+      return '請輸入班型'
+    }
+  }
+  constructor() { }
+
+  ngOnInit() {
+    this.changeClass = [{
+      Date: '2018/08/10',
+      oldClass: '0500A',
+      searchTime: '',
+      selectClass: '0800B',
+
+      chooseNow: new BehaviorSubject<boolean>(false),
+      item_disable: false,
+      str_DEFAULT: '對應班型'
+    },{
+      Date: '2018/08/11',
+      oldClass: '0500A',
+      searchTime: '',
+      selectClass: '',
+
+      chooseNow:  new BehaviorSubject<boolean>(true),
+      item_disable: false,
+      str_DEFAULT: '對應班型'
+    },{
+      Date: '2018/08/12',
+      oldClass: '0500A',
+      searchTime: '',
+      selectClass: '',
+
+      chooseNow:  new BehaviorSubject<boolean>(true),
+      item_disable: false,
+      str_DEFAULT: '對應班型'
+    }
+    ]
+  }
+
+  blurSearch(changeClass:changeClass) {
+    if (changeClass.searchTime.length == 4) {
+      if (isNum_checkString(changeClass.searchTime)) {
+        // console.log('輸入成功')
+        changeClass.chooseNow.next(false);
+      } else {
+        // console.log('請輸入數字，例如0800')
+      }
+    }
+  }
+
+  bt_cancel(changeClass:changeClass){
+    for(let ch of this.changeClass){
+      if(changeClass == ch){
+        ch.chooseNow.next(true)
+        ch.selectClass =''
+      }
+    }
+  }
+
+
+
+}
+class changeClass {
+  Date: string;
+  oldClass: string;
+  searchTime: string;
+  selectClass: string;
+
+  chooseNow: BehaviorSubject<boolean>;
+  item_disable: boolean;
+  str_DEFAULT: string;
+}

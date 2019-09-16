@@ -1,0 +1,188 @@
+import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+
+declare let $: any; //use jquery
+@Component({
+  selector: 'app-hr-dept',
+  templateUrl: './hr-dept.component.html',
+  styleUrls: ['./hr-dept.component.css']
+})
+export class HrDeptComponent implements OnInit,AfterContentInit , OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true
+  ngAfterContentInit(): void {
+  }
+
+  constructor() { }
+
+  ngOnInit() {
+
+  }
+
+  HrDeptData: HrDeptDataClass[] = [
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    },
+    {
+      EmpCode: '651534',
+      EmpNameC: '林O臨',
+      DeptCode: '0146A',
+      DeptName: '台北分公司',
+      AutoKey:'0'
+    }
+  ]
+}
+
+class HrDeptDataClass {
+  EmpCode: string;
+  EmpNameC: string;
+  DeptCode: string;
+  DeptName: string;
+  AutoKey:string;
+}

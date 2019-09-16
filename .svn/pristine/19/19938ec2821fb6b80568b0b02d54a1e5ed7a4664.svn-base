@@ -1,0 +1,17 @@
+
+.P_title{
+    padding-left: 15px;
+    padding-right: 35px;
+    padding-top: 5px;
+    text-align: right;
+}
+@media screen and (max-width:992px) {
+   
+.P_title{
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    text-align: left;
+}
+
+}

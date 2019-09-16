@@ -1,0 +1,82 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var http_1 = require("@angular/common/http");
+var ALTER_EGOS = ['Eric'];
+var GetApiDataServiceService = /** @class */ (function () {
+    function GetApiDataServiceService(http) {
+        this.http = http;
+        this.localUrl = 'http://publish.jbjob.com.tw/ChinaAirlines/eepWebService/';
+    }
+    /**
+     * @todo  取得被申請員工基本資料(含權限檢核)
+     * @param {string} _EmpCode :申請工號
+     * @param {string} _AppEmpCode :被申請工號
+     * @param {string} _EffectDate :生效日
+     * @return [ ]，可能是離職員工
+     * @return null，申請與被申請工號有誤
+     * @author jacky
+     */
+    GetApiDataServiceService.prototype.getWebApiData_GetBaseByForm = function (_EmpCode, _AppEmpCode, _EffectDate) {
+        return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByForm', JSON.stringify({ "EmpCode": _EmpCode, "AppEmpCode": _AppEmpCode, "EffectDate": _EffectDate }), {
+            headers: new http_1.HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        });
+    };
+    /**
+     * @todo 取得申請者可以幫那些部門及那些人申請資料
+     * @param {string} _EmpCode :員工工號
+     * @param {string} _DeptID : 部門ID，0為_EmpCode傳入工號的所屬部門+下一層
+     * @param {string} _Level :預設為2，代表回傳本層+下一層的部門和人員
+     * @param {string} _DeptNameKey :關鍵字模糊查詢部門，可為空
+     * @param {string} _EmpCodeOrNameKey :關鍵字模糊查詢員工姓名或工號，可為空
+     * @param {string} _EffectDate :生效日期
+     * @author jacky
+     */
+    GetApiDataServiceService.prototype.getWebApiData_GetDeptaByEmp = function (_EmpCode, _DeptID, _Level, _DeptNameKey, _EmpCodeOrNameKey, _EffectDate) {
+        return this.http.post(this.localUrl + 'BaseHandler.svc/GetDeptaByEmp', JSON.stringify({ "EmpCode": _EmpCode, "DeptID": _DeptID, "Level": _Level, "DeptNameKey": _DeptNameKey, "EmpCodeOrNameKey": _EmpCodeOrNameKey, "EffectDate": _EffectDate }), {
+            headers: new http_1.HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        });
+    };
+    /**
+     * @todo 取得假別代碼
+     */
+    GetApiDataServiceService.prototype.getWebApiData_GetHoliDayByForm = function () {
+        return this.http.post(this.localUrl + 'AttHandler.svc/GetHoliDayByForm', JSON.stringify({}), {
+            headers: new http_1.HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        });
+    };
+    /**
+     * @todo 取得餘假資訊
+     */
+    GetApiDataServiceService.prototype.getWebApiData_GetHoliDayBalance = function (_EmpID, _DateB, _DateE, _HoliDayID, _KeyName, _EventDate, _ListAbsFlow) {
+        return this.http.post(this.localUrl + 'AbsHandler.svc/GetHoliDayBalance', JSON.stringify({ "EmpID": _EmpID, "DateB": _DateB, "DateE": _DateE, "HoliDayID": _HoliDayID, "KeyName": _KeyName, "EventDate": _EventDate, "ListAbsFlow": _ListAbsFlow }), {
+            headers: new http_1.HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        });
+    };
+    GetApiDataServiceService = __decorate([
+        core_1.Injectable({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [http_1.HttpClient])
+    ], GetApiDataServiceService);
+    return GetApiDataServiceService;
+}());
+exports.GetApiDataServiceService = GetApiDataServiceService;
+//# sourceMappingURL=get-api-data-service.service.js.map

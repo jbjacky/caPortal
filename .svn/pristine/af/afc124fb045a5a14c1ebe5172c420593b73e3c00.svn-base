@@ -1,0 +1,378 @@
+import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+
+import { AttendCard } from 'src/app/Models/AttendCard'
+import { doFormatDate, getapi_formatTimetoString, sumbit_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { SaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/SaveAndFlowStartClass';
+import { state } from '@angular/animations';
+import { isValidDate, isValidTime } from 'src/app/UseVoid/void_isVaildDatetime';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
+import { CardCheckClass } from 'src/app/Models/PostData_API_Class/CardCheckClass';
+import { FlowCardCheckClass } from 'src/app/Models/PostData_API_Class/FlowCardCheckClass';
+import { Router } from '@angular/router';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-forgetform-write',
+  templateUrl: './forgetform-write.component.html',
+  styleUrls: ['./forgetform-write.component.css']
+})
+export class ForgetformWriteComponent implements OnInit, AfterViewInit,OnDestroy {
+  ngOnDestroy(): void {
+    $(this.StartTimeView.nativeElement).off('change');
+    $(this.EndTimeView.nativeElement).off('change');
+  }
+  ngAfterViewInit(): void {
+  }
+  goWork: boolean = false;//到勤
+  offWork: boolean = false;//離勤
+
+  ActualRote_calCrossDay: boolean = false //出勤是否跨天
+  AttendCard_calCrossDay: boolean = false //刷卡紀錄是否跨天
+
+  sendForgetForm: sendForgetForm = new sendForgetForm();
+
+  Cause = []
+
+  errorStartDate = { state: false, errorString: '' };
+  errorStartTime = { state: false, errorString: '' };
+  errorEndDate = { state: false, errorString: '' };
+  errorEndTime = { state: false, errorString: '' };
+  errorCause = { state: false, errorString: '' };
+  errorSigner = { state: false, errorString: '' };
+
+  @Input() getAttendCard: AttendCard;
+  @Output() outputWriteforgetformChange: EventEmitter<any> = new EventEmitter<any>();//返回修改按鈕
+
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private router: Router) { }
+
+  ngOnInit() {
+    // console.log(this.getAttendCard)
+    if (this.getAttendCard) {
+      this.calCrossDay()
+    }
+
+    this.GetApiDataServiceService.getWebApiData_GetCauseByForm().subscribe(
+      (data: any) => {
+        for (let x of data) {
+          this.Cause.push({ CauseID: x.CauseID, CauseNameC: x.CauseNameC })
+        }
+
+        this.sendForgetForm.CauseID1 = data[0].CauseID
+        this.sendForgetForm.CauseName1 = data[0].CauseNameC
+      }
+    )
+  }
+
+  calCrossDay() {
+    var ActualRote_OnTime = new Date(doFormatDate(this.getAttendCard.AttendDate) + ' ' + getapi_formatTimetoString(this.getAttendCard.ActualRote_OnTime));
+    var ActualRote_OffTime = new Date(doFormatDate(this.getAttendCard.AttendDate) + ' ' + getapi_formatTimetoString(this.getAttendCard.ActualRote_OffTime))
+    if (ActualRote_OnTime > ActualRote_OffTime && ActualRote_OnTime && ActualRote_OffTime && getapi_formatTimetoString(this.getAttendCard.ActualRote_OnTime).length > 0 && getapi_formatTimetoString(this.getAttendCard.ActualRote_OffTime).length > 0) {
+      this.ActualRote_calCrossDay = true
+    } else {
+      this.ActualRote_calCrossDay = false
+    }
+
+    var AttendCard_OnTime = new Date(doFormatDate(this.getAttendCard.AttendDate) + ' ' + getapi_formatTimetoString(this.getAttendCard.AttendCard_OnTime))
+    var AttendCard_OnTime = new Date(doFormatDate(this.getAttendCard.AttendDate) + ' ' + getapi_formatTimetoString(this.getAttendCard.AttendCard_OffTime))
+    if (AttendCard_OnTime > AttendCard_OnTime && AttendCard_OnTime && AttendCard_OnTime && getapi_formatTimetoString(this.getAttendCard.AttendCard_OnTime).length > 0 && getapi_formatTimetoString(this.getAttendCard.AttendCard_OffTime).length > 0) {
+      this.AttendCard_calCrossDay = true
+    } else {
+      this.AttendCard_calCrossDay = false
+    }
+  }
+
+  onpreviousForm() {
+    //返回按鈕
+    this.outputWriteforgetformChange.emit();
+    // console.log(this.outputWriteforgetformChange)
+  }
+  chooseBase(e) {
+    var id = e[0].value.split('，')[0]
+    this.sendForgetForm.ReviewEmpID = id;
+
+    if (this.sendForgetForm.ReviewEmpID == null) {
+      this.errorSigner = { state: true, errorString: '請選擇簽核人員' };
+    } else if (this.sendForgetForm.ReviewEmpID.length == 0) {
+      this.errorSigner = { state: true, errorString: '請選擇簽核人員' };
+    } else {
+      this.errorSigner = { state: false, errorString: '' };
+    }
+  }
+
+  chooseCause(event) {
+    var id = event.target.value
+    var id_name = this.Cause.filter(item => {
+      return item.CauseID == parseInt(id)
+    });
+    var name: string = id_name[0].CauseNameC.toString()
+
+    this.sendForgetForm.CauseID1 = id;
+    this.sendForgetForm.CauseName1 = name.trim()
+  }
+
+  startDateTimeChange() {
+    $('#id_ipt_startday').val('')
+    $('#id_ipt_starttime').val('')
+    $("#id_bt_starttime").unbind();
+
+    this.errorStartDate = { state: false, errorString: '' };
+    this.errorStartTime = { state: false, errorString: '' };
+
+    $("#id_bt_startday").change(function () {
+      $("#id_ipt_startday").val($("#id_bt_startday").val())
+    });
+
+    $("#id_bt_starttime").timeDropper({
+      format: 'HH:mm',
+      autoswitch: false,
+      mousewheel: true,
+      setCurrentTime: false
+    });
+
+    $("#id_bt_starttime").change(function () {
+      $("#id_ipt_starttime").val($("#id_bt_starttime").val());
+    });
+  }
+
+  endDateTimeChange() {
+    $('#id_ipt_endday').val('')
+    $('#id_ipt_endtime').val('')
+    $("#id_bt_endtime").unbind();
+
+    this.errorEndDate = { state: false, errorString: '' };
+    this.errorEndTime = { state: false, errorString: '' };
+
+   
+    $("#id_bt_endtime").timeDropper({
+      format: 'HH:mm',
+      autoswitch: false,
+      mousewheel: true,
+      setCurrentTime: false
+    });
+
+    $("#id_bt_endtime").change(function () {
+      $("#id_ipt_endtime").val($("#id_bt_endtime").val());
+    });
+  }
+  blurStartDate() {
+    if (this.goWork && $('#id_ipt_startday').val().length == 0) {
+      this.errorStartDate = { state: true, errorString: '請輸入實際到勤日期' };
+    } else if (!isValidDate($('#id_ipt_startday').val())) {
+      this.errorStartDate = { state: true, errorString: '日期格式不正確' };
+    } else {
+      this.errorStartDate = { state: false, errorString: '' }
+    }
+  }
+  blurStartTime() {
+    if (this.goWork && $('#id_ipt_starttime').val().length == 0) {
+      this.errorStartTime = { state: true, errorString: '請輸入實際到勤時間' }
+    } else if (!isValidTime($('#id_ipt_starttime').val())) {
+      this.errorStartTime = { state: true, errorString: '時間格式不正確' }
+    }
+    else {
+      this.errorStartTime = { state: false, errorString: '' }
+    }
+  }
+
+  blurEndDate() {
+    if (this.offWork && $('#id_ipt_endday').val().length == 0) {
+      this.errorEndDate = { state: true, errorString: '請輸入實際離勤日期' };
+    } else if (!isValidDate($('#id_ipt_endday').val())) {
+      this.errorEndDate = { state: true, errorString: '日期格式不正確' };
+    } else {
+      this.errorEndDate = { state: false, errorString: '' };
+    }
+  }
+
+  blurEndTime() {
+    if (this.offWork && $('#id_ipt_endtime').val().length == 0) {
+      this.errorEndTime = { state: true, errorString: '請輸入實際離勤時間' }
+    } else if (!isValidTime($('#id_ipt_endtime').val())) {
+      this.errorEndTime = { state: true, errorString: '日期格式不正確' }
+    }
+    else {
+      this.errorEndTime = { state: false, errorString: '' }
+    }
+  }
+
+  dayMask(): {
+    mask: Array<string | RegExp>;
+    keepCharPositions: boolean;
+  } {
+    return {
+      mask: [/[2]/, /[0]/, /\d/, /\d/, '/', /[0-1]/, /\d/, '/', /[0-3]/, /\d/],
+      keepCharPositions: true,
+    };
+  }
+
+  timeMask(): {
+    mask: Array<string | RegExp>;
+    keepCharPositions: boolean;
+  } {
+    return {
+      mask: [/[0-2]/, $("#id_ipt_starttime").val() && parseInt($("#id_ipt_starttime").val()[0]) > 1 ? /[0-3]/ : /\d/, ':', /[0-5]/, /\d/],
+      keepCharPositions: true
+    };
+  }
+
+  @ViewChild('StartTimeView') StartTimeView: ElementRef;
+  changeStartTimeView() {
+    $(this.StartTimeView.nativeElement)
+      .on('change', (e, args) => {
+        $("#id_ipt_starttime").val($("#id_bt_starttime").val());
+        this.blurStartTime();
+      });
+  }
+
+  @ViewChild('EndTimeView') EndTimeView: ElementRef;
+  changeEndTimeView() {
+    $(this.EndTimeView.nativeElement)
+      .on('change', (e, args) => {
+        $("#id_ipt_endtime").val($("#id_bt_endtime").val());
+        this.blurEndTime();
+      });
+  }
+  checkError() {
+
+    var SaveAndFlowStart: SaveAndFlowStartClass = new SaveAndFlowStartClass();
+    SaveAndFlowStart.EmpID = this.getAttendCard.forget_man_code.toString()
+    SaveAndFlowStart.EmpNameC = this.getAttendCard.forget_man_name
+    SaveAndFlowStart.DateB = this.getAttendCard.AttendDate
+    SaveAndFlowStart.DateE = this.getAttendCard.AttendDate
+    SaveAndFlowStart.TimeB = sumbit_formatTimetoString(this.getAttendCard.ActualRote_OnTime)
+    SaveAndFlowStart.TimeE = sumbit_formatTimetoString(this.getAttendCard.ActualRote_OffTime)
+    var DateTimeB = ''
+    if ($('#id_ipt_startday').val().length > 0 && $('#id_ipt_starttime').val().length > 0) {
+      var DateTime_nB = new Date($('#id_ipt_startday').val() + ' ' + $('#id_ipt_starttime').val())
+      DateTimeB = DateTime_nB.toJSON()
+    }
+    var DateTimeE = ''
+    if ($('#id_ipt_endday').val().length > 0 && $('#id_ipt_endtime').val().length > 0) {
+      var DateTime_nE = new Date($('#id_ipt_endday').val() + ' ' + $('#id_ipt_endtime').val())
+      DateTimeE = DateTime_nE.toJSON()
+    }
+    SaveAndFlowStart.DateTimeB = DateTimeB
+    SaveAndFlowStart.DateTimeE = DateTimeE
+    SaveAndFlowStart.CauseID1 = this.sendForgetForm.CauseID1
+    SaveAndFlowStart.CauseName1 = this.sendForgetForm.CauseName1
+    SaveAndFlowStart.Note = this.sendForgetForm.Note
+    SaveAndFlowStart.ReviewEmpID = this.sendForgetForm.ReviewEmpID
+
+    if (SaveAndFlowStart.ReviewEmpID == null) {
+      this.errorSigner = { state: true, errorString: '請選擇簽核人員' };
+    }
+    else if (this.goWork && $('#id_ipt_startday').val().length == 0) {
+      this.errorStartDate = { state: true, errorString: '請輸入實際到勤日期' };
+    } else if (this.goWork && $('#id_ipt_starttime').val().length == 0) {
+      this.errorStartTime = { state: true, errorString: '請輸入實際到勤時間' };
+    } else if (this.offWork && $('#id_ipt_endday').val().length == 0) {
+      this.errorEndDate = { state: true, errorString: '請輸入實際離勤日期' };
+    } else if (this.offWork && $('#id_ipt_endtime').val().length == 0) {
+      this.errorEndTime = { state: true, errorString: '請輸入實際離勤時間' };
+    } else if (!SaveAndFlowStart.CauseID1) {
+      this.errorCause = { state: true, errorString: '請選擇異常原因' };
+    } else if (SaveAndFlowStart.ReviewEmpID.length == 0) {
+      this.errorSigner = { state: true, errorString: '請選擇簽核人員' };
+    } else {
+      $('#checksenddialog').modal('show');
+    }
+  }
+  onSubmit() {
+    var SaveAndFlowStart: SaveAndFlowStartClass = new SaveAndFlowStartClass();
+    SaveAndFlowStart.EmpID = this.getAttendCard.forget_man_code.toString()
+    SaveAndFlowStart.EmpNameC = this.getAttendCard.forget_man_name
+    SaveAndFlowStart.DateB = this.getAttendCard.AttendDate
+    SaveAndFlowStart.DateE = this.getAttendCard.AttendDate
+    SaveAndFlowStart.TimeB = sumbit_formatTimetoString(this.getAttendCard.ActualRote_OnTime)
+    SaveAndFlowStart.TimeE = sumbit_formatTimetoString(this.getAttendCard.ActualRote_OffTime)
+    var DateTimeB = ''
+    if ($('#id_ipt_startday').val().length > 0 && $('#id_ipt_starttime').val().length > 0) {
+      var DateTime_nB = new Date($('#id_ipt_startday').val() + ' ' + $('#id_ipt_starttime').val())
+      DateTimeB = DateTime_nB.toJSON()
+    }
+    var DateTimeE = ''
+    if ($('#id_ipt_endday').val().length > 0 && $('#id_ipt_endtime').val().length > 0) {
+      var DateTime_nE = new Date($('#id_ipt_endday').val() + ' ' + $('#id_ipt_endtime').val())
+      DateTimeE = DateTime_nE.toJSON()
+    }
+    SaveAndFlowStart.DateTimeB = DateTimeB
+    SaveAndFlowStart.DateTimeE = DateTimeE
+    SaveAndFlowStart.CauseID1 = this.sendForgetForm.CauseID1
+    SaveAndFlowStart.CauseName1 = this.sendForgetForm.CauseName1
+    SaveAndFlowStart.Note = this.sendForgetForm.Note
+    SaveAndFlowStart.ReviewEmpID = this.sendForgetForm.ReviewEmpID
+    
+    
+    var CardCheck: CardCheckClass = {
+      EmpID: SaveAndFlowStart.EmpID,
+      DateB: $('#id_ipt_startday').val(),
+      DateE: $('#id_ipt_endday').val(),
+      TimeB: $('#id_ipt_starttime').val(),
+      TimeE: $('#id_ipt_endtime').val(),
+      CauseID1: SaveAndFlowStart.CauseID1
+    }
+    var FlowCardCheck: FlowCardCheckClass = {
+      EmpID: SaveAndFlowStart.EmpID,
+      DateB: $('#id_ipt_startday').val(),
+      DateE: $('#id_ipt_endday').val(),
+      TimeB: $('#id_ipt_starttime').val(),
+      TimeE: $('#id_ipt_endtime').val(),
+    }
+
+    this.GetApiDataServiceService.getWebApiData_CardCheck(CardCheck).subscribe(
+      y => {
+        if (y == 1) {
+          this.GetApiDataServiceService.getWebApiData_FlowCardCheck(FlowCardCheck).subscribe(
+            r => {
+              if (r == 1) {
+                console.log(SaveAndFlowStart)
+                this.GetApiDataServiceService.getWebApiData_SaveAndFlowStart(SaveAndFlowStart).subscribe(x => {
+                  // console.log(SaveAndFlowStart)
+                  if (x == 1) {
+                    $('#sussesdialog').modal('show');
+                  } else {
+                    alert('送出失敗');
+                  }
+                },
+                  error => {
+                    console.log(error)
+                  })
+              }
+            }
+          )
+        }
+      }
+    )
+
+  }
+
+  reload() {
+    this.router.navigateByUrl('', { skipLocationChange: true }).then(() =>
+      this.router.navigate(["nav/forgetform"]));
+  }
+
+  
+  RedAttendString_Title(e:boolean,b:boolean){
+    if(e || b ){
+      return '#d0021b'
+    }else{
+      return 'rgb(150, 149, 148)'
+    }
+  }
+  RedAttendString_Content(e:boolean,b:boolean){
+    if(e || b ){
+      return '#d0021b'
+    }else{
+      return '#4c4c4c'
+    }
+  }
+}
+class sendForgetForm {
+  CauseID1: string;
+  CauseName1: string;
+  Note: string;
+  ReviewEmpID: string
+}

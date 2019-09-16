@@ -1,0 +1,97 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div style="margin-bottom: 10px;">
+      <button type="button" id="Btn_AddAgent">新增</button>
+    </div>
+    <div style="margin-bottom: 30px;">
+      <div style="margin-bottom: 10px;">
+        <label style="margin-right: 2px; background-color: #bec0ff;">一級單位主管代填人</label>
+        <label style="margin-right: 2px;">請輸入單位代碼</label>
+        <input type="text" id="Txt_SearchDeptCode" style="margin-right: 5px">
+        <button type="button" id="Btn_SearchDeptCode">查詢</button>
+      </div>
+      <div class="table-responsive">
+
+        <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+          <thead>
+            <tr>
+              <th style="background-image: unset;cursor: unset">單位代碼</th>
+              <th>單位名稱</th>
+              <th>代填人員編</th>
+              <th>代填人人員姓名</th>
+              <th>備註</th>
+              <th>功能</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let aa of AgentWriteData_One">
+              <td>
+                {{aa.DeptCode}}
+              </td>
+              <td>
+                {{aa.DeptName}}
+              </td>
+              <td>
+                {{aa.AgentNobr}}
+              </td>
+              <td>
+                {{aa.AgentName}}
+              </td>
+              <td>
+                {{aa.Note}}
+              </td>
+              <td>
+                <a style="padding-right: 5px">編輯</a>
+                <a>刪除</a>
+              </td>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div style="margin-bottom: 10px;">
+        <label style="margin-right: 2px; background-color: #bec0ff;">一級、外派主管代填人</label>
+        <label style="margin-right: 2px; ">請輸入主管或外派人員員工編號</label>
+        <input type="text" id="Txt_SearchNobr"  style="margin-right: 10px">
+        <button type="button" id="Btn_SearchNobr">查詢</button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+          <thead >
+            <tr>
+              <th  >主管或外派人員員編</th>
+              <th  >主管或外派人員</th>
+              <th  >代填人員編</th>
+              <th  >代填人員姓名</th>
+              <th  >備註</th>
+              <th  >功能</th>
+            </tr>
+          </thead>
+          <tbody >
+            <tr *ngFor="let aa of AgentWriteData_OutSide">
+              <td >
+                {{aa.OfficerNobr}}
+              </td>
+              <td >
+                {{aa.OfficerName}}
+              </td>
+              <td >
+                {{aa.AgentNobr}}
+              </td>
+              <td >
+                {{aa.AgentName}}
+              </td>
+              <td >
+                {{aa.Note}}
+              </td>
+              <td >
+                  <a style="padding-right: 5px">編輯</a>
+                  <a>刪除</a>
+              </td>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

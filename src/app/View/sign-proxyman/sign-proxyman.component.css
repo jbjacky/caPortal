@@ -1,0 +1,48 @@
+/* 
+table tbody {
+    display:block;
+    height:300px;
+    overflow-y:auto;
+    }
+    
+    table thead, tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+    }
+    
+    table thead, tbody tr td {
+        word-break: break-all;
+        } */
+    /* table thead {
+    width: calc( 100% - 1em )
+    }    */
+
+    ::ng-deep #agentDateRadio .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+        border-color: #0e1874;
+       
+    }
+    ::ng-deep #agentDateRadio .mat-radio-button.mat-accent .mat-radio-inner-circle{
+        background-color : #0e1874;
+    }
+    ::ng-deep #agentDateRadio .mat-ripple-element {
+        background: rgba(27, 142, 241, .4) !important;
+    }
+    .errorInput{
+        border: 1px solid #e60012
+    }
+    .P_textLeft{
+        text-align: right;
+    }
+    @media screen and (max-width:992px) {
+       
+        .P_textLeft{
+            text-align: left
+        }
+        #DelAgentDialog .modal-dialog{
+          width: 300px;
+        }
+        #DelAgentDialog .modal-footer{
+          text-align: center
+        }
+        }

@@ -1,0 +1,211 @@
+
+.week{
+    float: left;
+    width: 14.28%;
+    color: #fff;
+    background-color: #0068b7;
+    border: 1px solid #5198ce;
+    border-bottom: solid #02599b;
+    text-align: center;
+    height: 35px;
+    line-height: 30px;
+  }
+    
+  .day{
+    float: left;
+    width: 14.28%;
+    color: #000;
+    /* border: 1px solid #e0e0e0; */
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .daytext{
+      padding: 2px 8px;
+  }
+  .Rote{
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    word-break: break-all;
+  }
+  .state{
+    text-align: center;
+    height: 35px;
+    line-height: 30px;
+  }
+
+  .desktopCalender{
+    display: inline;
+  }
+  .phoneCalender{
+    display: none;
+  }
+  .phoneDiv{
+    margin: 0px;
+    margin-bottom: 10px;
+    border: 1px solid #e0e0e0
+  }
+  .phoneDate{
+    padding:10px;
+    color: #fff;
+    background-color: #0068b7;
+    border: 1px solid #5198ce;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center
+  }
+  .phoneRote{
+    padding: 20px 5px;
+    
+  }
+
+  .onShowButton{
+    color: #fff;
+    background: 0;
+    border: 0;
+    background-color: #006dbc;
+    padding: 4px 10px;
+  }
+  .offShowButton{
+    color: #028fcf;
+    background: 0;
+    background-color: #fff;
+    padding: 4px 10px;
+    border: 1px solid #c3c3c3;
+  }
+  @media screen and (max-width:540px) {
+
+    .desktopCalender{
+      display: none;
+    }
+    .phoneCalender{
+      display: inline;
+    }
+
+  }
+
+
+@media (min-width:1000px) and (max-width:1236px) {
+    .Rote{
+      height: 50px;
+    }
+  }
+@media (min-width:541px) and (max-width:1000px) {
+  .Rote{
+    height: 70px;
+  }
+}
+
+
+
+.tag_blue{
+  border-radius: 14px;
+  width: 55px;
+  height: 27px;
+  line-height: 27px;
+  margin: 0px 5px 10px 0px;
+  display: inline-block;
+  text-align: center;
+  border: solid 1px #002f7b;
+  color: #002f7b;
+}
+.tag_yellow{
+  border-radius: 14px;
+  width: 55px;
+  height: 27px;
+  line-height: 27px;
+  margin: 0px 5px 10px 0px;
+  text-align: center;
+  display: inline-block;
+  border: solid 1px #f5a623;
+  color: #f5a623;
+}
+.tag_red{
+  border-radius: 14px;
+  width: 55px;
+  height: 27px;
+  line-height: 27px;
+  margin: 0px 5px 10px 0px;
+  text-align: center;
+  display: inline-block;
+  border: solid 1px #d0021b;
+  color: #d0021b;
+}
+
+.P_base{
+  color: #6f6f6f;
+  border-right: 1px solid rgba(151, 151, 151, 0.32);
+}
+.P_date{
+  padding: 0px;
+  
+  text-align: center;
+  /* padding-left: 20px; */
+}
+
+.P_line{
+  margin: 0px;
+}
+.errorInput{
+  border: 1px solid #e60012
+}
+.P_div{
+  border:1px solid #028fcf;
+  margin: 0px;
+  margin-bottom:10px;
+  padding: 15px 10px;
+  padding-top: 20px;
+}
+
+.P_padding{
+  padding: 0px;
+  padding-right: 20px;
+}
+.P_left{
+  text-align: right
+}
+.P_All{
+  text-align: center;
+  font-weight: bold;
+}
+@media screen and (max-width:992px) {
+.P_base{
+  color: #6f6f6f;
+  border-right:0px;
+  border-bottom: 1px solid rgba(151, 151, 151, 0.32);
+  text-align: unset;
+}
+.P_date{
+  padding: 0px;
+  padding-top: 10px;
+}
+.P_line{
+  border-bottom: 2px solid #999999;
+  margin: 0px;
+  padding: 10px 0px;
+  margin-bottom: 10px;
+}
+
+.P_div{
+  padding: 10px 15px;
+}
+.P_padding{
+  padding: 0px;
+  padding-right: 0px;
+}
+.P_left{
+  text-align: left
+}
+.P_All{
+  text-align: left
+}
+}
+
+
+@media screen and (max-width:550px){
+  .modal-dialog{
+    width: 350px;
+  }
+  .modal-footer{
+    text-align: center
+  }
+}

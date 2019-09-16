@@ -1,0 +1,12 @@
+
+  .row-item   .fa-trash {
+    margin-left: .3rem;
+  }
+  .P_fullwidth{
+       width:300px
+  }
+  @media screen and (max-width:992px) {
+      .P_fullwidth{
+           width:100%
+      }
+  }

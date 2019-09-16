@@ -1,0 +1,23 @@
+.tableTitle{
+    font-size: 18px;
+    margin-bottom: 15px;
+    
+}
+
+
+.P_textLeft{
+    text-align: right
+}
+
+.showDayHourMin{
+    display: inline-block;
+    width: 15px;
+}
+
+
+@media screen and (max-width:992px) {
+   
+    .P_textLeft{
+        text-align: left
+    }
+}

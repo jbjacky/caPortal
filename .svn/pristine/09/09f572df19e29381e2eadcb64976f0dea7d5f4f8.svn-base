@@ -1,0 +1,117 @@
+import { Component, OnInit, NgZone } from '@angular/core';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { FormControl, Validators } from '@angular/forms';
+import { SaveHoliDayFlowConditionClass } from 'src/app/Models/PostData_API_Class/SaveHoliDayFlowConditionClass';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+
+@Component({
+  selector: 'app-edit-canapprovidday',
+  templateUrl: './edit-canapprovidday.component.html',
+  styleUrls: ['./edit-canapprovidday.component.css']
+})
+export class EditCanapproviddayComponent implements OnInit {
+
+  bt_Edit = true;
+
+  ngZone: NgZone = new NgZone({ enableLongStackTrace: true });
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,private GetApiUserService:GetApiUserService) { }
+
+  HoliDayFlowConditionView: View[] = []
+
+  NgxBaseSelectBox = [];
+
+  SaveHoliDayFlowCondition: SaveHoliDayFlowConditionClass =
+  {
+    HoliDayCode: '',
+    Tree: 1,
+    AbsUseDay: 0,
+    Note: "",
+    KeyMan:''
+  };
+  public selectControl = new FormControl();
+  ngOnInit() {
+    
+    this.GetApiUserService.counter$.subscribe(x=>{
+      this.SaveHoliDayFlowCondition.KeyMan = x.EmpCode;
+    })
+
+    this.selectControl.valueChanges
+      .subscribe((subscriptionTypeId: string) => {
+        this.SaveHoliDayFlowCondition.HoliDayCode = subscriptionTypeId
+        this.editDayShow()
+      });
+
+    this.GetApiDataServiceService.getWebApiData_GetHoliDayFlowConditionView().subscribe(
+      (x: any) => {
+        this.HoliDayFlowConditionView = x;
+      }
+    )
+    this.GetApiDataServiceService.getWebApiData_GetHoliDayByForm().subscribe(
+      (x: any) => {
+        for (let y of x) {
+          this.NgxBaseSelectBox.push({ HoliDayCode: y.HoliDayCode, HoliDayNameC: y.HoliDayCode + ' ' + y.HoliDayNameC });
+        }
+      }
+    )
+  }
+  
+  onSubmit() {
+    this.GetApiDataServiceService.getWebApiData_SaveHoliDayFlowCondition(this.SaveHoliDayFlowCondition).subscribe(
+      x => {
+        alert('修改完成\n'+JSON.stringify(this.SaveHoliDayFlowCondition, null, '\t'))
+      }
+    )
+    this.GetApiDataServiceService.getWebApiData_GetHoliDayFlowConditionView().subscribe(
+      (x: any) => {
+        this.HoliDayFlowConditionView = x;
+        
+        this.ngZone.run(() => { });
+      }
+    )
+  }
+
+  selectLevel(event){
+    this.SaveHoliDayFlowCondition.Tree = parseInt(event.target.value) ;
+    this.editDayShow()
+  }
+
+  disable_submit(){
+    if(this.SaveHoliDayFlowCondition.HoliDayCode.length ==0){
+      return true
+    }else{
+      return false 
+    }
+  }
+
+  editDayShow(){
+    for(let HoliDayFlowConditionView of this.HoliDayFlowConditionView){
+      if(this.SaveHoliDayFlowCondition.HoliDayCode ==  HoliDayFlowConditionView.HoliDayCode){
+          if(this.SaveHoliDayFlowCondition.Tree == 1){
+            this.SaveHoliDayFlowCondition.AbsUseDay = HoliDayFlowConditionView.Max1
+            this.bt_Edit = true
+            return
+          }else if(this.SaveHoliDayFlowCondition.Tree == 2){
+            this.SaveHoliDayFlowCondition.AbsUseDay = HoliDayFlowConditionView.Max2
+            this.bt_Edit = true
+            return
+          }else if(this.SaveHoliDayFlowCondition.Tree == 3){
+            this.SaveHoliDayFlowCondition.AbsUseDay = HoliDayFlowConditionView.Max3
+            this.bt_Edit = true
+            return
+          }
+      }else{
+        this.SaveHoliDayFlowCondition.AbsUseDay =0
+        this.bt_Edit = false
+      }
+    }
+  }
+
+}
+class View {
+  HoliDayCode: string
+  HoliDayNameC: string
+  Max1: number
+  Max2: number
+  Max3: number
+}
+

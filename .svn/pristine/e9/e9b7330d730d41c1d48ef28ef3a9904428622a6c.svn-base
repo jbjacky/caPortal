@@ -1,0 +1,656 @@
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+declare let $: any; //use jquery
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { of, from } from 'rxjs';
+import { map, concatMap, toArray, takeWhile } from 'rxjs/operators';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { AbscIntegrationHandlerGetAbsFlowAppsClass } from 'src/app/Models/PostData_API_Class/AbscIntegrationHandlerGetAbsFlowAppsClass';
+import { timeOfDay } from 'src/app/UseVoid/void_timeofday';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { formatDateTime, getapi_formatTimetoString, timeZone_tw, doFormatDate, sumbit_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { AbscFlowHandlerSaveAndFlowStartClass, AbscFlowHandler_FlowApps } from 'src/app/Models/PostData_API_Class/AbscFlowHandlerSaveAndFlowStartClass';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+@Component({
+  selector: 'app-delform',
+  templateUrl: './delform.component.html',
+  styleUrls: ['./delform.component.css'],
+})
+
+// 申請銷假單 
+// state 1 銷假呈核中
+// 2 已銷假
+// 3 可以銷假
+export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  SendSussesText = '銷假單已送出!';
+  routerlink = '/delform';
+
+  alldelformpeople: delvaformClass[] = [
+    // {
+    //   startdate: '2018/07/01',
+    //   starttime: '0800',
+    //   enddate: '2018/07/02',
+    //   endtime: '1200',
+    //   everyday: true,
+    //   holiday: { id: '0', name: '特別休假' },
+    //   calday: 0,
+    //   calhour: 8,
+    //   calminute: 0,
+
+    //   _id: '',
+    //   _idherf: '#',
+    //   checkedstate: false,
+    //   selectDetailSeveral: '0',
+
+    //   detail_vaform: [{
+    //     disable: 0,
+    //     checkState: false,
+    //     startdate: '2018/07/01',
+    //     starttime: '0800',
+    //     endtime: '1200',
+    //     calday: 0,
+    //     calhour: 4,
+    //     calminute: 0
+    //   }, {
+    //     disable: 1,
+    //     checkState: false,
+    //     startdate: '2018/07/02',
+    //     starttime: '0800',
+    //     endtime: '1200',
+    //     calday: 0,
+    //     calhour: 4,
+    //     calminute: 0
+    //   }]
+    // },
+    // {
+    //   startdate: '2018/07/02',
+    //   starttime: '1300',
+    //   enddate: '2018/07/02',
+    //   endtime: '1700',
+    //   everyday: false,
+    //   holiday: { id: '0', name: '補休' },
+    //   calday: 0,
+    //   calhour: 4,
+    //   calminute: 0,
+
+    //   _id: '',
+    //   _idherf: '#',
+    //   checkedstate: false,
+    //   selectDetailSeveral: '0',
+
+    //   detail_vaform: [{
+    //     disable: 2,
+    //     checkState: false,
+    //     startdate: '2018/07/03',
+    //     starttime: '0830',
+    //     endtime: '1730',
+    //     calday: 0,
+    //     calhour: 4,
+    //     calminute: 0
+    //   }]
+    // },
+    // {
+    //   startdate: '2018/07/03',
+    //   starttime: '0800',
+    //   enddate: '2018/07/05',
+    //   endtime: '1700',
+    //   everyday: false,
+    //   holiday: { id: '0', name: '特別休假' },
+    //   calday: 3,
+    //   calhour: 0,
+    //   calminute: 0,
+
+    //   _id: '',
+    //   _idherf: '#',
+    //   checkedstate: false,
+    //   selectDetailSeveral: '0',
+
+    //   detail_vaform: [{
+    //     disable: 2,
+    //     checkState: false,
+    //     startdate: '2018/07/03',
+    //     starttime: '0800',
+    //     endtime: '1700',
+    //     calday: 1,
+    //     calhour: 0,
+    //     calminute: 0
+    //   }, {
+    //     disable: 1,
+    //     checkState: false,
+    //     startdate: '2018/07/04',
+    //     starttime: '0800',
+    //     endtime: '1700',
+    //     calday: 1,
+    //     calhour: 0,
+    //     calminute: 0
+    //   }, {
+    //     disable: 0,
+    //     checkState: false,
+    //     startdate: '2018/07/05',
+    //     starttime: '0800',
+    //     endtime: '1700',
+    //     calday: 1,
+    //     calhour: 0,
+    //     calminute: 0
+    //   }]
+    // },
+    // {
+
+    //   startdate: '2018/07/06',
+    //   starttime: '0800',
+    //   enddate: '2018/07/06',
+    //   endtime: '1200',
+    //   everyday: false,
+    //   holiday: { id: '0', name: '特別休假' },
+    //   calday: 0,
+    //   calhour: 4,
+    //   calminute: 0,
+
+    //   _id: '',
+    //   _idherf: '#',
+    //   checkedstate: false,
+    //   selectDetailSeveral: '0',
+
+    //   detail_vaform: [{
+    //     disable: 1,
+    //     checkState: false,
+    //     startdate: '2018/07/06',
+    //     starttime: '0800',
+    //     endtime: '1200',
+    //     calday: 0,
+    //     calhour: 4,
+    //     calminute: 0
+    //   }]
+    // },
+    // {
+    //   startdate: '2018/07/06',
+    //   starttime: '0100',
+    //   enddate: '2018/07/06',
+    //   endtime: '1700',
+    //   everyday: false,
+    //   holiday: { id: '0', name: '病假' },
+    //   calday: 0,
+    //   calhour: 4,
+    //   calminute: 0,
+
+    //   _id: '',
+    //   _idherf: '#',
+    //   checkedstate: false,
+    //   selectDetailSeveral: '0',
+
+    //   detail_vaform: [{
+    //     disable: 0,
+    //     checkState: false,
+    //     startdate: '2018/07/06',
+    //     starttime: '0100',
+    //     endtime: '1700',
+    //     calday: 0,
+    //     calhour: 4,
+    //     calminute: 0
+    //   }]
+    // },
+    // {
+    //   startdate: '2018/07/07',
+    //   starttime: '0800',
+    //   enddate: '2018/07/07',
+    //   endtime: '0900',
+    //   everyday: false,
+    //   holiday: { id: '0', name: '事假' },
+    //   calday: 0,
+    //   calhour: 1,
+    //   calminute: 0,
+
+    //   _id: '',
+    //   _idherf: '#',
+    //   checkedstate: false,
+    //   selectDetailSeveral: '0',
+
+    //   detail_vaform: [{
+    //     disable: 2,
+    //     checkState: false,
+    //     startdate: '2018/07/07',
+    //     starttime: '0800',
+    //     endtime: '0900',
+    //     calday: 0,
+    //     calhour: 1,
+    //     calminute: 0
+    //   }]
+    // },
+    // {
+    //   startdate: '2018/07/07',
+    //   starttime: '0900',
+    //   enddate: '2018/07/07',
+    //   endtime: '1700',
+    //   everyday: true,
+    //   holiday: { id: '0', name: '特別休假' },
+    //   calday: 0,
+    //   calhour: 7,
+    //   calminute: 0,
+
+    //   _id: '',
+    //   _idherf: '#',
+    //   checkedstate: false,
+    //   selectDetailSeveral: '0',
+
+    //   detail_vaform: [{
+    //     disable: 1,
+    //     checkState: false,
+    //     startdate: '2018/07/09',
+    //     starttime: '0900',
+    //     endtime: '1700',
+    //     calday: 0,
+    //     calhour: 7,
+    //     calminute: 0
+    //   }]
+    // }
+  ]
+  ngAfterViewInit(): void {
+    let a_lenght = 0;
+    for (let i = 0; i < this.alldelformpeople.length; i++) {
+      a_lenght++;
+    }
+    // $('#accordion_show').on('click', function () {
+    //   for (let i = 0; i < a_lenght; i++) {
+    //     $('#del_id' + i).collapse('show');
+    //   }
+    // });
+    // //全部展開按鈕
+    // $('#accordion_hide').on('click', function () {
+    //   for (let i = 0; i < a_lenght; i++) {
+    //     $('#del_id' + i).collapse('hide');
+    //   }
+    // });
+    // //全部收合按鈕
+
+  }
+
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+
+  constructor(private router: Router,
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private GetApiUserService: GetApiUserService,
+    private LoadingPage: NgxSpinnerService) { }
+  // loading: boolean = true;
+  showdataIsEmpty: boolean = false
+  searchEmpCode: string
+  searchEmpName: string
+  ngOnInit() {
+    this.GetApiUserService.counter$
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        x => {
+          this.searchEmpCode = x.EmpCode
+          if (x.EmpNameC) {
+            this.searchEmpName = x.EmpNameC;
+          } else {
+            this.searchEmpName = x.EmpNameE;
+          }
+          this.reload(x.EmpID)
+        }
+      )
+
+  }
+
+  go() {
+    this.router.navigate(['/delform1']);
+  }
+  disabled_checkAll(oneAllcheckData: delvaformClass) {
+    var disable = true;
+
+    for (let detail_vaform of oneAllcheckData.detail_vaform) {
+      if (detail_vaform.disable == 1) {
+        // 1 為 可銷假
+        disable = false
+      }
+    }
+    return disable;
+  }
+  checkAll(oneAllcheckData: delvaformClass) {
+    if (oneAllcheckData.checkedstate) {
+      for (let detail_vaform of oneAllcheckData.detail_vaform) {
+        if (detail_vaform.disable == 1) {
+          // 1 為 可銷假
+          detail_vaform.checkState = false
+        }
+      }
+      oneAllcheckData.selectDetailSeveral = '0'
+    } else {
+      var calSeveral = 0
+      for (let detail_vaform of oneAllcheckData.detail_vaform) {
+        if (detail_vaform.disable == 1) {
+          // 1 為 可銷假
+          detail_vaform.checkState = true
+          calSeveral++;
+        }
+      }
+      oneAllcheckData.selectDetailSeveral = calSeveral.toString()
+    }
+  }
+
+  checkIsALL(oneAllcheckData: delvaformClass) {
+    var ischeckall = true
+    var calSeveral = 0
+    for (let detail_vaform of oneAllcheckData.detail_vaform) {
+      if (detail_vaform.disable == 1) {
+        // 1 為 可銷假
+        if (detail_vaform.checkState == false) {
+          ischeckall = false
+        } else {
+          calSeveral++;
+        }
+      }
+    }
+    oneAllcheckData.checkedstate = ischeckall;
+    oneAllcheckData.selectDetailSeveral = calSeveral.toString()
+  }
+  onCheckCollapseIn(id) {
+    //確認是否收合
+    if (!$('#' + id).hasClass('collapse in')) {
+      $('#' + id + '_text').text('收合')
+      $('#' + id + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + id + '_img').css({ "transform": "rotate(-180deg)" });
+
+    } else {
+      $('#' + id + '_text').text('展開')
+      $('#' + id + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + id + '_img').css({ "transform": "rotate(0deg)" });
+    }
+  }
+  textid(id) {
+    return id + '_text'
+    //收合、展開文字的id
+  }
+  imgid(id) {
+    return id + '_img'
+    //收合、展開箭頭圖案的id
+  }
+
+  NoteText: string;
+  FlowDynamic_EmpID: string;
+  chooseBase(e) {
+    var id
+    if (e.length == 0) {
+      id = null
+      // console.log('清除員工資料')
+    } else {
+      id = e[0].value.split('，')[0]
+    }
+    this.FlowDynamic_EmpID = id
+
+  }
+
+  checkError() {
+    var sendDay = 0
+    for (let del of this.alldelformpeople) {
+      for (let detail of del.detail_vaform) {
+        if (detail.checkState) {
+          sendDay = sendDay + 1
+        }
+      }
+    }
+    if (sendDay > 0) {
+      if (this.NoteText) {
+        if (this.FlowDynamic_EmpID) {
+          $('#checksenddialog').modal('show');
+        }
+        else {
+          alert('請選擇簽核人員')
+        }
+      } else {
+        alert('請輸入銷假事由')
+      }
+    } else {
+      alert('請選擇銷假日期')
+    }
+  }
+  sendandSaveDelform() {
+    // this.loading = true
+    var sendDelDeatil: AbscFlowHandler_FlowApps[] = []
+    var sendDay = 0
+    for (let del of this.alldelformpeople) {
+      for (let detail of del.detail_vaform) {
+        
+        var DateTime_nB = new Date(detail.startdate + ' ' + detail.starttime)
+        var DateTime_nE = new Date(detail.startdate + ' ' + detail.endtime)
+
+        if (detail.checkState) {
+          sendDelDeatil.push({
+            EmpID: detail.EmpID,
+            EmpCode: detail.EmpCode,
+            EmpNameC: detail.EmpNameC,
+            DateB: detail.startdate,
+            TimeB: sumbit_formatTimetoString(detail.starttime),
+            TimeE: sumbit_formatTimetoString(detail.endtime),
+            DateTimeB: DateTime_nB.toJSON(),
+            DateTimeE: DateTime_nE.toJSON(),
+            HoliDayID: parseInt(detail.holiday.id),
+            HoliDayNameC: detail.holiday.name,
+            Use: detail.Use,
+            Day: 1,
+            HoliDayUnitName: '小時',
+            Note: this.NoteText,
+            Info: '',
+            MailBody: '',
+            State: '1'
+          })
+          sendDay = sendDay + 1
+        }
+      }
+    }
+    
+    this.LoadingPage.show()
+    if (sendDay > 0) {
+      if (this.NoteText) {
+        if (this.FlowDynamic_EmpID) {
+
+          var AbscFlowHandlerSaveAndFlowStart: AbscFlowHandlerSaveAndFlowStartClass = {
+            FlowApp: {
+              Day: sendDay,
+              HoliDayID: 0,
+              FlowApps: sendDelDeatil,
+              EmpID: sendDelDeatil[0].EmpID,
+              EmpCode: sendDelDeatil[0].EmpCode,
+              EmpNameC: sendDelDeatil[0].EmpNameC
+            },
+            FlowDynamic: {
+              FlowNode: "500",
+              RoleID: "",
+              EmpID: this.FlowDynamic_EmpID
+            }
+          }
+          // console.log(AbscFlowHandlerSaveAndFlowStart)
+
+          this.GetApiDataServiceService.getWebApiData_AbscFlowHandlerSaveAndFlowStart(AbscFlowHandlerSaveAndFlowStart)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (x: any) => {
+                // console.log(x)
+                if (x == 1) {
+                  $('#sussesdialog').modal('show');
+                  this.reload(this.searchEmpCode)
+                  // this.loading=false
+                } else {
+                  alert(x)
+                }
+                this.LoadingPage.hide()
+              },error=>{
+                this.LoadingPage.hide()
+              }
+            )
+        }
+        else {
+          alert('請選擇簽核人員')
+          // this.loading=false
+          this.LoadingPage.hide()
+        }
+      } else {
+        alert('請輸入銷假事由')
+        // this.loading=false
+        this.LoadingPage.hide()
+      }
+    } else {
+      alert('請選擇銷假日期')
+      // this.loading=false
+      this.LoadingPage.hide()
+    }
+  }
+
+  reload(EmpID:string) {
+    this.LoadingPage.show()
+    this.alldelformpeople = []
+    this.NoteText = '';
+    var _DateB = new Date()
+    _DateB.setDate(_DateB.getDate()-7)
+    var _DateE = new Date()
+    _DateE.setDate(_DateE.getDate()+360)
+    // console.log(doFormatDate(_DateB))
+    // console.log(doFormatDate(_DateE))
+
+    var AbscIntegrationHandlerGetAbsFlowApps: AbscIntegrationHandlerGetAbsFlowAppsClass = {
+      DateB: doFormatDate(_DateB),
+      DateE: doFormatDate(_DateE),
+      EmpID: EmpID
+    }
+    this.GetApiDataServiceService.getWebApiData_AbscIntegrationHandlerGetAbsFlowApps(AbscIntegrationHandlerGetAbsFlowApps)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          if (x.length == 0) {
+            // this.loading = false
+            this.showdataIsEmpty = true
+            this.LoadingPage.hide()
+          } else {
+
+            for (let i = 0; i < x.length; i++) {
+
+              this.alldelformpeople.push({
+                startdate: formatDateTime(x[i].DateB).getDate,
+                starttime: getapi_formatTimetoString(x[i].TimeB),
+                enddate: formatDateTime(x[i].DateE).getDate,
+                endtime: getapi_formatTimetoString(x[i].TimeE),
+                everyday: false,
+                holiday: { id: x[i].HoliDayID, name: x[i].HoliDayNameC },
+                calday: 0,
+                calhour: 0,
+                calminute: 0,
+                EmpID: x[i].EmpID,
+                EmpCode: x[i].EmpCode,
+                EmpNameC: x[i].EmpNameC,
+
+                _id: '',
+                _idherf: '#',
+                checkedstate: false,
+                selectDetailSeveral: '0',
+
+                detail_vaform: []
+              })
+              for (let detail of x[i].AbsFlowAppsDetail) {
+                // var GetAttend: GetAttendClass = {
+                //   DateB: formatDateTime(detail.DateB).getDate,
+                //   DateE: formatDateTime(detail.DateB).getDate,
+                //   ListEmpID: [x[i].EmpCode],
+                //   ListRoteID: null
+                // }
+                // this.GetApiDataServiceService.getWebApiData_GetAttend(GetAttend)
+                //   .pipe(takeWhile(() => this.api_subscribe))
+                //   .subscribe(
+                //     (w: any) => {
+                      // console.log(w)
+                      // console.log(this.alldelformpeople[i])
+                      var di = 1
+                      if (detail.State == '1' || detail.State == '2') {
+                        di = 0
+                      }
+                      this.alldelformpeople[i].detail_vaform.push({
+                        disable: di,
+                        state: detail.State,
+                        checkState: false,
+                        startdate: formatDateTime(detail.DateB).getDate,
+                        starttime: getapi_formatTimetoString(detail.TimeB),
+                        endtime: getapi_formatTimetoString(detail.TimeE),
+                        calday: timeOfDay(true, detail.Use, 8).day,
+                        calhour: timeOfDay(true, detail.Use, 8).hour,
+                        calminute: timeOfDay(true, detail.Use, 8).minute,
+                        Use: detail.Use,
+                        holiday: { id: x[i].HoliDayID, name: x[i].HoliDayNameC },
+                        EmpID: x[i].EmpID,
+                        EmpCode: x[i].EmpCode,
+                        EmpNameC: x[i].EmpNameC,
+                      })
+                      this.alldelformpeople[i].calday = this.alldelformpeople[i].calday + timeOfDay(true, detail.Use,8).day
+                      this.alldelformpeople[i].calhour = this.alldelformpeople[i].calhour + timeOfDay(true, detail.Use,8).hour
+                      this.alldelformpeople[i].calminute = this.alldelformpeople[i].calminute + timeOfDay(true, detail.Use, 8).minute
+
+                      // console.log(this.alldelformpeople[i])
+                      // this.loading = false
+                      this.LoadingPage.hide()
+                    // }
+                  // )
+
+              }
+
+              for (let i = 0; i < this.alldelformpeople.length; i++) {
+                this.alldelformpeople[i]._id = 'del_id' + i;
+                this.alldelformpeople[i]._idherf = '#del_id' + i;
+              }
+            }
+          }
+        },
+        (error: any) => { 
+          // this.loading = false
+          this.LoadingPage.hide()
+          alert('api連線錯誤，AbscIntegrationHandlerGetAbsFlowApps')
+        }
+      )
+  }
+}
+
+class delvaformClass {
+  startdate: string;
+  starttime: string;
+  enddate: string;
+  endtime: string;
+  everyday: boolean;
+  holiday: holidayClass;
+  calday: number;
+  calhour: number;
+  calminute: number;
+
+  EmpID: string
+  EmpCode: string
+  EmpNameC: string
+
+  detail_vaform: detail[]
+
+  _id: string;
+  _idherf: string;
+  checkedstate: boolean;
+  selectDetailSeveral: string;
+}
+
+class detail {
+  disable: number;
+  state: string;
+  checkState: boolean;
+  startdate: string;
+  starttime: string;
+  endtime: string;
+  calday: number;
+  calhour: number;
+  calminute: number;
+  Use: number;
+  holiday: holidayClass
+  EmpID: string
+  EmpCode: string
+  EmpNameC: string
+}
+class holidayClass {
+  id: string;
+  name: string;
+}

@@ -1,0 +1,22 @@
+import { Component, OnInit } from '@angular/core';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-dept-administrative',
+  templateUrl: './dept-administrative.component.html',
+  styleUrls: ['./dept-administrative.component.css']
+})
+export class DeptAdministrativeComponent implements OnInit {
+
+  NgxBaseSelectBox = [];
+  
+  constructor() { }
+
+  ngOnInit() {
+    this.NgxBaseSelectBox.push({ ID: 1, DeptNameC: '資訊管理處' });
+  }
+
+  
+
+}

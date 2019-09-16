@@ -1,0 +1,25 @@
+{
+    "loadbalance": "",
+    "OAuthPath": "https://192.168.1.46/OAuth20/authorize.aspx",
+    "_client_id": "t4Ev4xhBABswPSkXIwBn",
+    "_redirect_uri_LinkOuthpage": "https://192.168.1.46/EAM/LinkOuthpageComponent",
+    "apiPostURL": "https://192.168.1.46/eepWebService/",
+    "FileUploadType": [
+        ".doc",
+        ".docx",
+        ".ppt",
+        ".pptx",
+        ".xls",
+        ".xlsx",
+        ".jpg",
+        ".txt",
+        ".odt",
+        ".odp",
+        ".ods",
+        ".htm",
+        ".html",
+        ".mht",
+        ".pdf",
+        ".jpeg"
+    ]
+}

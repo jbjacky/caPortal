@@ -1,0 +1,73 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-test-tree-view',
+  templateUrl: './test-tree-view.component.html',
+  styleUrls: ['./test-tree-view.component.css']
+})
+export class TestTreeViewComponent implements OnInit {
+
+  nodes = [
+    {
+      name: '董事長',
+      children:[
+        {code:'777777',name:'何O軒'}
+      ]
+    },
+    {
+      name: '資深副總(VF)辦公室',
+      children: [
+        {
+          name: '個資管理專案小組',
+          children: [
+            { id: '612345', name: '李大仁' }
+          ]
+        }
+      ]
+    },
+    {
+      name: '資深副總室(VW)',
+      children: [
+        {name: '資深副總(VW)辦公室'},
+        {
+          name: '空服處',
+          children: [
+            { id: '612345s', name: '李大仁' },
+            { id: '612345', name: '李大仁' },
+            { id: '612345', name: '李大仁' },
+            { id: '612345', name: '李大仁' },
+            { name: '會計組', children:[
+              { id: '612345', name: '李大仁' },
+              { id: '612345', name: '李大仁' },
+              { id: '612345', name: '李大仁' }
+            ]},
+            { name: '行政組', children:[
+              { id: '612345', name: '李大仁' },
+              { id: '612345', name: '李大仁' },
+              { id: '612345', name: '李大仁' },
+              { name:'人事暨行政組',children:[
+                { id: '612345', name: '李大仁' },
+                { id: '612345', name: '李大仁' },
+                { id: '612345', name: '李大仁' },
+              ]}
+            ]}
+          ]
+        }
+      ]
+    }
+  ];
+  options = {}
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+  onSelect(e){
+    if(e.node.data.children){
+        console.log('不叫')
+    }else{
+      console.log(e.node.data)
+    }
+  }
+
+}

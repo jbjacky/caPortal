@@ -1,0 +1,60 @@
+import { Component, OnInit } from '@angular/core';
+
+import * as Quill from 'quill'  //引入编辑器
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { SaveNewsClass } from 'src/app/Models/PostData_API_Class/SaveNewsClass';
+@Component({
+  selector: 'app-news-editor',
+  templateUrl: './news-editor.component.html',
+  styleUrls: ['./news-editor.component.css']
+})
+export class NewsEditorComponent implements OnInit {
+  // fonts = ['Helvetica','fantasy','SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong', 'Arial', 'Times-New-Roman', 'sans-serif'];
+  htmlContent: any = ``
+  config = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      [{ 'align': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      ['link', 'image',],                      // link and image, video
+
+      // [{'font': []}],
+      // [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+      // [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+      // [{ 'direction': 'rtl' }],                         // text direction
+      // ['blockquote', 'code-block'],
+      // [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      // ['link', 'image', 'video'],                      // link and image, video
+      // ['clean'],                                         // remove formatting button
+    ],
+  };
+  constructor(private GetApiDataServiceService: GetApiDataServiceService) { }
+  ngOnInit() {
+  }
+
+  uploadClick() {
+    var SaveNewsClass: SaveNewsClass = {
+      "NewsID": "7",
+      "NewsHead": "史上最長航程澳洲直飛英國20小時 乘客：機上應設健身房跟VR遊戲",
+      "NewsBody": this.htmlContent,
+      "PostDate": "2019/01/31",
+      "PostDeadline": "2019/01/31",
+      "IsOn": true,
+      "Sort": 1
+    }
+    console.log(SaveNewsClass)
+    this.GetApiDataServiceService.getWebApiData_SaveNews(SaveNewsClass)
+    .subscribe(
+      x=>{
+        console.log(x)
+      }
+    )
+
+  }
+
+
+
+}

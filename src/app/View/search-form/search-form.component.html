@@ -1,0 +1,88 @@
+<div id="phonetopdiv" class="a-block"
+  style="top: 138px;zoom: 1;z-index: 1;left: 0px;background-color: #fff;width: 100%">
+  <div class="a-block-body  a-block-container">
+    <a [id]="'bt_sideMenu'" data-toggle="collapse" href="#searchMenu" (click)="onCheckCollapseIn()">
+      <span [id]="'bt_sideMenu_text'">收合查詢選單</span>
+      <img [id]="'bt_sideMenu_img'" src="./assets/images-template/icon-arrow.png"
+        style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
+    </a>
+    <div id="searchMenu" class="panel-collapse collapse in active">
+      <div class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;padding: 0px 15px">
+        <div id="showP_margin"></div>
+        <div class="row" style="padding-bottom: 15px;margin:0px">
+          <div class="col-md-4 col-xs-12" style="padding: 0">
+            <div class="col-md-4 col-xs-12 P_textLeft" style="padding-left: 0;">
+              <label class=" control-label">
+                員工
+              </label>
+            </div>
+            <div class="col-md-8  col-xs-12" style="padding:0px">
+              {{SearchMan.jobID}} {{SearchMan.name}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-form-condition (outPutSearch)="getSearchFormCondition($event)" [ownerReview]="true"></app-form-condition>
+
+      <div class="form-group first-form-group">
+        <div class="row" style="padding-bottom: 15px;margin:0px;padding: 0px 15px">
+          <div class="col-md-4  col-xs-12" style="padding:0px">
+            <div class="col-md-4  col-xs-12" style="padding:0px">
+            </div>
+            <div class="col-md-8  col-xs-12" style="padding:0px">
+              <button type="button" class="btn btn-primary" (click)="onSearchForm()">查詢</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="background-color: rgba(73, 73, 73, 0.322);
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden" *ngIf="diolog_state" (click)="hideSearchDialog()">
+</div>
+
+
+<div id="showFormPalce" class="showForm">
+
+  <app-search-va-form [getVaData]="getApiVaData" [getShowTransSign] = "showTransSign" [getShowTake]= "showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+    *ngIf="isSearch && showSelectSearchForm == 'Abs'"></app-search-va-form>
+  <app-search-del-form [getDelData]="getApiDelData" [getShowTransSign] = "showTransSign" [getShowTake]= "showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+    *ngIf="isSearch && showSelectSearchForm == 'Absc'"></app-search-del-form>
+  <app-search-forget-form [getForgetData]="getApiForgetData" [getShowTransSign] = "showTransSign" [getShowTake]= "showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+    *ngIf="isSearch && showSelectSearchForm == 'Card'"></app-search-forget-form>
+  <app-search-change-form [getChangeData]="getApiShiftRoteData" [getShowTransSign] = "showTransSign"  [getShowTake]= "showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+    *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'"></app-search-change-form>
+</div>
+
+
+<div class="modal" id="isHandleDialog" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title">經手表單說明</h4>
+        </div>
+        <div class="modal-body">
+          <p>查詢該員工號所有曾經代填、批核、退回、呈核表單。</p>
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">關閉視窗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog經手表單說明 -->

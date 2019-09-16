@@ -1,0 +1,65 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { CaUserClass } from 'src/app/Models/CaUserClass';
+
+@Component({
+  selector: 'app-link-outhpage',
+  templateUrl: './link-outhpage.component.html',
+  styleUrls: ['./link-outhpage.component.css']
+})
+export class LinkOuthpageComponent implements OnInit {
+  
+  constructor(private route: Router,
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private GetApiUserService:GetApiUserService,
+    private LoadingPage: NgxSpinnerService) { }
+
+  ngOnInit() {
+    this.regitPage()
+  }
+
+  regitPage() {
+    let url_string = window.location.href;
+    let url = new URL(url_string);
+    if (url.searchParams.has('state')) {
+      this.regitSussesState(url)
+      // if (localStorage.getItem('apiState') == url.searchParams.get('state')) {
+      //   this.regitSussesState(url)
+      // } else {
+      //   alert('不同系統傳的值')
+      //   this.route.navigateByUrl('/ErrorPageComponent')
+      // }
+    }
+  }
+
+  regitSussesState(url: URL) {
+    if (url.searchParams.has('error') && url.searchParams.has('error_description')) {
+
+      alert(url.searchParams.get("error_description").toString())
+      this.route.navigateByUrl('/ErrorPageComponent')
+      this.LoadingPage.hide()
+      
+    } else if (url.searchParams.has("code")) {
+      
+      localStorage.setItem('code',url.searchParams.get("code").toString())
+      this.GetApiDataServiceService.getWebApiData_Token(url).subscribe(
+        (x: CaUserClass) => {
+          this.LoadingPage.show()
+          if (x) {
+            localStorage.setItem('FirstLoginUserID',x.EmpID)
+            localStorage.setItem('NowLoginUserID',x.EmpID)
+            this.route.navigateByUrl('/nav')
+          }
+        }, error => {
+          this.route.navigateByUrl('/ErrorPageComponent')
+          alert('別想用錯誤的token登入!!')
+          this.LoadingPage.hide()
+        }
+      )
+
+    }
+  }
+}

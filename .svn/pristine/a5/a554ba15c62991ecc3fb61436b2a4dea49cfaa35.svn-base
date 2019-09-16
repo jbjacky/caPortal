@@ -1,0 +1,286 @@
+import { Component, OnInit, Output, Input, EventEmitter, OnDestroy } from '@angular/core';
+import { changeSearchFlowSignClass } from '../search-change-form/search-change-form.component';
+import { FormSign } from '../../allform/reviewform/reviewform-detail-delform/reviewform-detail-delform.component';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { formatDateTime, getapi_formatTimetoString, doFormatDate_getMonthAndDay } from 'src/app/UseVoid/void_doFormatDate';
+import { uiShow, reallyData_P } from '../../allform/reviewform/reviewform-detail-changeform-rr/reviewform-detail-changeform-rr.component';
+import { takeWhile, concatMap } from 'rxjs/operators';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-search-change-detail-rr',
+  templateUrl: './search-change-detail-rr.component.html',
+  styleUrls: ['./search-change-detail-rr.component.css']
+})
+export class SearchChangeDetailRRComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+
+  loading: boolean = false;
+
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+
+  @Output() goback: EventEmitter<number> = new EventEmitter<number>();//回列表
+
+  @Input() getChangeDataTitle: changeSearchFlowSignClass
+
+  showFormSign: FormSign[] = [];
+
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private LoadingPage: NgxSpinnerService, ) { }
+
+  oneP: reallyData_P = new reallyData_P()
+  twoP: reallyData_P = new reallyData_P()
+
+  ngOnInit() {
+
+    var first = this.GetApiDataServiceService.getWebApiData_GetShiftRoteDateRange(this.getChangeDataTitle.dateArray[0], this.getChangeDataTitle.EmpCode1)
+      .pipe(
+        concatMap(
+          (x: any) => {
+            if (x.MessageCode) {
+              //判斷資料進行中是否有異常錯誤
+              alert(this.getChangeDataTitle.EmpCode1 + x.MessageContent)
+              first.unsubscribe()
+            } else {
+
+              var Attend: GetAttendClass = {
+                DateB: x.DateA,
+                DateE: x.DateD,
+                ListEmpID: [this.getChangeDataTitle.EmpCode1],
+                ListRoteID: null
+              }
+              return this.GetApiDataServiceService.getWebApiData_GetAttend(Attend)
+            }
+          }
+        )
+      )
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          // console.log(x)
+
+          this.oneP = {
+            code: this.getChangeDataTitle.EmpCode1,
+            name: this.getChangeDataTitle.EmpNameC1,
+            work: []
+          }
+          for (let data of x) {
+            var setAttendDate = doFormatDate_getMonthAndDay(formatDateTime(data.AttendDate).getDate)
+            this.oneP.work.push({ date: setAttendDate, job: data.ActualRote.RoteCode, RoteName: data.ActualRote.RoteNameC })
+          }
+          // this.SetUiChangeDate()
+          var second = this.GetApiDataServiceService.getWebApiData_GetShiftRoteDateRange(this.getChangeDataTitle.dateArray[0], this.getChangeDataTitle.EmpCode2)
+            .pipe(
+              concatMap(
+                (x: any) => {
+                  if (x.MessageCode) {
+                    //判斷資料進行中是否有異常錯誤
+                    alert(this.getChangeDataTitle.EmpCode2 + x.MessageContent)
+                    second.unsubscribe()
+                  } else {
+
+                    var Attend: GetAttendClass = {
+                      DateB: x.DateA,
+                      DateE: x.DateD,
+                      ListEmpID: [this.getChangeDataTitle.EmpCode2],
+                      ListRoteID: null
+                    }
+                    return this.GetApiDataServiceService.getWebApiData_GetAttend(Attend)
+                  }
+                }
+              )
+            )
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (x: any) => {
+                // console.log(x)
+
+                this.twoP = {
+                  code: this.getChangeDataTitle.EmpCode2,
+                  name: this.getChangeDataTitle.EmpNameC2,
+                  work: []
+                }
+                for (let data of x) {
+                  var setAttendDate = doFormatDate_getMonthAndDay(formatDateTime(data.AttendDate).getDate)
+                  this.twoP.work.push({ date: setAttendDate, job: data.ActualRote.RoteCode, RoteName: data.ActualRote.RoteNameC })
+                }
+
+                // this.loading = false
+                this.SetUiChangeDate()
+              }
+              ,
+              (error: any) => {
+                alert('與api連線異常，第二個人員，getWebApiData_GetShiftRoteDateRange')
+              }
+
+            )
+        },
+        (error: any) => {
+          alert('與api連線異常，第一個人員，getWebApiData_GetShiftRoteDateRange')
+        }
+      )
+
+    //歷程主管意見多筆資料
+    this.GetApiDataServiceService.getWebApiData_GetFormSign(this.getChangeDataTitle.ProcessFlowID)
+      .subscribe(
+        (x_GetFormSigns: FormSign[]) => {
+          this.showFormSign = []
+          for (let x_GetFormSign of x_GetFormSigns) {
+            this.showFormSign.push({
+              DeptNameC: x_GetFormSign.DeptNameC,
+              EmpCode: x_GetFormSign.EmpCode,
+              EmpID: x_GetFormSign.EmpID,
+              EmpNameC: x_GetFormSign.EmpNameC,
+              JobName: x_GetFormSign.JobName,
+              Key1: x_GetFormSign.Key1,
+              Key2: x_GetFormSign.Key2,
+              NodeName: x_GetFormSign.NodeName,
+              Note: x_GetFormSign.Note,
+              ProcessFlowID: x_GetFormSign.ProcessFlowID,
+              SignDate: formatDateTime(x_GetFormSign.SignDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(x_GetFormSign.SignDate).getTime)
+            })
+          }
+        },
+        (error) => {
+          alert('與api取得資料錯誤，GetFormSign')
+          // console.log(error)
+        }
+      )
+  }
+
+  SetUiChangeDate() {
+    this.RealRote = [];
+    for (let oP of this.oneP.work) {
+      this.RealRote.push({ date: oP.date, oneP: oP.job, twoP: '', onePRoteName: oP.RoteName, twoPRoteName: '', disable: false, Clickselect: false })
+    }
+
+    for (let Real of this.RealRote) {
+      for (let date of this.getChangeDataTitle.dateArray) {
+        var da = date.split('/')[1] + '/' + date.split('/')[2]
+        if (Real.date == da) {
+          Real.Clickselect = true
+        }
+      }
+    }
+
+    for (let tP of this.twoP.work) {
+      for (let ui of this.RealRote) {
+        if (ui.date == tP.date) {
+          ui.twoP = tP.job
+          ui.twoPRoteName = tP.RoteName
+        }
+      }
+    }
+
+    this.uiShow = []
+    for (let Real of this.RealRote) {
+      this.uiShow.push({
+        date: Real.date,
+        oneP: Real.oneP,
+        onePRoteName: Real.onePRoteName,
+        twoP: Real.twoP,
+        twoPRoteName: Real.twoPRoteName,
+        disable: Real.disable,
+        Clickselect: Real.Clickselect
+      })
+    }
+  }
+  RealRote: uiShow[] = []
+  uiShow: uiShow[] = []
+  selectDay: uiShow[] = []
+  SimulationRoteClickOne = false
+  OriginalRote() {
+    //原始調班前
+    this.SimulationRoteClickOne = false
+    this.uiShow = []
+    for (let Real of this.RealRote) {
+      this.uiShow.push({
+        date: Real.date,
+        oneP: Real.oneP,
+        onePRoteName: Real.onePRoteName,
+        twoP: Real.twoP,
+        twoPRoteName: Real.twoPRoteName,
+        disable: Real.disable,
+        Clickselect: Real.Clickselect
+      })
+    }
+    $('#bt_RoteShow').addClass('onShowButton')
+    $('#bt_RoteShow').removeClass('offShowButton')
+    $('#bt_TimeShow').addClass('offShowButton')
+    $('#bt_TimeShow').removeClass('onShowButton')
+
+
+  }
+  SimulationRote() {
+    //模擬調班後
+    if (!this.SimulationRoteClickOne) {
+      for (let s_ui of this.uiShow) {
+        if (s_ui.Clickselect) {
+          var oneP = s_ui.oneP
+          var onePRoteName = s_ui.onePRoteName
+          s_ui.oneP = s_ui.twoP
+          s_ui.twoP = oneP
+          s_ui.onePRoteName = s_ui.twoPRoteName
+          s_ui.twoPRoteName = onePRoteName
+          s_ui.Clickselect = false
+        }
+      }
+      this.SimulationRoteClickOne = true
+    }
+    $('#bt_RoteShow').addClass('offShowButton')
+    $('#bt_RoteShow').removeClass('onShowButton')
+    $('#bt_TimeShow').addClass('onShowButton')
+    $('#bt_TimeShow').removeClass('offShowButton')
+  }
+  onCheckCollapseInpostOpinions() {
+    //確認是否收合歷程主管簽核意見
+    if (!$('#' + 'mangText').hasClass('collapse in')) {
+      $('#' + 'mangText' + '_text').text('收合')
+      $('#' + 'mangText' + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 'mangText' + '_img').css({ "transform": "rotate(-180deg)" });
+
+    } else {
+      $('#' + 'mangText' + '_text').text('展開')
+      $('#' + 'mangText' + '_img').css({ "transition": "transform 0.5s" });
+      $('#' + 'mangText' + '_img').css({ "transform": "rotate(0deg)" });
+    }
+  }
+  previouspage() {
+    //回列表
+    this.goback.emit();
+  }
+
+  /**
+   * @todo 抽單
+   */
+  Cancelform_Click() {
+    // console.log(this.SearchMan.EmpCode)
+    // console.log(this.takeForm.ProcessFlowID)
+    var ListProcessFlowID = this.getChangeDataTitle.ProcessFlowID
+    this.LoadingPage.show()
+
+    this.GetApiDataServiceService.getWebApiData_TakeSetFlowState(this.getChangeDataTitle.EmpCode, ListProcessFlowID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        x => {
+          if (x) {
+            // this.changeSearchFlowSign.splice(this.changeSearchFlowSign.indexOf(this.takeForm), 1)
+            this.getChangeDataTitle.Take = false
+            this.getChangeDataTitle.State = '7'
+            $('#sussesdialog').modal('show')
+          }
+          this.LoadingPage.hide()
+        },
+        error => {
+          this.LoadingPage.hide()
+          alert('與api連線異常，getWebApiData_TakeSetFlowState')
+        }
+      )
+  }
+}

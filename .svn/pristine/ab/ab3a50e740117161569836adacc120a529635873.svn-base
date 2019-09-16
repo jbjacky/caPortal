@@ -1,0 +1,232 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { NavRoutingModule } from './nav-routing.module';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { HttpClientModule } from '@angular/common/http';
+
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MAT_DATE_LOCALE, MAT_DATE_FORMATS, NativeDateAdapter, DateAdapter } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatListModule } from '@angular/material/list';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
+import { MatRippleModule } from '@angular/material';
+import { MatInputModule } from '@angular/material';
+import { FileSaverModule } from 'ngx-filesaver';
+import { NgxSelectModule } from 'ngx-select-ex';
+import { LZStringModule, LZStringService } from 'ng-lz-string';
+
+import { NavComponent } from 'src/app/View/nav/nav.component';
+import { HomeComponent } from 'src/app/View/home/home.component';
+import { DelformComponent } from 'src/app/View/allform/delform/delform.component';
+import { ForgetformComponent } from 'src/app/View/allform/forgetform/forgetform.component';
+import { ChangeformComponent } from 'src/app/View/allform/changeform/changeform.component';
+
+
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+
+import { MatPaginatorIntlCro } from 'src/app/Sharemodel/my-paginator';
+import { ForgetformWriteComponent } from 'src/app/View/allform/forgetform/forgetform-write/forgetform-write.component';
+import { TestformComponent } from 'src/app/View/testform/testform.component';
+import { TestthreeComponent } from 'src/app/View/testthree/testthree.component';
+import { SharemodelModule } from 'src/app/Sharemodel/sharemodel.module';
+import { OwnSearchComponent } from 'src/app/View/own-search/own-search.component';
+import { SearchAttendanceComponent } from 'src/app/View/search-attendance/search-attendance.component';
+import { PersonnelSearchComponent } from 'src/app/View/personnel-search/personnel-search.component';
+import { AuthGuard } from 'src/app/_guards/auth.guard';
+
+import { RemarksComponent } from 'src/app/View/remarks/remarks.component';
+import { ExportExcelService } from 'src/app/Service/export-excel.service';
+
+import { WriteremarksformComponent } from 'src/app/View/allform/writeremarksform/writeremarksform.component';
+import { chcekdialogModule } from '../shareComponent/checkdialog/chcekdialog-module';
+import { SearchkeydeptComponent } from '../shareComponent/searchkeydept/searchkeydept.component';
+import { OrderByPipe } from 'src/app/UseVoid/order-by.pipe';
+// import { CanapproviddayComponent } from '../canapprovidday/canapprovidday.component';
+import { EditCanapproviddayComponent } from '../edit-canapprovidday/edit-canapprovidday.component';
+import { ChangeNonShiftComponent } from '../allform/change-non-shift/change-non-shift.component';
+import { ChangeRzComponent } from '../allform/change-rz/change-rz.component';
+import { RecordComponent } from 'src/app/record/record.component';
+import { ChooseBaseOrDeptComponent } from '../shareComponent/choose-base-or-dept/choose-base-or-dept.component';
+import { PersonnelSearchFormComponentComponent } from '../personnel-search-form-component/personnel-search-form-component.component';
+import { ReviewformServiceService } from 'src/app/Service/reviewform-service.service';
+import { SelectSignerComponent } from '../select-signer/select-signer.component';
+import { OwnSearchRoteComponent } from '../own-search-rote/own-search-rote.component';
+import { PersonnelSearchRoteComponent } from '../personnel-search-rote/personnel-search-rote.component';
+import { TestTreeViewComponent } from '../test-tree-view/test-tree-view.component';
+import { TreeModule } from 'angular-tree-component';
+import { PersonnelSearchTreeviewComponent } from '../personnel-search-treeview/personnel-search-treeview.component';
+import { PersonnelSearchSupervisorlVaRecordComponent } from '../personnel-search-supervisorl-va-record/personnel-search-supervisorl-va-record.component';
+import { TestRxComponent } from '../test-rx/test-rx.component';
+import { TestselectboxComponent } from '../testselectbox/testselectbox.component';
+import { TestviewtwoComponent } from '../testviewtwo/testviewtwo.component';
+import { ChoosedeptComponent } from '../shareComponent/choosedept/choosedept.component';
+import { TestGuard } from 'src/app/_guards/test.guard';
+import { NewsShowAllComponent } from '../news-show-all/news-show-all.component';
+import { NewsShowDetailComponent } from '../news-show-detail/news-show-detail.component';
+import { NewsManageComponent } from '../news-manage/news-manage.component';
+import { NewsDataEditComponent } from '../news-data-edit/news-data-edit.component';
+import { QuillModule } from 'ngx-quill';
+import { NewsAddComponent } from '../news-add/news-add.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { TestWriteComponent } from 'src/app/test-write/test-write.component';
+import { SurplusLeaveComponent } from '../surplus-leave/surplus-leave.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { DesignatedAuditorComponent } from '../designated-auditor/designated-auditor.component';
+import { DeptAdministrativeComponent } from '../dept-administrative/dept-administrative.component';
+import { AgentWriteComponent } from '../agent-write/agent-write.component';
+import { HrDeptComponent } from '../hr-dept/hr-dept.component';
+import { SignProxymanComponent } from '../sign-proxyman/sign-proxyman.component';
+
+import { ExampleHeader } from '../../Service/datepickerHeader'
+import { ChangeRzNRComponent } from '../allform/change-rz-nr/change-rz-nr.component';
+import { ChangeTwoRComponent } from '../allform/change-two-r/change-two-r.component';
+import { ChangeNonShiftSameComponent } from '../allform/change-non-shift-same/change-non-shift-same.component';
+const MY_DATE_FORMATS = {
+  parse: {
+      dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+  },
+  display: {
+      dateInput: 'input',
+      monthYearLabel: { year: 'numeric', month: 'numeric' },
+      dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+      monthYearA11yLabel: { year: 'numeric', month: 'long' },
+  }
+};
+
+export class MyDateAdapter extends NativeDateAdapter {
+  format(date: Date, displayFormat: Object): string {
+    if (displayFormat == "input") {
+      let day = date.getDate();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      return year + '/' + this._to2digit(month) + '/' + this._to2digit(day);
+    } else {
+      return date.toDateString();
+    }
+  }
+  
+
+  private _to2digit(n: number) {
+    return ('00' + n).slice(-2);
+  }
+}
+@NgModule({
+  imports: [
+    CommonModule,
+    NavRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatListModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    MatRippleModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    HttpClientModule,
+    chcekdialogModule,
+    FileSaverModule,
+    NgxSelectModule,
+    LZStringModule,
+    SharemodelModule,
+    QuillModule,
+    TreeModule.forRoot(),
+    NgxSpinnerModule,
+    SlickCarouselModule,
+    MatExpansionModule,
+  ],
+  declarations: [
+    NavComponent,
+    HomeComponent,
+    DelformComponent,
+    ForgetformComponent,
+    ChangeformComponent,
+    ChangeRzNRComponent,
+    ForgetformWriteComponent,
+    TestviewtwoComponent,
+    TestformComponent,
+    TestthreeComponent,
+    OwnSearchComponent,
+    SearchAttendanceComponent,
+    PersonnelSearchComponent,
+    SearchkeydeptComponent,
+    // SelectSignerComponent,
+    TestselectboxComponent,
+    RemarksComponent,
+    WriteremarksformComponent,
+    // CanapproviddayComponent,
+    EditCanapproviddayComponent,
+    ChangeNonShiftComponent,
+    ChangeRzComponent,
+    ChangeNonShiftSameComponent,
+    ChangeTwoRComponent,
+    OwnSearchRoteComponent,
+
+
+    OrderByPipe,
+
+    RecordComponent,
+    ChooseBaseOrDeptComponent,
+    PersonnelSearchFormComponentComponent,
+    PersonnelSearchRoteComponent,
+    PersonnelSearchTreeviewComponent,
+    PersonnelSearchSupervisorlVaRecordComponent,
+
+    TestTreeViewComponent,
+    TestRxComponent,
+
+    TestWriteComponent,
+
+    ChoosedeptComponent,
+
+    NewsShowAllComponent,
+    NewsShowDetailComponent,
+    NewsManageComponent,
+    NewsDataEditComponent,
+    NewsAddComponent,
+
+    SurplusLeaveComponent,
+
+    DesignatedAuditorComponent,
+    DeptAdministrativeComponent,
+    AgentWriteComponent,
+    HrDeptComponent,
+    SignProxymanComponent,
+    ExampleHeader
+
+
+  ],
+  providers: [
+    AuthGuard,
+    TestGuard,
+    GetApiDataServiceService,
+    GetApiUserService,
+    LZStringService,
+    ExportExcelService,
+    ReviewformServiceService,
+    MatDatepickerModule,
+    { provide: DateAdapter, useClass: MyDateAdapter  },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'en' },
+  ],
+  entryComponents: [
+    ExampleHeader,
+  ],
+})
+export class NavModule { }

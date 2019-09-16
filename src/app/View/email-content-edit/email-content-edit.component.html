@@ -1,0 +1,185 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div style="margin-bottom: 10px">
+      <div style="width: 300px;
+      display: inline-block;
+      margin-right:10px">
+        <select class="form-control" [(ngModel)]="chooseFormCode" (change)="changeChooseFormCode()">
+          <option value="">
+            全部
+          </option>
+          <option value="Abs">
+            請假單
+          </option>
+          <option value="Absc">
+            銷假單
+          </option>
+          <option value="ShiftRote">
+            調班單
+          </option>
+          <option value="Card">
+            考勤異常簽認單
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+      <thead>
+        <tr>
+          <th style="width: 10%">名稱</th>
+          <th style="background-image: unset;cursor: unset;width: 20%">代碼</th>
+          <th style="width: 20%">狀態</th>
+          <th style="width: 10%">登入者</th>
+          <th style="width: 10%">登入時間</th>
+          <th style="width: 20%">備註</th>
+          <th style="width: 10%">功能</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let oneGetFormMail of GetFormMailDataArray">
+          <td style="width: 10%">
+            {{oneGetFormMail.FormName}}
+          </td>
+          <td style="width: 20%">
+            {{oneGetFormMail.Code}}
+          </td>
+          <td style="width: 20%">
+            {{oneGetFormMail.Name}}
+          </td>
+          <td style="width: 10%">
+            {{oneGetFormMail.KeyMan}}
+          </td>
+          <td style="width: 10%">
+            {{oneGetFormMail.KeyDate}}
+          </td>
+          <td style="width: 20%">
+            {{oneGetFormMail.Note}}
+          </td>
+          <td style="width: 10%">
+            <a style="cursor: pointer;padding-right: 5px" (click)="bt_editEmail(oneGetFormMail)">編輯</a>
+            <!-- <a style="cursor: pointer" (click)="bt_delEmail(oneGetFormMail)">刪除</a> -->
+          </td>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+<div class="modal" id="delEmail_checksenddialog" tabindex="-1" role="dialog">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" style="text-align: center">確認刪除?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">刪除</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog確認刪除 -->
+<div class="modal" id="editEmailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+            <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+              <thead>
+                <tr>
+                  <th style="width: 10%">名稱</th>
+                  <th style="background-image: unset;cursor: unset;width: 20%">代碼</th>
+                  <th style="width: 20%">狀態</th>
+                  <th style="width: 20%">登入者</th>
+                  <th style="width: 20%">登入時間</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 10%">
+                    {{editFormMailData.FormName}}
+                  </td>
+                  <td style="width: 20%">
+                    {{editFormMailData.Code}}
+                  </td>
+                  <td style="width: 20%">
+                    {{editFormMailData.Name}}
+                  </td>
+                  <td style="width: 20%">
+                    {{editFormMailData.KeyMan}}
+                  </td>
+                  <td style="width: 20%">
+                    {{editFormMailData.KeyDate}}
+                  </td>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin: 15px 0px">
+            <div style="text-align: center">
+              主旨
+            </div>
+            <input class="form-control" type="text" [(ngModel)]="editFormMailData.Subject" />
+          </div>
+          <div style="margin: 15px 0px">
+            <div style="text-align: center">
+              內文
+            </div>
+            <quill-editor [(ngModel)]="editFormMailData.Body" [modules]="config" [style]="{height: '350px'}"
+              placeholder=''></quill-editor>
+          </div>
+          
+          <div style="margin: 15px 0px">
+              <div style="text-align: center">
+                備註
+              </div>
+              <input class="form-control" type="text" [(ngModel)]="editFormMailData.Note" />
+            </div>
+          <div style="text-align: center;margin: 15px 0px">
+            <button (click)="bt_SaveFormMail(editFormMailData)" style="margin-right: 15px">
+              儲存
+            </button>
+            <button data-dismiss="modal">
+              取消
+            </button>
+          </div>
+          <div>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>代碼</th>
+                  <th>名稱</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr *ngFor="let oneFormColumn of showFormColumns">
+                  <ng-container *ngIf="oneFormColumn.FormCode == chooseFormCode">
+                    <td>{{oneFormColumn.Code}}</td>
+                    <td>{{oneFormColumn.Name}}</td>
+                  </ng-container>
+                  <ng-container *ngIf="chooseFormCode =='' ">
+                    <td>{{oneFormColumn.Code}}</td>
+                    <td>{{oneFormColumn.Name}}</td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog編輯信件內容-->

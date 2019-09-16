@@ -1,0 +1,185 @@
+
+<div id="phonetopdiv" class="a-block" style="top: 138px;zoom: 1;z-index: 1;left: 0px;background-color: #fff;width: 100%">
+  <div class="a-block-body  a-block-container">
+
+    <a [id]="'bt_sideMenu'" data-toggle="collapse" href="#searchMenu" (click)="onCheckCollapseIn()">
+      <span [id]="'bt_sideMenu_text'">收合查詢選單</span>
+      <img [id]="'bt_sideMenu_img'" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
+    </a>
+    <div id="searchMenu" class="panel-collapse collapse in active">
+
+      <div class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;">
+        <div class="row" style="padding-bottom: 15px;margin:0px">
+          <div class="col-md-4 col-xs-12" style="padding: 0">
+            <div class="col-md-4 col-xs-12 P_textLeft" style="padding-left: 0;">
+              <label class=" control-label">
+                員工
+              </label>
+            </div>
+            <div class="col-md-8  col-xs-12" style="padding:0px">
+              {{SearchMan.jobID}} {{SearchMan.name}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group first-form-group" appSpyngif>
+        <div class="row" style="padding-bottom: 15px;margin:0px">
+          <div class="col-md-4 col-xs-12" style="margin: 0px ; padding: 0px">
+            <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 8px;padding-left: 0;">
+              <label class=" control-label">
+                <span class="form-must-fill">*</span>起始日期
+              </label>
+            </div>
+            <div class="col-md-6 col-xs-10" style="padding:0px">
+              <input id="id_ipt_startday" type="text" class="form-control" style="background-color: #ffffff;margin-top: 4px"
+                placeholder="年/月/日" />
+            </div>
+            <div class="col-md-2 col-xs-2" style="padding:0px">
+              <input id="id_bt_startday" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                          cursor: pointer;
+                          color: transparent;
+                          border: 1px solid transparent;
+                          width: 50px;
+                          height: 40px;
+                          ">
+            </div>
+          </div>
+          <div class="col-md-4 col-xs-12" style="margin: 0px ; padding: 0px">
+            <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 8px;padding-left: 0;">
+              <label class=" control-label">
+                <span class="form-must-fill">*</span>結束日期
+              </label>
+            </div>
+            <div class="col-md-6  col-xs-10" style="padding:0px">
+              <input id="id_ipt_endday" type="text" class="form-control" style="background-color: #ffffff;margin-top: 4px"
+                placeholder="年/月/日" />
+            </div>
+            <div class="col-md-2  col-xs-2" style="padding:0px">
+              <input id="id_bt_endday" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                            cursor: pointer;
+                            color: transparent;
+                            border: 1px solid transparent;
+                            width: 50px;
+                            height: 40px;
+                            ">
+            </div>
+          </div>
+          <div class="col-md-4 col-xs-12" style="margin: 0px ; padding: 0px">
+            <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 8px;padding-left: 0;">
+              <label class=" control-label">
+                <span class="form-must-fill">*</span>表單種類
+              </label>
+            </div>
+            <div class="col-md-8  col-xs-12" style="padding:0px">
+              <select class="form-control" [(ngModel)]="selectSearchForm" (change)="selectSearchFormChange()">
+                <ng-container *ngFor="let choose of chooseForm">
+                  <option [value]="choose.value">{{choose.select}}</option>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group first-form-group">
+        <div class="row" style="padding-bottom: 15px;margin:0px">
+          <div class="col-md-4 col-xs-12" style="padding: 0">
+            <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
+              <label class=" control-label">
+                表單狀態
+              </label>
+            </div>
+            <div class="col-md-8  col-xs-12" style="padding:0px;margin-bottom: 15px">
+              <select id="selectDisplay" class="form-control" [(ngModel)]="selectState">
+                <option [value]='0'>全部</option>
+                <option [value]='1'>呈核中</option>
+                <option [value]='2'>重擬</option>
+                <option [value]='3'>已核准</option>
+                <option [value]='4'>已抽單</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 col-xs-12" style="padding: 0">
+            <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
+              <label class=" control-label">
+                篩選條件
+              </label>
+            </div>
+            <div class="col-md-8  col-xs-12" style="padding:0px;margin-bottom: 15px">
+              <select class="form-control" [(ngModel)]="selectFilterCondition">
+                <ng-container *ngFor="let filter of changeChooseForm()">
+                  <option [value]="filter.value">{{filter.name}}</option>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 col-xs-12" style="padding: 0" *ngIf="selectFilterCondition=='vaType'">
+            <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
+              <label class=" control-label">
+                假別種類
+              </label>
+            </div>
+            <div class="col-md-8  col-xs-12" style="padding:0px;margin-bottom: 15px">
+              <select class="form-control" [(ngModel)]="selcetHolidayID">
+                <ng-container *ngFor="let HoliDay of HoliDay">
+                  <option [value]="HoliDay.HoliDayID">{{HoliDay.HoliDayNameC}}</option>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 col-xs-12" style="padding: 0" *ngIf="selectFilterCondition=='Sameday'">
+            <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
+              <label class=" control-label">
+                當日請假
+              </label>
+            </div>
+            <div class="col-md-8  col-xs-12" style="padding:0px;margin-bottom: 15px">
+              <select class="form-control" [(ngModel)]="selcetTodaychooseID">
+                <ng-container *ngFor="let Todaychoose of TodayVa">
+                  <option [value]="Todaychoose.id" >{{Todaychoose.name}}</option>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group first-form-group">
+        <div class="row" style="padding-bottom: 15px;margin:0px">
+          <div class="col-md-4  col-xs-12" style="padding:0px">
+            <div class="col-md-4  col-xs-12" style="padding:0px">
+            </div>
+            <div class="col-md-8  col-xs-12" style="padding:0px">
+              <button type="button" class="btn btn-primary" (click)="onSearch()">搜尋</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="background-color: rgba(73, 73, 73, 0.322);
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden"
+            *ngIf="diolog_state" (click)="hideSearchDialog()">
+</div>
+
+<div *ngIf="loading"> 
+  <img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+</div>
+
+<div id="showFormPalce"></div>
+<div  class="showForm">
+
+  <app-search-va-form [getVaData]="setFlowView" (gotoShowFormPlace)="scrollTo('showFormPalce')"  *ngIf="isSearch && showSelectSearchForm == 'vaform'"></app-search-va-form>
+  <app-search-del-form [getDelData]="setFlowView" (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'delform'"></app-search-del-form>
+  <app-search-forget-form [getForgetData]="setFlowView" (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'forgetform'"></app-search-forget-form>
+  <app-search-change-form [getChangeData]="setFlowView" (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'changeform'"></app-search-change-form>
+</div>

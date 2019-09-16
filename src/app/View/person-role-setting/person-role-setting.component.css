@@ -1,0 +1,15 @@
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color:  #002f7B !important;
+  }
+  
+::ng-deep .mat-ripple-element {
+    background: rgba(27, 142, 241, .4) !important;
+}
+.P_fullwidth{
+     width:300px
+}
+@media screen and (max-width:992px) {
+    .P_fullwidth{
+         width:100%
+    }
+}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="網頁關鍵字">
+  <meta name="description" content="這裡是網頁的簡短描述">
+  <meta name="copyright" content="網頁版權">
+  <meta name="distribution" content="網頁發佈地區">
+  <title>CaPortal</title>
+
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body  class="fixed-header  fixed-main-nav  ">
+
+  <app-root></app-root>
+
+
+<!-- 
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      $('#main-nav-menu').metisMenu().civdMetisMenuRecord();
+    })
+  </script> 
+IE似乎不支援DOMContentLoaded-->
+
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+ 
+.P_title{
+    text-align: right
+}
+@media (min-width: 768px){
+
+    #insertRoleDialog .modal-sm {
+        width: 500px;
+    }
+
+    #insertRoleDialog .modal-sm {
+        width: 500px;
+    }
+        
+}
+
+input[type="checkbox"]{
+    width: 17px; /*Desired width*/
+    height: 17px; /*Desired height*/
+}
+
+
+@media screen and (max-width:992px) {
+
+    .P_title{
+        text-align: left
+    }
+}

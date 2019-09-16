@@ -1,0 +1,21 @@
+<div class="row" style="margin: 0">
+  <div class="col-md-4 col-xs-12 selectDept">
+      <select class="form-control" (change)="onChangeDept($event)">
+          <ng-container *ngFor="let DeptSelectBox of DeptSelectBox">
+            <ng-container *ngIf="DeptSelectBox.Base?.length == 0">
+              <option [value]="DeptSelectBox.DeptID" style="color: #E0004D" [value]="DeptSelectBox.DeptID">
+                {{DeptSelectBox.DeptNameC}}
+              </option>
+            </ng-container>
+            <ng-container *ngIf="DeptSelectBox.Base?.length != 0">
+              <option [value]="DeptSelectBox.DeptID" [value]="DeptSelectBox.DeptID">
+                {{DeptSelectBox.DeptNameC}}
+              </option>
+            </ng-container>
+          </ng-container>
+        </select>
+  </div>
+  <div class="col-md-8 col-xs-12 selectBase">
+      <ngx-select [items]="NgxBaseSelectBox" allowClear="true" optionValueField="BaseCode" optionTextField="BaseNameC" (selectionChanges)="onChangeBase($event)" placeholder="請選擇員工或是輸入搜尋員工" noResultsFound="此條件找不到員工"></ngx-select>
+  </div>
+</div>

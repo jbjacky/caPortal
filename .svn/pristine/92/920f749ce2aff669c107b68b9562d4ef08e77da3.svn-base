@@ -1,0 +1,30 @@
+import { Component, OnInit } from '@angular/core';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+declare var $;
+
+@Component({
+  selector: 'app-canapprovidday',
+  templateUrl: './canapprovidday.component.html',
+  styleUrls: ['./canapprovidday.component.css']
+})
+export class CanapproviddayComponent implements OnInit {
+  constructor(private GetApiDataServiceService: GetApiDataServiceService) { }
+
+  HoliDayFlowConditionView: View[] = []
+  ngOnInit() {
+
+    this.GetApiDataServiceService.getWebApiData_GetHoliDayFlowConditionView().subscribe(
+      (x: any) => {
+        this.HoliDayFlowConditionView = x;
+      }
+    )
+  }
+
+}
+class View {
+  HoliDayCode: string
+  HoliDayNameC: string
+  Max1: number
+  Max2: number
+  Max3: number
+}

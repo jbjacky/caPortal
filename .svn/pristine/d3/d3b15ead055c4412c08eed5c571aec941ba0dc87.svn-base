@@ -1,0 +1,89 @@
+<!-- <div [innerHTML]="htmlContent | safeHtml"></div> -->
+
+<div class="a-block">
+    <div class="a-block-body  a-block-container">
+        <div class="row" style="margin: 0px;margin-bottom: 10px">
+            <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
+                <div class="col-md-3 col-xs-12 InputTitle">
+                    <span>公告日期:</span>
+                </div>
+                <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
+                    <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
+                        <input [matDatepicker]="StartDatePicker" id="id_ipt_startday" class="form-control" type="text"
+                            [(ngModel)]="getNewsDetail.PostDate" />
+                        <mat-datepicker #StartDatePicker touchUi></mat-datepicker>
+                    </div>
+                    <div class="col-md-4 col-xs-2">
+                        <input (click)="StartDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                                        cursor: pointer;
+                                        color: transparent;
+                                        border: 1px solid transparent;
+                                        width: 50px;
+                                        height: 40px;
+                                        ">
+                    </div>
+                </div>
+            </div>
+            <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
+                <div class="col-md-3 col-xs-12 InputTitle">
+                    <span>失效日期:</span>
+                </div>
+                <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
+                    <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
+                        <input [matDatepicker]="EndDatePicker" id="id_ipt_endday" class="form-control" type="text" [(ngModel)]="getNewsDetail.PostDeadline" />
+                    
+                        <mat-datepicker #EndDatePicker touchUi></mat-datepicker></div>
+                    <div class="col-md-4 col-xs-2">
+
+                        <input (click)="EndDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                            cursor: pointer;
+                            color: transparent;
+                            border: 1px solid transparent;
+                            width: 50px;
+                            height: 40px;
+                            ">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin: 0px;margin-bottom: 10px">
+            <div class="col-md-1 col-xs-12 InputTitle">
+                <span>標題:</span>
+            </div>
+            <div class="col-md-11 col-xs-12">
+                <input class="form-control" type="text" [(ngModel)]="getNewsDetail.NewsHead" />
+            </div>
+        </div>
+        <div class="row" style="margin: 0px;margin-bottom: 10px">
+            <div class="col-md-1 col-xs-12 InputTitle">
+                <span>文章排序:</span>
+            </div>
+            <div class="col-md-2 col-xs-12">
+                <input class="form-control" type="text" [(ngModel)]="getNewsDetail.Sort" />
+            </div>
+            <div class="col-md-9 col-xs-12" style="padding-top: 7px;">
+                <span>(排序規則:1~9，數字越小排越前面；如遇到相同排序，依照公告日期越大排越前面)</span>
+            </div>
+        </div>
+        <div class="row" style="margin: 0px;margin-bottom: 10px">
+            <p class="col-md-1 col-xs-12 InputTitle">內容:</p>
+        </div>
+        <div style="margin-bottom: 20px">
+            <quill-editor [(ngModel)]="getNewsDetail.NewsBody" [modules]="config" [style]="{height: '350px'}"
+                placeholder=''></quill-editor>
+        </div>
+        <div class="row ">
+            <div class="col-md-3 col-xs-12 " style="margin-bottom: 10px;margin-right: 20px;"></div>
+            <div class="col-md-6 col-xs-12 row" style="margin: 0px;padding: 0px">
+                <div class="col-md-8 col-md-push-4  col-xs-12 " style="margin-bottom: 15px;">
+                    <button class="btn btn-primary" (click)="editClick()">
+                        修改
+                    </button>
+                </div>
+                <div class="col-md-4 col-md-pull-8  col-xs-12 ">
+                    <button class="btn btn-default" [routerLink]="['/nav/NewsManageComponent']">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

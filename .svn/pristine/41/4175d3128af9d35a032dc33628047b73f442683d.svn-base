@@ -1,0 +1,19 @@
+import { uploadFileClass } from "../uploadFileClass";
+
+export class SaveAndFlowStartClass {
+    EmpID: string;
+    EmpNameC: string;
+    DateB: string;
+    DateE: string;
+    TimeB: string;
+    TimeE: string;
+    DateTimeB:string;
+    DateTimeE:string;
+    CauseID1:string;
+    CauseName1: string;
+    Note:string;
+    ReviewEmpID: string;
+    UploadFile: uploadFileClass[]
+    ExceptionalCode: string
+    ExceptionalName: string
+  }

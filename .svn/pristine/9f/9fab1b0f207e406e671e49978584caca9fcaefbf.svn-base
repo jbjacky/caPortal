@@ -1,0 +1,10 @@
+
+# $changeUrl = (Get-Content .\src\index.html ) | select -first 1 -skip 19
+# $setApiUrl = "var apiPostURL = 'https://123/1231231'"
+# (Get-Content .\src\index.html -Raw -Encoding UTF8) -replace ($changeUrl,$setApiUrl)  | Out-File -Encoding UTF8 .\src\index.html
+
+$ApiVariable = 'var apiPostURL'
+$changeUrl = Get-Content .\src\index.html -Encoding UTF8 | Select-String $ApiVariable -CaseSensitive
+$setApiUrl = "var apiPostURL = 'https://123/1231231'"
+(Get-Content .\src\index.html  -Encoding UTF8) -replace ($changeUrl,$setApiUrl)  | Out-File -Encoding UTF8 .\src\index.html
+

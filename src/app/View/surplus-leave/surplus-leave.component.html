@@ -1,0 +1,196 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+
+    <div class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 25px">
+      <div class="row" style="padding-bottom: 10px;margin:0px">
+        <div class="col-md-3 col-xs-6" style="padding: 0">
+          <div class="col-md-4 col-xs-12 P_textLeft" style="padding-left: 0;">
+            <label class=" control-label">
+              員工
+            </label>
+          </div>
+          <div class="col-md-8  col-xs-12" style="padding:0px">
+            {{SearchMan.EmpCode}} {{SearchMan.EmpNameC}}
+          </div>
+        </div>
+        <div class="col-md-9 col-xs-6" style="padding: 0px">
+          <div class="col-md-4 col-xs-12 P_textLeft" style="padding-left: 0;">
+            <label class=" control-label">
+              年度特休基準日
+            </label>
+          </div>
+          <div class="col-md-8  col-xs-12" style="padding:0px">
+            {{showBnftDate}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showSurplusLeaveAbsDeduction.length == 0 &&
+      showSpecialLeave.AbsAddition.length == 0 &&
+      showWelfare.AbsAddition.length == 0 &&
+      showDomestic.AbsAddition.length == 0">
+      目前無剩餘餘假時數
+    </div>
+    <div *ngIf="showSurplusLeaveAbsDeduction.length > 0" class="tableTitle">
+      ⌾餘假資訊
+    </div>
+    <div *ngIf="showSurplusLeaveAbsDeduction.length > 0" class="table-responsive">
+      <table class="table table-bordered  table-striped table-hover table-content-center table-style01">
+        <thead>
+          <tr>
+            <th style="background-image: unset;cursor: unset;width: 45%">假別</th>
+            <th>結餘</th>
+            <th>呈核中</th>
+            <th>已請</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let surplusLeave of showSurplusLeaveAbsDeduction">
+            <td>
+              {{surplusLeave.HoliDayKindNameC}}
+            </td>
+            <td>
+              <!-- 結餘 -->
+              <div *ngIf="surplusLeave.BalanceDayHourMin != null">
+                <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Day}}</div> 日
+                <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Hour}}</div> 時
+                <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Minute}}</div> 分
+              </div>
+            </td>
+            <td>
+              <!-- 呈核中 -->
+              <div *ngIf="surplusLeave.FlowUseDayHourMin != null">
+                <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Day}}</div> 日
+                <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Hour}}</div> 時
+                <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Minute}}</div> 分
+              </div>
+            </td>
+            <td>
+              <!-- 已請 -->
+              <div *ngIf="surplusLeave.UseDayHourMin != null">
+                <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Day}}</div> 日
+                <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Hour}}</div> 時
+                <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Minute}}</div> 分
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!--table day 1 end -->
+    </div>
+
+    <div *ngIf="showSpecialLeave.AbsAddition.length > 0" class="tableTitle">
+      ⌾特別休假結餘明細
+    </div>
+    <div *ngIf="showSpecialLeave.AbsAddition.length > 0" class="table-responsive">
+      <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+        <thead>
+          <tr>
+            <th style="background-image: unset;cursor: unset">特別休假年份</th>
+            <th>差假結餘</th>
+            <th>生效日</th>
+            <th>到期日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let specialLeave_AbsAddition of showSpecialLeave.AbsAddition">
+            <td>
+              <!-- 特別休假年份 -->
+              {{specialLeave_AbsAddition.Year}}
+            </td>
+            <td>
+              <!-- 差假結餘 -->
+              <div class="showDayHourMin">{{specialLeave_AbsAddition.RestAmountDayHourMin.Day}}</div> 日
+              <div class="showDayHourMin">{{specialLeave_AbsAddition.RestAmountDayHourMin.Hour}}</div> 時
+              <div class="showDayHourMin">{{specialLeave_AbsAddition.RestAmountDayHourMin.Minute}}</div> 分
+            </td>
+            <td>
+              <!-- 生效日 -->
+              {{specialLeave_AbsAddition.DateB}}
+            </td>
+            <td>
+              <!-- 到期日 -->
+              {{specialLeave_AbsAddition.DateE}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="showWelfare.AbsAddition.length > 0" class="tableTitle">
+      ⌾福利補休結餘明細
+    </div>
+    <div *ngIf="showWelfare.AbsAddition.length > 0" class="table-responsive">
+      <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+        <thead>
+          <tr>
+            <th style="background-image: unset;cursor: unset">福利補休年份</th>
+            <th>差假結餘</th>
+            <th>生效日</th>
+            <th>到期日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let showWelfare_AbsAddition of showWelfare.AbsAddition">
+            <td>
+              <!-- 特別休假年份 -->
+              {{showWelfare_AbsAddition.Year}}
+            </td>
+            <td>
+              <!-- 差假結餘 -->
+              <div class="showDayHourMin">{{showWelfare_AbsAddition.RestAmountDayHourMin.Day}}</div> 日
+              <div class="showDayHourMin">{{showWelfare_AbsAddition.RestAmountDayHourMin.Hour}}</div> 時
+              <div class="showDayHourMin">{{showWelfare_AbsAddition.RestAmountDayHourMin.Minute}}</div> 分
+            </td>
+            <td>
+              <!-- 生效日 -->
+              {{showWelfare_AbsAddition.DateB}}
+            </td>
+            <td>
+              <!-- 到期日 -->
+              {{showWelfare_AbsAddition.DateE}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="showDomestic.AbsAddition.length > 0" class="tableTitle">
+      ⌾國內補休結餘明細
+    </div>
+    <div *ngIf="showDomestic.AbsAddition.length > 0" class="table-responsive">
+      <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+        <thead>
+          <tr>
+            <th style="background-image: unset;cursor: unset">國內補休年份</th>
+            <th>差假結餘</th>
+            <th>生效日</th>
+            <th>到期日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let showDomestic_AbsAddition of showDomestic.AbsAddition">
+            <td>
+              <!-- 特別休假年份 -->
+              {{showDomestic_AbsAddition.Year}}
+            </td>
+            <td>
+              <!-- 差假結餘 -->
+              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Day}}</div> 日
+              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Hour}}</div> 時
+              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Minute}}</div> 分
+            </td>
+            <td>
+              <!-- 生效日 -->
+              {{showDomestic_AbsAddition.DateB}}
+            </td>
+            <td>
+              <!-- 到期日 -->
+              {{showDomestic_AbsAddition.DateE}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

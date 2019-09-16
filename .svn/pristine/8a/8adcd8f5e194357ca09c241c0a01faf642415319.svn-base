@@ -1,0 +1,25 @@
+// 記得上web.config
+
+    // var OAuthPath = 'https://192.168.1.46/OAuth20/authorize.aspx'
+    // var ErrorPagePath = 'https://192.168.1.46/OAuth20/Error.aspx'
+
+    // var _redirect_uri_LinkOuthpage = 'https://192.168.1.46/EAM/LinkOuthpageComponent'
+    // var _redirect_uri_LoginComponent = 'https://192.168.1.46/EAM/LoginComponent'
+
+    // var apiPostURL = 'https://192.168.1.46/eepWebService/'
+
+    //上46
+
+
+
+
+
+    // var _OAuthPath = 'https://iam.china-airlines.com/mga/sps/oauth/oauth20/authorize'
+    // var _ErrorPagePath = 'https://hdqhr05t.china-airlines.com/eepWebService/OAuth20/Error.aspx'
+
+    // var _redirect_uri_LinkOuthpage = 'https://hdqhr05t.china-airlines.com/EAM/LinkOuthpageComponent'
+    // var _redirect_uri_LoginComponent = 'https://hdqhr05t.china-airlines.com/EAM/LoginComponent'
+
+    // var _apiPostURL = 'https://hdqhr05t.china-airlines.com/eepWebService/'
+
+    //上華航

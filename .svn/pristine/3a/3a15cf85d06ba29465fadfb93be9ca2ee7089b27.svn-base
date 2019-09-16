@@ -1,0 +1,161 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var get_api_data_service_service_1 = require("../../Service/get-api-data-service.service");
+var TestthreeComponent = /** @class */ (function () {
+    function TestthreeComponent(httpPostService) {
+        this.httpPostService = httpPostService;
+        this.allSelectBox = []; //前端顯示下拉選單的資料
+        this.base = []; //前端顯示部門人員資料
+        this.searchDept = { Level: '', DeptID: '' }; //查詢選到的部門
+        this.searchDept_Map = new Map(); //紀錄曾經選到的部門
+        this.searchBase = [];
+        this.api_sendEmpCode = '644671'; //測試工號
+        this.saveEmptoView = new core_1.EventEmitter(); //選到的員工回傳
+    }
+    TestthreeComponent.prototype.ngOnInit = function () {
+        this.firstGetDeptData();
+    };
+    TestthreeComponent.prototype.firstGetDeptData = function () {
+        var _this = this;
+        this.httpPostService.getWebApiData_GetDeptaByEmp(this.api_sendEmpCode, 0, 2, '', '', '2018/7/3')
+            .subscribe(function (x) {
+            if (x.length > 0) {
+                _this.allSelectBox = x;
+                _this.searchDept.Level = x[0].Level;
+                _this.searchDept.DeptID = x[0].Dept[0].DeptID;
+                _this.searchDept_Map.set(_this.searchDept.Level, _this.searchDept.DeptID);
+                _this.bt_search(_this.searchDept);
+            }
+            else {
+                _this.allSelectBox = [];
+                _this.searchDept = { Level: '', DeptID: '' };
+                _this.searchDept_Map = new Map();
+                _this.base = [];
+                // alert('工號不正確')
+            }
+        });
+    };
+    TestthreeComponent.prototype.onChange = function (event, selectIndex, selectLevel) {
+        var _this = this;
+        var DeptID = event.target.value; //選到的部門id
+        this.allSelectBox = this.allSelectBox.splice(0, selectIndex + 1); //清除選到的下拉選單之下的所有下拉選單
+        if (DeptID == -1) {
+            // console.log('===請選擇===')
+            this.searchDept.Level = (selectLevel - 1).toString();
+            this.searchDept.DeptID = this.searchDept_Map.get(selectLevel - 1);
+            // console.log(this.searchDept_Map)
+            this.bt_search(this.searchDept);
+        }
+        else {
+            this.httpPostService.getWebApiData_GetDeptaByEmp(this.api_sendEmpCode, DeptID, 2, '', '', '2018/7/3')
+                .subscribe(function (x) {
+                //x[0]為本層部門，x[1]為下一層部門，假如只有x[0]，代表沒有下一層部門
+                if (x.length == 1) {
+                    // console.log('最後一層了')
+                    _this.searchDept.DeptID = DeptID;
+                    _this.searchDept.Level = x[0].Level;
+                    _this.searchDept_Map.set(_this.searchDept.Level, _this.searchDept.DeptID);
+                    _this.bt_search(_this.searchDept);
+                }
+                else {
+                    var ch_Level = _this.allSelectBox.filter(function (item) {
+                        return item.Level == x[1].Level;
+                    });
+                    if (ch_Level.length == 0) {
+                        //如果選到的部門，在目前畫面上沒有下層的下拉選單
+                        //新建下拉選單
+                        _this.allSelectBox.push(x[1]);
+                        _this.searchDept.DeptID = DeptID;
+                        _this.searchDept.Level = x[0].Level;
+                        _this.searchDept_Map.set(_this.searchDept.Level, _this.searchDept.DeptID);
+                        _this.bt_search(_this.searchDept);
+                    }
+                    else {
+                        //如果選到的部門，在目前畫面上有下層的下拉選單
+                        //就把選到的部門的下層資料帶到下一個下拉選單
+                        for (var i = 0; i < _this.allSelectBox.length; i++) {
+                            if (_this.allSelectBox[i].Level == x[1].Level) {
+                                _this.allSelectBox[i] = x[1];
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    };
+    TestthreeComponent.prototype.bt_search = function (searchDept) {
+        // console.log(searchDept);//選到查詢的部門id跟名稱
+        this.base = [];
+        for (var i = 0; i < this.allSelectBox.length; i++) {
+            if (this.allSelectBox[i].Level == searchDept.Level) {
+                for (var k = 0; k < this.allSelectBox[i].Dept.length; k++) {
+                    if (this.allSelectBox[i].Dept[k].DeptID == searchDept.DeptID) {
+                        this.base = this.allSelectBox[i].Dept[k].Base;
+                    }
+                }
+            }
+        }
+        this.baseSearch(this.base);
+        // if(this.base.length>0){
+        //   this.selectBase = this.base[0].EmpCode+'/'+this.base[0].EmpNameC
+        // }
+        // console.log(this.allSelectBox)
+        // console.log(this.base)
+    };
+    TestthreeComponent.prototype.baseSearch = function (base) {
+        this.searchBase = [];
+        for (var i = 0; i < base.length; i++) {
+            if (base[i].EmpNameC == null || base[i].EmpNameC == '' || base[i].EmpNameC == 'null') {
+                this.searchBase.push(base[i].EmpCode + ' ' + base[i].EmpNameE);
+            }
+            else {
+                this.searchBase.push(base[i].EmpCode + ' ' + base[i].EmpNameC);
+            }
+        }
+    };
+    // selectBase_holder(){
+    //   if(this.searchBase.length > 0){
+    //   return '請選擇員工'
+    //   }else{
+    //     return '該部門無員工'
+    //   }
+    // }
+    TestthreeComponent.prototype.selectBase_disable = function () {
+        if (this.searchBase.length > 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+    TestthreeComponent.prototype.search = function () {
+        // alert(this.selectBase.split(' ')[0])
+        if (this.selectBase)
+            this.saveEmptoView.emit(this.selectBase);
+    };
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
+    ], TestthreeComponent.prototype, "saveEmptoView", void 0);
+    TestthreeComponent = __decorate([
+        core_1.Component({
+            selector: 'app-testthree',
+            templateUrl: './testthree.component.html',
+            styleUrls: ['./testthree.component.css']
+        }),
+        __metadata("design:paramtypes", [get_api_data_service_service_1.GetApiDataServiceService])
+    ], TestthreeComponent);
+    return TestthreeComponent;
+}());
+exports.TestthreeComponent = TestthreeComponent;
+//# sourceMappingURL=testthree.component.js.map

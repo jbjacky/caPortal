@@ -1,0 +1,725 @@
+<div id="goPageChange"></div>
+<section class="a-block stateblock">
+  <div class="a-block-body  a-block-container">
+    <ol id="navs" class="steps-indicator row">
+      <li id="li1" class="col-sm-3 active">填寫調班人員與日期</li>
+      <li id="li2" class="col-sm-3">選擇調班日期</li>
+      <li id="li3" class="col-sm-3">檢核與確認班型</li>
+      <li id="li4" class="col-sm-3">申請單完成送出</li>
+    </ol>
+  </div>
+  <!-- a-block-body End -->
+</section>
+<!-- <div *ngFor="let ui of uiShow" style="display: inline-block;width: 150px;">
+  <div>
+      {{ui.date}} 
+  </div>
+  <div>
+      <input type="text" [(ngModel)]="ui.oneP"/>
+  </div>
+  <div>
+      <input type="text" [(ngModel)]="ui.twoP"/>
+  </div>
+</div> -->
+
+
+<div class="a-block" *ngIf="writeState==1">
+  <div class="a-block-body  a-block-container">
+    <div [hidden]="!showBlockIsAssistant" class="form-group first-form-group" style="border: 1px solid #979797;">
+      <div class="row" style="margin:0px;    padding: 20px 0px 20px 0px;">
+        <div class="col-md-2 col-xs-12 P_AssistantTitle">
+          <h3 style="margin:0px">選擇申請角色</h3>
+        </div>
+        <div class="col-md-8 col-xs-12 P_radio">
+          <div style="display: inline-block;margin-right:15px " *ngFor="let oneRadio of radiogroup">
+            <input type="radio" name="chooseRadio" [(ngModel)]="chooseRadio" [value]="oneRadio.id">{{oneRadio.name}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="chooseRadio == 1" class="form-group first-form-group">
+      <div *ngIf="writeState==1">
+        <div class="row" style="margin:0px;margin-bottom: 15px;">
+          <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px;">
+            <div class="col-md-4 col-xs-2 P_title" style="margin-top: 6px;">
+              <label class="control-label">
+                <label class="control-label">員工</label>
+              </label>
+            </div>
+            <div class="col-md-8 col-xs-10" style="margin-top: 6px;padding: 0px">
+              <span>{{My_Emp.EmpCode}} {{My_Emp.EmpName}}</span>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+            <div class="col-md-4 col-xs-12 P_title" style="margin-top: 6px;">
+              <label class=" control-label">
+                <span class="form-must-fill">*</span>互調員工
+              </label>
+            </div>
+            <div class="col-md-3 col-xs-4" style="padding:0px">
+              <input type="text" class="form-control" placeholder="員工號" [(ngModel)]="My_ChangeEmp.EmpCode" maxlength="6"
+                (blur)="My_blurChangeEmpCode()">
+              <div *ngIf="My_errorChangeEmpState.state" style="color: #e60012">{{My_errorChangeEmpState.errorString}}
+              </div>
+            </div>
+            <div class="col-md-1 col-xs-2" style="padding:0px;
+                          padding-left: 11px;">
+              <button data-toggle="modal" data-target="#My_chooseChnageEmpdialog"
+                style="cursor: pointer;border: 0;background: 0">
+                <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+              </button>
+            </div>
+            <div class="col-md-4 col-xs-6" style="margin-top: 6px;">
+              <label style="font-weight: normal;">{{My_ChangeEmp.EmpName}}</label>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin:0px;
+              margin-bottom: 15px;">
+          <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+            <div class="col-md-4 col-xs-3 P_title" style="margin-top: 6px;">
+              <label class="control-label">
+                <span class="form-must-fill">*</span><label class="control-label">調班日</label>
+              </label>
+            </div>
+            <div class="col-md-3 col-xs-5" style="padding:0px">
+              <input [(ngModel)]="My_searchDate" [matDatepicker]="StartDatePicker" type="text" class="form-control"
+                style="background-color: #ffffff;" placeholder="年/月/日" />
+              <mat-datepicker touchUi #StartDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+            </div>
+            <div class="col-md-5 col-xs-4" style="padding:0px;
+                            padding-left: 5px;">
+              <input (click)="StartDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                        cursor: pointer;
+                        color: transparent;
+                        border: 1px solid transparent;
+                        width: 50px;
+                        height: 33px;
+                        ">
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12 textStringBlock">
+            <div class="changediv col-md-2 col-xs-12"></div>
+            <div class="col-md-10 col-xs-12" style="
+                    padding: 0px 5px;">
+              <span style="color: #4a4a4a">＊將顯示雙方當週班型，可同週多日調班</span>
+            </div>
+
+          </div>
+        </div>
+        <div class="row" style="padding-bottom: 15px;margin:0px">
+          <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+            <div class="col-md-4 col-xs-12">
+            </div>
+            <div class="col-md-3 col-xs-12" style="padding:0px">
+              <button class="btn btn-primary" (click)="My_onSearch()">搜尋</button>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    <div *ngIf="chooseRadio == 2" class="form-group first-form-group">
+      <div *ngIf="writeState==1 && showBlockIsAssistant">
+        <div class="row" style="padding-bottom: 15px;margin:0px">
+          <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px;">
+            <div class="col-md-4 col-xs-12 P_title" style="margin-top: 6px;">
+              <label class=" control-label">
+                <span class="form-must-fill">*</span>員工
+              </label>
+            </div>
+            <div class="col-md-3 col-xs-4" style="padding:0px">
+              <input type="text" class="form-control" placeholder="員工號" [(ngModel)]="Assistant_Emp.EmpCode"
+                maxlength="6" (blur)="Assistant_blurEmpCode()" />
+              <div *ngIf="Assistant_errorEmpState.state" style="color: #e60012">{{Assistant_errorEmpState.errorString}}
+              </div>
+            </div>
+            <div class="col-md-1 col-xs-2" style="padding:0px;
+                        padding-left: 11px;">
+              <button data-toggle="modal" data-target="#Assistant_chooseEmpdialog"
+                style="cursor: pointer;border: 0;background: 0">
+                <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+              </button>
+            </div>
+            <div class="col-md-4 col-xs-6" style="margin-top: 6px;">
+              <span>{{Assistant_Emp.EmpName}}</span>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+            <div class="col-md-4 col-xs-12 P_title" style="margin-top: 6px;">
+              <label class=" control-label">
+                <span class="form-must-fill">*</span>互調員工
+              </label>
+            </div>
+            <div class="col-md-3 col-xs-4" style="padding:0px">
+              <input type="text" class="form-control" placeholder="員工號" [(ngModel)]="Assistant_ChangeEmp.EmpCode"
+                maxlength="6" (blur)="Assistant_blurChangeEmpCode()" />
+              <div *ngIf="Assistant_errorChangeEmpState.state" style="color: #e60012">
+                {{Assistant_errorChangeEmpState.errorString}}</div>
+            </div>
+            <div class="col-md-1 col-xs-2" style="padding:0px;
+                        padding-left: 11px;">
+              <button data-toggle="modal" data-target="#Assistant_chooseChnageEmpdialog"
+                style="cursor: pointer;border: 0;background: 0">
+                <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+              </button>
+            </div>
+            <div class="col-md-4 col-xs-6" style="margin-top: 6px;">
+              <span>{{Assistant_ChangeEmp.EmpName}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="padding-bottom: 15px;margin:0px">
+          <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+            <div class="col-md-4 col-xs-3 P_title" style="margin-top: 6px;">
+              <label class="control-label">
+                <span class="form-must-fill">*</span><label class="control-label">調班日</label>
+              </label>
+            </div>
+            <div class="col-md-3 col-xs-5" style="padding:0px">
+              <input [(ngModel)]="Assistant_searchDate" [matDatepicker]="Assistant_StartDatePicker" type="text"
+                class="form-control" style="background-color: #ffffff;" placeholder="年/月/日" />
+              <mat-datepicker touchUi #Assistant_StartDatePicker [calendarHeaderComponent]="exampleHeader">
+              </mat-datepicker>
+            </div>
+            <div class="col-md-5 col-xs-4" style="padding:0px;
+                          padding-left: 5px;">
+              <input (click)="Assistant_StartDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                      cursor: pointer;
+                      color: transparent;
+                      border: 1px solid transparent;
+                      width: 50px;
+                      height: 33px;
+                      ">
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12 textStringBlock">
+            <div class="changediv col-md-2 col-xs-12"></div>
+            <div class="col-md-10 col-xs-12" style="
+                  padding: 0px 5px;">
+              <span style="color: #4a4a4a">＊將顯示雙方當週班型，可同週多日調班</span>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="padding-bottom: 15px;margin:0px">
+          <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
+            <div class="col-md-4 col-xs-12">
+            </div>
+            <div class="col-md-3 col-xs-12" style="padding:0px">
+              <button class="btn btn-primary" (click)="Assistant_onSearch()">搜尋</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="a-block" *ngIf="writeState==2" appSpyChangeformNgif>
+  <div class="a-block-body  a-block-container">
+    <h3>選擇調班日期</h3>
+    <div class="row" style="margin: 0px ;margin-bottom:15px;border-bottom: 1px dashed#dcdcdc ; padding-bottom: 15px">
+      <div class="col-md-4 col-xs-12" style="padding: 0px">
+        <div class="col-md-3 col-xs-12 P_right" style="padding-top: 4px;">
+          <label class="control-label">員工</label>
+        </div>
+        <div class="col-md-9 col-xs-12 P_zero" style="padding-top: 4px;">
+          <label class="control-label" style="font-weight: normal;">
+            {{Emp.EmpCode}} {{Emp.EmpName}}
+          </label>
+        </div>
+      </div>
+      <div class="col-md-8 col-xs-12" style="padding: 0px">
+        <label class="col-md-4  col-xs-12 P_right" style="padding-top: 5px">
+          互調員工
+        </label>
+        <div class="col-md-8  col-xs-12" style="padding: 0px">
+          <div class="row" style="margin: 0px">
+            <div class="col-md-6 col-xs-6 P_zero">
+              <label class="control-label" style="font-weight: normal;padding-top: 5px">
+                {{ChangeEmp.EmpCode}} {{ChangeEmp.EmpName}}
+              </label>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0px ;margin-bottom:15px;">
+      <div class="col-md-1 col-xs-12 P_right" style="padding-top: 4px;">
+      </div>
+      <div class="col-md-11 col-xs-12 P_zero" style="padding-top: 4px;">
+        <label class="control-label" style="font-weight: normal;color: #002f7b">
+          請點選欲互調班型之日期（可多選）
+        </label>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0;margin-bottom: 10px;">
+
+      <div class="changediv col-md-2 col-xs-12" style="margin: 5px 0px">
+
+        <div style="border:1px solid #e0e0e0;border-radius:5px ">
+
+          <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+            <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 datePadding">
+              <div class="DivDateStyle" style="background-color: #e8e8e8">
+                員工
+              </div>
+            </div>
+            <div id="onePadding" class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle">
+              <div id="oneEmp">
+                <div>
+                  {{Emp.EmpCode}}
+                </div>
+                <div>
+                  {{Emp.EmpName}}
+                </div>
+              </div>
+            </div>
+            <div id="twoPadding" class="col-md-12 col-xs-4 twoDivJobStyle">
+              <div id="twoEmp">
+                <div>
+                  {{ChangeEmp.EmpCode}}
+                </div>
+                <div>
+                  {{ChangeEmp.EmpName}}
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div *ngFor="let ui of uiShow ; let i = index">
+        <div class="changediv col-md-2 col-xs-12 " style="margin: 5px 0px" (click)="selectDiv(ui,i)">
+          <div [class]="DivStyleClass_disable(ui.disable,ui.Clickselect)" [ngClass]="'ui'+i">
+
+            <div style="padding:2px" style="margin: 0;padding: 5px" [class]="Date_disable(ui.disable)">
+
+              <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 datePadding">
+                <div [class]="DivDateStyleClass_disable(ui.disable,ui.Clickselect)" [ngClass]="'uidate'+i">
+                  {{ui.date}}
+                </div>
+              </div>
+              <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle"
+                [class]="DivJobStyleClass_first(ui.Clickselect)" [ngClass]="'uijob'+i">
+                <div [id]="'oneCheckHeight'+i">
+                  <!-- {{ui.oneP}} -->
+                  {{ui.onePRoteName}}
+                </div>
+                <div class="routeTimeBlock">
+                  {{ui.oneP_OnTime}}-{{ui.oneP_OffTime}}
+                </div>
+              </div>
+              <div class="col-md-12 col-xs-4 twoDivJobStyle" [class]="DivJobStyleClass_first(ui.Clickselect)"
+                [ngClass]="'uijob'+i">
+                <div [id]="'twoCheckHeight'+i">
+                  <!-- {{ui.twoP}} -->
+                  {{ui.twoPRoteName}}
+                </div>
+                <div class="routeTimeBlock">
+                  {{ui.twoP_OnTime}}-{{ui.twoP_OffTime}}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row"
+      style="margin: 0px ;margin-bottom:15px;padding: 15px 0px ;border-top:1px dashed #dcdcdc;border-bottom:1px dashed #dcdcdc">
+      <div class="col-md-1 col-xs-12 P_right" style="padding-top: 4px;">
+      </div>
+      <div class="col-md-11 col-xs-12 P_zero" style="padding-top: 4px;">
+        <label class="control-label" style="font-weight: normal;color: #002f7b">
+          已選取<span style="color: #d0021b;padding-left: 5px;">{{selectDay.length}}</span> 個日期
+        </label>
+        <div *ngIf="showRerror()" style="color: #d0021b;">(選取R班型必須選另一個對應)</div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0px ;margin-bottom:15px;padding: 15px 0px ;">
+      <div class="col-md-1 col-xs-12 P_right">
+      </div>
+      <div class="col-md-11 col-xs-12 " style="padding: 0px;">
+        <div class="col-md-10 col-md-push-2  col-xs-12 " style="margin-bottom: 15px;">
+          <button class="btn btn-primary" (click)="nextPage()" [disabled]="showRerror()">下一步</button>
+        </div>
+        <div class="changediv col-md-2 col-md-pull-10  col-xs-12 " style="padding-top:0px">
+          <button class="btn btn-default" (click)="prePage()">返回重選</button>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+  </div>
+</div>
+
+
+<div class="a-block" *ngIf="writeState==3">
+  <div class="a-block-body  a-block-container">
+    <h3>確認調班日期班型</h3>
+    <div class="row" style="margin: 0px ;margin-bottom:15px;border-bottom: 1px dashed#dcdcdc ; padding-bottom: 15px">
+      <div class="col-md-4 col-xs-12" style="padding: 0px">
+        <div class="col-md-3 col-xs-12 P_right" style="padding-top: 4px;">
+          <label class="control-label">員工</label>
+        </div>
+        <div class="col-md-9 col-xs-12 P_zero" style="padding-top: 4px;">
+          <label class="control-label" style="font-weight: normal;">
+            {{Emp.EmpCode}} {{Emp.EmpName}}
+          </label>
+        </div>
+      </div>
+      <div class="col-md-8 col-xs-12" style="padding: 0px">
+        <label class="col-md-4  col-xs-12 P_right" style="padding-top: 5px">
+          互調員工
+        </label>
+        <div class="col-md-8  col-xs-12" style="padding: 0px">
+          <div class="row" style="margin: 0px">
+            <div class="col-md-6 col-xs-6 P_zero">
+              <label class="control-label" style="font-weight: normal;padding-top: 5px">
+                {{ChangeEmp.EmpCode}} {{ChangeEmp.EmpName}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- form-group end -->
+    <!-- <div class="row" style="margin: 0px ;margin-bottom:15px;">
+      <div class="col-md-1 col-xs-12 P_right" style="padding-top: 4px;">
+      </div>
+      <div class="col-md-11 col-xs-12 P_zero" style="padding-top: 4px;">
+        <label class="control-label" style="font-weight: normal;color: #002f7b">
+          請點選欲互調班型之日期（可多選）
+        </label>
+      </div>
+    </div> -->
+    <!-- form-group end -->
+
+    <div class="row" style="margin: 0;margin-bottom: 10px;text-align: center;padding-top: 15px">
+      <div class="desktopCalender">
+        <button id="bt_RoteShow" class="onShowButton" (click)="OriginalRote()" style="
+          border-top-left-radius: 23px;
+          border-bottom-left-radius: 23px;">原始調班前</button>
+        <button id="bt_TimeShow" class="offShowButton" (click)="SimulationRote()" style="
+          border-top-right-radius: 23px;
+          border-bottom-right-radius: 23px;">模擬調班後</button>
+      </div>
+    </div>
+    <div class="row" style="margin: 0;margin-bottom: 10px;">
+
+      <div class="changediv col-md-2 col-xs-12" style="margin: 5px 0px">
+
+        <div style="border:1px solid #e0e0e0;border-radius:5px ">
+
+          <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+            <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 datePadding">
+              <div class="DivDateStyle" style="background-color: #e8e8e8">
+                員工
+              </div>
+            </div>
+            <div id="onePadding_View2" class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle">
+              <div id="oneEmp_View2">
+                <div>
+                  {{Emp.EmpCode}}
+                </div>
+                <div>
+                  {{Emp.EmpName}}
+                </div>
+              </div>
+            </div>
+            <div id="twoPadding_View2" class="col-md-12 col-xs-4 twoDivJobStyle">
+              <div id="twoEmp_View2">
+                <div>
+                  {{ChangeEmp.EmpCode}}
+                </div>
+                <div>
+                  {{ChangeEmp.EmpName}}
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div *ngFor="let ui of ShowDetail ; let i = index" appSpyChangeformNgif>
+        <div class="changediv col-md-2 col-xs-12 " style="margin: 5px 0px">
+          <div *ngIf="ui.Clickselect" [class]="DivStyleClass_selectDiv()" style="cursor: unset">
+
+            <div style="padding:2px" class="row" style="margin: 0;padding: 5px">
+
+              <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 datePadding">
+                <div [class]="DivStyleClass_selectDateDiv_check()">
+                  {{ui.date}}
+                </div>
+              </div>
+              <div [class]="DivStyleClass_selectJobDiv_one()">
+                <div [id]="'oneCheckHeight_View2'+i"  class="RoteLink" (click)="bt_Show_RoteInfo(ui.onePRoteID)">
+                  <!-- {{ui.oneP}} -->
+                  {{ui.onePRoteName}}
+                </div>
+                <div class="routeTimeBlock">
+                  {{ui.oneP_OnTime}}-{{ui.oneP_OffTime}}
+                </div>
+              </div>
+              <div [class]="DivStyleClass_selectJobDiv_two()">
+                <div [id]="'twoCheckHeight_View2'+i" class="RoteLink" (click)="bt_Show_RoteInfo(ui.twoPRoteID)">
+                  <!-- {{ui.twoP}} -->
+                  {{ui.twoPRoteName}}
+                </div>
+                <div class="routeTimeBlock">
+                  {{ui.twoP_OnTime}}-{{ui.twoP_OffTime}}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- 有選到的日期 -->
+          <div *ngIf="!ui.Clickselect" class="DivStyle_disable" style="cursor: unset">
+
+            <div style="padding:2px" class="row Date_disable" style="margin: 0;padding: 5px">
+
+              <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 datePadding">
+                <div class="DivDateStyle_disable">
+                  {{ui.date}}
+                </div>
+              </div>
+              <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle">
+                <div [id]="'oneCheckHeight_View2'+i" class="RoteLink" (click)="bt_Show_RoteInfo(ui.onePRoteID)">
+                  <!-- {{ui.oneP}} -->
+                  {{ui.onePRoteName}}
+                </div>
+                <div class="routeTimeBlock">
+                  {{ui.oneP_OnTime}}-{{ui.oneP_OffTime}}
+                </div>
+              </div>
+              <div class="col-md-12 col-xs-4 twoDivJobStyle">
+                <div [id]="'twoCheckHeight_View2'+i" class="RoteLink" (click)="bt_Show_RoteInfo(ui.twoPRoteID)">
+                  <!-- {{ui.twoP}} -->
+                  {{ui.twoPRoteName}}
+                </div>
+                <div class="routeTimeBlock">
+                  {{ui.twoP_OnTime}}-{{ui.twoP_OffTime}}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- 沒選到的日期 -->
+        </div>
+      </div>
+
+    </div>
+    <div class="row"
+      style="margin: 0px ;margin-bottom:15px;padding: 15px 0px ;border-top:1px dashed #dcdcdc;border-bottom:1px dashed #dcdcdc">
+      <div class="col-md-1 col-xs-12 P_right" style="padding-top: 4px;">
+      </div>
+      <div class="col-md-11 col-xs-12 P_zero" style="padding-top: 4px;">
+        <label class="control-label changediv col-md-2" style="font-weight: normal;color: #002f7b">
+          調班日期
+        </label>
+        <div class="col-md-7 col-xs-12 row" style="margin: 0">
+          <div *ngFor="let select of uiShow" class="row" style="margin: 0">
+            <div *ngIf="select.Clickselect">
+              <span class="col-md-2 col-xs-2 Rote">{{select.date}}</span>
+              <span class="col-md-4 col-xs-4 Rote RoteLink" (click)="bt_Show_RoteInfo(select.onePRoteID)">
+                <!-- {{select.oneP}} -->
+                {{select.onePRoteName}}
+              </span>
+              <span style="color:#002f7b;" class="col-md-2 col-xs-2">調成</span>
+              <span class="col-md-4 col-xs-4 Rote RoteLink" (click)="bt_Show_RoteInfo(select.twoPRoteID)">
+                <!-- {{select.twoP}} -->
+                {{select.twoPRoteName}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0px ;padding: 15px 0px ;border-bottom: 1px dashed #dcdcdc;">
+      <div class="changediv col-md-2 col-xs-12 P_right" style="padding-left: 0px;padding-top: 5px;">
+        <label class="control-label" style="padding-left: 0px;padding-right: 15px;">
+          <span class="form-must-fill">*</span> 調班事由</label>
+      </div>
+      <div class="col-md-10 col-xs-12">
+        <textarea [(ngModel)]="NoteText" class="inputTextarea" style="color:#020202;overflow-y: auto;height: 83px;"
+          placeholder="請輸入調班事由"></textarea>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="margin: 0px ;margin-bottom:15px;padding: 15px 0px;border-bottom: 1px dashed #dcdcdc;">
+      <div class="changediv col-md-2 P_right" style="padding-left: 0px;">
+        <label class="control-label" style="padding-left: 0px;padding-right: 15px;">
+          <span class="form-must-fill">*</span> 簽核人員</label>
+      </div>
+      <div class="col-md-10 row" style="margin:0px;">
+        <!-- <app-select-signer (selectBaseChange)="chooseBase($event)"></app-select-signer>-->
+        {{ChangeEmp.EmpCode}} {{ChangeEmp.EmpName}}
+      </div>
+    </div>
+    <!-- form-group end -->
+
+    <div style="border: 0px;padding: 20px 0px;margin: 0;">
+      <input type="checkbox" [(ngModel)]="agreeCheckbox"><span
+        style="color:#23569d">本人同意因業務需要或個人理由自願調換班別，並遵照勞基法例假日及休息日出勤規定，且連續出勤不逾六日，勾選同意並確認後，其效力等同書面同意。</span>
+    </div>
+    <div class="row" style="margin: 0px ;margin-bottom:15px;padding: 15px 0px ;">
+      <div class="col-md-1 col-xs-12 P_right">
+      </div>
+      <div class="col-md-11 col-xs-12 " style="padding: 0px;">
+        <div class="col-md-10 col-md-push-2  col-xs-12 " style="margin-bottom: 15px;">
+          <button class="btn btn-primary" (click)="sendPreCheckError()" [disabled]="disableSend()">送出申請</button>
+        </div>
+        <div class="changediv col-md-2 col-md-pull-10  col-xs-12 " style="padding-top:0px">
+          <button class="btn btn-default" (click)="prePage()">返回重選</button>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+  </div>
+</div>
+
+<div class="modal" id="My_chooseChnageEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <app-choosebase (saveEmptoView)="My_onSaveChangeEmptoView($event)" [systemID]="My_Emp.EmpCode"
+            [IsShift]="true"></app-choosebase>
+          <!-- <app-choosebase (saveEmptoView)="My_onSaveChangeEmptoView($event)" [systemID]="My_Emp.EmpCode"></app-choosebase> -->
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--My dialog選擇互調員工-->
+
+<div class="modal" id="Assistant_chooseEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <app-choosebase-ma (saveEmptoView)="Assistant_onSaveEmptoView($event)" [IsTop]="true"></app-choosebase-ma>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Assistant dialog選擇員工-->
+
+<div class="modal" id="Assistant_chooseChnageEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <app-choosebase-ma (saveEmptoView)="Assistant_onSaveChangeEmptoView($event)" [IsTop]="true">
+          </app-choosebase-ma>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Assistant dialog選擇互調員工-->
+
+
+
+<div class="modal" id="checksenddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認送出?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+            (click)="sendandSaveChangeform()">送出</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog確認送出 -->
+<div class="modal" id="sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">申請完成</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            表單送出完成!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='["../home"]'>確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog送出成功 -->
+<div class="modal" id="RoteInf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <!-- <h4 class="modal-title" id="mySmallModalLabel">{{showSearchEmp.EmpCode}} 出勤班表</h4> -->
+          <h4 class="modal-title" id="mySmallModalLabel">班型資訊</h4>
+        </div>
+        <div class="modal-body">
+          <app-rote-inf [GetRoteInfo$]="Ob_setGetRoteInfo$"></app-rote-inf>
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog班表期間-->

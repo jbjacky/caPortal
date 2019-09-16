@@ -1,0 +1,157 @@
+import { Component, OnInit, ViewChild, AfterViewInit, } from '@angular/core';
+import { Observable } from 'rxjs';
+import { fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { GetApiDataServiceService } from '../../Service/get-api-data-service.service'
+import { isNgTemplate } from '@angular/compiler';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { GetNewsClass } from 'src/app/Models/PostData_API_Class/GetNewsClass';
+import { formatDateTime, doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
+import { NgxSpinnerService } from 'ngx-spinner';
+declare var $: any;
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
+})
+export class HomeComponent implements OnInit, AfterViewInit {
+
+  constructor(
+    private http: HttpClient,
+    private GetApiUserService: GetApiUserService,
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private LoadingPage: NgxSpinnerService) { }
+  Infoa = { title: '1231', base: 'qwe' }
+  show(a) {
+    return JSON.stringify(a)
+  }
+  ngOnInit() {
+    this.showallnews();
+
+    var oldFiveDate = new Date();
+    var afterFiveDate = new Date();
+
+    oldFiveDate.setDate(oldFiveDate.getDate() - 5)
+    afterFiveDate.setDate(afterFiveDate.getDate() + 5)
+
+    // var offset = new Date().getTimezoneOffset()
+    // var offsetstring = ((offset < 0 ? '+' : '-') + // Note the reversed sign!
+    //   this.pad(parseInt(Math.abs(offset / 60).toString()), 2) +
+    //   this.pad(Math.abs(offset % 60), 2))
+    //   var jsonDate = (new Date()).toJSON();
+    //   console.log(jsonDate);
+
+    var d = new Date("2018-11-16T11:00:00+0800");
+    console.log(d);
+    // console.log(oldFiveDate)
+    // console.log(afterFiveDate)
+  }
+  pad(number, length) {
+    var str = "" + number
+    while (str.length < length) {
+      str = '0' + str
+    }
+    return str
+  }
+  ngAfterViewInit(): void {
+    $(".slideblock").not('.slick-initialized').slick({
+      slidesToShow: 7,
+      slidesToScroll: 7,
+      dots: false,//顯示下方分頁的點
+      infinite: false,//無窮
+      speed: 300,
+      centerMode: false,//置中
+      variableWidth: true, //投影片寬度自己控制
+      responsive: [
+        {
+          breakpoint: 1900,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            initialSlide: 3,//從第三頁開始
+            dots: false,//顯示下方分頁的點
+            infinite: false,//無窮
+            speed: 300,
+            centerMode: true,//置中
+            variableWidth: true,//投影片寬度自己控制
+          }
+        }
+      ]
+
+    }
+
+    )
+
+  }
+
+  shownews: news[] = []
+
+  AllNewsList: GetNewsClass[] = []
+  showallnews() {
+
+    var DateB = new Date()
+    this.GetApiDataServiceService.getWebApiData_GetNewsByDateNow(doFormatDate(DateB.toString()))
+      .subscribe(
+        (x: GetNewsClass[]) => {
+          for (let data of x) {
+            data.PostDate = formatDateTime(data.PostDate).getDate
+          }
+          function custom_sort(a, b) {
+            return new Date(b.PostDate).getTime() - new Date(a.PostDate).getTime();
+          }
+          x.sort(custom_sort)
+          let fontlength = 25
+          for (let oneNewList of x) {
+            if (oneNewList.NewsHead.length > fontlength) {
+              var title_slice = oneNewList.NewsHead.slice(0, fontlength)
+              title_slice += '......更多';
+              oneNewList.NewsHead= title_slice;
+            }
+          }
+          for(let i= 0 ;i< 5 ; i++){
+            this.AllNewsList.push(x[i])
+          }
+          this.LoadingPage.hide()
+        },
+        error=>{
+          alert('與api連線異常，getWebApiData_GetNewsByDateNow')
+        }
+      )
+    // let titleadd = "每一航班以一票號及一艙等為原則，嚴禁持不同艙等優待機票重複空位登記。";
+    // for (let i = 0; i < 5; i++) {
+    //   this.shownews.push({ title: titleadd, date: '2018/08/14' });
+    // }
+    // for (let i = 0; i < this.shownews.length; i++) {
+    //   let title_fontlength = 33;
+    //   if (this.shownews[i].title.length > title_fontlength) {
+    //     var title_slice = this.shownews[i].title.slice(0, title_fontlength)
+    //     title_slice += '......更多';
+    //     this.shownews[i].title = title_slice;
+    //   }
+    // }
+  }
+
+
+  weekjobs: weekjobs[] = [
+    { date: '8/28(二)', jobtime: '09:30~12:30', error: '', today: false, lastday: false },
+    { date: '8/29(三)', jobtime: '15:30~21:30', error: '', today: false, lastday: false },
+    { date: '8/30(四)', jobtime: '12:30~08:30', error: '考勤異常', today: false, lastday: false },
+    { date: '8/31(五)', jobtime: '07:30~17:30', error: '', today: true, lastday: false },
+    { date: '9/3(一)', jobtime: '15:30~21:30', error: '', today: false, lastday: false },
+    { date: '9/4(二)', jobtime: '12:30~08:30', error: '', today: false, lastday: false },
+    { date: '9/5(三)', jobtime: '06:30~17:30', error: '查閱請假單', today: false, lastday: true },
+  ];
+
+}
+class news {
+  title: string;
+  date: string;
+}
+class weekjobs {
+  date: string;
+  jobtime: string;
+  error: string;
+  today: boolean;
+  lastday: boolean;
+}

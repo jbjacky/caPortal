@@ -1,0 +1,173 @@
+<!-- 
+<div *ngIf="angularApidata; else loading">
+<div *ngFor="let GetDeptaByEmpToJson of angularApidata">
+    <select  (click)="onChange($event,GetDeptaByEmpToJson.Level,GetDeptaByEmpToJson.Dept)">
+            <option *ngFor="let next of GetDeptaByEmpToJson.Dept">
+                {{next.DeptNameC}}
+            </option>
+    </select>
+    <button *ngIf="GetDeptaByEmpToJson.Level!=1" (click)="bt_onClear(GetDeptaByEmpToJson.Level)">clear</button>
+</div>
+<button (click)="onSearch(apiAlldata)">查詢</button>
+<div *ngFor="let people  of angularPeople">
+   {{people.EmpCode}}：{{people.EmpNameC}}
+</div>
+</div>
+<ng-template #loading>
+    Loading stuff...
+</ng-template> -->
+<!-- 測試 -->
+<div class="row">
+    <div class="col-md-8">
+        <div class="checkform" style="margin-bottom: 10px">
+            <div class="blockhover" style="border: 1px solid #7796d4;padding: 10px 20px">
+                <div i18n style="font-size: 22px;color: #fff;font-weight: 500;box-shadow: none;cursor: auto" >表單審核</div>
+                <div style="padding-left: 10px;">
+                    <span style="padding-bottom: 5px;border-bottom: 4px #37fffd solid;text-align: center;box-shadow: none">
+                        <span style="color: #37fffd;font-size: 50px;box-shadow: none">6</span>
+                    </span>
+                    <span style="color: #fff;font-size: 17px;box-shadow: none"> 筆 待審核表單</span>
+                    <span class="checkformdesktoptext" style="box-shadow: none">(3筆請假單 2筆調班單 0筆銷假單 1筆考勤異常簽認單)</span>
+                </div>
+            </div>
+        </div>
+        <div style="margin-bottom: 25px;padding: 0px;" class="row">
+            <div class="col-sm-6 mangerblockleft">
+                <div class="managerblock">
+                    <div style="border: 1px solid #7796d4; padding: 10px 20px;">
+                        <div i18n style="font-size: 22px;color: #fff; font-weight: 500;">
+                            員工考勤異常
+                            <span class="mangerblocklefthourtitle">(每小時更新)</span>
+                        </div>
+                        <div class="row blockhover">
+                            <div class="col-md-6 col-xs-6 ">
+                                <div style="font-size: 14px;color: #fff;box-shadow: none;">今日 08/31</div>
+                                <span style="padding-bottom: 3px;border-bottom: 4px #37fffd solid;text-align: center;box-shadow: none;">
+                                    <span style="color: #37fffd;font-size: 36px;box-shadow: none;">1</span>
+                                </span>
+                                <span style="font-size: 16px;color: #fff;box-shadow: none;">人異常</span>
+                            </div>
+                            <div class="col-md-6 col-xs-6 ">
+                                <div style="font-size: 14px;color: #fff;box-shadow: none;">昨日 08/31</div>
+                                <span style="padding-bottom: 3px;border-bottom: 4px #37fffd solid;text-align: center;box-shadow: none;">
+                                    <span style="color: #37fffd;font-size: 36px;box-shadow: none;">2</span>
+                                </span>
+                                <span style="font-size: 16px;color: #fff;box-shadow: none;">人異常</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 managerblockright">
+                <div class="managerblock">
+                    <div class="blockhover" style="border: 1px solid #7796d4; padding: 10px 20px;;">
+                        <div style="font-size: 22px;color: #fff; font-weight: 500;cursor: auto;box-shadow: none">
+                            今日請假人數
+                        </div>
+                        <div style="padding-top: 22px;">
+                            <span style="padding-bottom: 3px;border-bottom: 4px #37fffd solid;text-align: center;box-shadow: none">
+                                <span style="color: #37fffd;font-size: 36px;box-shadow: none">2</span>
+                            </span>
+                            <span style="font-size: 16px;color: #fff;box-shadow: none">人請假</span>
+                            <span style="font-size: 16px;color: #fff;box-shadow: none">(計畫發展部)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dottedline">
+        </div>
+        <!-- 虛線 -->
+        <div class="myvacationblock" style="margin:0;margin-bottom: 20px">
+            <h3 style="margin-top: 0px">我的餘假</h3>
+            <div class="row" style="margin:0;margin-bottom: 20px;">
+                <div class="col-md-4 col-xs-12" style="padding: 0;">
+                    <div style="text-align: center;
+                    background-color: #edf5ff;
+                    color:#4c4c4c;
+                    font-weight: 600;
+                    padding: 10px 0px;
+                    border: 1px solid #e0e0e0;">特別休假</div>
+                    <div style="text-align: center;padding: 10px 0px;
+                    border: 1px solid #e0e0e0">
+                        10 日 6 時 30 分
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-12" style="padding: 0;">
+                    <div style="text-align: center;
+                    background-color: #edf5ff;
+                    color:#4c4c4c;
+                    font-weight: 600;
+                    padding: 10px 0px;
+                    border: 1px solid #e0e0e0;">補休</div>
+                    <div style="text-align: center;padding: 10px 0px;
+                    border: 1px solid #e0e0e0">
+                        10 日 6 時 30 分
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-12" style="padding: 0;">
+                    <div style="text-align: center;
+                    background-color: #edf5ff;
+                    color:#4c4c4c;
+                    font-weight: 600;
+                    padding: 10px 0px;
+                    border: 1px solid #e0e0e0;">福利補休</div>
+                    <div style="text-align: center;padding: 10px 0px;
+                    border: 1px solid #e0e0e0">
+                        10 日 6 時 30 分
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-primary " [routerLink]="['/nav/vaform']">填寫請假單
+                </button>
+            </div>
+        </div>
+        <div class="myvacationblock">
+            <h3 style="margin-top: 0px">我的差勤表</h3>
+            <div class="slideblock">
+                <div *ngFor="let weekjob of weekjobs">
+                    <div *ngIf="!weekjob.lastday">
+                        <div class="weekdate" *ngIf="weekjob.today" style="color: #fff;background-color: #0068b7">{{weekjob.date}}</div>
+                        <div class="weekdate" *ngIf="!weekjob.today">{{weekjob.date}}</div>
+                        <div class="weekdatecontent">{{weekjob.jobtime}}
+                            <div style="height: 22px;">
+                                <span *ngIf="weekjob.error=='考勤異常'" style="color: 
+                                        #d0021b;text-decoration:underline;cursor: pointer;">{{weekjob.error}}</span>
+                                <span *ngIf="weekjob.error=='查閱請假單'" style="color:
+                                        #4a90e2;text-decoration:underline;cursor: pointer;">{{weekjob.error}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="weekjob.lastday">
+                        <div class="weekdate" *ngIf="weekjob.today" style="color: #fff;background-color: #0068b7">{{weekjob.date}}</div>
+                        <div class="weekdate" *ngIf="!weekjob.today" style="border-right:1px solid #c9c9c9;">{{weekjob.date}}</div>
+                        <div class="weekdatecontent" style="border-right:1px solid #c9c9c9;">{{weekjob.jobtime}}
+                            <div style="height: 22px;">
+                                <span *ngIf="weekjob.error=='考勤異常'" style="color: 
+                                        #d0021b;text-decoration:underline;cursor: pointer;">{{weekjob.error}}</span>
+                                <span *ngIf="weekjob.error=='查閱請假單'" style="color:
+                                        #4a90e2;text-decoration:underline;cursor: pointer;">{{weekjob.error}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="a-block" style="padding: 20px 30px;">
+            <h4 style="font-weight: bold;margin-bottom: 20px;">近期公告</h4>
+            <div *ngFor="let oneNews of AllNewsList" class="onenewsblock">
+                <div [routerLink]="['/nav/NewsShowDetailComponent/'+oneNews.NewsID]">
+                    <p>{{oneNews.NewsHead}}</p>
+                     <div style="text-align: right">{{oneNews.PostDate}}</div>
+                    
+                </div>
+            </div>
+            <div style="text-align: right;margin-top: 10px">
+                <a style="cursor: pointer;" [routerLink]="['/nav/NewsShowAllComponent']">更多＞</a>
+            </div>
+        </div>
+    </div>
+</div>

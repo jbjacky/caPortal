@@ -1,0 +1,48 @@
+<form [formGroup]="radioFormGroup">
+  <div style="margin-bottom: 15px">
+    <div style="display: inline-block;margin-right:15px ">
+      <input type="radio" name="gender" value="dept" formControlName="gender" (click)="firstGetDeptData()"> 依單位查詢
+    </div>
+    <div style="display: inline-block;">
+      <input type="radio" name="gender" value="keyinput" formControlName="gender"> 關鍵字查詢
+    </div>
+  </div>
+  <div *ngIf="radioFormGroup.get('gender').value == 'dept'">
+
+    <div *ngFor="let selectBox of allSelectBox;let selectIndex = index">
+      <select class="form-control" (change)="onChange($event,selectIndex,selectBox.Level)">
+        <ng-container *ngFor="let selectBox_dept of selectBox.Dept;">
+          <option *ngIf="selectBox_dept.Base?.length >0 " [value]="selectBox_dept.DeptID">
+            {{selectBox_dept.DeptNameC}}
+          </option>
+          <ng-container *ngIf="!(selectBox_dept.Base?.length >0)">
+            <ng-container *ngIf="selectBox_dept.DeptID !=-1">
+              <option [value]="selectBox_dept.DeptID" style="color: rgb(185, 185, 185)" [value]="selectBox_dept.DeptID">
+                {{selectBox_dept.DeptNameC}}
+              </option>
+            </ng-container>
+            <ng-container *ngIf="selectBox_dept.DeptID ==-1">
+              <option [value]="selectBox_dept.DeptID" style="color: inherit" [value]="selectBox_dept.DeptID">
+                請選擇單位
+              </option>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </select>
+    </div>
+    
+    <div style="padding: 0px;margin-bottom: 20px">
+      <h4>選擇單位:{{DeptName()}}</h4>
+      <div *ngIf="selectBase_disable()" style="color:#e5004f">此單位無員工</div>
+      <ngx-select [items]="searchBase"  allowClear="true"  (selectionChanges)="search($event)" placeholder="請選擇員工或是輸入搜尋員工"
+        [disabled]="selectBase_disable()" noResultsFound="此條件找不到員工">
+      </ngx-select>
+      <!-- <ngx-select [items]="searchBaseArray" allowClear="true" optionValueField="EmpID" optionTextField="uiShowBaseString"
+      [(ngModel)]="selectBaseEmpID" (select)="selectBaseEmdID(selectBaseEmpID)"
+       placeholder="請選擇員工或是輸入搜尋員工" noResultsFound="此條件找不到員工"></ngx-select> -->
+    </div>
+  </div>
+  <div *ngIf="radioFormGroup.get('gender').value == 'keyinput'">
+    <app-serchkeybase (click_saveEmptoView)="change($event)" [proxyLockID_keysearch]="proxyLockID" [systemID]="SearchEmpID" [IsTop]="IsTop"></app-serchkeybase>
+  </div>
+</form>

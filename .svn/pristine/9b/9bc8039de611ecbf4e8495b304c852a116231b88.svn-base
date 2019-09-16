@@ -1,0 +1,42 @@
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { GetNewsClass } from 'src/app/Models/PostData_API_Class/GetNewsClass';
+
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
+
+@Component({
+  selector: 'app-news-show-detail',
+  templateUrl: './news-show-detail.component.html',
+  styleUrls: ['./news-show-detail.component.css']
+})
+export class NewsShowDetailComponent implements OnInit {
+  id: any;
+  getNewsDetail:GetNewsClass = new GetNewsClass();
+  
+  @Output() goback: EventEmitter<number> = new EventEmitter<number>();//回列表
+  constructor(private route: ActivatedRoute,
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private router: Router) {}
+
+  ngOnInit() {
+    this.route.paramMap.subscribe((params: ParamMap) => {
+       this.id = params.get('id'); // (+) converts string 'id' to a number
+        // console.log(this.id)
+        this.GetApiDataServiceService.getWebApiData_GetNewsByID(this.id)
+        .subscribe(
+          (x:GetNewsClass[])=>{
+            console.log(x)
+            x[0].PostDate = formatDateTime(x[0].PostDate).getDate
+            this.getNewsDetail = x[0]
+          }
+        )
+    });
+  }
+  
+  previouspage() {
+    //回列表
+      this.router.navigate(['/nav/NewsShowAllComponent']);
+  }
+
+}

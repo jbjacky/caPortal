@@ -1,0 +1,46 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div style="margin-bottom: 10px;text-align: right">
+      <button  (click)="newEditorClick()">
+        新增公告
+      </button>
+    </div>
+    <div class="table-responsive">
+      <table id="NewsTable" class=" row-border  cell-border" style="width:100%;margin: 0px;">
+        <thead>
+          <tr>
+            <!-- <th style="background-image: unset;cursor: unset"><input id="chkAll" type="checkbox"></th> -->
+            <th style="background-image: unset;cursor: unset">標題</th>
+            <th>公告日期</th>
+            <th>失效日期</th>
+            <th>排序</th>
+            <th>功能</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal" id="delNews_checksenddialog" tabindex="-1" role="dialog">
+    <div class="vertical-alignment-helper">
+      <div class="modal-dialog  modal-sm vertical-align-center">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" >
+              <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title"  style="text-align: center">確認刪除?</h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal"  (click)="delOneNewsData()">刪除</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--dialog確認刪除 -->

@@ -1,0 +1,17 @@
+
+.P_timetitle{
+    text-align: right
+}
+
+.errorInput{
+    border: 1px solid #e60012
+}
+@media screen and (max-width:992px) {
+
+    
+    .P_timetitle{
+        padding: 0;
+        text-align: left
+
+    }
+}

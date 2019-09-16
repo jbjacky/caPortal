@@ -1,0 +1,21 @@
+
+<label class="btn  btn-default" style="padding: 5px 15px;">
+  <input type="file" (change)="onChangefile($event.target.files)" style="display:none;"  /> 瀏覽...
+</label>
+<div *ngFor="let oneFileArray of fileArray ; let i = index" class="filenamesort">
+  <a (click)="downOnefile(oneFileArray)" style="margin:7px;cursor: pointer;">{{oneFileArray.name}}</a>
+  <a (click)="deleteOneFile(i)" style="cursor: pointer;">
+      <img src="./assets/images-template/red_delete.png" />
+  </a>
+</div>
+<div *ngIf="errorState.state" style="color: red;">
+  *{{errorState.errorString}}
+</div>
+
+<!-- <div>
+    <button (click)="uploadAllFile()">全部上傳</button>
+</div> -->
+
+<!-- <div *ngFor="let oneFileArray of getApiFileData ; let i = index">
+  <a (click)="base64(oneFileArray)">{{oneFileArray.name}}</a>
+</div> -->

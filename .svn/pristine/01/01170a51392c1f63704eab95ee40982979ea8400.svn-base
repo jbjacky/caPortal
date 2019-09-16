@@ -1,0 +1,229 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetHoliDayBalanceFlow } from 'src/app/Models/PostData_API_Class/GetHoliDayBalanceFlow';
+import { takeWhile } from 'rxjs/operators';
+import { HoliDayBalanceFlow } from 'src/app/Models/HoliDayBalanceFlow';
+import { timeOfDay } from 'src/app/UseVoid/void_timeofday';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { doFormatDate, formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
+
+@Component({
+  selector: 'app-surplus-leave',
+  templateUrl: './surplus-leave.component.html',
+  styleUrls: ['./surplus-leave.component.css']
+})
+export class SurplusLeaveComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    this.api_subscribe = false;
+  }
+  api_subscribe = true
+  constructor(
+    private GetApiUserService: GetApiUserService,
+    private GetApiDataServiceService: GetApiDataServiceService) { }
+
+
+  showSurplusLeave: AllVaShow[] = [] //餘假資訊
+
+  showSpecialLeave: AllVaShow = new AllVaShow() //特休
+  showWelfare: AllVaShow = new AllVaShow() //福利補休
+
+  SearchMan = { EmpCode: '', EmpNameC: '' }
+  ngOnInit() {
+
+    this.GetApiUserService.counter$.subscribe(
+      (x: any) => {
+        // console.log(x)
+        if (x == 0) {
+
+        } else {
+          this.SearchMan.EmpCode = x.EmpCode
+          this.SearchMan.EmpNameC = x.EmpNameC
+
+          this.SearchBalanceFlow(x.EmpCode)
+        }
+
+      })
+
+  }
+
+  SearchBalanceFlow(EmpID: string) {
+    var today = new Date()
+
+    var GetHoliDayBalanceFlow: GetHoliDayBalanceFlow = {
+      "EmpID": EmpID,
+      "DateB": doFormatDate(today),
+      "DateE": doFormatDate(today),
+      "HoliDayID": 0,
+      "KeyName": "",
+      "EventDate": "",
+      "ListAbsFlow": null
+    }
+    this.GetApiDataServiceService.getWebApiData_GetHoliDayBalanceFlow(GetHoliDayBalanceFlow)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: HoliDayBalanceFlow[]) => {
+          console.log(x)
+          var SortShowData: HoliDayBalanceFlow[] = []
+          for (let data of x) {
+            if (data.Use > 0 || data.Balance > 0 || data.FlowUse > 0) {
+              if (data.Sort > 0) {
+                SortShowData.push(data)
+              }
+            }
+          }
+          // Unit:1-小時
+          // Unit:2-天
+          // Unit:3-分鐘
+          for (let showData of SortShowData) {
+            var showAbsAddition: AbsAddition[] = []
+            for (let addition of showData.AbsAddition) {
+              if (showData.Unit == '1') {
+                //小時
+                var rr_DayHourMin: DayHourMin = {
+                  Day: timeOfDay(true, addition.RestAmount, 8).day.toString(),
+                  Hour: timeOfDay(true, addition.RestAmount, 8).hour.toString(),
+                  Min: timeOfDay(true, addition.RestAmount, 8).minute.toString(),
+                }
+              } else if (showData.Unit == '3') {
+                //分鐘
+                var rr_DayHourMin: DayHourMin = {
+                  Day: timeOfDay(false, addition.RestAmount, 8).day.toString(),
+                  Hour: timeOfDay(false, addition.RestAmount, 8).hour.toString(),
+                  Min: timeOfDay(false, addition.RestAmount, 8).minute.toString(),
+                }
+              } else if (showData.Unit == '2') {
+                //天
+                var rr_DayHourMin: DayHourMin = {
+                  Day: addition.RestAmount.toString(),
+                  Hour: '0',
+                  Min: '0',
+                }
+              }
+              showAbsAddition.push(
+                {
+                  DateB: formatDateTime(addition.DateB).getDate,
+                  DateE: formatDateTime(addition.DateE).getDate,
+
+                  Year: addition.Year,
+                  RestAmount: addition.RestAmount,
+                  RestAmountDayHourMin: rr_DayHourMin
+                }
+              )
+            }
+
+            if (showData.Unit == '1') {
+              //小時
+              var showBalanceDayHourMin: DayHourMin = {
+                Day: timeOfDay(true, showData.Balance, 8).day.toString(),
+                Hour: timeOfDay(true, showData.Balance, 8).hour.toString(),
+                Min: timeOfDay(true, showData.Balance, 8).minute.toString(),
+              }
+              var showUseDayHourMin: DayHourMin = {
+                Day: timeOfDay(true, showData.Use, 8).day.toString(),
+                Hour: timeOfDay(true, showData.Use, 8).hour.toString(),
+                Min: timeOfDay(true, showData.Use, 8).minute.toString(),
+              }
+              var showFlowUseDayHourMin: DayHourMin = {
+                Day: timeOfDay(true, showData.FlowUse, 8).day.toString(),
+                Hour: timeOfDay(true, showData.FlowUse, 8).hour.toString(),
+                Min: timeOfDay(true, showData.FlowUse, 8).minute.toString(),
+              }
+            } else if (showData.Unit == '3') {
+              //分鐘
+              var showBalanceDayHourMin: DayHourMin = {
+                Day: timeOfDay(false, showData.Balance, 8).day.toString(),
+                Hour: timeOfDay(false, showData.Balance, 8).hour.toString(),
+                Min: timeOfDay(false, showData.Balance, 8).minute.toString(),
+              }
+              var showUseDayHourMin: DayHourMin = {
+                Day: timeOfDay(false, showData.Use, 8).day.toString(),
+                Hour: timeOfDay(false, showData.Use, 8).hour.toString(),
+                Min: timeOfDay(false, showData.Use, 8).minute.toString(),
+              }
+              var showFlowUseDayHourMin: DayHourMin = {
+                Day: timeOfDay(false, showData.FlowUse, 8).day.toString(),
+                Hour: timeOfDay(false, showData.FlowUse, 8).hour.toString(),
+                Min: timeOfDay(false, showData.FlowUse, 8).minute.toString(),
+              }
+            } else if (showData.Unit == '2') {
+              //天
+              var showBalanceDayHourMin: DayHourMin = {
+                Day: showData.Balance.toString(),
+                Hour: '0',
+                Min: '0',
+              }
+              var showUseDayHourMin: DayHourMin = {
+                Day: showData.Balance.toString(),
+                Hour: '0',
+                Min: '0',
+              }
+              var showFlowUseDayHourMin: DayHourMin = {
+                Day: showData.Balance.toString(),
+                Hour: '0',
+                Min: '0',
+              }
+            }
+            this.showSurplusLeave.push(
+              {
+                Sort: showData.Sort,
+                HoliDayKindNameC: showData.HoliDayKindNameC,
+                Balance: showData.Balance, //結餘
+                Use: showData.Use, //已請
+                FlowUse: showData.FlowUse, //待扣
+
+                AbsAddition: showAbsAddition,
+                BalanceDayHourMin: showBalanceDayHourMin,
+                UseDayHourMin: showUseDayHourMin,
+                FlowUseDayHourMin: showFlowUseDayHourMin
+              }
+            )
+
+            this.showSpecialLeave = new AllVaShow()
+            this.showWelfare = new AllVaShow()
+            for (let sup of this.showSurplusLeave) {
+              if (sup.HoliDayKindNameC == '特休') {
+                this.showSpecialLeave = sup
+              } else { }
+
+              if (sup.HoliDayKindNameC == '福利補休') {
+                this.showWelfare = sup
+              } else { }
+            }
+          }
+
+          // console.log(this.showSurplusLeave)
+          // console.log(this.showSpecialLeave)
+          // console.log(this.showWelfare)
+        }
+      )
+  }
+
+}
+
+class AllVaShow {
+
+  Sort: number
+  HoliDayKindNameC: string
+  Balance: number //結餘
+  Use: number //已請
+  FlowUse: number //待扣
+  AbsAddition: AbsAddition[]
+
+  BalanceDayHourMin: DayHourMin//結餘
+  UseDayHourMin: DayHourMin//已請
+  FlowUseDayHourMin: DayHourMin//待扣
+}
+
+class DayHourMin {
+  Day: string
+  Hour: string
+  Min: string
+}
+
+class AbsAddition {
+  DateB: string
+  DateE: string
+  Year: string
+  RestAmount: number
+  RestAmountDayHourMin: DayHourMin
+}

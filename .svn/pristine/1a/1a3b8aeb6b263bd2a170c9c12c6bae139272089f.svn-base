@@ -1,0 +1,138 @@
+import { Component, OnInit } from '@angular/core';
+import { fromEvent, interval, from, of, BehaviorSubject, Observable } from 'rxjs';
+import { take, map, switchMap, mergeMap, concatMap, tap, merge, last, mergeAll, toArray } from 'rxjs/operators';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { pipe } from '@angular/core/src/render3/pipe';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
+import { timeOfDay } from 'src/app/UseVoid/void_timeofday';
+
+@Component({
+  selector: 'app-test-rx',
+  templateUrl: './test-rx.component.html',
+  styleUrls: ['./test-rx.component.css']
+})
+export class TestRxComponent implements OnInit {
+
+  constructor(private GetApiDataServiceService: GetApiDataServiceService) { }
+  lis = '456'
+  private store$: BehaviorSubject<any> = new BehaviorSubject<any>(0);
+  counter$: Observable<any> = this.store$;
+  chtext
+  checkval() {
+    console.log(this.lis)
+    this.store$.next(this.lis)
+  }
+  ngOnInit() {
+    // for(let i=195 ; i<=199 ;i++){
+    //   this.GetApiDataServiceService.getWebApiData_GetAbsFlowAppsByProcessFlowID(i, true).pipe(
+    //     concatMap((o: any) => from(o).pipe(
+    //       map((q: any) => {
+    //         var get = []
+    //         q.AbsFlowAppsDetail.map((x: any) => {
+    //           var GetAttend: GetAttendClass = {
+    //             DateB: formatDateTime(x.DateB).getDate,
+    //             DateE: formatDateTime(x.DateB).getDate,
+    //             ListEmpID: [q.EmpCode],
+    //             ListRoteID: null
+    //           }
+    //           get.push({ Attend: GetAttend, Use: x.Use, numberOfVaData: o.length, DateTimeB: x.DateTimeB, DateTimeE: x.DateTimeE })
+    //         })
+    //         return get
+    //       })
+    //     )),
+    //     concatMap((w: any) => from(w)),
+    //     concatMap((y: any) => this.GetApiDataServiceService.getWebApiData_GetAttend(y.Attend).pipe(
+    //       map((z: any) => {
+    //         z[0]["TodayUse"] = y.Use
+    //         z[0]["vaDateTimeB"] = y.DateTimeB
+    //         z[0]["vaDateTimeE"] = y.DateTimeE
+    //         z[0]["numberOfVaData"] = y.numberOfVaData
+    //         return z[0]
+    //       }),
+
+    //     )),
+    //     toArray()
+    //     // last()
+    //   )
+    //     .subscribe(
+    //       (x: any) => {
+    //         // console.log(x)
+    //         if (x.length > 0) {
+    //           var allDay = 0
+    //           var allHour = 0
+    //           var allMinute = 0
+    //           var calDateArray = []
+    //           for (let data of x) {
+    //             allDay = allDay + timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).day
+    //             allHour = allHour + timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).hour
+    //             allMinute = allMinute + timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).minute
+    //             calDateArray.push(data.vaDateTimeB)
+    //             calDateArray.push(data.vaDateTimeE)
+    //           }
+    //           calDateArray.sort((a: any, b: any) => {
+    //             let left = Number(new Date(a));
+    //             let right = Number(new Date(b));
+    //             return left - right;
+    //           });
+
+    //           var output = {
+    //             allDay: allDay,
+    //             allHour: allHour,
+    //             allMinute: allMinute,
+    //             startdate: formatDateTime(calDateArray[0]).getDate,
+    //             ontime: formatDateTime(calDateArray[0]).getTime,
+    //             enddate: formatDateTime(calDateArray[calDateArray.length - 1]).getDate,
+    //             offtime: formatDateTime(calDateArray[calDateArray.length - 1]).getTime,
+    //             numberOfVaData: x[0].numberOfVaData
+    //           }
+    //           console.log(output)
+    //         }
+    //       }
+    //     )
+    // }
+    var pro_id = ['214', '216', '218', '220']
+    for (let id of pro_id) {
+      this.GetApiDataServiceService.getWebApiData_GetAbscFlowAppsByProcessFlowID(id)
+        .pipe(
+          concatMap((o: any) => from(o).pipe(
+            map((q: any) => {
+              // console.log(q)
+              var get = []
+              var GetAttend: GetAttendClass = {
+                DateB: formatDateTime(q.DateB).getDate,
+                DateE: formatDateTime(q.DateB).getDate,
+                ListEmpID: ['051005'],
+                ListRoteID: null
+              }
+              get.push({ Attend: GetAttend, Use: q.Use, numberOfVaData: o.length, DateTimeB: q.DateTimeB, DateTimeE: q.DateTimeE })
+              return get
+            })
+          )),
+          concatMap((w: any) => from(w)),
+          concatMap((y: any) => this.GetApiDataServiceService.getWebApiData_GetAttend(y.Attend).pipe(
+            map((z: any) => {
+              if (z.length == 0) {
+                // console.log('沒有出勤資料')
+                return z
+              } else {
+                z[0]["TodayUse"] = y.Use
+                z[0]["vaDateTimeB"] = y.DateTimeB
+                z[0]["vaDateTimeE"] = y.DateTimeE
+                z[0]["numberOfVaData"] = y.numberOfVaData
+                return z[0]
+              }
+            }),
+
+          )),
+          toArray()
+        )
+        .subscribe(
+          (x: any) => {
+            console.log(x)
+          }
+        )
+    }
+  }
+}

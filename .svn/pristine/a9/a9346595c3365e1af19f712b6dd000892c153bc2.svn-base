@@ -1,0 +1,23 @@
+﻿
+
+$ApiVariable = 'var apiPostURL'
+$changeUrl = Get-Content .\src\index.html -Encoding UTF8 | Select-String $ApiVariable -CaseSensitive
+# 取得Api位置
+$setApiUrl = "var apiPostURL = 'https://60.250.52.108/eepWebService/'"
+(Get-Content .\src\index.html  -Encoding UTF8) -replace ($changeUrl,$setApiUrl)  | Out-File -Encoding UTF8 .\src\index.html
+
+# 對象位置
+$dest = '\\192.168.1.46\cb1177a4-b087-4142-89ce-14604efbf933'
+# ng build --prod --base-href ./ 
+
+# 虛擬目錄名稱
+$fileName = 'CB1177A4-B087-4142-89CE-14604EFBF933'
+ng build --prod --base-href /$fileName/
+
+$angConfig = (Get-Content .\angular.json | ConvertFrom-Json )
+
+#排除web.config
+Remove-Item -Path $dest -Exclude "web.config" -Force -Recurse
+Copy-Item "$($angConfig.projects.caPortal.architect.build.options.outputPath)\**" -Destination $dest -Force -Recurse 
+# Start-Process -FilePath 'https://60.250.52.108/CB1177A4-B087-4142-89CE-14604EFBF933' -PassThru
+

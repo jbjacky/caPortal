@@ -1,0 +1,197 @@
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { showFlowView } from '../../search-form/search-form.component';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { concatMap, map, toArray, takeWhile } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
+import { dateArrayClass, delFlowSign, YearAndDateClass } from 'src/app/Models/AllformReview';
+import { timeOfDay } from 'src/app/UseVoid/void_timeofday';
+import { calYearindate } from 'src/app/UseVoid/void_calYearindate';
+import { void_completionTenNum } from 'src/app/UseVoid/void_CompletionTenNum';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-search-del-form',
+  templateUrl: './search-del-form.component.html',
+  styleUrls: ['./search-del-form.component.css']
+})
+export class SearchDelFormComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+
+  @Input() getDelData: showFlowView[]
+  delSearchFlowSign: delSearchFlowSignClass[] = [];
+  showDelDataDetail: boolean = false  // 顯示明細
+
+
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+
+  SearchMan = { EmpCode: '', EmpNameC: '' }
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private LoadingPage: NgxSpinnerService,
+    private GetApiUserService: GetApiUserService) { }
+
+  ngOnInit() {
+    this.GetApiUserService.counter$
+      .subscribe(
+        x => {
+          this.SearchMan.EmpCode = x.EmpID
+          this.SearchMan.EmpNameC = x.EmpNameC
+        }
+      )
+    for (let del_FlowSign of this.getDelData) {
+      this.GetApiDataServiceService.getWebApiData_GetAbscFlowAppsByProcessFlowID(del_FlowSign.ProcessFlowID)
+        .pipe(
+          concatMap((o: any) => from(o).pipe(
+            map((q: any) => {
+              // console.log(q)
+              var get = []
+              var GetAttend: GetAttendClass = {
+                DateB: formatDateTime(q.DateB).getDate,
+                DateE: formatDateTime(q.DateB).getDate,
+                ListEmpID: [q.EmpCode],//q.EmpCode
+                ListRoteID: null
+              }
+              get.push({ Attend: GetAttend, Use: q.Use, numberOfVaData: o.length, DateTimeB: q.DateTimeB, DateTimeE: q.DateTimeE, Note: q.Note })
+              return get
+            })
+          )),
+          concatMap((w: any) => from(w)),
+          concatMap((y: any) => this.GetApiDataServiceService.getWebApiData_GetAttend(y.Attend).pipe(
+            map((z: any) => {
+              if (z.length == 0) {
+                console.log(y.Attend.ListEmpID[0] + ' ' + y.Attend.DateB + '沒有出勤資料')
+                return z
+              } else {
+                z[0]["TodayUse"] = y.Use
+                z[0]["vaDateTimeB"] = y.DateTimeB
+                z[0]["vaDateTimeE"] = y.DateTimeE
+                z[0]["numberOfVaData"] = y.numberOfVaData
+                z[0]["DataNote"] = y.Note
+                return z[0]
+              }
+            }),
+
+          )),
+          toArray()
+        ).pipe(takeWhile(() => this.api_subscribe))
+
+        .subscribe(
+          (x: any) => {
+            // console.log(x)
+            var cal_Day = 0
+            var cal_hour = 0
+            var cal_minute = 0
+            var dateArray: dateArrayClass[] = []
+            var YearAndDateArray = []
+            for (let data of x) {
+              var oneDate = { DateB: data.vaDateTimeB, DateE: data.vaDateTimeE }
+              var oneYearAndDate = formatDateTime(data.AttendDate).getDate
+              cal_Day = cal_Day + timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).day
+              cal_hour = cal_hour + timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).hour
+              cal_minute = cal_minute + timeOfDay(true, data.TodayUse, data.ActualRote.WorkHours).minute
+              dateArray.push(oneDate)
+              YearAndDateArray.push(oneYearAndDate)
+            }
+            // console.log(dateArray)
+            this.delSearchFlowSign.push({
+              ProcessFlowID: del_FlowSign.ProcessFlowID,
+              showProcessFlowID: void_completionTenNum(del_FlowSign.ProcessFlowID),
+              EmpCode: del_FlowSign.AppEmpID,
+              EmpNameC: del_FlowSign.AppEmpName,
+              AppDeptName: del_FlowSign.AppDeptName,
+              State: del_FlowSign.State,
+              ManageEmpName: del_FlowSign.ManageEmpName,
+              Take: del_FlowSign.Take,
+
+              dateArray: dateArray,
+              YearAndDate: calYearindate(YearAndDateArray),
+              day: cal_Day.toString(),
+              hour: cal_hour.toString(),
+              minute: cal_minute.toString(),
+              numberOfVaData: x[0].numberOfVaData.toString()
+            })
+            // console.log(this.delSearchFlowSign)
+            this.delSearchFlowSign.sort(function (start, end) {
+              return end.ProcessFlowID - start.ProcessFlowID;
+            });
+          }
+        )
+    }
+  }
+
+
+  @Output() gotoShowFormPlace: EventEmitter<number> = new EventEmitter<number>();
+  setToNextDelDataTitle: delSearchFlowSignClass //給明細用的title資料
+  nextShowDetail(setToNextDelDataTitle: delSearchFlowSignClass) {
+    // console.log(setToNextVaDataTitle)
+
+    this.gotoShowFormPlace.emit();
+
+    this.showDelDataDetail = true
+    this.setToNextDelDataTitle = setToNextDelDataTitle
+  }
+
+  onGoBackFunction() {
+    this.showDelDataDetail = false
+    this.gotoShowFormPlace.emit();
+    // window.scroll(0, 0);
+    //回列表
+  }
+
+  takeForm: any
+  /**
+   * @todo 抽單
+   */
+  Cancelform_Click() {
+    // console.log(this.SearchMan.EmpCode)
+    // console.log(this.takeForm.ProcessFlowID)
+    var ListProcessFlowID = this.takeForm.ProcessFlowID
+    this.LoadingPage.show()
+
+    this.GetApiDataServiceService.getWebApiData_TakeSetFlowState(this.SearchMan.EmpCode, ListProcessFlowID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        x => {
+          if (x) {
+            // this.delSearchFlowSign.splice(this.delSearchFlowSign.indexOf(this.takeForm), 1)
+            this.delSearchFlowSign[this.delSearchFlowSign.indexOf(this.takeForm)].State = '7'
+            this.delSearchFlowSign[this.delSearchFlowSign.indexOf(this.takeForm)].Take =false
+            $('#sussesdialog').modal('show')
+          }
+          this.LoadingPage.hide()
+        },
+        error => {
+          this.LoadingPage.hide()
+          alert('與api連線異常，getWebApiData_TakeSetFlowState')
+        }
+      )
+  }
+
+}
+
+export class delSearchFlowSignClass {
+  ProcessFlowID: number
+  showProcessFlowID: number
+  EmpCode: string
+  EmpNameC: string
+  AppDeptName: string
+  State: string
+  ManageEmpName: string
+  Take: boolean
+
+
+  YearAndDate: YearAndDateClass[];
+  dateArray: dateArrayClass[];
+  day: string;
+  hour: string;
+  minute: string;
+  numberOfVaData: string;
+
+}

@@ -1,0 +1,192 @@
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { changeFlowSign, YearAndDateClass } from 'src/app/Models/AllformReview';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { takeWhile } from 'rxjs/operators';
+import { formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
+import { calYearindate } from 'src/app/UseVoid/void_calYearindate';
+import { showFlowView } from '../../search-form/search-form.component';
+import { void_completionTenNum } from 'src/app/UseVoid/void_CompletionTenNum';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-search-change-form',
+  templateUrl: './search-change-form.component.html',
+  styleUrls: ['./search-change-form.component.css']
+})
+export class SearchChangeFormComponent implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    // throw new Error("Method not implemented.");
+    this.api_subscribe = false;
+  }
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private LoadingPage: NgxSpinnerService,
+    private GetApiUserService: GetApiUserService) { }
+  SearchMan = { EmpCode: '', EmpNameC: '' }
+
+  @Input() getChangeData: showFlowView[]
+
+  @Output() gotoShowFormPlace: EventEmitter<number> = new EventEmitter<number>();
+
+  changeSearchFlowSign: changeSearchFlowSignClass[] = []
+  loading = false
+  showChangeDataDetailRZ: boolean = false
+  ngOnInit() {
+    this.loading = true
+    // console.log(this.getChangeData)
+    this.GetApiUserService.counter$
+    .subscribe(
+      x => {
+        this.SearchMan.EmpCode = x.EmpID
+        this.SearchMan.EmpNameC = x.EmpNameC
+      }
+    )
+    for (let FlowSign of this.getChangeData) {
+      this.GetApiDataServiceService.getWebApiData_GetShiftFlowAppsByProcessFlowID(FlowSign.ProcessFlowID)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (x: any) => {
+            var YearAndDateArray = []
+            var RR: boolean
+            var DR: boolean
+            var RZ: boolean
+            for (let data of x) {
+              for (let ShiftRoteFlowAppsDetail of data.ShiftRoteFlowAppsDetail) {
+                var ShiftRoteDate = formatDateTime(ShiftRoteFlowAppsDetail.ShiftRoteDate).getDate.toString()
+                YearAndDateArray.push(ShiftRoteDate)
+              }
+              if (data.ShiftRoteType == 'RR') {
+                RR = true
+              } else if (data.ShiftRoteType == 'DR') {
+                DR = true
+              } else if (data.ShiftRoteType == 'RZ') {
+                RZ = true
+              }
+            }
+            this.changeSearchFlowSign.push({
+              ProcessFlowID: FlowSign.ProcessFlowID,
+              showProcessFlowID: void_completionTenNum(FlowSign.ProcessFlowID),
+              EmpCode: FlowSign.AppEmpID,
+              EmpNameC: FlowSign.AppEmpName,
+              AppDeptName: FlowSign.AppDeptName,
+              State: FlowSign.State,
+              ManageEmpName: FlowSign.ManageEmpName,
+              Take: FlowSign.Take,
+              EmpID1: x[0].EmpID1,
+              EmpCode1: x[0].EmpCode1,
+              EmpNameC1: x[0].EmpNameC1,
+              EmpID2: x[0].EmpID2,
+              EmpCode2: x[0].EmpCode2,
+              EmpNameC2: x[0].EmpNameC2,
+              Note:x[0].Note,
+
+              YearAndDate: calYearindate(YearAndDateArray),
+              dateArray: YearAndDateArray,
+              isDR: DR,
+              isRR: RR,
+              isRZ: RZ,
+              numberOfVaData: YearAndDateArray.length.toString()
+
+            })
+            console.log(this.changeSearchFlowSign)
+            this.loading = false
+          },
+          error => {
+            alert('與api連線異常，getWebApiData_GetShiftFlowAppsByProcessFlowID')
+          }
+        )
+    }
+  }
+  showChangeDataDetailDR: boolean = false
+  showChangeDataDetailRR: boolean = false
+  setToNextChangeDataTitle: changeSearchFlowSignClass
+
+  nextShowDetail(oneChangeData: changeSearchFlowSignClass) {
+    if (oneChangeData.isDR) {
+      this.showChangeDataDetailDR = true
+      this.setToNextChangeDataTitle = oneChangeData
+
+    } else if (oneChangeData.isRR) {
+
+      this.showChangeDataDetailRR = true
+      this.setToNextChangeDataTitle = oneChangeData
+
+    } else if (oneChangeData.isRZ) {
+
+      this.showChangeDataDetailRZ = true
+      this.setToNextChangeDataTitle = oneChangeData
+
+    }
+
+    this.gotoShowFormPlace.emit();
+
+  }
+  takeForm: any
+  /**
+   * @todo 抽單
+   */
+  Cancelform_Click() {
+    // console.log(this.SearchMan.EmpCode)
+    // console.log(this.takeForm.ProcessFlowID)
+    var ListProcessFlowID = this.takeForm.ProcessFlowID
+    this.LoadingPage.show()
+
+    this.GetApiDataServiceService.getWebApiData_TakeSetFlowState(this.SearchMan.EmpCode, ListProcessFlowID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        x => {
+          if (x) {
+            // this.changeSearchFlowSign.splice(this.changeSearchFlowSign.indexOf(this.takeForm), 1)
+            this.changeSearchFlowSign[this.changeSearchFlowSign.indexOf(this.takeForm)].State ='7'
+            $('#sussesdialog').modal('show')
+          }
+          this.LoadingPage.hide()
+        },
+        error => {
+          this.LoadingPage.hide()
+          alert('與api連線異常，getWebApiData_TakeSetFlowState')
+        }
+      )
+  }
+
+  onGoBackFunction() {
+    this.showChangeDataDetailRZ = false
+    this.showChangeDataDetailRR = false
+    this.showChangeDataDetailDR = false
+    this.gotoShowFormPlace.emit();
+    // window.scroll(0, 0);
+    //回列表
+  }
+
+}
+
+
+export class changeSearchFlowSignClass {
+  ProcessFlowID: number
+  showProcessFlowID: number
+  EmpCode: string
+  EmpNameC: string
+  AppDeptName: string
+  State: string
+  ManageEmpName: string
+  Take: boolean
+
+  EmpID1: string
+  EmpCode1: string
+  EmpNameC1: string
+  EmpID2: string
+  EmpCode2: string
+  EmpNameC2: string
+  Note:string
+  
+  YearAndDate: YearAndDateClass[]
+  dateArray: Array<string>
+  isDR: boolean
+  isRR: boolean
+  isRZ: boolean
+  numberOfVaData: string
+}

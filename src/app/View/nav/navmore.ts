@@ -1,0 +1,23 @@
+export class twonav {
+    largetitle: string;
+    routeurl: string;
+    site: twonav_second[];
+}
+
+class twonav_second {
+    title: string;
+    routeurl: string;
+}
+
+export class threenav {
+    title: string;
+    second: threenav_second[];
+}
+class threenav_second {
+    stitle: string;
+    third: threenav_third[];
+}
+class threenav_third {
+    title: string;
+    routeurl: string;
+}

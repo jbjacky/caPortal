@@ -1,0 +1,34 @@
+::ng-deep .ngx-select__toggle{
+    padding-left: 16px;
+}
+.selectDept{
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.selectBase{
+    padding-right: 15px;
+    padding-left: 15px;
+}
+::ng-deep .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    color: #fff;
+    outline: 0;
+    background-color: #428bca;
+
+}
+
+::ng-deep .ngx-select__toggle{
+    padding: 5px 12px;
+}
+
+@media screen and (max-width:1000px) {
+
+    .selectDept{
+        padding-right: 0px;
+        padding-left: 0px;
+        margin-bottom: 10px;
+    }
+    .selectBase{
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+}

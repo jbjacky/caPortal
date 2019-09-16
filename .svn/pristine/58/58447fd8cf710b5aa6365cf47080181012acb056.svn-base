@@ -1,0 +1,62 @@
+th, td { white-space: nowrap; }
+/* div.dataTables_wrapper {
+    width: 100%;
+    margin: 0 auto;
+} */
+::ng-deep #NewsTable_wrapper table.dataTable.row-border tbody td{
+    white-space: nowrap;
+}
+::ng-deep #NewsTable_wrapper table.dataTable thead th{
+    white-space: nowrap;
+    text-align: center
+
+}
+::ng-deep  .dataTables_wrapper.no-footer .dataTables_scrollBody {
+    border-bottom:0px;
+}
+::ng-deep  #NewsTable_wrapper table.dataTable.row-border tbody td .editButton{
+   cursor: pointer;
+   padding: 0px 3px
+}
+::ng-deep #NewsTable_wrapper table.dataTable.row-border tbody td .deleteButton{
+   cursor: pointer;
+   padding: 0px 3px
+}
+
+
+
+
+
+
+
+@media (max-width: 800px){
+    ::ng-deep #footer {
+        display: none;
+    }
+}
+::ng-deep .vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+  }
+  ::ng-deep .vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+  }
+  ::ng-deep .modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width:550px){
+    .modal-dialog{
+      width: 300px;
+    }
+    .modal-footer{
+      text-align: center
+    }
+  }

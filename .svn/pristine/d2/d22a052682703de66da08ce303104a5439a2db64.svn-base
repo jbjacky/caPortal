@@ -1,0 +1,424 @@
+import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
+import { doFormatDate, formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
+import { isValidDate } from 'src/app/UseVoid/void_isVaildDatetime';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { takeWhile, concatMap, map, toArray } from 'rxjs/operators';
+import { GetAttendInfoClass } from 'src/app/Models/GetAttendInfoClass';
+import { chinesenum } from 'src/app/UseVoid/void_chinesenumber';
+import { ShiftRoteSaveAndFlowStartClass, ShiftRoteFlowAppsDetailArrayClass } from 'src/app/Models/PostData_API_Class/ShiftRoteSaveAndFlowStartClass';
+import { ViewportScroller } from '@angular/common';
+import { of, from } from 'rxjs';
+import { ShiftRoteCheckClass } from 'src/app/Models/PostData_API_Class/ShiftRoteCheckClass';
+import { ExampleHeader } from 'src/app/Service/datepickerHeader';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-change-non-shift-same',
+  templateUrl: './change-non-shift-same.component.html',
+  styleUrls: ['./change-non-shift-same.component.css']
+})
+export class ChangeNonShiftSameComponent implements OnInit, OnDestroy {
+  exampleHeader = ExampleHeader //日期套件header
+  
+  ngOnDestroy(): void {
+    this.api_subscribe = false
+  }
+
+  writeState = 1 //步驟一
+  api_subscribe = true
+
+  chooseNow: boolean = true
+  str_DEFAULT = '對應班型'
+  item_disable: boolean = true
+
+  changeClass: changeClass[] = []
+
+  showCheckDetailDateArray: showViewRote[] = []
+
+  SearchMan = { EmpCode: '', EmpName: '' }
+  constructor(
+    private GetApiDataServiceService: GetApiDataServiceService,
+    private GetApiUserService: GetApiUserService,
+    private viewScroller: ViewportScroller,
+    private LoadingPage: NgxSpinnerService) { }
+
+  ngOnInit() {
+
+    this.GetApiUserService.counter$.subscribe(
+      x => {
+        this.SearchMan.EmpCode = x.EmpCode
+        if (x.EmpNameC) {
+          this.SearchMan.EmpName = x.EmpNameC
+        } else {
+          this.SearchMan.EmpName = x.EmpNameE
+        }
+      })
+  }
+
+
+  setMap = new Map()
+  onChangeChooseRote(e, change: changeClass) {
+    var dateString = change.Date
+    var dateday = new Date(dateString)
+    // console.log(dateday.getDay())
+    var datedayString = ''
+    if (dateday.getDay() == 0) {
+      datedayString = '日'
+    } else {
+      datedayString = chinesenum(dateday.getDay())
+    }
+
+    if (e.length > 0) {
+      var showData: RoteSelectBoxClass = e[0].data
+      // console.log(dateString)
+      // console.log(showData.outPutSelectText)
+      var setData: showViewRote = new showViewRote()
+      setData = {
+        ShiftRoteDate: dateString,
+        OnTime1: change.OnTime,
+        RoteID1: change.RoteID,
+        RoteCode1: change.RoteCode,
+        RoteName1: change.RoteNameC,
+        OnTime2: showData.OnTime,
+        RoteID2: showData.RoteID,
+        RoteCode2: showData.RoteCode,
+        RoteName2: showData.RoteName,
+        ShiftRoteDateDay: datedayString
+      }
+      this.setMap.set(dateString, setData)
+      // console.log(this.setMap)
+    } else {
+      this.setMap.delete(dateString)
+      // console.log(this.setMap)
+    }
+
+
+  }
+
+
+  prePage() {
+    this.writeState = this.writeState - 1
+    this.SetUiActive()
+  }
+  nextPageToWrite() {
+    //下一步->輸入請求班型
+    var chooseStartDate = $('#id_ipt_startday').val()
+    var chooseEndDate = $('#id_ipt_endday').val()
+    this.changeClass = []
+    this.setMap.clear()
+    this.LoadingPage.show()
+    if (isValidDate(chooseStartDate) && isValidDate(chooseEndDate)) {
+      var startDate: any = new Date(chooseStartDate)
+      var endDate: any = new Date(chooseEndDate)
+
+      if (endDate >= startDate) {
+        var GetAttendInfo: GetAttendInfoClass =
+        {
+          DateB: doFormatDate(startDate),
+          DateE: doFormatDate(endDate),
+          ListEmpID: [this.SearchMan.EmpCode],
+          EffectDate: "",
+          Display: '1',
+          ListState: ["1", "2", "3"]
+        }
+        this.GetApiDataServiceService.getWebApiData_GetAttendInfo(GetAttendInfo)
+          .pipe(takeWhile(() => this.api_subscribe))
+          .pipe(
+            concatMap((o: any) => from(o).pipe(
+              map((q: any) => {
+                return q
+              })
+            ))
+          )
+          .pipe(
+            concatMap(z => {
+              var attDate = formatDateTime(z.AttendDate).getDate
+              return this.GetApiDataServiceService.getWebApiData_GetRoteByEmpID(z.EmpID, attDate)
+                .pipe(map(
+                  (a: Array<any>) => {
+                    var abc = {
+                      GetAttendInfo: z,
+                      GetRoteByEmpID: a
+                    }
+                    return abc
+                  }
+                ))
+            }),
+            toArray()
+          )
+          .subscribe(
+            x => {
+              // console.log(x)
+              for (let data of x) {
+                var RoteClass: RoteSelectBoxClass[] = []
+                for (let rote of data.GetRoteByEmpID) {
+                  if(data.GetAttendInfo.ActualRote.WorkHours == rote.WorkHours){
+                    //只能選到等工時
+                    RoteClass.push({
+                      RoteID: rote.RoteID,
+                      OnTime: rote.OnTime,
+                      RoteCode: rote.RoteCode,
+                      RoteName: rote.RoteNameC,
+                      // outPutSelectText: rote.OnTime + rote.RoteCode + rote.RoteNameC 下拉選單換字!!
+                      outPutSelectText: rote.RoteNameC
+                    })
+                  }
+                }
+                // this.changeClass.push({
+                //   Date: formatDateTime(data.GetAttendInfo.AttendDate).getDate,
+                //   RoteID: data.GetAttendInfo.RoteID,
+                //   RoteCode: data.GetAttendInfo.RoteCode,
+                //   RoteNameC: data.GetAttendInfo.RoteNameC,
+                //   OnTime: data.GetAttendInfo.OnTime,
+                //   RoteSelectBox: RoteClass
+                // })
+                // console.log(data)
+                this.changeClass.push({
+                  Date: formatDateTime(data.GetAttendInfo.AttendDate).getDate,
+                  RoteID: data.GetAttendInfo.ActualRote.RoteID,
+                  RoteCode:  data.GetAttendInfo.ActualRote.RoteCode,
+                  RoteNameC: data.GetAttendInfo.ActualRote.RoteNameC,
+                  OnTime: data.GetAttendInfo.ActualRote.OnTime,
+                  RoteSelectBox: RoteClass
+                })
+              }
+
+              if (this.changeClass.length != 0) {
+                this.writeState = 2
+                this.SetUiActive()
+              } else {
+                alert('考勤區段異常')
+              }
+
+              // console.log(this.changeClass)
+              this.LoadingPage.hide()
+            },error=>{
+              this.LoadingPage.hide()
+              alert('與api連線異常，getWebApiData_GetAttendInfo')
+            }
+          )
+      } else {
+        this.LoadingPage.hide()
+        alert('結束日小於開始日')
+      }
+    } else {
+      this.LoadingPage.hide()
+      if (!isValidDate(chooseStartDate)) {
+        alert('起始日期格式錯誤')
+      } else if (!isValidDate(chooseEndDate)) {
+        alert('結束日期格式錯誤')
+      }
+    }
+
+  }
+
+
+  nextPageToSendDetail() {
+    ///下一步->確認請求明細
+    var ChangeRoteArray: showViewRote[] = []
+    this.setMap.forEach(
+      (value: showViewRote, key, map) => {
+        ChangeRoteArray.push(value)
+      }
+    )
+    // console.log(ChangeRoteArray)
+    this.showCheckDetailDateArray = ChangeRoteArray
+    this.showCheckDetailDateArray.sort((a, b) => {
+      let left = Number(new Date(a.ShiftRoteDate));
+      let right = Number(new Date(b.ShiftRoteDate));
+      return left - right;
+    });
+    // console.log()
+
+
+    if (this.showCheckDetailDateArray.length == 0) {
+      alert('請選擇欲調班班型')
+    } else {
+      this.LoadingPage.show()
+      var ShiftRoteCheckClass: ShiftRoteCheckClass = {
+        "EmpID1": this.SearchMan.EmpCode,
+        "EmpID2": this.SearchMan.EmpCode,
+        "ShiftRoteDate": []
+      }
+      for(let ChangeRote of ChangeRoteArray){
+        ShiftRoteCheckClass.ShiftRoteDate.push(
+          {
+            "ShiftDate": ChangeRote.ShiftRoteDate,
+            "RoteID1": ChangeRote.RoteID1,
+            "RoteID2": ChangeRote.RoteID2
+          }
+        )
+      }
+      this.GetApiDataServiceService.getWebApiData_ShiftRoteCheck(ShiftRoteCheckClass)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (data: any) => {
+            if (data.length > 0) {
+              alert(data)
+            } else {
+              this.writeState = 3
+              this.SetUiActive()
+            }
+            this.LoadingPage.hide()
+          }, error => {
+            alert('與api連線異常，getWebApiData_ShiftRoteCheck')
+
+            this.LoadingPage.hide()
+          }
+        )
+    }
+
+  }
+
+  checkCanSendFlow() {
+    if (!this.showCheckDetailDateArray.length) {
+      alert('未選擇調班日期')
+    } else if (!this.NoteString) {
+      alert('請填寫調班事由')
+    }
+    else if (!this.FlowDynamic_EmpID) {
+      alert('請選擇簽核人員')
+    }
+    else if (!this.checkAgree) {
+      alert('勾選調班同意書')
+    } else {
+      $('#checksenddialog').modal('show')
+    }
+  }
+  checkAgree: boolean
+  NoteString: string;
+  FlowDynamic_EmpID: any;
+
+  sendFlow() {
+
+    this.LoadingPage.show()
+    var ShiftRoteSaveAndFlowStart: ShiftRoteSaveAndFlowStartClass = {
+      "FlowApp": {
+        "ShiftRoteType": "DR",
+        "ShiftRoteName": "請求調班",
+        "FlowApps": [
+          {
+            "EmpID1": this.SearchMan.EmpCode,
+            "EmpCode1": this.SearchMan.EmpCode,
+            "EmpNameC1": this.SearchMan.EmpName,
+            "EmpID2": this.SearchMan.EmpCode,
+            "EmpCode2": this.SearchMan.EmpCode,
+            "EmpNameC2": this.SearchMan.EmpName,
+            "Note": this.NoteString,
+            "Info": "",
+            "MailBody": "",
+            "State": "1",
+            "ShiftRoteFlowAppsDetail": this.showCheckDetailDateArray
+          }
+        ],
+        "EmpID": this.SearchMan.EmpCode,
+        "EmpCode": this.SearchMan.EmpCode,
+        "EmpNameC": this.SearchMan.EmpName,
+        "State": "1" //1是要簽核
+      },
+      "FlowDynamic": {
+        "FlowNode": "502",
+        "RoleID": "",
+        "EmpID": this.FlowDynamic_EmpID
+      }
+    }
+    console.log(ShiftRoteSaveAndFlowStart)
+    this.GetApiDataServiceService.getWebApiData_ShiftRoteSaveAndFlowStart(ShiftRoteSaveAndFlowStart)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        x => {
+          if (x) {
+            $('#sussesdialog').modal('show')
+            this.LoadingPage.hide()
+          } else {
+
+          }
+        },
+        error => {
+          this.LoadingPage.hide()
+          alert('與api連線異常，getWebApiData_ShiftRoteSaveAndFlowStart')
+        }
+
+      )
+
+
+  }
+
+
+  chooseBase(e) {
+    var id
+    if (e.length == 0) {
+      id = null
+      // console.log('清除員工資料')
+    } else {
+      id = e[0].value.split('，')[0]
+    }
+    this.FlowDynamic_EmpID = id
+
+  }
+  setActive(writeState) {
+    if (writeState) {
+      return 'active'
+    }
+  }
+
+
+  scrollTo() {
+    this.viewScroller.scrollToAnchor('goPageChange');
+    //tag=id連結位置
+  }
+
+  SetUiActive() {
+    $('#navs li').filter('.active').removeClass('active');
+    $('#li' + this.writeState.toString()).addClass('active')
+    this.scrollTo();
+  }
+  
+  disableSelectBox(ch:changeClass){
+    var disableCode = ['R','Z','GBL']
+    if(ch.RoteSelectBox.length == 0){
+      return true
+    }else{
+      for(let code of disableCode){
+        if(code == ch.RoteCode){
+          return true
+        }
+      }
+      return false
+    }
+  }
+}
+class changeClass {
+  Date: string;
+  RoteID: number;
+  RoteCode: string;
+  RoteNameC: string;
+  OnTime: string;
+  RoteSelectBox: RoteSelectBoxClass[];
+}
+class RoteSelectBoxClass {
+  RoteID: number
+  OnTime: string
+  RoteCode: string
+  RoteName: string
+  outPutSelectText: string
+
+}
+
+class ShiftRoteFlowAppsDetailClass {
+  ShiftRoteDate: string
+  RoteID1: number
+  RoteCode1: string
+  RoteName1: string
+  RoteID2: number
+  RoteCode2: string
+  RoteName2: string
+}
+class showViewRote extends ShiftRoteFlowAppsDetailClass {
+  OnTime1: string
+  OnTime2: string
+  ShiftRoteDateDay: string
+}

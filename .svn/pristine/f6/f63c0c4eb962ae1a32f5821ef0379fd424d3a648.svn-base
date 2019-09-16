@@ -1,0 +1,15 @@
+<div  class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div *ngFor="let oneNews of AllNewsList | 
+    slice: AllNewsList_pagechange.lowValue : AllNewsList_pagechange.highValue" class="onenewsblock">
+      <div (click)=setOneNewClick(oneNews)>
+        <p>{{oneNews.NewsHead}}</p>
+        <p style="text-align: right">{{oneNews.PostDate}}</p>
+      </div>
+    </div>
+
+    <mat-paginator [length]="AllNewsList.length" [pageSize]="AllNewsList_pagechange.pageSize" (page)="AllNewsList_pagechange.pageEvent = AllNewsList_pagechange.getPaginatorData($event)"
+      [hidePageSize]="true">
+    </mat-paginator>
+  </div>
+</div>

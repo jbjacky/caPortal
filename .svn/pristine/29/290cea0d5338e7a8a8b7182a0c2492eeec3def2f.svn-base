@@ -1,0 +1,48 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var reviewform_routes_1 = require("src/app/View/allform/reviewform/reviewform-routes");
+var ng2_file_upload_1 = require("ng2-file-upload");
+var forms_1 = require("@angular/forms");
+var chcekdialog_module_1 = require("src/app/View/dialog/checkdialog/chcekdialog-module");
+var material_1 = require("@angular/material");
+var my_paginator_1 = require("src/app/Sharemodel/my-paginator");
+var reviewform_component_1 = require("src/app/View/allform/reviewform/reviewform.component");
+var reviewform_desktop_component_1 = require("src/app/View/allform/reviewform/reviewform-desktop/reviewform-desktop.component");
+var reviewform_phone_component_1 = require("src/app/View/allform/reviewform/reviewform-phone/reviewform-phone.component");
+var reviewform_detail_vacation_component_1 = require("src/app/View/allform/reviewform/reviewform-detail-vacation/reviewform-detail-vacation.component");
+var ReviewformModule = /** @class */ (function () {
+    function ReviewformModule() {
+    }
+    ReviewformModule = __decorate([
+        core_1.NgModule({
+            imports: [
+                common_1.CommonModule,
+                forms_1.FormsModule,
+                ng2_file_upload_1.FileUploadModule,
+                chcekdialog_module_1.chcekdialogModule,
+                material_1.MatPaginatorModule,
+                reviewform_routes_1.ReviewFormRoutingModule,
+            ],
+            declarations: [
+                reviewform_component_1.ReviewformComponent,
+                reviewform_detail_vacation_component_1.ReviewformDetailVacationComponent,
+                reviewform_desktop_component_1.ReviewformDesktopComponent,
+                reviewform_phone_component_1.ReviewformPhoneComponent
+            ],
+            providers: [
+                { provide: material_1.MatPaginatorIntl, useClass: my_paginator_1.MatPaginatorIntlCro },
+            ],
+        })
+    ], ReviewformModule);
+    return ReviewformModule;
+}());
+exports.ReviewformModule = ReviewformModule;
+//# sourceMappingURL=reviewform.module.js.map

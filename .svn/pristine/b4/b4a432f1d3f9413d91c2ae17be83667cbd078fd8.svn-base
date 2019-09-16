@@ -1,0 +1,94 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var rxjs_1 = require("rxjs");
+var operators_1 = require("rxjs/operators");
+var common_1 = require("@angular/common");
+var ReviewformDetailVacationComponent = /** @class */ (function () {
+    function ReviewformDetailVacationComponent(viewScroller) {
+        this.viewScroller = viewScroller;
+        this.sussestext = '';
+        this.inbodybuttomdiv = 'inherit';
+        this.buttomdiv = 'inherit';
+        this.inbodybuttomdiv_phone = 'inherit';
+        this.buttomdiv_phone = 'inherit';
+        this.isdesktop = true;
+    }
+    ReviewformDetailVacationComponent.prototype.onesendvaform = function (_sussestext) { this.sussestext = _sussestext; };
+    ReviewformDetailVacationComponent.prototype.desktopOrphone = function () {
+        if (window.innerWidth > 768) {
+            this.inbodybuttomdiv = 'inherit';
+            this.buttomdiv = 'inherit';
+            this.inbodybuttomdiv_phone = 'none';
+            this.buttomdiv_phone = 'none';
+            this.isdesktop = true;
+        }
+        else {
+            this.inbodybuttomdiv = 'none';
+            this.buttomdiv = 'none';
+            this.inbodybuttomdiv_phone = 'inherit';
+            this.buttomdiv_phone = 'inherit';
+            this.isdesktop = false;
+        }
+    };
+    ReviewformDetailVacationComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.desktopOrphone();
+        rxjs_1.fromEvent(window, 'resize')
+            .pipe(operators_1.debounceTime(500))
+            .subscribe(function (event) {
+            _this.desktopOrphone();
+        });
+        rxjs_1.fromEvent(window, 'scroll')
+            .pipe(operators_1.debounceTime(100)) //當使用者在0.1秒內沒動作就執行
+            .subscribe(function (event) {
+            var last = document.body.scrollHeight - window.innerHeight;
+            //https://pjchender.blogspot.com/2015/04/jquery.html
+            if (window.scrollY >= last) {
+                //當scrollbar到底時
+                if (_this.isdesktop) {
+                    _this.inbodybuttomdiv = 'inherit';
+                    _this.buttomdiv = 'none';
+                }
+                else {
+                    _this.inbodybuttomdiv_phone = 'inherit';
+                    _this.buttomdiv_phone = 'inherit';
+                }
+            }
+            else {
+                if (_this.isdesktop) {
+                    _this.inbodybuttomdiv = 'none';
+                    _this.buttomdiv = 'inherit';
+                }
+                else {
+                    _this.inbodybuttomdiv_phone = 'inherit';
+                    _this.buttomdiv_phone = 'inherit';
+                }
+            }
+        });
+    };
+    ReviewformDetailVacationComponent.prototype.scrollTo = function (tag) {
+        this.viewScroller.scrollToAnchor(tag);
+        //tag=id連結位置
+    };
+    ReviewformDetailVacationComponent = __decorate([
+        core_1.Component({
+            selector: 'app-reviewform-detail-vacation',
+            templateUrl: './reviewform-detail-vacation.component.html',
+            styleUrls: ['./reviewform-detail-vacation.component.css']
+        }),
+        __metadata("design:paramtypes", [common_1.ViewportScroller])
+    ], ReviewformDetailVacationComponent);
+    return ReviewformDetailVacationComponent;
+}());
+exports.ReviewformDetailVacationComponent = ReviewformDetailVacationComponent;
+//# sourceMappingURL=reviewform-detail-vacation.component.js.map

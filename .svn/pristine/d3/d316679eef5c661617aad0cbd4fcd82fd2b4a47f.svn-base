@@ -1,0 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var pagechange = /** @class */ (function () {
+    function pagechange() {
+        this.pageIndex = 0;
+        this.pageSize = 5;
+        this.lowValue = 0;
+        this.highValue = 5;
+    }
+    pagechange.prototype.getPaginatorData = function (event) {
+        if (event.pageIndex == this.pageIndex + 1) {
+            this.lowValue = this.lowValue + this.pageSize;
+            this.highValue = this.highValue + this.pageSize;
+        }
+        else if (event.pageIndex == this.pageIndex - 1) {
+            this.lowValue = this.lowValue - this.pageSize;
+            this.highValue = this.highValue - this.pageSize;
+        }
+        this.pageIndex = event.pageIndex;
+    };
+    return pagechange;
+}());
+exports.pagechange = pagechange;
+//# sourceMappingURL=pagechange.js.map

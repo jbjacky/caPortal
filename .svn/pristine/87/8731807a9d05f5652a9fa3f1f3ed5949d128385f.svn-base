@@ -1,0 +1,169 @@
+import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { EmpArray } from 'src/app/Models/chooseBase';
+import { drawCalendarClass, SearchMan } from 'src/app/Models/CalendarClass';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByFormClass';
+import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
+
+declare let $: any; //use jquery
+
+@Component({
+  selector: 'app-personnel-search-rote',
+  templateUrl: './personnel-search-rote.component.html',
+  styleUrls: ['./personnel-search-rote.component.css']
+})
+export class PersonnelSearchRoteComponent implements OnInit , AfterViewInit {
+  ngAfterViewInit(): void {
+    var currentYear = new Date().getFullYear();
+    $("#id_bt_startday").change(function () {
+      $("#id_ipt_startday").val($("#id_bt_startday").val())
+    });
+    $('#id_bt_startday').dateDropper({
+      format: "Y/m",
+      lang: 'zh',
+      large: false,
+      minYear: currentYear - 1,
+      maxYear: currentYear + 1,
+      large_class: 'picker-lg',
+      bt_large: false,
+    });
+  }
+
+  constructor(private GetApiUserService: GetApiUserService, private GetApiDataServiceService: GetApiDataServiceService) { }
+  ngOnInit() {
+
+    this.GetApiUserService.counter$.subscribe(
+      x => {
+        this.SearchMan.jobID = x.EmpCode
+        if (x.EmpNameC) {
+          this.SearchMan.name = x.EmpNameC;
+        } else {
+          this.SearchMan.name= x.EmpNameE;
+        }
+      })
+    var drawCalendar = {
+      Year: '',
+      Month: '',
+      dateworks: []
+    }
+    this.Be_RoteApiData$.next(drawCalendar)
+  }
+
+  onSaveEmptoView(event) {
+    // console.log(event)
+    this.SearchMan.jobID = event.split('，')[0]
+    this.SearchMan.name = event.split('，')[1]
+    $('#chooseEmpdialog').modal('hide');
+    this.outPutEmpValue(this.SearchMan.jobID, this.SearchMan.name,this.SearchMan.name)
+
+  }
+  @Output() outPutChoose: EventEmitter<any> = new EventEmitter<any>();//選到的員工回傳
+  outPutEmpValue(EmpCode, EmpNameC,EmpNameE) {
+      var EmpArray: EmpArray[] = []
+      EmpArray.push({ EmpCode: EmpCode, EmpNameC: EmpNameC ,EmpNameE:EmpNameE})
+      this.outPutChoose.emit(EmpArray)
+  }
+  blurEmpCode() {
+    if (this.SearchMan.jobID.length == 6) {
+      var GetBaseByFormClass: GetBaseByFormClass = {
+        EmpCode: this.SearchMan.jobID,
+        AppEmpCode: this.SearchMan.jobID,
+        EffectDate: ''
+      }
+      this.GetApiDataServiceService.getWebApiData_GetBaseByForm(GetBaseByFormClass).
+        subscribe((x: any) => {
+          if (x == null) {
+            this.SearchMan.name = ''
+            this.outPutEmpValue('', '','')
+            // alert('工號輸入錯誤')
+            // this.errorLeavemanState = { state: true, errorString: '無效的員工號' }
+            // this.writevaform.leaveman_name = ''
+            // $("#leavejobid").addClass("errorInput");
+          } else if (x.length == 0) {
+            this.SearchMan.name = ''
+            this.outPutEmpValue('', '','')
+            // alert('工號輸入錯誤')
+            // this.writevaform.leaveman_name = ''
+            // this.errorLeavemanState = { state: true, errorString: '無效的員工號' }
+            // $("#leavejobid").addClass("errorInput");
+          } else {
+            // alert('工號正確')
+            if (x[0].EmpNameC == null) {
+              this.SearchMan.name = x[0].EmpNameE
+            } else if (x[0].EmpNameC.length == 0) {
+              this.SearchMan.name = x[0].EmpNameE
+            } else {
+              this.SearchMan.name = x[0].EmpNameC
+            }
+            this.outPutEmpValue(this.SearchMan.jobID, this.SearchMan.name, this.SearchMan.name)
+            // this.errorLeavemanState = { state: false, errorString: '' }
+            // $("#leavejobid").removeClass("errorInput");
+
+          }
+        })
+    } else {
+      this.SearchMan.name = ''
+      this.outPutEmpValue('', '','')
+    }
+  }
+
+  MonthMask(): {
+    mask: Array<string | RegExp>;
+    keepCharPositions: boolean;
+  } {
+    return {
+      mask: [/[2]/, /[0]/, /\d/, /\d/, '/', /[0-1]/, /\d/],
+      keepCharPositions: true,
+    };
+  }
+
+  SearchMan: SearchMan = { jobID: '', name: '' }
+  private Be_RoteApiData$: BehaviorSubject<any> = new BehaviorSubject<any>(0);
+  Ob_RoteApiData$: Observable<any> = this.Be_RoteApiData$;
+  
+  search() {
+    var checkYear = $('#id_ipt_startday').val().split('/')[0];
+    var checkMonth = $('#id_ipt_startday').val().split('/')[1];
+
+    var drawCalendar: drawCalendarClass = {
+      Year: checkYear,
+      Month: checkMonth,
+      dateworks: [{
+        daytext: '2018/12/05',
+        showText: '',
+        routeName: '1205ABC',
+        onTime: '1205',
+        offTime: '1700',
+        isVa: false,
+        isAtterror: true
+      }, {
+        daytext: '2018/12/01',
+        showText: '',
+        routeName: '1201ABC',
+        onTime: '1201',
+        offTime: '1700',
+        isVa: true,
+        isAtterror: false
+      }, {
+        daytext: '2018/12/20',
+        showText: '',
+        routeName: '1220_ABC',
+        onTime: '1220',
+        offTime: '1700',
+        isVa: true,
+        isAtterror: true
+      }, {
+        daytext: '2018/12/27',
+        showText: '',
+        routeName: '1227ABC',
+        onTime: '1227',
+        offTime: '1700',
+        isVa: true,
+        isAtterror: true
+      }],
+      SearchMan: this.SearchMan
+    }
+    this.Be_RoteApiData$.next(drawCalendar)
+  }
+}

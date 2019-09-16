@@ -1,0 +1,47 @@
+
+export class drawCalendarClass{
+    Year:string;
+    Month:string;
+    dateworks:dateworksClass[]
+    SearchMan:SearchMan
+}
+export class SearchMan{
+    jobID:string;
+    name:string;
+}
+export class dateworksClass {
+    daytext: string
+    showText: string
+    routeName:string
+    onTime:string
+    offTime:string
+    isVa: boolean
+    isAtterror: boolean
+    isHoliday:boolean
+}
+
+
+export class dataClass {
+    Monday: oneDayClass
+    Tuesday: oneDayClass
+    Wednesday: oneDayClass
+    Thursday: oneDayClass
+    Friday: oneDayClass
+    Saturday: oneDayClass
+    Sunday: oneDayClass
+}
+
+
+export class oneDayClass {
+    YearMonthDayText: string
+    daytext: string
+    isthisMonth: string
+    showText: string
+    routeName:string
+    onTime:string
+    offTime:string
+    isVa: boolean
+    isAtterror: boolean
+    isHoliday:boolean
+    dayofweek:string
+}

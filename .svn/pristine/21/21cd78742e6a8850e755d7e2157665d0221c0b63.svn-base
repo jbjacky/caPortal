@@ -1,0 +1,39 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent implements OnInit {
+
+  loading = false;
+
+  account: string;
+  password: string;
+  constructor(private router: Router) { }
+
+  ngOnInit() {
+    if (localStorage.getItem('currentUser')) {
+      // logged in so return true
+      this.router.navigate(['/nav']);
+      return true;
+    } else {
+
+    }
+  }
+  login() {
+
+    this.loading = true;
+    if (this.account == 'test666' && this.password == 'test666') {
+      localStorage.setItem('currentUser', '12345');
+      this.router.navigate(['/nav']);
+    } else {
+
+      this.loading = false;
+      alert('帳密錯誤')
+    }
+  }
+
+}
