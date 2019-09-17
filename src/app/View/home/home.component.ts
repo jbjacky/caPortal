@@ -30,6 +30,7 @@ import { showBalanceClass } from 'src/app/Models/showBalanceClass';
 import { Router, NavigationEnd } from '@angular/router';
 import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
 import { Location } from '@angular/common';
+import { GetAttendExceptionalCountClass } from 'src/app/Models/PostData_API_Class/GetAttendExceptionalCountClass';
 declare var $: any;
 @Component({
   selector: 'app-home',
@@ -100,7 +101,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             this.showReviewCount(x.EmpID)
             this.showHoliDayBalance(x.EmpID)
             this.setWeekjobs(x)
-
+            this.setGetAttendExceptionalCount(x.EmpID)
           }
         }
       )
@@ -766,6 +767,25 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       )
 
+  }
+
+  AttendExceptionalCount:number = 0
+  setGetAttendExceptionalCount(EmpID: string) {
+    var today = new Date()
+    var GetAttendExceptionalCount: GetAttendExceptionalCountClass = {
+      "DateB": "2019/08/01",
+      "DateE": doFormatDate(today),
+      "ListEmpID": [
+        EmpID
+      ]
+    }
+    this.GetApiDataServiceService.getWebApiData_GetAttendExceptionalCount(GetAttendExceptionalCount)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: number) => {
+          this.AttendExceptionalCount = x
+        }
+      )
   }
 
   RedAttendString_Title(e: boolean, b: boolean) {

@@ -78,6 +78,7 @@ import { GetBaseByListDeptaIDGetApiClass } from '../Models/PostData_API_Class/Ge
 import { SettingClass } from '../Models/SettingClass';
 import { GetAttendSumRoteGetApiClass } from '../Models/PostData_API_Class/GetAttendSumRoteGetApiClass';
 import { TransSignStateGetApiClass } from '../Models/PostData_API_Class/TransSignStateGetApiClass';
+import { GetAttendExceptionalCountClass } from '../Models/PostData_API_Class/GetAttendExceptionalCountClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -1605,6 +1606,17 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendSumRote(GetAttendSumRoteGetApi: GetAttendSumRoteGetApiClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendSumRote',
       JSON.stringify(GetAttendSumRoteGetApi), {
+        headers: this.GetHeader()
+      })
+  }
+
+
+  /**
+   * @todo 考勤異常筆數(異常的)
+   */
+  getWebApiData_GetAttendExceptionalCount(GetAttendExceptionalCount: GetAttendExceptionalCountClass) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendExceptionalCount',
+      JSON.stringify(GetAttendExceptionalCount), {
         headers: this.GetHeader()
       })
   }
