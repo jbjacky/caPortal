@@ -164,6 +164,7 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   checkAll(oneAllcheckData: delvaformClass) {
     if (oneAllcheckData.checkedstate) {
+      // console.log(oneAllcheckData)
       for (let detail_vaform of oneAllcheckData.detail_vaform) {
         if (detail_vaform.disable == 1) {
           // 1 為 可銷假
@@ -472,9 +473,6 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
                 allMinute = allMinute + setMin
 
                 var di = 1
-                if (detail.State == '1' || detail.State == '2') {
-                  di = 0
-                }
                 if (!this.isSearchAssistant && detail.State == '3') {
                   //如果不是行政不能突破明細7天限制
                   //例如請6/1~6/30，假如今天是6/9號，那明細的6/1號就不能銷假
@@ -488,6 +486,9 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
                     detail.State = '7'
                   }
 
+                }
+                if (detail.State !='3') {
+                  di = 0
                 }
                 this.alldelformpeople[i].detail_vaform.push({
                   disable: di,
@@ -511,15 +512,15 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.alldelformpeople[i].calday = allDay
                 this.alldelformpeople[i].calhour = allHour
                 this.alldelformpeople[i].calminute = allMinute
-
+                
                 this.LoadingPage.hide()
 
               }
-
-              for (let i = 0; i < this.alldelformpeople.length; i++) {
-                this.alldelformpeople[i]._id = 'del_id' + i;
-                this.alldelformpeople[i]._idherf = '#del_id' + i;
-              }
+            }
+            // console.log(this.alldelformpeople)
+            for (let i = 0; i < this.alldelformpeople.length; i++) {
+              this.alldelformpeople[i]._id = 'del_id' + i;
+              this.alldelformpeople[i]._idherf = '#del_id' + i;
             }
           }
         },
