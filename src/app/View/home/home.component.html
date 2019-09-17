@@ -144,12 +144,12 @@
             </a>
             <div *ngIf="weekjobs.length>0" appShowAttend>
                 <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
-                    <div ngxSlickItem *ngFor="let weekjob of weekjobs">
+                    <div ngxSlickItem *ngFor="let weekjob of weekjobs;let i = index">
                         <div>
-                            <div [ngClass]="showTitleClass(weekjob)" *ngIf="weekjob.today"
+                            <div [ngClass]="showTitleClass(i)" *ngIf="weekjob.today"
                                 style="color: #fff;background-color: #0068b7">{{weekjob.date}}</div>
-                            <div [ngClass]="showTitleClass(weekjob)" *ngIf="!weekjob.today">{{weekjob.date}}</div>
-                            <div [ngClass]="showContentClass(weekjob)">{{weekjob.jobtime}}
+                            <div [ngClass]="showTitleClass(i)" *ngIf="!weekjob.today">{{weekjob.date}}</div>
+                            <div [ngClass]="showContentClass(i)">{{weekjob.jobtime}}
                                 <div style="height: 22px;">
                                     <div *ngIf="weekjob.isAttend" style="color: 
                                                     #d0021b;text-decoration:underline;cursor: pointer;"

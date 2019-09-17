@@ -637,21 +637,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  showContentClass(weekjob) {
-    // console.log(weekjob)
-    var lastday = new Date()
-    lastday.setDate(lastday.getDate() + 3)
-    if (weekjob.realdate == formatDateTime(lastday).getDate) {
+  showContentClass(length:number) {
+    if ((length+1) == this.weekjobs.length) {
       return "weekdatecontent_lastday"
     } else {
       return "weekdatecontent"
     }
   }
-  showTitleClass(weekjob) {
-    // console.log(weekjob)
-    var lastday = new Date()
-    lastday.setDate(lastday.getDate() + 3)
-    if (weekjob.realdate == formatDateTime(lastday).getDate) {
+  showTitleClass(length:number) {
+    if ((length+1) == this.weekjobs.length) {
       return "weekdate_lastday"
     } else {
       return "weekdate"
