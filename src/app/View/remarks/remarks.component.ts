@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ExportExcelService } from 'src/app/Service/export-excel.service';
 import { timeZone_tw, doFormatDate, formatDateTime, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
@@ -8,6 +8,7 @@ import { from, fromEvent } from 'rxjs';
 import { mergeMap, toArray, map, debounceTime, takeWhile } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 declare var $;
 
 @Component({
@@ -94,6 +95,26 @@ export class RemarksComponent implements OnInit, AfterContentInit, OnDestroy {
 
   }
 
+  displayedColumns: string[] = ['EmpCode', 'EmpName', 'Category','StartDate','EndDate', 'RemarkString'];
+  dataSource = new MatTableDataSource<any>();
+  totalCount
+  
+  @ViewChild('sortTable') set matSort(sortTable: MatSort) {
+    this.dataSource.sort = sortTable;
+  }
+  @ViewChild('paginator') set matPaginator(paginator: MatPaginator) {
+    this.dataSource.paginator = paginator;
+  }
+  
+  // @ViewChild('sortTable') sortTable: MatSort;
+  // @ViewChild('paginator') paginator: MatPaginator;
+  
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.dataSource.filter = filterValue;
+  }
+
   onSearch(searchDate, searchEmpID) {
     this.LoadingPage.show()
     var GetAttendWish: GetAttendWishClass = {
@@ -104,7 +125,7 @@ export class RemarksComponent implements OnInit, AfterContentInit, OnDestroy {
       ListEmpID: searchEmpID
     }
     // console.log(searchEmpID)
-    console.log(GetAttendWish)
+    // console.log(GetAttendWish)
     this.GetApiDataServiceService.getWebApiData_GetAttendWish(GetAttendWish).subscribe(
       (x: any) => {
         // console.log(x)
@@ -128,11 +149,13 @@ export class RemarksComponent implements OnInit, AfterContentInit, OnDestroy {
               EndDate: DateE + ' ' + TimeE,
               RemarkString: data.Note
             })
-            console.log(this.OtRowList)
-
-
+            // console.log(this.OtRowList)
           }
-
+          // console.log(this.OtRowList)
+          this.totalCount = this.OtRowList.length;
+          this.dataSource.data = this.OtRowList;
+          // this.dataSource.sort = this.sortTable;
+          // this.dataSource.paginator = this.paginator;
           $('#remarksTable').DataTable().clear().rows.add(this.OtRowList).draw();
           // $('#remarksTable').DataTable().clear().rows.add(this.OtRowList).draw();
 
@@ -147,82 +170,8 @@ export class RemarksComponent implements OnInit, AfterContentInit, OnDestroy {
 
   ngAfterContentInit(): void {
 
-    this.bindDataTable();
-    $('.btn-main-nav').click(function() {
-        $('#lastheader').trigger('click')
-    });
   }
 
-  bindDataTable() {
-
-    var table = $('#remarksTable').DataTable({
-    });
-    table.destroy();
-
-    table = $('#remarksTable').DataTable({
-      data: this.OtRowList,
-      columnDefs: [{ "searchable": false, "orderable": false, "visible": false, targets: 'no-sort' }],
-
-      columns: [
-        // {
-        //   data: "sysid",
-        //   render: function (data, type, obj, meta) {
-        //     return '<input type="checkbox" id="' + data + '">';
-        //   },
-        //   width: "10%",
-        //   sorting: false,
-        //   orderable: false,
-        //   class: 'qwe'
-        // },
-        {
-          title: "工號", data: "EmpCode", sorting: false, orderable: false,className: "dt-center"
-          // , render: function (data, type, row, meta) {
-          //   if (row.qwe != null) {
-          //     return row.qwe
-          //   }
-          //   return row.id
-          // }
-        },
-        {
-          title: "姓名", data: "EmpName", sorting: false,className: "dt-center"
-        },
-        {
-          title: "類別", data: "Category", sorting: false,className: "dt-center"
-        },
-        {
-          title: "開始日期", data: "StartDate",className: "dt-center"
-        },
-        {
-          title: "結束日期", data: "EndDate",className: "dt-center"
-        },
-        {
-          title: "備註", data: "RemarkString", sorting: false
-        }
-      ],
-      scrollY: "500px",
-      scrollX: true,
-      searching: false,
-      info: false,
-      scrollCollapse: true,
-      paging: true,
-      lengthChange: false,
-      iDisplayLength: 10,  //預設顯示比數
-      language: {
-        zeroRecords: "",
-        emptyTable: "查無資料",
-        paginate: {
-          previous: "<",
-          next: ">"
-        }
-      },
-    });
-
-
-    // new $.fn.dataTable.FixedColumns(table, {
-    //   leftColumns: 3,
-    //   heightMatch: 'auto'
-    // });
-  }
   OtRowList = []
   clickSearch = 0;
   radiogroup: any = [
@@ -238,17 +187,6 @@ export class RemarksComponent implements OnInit, AfterContentInit, OnDestroy {
   selectDept = []
   dateS = new Date()
   ngOnInit() {
-    // for (let i = 0; i < 30; i++) {
-    //   var startDates = new Date();
-    //   var endDates = new Date();
-    //   startDates.setDate(startDates.getDate() - this.getRandomInt(1, 100))
-    //   endDates.setDate(endDates.getDate() + this.getRandomInt(1, 100))
-    //   var random_startDates = doFormatDate(timeZone_tw(startDates))
-    //   var random_endDates = doFormatDate(timeZone_tw(endDates))
-
-    //   this.OtRowList.push({ sysid: i, EmpCode: this.getRandomInt(600000, 699999), EmpName: '李大仁', Category: '加班', StartDate: random_startDates + ' 10:00', EndDate: random_endDates + ' 18:00', RemarkString: '原1030A欲RQ10A謝謝領導' })
-
-    // }
     
     this.LoadingPage.show()
     this.GetApiDataServiceService.getWebApiData_GetDeptaByDeptTree().subscribe(
@@ -263,14 +201,6 @@ export class RemarksComponent implements OnInit, AfterContentInit, OnDestroy {
         this.LoadingPage.hide()
       }
     )
-  }
-  onChange(e) {
-
-  }
-  getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
   }
 
   onExportExcel() {
@@ -291,22 +221,6 @@ export class RemarksComponent implements OnInit, AfterContentInit, OnDestroy {
       alert('請先查詢意願備註表')
     }
   }
-  visibility() {
-    if (this.OtRowList.length > 0) {
-      return 'visible'
-    } else {
-      return 'hidden'
-    }
-  }
 
-  dayMask(): {
-    mask: Array<string | RegExp>;
-    keepCharPositions: boolean;
-  } {
-    return {
-      mask: [/[2]/, /[0]/, /\d/, /\d/, '/', /[0-1]/, /\d/, '/', /[0-3]/, /\d/],
-      keepCharPositions: true,
-    };
-  }
 }
 

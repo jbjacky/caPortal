@@ -1,3 +1,27 @@
+    
+#RemarksTable th{
+    text-align: center;
+  }
+  ::ng-deep #RemarksTable .mat-sort-header-container{
+    display: unset;
+  }
+  
+  ::ng-deep #RemarksTable .mat-sort-header-button{
+    padding-left: 12px;
+    display: unset;
+  }
+  ::ng-deep #RemarksTable .mat-sort-header-arrow{ 
+    display: inline-block;
+    color: white
+  }
+  #RemarksTable .mat-sort-header-arrow{ 
+    display: inline-block;
+    color: white
+  }
+  #RemarksTable tr{
+    height: auto;
+  }
+    
     th, td { white-space: nowrap; }
     div.dataTables_wrapper {
         width: 100%;
