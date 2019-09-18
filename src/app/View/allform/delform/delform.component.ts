@@ -699,7 +699,7 @@ class delvaformClass {
   _id: string;
   _idherf: string;
   checkedstate: boolean;
-  selectDetailSeveral: string;
+  selectDetailSeveral: String;
 }
 
 class detail {

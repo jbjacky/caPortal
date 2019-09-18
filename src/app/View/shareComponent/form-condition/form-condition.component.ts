@@ -38,7 +38,7 @@ export class FormConditionComponent implements OnInit , OnDestroy {
 
   selectSearchForm = 'vaform'; //選擇表單種類
   selectState ='0'//選擇表單狀態
-  selectFilterCondition = 'All' //選擇篩選條件
+  selectFilterCondition:any = 'All' //選擇篩選條件
   selcetHolidayID = '';//選擇假別種類
   selcetTodaychooseID = '1'//選擇當日請假是或否
 

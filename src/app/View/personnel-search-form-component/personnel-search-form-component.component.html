@@ -2,12 +2,12 @@
     style="top: 138px;zoom: 1;z-index: 1;left: 0px;background-color: #fff;width: 100%">
     <div class="a-block-body  a-block-container">
 
-        <a [id]="'id'+1" data-toggle="collapse" [href]="'#post'+1" (click)="onCheckCollapseIn()">
-            <span [id]="1+'_text'">收合查詢選單</span>
-            <img [id]="1+'_img'" src="./assets/images-template/icon-arrow.png"
+        <a [id]="'id1'" data-toggle="collapse" [href]="'#post1'" (click)="onCheckCollapseIn()">
+            <span [id]="'1_text'">收合查詢選單</span>
+            <img [id]="'1_img'" src="./assets/images-template/icon-arrow.png"
                 style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
         </a>
-        <div [id]="'post'+1" class="panel-collapse collapse in active">
+        <div [id]="'post1'" class="panel-collapse collapse in active">
             <div id="showP_margin"> </div>
             <app-choose-base-or-dept (outPutChoose)="getEmpCode($event)"></app-choose-base-or-dept>
 
@@ -66,9 +66,11 @@
                 </div>
                 <div class="modal-body">
                     <p>查詢該員工號所有曾經代填、批核、退回、呈核表單。</p>
-                    <div style="text-align: center">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">關閉視窗</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                        <div style="text-align: center">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+                        </div>
                 </div>
             </div>
         </div>

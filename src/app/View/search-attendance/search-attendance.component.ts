@@ -50,8 +50,8 @@ export class SearchAttendanceComponent implements OnInit {
           aa.OffCardTime = getapi_formatTimetoString(void_crossDay(aa.OffCardTime).EndTime)
         }
         this.AttendanceApiData.sort((a,b)=>{
-          var oldDate:any = new Date(a.AttendDate)
-          var newDate:any = new Date(b.AttendDate)
+          var oldDate:any = new Date(a.AttendDate.toString())
+          var newDate:any = new Date(b.AttendDate.toString())
           return  newDate - oldDate
         })
       }

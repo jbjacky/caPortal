@@ -44,7 +44,7 @@ export class SearchChangeDetailRRComponent implements OnInit, OnDestroy, AfterVi
       $('#onePadding_View2').css('padding', '21px 0px')
       $('#oneEmp_View2').css('height', (setoneCheckHeight + 21).toString())
       for (let i = 0; i < 7; i++) {
-        $('#oneCheckHeight_View2' + i).css('height', setoneCheckHeight.toString())
+        $('#oneCheckHeight_View2' + i.toString()).css('height', setoneCheckHeight.toString())
       }
     } else {
       $('#onePadding_View2').css('padding', '10px 0px')
@@ -55,7 +55,7 @@ export class SearchChangeDetailRRComponent implements OnInit, OnDestroy, AfterVi
       $('#twoPadding_View2').css('padding', '21px 0px')
       $('#twoEmp_View2').css('height', (settwoCheckHeight + 21).toString())
       for (let i = 0; i < 7; i++) {
-        $('#twoCheckHeight_View2' + i).css('height', settwoCheckHeight.toString())
+        $('#twoCheckHeight_View2' + i.toString()).css('height', settwoCheckHeight.toString())
       }
     } else {
       $('#twoPadding_View2').css('padding', '10px 0px')

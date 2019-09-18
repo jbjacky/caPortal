@@ -1,6 +1,6 @@
 
 export class ShowVa {
-    State: string
+    State: String
     DateTimeB: string
     DateTimeE: string
     SignDate: string

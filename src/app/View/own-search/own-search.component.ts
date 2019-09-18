@@ -226,7 +226,7 @@ export class OwnSearchComponent implements OnInit, AfterViewInit {
           //   this.AttendanceApiData[i].AttendDate = new Date(this.AttendanceApiData[i].AttendDate).toString()
           // }
           for (let i = 0; i < this.AttendanceApiData.length; i++) {
-            var date = new Date(this.AttendanceApiData[i].AttendDate)
+            var date = new Date(this.AttendanceApiData[i].AttendDate.toString())
             this.AttendanceApiData[i].AttendDate = formatDateTime(this.AttendanceApiData[i].AttendDate).getDate
             if (date.getDay() == 0) {
               this.AttendanceApiData[i].DayOfweek = '日'

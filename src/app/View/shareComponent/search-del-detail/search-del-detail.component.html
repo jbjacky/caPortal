@@ -178,15 +178,15 @@
           <div class="col-md-2 col-xs-12 control-label">
           </div>
           <div class="col-md-10 col-xs-12">
-            <a [id]="'id_deldetail'+del_i" data-toggle="collapse" [href]="'#postdel'+del_i"
-              (click)="onCheckCollapseIn(del_i)">
-              <span [id]="del_i+'deldetail_text'">收合銷假明細</span>
-              <img [id]="del_i+'deldetail_img'" src="./assets/images-template/icon-arrow.png"
+            <a [id]="'id_deldetail'+del_i.toString()" data-toggle="collapse" [href]="'#postdel'+del_i.toString()"
+              (click)="onCheckCollapseIn(del_i.toString())">
+              <span [id]="del_i.toString()+'deldetail_text'">收合銷假明細</span>
+              <img [id]="del_i.toString()+'deldetail_img'" src="./assets/images-template/icon-arrow.png"
                 style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
             </a>
           </div>
         </div>
-        <div [id]="'postdel'+del_i" class="collapse in">
+        <div [id]="'postdel'+del_i.toString()" class="collapse in">
           <div class="row D_tabletop" style="padding: 0px;margin: 0px;background-color: #edf5ff">
             <div class="col-md-3 "
               style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">

@@ -329,7 +329,7 @@ export class forgetSearchFlowSignClass {
   EmpCode: string
   EmpNameC: string
   AppDeptName: string
-  State: string
+  State: String
   ManageEmpName: string
   Take: boolean
   TransSign: boolean

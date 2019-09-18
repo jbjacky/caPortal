@@ -300,18 +300,18 @@
 
       <div *ngFor="let ui of uiShow ; let i = index">
         <div class="changediv col-md-2 col-xs-12 " style="margin: 5px 0px" (click)="selectDiv(ui,i)">
-          <div [class]="DivStyleClass_disable(ui.disable,ui.Clickselect)" [ngClass]="'ui'+i">
+          <div [class]="DivStyleClass_disable(ui.disable,ui.Clickselect)" [ngClass]="'ui'+i.toString()">
 
             <div style="padding:2px" style="margin: 0;padding: 5px" [class]="Date_disable(ui.disable)">
 
               <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 datePadding">
-                <div [class]="DivDateStyleClass_disable(ui.disable,ui.Clickselect)" [ngClass]="'uidate'+i">
+                <div [class]="DivDateStyleClass_disable(ui.disable,ui.Clickselect)" [ngClass]="'uidate'+i.toString()">
                   {{ui.date}}
                 </div>
               </div>
               <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle"
-                [class]="DivJobStyleClass_first(ui.Clickselect)" [ngClass]="'uijob'+i">
-                <div [id]="'oneCheckHeight'+i">
+                [class]="DivJobStyleClass_first(ui.Clickselect)" [ngClass]="'uijob'+i.toString()">
+                <div [id]="'oneCheckHeight'+i.toString()">
                   <!-- {{ui.oneP}} -->
                   {{ui.onePRoteName}}
                 </div>
@@ -320,8 +320,8 @@
                 </div>
               </div>
               <div class="col-md-12 col-xs-4 twoDivJobStyle" [class]="DivJobStyleClass_first(ui.Clickselect)"
-                [ngClass]="'uijob'+i">
-                <div [id]="'twoCheckHeight'+i">
+                [ngClass]="'uijob'+i.toString()">
+                <div [id]="'twoCheckHeight'+i.toString()">
                   <!-- {{ui.twoP}} -->
                   {{ui.twoPRoteName}}
                 </div>
@@ -469,7 +469,7 @@
                 </div>
               </div>
               <div [class]="DivStyleClass_selectJobDiv_one()">
-                <div [id]="'oneCheckHeight_View2'+i" class="RoteLink" (click)="bt_Show_RoteInfo(ui.onePRoteID)">
+                <div [id]="'oneCheckHeight_View2'+i.toString()" class="RoteLink" (click)="bt_Show_RoteInfo(ui.onePRoteID)">
                   <!-- {{ui.oneP}} -->
                   {{ui.onePRoteName}}
                 </div>
@@ -478,7 +478,7 @@
                 </div>
               </div>
               <div [class]="DivStyleClass_selectJobDiv_two()">
-                <div [id]="'twoCheckHeight_View2'+i" class="RoteLink" (click)="bt_Show_RoteInfo(ui.twoPRoteID)">
+                <div [id]="'twoCheckHeight_View2'+i.toString()" class="RoteLink" (click)="bt_Show_RoteInfo(ui.twoPRoteID)">
                   <!-- {{ui.twoP}} -->
                   {{ui.twoPRoteName}}
                 </div>
@@ -501,7 +501,7 @@
                 </div>
               </div>
               <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle">
-                <div [id]="'oneCheckHeight_View2'+i" class="RoteLink" (click)="bt_Show_RoteInfo(ui.onePRoteID)">
+                <div [id]="'oneCheckHeight_View2'+i.toString()" class="RoteLink" (click)="bt_Show_RoteInfo(ui.onePRoteID)">
                   <!-- {{ui.oneP}} -->
                   {{ui.onePRoteName}}
                 </div>
@@ -510,7 +510,7 @@
                 </div>
               </div>
               <div class="col-md-12 col-xs-4 twoDivJobStyle">
-                <div [id]="'twoCheckHeight_View2'+i" class="RoteLink" (click)="bt_Show_RoteInfo(ui.twoPRoteID)">
+                <div [id]="'twoCheckHeight_View2'+i.toString()" class="RoteLink" (click)="bt_Show_RoteInfo(ui.twoPRoteID)">
                   <!-- {{ui.twoP}} -->
                   {{ui.twoPRoteName}}
                 </div>

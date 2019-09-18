@@ -49,7 +49,7 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
 
   setFlowView: showFlowView[] = []//傳給查詢結果-表單
 
-  showSelectSearchForm = ''; //顯示表單種類
+  showSelectSearchForm:any = ''; //顯示表單種類
 
   isSearch: boolean = false; //第一次沒按不顯示查詢結果
   @ViewChild(SearchVaFormComponent) SearchVaFormComponent: SearchVaFormComponent;
@@ -84,9 +84,9 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
       if (this.Search_FormCondition.ListEmpID.length > 0) {
         this.showSelectSearchForm = '' //勿刪!! 讓搜尋後的結果重新載入一遍
         if (window.outerWidth < 800) {
-          $('#' + 1 + '_text').text('展開查詢選單')
-          $('#' + 1 + '_img').css({ "transition": "transform 0.5s" });
-          $('#' + 1 + '_img').css({ "transform": "rotate(0deg)" });
+          $('#'  + '1_text').text('展開查詢選單')
+          $('#'  + '1_img').css({ "transition": "transform 0.5s" });
+          $('#'  + '1_img').css({ "transform": "rotate(0deg)" });
           $('#post1').collapse('hide')
           $('#phonetopdiv').css({ "height": "inherit" });
           this.diolog_state = false
@@ -108,10 +108,10 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
 
   onCheckCollapseIn() {
     //確認是否收合
-    if ($('#id' + 1).hasClass('collapsed')) {
-      $('#' + 1 + '_text').text('收合查詢選單')
-      $('#' + 1 + '_img').css({ "transition": "transform 0.5s" });
-      $('#' + 1 + '_img').css({ "transform": "rotate(-180deg)" });
+    if ($('#id1').hasClass('collapsed')) {
+      $('#'  + '1_text').text('收合查詢選單')
+      $('#'  + '1_img').css({ "transition": "transform 0.5s" });
+      $('#'  + '1_img').css({ "transform": "rotate(-180deg)" });
       $('#showFormPalce').addClass('showForm_openDialog');
       $('#showFormPalce').removeClass('showForm_closeDialog');
 
@@ -129,9 +129,9 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
     } else {
       $('#chooseEmpdialog').modal('hide')
       $('#chooseDeptdialog').modal('hide')
-      $('#' + 1 + '_text').text('展開查詢選單')
-      $('#' + 1 + '_img').css({ "transition": "transform 0.5s" });
-      $('#' + 1 + '_img').css({ "transform": "rotate(0deg)" });
+      $('#'  + '1_text').text('展開查詢選單')
+      $('#'  + '1_img').css({ "transition": "transform 0.5s" });
+      $('#'  + '1_img').css({ "transform": "rotate(0deg)" });
       $('#showFormPalce').addClass('showForm_closeDialog');
       $('#showFormPalce').removeClass('showForm_openDialog');
       document.getElementById("phonetopdiv").style.height = '90px';
@@ -172,9 +172,9 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
       // document.getElementById("phonetopdiv").style.height = '400px';
       document.getElementById("phonetopdiv").style.overflowY = 'auto';
 
-      $('#' + 1 + '_text').text('展開查詢選單')
-      $('#' + 1 + '_img').css({ "transition": "transform 0.5s" });
-      $('#' + 1 + '_img').css({ "transform": "rotate(0deg)" });
+      $('#'  + '1_text').text('展開查詢選單')
+      $('#'  + '1_img').css({ "transition": "transform 0.5s" });
+      $('#'  + '1_img').css({ "transform": "rotate(0deg)" });
       $('#post1').collapse('hide')
       document.getElementById("id1").style.visibility = 'visible'
       // $('#id1').css({ "display": "block" });
@@ -191,9 +191,9 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
       $('#post1').collapse('show')
       document.getElementById("phonetopdiv").style.overflowY = 'unset';
       document.getElementById("phonetopdiv").style.height = ' 100%';
-      $('#' + 1 + '_text').text('收合查詢選單')
-      $('#' + 1 + '_img').css({ "transition": "transform 0.5s" });
-      $('#' + 1 + '_img').css({ "transform": "rotate(-180deg)" });
+      $('#'  + '1_text').text('收合查詢選單')
+      $('#'  + '1_img').css({ "transition": "transform 0.5s" });
+      $('#'  + '1_img').css({ "transform": "rotate(-180deg)" });
       this.diolog_state = false
       $('body').css("overflow-y", "auto");
     }
@@ -204,9 +204,9 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
     // document.getElementById("phonetopdiv").style.height = '400px';
     document.getElementById("phonetopdiv").style.overflowY = 'auto';
 
-    $('#' + 1 + '_text').text('展開查詢選單')
-    $('#' + 1 + '_img').css({ "transition": "transform 0.5s" });
-    $('#' + 1 + '_img').css({ "transform": "rotate(0deg)" });
+    $('#' + '1_text').text('展開查詢選單')
+    $('#' + '1_img').css({ "transition": "transform 0.5s" });
+    $('#' + '1_img').css({ "transform": "rotate(0deg)" });
     $('#post1').collapse('hide')
     document.getElementById("id1").style.visibility = 'visible';
     // $('#id1').css({ "display": "block" });  

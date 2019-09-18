@@ -11,10 +11,7 @@ import { chcekdialogModule } from '../../shareComponent/checkdialog/chcekdialog-
 import { ReviewformDetailDelformComponent } from './reviewform-detail-delform/reviewform-detail-delform.component';
 import { ReviewformDetailForgetformComponent } from './reviewform-detail-forgetform/reviewform-detail-forgetform.component';
 import { ReviewformDetailChangeformComponent } from './reviewform-detail-changeform/reviewform-detail-changeform.component';
-import { SelectSignerComponent } from '../../select-signer/select-signer.component';
 import { SharemodelModule } from 'src/app/Sharemodel/sharemodel.module';
-import { ReviewformDesktopComponent } from './reviewform-desktop/reviewform-desktop.component';
-import { ReviewformPhoneComponent } from './reviewform-phone/reviewform-phone.component';
 import { ReviewformDetailChangeformRRComponent } from '../../../View/allform/reviewform/reviewform-detail-changeform-rr/reviewform-detail-changeform-rr.component';
 import { ReviewformDetailChangeformRZComponent } from '../../../View/allform/reviewform/reviewform-detail-changeform-rz/reviewform-detail-changeform-rz.component';
 import { ErrorHandler } from 'src/app/Service/error_handler';
@@ -37,8 +34,6 @@ import { TimeoutInterceptor } from 'src/app/_guards/TimeoutInterceptor';
     ReviewformDetailDelformComponent,
     ReviewformDetailForgetformComponent,
     ReviewformDetailChangeformComponent,
-    ReviewformDesktopComponent,
-    ReviewformPhoneComponent,
     ReviewformDetailChangeformRRComponent,
     ReviewformDetailChangeformRZComponent
   ],

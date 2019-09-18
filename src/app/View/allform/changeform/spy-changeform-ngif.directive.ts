@@ -14,21 +14,21 @@ export class SpyChangeformNgifDirective implements OnInit, AfterContentInit, Aft
       $('#oneEmp').css('height', '100%')
       $('#twoEmp').css('height', '100%')
       for (let i = 0; i < 7; i++) {
-        $('#oneCheckHeight' + i).css('height', '100%')
+        $('#oneCheckHeight' + i.toString()).css('height', '100%')
       }
       for (let i = 0; i < 7; i++) {
-        $('#twoCheckHeight' + i).css('height', '100%')
+        $('#twoCheckHeight' + i.toString()).css('height', '100%')
       }
 
       $('#oneEmp_View2').css('height', '100%')
       $('#twoEmp_View2').css('height', '100%')
       for (let i = 0; i < 7; i++) {
-        $('#oneCheckHeight_View2' + i).css('height', '100%')
-        $('#oneCheckHeight_View2_isCheck' + i).css('height', '100%')
+        $('#oneCheckHeight_View2' + i.toString()).css('height', '100%')
+        $('#oneCheckHeight_View2_isCheck' + i.toString()).css('height', '100%')
       }
       for (let i = 0; i < 7; i++) {
-        $('#twoCheckHeight_View2' + i).css('height', '100%')
-        $('#twoCheckHeight_View2_isCheck' + i).css('height', '100%')
+        $('#twoCheckHeight_View2' + i.toString()).css('height', '100%')
+        $('#twoCheckHeight_View2_isCheck' + i.toString()).css('height', '100%')
       }
 
       
@@ -76,8 +76,8 @@ export class SpyChangeformNgifDirective implements OnInit, AfterContentInit, Aft
     var twoNumArray = [];
 
     for (let i = 0; i < 7; i++) {
-      oneNumArray.push($("#oneCheckHeight" + i).height())
-      twoNumArray.push($("#twoCheckHeight" + i).height())
+      oneNumArray.push($("#oneCheckHeight" + i.toString()).height())
+      twoNumArray.push($("#twoCheckHeight" + i.toString()).height())
     }
 
 
@@ -89,7 +89,7 @@ export class SpyChangeformNgifDirective implements OnInit, AfterContentInit, Aft
       $('#onePadding').css('padding', '21px 0px')
       $('#oneEmp').css('height', (setoneCheckHeight + 21).toString())
       for (let i = 0; i < 7; i++) {
-        $('#oneCheckHeight' + i).css('height', setoneCheckHeight.toString())
+        $('#oneCheckHeight' + i.toString()).css('height', setoneCheckHeight.toString())
       }
     } else {
       $('#onePadding').css('padding', '10px 0px')
@@ -100,7 +100,7 @@ export class SpyChangeformNgifDirective implements OnInit, AfterContentInit, Aft
       $('#twoPadding').css('padding', '21px 0px')
       $('#twoEmp').css('height', (settwoCheckHeight + 21).toString())
       for (let i = 0; i < 7; i++) {
-        $('#twoCheckHeight' + i).css('height', settwoCheckHeight.toString())
+        $('#twoCheckHeight' + i.toString()).css('height', settwoCheckHeight.toString())
       }
     } else {
       $('#twoPadding').css('padding', '10px 0px')
@@ -113,11 +113,11 @@ export class SpyChangeformNgifDirective implements OnInit, AfterContentInit, Aft
     var twoNumArray = [];
 
     for (let i = 0; i < 7; i++) {
-      oneNumArray.push($("#oneCheckHeight_View2" + i).height())
-      twoNumArray.push($("#twoCheckHeight_View2" + i).height())
+      oneNumArray.push($("#oneCheckHeight_View2" + i.toString()).height())
+      twoNumArray.push($("#twoCheckHeight_View2" + i.toString()).height())
 
-      oneNumArray.push($("#twoCheckHeight_View2" + i).height())
-      twoNumArray.push($("#oneCheckHeight_View2" + i).height())
+      oneNumArray.push($("#twoCheckHeight_View2" + i.toString()).height())
+      twoNumArray.push($("#oneCheckHeight_View2" + i.toString()).height())
     }
 
 
@@ -129,8 +129,8 @@ export class SpyChangeformNgifDirective implements OnInit, AfterContentInit, Aft
       $('#onePadding_View2').css('padding', '21px 0px')
       $('#oneEmp_View2').css('height', (setoneCheckHeight + 21).toString())
       for (let i = 0; i < 7; i++) {
-        $('#oneCheckHeight_View2' + i).css('height', setoneCheckHeight.toString())
-        $('#oneCheckHeight_View2_isCheck' + i).css('height', setoneCheckHeight.toString())
+        $('#oneCheckHeight_View2' + i.toString()).css('height', setoneCheckHeight.toString())
+        $('#oneCheckHeight_View2_isCheck' + i.toString()).css('height', setoneCheckHeight.toString())
       }
     } else {
       $('#onePadding_View2').css('padding', '10px 0px')
@@ -141,8 +141,8 @@ export class SpyChangeformNgifDirective implements OnInit, AfterContentInit, Aft
       $('#twoPadding_View2').css('padding', '21px 0px')
       $('#twoEmp_View2').css('height', (settwoCheckHeight + 21).toString())
       for (let i = 0; i < 7; i++) {
-        $('#twoCheckHeight_View2' + i).css('height', settwoCheckHeight.toString())
-        $('#twoCheckHeight_View2_isCheck' + i).css('height', settwoCheckHeight.toString())
+        $('#twoCheckHeight_View2' + i.toString()).css('height', settwoCheckHeight.toString())
+        $('#twoCheckHeight_View2_isCheck' + i.toString()).css('height', settwoCheckHeight.toString())
       }
     } else {
       $('#twoPadding_View2').css('padding', '10px 0px')
