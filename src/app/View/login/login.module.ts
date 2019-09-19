@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { LoginRoutingModule } from './login-routing.module';
-import { LoginComponent } from './login.component';
 import { SharemodelModule } from '../../Sharemodel/sharemodel.module';
 @NgModule({
   imports: [
-    LoginRoutingModule,
-    SharemodelModule,
+    // LoginRoutingModule,
+    // SharemodelModule,
   ],
-  declarations: [LoginComponent]
+  declarations: []
 })
 export class LoginModule { }
