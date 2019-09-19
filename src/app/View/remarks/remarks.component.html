@@ -1,14 +1,14 @@
 <div class="a-block">
-  <div  class="a-block-body  a-block-container">
+  <div class="a-block-body  a-block-container">
     <div class="form-group first-form-group" style="border: 1px solid #979797;">
-      <div class="row" style="margin:0px;    padding: 20px 0px 20px 0px;">
+      <div class="row" style="margin:0px;padding: 20px 0px 20px 0px;">
         <div class="col-md-2 col-xs-12 P_title">
           <h3 style="margin:0px">意願備註類別</h3>
         </div>
         <div class="col-md-7 col-xs-12 P_radio">
           <div class="col-md-3 col-xs-6 " style="display: inline-block" *ngFor="let oneRadio of radiogroup">
             <input type="radio" style="
-                margin-right: 10px;" name="chooseRadio" [(ngModel)]="chooseRadio"
+                      margin-right: 10px;" name="chooseRadio" [(ngModel)]="chooseRadio"
               [value]="oneRadio.id">{{oneRadio.name}}
           </div>
         </div>
@@ -24,19 +24,19 @@
             </label>
           </div>
           <div class="col-md-5 col-xs-10" style="padding:0px">
-            <input [(ngModel)]="dateS" id="id_ipt_startday" [matDatepicker]="StartDatePicker" type="text" class="form-control" style="background-color: #ffffff;margin-top: 4px"
-              placeholder="年/月/日" />
+            <input [(ngModel)]="dateS" id="id_ipt_startday" [matDatepicker]="StartDatePicker" type="text"
+              class="form-control" style="background-color: #ffffff;margin-top: 4px" placeholder="年/月/日" />
             <span *ngIf="errorSearchDateState.state" style="color: #e60012">{{errorSearchDateState.errorString}}</span>
             <mat-datepicker #StartDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
           </div>
           <div class="col-md-2 col-xs-2" style="padding:0px">
             <input (click)="StartDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
-                    cursor: pointer;
-                    color: transparent;
-                    border: 1px solid transparent;
-                    width: 50px;
-                    height: 40px;
-                    ">
+                          cursor: pointer;
+                          color: transparent;
+                          border: 1px solid transparent;
+                          width: 50px;
+                          height: 40px;
+                          ">
           </div>
         </div>
         <div class="col-md-3 col-xs-12" style="margin: 0px ; padding: 0px">
@@ -65,7 +65,7 @@
   </div>
 </div>
 
-<div class="a-block"  *ngIf="OtRowList.length > 0">
+<div class="a-block" *ngIf="OtRowList.length > 0">
   <div class="a-block-body  a-block-container">
     <div style="
     display: flex;
@@ -73,7 +73,7 @@
       <div style="text-align: left">
         <span>搜尋：</span>
         <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value)"  placeholder="">
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="">
         </mat-form-field>
       </div>
     </div>

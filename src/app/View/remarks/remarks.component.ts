@@ -131,7 +131,7 @@ export class RemarksComponent implements OnInit, AfterContentInit, OnDestroy {
         // console.log(x)
         this.clickSearch++
         if (x.length == 0) {
-          $('#remarksTable').DataTable().clear().rows.add(this.OtRowList).draw();
+          // $('#remarksTable').DataTable().clear().rows.add(this.OtRowList).draw();
         } else {
 
           for (let data of x) {
@@ -156,7 +156,7 @@ export class RemarksComponent implements OnInit, AfterContentInit, OnDestroy {
           this.dataSource.data = this.OtRowList;
           // this.dataSource.sort = this.sortTable;
           // this.dataSource.paginator = this.paginator;
-          $('#remarksTable').DataTable().clear().rows.add(this.OtRowList).draw();
+          // $('#remarksTable').DataTable().clear().rows.add(this.OtRowList).draw();
           // $('#remarksTable').DataTable().clear().rows.add(this.OtRowList).draw();
 
         }
