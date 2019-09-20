@@ -229,7 +229,7 @@ export class GetApiDataServiceService {
   }
 
   /**
-   * @todo  員工延伸定義(可判斷是否可請假)
+   * @todo  員工延伸定義(可判斷是否可請假、申請表單)
    * @author jacky
    */
   getWebApiData_GetBaseParameter(EmpID: string) {
@@ -1159,7 +1159,7 @@ export class GetApiDataServiceService {
 
 
   /**
-   * @todo 取得部門單位管理員
+   * @todo 取得部門單位管理員 (回傳擁有該部門權限的人員)
    */
   getWebApiData_GetAssistantByDeptID(DeptID) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/GetAssistantByDeptID',

@@ -18,6 +18,7 @@ import { reallyData_P } from 'src/app/Models/reallyData_P';
 import { NavigationEnd, Router } from '@angular/router';
 import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
 declare let $: any; //use jquery
 
 @Component({
@@ -95,38 +96,38 @@ export class ChangeformComponent implements OnInit, AfterViewInit, OnDestroy {
     private viewScroller: ViewportScroller,
     private LoadingPage: NgxSpinnerService) { }
 
-  RouteReload() { 
+  RouteReload() {
 
     this.chooseRadio = 1;
 
     this.ShowDetail = []
-  
+
     this.uiShow = []
     this.selectDay = []
-  
+
     this.Emp = { EmpCode: '', EmpName: '' }
     this.ChangeEmp = { EmpCode: '', EmpName: '' }
-  
+
     this.My_Emp = { EmpCode: '', EmpName: '' }
     this.My_ChangeEmp = { EmpCode: '', EmpName: '' }
     this.Assistant_Emp = { EmpCode: '', EmpName: '' }
     this.Assistant_ChangeEmp = { EmpCode: '', EmpName: '' }
     this.My_searchDate = null
     this.Assistant_searchDate = null
-  
+
     this.ReallyWriteMan = { EmpCode: '', EmpName: '' }
-  
+
     this.oneP = new reallyData_P()
     this.twoP = new reallyData_P()
-  
+
     this.writeState = 1; //步驟一
-  
-  
+
+
     this.agreeCheckbox = false
-  
-  
+
+
     this.searchDate = null
-  
+
     this.showBlockIsAssistant = false //是否有行政權限
     this.search_IsAssistant = false //是否用行政權限搜尋
     this.today = new Date()
@@ -134,7 +135,7 @@ export class ChangeformComponent implements OnInit, AfterViewInit, OnDestroy {
     this.Assistant_errorEmpState = { state: false, errorString: '' }
     this.Assistant_errorChangeEmpState = { state: false, errorString: '' }
     this.SimulationRoteClickOne = false
-    this.NoteText=null
+    this.NoteText = null
   }
   ngOnInit() {
     // this.RouteReload()
@@ -412,7 +413,7 @@ export class ChangeformComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (this.My_errorChangeEmpState.state) {
 
     } else {
-      this.onSearch()
+      this.CheckSendFormLimit()
     }
   }
 
@@ -427,15 +428,46 @@ export class ChangeformComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.Assistant_errorEmpState.state || this.Assistant_errorChangeEmpState.state) {
 
       } else {
-        this.onSearch()
+        this.CheckSendFormLimit()
       }
     }
 
 
   }
-
+  CheckSendFormLimit(){
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.Emp.EmpCode)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+        if (GetBaseParameterData.length > 0) {
+          if (GetBaseParameterData[0].IsAllowLeave) {
+  
+            this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.ChangeEmp.EmpCode)
+              .pipe(takeWhile(() => this.api_subscribe))
+              .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+                if (GetBaseParameterData.length > 0) {
+                  if (GetBaseParameterData[0].IsAllowLeave) {
+                    this.onSearch()
+                  } else {
+                    alert(this.ChangeEmp.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+                    this.LoadingPage.hide()
+                  }
+                } else {
+                  alert(this.ChangeEmp.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+                  this.LoadingPage.hide()
+                }
+              })
+          } else {
+            alert(this.Emp.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+            this.LoadingPage.hide()
+          }
+        } else {
+          alert(this.Emp.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+          this.LoadingPage.hide()
+        }
+      })
+  }
   onSearch() {
-
     if (this.R_Route.length == 0 || this.Z_Route.length == 0 || this.uiDisableArray.length == 0) {
       alert('假別ID並未正確取得')
     } else {
@@ -823,8 +855,8 @@ export class ChangeformComponent implements OnInit, AfterViewInit, OnDestroy {
   //   this.FlowDynamic_EmpID = id
 
   // }
-  
-  disableSend(){
+
+  disableSend() {
     if (!this.NoteText) {
       return true
     } else if (!this.agreeCheckbox) {
@@ -833,7 +865,7 @@ export class ChangeformComponent implements OnInit, AfterViewInit, OnDestroy {
       return false
     }
   }
-  
+
   sendPreCheckError() {
     // this.loading = true;
     if (!this.NoteText) {
@@ -1202,13 +1234,13 @@ export class ChangeformComponent implements OnInit, AfterViewInit, OnDestroy {
     $('#bt_TimeShow').addClass('onShowButton')
     $('#bt_TimeShow').removeClass('offShowButton')
   }
-  
+
   private Be_setGetRoteInfo$: BehaviorSubject<any> = new BehaviorSubject<Array<number>>(null);
   Ob_setGetRoteInfo$: Observable<any> = this.Be_setGetRoteInfo$;
-  
-  bt_Show_RoteInfo(oneSearchRoteID:number) {
+
+  bt_Show_RoteInfo(oneSearchRoteID: number) {
     var searchRoteID: Array<number> = []
-    if(oneSearchRoteID){
+    if (oneSearchRoteID) {
       searchRoteID.push(oneSearchRoteID)
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf').modal('show')

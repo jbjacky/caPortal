@@ -19,6 +19,7 @@ import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { Router, NavigationEnd } from '@angular/router';
 import { uiShowClass } from 'src/app/Models/uiShowClass';
 import { valTT_Class, TT_errorDataClass } from 'src/app/Models/valTT_Class';
+import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
 
 declare let $: any; //use jquery
 
@@ -251,18 +252,33 @@ export class ChangeNonShiftSameComponent implements OnInit, AfterViewInit, OnDes
     } else if (this.blurEndDate_Assistant()) {
 
     } else {
+      this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.Assistant_SearchMan.EmpCode)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+          if (GetBaseParameterData.length > 0) {
+            if (GetBaseParameterData[0].IsAllowLeave) {
 
-      var calDateB: any = new Date(this.Assistant_DateB)
-      var calDateE: any = new Date(this.Assistant_DateE)
+              var calDateB: any = new Date(this.Assistant_DateB)
+              var calDateE: any = new Date(this.Assistant_DateE)
 
-      var calDay = (calDateE - calDateB) / (24 * 60 * 60 * 1000)
-      if (calDay >= 10) {
-        alert('起訖日期區間不可大於10天')
-      } else {
-        this.SearchMan = this.Assistant_SearchMan
-        this.Sub_onChangeSignMan$.next(this.SearchMan.EmpCode)
-        this.nextPageToWrite(this.Assistant_DateB, this.Assistant_DateE)
-      }
+              var calDay = (calDateE - calDateB) / (24 * 60 * 60 * 1000)
+              if (calDay >= 10) {
+                alert('起訖日期區間不可大於10天')
+              } else {
+                this.SearchMan = this.Assistant_SearchMan
+                this.Sub_onChangeSignMan$.next(this.SearchMan.EmpCode)
+                this.nextPageToWrite(this.Assistant_DateB, this.Assistant_DateE)
+              }
+            } else {
+              alert(this.Assistant_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+              this.LoadingPage.hide()
+            }
+          } else {
+            alert(this.Assistant_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+            this.LoadingPage.hide()
+          }
+        })
+
     }
   }
 
@@ -369,46 +385,72 @@ export class ChangeNonShiftSameComponent implements OnInit, AfterViewInit, OnDes
     } else if (!this.My_errorEndtDateState) {
     } else {
 
-      var calDateB: any = new Date(this.dateB)
-      var calDateE: any = new Date(this.dateE)
-      var calDay = (calDateE - calDateB) / (24 * 60 * 60 * 1000)
+      var today: any = new Date()
+      var calSearchDate: any = new Date(this.dateB)
+      today.setHours(0, 0, 0)
+      today.setMinutes(0, 0, 0)
+      today.setSeconds(0, 0)
 
-      if (calDay >= 10) {
-        alert('起訖日期區間不可大於10天')
+      calSearchDate.setHours(0, 0, 0)
+      calSearchDate.setMinutes(0, 0, 0)
+      calSearchDate.setSeconds(0, 0)
+      if (today > calSearchDate) {
+        alert('調班日不能申請今天以前')
       } else {
-        this.LoadingPage.show()
-        this.GetApiDataServiceService.getWebApiData_IsTZTT(this.My_SearchMan.EmpCode)
-          .pipe(takeWhile(() => this.api_subscribe))
-          .subscribe(
-            (d: boolean) => {
 
-              var canNext: boolean = false
-              if (d) {
-                if (this.val_TT([doFormatDate(this.dateB)]).State) {
-                  //如果通過地服處內規
-                  canNext = true
+        var calDateB: any = new Date(this.dateB)
+        var calDateE: any = new Date(this.dateE)
+        var calDay = (calDateE - calDateB) / (24 * 60 * 60 * 1000)
+
+        if (calDay >= 10) {
+          alert('起訖日期區間不可大於10天')
+        } else {
+          this.LoadingPage.show()
+
+          this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.My_SearchMan.EmpCode)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+              if (GetBaseParameterData.length > 0) {
+                if (GetBaseParameterData[0].IsAllowLeave) {
+                  this.GetApiDataServiceService.getWebApiData_IsTZTT(this.My_SearchMan.EmpCode)
+                    .pipe(takeWhile(() => this.api_subscribe))
+                    .subscribe(
+                      (d: boolean) => {
+
+                        var canNext: boolean = false
+                        if (d) {
+                          if (this.val_TT([doFormatDate(this.dateB)]).State) {
+                            //如果通過地服處內規
+                            canNext = true
+                          } else {
+                            var errorString = '';
+                            for (let i = 0; i < this.val_TT([doFormatDate(this.dateB)]).TT_errorData.ErrorDate.length; i++) {
+                              errorString += this.My_SearchMan.EmpCode + ' ' + this.val_TT([doFormatDate(this.dateB)]).TT_errorData.ErrorDate[i] + ' ' + '應' + ' ' + this.val_TT([doFormatDate(this.dateB)]).TT_errorData.CorrectDateString[i] + ' ' + '前申請調班\n'
+                            }
+                            alert(errorString)
+                            canNext = false
+                            this.LoadingPage.hide()
+                          }
+                        } else {
+                          canNext = true
+                        }
+
+                        if (canNext) {
+                          this.SearchMan = this.My_SearchMan
+                          this.Sub_onChangeSignMan$.next(this.SearchMan.EmpCode)
+                          this.nextPageToWrite(this.dateB, this.dateE)
+                        }
+                      })
                 } else {
-                  var errorString = '';
-                  for (let i = 0; i < this.val_TT([doFormatDate(this.dateB)]).TT_errorData.ErrorDate.length; i++) {
-                    errorString += this.My_SearchMan.EmpCode + ' ' + this.val_TT([doFormatDate(this.dateB)]).TT_errorData.ErrorDate[i] + ' ' + '應' + ' ' + this.val_TT([doFormatDate(this.dateB)]).TT_errorData.CorrectDateString[i] + ' ' + '前申請調班\n'
-                  }
-                  alert(errorString)
-                  canNext = false
+                  alert(this.My_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
                   this.LoadingPage.hide()
                 }
               } else {
-                canNext = true
-              }
-
-              if (canNext) {
-                this.SearchMan = this.My_SearchMan
-                this.Sub_onChangeSignMan$.next(this.SearchMan.EmpCode)
-                this.nextPageToWrite(this.dateB, this.dateE)
+                alert(this.My_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+                this.LoadingPage.hide()
               }
             })
-
-
-
+        }
       }
 
     }

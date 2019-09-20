@@ -16,6 +16,7 @@ import { GetAbsFlowSignTreeGetApiClass } from 'src/app/Models/PostData_API_Class
 import { GetFormInfoGetApiClass } from 'src/app/Models/PostData_API_Class/GetFormInfoGetApiClass';
 import { GetFormInfoDataClass } from 'src/app/Models/GetFormInfoDataClass';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
+import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
 
 @Component({
   selector: 'app-delform',
@@ -128,7 +129,7 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
             _DateB.setDate(_DateB.getDate() - 7)
             var _DateE = new Date()
             _DateE.setDate(_DateE.getDate() + 360)
-            this.reload(x.EmpID, _DateB, _DateE)
+            this.CheckSendFormLimit(x.EmpID, _DateB, _DateE)
           }
         }
       )
@@ -362,7 +363,7 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
                   _DateB.setDate(_DateB.getDate() - 7)
                   var _DateE = new Date()
                   _DateE.setDate(_DateE.getDate() + 360)
-                  this.reload(this.searchEmpCode, _DateB, _DateE)
+                  this.CheckSendFormLimit(this.searchEmpCode, _DateB, _DateE)
                   // this.loading=false
                 } else {
                   alert(x)
@@ -390,6 +391,29 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  errorEmpSendForm ={state:false,errorEmpID:''}
+  CheckSendFormLimit(EmpID: string, _DateB, _DateE){
+    //確認EmpID是否可以申請表單
+    //此員工無申請表單權限，如需申請表單請洽單位行政設定
+    this.errorEmpSendForm = {state:false,errorEmpID:''}
+    this.GetApiDataServiceService.getWebApiData_GetBaseParameter(EmpID)
+    .pipe(takeWhile(() => this.api_subscribe))
+    .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+      if (GetBaseParameterData.length > 0) {
+        if (GetBaseParameterData[0].IsAllowLeave) {
+          this.LoadingPage.hide()
+          this.reload(EmpID, _DateB, _DateE)
+        }else{
+          this.errorEmpSendForm = {state:true,errorEmpID: EmpID.toString()}
+          this.LoadingPage.hide()
+        }
+      }else{
+        this.errorEmpSendForm = {state:true,errorEmpID: EmpID.toString()}
+        this.LoadingPage.hide()
+      }
+    })  
+  }
+
   reload(EmpID: string, _DateB, _DateE) {
     this.LoadingPage.show()
     this.alldelformpeople = []
@@ -403,19 +427,11 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
       EmpID: EmpID
     }
 
-    // this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(EmpID)
-    //   .pipe(takeWhile(() => this.api_subscribe))
-    //   .subscribe(
-    //     (GetBaseInfoDetail: GetBaseInfoDetailClass[]) => {
-
     this.GetApiDataServiceService.getWebApiData_AbscIntegrationHandlerGetAbsFlowApps(AbscIntegrationHandlerGetAbsFlowApps)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: any) => {
-          // console.log(x)
-          // var foundGetBaseInfoDetail = GetBaseInfoDetail.find(function (element) {
-          //   return element.PosType == 'M'
-          // });
+
           this.alldelformpeople = []
           if (x.length == 0) {
             // this.loading = false
@@ -523,17 +539,8 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
               this.alldelformpeople[i]._idherf = '#del_id' + i;
             }
           }
-        },
-        (error: any) => {
-          // this.loading = false
-          this.LoadingPage.hide()
-          // alert('api連線錯誤，AbscIntegrationHandlerGetAbsFlowApps')
         }
       )
-    //   }, error => {
-    //     this.LoadingPage.hide()
-    //   }
-    // )
   }
 
 
@@ -657,7 +664,7 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
       this.searchEmpCode = this.EmpBase.EmpCode
       this.searchEmpName = this.EmpBase.Name
       this.isSearchAssistant = true  //如果是行政可以突破明細7天限制
-      this.reload(this.EmpBase.EmpCode, this.searchDateB, this.searchDateE)
+      this.CheckSendFormLimit(this.EmpBase.EmpCode, this.searchDateB, this.searchDateE)
     }
   }
 

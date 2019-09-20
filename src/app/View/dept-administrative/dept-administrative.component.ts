@@ -141,6 +141,7 @@ export class DeptAdministrativeComponent implements OnInit, OnDestroy {
       SetMan: this.setMan.EmpCode
     }
     this.GetApiDataServiceService.getWebApiData_DelDeptByEmp(DelDeptByEmpGetApi)
+    .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: any) => {
           this.LoadingPage.hide()
@@ -289,6 +290,108 @@ export class DeptAdministrativeComponent implements OnInit, OnDestroy {
         this.LoadingPage.hide();
       }
     }
+  }
+
+  SearchEmp = {EmpID:'',EmpNameC:''}
+  
+  onSaveSearchEmptoView(event) {
+    // console.log(event)
+    this.SearchEmp.EmpID = event.split('，')[0]
+    this.SearchEmp.EmpNameC = event.split('，')[1]
+    if (event) {
+      $('#chooseSearchEmpdialog').modal('hide');
+      this.blurSearchEmpCode()
+    }
+  }
+
+  errorSearchEmpCodeState = { state: false, errorString: '' };
+  blurSearchEmpCode() {
+    //部門、行政權限
+    if (this.SearchEmp.EmpID) {
+
+      if (this.SearchEmp.EmpID.length == 6) {
+
+        this.LoadingPage.show()
+        var _NowDate = new Date();
+        var _NowToday = doFormatDate(_NowDate);
+        var GetBaseByForm: GetBaseByFormClass = {
+          EmpCode: this.setMan.EmpCode,
+          AppEmpCode: this.SearchEmp.EmpID,
+          EffectDate: _NowToday
+        }
+        this.GetApiDataServiceService.getWebApiData_GetBaseByFormStaff(GetBaseByForm)
+          .pipe(takeWhile(() => this.api_subscribe))
+          .subscribe((x: any) => {
+            if (x == null) {
+              // alert('工號輸入錯誤')
+              this.errorSearchEmpCodeState = { state: true, errorString: '無該部門的行政權限' };
+              this.SearchEmp.EmpNameC = '';
+              $("#leaveSearchEmpCode").addClass("errorInput");
+              this.LoadingPage.hide();
+            }
+            else if (x.length == 0) {
+              // alert('工號輸入錯誤')
+              this.SearchEmp.EmpNameC = '';
+              this.errorSearchEmpCodeState = { state: true, errorString: '無該部門的行政權限' };
+              $("#leaveSearchEmpCode").addClass("errorInput");
+              this.LoadingPage.hide();
+            }
+            else {
+              // alert('工號正確')
+              if (x[0].EmpNameC == null) {
+                this.SearchEmp.EmpNameC = x[0].EmpNameE;
+              }
+              else if (x[0].EmpNameC.length == 0) {
+                this.SearchEmp.EmpNameC = x[0].EmpNameE;
+              }
+              else {
+                this.SearchEmp.EmpNameC = x[0].EmpNameC;
+              }
+              this.errorSearchEmpCodeState = { state: false, errorString: '' };
+              $("#leaveSearchEmpCode").removeClass("errorInput");
+              this.LoadingPage.hide();
+
+            }
+          }, error => {
+            this.LoadingPage.hide()
+          })
+      } else {
+        this.errorSearchEmpCodeState = { state: true, errorString: '無該部門的行政權限' };
+        this.SearchEmp.EmpNameC = '';
+        $("#leaveSearchEmpCode").addClass("errorInput");
+        this.LoadingPage.hide();
+      }
+    }
+  }
+  onSearchEmpIDClick(){
+    this.LoadingPage.show()
+    if(this.errorSearchEmpCodeState.state){
+
+    }else{
+      this.GetApiDataServiceService.getWebApiData_GetRoleByAuth(this.SearchEmp.EmpID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x:any)=>{
+          var SearchEmpDeptIDData:GetAssistantByDeptIDDataClass={
+            EmpID:    this.SearchEmp.EmpID,
+            EmpCode:  this.SearchEmp.EmpID,
+            EmpNameC: this.SearchEmp.EmpNameC,
+            EmpNameE: this.SearchEmp.EmpNameC
+          }
+          var setShowData: showDeptManRoleDataClass = {
+            GetAssistantByDeptIDData: SearchEmpDeptIDData,
+            GetRoleByAuth: x
+          }
+          this.showDeptManRoleData = []
+          this.showDeptManRoleData.push(
+            setShowData
+          ) 
+  
+          this.LoadingPage.hide();
+        }
+      )
+    }
+
   }
 
 }

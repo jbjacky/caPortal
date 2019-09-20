@@ -15,6 +15,7 @@ import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { GetFormInfoGetApiClass } from 'src/app/Models/PostData_API_Class/GetFormInfoGetApiClass';
 import { GetFormInfoDataClass } from 'src/app/Models/GetFormInfoDataClass';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
 declare let $: any; //use jquery
 
 @Component({
@@ -126,7 +127,7 @@ export class ForgetformComponent implements OnInit, AfterViewInit, OnDestroy {
           this.AttendCard = [];
 
           this.showSearchEmp = { EmpCode: x.EmpCode, EmpNameC: x.EmpNameC }
-          this.searchAttendExceptional(this.GetAttendExceptional)
+          this.CheckSendFormLimit(this.GetAttendExceptional)
         }
       })
 
@@ -221,10 +222,34 @@ export class ForgetformComponent implements OnInit, AfterViewInit, OnDestroy {
       this.User.forget_man_name = this.EmpBase.Name
 
       this.showSearchEmp = { EmpCode: this.EmpBase.EmpCode.toString(), EmpNameC: this.EmpBase.Name.toString() }
-      this.searchAttendExceptional(this.GetAttendExceptional)
+      this.CheckSendFormLimit(this.GetAttendExceptional)
     }
 
   }
+
+  errorEmpSendForm ={state:false,errorEmpID:''}
+  CheckSendFormLimit(GetAttendExceptional: GetAttendExceptionalClass){
+    //確認EmpID是否可以申請表單
+    //此員工無申請表單權限，如需申請表單請洽單位行政設定
+    this.errorEmpSendForm = {state:false,errorEmpID:''}
+    this.GetApiDataServiceService.getWebApiData_GetBaseParameter(GetAttendExceptional.ListEmpID[0])
+    .pipe(takeWhile(() => this.api_subscribe))
+    .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+      if (GetBaseParameterData.length > 0) {
+        if (GetBaseParameterData[0].IsAllowLeave) {
+          this.LoadingPage.hide()
+          this.searchAttendExceptional(this.GetAttendExceptional)
+        }else{
+          this.errorEmpSendForm = {state:true,errorEmpID: GetAttendExceptional.ListEmpID[0].toString()}
+          this.LoadingPage.hide()
+        }
+      }else{
+        this.errorEmpSendForm = {state:true,errorEmpID: GetAttendExceptional.ListEmpID[0].toString()}
+        this.LoadingPage.hide()
+      }
+    })  
+  }
+
 
   searchAttendExceptional(GetAttendExceptional) {
     this.LoadingPage.show()

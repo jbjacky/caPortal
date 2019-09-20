@@ -12,6 +12,7 @@ import { GetAttendWishByPersonClass } from 'src/app/Models/PostData_API_Class/Ge
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { Router, NavigationEnd } from '@angular/router';
+import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
 declare var $;
 @Component({
   selector: 'app-writeremarksform',
@@ -58,7 +59,7 @@ export class WriteremarksformComponent implements OnInit, AfterViewInit, OnDestr
       setCurrentTime: false
     });
 
-    
+
     // this.router.events
     //   .pipe(takeWhile(() => this.api_subscribe))
     //   .subscribe((e: any) => {
@@ -320,8 +321,8 @@ export class WriteremarksformComponent implements OnInit, AfterViewInit, OnDestr
   GetAttendWish_ot() {
     if (this.toapiRemark.write_man_code) {
       var lastDay = new Date()
-      lastDay.setDate(lastDay.getDate()-1)
-      lastDay.setMinutes(lastDay.getMinutes()-lastDay.getTimezoneOffset())
+      lastDay.setDate(lastDay.getDate() - 1)
+      lastDay.setMinutes(lastDay.getMinutes() - lastDay.getTimezoneOffset())
       var GetAttendWish_otdata: GetAttendWishByPersonClass =
       {
         DateB: lastDay.toJSON(),
@@ -337,8 +338,8 @@ export class WriteremarksformComponent implements OnInit, AfterViewInit, OnDestr
     if (this.toapiRemark.write_man_code) {
 
       var lastDay = new Date()
-      lastDay.setDate(lastDay.getDate()-1)
-      lastDay.setMinutes(lastDay.getMinutes()-lastDay.getTimezoneOffset())
+      lastDay.setDate(lastDay.getDate() - 1)
+      lastDay.setMinutes(lastDay.getMinutes() - lastDay.getTimezoneOffset())
       var GetAttendWish_chdata: GetAttendWishByPersonClass =
       {
         DateB: lastDay.toJSON(),
@@ -353,8 +354,8 @@ export class WriteremarksformComponent implements OnInit, AfterViewInit, OnDestr
     if (this.toapiRemark.write_man_code) {
 
       var lastDay = new Date()
-      lastDay.setDate(lastDay.getDate()-1)
-      lastDay.setMinutes(lastDay.getMinutes()-lastDay.getTimezoneOffset())
+      lastDay.setDate(lastDay.getDate() - 1)
+      lastDay.setMinutes(lastDay.getMinutes() - lastDay.getTimezoneOffset())
       var GetAttendWish_vadata: GetAttendWishByPersonClass =
       {
         DateB: lastDay.toJSON(),
@@ -461,19 +462,37 @@ export class WriteremarksformComponent implements OnInit, AfterViewInit, OnDestr
     if (this.checkSendSubmit() || this.checkStartAndEndDate()) {
 
     } else {
-      var calDate = new Date(this.dateB)
-      calDate.setDate(calDate.getDate() - 1)
-      calDate.setHours(8, 0, 0)
-      calDate.setMinutes(0, 0, 0)
-      calDate.setSeconds(0, 0)
 
-      var today = new Date()
-      if (calDate > today) {
+      this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.toapiRemark.write_man_code)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+          if (GetBaseParameterData.length > 0) {
+            if (GetBaseParameterData[0].IsAllowLeave) {
 
-        $('#checksenddialog').modal('show');
-      }else{
-        alert('最晚在\t'+doFormatDate(calDate)+'\t08:00前提出')
-      }
+              var calDate = new Date(this.dateB)
+              calDate.setDate(calDate.getDate() - 1)
+              calDate.setHours(8, 0, 0)
+              calDate.setMinutes(0, 0, 0)
+              calDate.setSeconds(0, 0)
+
+              var today = new Date()
+              if (calDate > today) {
+
+                $('#checksenddialog').modal('show');
+              } else {
+                alert('最晚在\t' + doFormatDate(calDate) + '\t08:00前提出')
+              }
+
+            } else {
+              alert(this.toapiRemark.write_man_code.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+              this.LoadingPage.hide()
+            }
+          } else {
+            alert(this.toapiRemark.write_man_code.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+            this.LoadingPage.hide()
+          }
+        })
+
 
     }
   }
@@ -589,10 +608,10 @@ export class WriteremarksformComponent implements OnInit, AfterViewInit, OnDestr
     }
   }
 
-  sendDelData:getData
-  checkDel(DelData:getData){
-    
-    var calDate = new Date(DelData.DateB+' '+ DelData.TimeB)
+  sendDelData: getData
+  checkDel(DelData: getData) {
+
+    var calDate = new Date(DelData.DateB + ' ' + DelData.TimeB)
     calDate.setDate(calDate.getDate() - 1)
     calDate.setHours(8, 0, 0)
     calDate.setMinutes(0, 0, 0)
@@ -600,11 +619,11 @@ export class WriteremarksformComponent implements OnInit, AfterViewInit, OnDestr
 
     var today = new Date()
 
-    if(calDate > today){
+    if (calDate > today) {
       this.sendDelData = DelData
       $('#checkDeldialog').modal('show');
-    }else{
-      alert('最晚在\t'+doFormatDate(calDate)+'\t08:00前提出')
+    } else {
+      alert('最晚在\t' + doFormatDate(calDate) + '\t08:00前提出')
     }
   }
   delete() {

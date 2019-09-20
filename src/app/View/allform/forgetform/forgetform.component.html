@@ -61,8 +61,8 @@
             <div class="row writerow">
               <div class="col-md-6 col-xs-10" style="padding: 0px">
                 <input [matDatepicker]="StartDatePicker" id="id_ipt_startday" [(ngModel)]="searchDateB" type="text"
-                  class="form-control" style="background-color: #ffffff;" placeholder="年/月/日" (blur)="SerchStartDateChange()"
-                  (dateChange)="SerchStartDateChange()" />
+                  class="form-control" style="background-color: #ffffff;" placeholder="年/月/日"
+                  (blur)="SerchStartDateChange()" (dateChange)="SerchStartDateChange()" />
                 <div *ngIf="errorStartDate.state" style="color: #e60012">{{errorStartDate.errorString}}</div>
 
                 <mat-datepicker #StartDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
@@ -112,7 +112,7 @@
       <div class="row" style="margin: 0px">
         <div class="col-md-6">
           <div class="col-md-4 col-md-offset-4" style="padding: 0">
-            <button class="btn btn-primary" (click)="onSearch()">搜尋</button>
+            <button class="btn btn-primary" (click)="onSearch()">查詢</button>
           </div>
         </div>
       </div>
@@ -125,7 +125,10 @@
       <div style="margin-bottom: 10px">
         <label>員工</label> {{showSearchEmp.EmpCode}} {{showSearchEmp.EmpNameC}}
       </div>
-      <div *ngIf=" AttendCard.length == 0">目前無考勤異常資料</div>
+      <div *ngIf=" AttendCard.length == 0 && !errorEmpSendForm.state">目前無考勤異常資料</div>
+      <div *ngIf="errorEmpSendForm.state">
+        {{errorEmpSendForm.errorEmpID}}此員工無申請表單權限，如需申請表單請洽單位行政設定
+      </div>
       <div *ngFor="let Attend of AttendCard"
         style="border:1px solid #028fcf;padding: 20px 20px;margin: 0px;margin-bottom: 10px" class="row">
         <div class="col-md-11 col-xs-11 row" style="margin: 0px ;padding: 0px">

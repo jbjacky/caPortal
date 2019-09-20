@@ -16,6 +16,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { uiShowClass } from 'src/app/Models/uiShowClass';
 import { valTT_Class, TT_errorDataClass } from 'src/app/Models/valTT_Class';
 import { NavigationEnd, Router } from '@angular/router';
+import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
 
 declare let $: any; //use jquery
 
@@ -299,7 +300,23 @@ export class ChangeRzNRComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.errorEmp.state) {
 
     } else {
-      this.nextPage(this.Assistant_DateB, this.Assistant_selectChangeRZ, this.Assistant_selectRZLoading, this.Assistant_SearchMan.EmpCode,true)
+      this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.Assistant_SearchMan.EmpCode)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+          if (GetBaseParameterData.length > 0) {
+            if (GetBaseParameterData[0].IsAllowLeave) {
+              this.nextPage(this.Assistant_DateB, this.Assistant_selectChangeRZ, this.Assistant_selectRZLoading, this.Assistant_SearchMan.EmpCode, true)
+
+
+            } else {
+              alert(this.Assistant_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+              this.LoadingPage.hide()
+            }
+          } else {
+            alert(this.Assistant_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+            this.LoadingPage.hide()
+          }
+        })
     }
   }
   My_nextPage() {
@@ -325,7 +342,22 @@ export class ChangeRzNRComponent implements OnInit, AfterViewInit, OnDestroy {
         alert('互換例休日不能申請今天之前')
       }
       else {
-        this.nextPage(this.DateB, this.selectChangeRZ, this.selectRZLoading, this.My_SearchMan.EmpCode,false)
+        this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.My_SearchMan.EmpCode)
+          .pipe(takeWhile(() => this.api_subscribe))
+          .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+            if (GetBaseParameterData.length > 0) {
+              if (GetBaseParameterData[0].IsAllowLeave) {
+                this.nextPage(this.DateB, this.selectChangeRZ, this.selectRZLoading, this.My_SearchMan.EmpCode, false)
+
+              } else {
+                alert(this.My_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+                this.LoadingPage.hide()
+              }
+            } else {
+              alert(this.My_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+              this.LoadingPage.hide()
+            }
+          })
       }
     }
   }
@@ -367,51 +399,51 @@ export class ChangeRzNRComponent implements OnInit, AfterViewInit, OnDestroy {
     return CheckTTrule
   }
 
-  nextPage(_DateB: Date, _selectChangeRZ, _selectRZLoading, _searchEmpCode: string,search_IsAssistant:boolean) {
+  nextPage(_DateB: Date, _selectChangeRZ, _selectRZLoading, _searchEmpCode: string, search_IsAssistant: boolean) {
     if (_selectRZLoading && _selectChangeRZ.length != 0) {
       // console.log(this.selectChangeRZ)
-      if(search_IsAssistant){
+      if (search_IsAssistant) {
         //行政不限制
         this.CheckAndNext(_DateB, _selectChangeRZ, _selectRZLoading)
-      }else{
+      } else {
         //非行政
 
         this.GetApiDataServiceService.getWebApiData_IsTZTT(_searchEmpCode)
-        .pipe(takeWhile(() => this.api_subscribe))
-        .subscribe(
-          (d: boolean) => {
-            var canNext: boolean = false
-            var selectDayArray = []
-            selectDayArray.push(doFormatDate(_DateB))
-            selectDayArray.push(_selectChangeRZ.AttendDate)
-            if (d) {
-              if (this.val_TT(selectDayArray).State) {
-                //如果通過地服處內規
-                canNext = true
-              } else {
-                var errorString = '';
-                for (let i = 0; i < this.val_TT(selectDayArray).TT_errorData.ErrorDate.length; i++) {
-                  errorString += _searchEmpCode + ' ' + this.val_TT(selectDayArray).TT_errorData.ErrorDate[i] + ' ' + '應' + ' ' + this.val_TT(selectDayArray).TT_errorData.CorrectDateString[i] + ' ' + '前申請調班\n'
+          .pipe(takeWhile(() => this.api_subscribe))
+          .subscribe(
+            (d: boolean) => {
+              var canNext: boolean = false
+              var selectDayArray = []
+              selectDayArray.push(doFormatDate(_DateB))
+              selectDayArray.push(_selectChangeRZ.AttendDate)
+              if (d) {
+                if (this.val_TT(selectDayArray).State) {
+                  //如果通過地服處內規
+                  canNext = true
+                } else {
+                  var errorString = '';
+                  for (let i = 0; i < this.val_TT(selectDayArray).TT_errorData.ErrorDate.length; i++) {
+                    errorString += _searchEmpCode + ' ' + this.val_TT(selectDayArray).TT_errorData.ErrorDate[i] + ' ' + '應' + ' ' + this.val_TT(selectDayArray).TT_errorData.CorrectDateString[i] + ' ' + '前申請調班\n'
+                  }
+                  alert(errorString)
+                  canNext = false
+                  this.LoadingPage.hide()
                 }
-                alert(errorString)
-                canNext = false
-                this.LoadingPage.hide()
+              } else {
+                //如果不是地服處人員 不檢查內規
+                canNext = true
               }
-            } else {
-              //如果不是地服處人員 不檢查內規
-              canNext = true
-            }
 
 
-            if (canNext) {
-              //是地服處就檢查內規，不是地服處就不檢查 -> 最後流程檢查
-              this.CheckAndNext(_DateB, _selectChangeRZ, _selectRZLoading)
+              if (canNext) {
+                //是地服處就檢查內規，不是地服處就不檢查 -> 最後流程檢查
+                this.CheckAndNext(_DateB, _selectChangeRZ, _selectRZLoading)
+              }
+              // this.LoadingPage.hide()
+            }, error => {
+              this.LoadingPage.hide()
             }
-            // this.LoadingPage.hide()
-          }, error => {
-            this.LoadingPage.hide()
-          }
-        )
+          )
       }
     } else {
       alert('請選擇互換例休日')
@@ -560,7 +592,7 @@ export class ChangeRzNRComponent implements OnInit, AfterViewInit, OnDestroy {
                           this.SetUiActive()
                         }
                         this.LoadingPage.hide()
-                      },error=>{
+                      }, error => {
                         this.LoadingPage.hide()
                       }
                     )
@@ -654,7 +686,7 @@ export class ChangeRzNRComponent implements OnInit, AfterViewInit, OnDestroy {
       "FlowApp": {
         "ShiftRoteType": "RZ",
         "ShiftRoteName": "例休互調",
-        "DifferShift":true,
+        "DifferShift": true,
         "FlowApps": [
           {
             "EmpID1": this.oneP.EmpCode,
@@ -731,7 +763,7 @@ export class ChangeRzNRComponent implements OnInit, AfterViewInit, OnDestroy {
               }
               this.errorEmp = { state: false, errorString: '' }
             }
-          }else{
+          } else {
             this.errorEmp = { state: true, errorString: '無該部門的行政權限' }
             this.Assistant_SearchMan.EmpName = ''
           }
@@ -755,13 +787,13 @@ export class ChangeRzNRComponent implements OnInit, AfterViewInit, OnDestroy {
     $('#chooseEmpdialog').modal('hide');
     this.chooseEmp()
   }
-  
+
   private Be_setGetRoteInfo$: BehaviorSubject<any> = new BehaviorSubject<Array<number>>(null);
   Ob_setGetRoteInfo$: Observable<any> = this.Be_setGetRoteInfo$;
-  
-  bt_Show_RoteInfo(oneSearchRoteID:number) {
+
+  bt_Show_RoteInfo(oneSearchRoteID: number) {
     var searchRoteID: Array<number> = []
-    if(oneSearchRoteID){
+    if (oneSearchRoteID) {
       searchRoteID.push(oneSearchRoteID)
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf').modal('show')

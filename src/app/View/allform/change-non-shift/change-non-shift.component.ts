@@ -20,6 +20,7 @@ import { ShiftRoteCheckByWeekTypeGetApiClass } from 'src/app/Models/PostData_API
 import { CountReturnClass } from 'src/app/Models/CountReturnClass';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { NavigationEnd, Router } from '@angular/router';
+import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
 
 declare let $: any; //use jquery
 
@@ -254,17 +255,31 @@ export class ChangeNonShiftComponent implements OnInit, AfterViewInit, OnDestroy
     } else if (this.blurEndDate_Assistant()) {
 
     } else {
-      var calDateB: any = new Date(this.Assistant_DateB)
-      var calDateE: any = new Date(this.Assistant_DateE)
+      this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.Assistant_SearchMan.EmpCode)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+          if (GetBaseParameterData.length > 0) {
+            if (GetBaseParameterData[0].IsAllowLeave) {
+              var calDateB: any = new Date(this.Assistant_DateB)
+              var calDateE: any = new Date(this.Assistant_DateE)
 
-      var calDay = (calDateE - calDateB) / (24 * 60 * 60 * 1000)
-      if (calDay >= 10) {
-        alert('起訖日期區間不可大於10天')
-      } else {
-        this.SearchMan = this.Assistant_SearchMan
-        this.Sub_onChangeSignMan$.next(this.SearchMan.EmpCode)
-        this.nextPageToWrite(this.Assistant_DateB, this.Assistant_DateE)
-      }
+              var calDay = (calDateE - calDateB) / (24 * 60 * 60 * 1000)
+              if (calDay >= 10) {
+                alert('起訖日期區間不可大於10天')
+              } else {
+                this.SearchMan = this.Assistant_SearchMan
+                this.Sub_onChangeSignMan$.next(this.SearchMan.EmpCode)
+                this.nextPageToWrite(this.Assistant_DateB, this.Assistant_DateE)
+              }
+            } else {
+              alert(this.Assistant_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+              this.LoadingPage.hide()
+            }
+          } else {
+            alert(this.Assistant_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+            this.LoadingPage.hide()
+          }
+        })
     }
   }
 
@@ -335,17 +350,45 @@ export class ChangeNonShiftComponent implements OnInit, AfterViewInit, OnDestroy
     } else if (!this.My_errorEndtDateState) {
     } else {
 
-      var calDateB: any = new Date(this.dateB)
-      var calDateE: any = new Date(this.dateE)
+      var today: any = new Date()
+      var calSearchDate: any = new Date(this.dateB)
+      today.setHours(0, 0, 0)
+      today.setMinutes(0, 0, 0)
+      today.setSeconds(0, 0)
 
-      var calDay = (calDateE - calDateB) / (24 * 60 * 60 * 1000)
-      if (calDay >= 10) {
-        alert('起訖日期區間不可大於10天')
+      calSearchDate.setHours(0, 0, 0)
+      calSearchDate.setMinutes(0, 0, 0)
+      calSearchDate.setSeconds(0, 0)
+      if (today > calSearchDate) {
+        alert('調班日不能申請今天以前')
       } else {
-        this.SearchMan = this.My_SearchMan
-        this.Sub_onChangeSignMan$.next(this.SearchMan.EmpCode)
-        this.nextPageToWrite(this.dateB, this.dateE)
+        this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.My_SearchMan.EmpCode)
+          .pipe(takeWhile(() => this.api_subscribe))
+          .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+            if (GetBaseParameterData.length > 0) {
+              if (GetBaseParameterData[0].IsAllowLeave) {
+                var calDateB: any = new Date(this.dateB)
+                var calDateE: any = new Date(this.dateE)
+
+                var calDay = (calDateE - calDateB) / (24 * 60 * 60 * 1000)
+                if (calDay >= 10) {
+                  alert('起訖日期區間不可大於10天')
+                } else {
+                  this.SearchMan = this.My_SearchMan
+                  this.Sub_onChangeSignMan$.next(this.SearchMan.EmpCode)
+                  this.nextPageToWrite(this.dateB, this.dateE)
+                }
+              } else {
+                alert(this.My_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+                this.LoadingPage.hide()
+              }
+            } else {
+              alert(this.My_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+              this.LoadingPage.hide()
+            }
+          })
       }
+
     }
   }
 
@@ -423,7 +466,7 @@ export class ChangeNonShiftComponent implements OnInit, AfterViewInit, OnDestroy
                       RoteCode: rote.RoteCode,
                       RoteName: rote.RoteNameC,
                       // outPutSelectText: rote.OnTime + rote.RoteCode + rote.RoteNameC 下拉選單換字!!
-                      outPutSelectText: rote.RoteNameC+' '+'('+rote.OnTime+'-'+rote.OffTime+')'
+                      outPutSelectText: rote.RoteNameC + ' ' + '(' + rote.OnTime + '-' + rote.OffTime + ')'
                     })
                   }
                 }
@@ -614,44 +657,44 @@ export class ChangeNonShiftComponent implements OnInit, AfterViewInit, OnDestroy
                             //     ), toArray()
                             //   ).subscribe(
                             //     (CountDataArray: CountReturnClass[]) => {
-                                  // var canNext: boolean = true
-                                  // for (let CountData of CountDataArray) {
-                                  //   if (CountData.count > 0) {
-                                  //     alert(CountData.ShiftDate + ' ' + '已有調班資料，不能再進行調班')
-                                  //     canNext = false
-                                  //   }
-                                  // }
-                                  // if (canNext) {
-                                    var ShiftRoteCheckByWeekTypeGetApi: ShiftRoteCheckByWeekTypeGetApiClass = {
-                                      "ShiftRoteBySave": ShiftRoteCheckClass,
-                                      "weekType": 8
-                                    }
-                                    this.GetApiDataServiceService.getWebApiData_ShiftRoteCheckByWeekType(ShiftRoteCheckByWeekTypeGetApi)
-                                      .pipe(takeWhile(() => this.api_subscribe))
-                                      .subscribe(
-                                        (x: any) => {
-                                          if (x.length == 0) {
-                                            this.writeState = 3
-                                            this.SetUiActive()
+                            // var canNext: boolean = true
+                            // for (let CountData of CountDataArray) {
+                            //   if (CountData.count > 0) {
+                            //     alert(CountData.ShiftDate + ' ' + '已有調班資料，不能再進行調班')
+                            //     canNext = false
+                            //   }
+                            // }
+                            // if (canNext) {
+                            var ShiftRoteCheckByWeekTypeGetApi: ShiftRoteCheckByWeekTypeGetApiClass = {
+                              "ShiftRoteBySave": ShiftRoteCheckClass,
+                              "weekType": 8
+                            }
+                            this.GetApiDataServiceService.getWebApiData_ShiftRoteCheckByWeekType(ShiftRoteCheckByWeekTypeGetApi)
+                              .pipe(takeWhile(() => this.api_subscribe))
+                              .subscribe(
+                                (x: any) => {
+                                  if (x.length == 0) {
+                                    this.writeState = 3
+                                    this.SetUiActive()
 
-                                            this.LoadingPage.hide()
-                                          } else {
-                                            alert(x)
+                                    this.LoadingPage.hide()
+                                  } else {
+                                    alert(x)
 
-                                            this.LoadingPage.hide()
-                                          }
+                                    this.LoadingPage.hide()
+                                  }
 
-                                        }, error => {
-                                          this.LoadingPage.hide()
-                                        }
-                                      )
-                                  // } else {
-                                  //   this.LoadingPage.hide()
-                                  // }
-                                // }, error => {
-                                //   this.LoadingPage.hide()
-                                // }
-                              // )
+                                }, error => {
+                                  this.LoadingPage.hide()
+                                }
+                              )
+                            // } else {
+                            //   this.LoadingPage.hide()
+                            // }
+                            // }, error => {
+                            //   this.LoadingPage.hide()
+                            // }
+                            // )
                           }
                         }, error => {
                           // alert('與api連線異常，getWebApiData_ShiftRoteCheck')
@@ -723,7 +766,7 @@ export class ChangeNonShiftComponent implements OnInit, AfterViewInit, OnDestroy
       "FlowApp": {
         "ShiftRoteType": "DR",
         "ShiftRoteName": "請求調班",
-        "DifferShift":false,
+        "DifferShift": false,
         "FlowApps": [
           {
             "EmpID1": this.SearchMan.EmpCode,
@@ -824,7 +867,7 @@ export class ChangeNonShiftComponent implements OnInit, AfterViewInit, OnDestroy
               this.errorEmp = { state: false, errorString: '' }
               $("#Assistant_ChooseEmpCode").removeClass("errorInput");
             }
-          }else{
+          } else {
             this.errorEmp = { state: true, errorString: '無該部門的行政權限' }
             this.Assistant_SearchMan.EmpName = ''
             $("#Assistant_ChooseEmpCode").addClass("errorInput");
@@ -852,7 +895,7 @@ export class ChangeNonShiftComponent implements OnInit, AfterViewInit, OnDestroy
   private Be_setGetAttendInfo$: BehaviorSubject<any> = new BehaviorSubject<GetAttendInfoClass>(null);
   Ob_setGetAttendInfo$: Observable<any> = this.Be_setGetAttendInfo$;
   bt_Show_DayRote(change: changeClass) {
-    
+
     var GetAttendInfo: GetAttendInfoClass = {
       "DateB": doFormatDate(change.Date),
       "DateE": doFormatDate(change.Date),
@@ -867,7 +910,7 @@ export class ChangeNonShiftComponent implements OnInit, AfterViewInit, OnDestroy
     this.Be_setGetAttendInfo$.next(JSON.parse(JSON.stringify(GetAttendInfo)))
     $('#DayRote').modal('show')
   }
-  
+
 
 }
 class changeClass {

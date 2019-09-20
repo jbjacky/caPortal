@@ -15,6 +15,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByFormClass';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { Router, NavigationEnd } from '@angular/router';
+import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
 
 declare let $: any; //use jquery
 
@@ -303,8 +304,22 @@ export class ChangeRzComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.errorEmp.state) {
 
     } else {
-      this.Sub_onChangeSignMan$.next(this.oneP.EmpCode)
-      this.nextPage(this.Assistant_DateB, this.Assistant_selectChangeRZ, this.Assistant_selectRZLoading, this.Assistant_SearchMan.EmpCode)
+      this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.Assistant_SearchMan.EmpCode)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+          if (GetBaseParameterData.length > 0) {
+            if (GetBaseParameterData[0].IsAllowLeave) {
+              this.Sub_onChangeSignMan$.next(this.oneP.EmpCode)
+              this.nextPage(this.Assistant_DateB, this.Assistant_selectChangeRZ, this.Assistant_selectRZLoading, this.Assistant_SearchMan.EmpCode)
+            } else {
+              alert(this.Assistant_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+              this.LoadingPage.hide()
+            }
+          } else {
+            alert(this.Assistant_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+            this.LoadingPage.hide()
+          }
+        })
     }
   }
   My_nextPage() {
@@ -330,8 +345,22 @@ export class ChangeRzComponent implements OnInit, AfterViewInit, OnDestroy {
         alert('互換例休日不能申請今天之前')
       }
       else {
-        this.Sub_onChangeSignMan$.next(this.oneP.EmpCode)
-        this.nextPage(this.DateB, this.selectChangeRZ, this.selectRZLoading, this.My_SearchMan.EmpCode)
+        this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.My_SearchMan.EmpCode)
+          .pipe(takeWhile(() => this.api_subscribe))
+          .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+            if (GetBaseParameterData.length > 0) {
+              if (GetBaseParameterData[0].IsAllowLeave) {
+                this.Sub_onChangeSignMan$.next(this.oneP.EmpCode)
+                this.nextPage(this.DateB, this.selectChangeRZ, this.selectRZLoading, this.My_SearchMan.EmpCode)
+              } else {
+                alert(this.My_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+                this.LoadingPage.hide()
+              }
+            } else {
+              alert(this.My_SearchMan.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+              this.LoadingPage.hide()
+            }
+          })
       }
     }
   }
@@ -348,165 +377,165 @@ export class ChangeRzComponent implements OnInit, AfterViewInit, OnDestroy {
 
   CheckAndNext(_DateB, _selectChangeRZ, _selectRZLoading) {
 
-      this.LoadingPage.show()
-      var FlowShiftRoteCheck: FlowShiftRoteCheckClass = {
-        "EmpID1": this.oneP.EmpCode,
-        "EmpID2": this.oneP.EmpCode,
-        "ListShiftDate": []
-      }
-      FlowShiftRoteCheck.ListShiftDate.push(doFormatDate(_DateB))
-      FlowShiftRoteCheck.ListShiftDate.push(_selectChangeRZ.AttendDate)
-      this.GetApiDataServiceService.getWebApiData_FlowShiftRoteCheck(FlowShiftRoteCheck)
-        .pipe(takeWhile(() => this.api_subscribe))
-        .subscribe(
-          (q: any) => {
-            if (q == '1') {
-              var first = this.GetApiDataServiceService.getWebApiData_GetShiftRoteDateRange(_selectChangeRZ.AttendDate, this.oneP.EmpCode)
-                .pipe(
-                  mergeMap(
-                    (x: any) => {
-                      if (x.MessageCode) {
-                        //判斷資料進行中是否有異常錯誤
-                        alert(this.oneP.EmpCode + x.MessageContent)
-                        first.unsubscribe()
-                      } else {
-
-                        var Attend: GetAttendClass = {
-                          DateB: x.DateA,
-                          DateE: x.DateD,
-                          ListEmpID: [this.oneP.EmpCode],
-                          ListRoteID: null
-                        }
-                        return this.GetApiDataServiceService.getWebApiData_GetAttend(Attend)
-                      }
-                    }
-                  )
-                )
-                .pipe(takeWhile(() => this.api_subscribe))
-                .subscribe(
+    this.LoadingPage.show()
+    var FlowShiftRoteCheck: FlowShiftRoteCheckClass = {
+      "EmpID1": this.oneP.EmpCode,
+      "EmpID2": this.oneP.EmpCode,
+      "ListShiftDate": []
+    }
+    FlowShiftRoteCheck.ListShiftDate.push(doFormatDate(_DateB))
+    FlowShiftRoteCheck.ListShiftDate.push(_selectChangeRZ.AttendDate)
+    this.GetApiDataServiceService.getWebApiData_FlowShiftRoteCheck(FlowShiftRoteCheck)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (q: any) => {
+          if (q == '1') {
+            var first = this.GetApiDataServiceService.getWebApiData_GetShiftRoteDateRange(_selectChangeRZ.AttendDate, this.oneP.EmpCode)
+              .pipe(
+                mergeMap(
                   (x: any) => {
-                    // console.log(x)
-                    this.selectDay = null
-                    this.selectChangeDay = null
-                    this.oneP = {
-                      EmpCode: this.oneP.EmpCode,
-                      EmpName: this.oneP.EmpName,
-                      work: []
-                    }
-                    for (let data of x) {
-                      var setAttendDate = doFormatDate_getMonthAndDay(formatDateTime(data.AttendDate).getDate)
-                      var isSelect: boolean = false
-                      var dataAttenDate = doFormatDate(data.AttendDate)
-                      var calDate = new Date(formatDateTime(data.AttendDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(data.AttendDate).getTime))
-                      var calDate_dayofweek = calDate.getDay()
-                      if (calDate_dayofweek == 0) {
-                        calDate_dayofweek = 7
+                    if (x.MessageCode) {
+                      //判斷資料進行中是否有異常錯誤
+                      alert(this.oneP.EmpCode + x.MessageContent)
+                      first.unsubscribe()
+                    } else {
+
+                      var Attend: GetAttendClass = {
+                        DateB: x.DateA,
+                        DateE: x.DateD,
+                        ListEmpID: [this.oneP.EmpCode],
+                        ListRoteID: null
                       }
-
-
-                      var selectDateB = doFormatDate(_DateB)
-                      if (dataAttenDate == _selectChangeRZ.AttendDate || dataAttenDate == selectDateB) {
-                        isSelect = true
-                        var showDayofWeek = ''
-                        if (calDate_dayofweek == 7) {
-                          showDayofWeek = '日'
-                        } else {
-                          showDayofWeek = chinesenum(calDate_dayofweek)
-                        }
-
-                        if (!this.selectDay) {
-
-                          this.selectDay = {
-                            date: setAttendDate,
-                            job: data.ActualRote.RoteCode,
-                            RoteName: data.ActualRote.RoteNameC,
-                            RoteID: data.ActualRote.RoteID,
-                            realdate: formatDateTime(data.AttendDate).getDate,
-                            isSelect: isSelect,
-                            dayofweek: showDayofWeek
-                          }
-                        } else {
-                          this.selectChangeDay = {
-                            date: setAttendDate,
-                            job: data.ActualRote.RoteCode,
-                            RoteName: data.ActualRote.RoteNameC,
-                            RoteID: data.ActualRote.RoteID,
-                            realdate: formatDateTime(data.AttendDate).getDate,
-                            isSelect: isSelect,
-                            dayofweek: showDayofWeek
-                          }
-                        }
-
-                      }
-                      this.oneP.work.push(
-                        {
-                          date: setAttendDate,
-                          job: data.ActualRote.RoteCode,
-                          realdate: formatDateTime(data.AttendDate).getDate,
-                          RoteName: data.ActualRote.RoteNameC,
-                          RoteID: data.ActualRote.RoteID,
-                          isSelect: isSelect,
-                          dayofweek: chinesenum(calDate_dayofweek)
-                        })
+                      return this.GetApiDataServiceService.getWebApiData_GetAttend(Attend)
                     }
-
-
-                    var setDate = []
-                    for (let data of x) {
-                      setDate.push(formatDateTime(data.AttendDate).getDate)
-                    }
-
-
-                    var changeDate = []
-                    changeDate.push(
-                      {
-                        "ShiftDate": this.selectDay.realdate,
-                        "RoteID1": this.selectDay.RoteID,
-                        "RoteID2": this.selectChangeDay.RoteID
-                      },
-                      {
-                        "ShiftDate": this.selectChangeDay.realdate,
-                        "RoteID1": this.selectChangeDay.RoteID,
-                        "RoteID2": this.selectDay.RoteID
-                      }
-                    )
-                    var check = {
-                      "EmpID1": this.oneP.EmpCode,
-                      "EmpID2": this.oneP.EmpCode,
-                      "ShiftRoteDate": changeDate,
-                      "IsDifferShift": true //true:等工時，false:不等工時
-                    }
-                    this.GetApiDataServiceService.getWebApiData_ShiftRoteCheck(check)
-                      .subscribe(
-                        (y: any) => {
-                          if (y.length > 0) {
-                            alert(y)
-                          } else {
-                            //調班檢查(單人)成功
-                            this.writeState += 1;
-                            this.SetUiActive()
-                          }
-                          this.LoadingPage.hide()
-                        }
-                      )
-
-
-
-                  },
-                  (error: any) => {
-                    // alert('與api連線異常，第一個人員，getWebApiData_GetShiftRoteDateRange')
-
-                    this.LoadingPage.hide()
                   }
                 )
-            } else {
-              alert(q)
-              this.LoadingPage.hide()
-            }
-          }, error => {
+              )
+              .pipe(takeWhile(() => this.api_subscribe))
+              .subscribe(
+                (x: any) => {
+                  // console.log(x)
+                  this.selectDay = null
+                  this.selectChangeDay = null
+                  this.oneP = {
+                    EmpCode: this.oneP.EmpCode,
+                    EmpName: this.oneP.EmpName,
+                    work: []
+                  }
+                  for (let data of x) {
+                    var setAttendDate = doFormatDate_getMonthAndDay(formatDateTime(data.AttendDate).getDate)
+                    var isSelect: boolean = false
+                    var dataAttenDate = doFormatDate(data.AttendDate)
+                    var calDate = new Date(formatDateTime(data.AttendDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(data.AttendDate).getTime))
+                    var calDate_dayofweek = calDate.getDay()
+                    if (calDate_dayofweek == 0) {
+                      calDate_dayofweek = 7
+                    }
+
+
+                    var selectDateB = doFormatDate(_DateB)
+                    if (dataAttenDate == _selectChangeRZ.AttendDate || dataAttenDate == selectDateB) {
+                      isSelect = true
+                      var showDayofWeek = ''
+                      if (calDate_dayofweek == 7) {
+                        showDayofWeek = '日'
+                      } else {
+                        showDayofWeek = chinesenum(calDate_dayofweek)
+                      }
+
+                      if (!this.selectDay) {
+
+                        this.selectDay = {
+                          date: setAttendDate,
+                          job: data.ActualRote.RoteCode,
+                          RoteName: data.ActualRote.RoteNameC,
+                          RoteID: data.ActualRote.RoteID,
+                          realdate: formatDateTime(data.AttendDate).getDate,
+                          isSelect: isSelect,
+                          dayofweek: showDayofWeek
+                        }
+                      } else {
+                        this.selectChangeDay = {
+                          date: setAttendDate,
+                          job: data.ActualRote.RoteCode,
+                          RoteName: data.ActualRote.RoteNameC,
+                          RoteID: data.ActualRote.RoteID,
+                          realdate: formatDateTime(data.AttendDate).getDate,
+                          isSelect: isSelect,
+                          dayofweek: showDayofWeek
+                        }
+                      }
+
+                    }
+                    this.oneP.work.push(
+                      {
+                        date: setAttendDate,
+                        job: data.ActualRote.RoteCode,
+                        realdate: formatDateTime(data.AttendDate).getDate,
+                        RoteName: data.ActualRote.RoteNameC,
+                        RoteID: data.ActualRote.RoteID,
+                        isSelect: isSelect,
+                        dayofweek: chinesenum(calDate_dayofweek)
+                      })
+                  }
+
+
+                  var setDate = []
+                  for (let data of x) {
+                    setDate.push(formatDateTime(data.AttendDate).getDate)
+                  }
+
+
+                  var changeDate = []
+                  changeDate.push(
+                    {
+                      "ShiftDate": this.selectDay.realdate,
+                      "RoteID1": this.selectDay.RoteID,
+                      "RoteID2": this.selectChangeDay.RoteID
+                    },
+                    {
+                      "ShiftDate": this.selectChangeDay.realdate,
+                      "RoteID1": this.selectChangeDay.RoteID,
+                      "RoteID2": this.selectDay.RoteID
+                    }
+                  )
+                  var check = {
+                    "EmpID1": this.oneP.EmpCode,
+                    "EmpID2": this.oneP.EmpCode,
+                    "ShiftRoteDate": changeDate,
+                    "IsDifferShift": true //true:等工時，false:不等工時
+                  }
+                  this.GetApiDataServiceService.getWebApiData_ShiftRoteCheck(check)
+                    .subscribe(
+                      (y: any) => {
+                        if (y.length > 0) {
+                          alert(y)
+                        } else {
+                          //調班檢查(單人)成功
+                          this.writeState += 1;
+                          this.SetUiActive()
+                        }
+                        this.LoadingPage.hide()
+                      }
+                    )
+
+
+
+                },
+                (error: any) => {
+                  // alert('與api連線異常，第一個人員，getWebApiData_GetShiftRoteDateRange')
+
+                  this.LoadingPage.hide()
+                }
+              )
+          } else {
+            alert(q)
             this.LoadingPage.hide()
           }
-        )
+        }, error => {
+          this.LoadingPage.hide()
+        }
+      )
   }
   setDivStyle(selectData: selectuiShow) {
     if (selectData.isSelect) {
@@ -686,13 +715,13 @@ export class ChangeRzComponent implements OnInit, AfterViewInit, OnDestroy {
     $('#chooseEmpdialog').modal('hide');
     this.chooseEmp()
   }
-  
+
   private Be_setGetRoteInfo$: BehaviorSubject<any> = new BehaviorSubject<Array<number>>(null);
   Ob_setGetRoteInfo$: Observable<any> = this.Be_setGetRoteInfo$;
-  
-  bt_Show_RoteInfo(oneSearchRoteID:number) {
+
+  bt_Show_RoteInfo(oneSearchRoteID: number) {
     var searchRoteID: Array<number> = []
-    if(oneSearchRoteID){
+    if (oneSearchRoteID) {
       searchRoteID.push(oneSearchRoteID)
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf').modal('show')

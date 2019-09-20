@@ -23,6 +23,7 @@ import { valTT_Class, TT_errorDataClass } from 'src/app/Models/valTT_Class';
 import { reallyData_P } from 'src/app/Models/reallyData_P';
 import { Router, NavigationEnd } from '@angular/router';
 import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
+import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
 declare let $: any; //use jquery
 
 @Component({
@@ -408,7 +409,7 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (this.My_errorChangeEmpState.state) {
 
     } else {
-      this.onSearch()
+      this.CheckSendFormLimit()
     }
   }
 
@@ -423,13 +424,47 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.Assistant_errorEmpState.state || this.Assistant_errorChangeEmpState.state) {
 
       } else {
-        this.onSearch()
+        this.CheckSendFormLimit()
       }
     }
 
 
   }
 
+  CheckSendFormLimit(){
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.Emp.EmpCode)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+        if (GetBaseParameterData.length > 0) {
+          if (GetBaseParameterData[0].IsAllowLeave) {
+  
+            this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.ChangeEmp.EmpCode)
+              .pipe(takeWhile(() => this.api_subscribe))
+              .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+                if (GetBaseParameterData.length > 0) {
+                  if (GetBaseParameterData[0].IsAllowLeave) {
+                    this.onSearch()
+                  } else {
+                    alert(this.ChangeEmp.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+                    this.LoadingPage.hide()
+                  }
+                } else {
+                  alert(this.ChangeEmp.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+                  this.LoadingPage.hide()
+                }
+              })
+          } else {
+            alert(this.Emp.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+            this.LoadingPage.hide()
+          }
+        } else {
+          alert(this.Emp.EmpCode.toString() + '此員工無申請表單權限，如需申請表單請洽單位行政設定')
+          this.LoadingPage.hide()
+        }
+      })
+  }
+  
   onSearch() {
 
     if (this.R_Route.length == 0 || this.Z_Route.length == 0 || this.uiDisableArray.length == 0) {

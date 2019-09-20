@@ -360,10 +360,18 @@
 
 
 
-<div class="a-block" *ngIf="showdataIsEmpty">
+<div class="a-block" *ngIf="showdataIsEmpty && !errorEmpSendForm.state">
   <div class="a-block-body  a-block-container">
     <div *ngIf="alldelformpeople.length==0 && showdataIsEmpty">
       沒有可填寫的銷假單
+    </div>
+  </div>
+</div>
+
+<div class="a-block" *ngIf="errorEmpSendForm.state">
+  <div class="a-block-body  a-block-container">
+    <div>
+      {{errorEmpSendForm.errorEmpID}}此員工無申請表單權限，如需申請表單請洽單位行政設定
     </div>
   </div>
 </div>
