@@ -32,13 +32,13 @@ table.deptTable td {
   text-align: right
 }
 .P_fullwidth{
-     width:300px
+     width:100%
 }
 
 @media (min-width: 768px){
 
   #insertDeptmanDialog .modal-sm {
-      width: 500px;
+      width: 768px;
   }
       
 }

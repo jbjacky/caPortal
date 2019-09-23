@@ -9,6 +9,7 @@ import { GetBaseByAuthByEmpIDDataClass } from 'src/app/Models/GetBaseByAuthByEmp
 import { doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
 import { GetBaseByListDeptaIDGetApiClass } from 'src/app/Models/PostData_API_Class/GetBaseByListDeptaIDGetApiClass';
 import { GetBaseByListDeptIDGetApiClass } from 'src/app/Models/PostData_API_Class/GetBaseByListDeptIDGetApiClass';
+import { DeptDetailClass } from 'src/app/Models/DeptDetailClass';
 declare let $: any; //use jquery
 @Component({
   selector: 'app-choosedept-ma',
@@ -145,12 +146,13 @@ export class ChoosedeptMAComponent implements OnInit, OnDestroy {
                 // alert('工號不正確')
               }
               if (x[0]) {
-                var dept = {
+                var dept:DeptDetailClass = {
                   ParentID: x[0].Dept[0].ParentID,
                   ParentDeptNameC: '',
                   DeptID: x[0].Dept[0].DeptID,
                   DeptNameC: x[0].Dept[0].DeptNameC,
-                  BaseArray: x[0].Dept[0].Base
+                  BaseArray: x[0].Dept[0].Base,
+                  isSearchClick:null
                 }
 
                 if (this.val_GetBaseByAuthByEmpIDData.IsAdmin) {
@@ -166,8 +168,8 @@ export class ChoosedeptMAComponent implements OnInit, OnDestroy {
                       DeptID: null,
                       DeptNameC: null,
                       BaseArray: null,
+                      isSearchClick:false
                     }
-                    dept['isSearchClick'] =false
                     this.saveDepttoView.emit(dept);
                   } else {
                     this.baseSearch(this.base);
@@ -261,7 +263,7 @@ export class ChoosedeptMAComponent implements OnInit, OnDestroy {
         return x.DeptID == searchDept.DeptID
       })
       if (Index < 0) {
-        var dept = {
+        var dept:DeptDetailClass = {
           ParentID: null,
           ParentDeptNameC: null,
           DeptID: null,
@@ -292,7 +294,7 @@ export class ChoosedeptMAComponent implements OnInit, OnDestroy {
           if (this.searchDept.DeptID == this.allSelectBox[i].Dept[k].DeptID) {
             this.saveEmptoView.emit({ DeptName: this.allSelectBox[i].Dept[k].DeptNameC, BaseArray: this.searchBase });
 
-            var dept = {
+            var dept:DeptDetailClass = {
               ParentID: this.allSelectBox[i].Dept[k].ParentID,
               ParentDeptNameC: '',
               DeptID: this.allSelectBox[i].Dept[k].DeptID,
@@ -361,7 +363,8 @@ export class ChoosedeptMAComponent implements OnInit, OnDestroy {
     this.httpPostService.getWebApiData_GetBaseByListDeptID(GetBaseByListDeptIDGetApi)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe((x: any) => {
-        var aa = {DeptNameC:'',BaseArray:[],isSearchClick:false}
+        var aa = {DeptID:0,DeptNameC:'',BaseArray:[],isSearchClick:false}
+        aa.DeptID = event.DeptID
         aa.DeptNameC = event.DeptNameC
         aa.BaseArray = x
         aa.isSearchClick = true

@@ -61,13 +61,25 @@ export class PersonRoleSettingComponent implements OnInit, OnDestroy {
                 if (GetDeptData.length > 0) {
                   this.NgxBaseSelectBox = GetDeptData
                   for (let data of this.NgxBaseSelectBox) {
-                    data.uiShowDeptCodeAndName = data.DeptCode + ' ' + data.DeptNameC
+                    var ParentName = data.ParentName
+                    if (ParentName) {
+                      ParentName = ' '+ParentName + ' / '
+                    } else {
+                      ParentName = ' '
+                    }
+                    data.uiShowDeptCodeAndName = data.DeptCode + ParentName + data.DeptNameC
                   }
                   this.SearchDeptID = this.NgxBaseSelectBox[0].DeptID
 
                   this.NgxDeptSelectBox = GetDeptData
                   for (let data of this.NgxDeptSelectBox) {
-                    data.uiShowDeptCodeAndName = data.DeptCode + ' ' + data.DeptNameC
+                    var ParentName = data.ParentName
+                    if (ParentName) {
+                      ParentName = ' '+ParentName + ' / '
+                    } else {
+                      ParentName = ' '
+                    }
+                    data.uiShowDeptCodeAndName = data.DeptCode + ParentName + data.DeptNameC
                   }
 
                   this.LoadData()

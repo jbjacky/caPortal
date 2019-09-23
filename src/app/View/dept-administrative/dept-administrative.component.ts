@@ -48,32 +48,7 @@ export class DeptAdministrativeComponent implements OnInit, OnDestroy {
             EmpName: x.EmpNameC
           }
           this.LoadingPage.show()
-          this.GetApiDataServiceService.getWebApiData_GetDeptsByEmp(this.setMan.EmpCode)
-            .pipe(takeWhile(() => this.api_subscribe))
-            .subscribe(
-              (GetDeptData: GetDeptDataClass[]) => {
-                if (GetDeptData.length > 0) {
-                  this.NgxBaseSelectBox = GetDeptData
-                  for (let data of this.NgxBaseSelectBox) {
-                    data.uiShowDeptCodeAndName = data.DeptCode + ' ' + data.DeptNameC
-                  }
-                  this.SearchDeptID = this.NgxBaseSelectBox[0].DeptID
-
-                  this.NgxDeptSelectBox = GetDeptData
-                  for (let data of this.NgxDeptSelectBox) {
-                    data.uiShowDeptCodeAndName = data.DeptCode + ' ' + data.DeptNameC
-                  }
-
-                  this.LoadGetAssistantByDeptID()
-
-                }
-
-                this.LoadingPage.hide()
-              }, error => {
-
-                this.LoadingPage.hide()
-              }
-            )
+          this.FirstgetDept(this.setMan.EmpCode);
         }
       }
     )
@@ -81,6 +56,72 @@ export class DeptAdministrativeComponent implements OnInit, OnDestroy {
   }
   insertSetDeptByEmpGetApi: SetDeptByEmpGetApiClass = new SetDeptByEmpGetApiClass()
   insertShowEmpName: string = ''
+  private FirstgetDept(EmpCode: string) {
+    this.NgxBaseSelectBox = []
+    this.showDeptManRoleData = []
+    this.GetApiDataServiceService.getWebApiData_GetDeptsByEmp(EmpCode)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((GetDeptData: GetDeptDataClass[]) => {
+        if (GetDeptData.length > 0) {
+          this.NgxBaseSelectBox = GetDeptData;
+          for (let data of this.NgxBaseSelectBox) {
+            var ParentName = data.ParentName
+            if (ParentName) {
+              ParentName = ' '+ParentName + ' / '
+            } else {
+              ParentName = ' '
+            }
+            data.uiShowDeptCodeAndName = data.DeptCode + ParentName + data.DeptNameC;
+          }
+
+          this.SearchDeptID = this.NgxBaseSelectBox[0].DeptID;
+
+          this.NgxDeptSelectBox = GetDeptData;
+          for (let data of this.NgxDeptSelectBox) {
+            var ParentName = data.ParentName
+            if (ParentName) {
+              ParentName = ' '+ParentName + ' / '
+            } else {
+              ParentName = ' '
+            }
+            data.uiShowDeptCodeAndName = data.DeptCode + ParentName + data.DeptNameC;
+          }
+
+          this.LoadGetAssistantByDeptID();
+        }
+        this.LoadingPage.hide();
+      }, error => {
+        this.LoadingPage.hide();
+      });
+  }
+
+  private ChangeEmpIDgetDept(EmpCode: string) {
+    this.NgxBaseSelectBox = []
+    this.showDeptManRoleData = []
+    this.GetApiDataServiceService.getWebApiData_GetDeptsByEmp(EmpCode)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((GetDeptData: GetDeptDataClass[]) => {
+        if (GetDeptData.length > 0) {
+          this.NgxBaseSelectBox = GetDeptData;
+          for (let data of this.NgxBaseSelectBox) {
+            var ParentName = data.ParentName
+            if (ParentName) {
+              ParentName = ' '+ParentName + ' / '
+            } else {
+              ParentName = ' '
+            }
+            data.uiShowDeptCodeAndName = data.DeptCode + ParentName + data.DeptNameC;
+          }
+
+          this.SearchDeptID = this.NgxBaseSelectBox[0].DeptID;
+
+          this.LoadGetAssistantByDeptID();
+        }
+        this.LoadingPage.hide();
+      }, error => {
+        this.LoadingPage.hide();
+      });
+  }
   insertCheck() {
     this.insertSetDeptByEmpGetApi = new SetDeptByEmpGetApiClass()
     this.insertShowEmpName = ''
@@ -141,7 +182,7 @@ export class DeptAdministrativeComponent implements OnInit, OnDestroy {
       SetMan: this.setMan.EmpCode
     }
     this.GetApiDataServiceService.getWebApiData_DelDeptByEmp(DelDeptByEmpGetApi)
-    .pipe(takeWhile(() => this.api_subscribe))
+      .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: any) => {
           this.LoadingPage.hide()
@@ -292,8 +333,8 @@ export class DeptAdministrativeComponent implements OnInit, OnDestroy {
     }
   }
 
-  SearchEmp = {EmpID:'',EmpNameC:''}
-  
+  SearchEmp = { EmpID: '', EmpNameC: '' }
+
   onSaveSearchEmptoView(event) {
     // console.log(event)
     this.SearchEmp.EmpID = event.split('，')[0]
@@ -350,6 +391,7 @@ export class DeptAdministrativeComponent implements OnInit, OnDestroy {
               this.errorSearchEmpCodeState = { state: false, errorString: '' };
               $("#leaveSearchEmpCode").removeClass("errorInput");
               this.LoadingPage.hide();
+              this.ChangeEmpIDgetDept(this.SearchEmp.EmpID)
 
             }
           }, error => {
@@ -363,33 +405,33 @@ export class DeptAdministrativeComponent implements OnInit, OnDestroy {
       }
     }
   }
-  onSearchEmpIDClick(){
+  onSearchEmpIDClick() {
     this.LoadingPage.show()
-    if(this.errorSearchEmpCodeState.state){
+    if (this.errorSearchEmpCodeState.state) {
 
-    }else{
+    } else {
       this.GetApiDataServiceService.getWebApiData_GetRoleByAuth(this.SearchEmp.EmpID)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (x:any)=>{
-          var SearchEmpDeptIDData:GetAssistantByDeptIDDataClass={
-            EmpID:    this.SearchEmp.EmpID,
-            EmpCode:  this.SearchEmp.EmpID,
-            EmpNameC: this.SearchEmp.EmpNameC,
-            EmpNameE: this.SearchEmp.EmpNameC
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (x: any) => {
+            var SearchEmpDeptIDData: GetAssistantByDeptIDDataClass = {
+              EmpID: this.SearchEmp.EmpID,
+              EmpCode: this.SearchEmp.EmpID,
+              EmpNameC: this.SearchEmp.EmpNameC,
+              EmpNameE: this.SearchEmp.EmpNameC
+            }
+            var setShowData: showDeptManRoleDataClass = {
+              GetAssistantByDeptIDData: SearchEmpDeptIDData,
+              GetRoleByAuth: x
+            }
+            this.showDeptManRoleData = []
+            this.showDeptManRoleData.push(
+              setShowData
+            )
+
+            this.LoadingPage.hide();
           }
-          var setShowData: showDeptManRoleDataClass = {
-            GetAssistantByDeptIDData: SearchEmpDeptIDData,
-            GetRoleByAuth: x
-          }
-          this.showDeptManRoleData = []
-          this.showDeptManRoleData.push(
-            setShowData
-          ) 
-  
-          this.LoadingPage.hide();
-        }
-      )
+        )
     }
 
   }

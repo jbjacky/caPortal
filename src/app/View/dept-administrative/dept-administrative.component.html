@@ -3,11 +3,7 @@
     <div style="margin-bottom: 20px">
       <button type="button" (click)="insertCheck()">新增</button>
     </div>
-    <div class="P_fullwidth" style="margin-bottom: 20px">
-      <ngx-select [items]="NgxBaseSelectBox" optionValueField="DeptID" optionTextField="uiShowDeptCodeAndName"
-        [(ngModel)]="SearchDeptID" (select)=onSelectChange()></ngx-select>
-    </div>
-    <!-- <div style="margin-bottom: 10px">
+    <div style="margin-bottom: 10px">
       <div style="display: inline-block;margin-right: 10px">
         <label class="control-label">
           員工
@@ -31,11 +27,11 @@
 
         {{SearchEmp.EmpNameC}}
       </div>
-      <div style="display: inline-block;margin-right: 10px">
-
-        <button (click)="onSearchEmpIDClick()">查詢</button>
-      </div>
-    </div> -->
+    </div>
+    <div class="P_fullwidth" style="margin-bottom: 20px">
+      <ngx-select [items]="NgxBaseSelectBox" optionValueField="DeptID" optionTextField="uiShowDeptCodeAndName"
+        [(ngModel)]="SearchDeptID" (select)=onSelectChange()></ngx-select>
+    </div>
     <div>
       <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover table-content-center table-style01">

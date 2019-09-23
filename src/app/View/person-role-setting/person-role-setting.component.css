@@ -6,7 +6,7 @@
     background: rgba(27, 142, 241, .4) !important;
 }
 .P_fullwidth{
-     width:300px
+     width:100%
 }
 @media screen and (max-width:992px) {
     .P_fullwidth{

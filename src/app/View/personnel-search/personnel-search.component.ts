@@ -14,6 +14,9 @@ import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByF
 import { GetDeptaByEmpClass, GetDeptaByEmpTTClass } from 'src/app/Models/PostData_API_Class/GetDeptaByEmpClass';
 import { GetBaseByAuthByEmpIDgetDeptInfoGetApiClass } from 'src/app/Models/PostData_API_Class/GetBaseByAuthByEmpIDgetDeptInfoGetApiClass';
 import { GetBaseByAuthByEmpIDDataClass } from 'src/app/Models/GetBaseByAuthByEmpIDDataClass';
+import { GetDeptaByEmpDataClass, Base } from 'src/app/Models/GetDeptaByEmpDataClass';
+import { DeptDetailClass } from 'src/app/Models/DeptDetailClass';
+import { GetAttendInfoByDeptGetApiClass } from 'src/app/Models/PostData_API_Class/GetAttendInfoByDeptGetApiClass';
 
 @Component({
   selector: 'app-personnel-search',
@@ -35,11 +38,16 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
   SearhMan = { EmpCode: '', Name: '' }; //查詢人
   errorLeavemanState = { state: false, errorString: '' }
 
+  selectDisplay: string = "1"
+
+  chooseDeptaID = 0;
   chooseDeptName = '';
   chooseDeptBase = [];
-  LateMins = true; //遲到
-  EarlyMins = true; //早退
-  IsAbsent = true; //未刷卡
+  downDept: boolean = false //即期向下
+
+  LateMins: boolean = true; //遲到
+  EarlyMins: boolean = true; //早退
+  IsAbsent: boolean = true; //未刷卡
   radiogroup: any = [
     { id: 1, name: '查詢單一員工' },
     { id: 2, name: '查詢單位' }
@@ -57,6 +65,8 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
   dateB = new Date()
   dateE = new Date()
 
+  searchPageCurrent: number = 1 //查詢第幾頁
+  searchPageRows: number = 100 //一頁有幾筆
   ngOnInit() {
     this.GetApiUserService.counter$.subscribe(
       (x: any) => {
@@ -157,11 +167,14 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
   }
 
   onSearchChange(event) {
-    if (event.target.value == '全部') {
+    if (event.target.value == '1') {
+      // 全部
       this.showSearchCheckbok = false;
-    } else if (event.target.value == '正常出勤') {
+    } else if (event.target.value == '2') {
+      // 正常出勤
       this.showSearchCheckbok = false;
-    } else if (event.target.value == '異常出勤') {
+    } else if (event.target.value == '3') {
+      // 異常出勤
       this.showSearchCheckbok = true;
     }
   }
@@ -268,16 +281,19 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
       var ipt_ListEmpID = [this.EmpBase.EmpCode]
       var ipt_DateB = $("#id_ipt_startday").val()
       var ipt_DateE = $("#id_ipt_endday").val()
-      var selectDisplay
+      var setDisplay
       var checkListState = []
-      if ($("#selectDisplay").val() == '全部') {
-        selectDisplay = '1'
+      if (this.selectDisplay == '1') {
+        //全部
+        setDisplay = '1'
         checkListState = []
-      } else if ($("#selectDisplay").val() == '正常出勤') {
-        selectDisplay = '2'
+      } else if (this.selectDisplay == '2') {
+        // 正常出勤
+        setDisplay = '2'
         checkListState = []
-      } else if ($("#selectDisplay").val() == '異常出勤') {
-        selectDisplay = '3'
+      } else if (this.selectDisplay == '3') {
+        // 異常出勤
+        setDisplay = '3'
         if (this.LateMins) {//遲到
           checkListState.push('2')
         }
@@ -297,7 +313,14 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
       // //只顯示正常
       // this.GetAttendInfoClass = { DateB: "2018/8/1", DateE: "2018/8/10", ListEmpID: ["051005"], EffectDate: "", Display: "3", ListState: ["1", "2", "3"] }
       // //只顯示異常
-      this.GetAttendInfoClass = { DateB: ipt_DateB, DateE: ipt_DateE, ListEmpID: ipt_ListEmpID, EffectDate: "", Display: selectDisplay, ListState: checkListState }
+      this.GetAttendInfoClass = {
+        DateB: ipt_DateB,
+        DateE: ipt_DateE,
+        ListEmpID: ipt_ListEmpID,
+        EffectDate: "",
+        Display: setDisplay,
+        ListState: checkListState
+      }
       if (this.EmpBase.EmpCode.length > 0) {
 
         this.LoadingPage.show()
@@ -340,24 +363,26 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
 
 
   onSearchDeptClick() {
-
     if (this.blurStartDate() || this.blurEndDate()) {
 
     } else {
+
       this.Be_AttendanceApiData$.next([])
-      var ipt_ListEmpID = [this.EmpBase.EmpCode]
       var ipt_DateB = $("#id_ipt_startday").val()
       var ipt_DateE = $("#id_ipt_endday").val()
-      var selectDisplay
+      var setDisplay
       var checkListState = []
-      if ($("#selectDisplay").val() == '全部') {
-        selectDisplay = '1'
+      if (this.selectDisplay == '1') {
+        // 全部
+        setDisplay = '1'
         checkListState = []
-      } else if ($("#selectDisplay").val() == '正常出勤') {
-        selectDisplay = '2'
+      } else if (this.selectDisplay == '2') {
+        // 正常出勤
+        setDisplay = '2'
         checkListState = []
-      } else if ($("#selectDisplay").val() == '異常出勤') {
-        selectDisplay = '3'
+      } else if (this.selectDisplay == '3') {
+        // 異常出勤
+        setDisplay = '3'
         if (this.LateMins) {//遲到
           checkListState.push('2')
         }
@@ -372,17 +397,31 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
       var _NowDate = new Date();
       var _NowToday = doFormatDate(_NowDate);
 
-      this.GetAttendInfoClass = {
-        DateB: ipt_DateB,
-        DateE: ipt_DateE,
-        ListEmpID: this.chooseDeptBase,
-        EffectDate: _NowToday,
-        Display: selectDisplay,
-        ListState: checkListState
+      // this.GetAttendInfoClass = {
+      //   DateB: ipt_DateB,
+      //   DateE: ipt_DateE,
+      //   ListEmpID: this.chooseDeptBase,
+      //   EffectDate: _NowToday,
+      //   Display: setDisplay,
+      //   ListState: checkListState
+      // }
+
+      this.searchPageCurrent = 1
+      var GetAttendInfoByDeptGetApi: GetAttendInfoByDeptGetApiClass =
+      {
+        "DateB": ipt_DateB,
+        "DateE": ipt_DateE,
+        "DeptaID": this.chooseDeptaID,
+        "ChildDept": this.downDept,
+        "PageCurrent": this.searchPageCurrent,
+        "PageRows": this.searchPageRows,
+        "EffectDate": _NowToday,
+        "Display": setDisplay,
+        "ListState": checkListState
       }
 
       this.LoadingPage.show()
-      this.GetApiDataServiceService.getWebApiData_GetAttendInfo_Integration(this.GetAttendInfoClass)
+      this.GetApiDataServiceService.getWebApiData_GetAttendInfoByDept_Integration(GetAttendInfoByDeptGetApi)
         .pipe(takeWhile(() => this.api_subscribe))
         .subscribe(
           (x: any) => {
@@ -404,6 +443,8 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
               }
             }
             this.Be_AttendanceApiData$.next(this.AttendanceApiData)
+
+            this.searchPageCurrent = 2
 
             this.LoadingPage.hide()
           },
@@ -438,7 +479,7 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
       EmpCodeOrNameKey: '',
       EffectDate: _NowToday,
       IsTop: false,
-      IsShift:false
+      IsShift: false
     }
 
     var GetBaseByAuthByEmpIDgetDeptInfoGetApi: GetBaseByAuthByEmpIDgetDeptInfoGetApiClass =
@@ -451,32 +492,34 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
       .subscribe(
         (GetBaseByAuthByEmpIDData: GetBaseByAuthByEmpIDDataClass) => {
           this.GetApiDataServiceService.getWebApiData_GetDeptaByEmp(GetDeptaByEmpClass)
-            .subscribe((x: any) => {
+            .subscribe((x: GetDeptaByEmpDataClass[]) => {
               if (x.length > 0) {
                 if (x[0]) {
                   if (GetBaseByAuthByEmpIDData.IsAdmin) {
-                    var dept = {
+                    var dept: DeptDetailClass = {
                       ParentID: x[0].Dept[0].ParentID,
                       ParentDeptNameC: '',
                       DeptID: x[0].Dept[0].DeptID,
                       DeptNameC: x[0].Dept[0].DeptNameC,
-                      BaseArray: x[0].Dept[0].Base
+                      BaseArray: x[0].Dept[0].Base,
+                      isSearchClick: null
                     }
                     this.onSaveDeptatoView(dept)
                   } else {
                     if (GetBaseByAuthByEmpIDData.Dept) {
                       var Index = GetBaseByAuthByEmpIDData.Dept.findIndex((y) => {
-                        return y.DeptID == parseInt(x[0].Dept[0].DeptID)
+                        return y.DeptID == x[0].Dept[0].DeptID
                       })
                       if (Index < 0) {
                         return ''
                       } else {
-                        var dept = {
+                        var dept: DeptDetailClass = {
                           ParentID: x[0].Dept[0].ParentID,
                           ParentDeptNameC: '',
                           DeptID: x[0].Dept[0].DeptID,
                           DeptNameC: x[0].Dept[0].DeptNameC,
-                          BaseArray: x[0].Dept[0].Base
+                          BaseArray: x[0].Dept[0].Base,
+                          isSearchClick: null
                         }
                         this.onSaveDeptatoView(dept)
                       }
@@ -490,45 +533,36 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
             })
         })
   }
-  onSaveDepttoView(event) {
-    // console.log(event)
-    var DeptName = event.DeptNameC;
-    var BaseArray = [];
-    if (event.BaseArray) {
-      for (let base of event.BaseArray) {
-        BaseArray.push(base.EmpCode)
-      }
-    }
 
-    this.chooseDeptName = DeptName;
-    this.chooseDeptBase = BaseArray;
-  }
-
-  onSaveDeptatoView(event) {
+  onSaveDeptatoView(event: DeptDetailClass) {
     //簽核部門
     // console.log(event)
+    var DeptaID = event.DeptID
     var DeptName = event.DeptNameC;
-    var BaseArray: EmpArray[] = [];
+    var BaseArray: string[] = [];
     if (event.BaseArray) {
       for (let base of event.BaseArray) {
         BaseArray.push(base.EmpCode)
       }
     }
 
+    this.chooseDeptaID = DeptaID;
     this.chooseDeptName = DeptName;
     this.chooseDeptBase = BaseArray;
 
   }
-  onSaveDepttoView_KeyDept(event) {
+  onSaveDepttoView_KeyDept(event: DeptDetailClass) {
     // 編制部門
+    var DeptaID = event.DeptID
     var DeptName = event.DeptNameC;
-    var BaseArray: EmpArray[] = [];
+    var BaseArray: string[] = [];
     if (event.BaseArray) {
       for (let base of event.BaseArray) {
         BaseArray.push(base.EmpCode)
       }
     }
 
+    this.chooseDeptaID = DeptaID;
     this.chooseDeptName = DeptName;
     this.chooseDeptBase = BaseArray;
 
@@ -547,13 +581,101 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
     $('#chooseDeptdialog').modal('show')
   }
 
+  canLoadState: boolean = true
+  LoadNextDeptAttendData() {
+    if (this.blurStartDate() || this.blurEndDate()) {
 
+    } else {
+      if (this.canLoadState) {
+        this.canLoadState = false
+        var ipt_DateB = $("#id_ipt_startday").val()
+        var ipt_DateE = $("#id_ipt_endday").val()
+        var setDisplay
+        var checkListState = []
+        if (this.selectDisplay == '1') {
+          // 全部
+          setDisplay = '1'
+          checkListState = []
+        } else if (this.selectDisplay == '2') {
+          // 正常出勤
+          setDisplay = '2'
+          checkListState = []
+        } else if (this.selectDisplay == '3') {
+          // 異常出勤
+          setDisplay = '3'
+          if (this.LateMins) {//遲到
+            checkListState.push('2')
+          }
+          if (this.EarlyMins) {//早退
+            checkListState.push('1')
+          }
+          if (this.IsAbsent) {//未刷卡
+            checkListState.push('3')
+          }
+        }
+
+        var _NowDate = new Date();
+        var _NowToday = doFormatDate(_NowDate);
+
+
+        var GetAttendInfoByDeptGetApi: GetAttendInfoByDeptGetApiClass =
+        {
+          "DateB": ipt_DateB,
+          "DateE": ipt_DateE,
+          "DeptaID": this.chooseDeptaID,
+          "ChildDept": this.downDept,
+          "PageCurrent": this.searchPageCurrent,
+          "PageRows": this.searchPageRows,
+          "EffectDate": _NowToday,
+          "Display": setDisplay,
+          "ListState": checkListState
+        }
+
+        this.LoadingPage.show()
+        this.GetApiDataServiceService.getWebApiData_GetAttendInfoByDept_Integration(GetAttendInfoByDeptGetApi)
+          .pipe(takeWhile(() => this.api_subscribe))
+          .subscribe(
+            (x: any) => {
+              if (x) {
+                if (x.length > 0) {
+
+                  for (let i = 0; i < x.length; i++) {
+                    if (x[i].AttendAbsInfo) {
+                      x[i].AttendAbsInfo = true
+                    } else {
+                      x[i].AttendAbsInfo = false
+                    }
+                    this.AttendanceApiData.push(x[i]);
+                  }
+                  
+                  for (let i = 0; i < this.AttendanceApiData.length; i++) {
+                    var date = new Date(this.AttendanceApiData[i].AttendDate.toString())
+                    this.AttendanceApiData[i].AttendDate = doFormatDate(this.AttendanceApiData[i].AttendDate)
+                    if (date.getDay() == 0) {
+                      this.AttendanceApiData[i].DayOfweek = '日'
+                    } else {
+                      this.AttendanceApiData[i].DayOfweek = chinesenum(date.getDay())
+                    }
+                  }
+                  this.Be_AttendanceApiData$.next(this.AttendanceApiData)
+                  this.searchPageCurrent = this.searchPageCurrent + 1
+
+                } else {
+                  alert('無更多資料')
+                }
+              } else {
+                alert('無更多資料')
+              }
+              this.canLoadState = true
+              this.LoadingPage.hide()
+            }
+          )
+      }
+
+    }
+  }
 
 }
 
-class EmpArray {
-  EmpCode: string;
-  EmpNameC: string;
-}
 
 

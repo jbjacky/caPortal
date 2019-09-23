@@ -79,6 +79,7 @@ import { SettingClass } from '../Models/SettingClass';
 import { GetAttendSumRoteGetApiClass } from '../Models/PostData_API_Class/GetAttendSumRoteGetApiClass';
 import { TransSignStateGetApiClass } from '../Models/PostData_API_Class/TransSignStateGetApiClass';
 import { GetAttendExceptionalCountClass } from '../Models/PostData_API_Class/GetAttendExceptionalCountClass';
+import { GetAttendInfoByDeptGetApiClass } from '../Models/PostData_API_Class/GetAttendInfoByDeptGetApiClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -302,6 +303,16 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendInfo_Integration(GetAttendInfo: GetAttendInfoClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAttendInfo',
       JSON.stringify(GetAttendInfo), {
+        headers: this.GetHeader()
+      })
+  }
+
+  /**
+   * @todo 取得考勤資訊(依部門)(整合flow)
+   */
+  getWebApiData_GetAttendInfoByDept_Integration(GetAttendInfoByDeptGetApi: GetAttendInfoByDeptGetApiClass) {
+    return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAttendInfoByDept',
+      JSON.stringify(GetAttendInfoByDeptGetApi), {
         headers: this.GetHeader()
       })
   }
