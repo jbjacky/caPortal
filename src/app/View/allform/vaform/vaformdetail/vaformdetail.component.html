@@ -89,14 +89,14 @@
         <div class="col-md-2 control-label">
         </div>
         <div class="col-md-10">
-          <a [id]="'id'+i" data-toggle="collapse" [href]="'#post'+i" (click)="onCheckCollapseIn(i)">
-            <span [id]="i+'_text'">收合請假明細</span>
-            <img [id]="i+'_img'" src="./assets/images-template/icon-arrow.png"
+          <a [id]="'id'+i.toString()" data-toggle="collapse" [href]="'#post'+i.toString()" (click)="onCheckCollapseIn(i.toString())">
+            <span [id]="i.toString()+'_text'">收合請假明細</span>
+            <img [id]="i.toString()+'_img'" src="./assets/images-template/icon-arrow.png"
               style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
           </a>
         </div>
       </div>
-      <div [id]="'post'+i" class="panel-collapse collapse in active five-cols">
+      <div [id]="'post'+i.toString()" class="panel-collapse collapse in active five-cols">
         <div class="row D_tabletop" style="padding: 0px;margin: 0px;background-color: #edf5ff">
           <div class="col-md-3 "
             style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">

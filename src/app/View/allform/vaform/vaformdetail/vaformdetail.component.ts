@@ -31,7 +31,7 @@ export class VaformdetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.api_subscribe = false;
   }
-  onCheckCollapseIn(i) {
+  onCheckCollapseIn(i:string) {
     //確認是否收合
     if ($('#id' + i).hasClass('collapsed')) {
       $('#' + i + '_text').text('收合請假明細')
@@ -63,7 +63,7 @@ export class VaformdetailComponent implements OnInit, OnDestroy {
     this.counterChange.emit();
   }
   ngOnInit() {
-    console.log(this.getsendvaform)
+    // console.log(this.getsendvaform)
     this.SearchDateB.setDate(this.SearchDateB.getDate() - 30)
     this.SearchDateE.setDate(this.SearchDateE.getDate() + 30)
 
