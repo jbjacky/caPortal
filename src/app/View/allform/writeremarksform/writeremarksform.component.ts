@@ -321,11 +321,11 @@ export class WriteremarksformComponent implements OnInit, AfterViewInit, OnDestr
   GetAttendWish_ot() {
     if (this.toapiRemark.write_man_code) {
       var lastDay = new Date()
-      lastDay.setDate(lastDay.getDate() - 1)
-      lastDay.setMinutes(lastDay.getMinutes() - lastDay.getTimezoneOffset())
+      // lastDay.setDate(lastDay.getDate())
+      // lastDay.setMinutes(lastDay.getMinutes() - lastDay.getTimezoneOffset())
       var GetAttendWish_otdata: GetAttendWishByPersonClass =
       {
-        DateB: lastDay.toJSON(),
+        DateB: doFormatDate(lastDay),
         WishTypeID: "2",
         ListEmpID: this.toapiRemark.write_man_code.toString()
       }
@@ -338,11 +338,11 @@ export class WriteremarksformComponent implements OnInit, AfterViewInit, OnDestr
     if (this.toapiRemark.write_man_code) {
 
       var lastDay = new Date()
-      lastDay.setDate(lastDay.getDate() - 1)
-      lastDay.setMinutes(lastDay.getMinutes() - lastDay.getTimezoneOffset())
+      // lastDay.setDate(lastDay.getDate())
+      // lastDay.setMinutes(lastDay.getMinutes() - lastDay.getTimezoneOffset())
       var GetAttendWish_chdata: GetAttendWishByPersonClass =
       {
-        DateB: lastDay.toJSON(),
+        DateB: doFormatDate(lastDay),
         WishTypeID: "3",
         ListEmpID: this.toapiRemark.write_man_code.toString()
       }
