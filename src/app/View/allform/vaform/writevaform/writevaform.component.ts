@@ -796,6 +796,39 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // this.ScheduledVacation()
   }
+  changeEndDateView() {
+    var _DateB = doFormatDate(this.dateE)
+    var _DateE = doFormatDate(this.dateE)
+    var GetAttend: GetAttendClass = {
+      DateB: _DateB,
+      DateE: _DateE,
+      ListEmpID: [this.writevaform.leaveman_jobid],
+      ListRoteID: null
+    }
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetAttend(GetAttend)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (Attends: any[]) => {
+          // console.log(Attends)
+          for (let Attend of Attends) {
+            if (Attend.ActualRote) {
+              this.dateTimeE = getapi_formatTimetoString(void_crossDay(Attend.ActualRote.OffTime).EndTime)
+              if (void_crossDay(Attend.ActualRote.OffTime).isCrossDay) {
+                this.dateE.setDate(this.dateE.getDate() + 1)
+              } else {
+
+              }
+            }
+          }
+          this.blurDateAndTime()
+          this.LoadingPage.hide()
+        }
+        , error => {
+          this.LoadingPage.hide()
+        }
+      )
+  }
   @ViewChild('StartTimeView') StartTimeView: ElementRef;
   changeStartTimeView() {
     this.dateTimeS = $("#id_bt_starttime").val()
@@ -1502,7 +1535,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
               for (let r of this.radiogroup) {
                 if (r.id == 1) {
                   r.disabled = false
-                  this.chooseRadio =1
+                  this.chooseRadio = 1
                 }
               }
               this.disableEventData = false
@@ -1510,7 +1543,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
               for (let r of this.radiogroup) {
                 if (r.id == 1) {
                   r.disabled = true
-                  this.chooseRadio =2
+                  this.chooseRadio = 2
                 }
               }
               this.disableEventData = true
@@ -1519,7 +1552,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
             for (let r of this.radiogroup) {
               if (r.id == 1) {
                 r.disabled = true
-                this.chooseRadio =2
+                this.chooseRadio = 2
               }
             }
             this.disableEventData = true

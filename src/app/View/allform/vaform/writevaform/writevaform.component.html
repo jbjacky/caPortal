@@ -244,13 +244,13 @@
                 <div class="row writerow">
                   <div class="col-md-10 col-xs-10" style="padding: 0px">
                     <input [(ngModel)]="dateE" [matDatepicker]="EndDatePicker" id="id_ipt_endday" type="text"
-                      class="form-control" style="background-color: #ffffff" (blur)="blurDateAndTime()"
-                      (dateChange)="blurDateAndTime()" placeholder="年/月/日">
+                      class="form-control" style="background-color: #ffffff" (blur)="changeEndDateView()"
+                      (dateChange)="changeEndDateView()" placeholder="年/月/日">
                     <div *ngIf="errorDateAndTime.state" style="color: #e60012">{{errorDateAndTime.errorString}}</div>
                     <mat-datepicker #EndDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
                   </div>
                   <div class="col-md-2 col-xs-2" style="padding: 0px">
-                    <input (click)="EndDatePicker.open()" (change)="blurDateAndTime()" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                    <input (click)="EndDatePicker.open()"  type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
                               cursor: pointer;
                               color: transparent;
                               border: 1px solid transparent;
