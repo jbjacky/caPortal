@@ -1673,6 +1673,13 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     this.Be_setGetAttendInfo$.next(JSON.parse(JSON.stringify(GetAttendInfo)))
     $('#DayRote').modal('show')
   }
+
+  
+  radiogroup: any = [
+    { id: 1, name: '剩餘時數' },
+    { id: 2, name: '新增事件發生日' }
+  ];
+  chooseRadio: number = 1;
 }
 
 

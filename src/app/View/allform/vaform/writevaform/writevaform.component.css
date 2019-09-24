@@ -1,4 +1,8 @@
 
+.radiobt{
+    padding:0;
+    padding-top: 7px
+}
 .information_row{
     padding:0px 20px;
     margin-right: 0px;
@@ -199,6 +203,10 @@ input:disabled+span {
     }
     .oneLineWrite{
         padding-left: 15px
+    }
+    .radiobt{
+        padding:0;
+        padding-top: 0px
     }
 }
     
