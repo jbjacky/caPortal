@@ -28,6 +28,8 @@ import { DayHourMinuteClass } from 'src/app/Models/DayHourMinuteClass';
 import { AllVaShow } from 'src/app/View/surplus-leave/surplus-leave.component';
 import { CheckDayHourMinuteNotZero } from 'src/app/UseVoid/void_CheckDayHourMinuteNotZero';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { GetEventDateDataClass } from 'src/app/Models/GetEventDateDataClass';
+import { GetEventDateGetApiClass } from 'src/app/Models/PostData_API_Class/GetEventDateGetApiClass';
 
 declare let $: any; //use jquery
 
@@ -101,6 +103,15 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
   Show_chooseEmpdialog: boolean = false //選擇請假人Dialog
   Show_chooseProxyEmpdialog: boolean = false//總則代理人Dialog
   Show_signDay: boolean = false//請假簽核權限表Dialog
+
+  radiogroup: any = [
+    { id: 1, name: '剩餘時數', disabled: false },
+    { id: 2, name: '新增事件發生日', disabled: false }
+  ];
+  chooseRadio: number = 1;
+
+  GetEventDateData: GetEventDateDataClass[] = []
+  selectEventDate: GetEventDateDataClass
 
   bt_Show_chooseEmpdialog() {
     this.Show_chooseEmpdialog = true
@@ -405,6 +416,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
         if (GetBaseParameterData.length > 0) {
           if (GetBaseParameterData[0].IsAllowLeave) {
             this.changeStartDateView()
+            this.showEventData();
           }
           else {
             this.errorLeavemanState = { state: true, errorString: '後台設定為不可請假，如有問題請洽單位行政，謝謝' };
@@ -570,7 +582,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   blurEventDate() {
-    if (this.showEventDate) {
+    if (this.showEventDate && this.chooseRadio == 2) {
       if (!this.eventDate) {
         this.errorEventDateState = { state: true, errorString: '請填寫事件發生日' }
         $("#id_ipt_eventday").addClass("errorInput");
@@ -581,24 +593,11 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
           this.errorEventDateState = { state: true, errorString: '請填寫事件發生日' }
           $("#id_ipt_eventday").addClass("errorInput");
         } else {
-          // if ($("#id_ipt_eventday").val().toString().split('/')[0].split('_')[0].length < 4) {
-          //   this.errorEventDateState = { state: true, errorString: '年份格式錯誤' }
-          //   $("#id_ipt_eventday").addClass("errorInput");
-          // } else if ($("#id_ipt_eventday").val().toString().split('/')[1].split('_')[0].length < 2) {
-          //   this.errorEventDateState = { state: true, errorString: '月份格式錯誤' }
-          //   $("#id_ipt_eventday").addClass("errorInput");
-          // } else if ($("#id_ipt_eventday").val().toString().split('/')[2].split('_')[0].length < 2) {
-          //   this.errorEventDateState = { state: true, errorString: '日期格式錯誤' }
-          //   $("#id_ipt_eventday").addClass("errorInput");
-          // } else if (!isValidDate($("#id_ipt_eventday").val())) {
-          //   this.errorEventDateState = { state: true, errorString: '日期格式錯誤' }
-          //   $("#id_ipt_eventday").addClass("errorInput");
-          // }
-          // else {
-          //   this.errorEventDateState = { state: false, errorString: '' }
-          //   $("#id_ipt_eventday").removeClass("errorInput");
-          // }
         }
+      }
+    } else if (this.showEventDate && this.chooseRadio == 1) {
+      if (this.selectEventDate.EventDate.length == 0) {
+        alert('請選擇事件發生日')
       }
     }
   }
@@ -1076,7 +1075,10 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
       this.writevaform.starttime = this.dateTimeS.toString()
       this.writevaform.endtime = this.dateTimeE.toString()
 
-      if (this.showEventDate) {
+      if (this.showEventDate && this.chooseRadio == 1) {
+        this.writevaform.eventdate = this.selectEventDate.EventDate
+      }
+      if (this.showEventDate && this.chooseRadio == 2) {
         this.writevaform.eventdate = doFormatDate(this.eventDate.toJSON().toString())
       }
       if (this.showKeyNameState) {
@@ -1471,7 +1473,62 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.writevaform.keyname = ''
     this.writevaform.eventdate = ''
+
+    this.showEventData();
   }
+  disableEventData: boolean = false
+  private showEventData() {
+    //顯示剩餘事件發生日
+    if (this.showEventDate) {
+      this.disableEventData = false
+      var GetEventDateGetApi: GetEventDateGetApiClass = {
+        "EmpID": this.writevaform.leaveman_jobid,
+        "HolidayID": this.writeHoliday.HoliDayID,
+        "TakeNum": 3
+      };
+      this.LoadingPage.show();
+      this.GetApiDataServiceService.getWebApiData_GetEventDate(GetEventDateGetApi)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe((x: GetEventDateDataClass[]) => {
+          // console.log(x)
+          for (let data of x) {
+            data.EventDate = formatDateTime(data.EventDate).getDate;
+          }
+          this.GetEventDateData = JSON.parse(JSON.stringify(x));
+          this.selectEventDate = this.GetEventDateData[0]
+          if (this.GetEventDateData) {
+
+            if (this.GetEventDateData.length > 0) {
+              for (let r of this.radiogroup) {
+                if (r.id == 1) {
+                  r.disabled = false
+                  this.chooseRadio =1
+                }
+              }
+              this.disableEventData = false
+            } else {
+              for (let r of this.radiogroup) {
+                if (r.id == 1) {
+                  r.disabled = true
+                  this.chooseRadio =2
+                }
+              }
+              this.disableEventData = true
+            }
+          } else {
+            for (let r of this.radiogroup) {
+              if (r.id == 1) {
+                r.disabled = true
+                this.chooseRadio =2
+              }
+            }
+            this.disableEventData = true
+          }
+          this.LoadingPage.hide();
+        });
+    }
+  }
+
   /**
    * @todo 跳到tag的位置 
    * @param tag id連結位置
@@ -1674,12 +1731,8 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     $('#DayRote').modal('show')
   }
 
-  
-  radiogroup: any = [
-    { id: 1, name: '剩餘時數' },
-    { id: 2, name: '新增事件發生日' }
-  ];
-  chooseRadio: number = 1;
+
+
 }
 
 

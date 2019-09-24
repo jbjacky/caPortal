@@ -80,6 +80,7 @@ import { GetAttendSumRoteGetApiClass } from '../Models/PostData_API_Class/GetAtt
 import { TransSignStateGetApiClass } from '../Models/PostData_API_Class/TransSignStateGetApiClass';
 import { GetAttendExceptionalCountClass } from '../Models/PostData_API_Class/GetAttendExceptionalCountClass';
 import { GetAttendInfoByDeptGetApiClass } from '../Models/PostData_API_Class/GetAttendInfoByDeptGetApiClass';
+import { GetEventDateGetApiClass } from '../Models/PostData_API_Class/GetEventDateGetApiClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -1628,6 +1629,17 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendExceptionalCount(GetAttendExceptionalCount: GetAttendExceptionalCountClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendExceptionalCount',
       JSON.stringify(GetAttendExceptionalCount), {
+        headers: this.GetHeader()
+      })
+  }
+
+
+  /**
+   * @todo 事件假之事件發生日紀錄
+   */
+  getWebApiData_GetEventDate(GetEventDateGetApi: GetEventDateGetApiClass) {
+    return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetEventDate',
+      JSON.stringify(GetEventDateGetApi), {
         headers: this.GetHeader()
       })
   }
