@@ -7,7 +7,7 @@
   }
   
   ::ng-deep #RemarksTable .mat-sort-header-button{
-    padding-left: 12px;
+    padding-left: 18px;
     display: unset;
   }
   ::ng-deep #RemarksTable .mat-sort-header-arrow{ 

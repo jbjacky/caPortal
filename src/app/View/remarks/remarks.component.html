@@ -45,7 +45,7 @@
             </label>
           </div>
           <div class="col-md-8 col-xs-10" style="padding:0px">
-            <select id="select_dept" class="form-control">
+            <select id="select_dept" class="form-control"  [(ngModel)]="selectDeptaID">
               <ng-container *ngFor="let dept of selectDept">
                 <option [value]="dept.DeptID">{{dept.DeptNameC}}</option>
               </ng-container>

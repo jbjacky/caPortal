@@ -13,6 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
+import { takeWhile } from 'rxjs/operators';
 
 declare let $: any; //use jquery
 
@@ -26,7 +27,9 @@ export class ForgetformWriteComponent implements OnInit, AfterViewInit, OnDestro
   ngOnDestroy(): void {
     $(this.StartTimeView.nativeElement).off('change');
     $(this.EndTimeView.nativeElement).off('change');
+    this.api_subscribe = false;
   }
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
   ngAfterViewInit(): void {
   }
   goWork: boolean = false;//到勤
@@ -391,15 +394,21 @@ export class ForgetformWriteComponent implements OnInit, AfterViewInit, OnDestro
         }
       }
       // console.log(ForgetSaveAndFlowStart)
-      this.GetApiDataServiceService.getWebApiData_CardCheck(CardCheck).subscribe(
+      this.GetApiDataServiceService.getWebApiData_CardCheck(CardCheck)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
         y => {
           if (y == 1) {
-            this.GetApiDataServiceService.getWebApiData_FlowCardCheck(FlowCardCheck).subscribe(
+            this.GetApiDataServiceService.getWebApiData_FlowCardCheck(FlowCardCheck)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
               r => {
                 if (r == 1) {
                   // console.log(SaveAndFlowStart)
                   this.LoadingPage.show()
-                  this.GetApiDataServiceService.getWebApiData_SaveAndFlowStart(ForgetSaveAndFlowStart).subscribe(x => {
+                  this.GetApiDataServiceService.getWebApiData_SaveAndFlowStart(ForgetSaveAndFlowStart)
+                  .pipe(takeWhile(() => this.api_subscribe))
+                  .subscribe(x => {
                     // console.log(SaveAndFlowStart)
                     if (x == 1) {
                       $('#sussesdialog').modal('show');

@@ -81,6 +81,7 @@ import { TransSignStateGetApiClass } from '../Models/PostData_API_Class/TransSig
 import { GetAttendExceptionalCountClass } from '../Models/PostData_API_Class/GetAttendExceptionalCountClass';
 import { GetAttendInfoByDeptGetApiClass } from '../Models/PostData_API_Class/GetAttendInfoByDeptGetApiClass';
 import { GetEventDateGetApiClass } from '../Models/PostData_API_Class/GetEventDateGetApiClass';
+import { GetAttendWishByDeptaGetApiClass } from '../Models/PostData_API_Class/GetAttendWishByDeptaGetApiClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -405,6 +406,16 @@ export class GetApiDataServiceService {
   }
 
 
+  /**
+   * @todo 取得意願備註表(以部門取得)
+   * @param WishTypeID 1:請假 2:加班 3:調班
+   */
+  getWebApiData_GetAttendWishByDepta(GetAttendWishByDeptaGetApi: GetAttendWishByDeptaGetApiClass) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendWishByDepta',
+      JSON.stringify(GetAttendWishByDeptaGetApi), {
+        headers: this.GetHeader()
+      })
+  }
   /**
    * @todo 取得請假簽核檢視表
    */
