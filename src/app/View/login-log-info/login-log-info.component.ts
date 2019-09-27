@@ -43,7 +43,7 @@ export class LoginLogInfoComponent implements OnInit, OnDestroy {
             allLoginLogSet.add(oneLogData.EmpID)
           }
           // console.log(allLoginLogSet)
-          allLoginLogSet.forEach(x => {
+          allLoginLogSet.forEach((x:any) => {
             var CalCount = 0
             for (let data of GetLoginLogData) {
               if (data.EmpID == x) {

@@ -35,7 +35,7 @@ export class SearchFormComponent implements OnInit, AfterViewInit, OnDestroy {
   diolog_state: boolean = false;
   Search_FormCondition: GetFlowViewClass = new GetFlowViewClass()
   isSearch: boolean = false; //第一次沒按不顯示查詢結果
-  showSelectSearchForm = ''; //顯示表單種類
+  showSelectSearchForm:String = ''; //顯示表單種類
   SearchMan: SearchMan = new SearchMan();
   setFlowView: showFlowView[] = []//傳給查詢結果-表單
 

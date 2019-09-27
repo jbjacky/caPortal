@@ -54,9 +54,9 @@ export class ChoosebaseMAComponent implements OnInit, AfterViewInit, OnDestroy {
 
   chooseBase:any
 
-  selectBase(choose:string){
-    console.log(choose)
-  }
+  // selectBase(choose:string){
+  //   console.log(choose)
+  // }
 
   constructor(private router: Router,
     private httpPostService: GetApiDataServiceService,

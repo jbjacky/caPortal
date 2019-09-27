@@ -33,7 +33,7 @@
 
     <div class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 25px">
       <div class="row" style="padding-bottom: 10px;margin:0px">
-        <div class="col-md-6 col-xs-12 P_marginbottom" style="padding: 0">
+        <div class="col-md-6 col-xs-12 P_marginbottom row" style="margin:0;padding: 0">
           <div class="col-md-2 col-xs-12 P_textLeft P_paddingtop" style="padding-left: 0;">
             <span class="form-must-fill">*</span>
             <label class=" control-label">
@@ -41,7 +41,7 @@
             </label>
           </div>
           <div class="col-md-10  col-xs-12 row" style="padding:0px;margin: 0px">
-            <div class="col-md-3 col-xs-4" style="padding:0px">
+            <div class="col-md-4 col-xs-4" style="padding:0px">
               <input id="leavejobid" type="text" class="form-control" placeholder="員工號" [(ngModel)]="SearchMan.EmpCode"
                 (blur)="blurEmpCode()" maxlength="6">
               <div *ngIf="errorLeavemanState.state" style="color: #e60012">{{errorLeavemanState.errorString}}</div>
@@ -52,18 +52,18 @@
                 <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
               </button>
             </div>
-            <div class="col-md-7 col-xs-6" style="padding: 0px;padding-top: 8px;">
+            <div class="col-md-6 col-xs-6" style="padding: 0px;padding-top: 8px;">
               {{SearchMan.EmpNameC}}
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-xs-12 P_paddingtop">
-          <div class="col-md-4 col-xs-12 P_textLeft" style="padding-left: 0;">
+        <div class="col-md-6 col-xs-12 P_paddingtop row" style="margin: 0">
+          <div class="col-md-5 col-xs-12 P_textLeft" style="padding-left: 0;">
             <label class=" control-label">
               年度特休基準日
             </label>
           </div>
-          <div class="col-md-8  col-xs-12" style="padding:0px">
+          <div class="col-md-7  col-xs-12" style="padding:0px">
             {{showBnftDate}}
           </div>
         </div>
@@ -80,7 +80,8 @@
       ⌾餘假資訊
     </div>
     <div *ngIf="showSurplusLeaveAbsDeduction.length > 0" class="table-responsive">
-      <table class="table table-bordered  table-striped table-hover table-content-center table-style01">
+      <table class="table table-bordered  table-striped table-hover table-content-center table-style01" style="
+      white-space: nowrap;">
         <thead>
           <tr>
             <th style="background-image: unset;cursor: unset;width: 45%">假別</th>

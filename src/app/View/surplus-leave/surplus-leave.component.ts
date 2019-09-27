@@ -66,7 +66,7 @@ export class SurplusLeaveComponent implements OnInit, OnDestroy {
     var GetHoliDayBalanceFlow: GetHoliDayBalanceFlow = {
       "EmpID": EmpID,
       "DateB": doFormatDate(today),
-      "DateE": doFormatDate(today),
+      "DateE": "9999/12/31",
       "HoliDayID": 0,
       "KeyName": "",
       "EventDate": "",

@@ -226,7 +226,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     var GetHoliDayBalanceFlow: GetHoliDayBalanceFlow = {
       EmpID: EmpID,
       DateB: doFormatDate(new Date()),
-      DateE: doFormatDate(new Date()),
+      DateE: "9999/12/31",
       HoliDayID: 0,
       KeyName: "",
       EventDate: "",
@@ -814,11 +814,11 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
           for (let Attend of Attends) {
             if (Attend.ActualRote) {
               this.dateTimeE = getapi_formatTimetoString(void_crossDay(Attend.ActualRote.OffTime).EndTime)
-              if (void_crossDay(Attend.ActualRote.OffTime).isCrossDay) {
-                this.dateE.setDate(this.dateE.getDate() + 1)
-              } else {
+              // if (void_crossDay(Attend.ActualRote.OffTime).isCrossDay) {
+              //   this.dateE.setDate(this.dateE.getDate() + 1)
+              // } else {
 
-              }
+              // }
             }
           }
           this.blurDateAndTime()

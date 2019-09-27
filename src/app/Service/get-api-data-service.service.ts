@@ -1456,7 +1456,7 @@ export class GetApiDataServiceService {
   }
 
   /**
-   * @todo 流程檢視(銷假)
+   * @todo 流程檢視(考勤異常確認)
    */
   getWebApiData_GetFlowViewCard(GetFlowView: GetFlowViewClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewCard',
@@ -1466,7 +1466,7 @@ export class GetApiDataServiceService {
   }
 
   /**
-   * @todo 流程檢視(銷假)
+   * @todo 流程檢視(調班)
    */
   getWebApiData_GetFlowViewShiftRote(GetFlowView: GetFlowViewClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewShiftRote',

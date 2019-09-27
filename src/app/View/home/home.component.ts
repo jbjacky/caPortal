@@ -529,7 +529,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     var GetHoliDayBalanceFlow: GetHoliDayBalanceFlow = {
       EmpID: EmpID,
       DateB: doFormatDate(new Date()),
-      DateE: doFormatDate(new Date()),
+      DateE: "9999/12/31",
       HoliDayID: 0,
       KeyName: "",
       EventDate: "",
