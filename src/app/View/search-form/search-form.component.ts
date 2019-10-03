@@ -15,6 +15,7 @@ import { GetFlowViewAbscGetApiDataClass } from 'src/app/Models/GetFlowViewAbscGe
 import { GetFlowViewCardGetApiDataClass } from 'src/app/Models/GetFlowViewCardGetApiDataClass';
 import { GetFlowViewShiftRoteGetApiDataClass } from 'src/app/Models/GetFlowViewShiftRoteGetApiDataClass';
 import { SearchChangeFormComponent } from '../shareComponent/search-change-form/search-change-form.component';
+import { void_MonthDiff } from 'src/app/UseVoid/void_DateDiff';
 declare let $: any; //use jquery
 
 @Component({
@@ -35,7 +36,7 @@ export class SearchFormComponent implements OnInit, AfterViewInit, OnDestroy {
   diolog_state: boolean = false;
   Search_FormCondition: GetFlowViewClass = new GetFlowViewClass()
   isSearch: boolean = false; //第一次沒按不顯示查詢結果
-  showSelectSearchForm:String = ''; //顯示表單種類
+  showSelectSearchForm: String = ''; //顯示表單種類
   SearchMan: SearchMan = new SearchMan();
   setFlowView: showFlowView[] = []//傳給查詢結果-表單
 
@@ -43,15 +44,15 @@ export class SearchFormComponent implements OnInit, AfterViewInit, OnDestroy {
     private GetApiUserService: GetApiUserService,
     private viewScroller: ViewportScroller,
     private LoadingPage: NgxSpinnerService) { }
-  
-  showTransSign:boolean = false
-  showTake:boolean = true
+
+  showTransSign: boolean = false
+  showTake: boolean = true
   ngOnInit() {
     this.GetApiUserService.counter$
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: any) => {
-          if(x!=0){
+          if (x != 0) {
             this.SearchMan.jobID = x.EmpCode
             // console.log(x)
             x.IsAssistant
@@ -59,7 +60,7 @@ export class SearchFormComponent implements OnInit, AfterViewInit, OnDestroy {
               this.SearchMan.name = x.EmpNameC
             } else {
               this.SearchMan.name = x.EmpNameE
-  
+
             }
           }
         }
@@ -90,7 +91,15 @@ export class SearchFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // console.log(this.Search_FormCondition)
 
-    this.getSearchFlowForm(this.Search_FormCondition)
+    var searchDateB: Date = new Date(this.Search_FormCondition.DateB.toString())
+    var searchDateE: Date = new Date(this.Search_FormCondition.DateE.toString())
+    if (searchDateB > searchDateE) {
+      alert('結束日不得大於起始日')
+    } else if (void_MonthDiff(searchDateB, searchDateE) > 3) {
+      alert('查詢起訖區間不得超過三個月')
+    } else {
+      this.getSearchFlowForm(this.Search_FormCondition)
+    }
 
   }
 
@@ -236,44 +245,44 @@ export class SearchFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   windowSize() {
 
-      if (this.isSearch && window.outerWidth < 800) {
+    if (this.isSearch && window.outerWidth < 800) {
 
-        document.getElementById("phonetopdiv").style.position = 'fixed';
-        document.getElementById("phonetopdiv").style.height = '90px';
-        // document.getElementById("phonetopdiv").style.height = '400px';
-        document.getElementById("phonetopdiv").style.overflowY = 'auto';
+      document.getElementById("phonetopdiv").style.position = 'fixed';
+      document.getElementById("phonetopdiv").style.height = '90px';
+      // document.getElementById("phonetopdiv").style.height = '400px';
+      document.getElementById("phonetopdiv").style.overflowY = 'auto';
 
-        $('#bt_sideMenu_text').text('展開查詢選單')
-        $('#bt_sideMenu_img').css({ "transition": "transform 0.5s" });
-        $('#bt_sideMenu_img').css({ "transform": "rotate(0deg)" });
-        $('#searchMenu').collapse('hide')
-        // document.getElementById("bt_sideMenu").style.visibility = 'visible';
-        $('#bt_sideMenu').css({ "visibility": "visible" });
-        $('#bt_sideMenu').css({ "display": "block" });
-        $("#showP_margin").addClass("P_margin");
-        this.diolog_state = false
-        $('body').css("overflow-y", "auto");
+      $('#bt_sideMenu_text').text('展開查詢選單')
+      $('#bt_sideMenu_img').css({ "transition": "transform 0.5s" });
+      $('#bt_sideMenu_img').css({ "transform": "rotate(0deg)" });
+      $('#searchMenu').collapse('hide')
+      // document.getElementById("bt_sideMenu").style.visibility = 'visible';
+      $('#bt_sideMenu').css({ "visibility": "visible" });
+      $('#bt_sideMenu').css({ "display": "block" });
+      $("#showP_margin").addClass("P_margin");
+      this.diolog_state = false
+      $('body').css("overflow-y", "auto");
 
-      } else {
+    } else {
 
-        document.getElementById("phonetopdiv").style.position = 'unset';
-        // document.getElementById("bt_sideMenu").style.visibility = 'hidden';
-        $('#bt_sideMenu').css({ "visibility": "hidden" });
-        $('#bt_sideMenu').css({ "display": "none" });
-        $("#showP_margin").removeClass("P_margin");
-        $('#searchMenu').collapse('show')
-        document.getElementById("phonetopdiv").style.overflowY = 'unset';
-        document.getElementById("phonetopdiv").style.height = ' 100%';
-        $('#bt_sideMenu_text').text('收合查詢選單')
-        $('#bt_sideMenu_img').css({ "transition": "transform 0.5s" });
-        $('#bt_sideMenu_img').css({ "transform": "rotate(-180deg)" });
+      document.getElementById("phonetopdiv").style.position = 'unset';
+      // document.getElementById("bt_sideMenu").style.visibility = 'hidden';
+      $('#bt_sideMenu').css({ "visibility": "hidden" });
+      $('#bt_sideMenu').css({ "display": "none" });
+      $("#showP_margin").removeClass("P_margin");
+      $('#searchMenu').collapse('show')
+      document.getElementById("phonetopdiv").style.overflowY = 'unset';
+      document.getElementById("phonetopdiv").style.height = ' 100%';
+      $('#bt_sideMenu_text').text('收合查詢選單')
+      $('#bt_sideMenu_img').css({ "transition": "transform 0.5s" });
+      $('#bt_sideMenu_img').css({ "transform": "rotate(-180deg)" });
 
 
-        this.diolog_state = false
-        $('body').css("overflow-y", "auto");
-      }
- 
-  
+      this.diolog_state = false
+      $('body').css("overflow-y", "auto");
+    }
+
+
   }
   hideSearchDialog() {
     document.getElementById("phonetopdiv").style.position = 'fixed';

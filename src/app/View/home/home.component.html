@@ -27,10 +27,14 @@
                         style="padding-bottom: 5px;border-bottom: 4px #37fffd solid;text-align: center;box-shadow: none">
                         <span style="color: #37fffd;font-size: 50px;box-shadow: none">{{ReviewCount.allCount}}</span>
                     </span>
-                    <span style="color: #fff;font-size: 17px;box-shadow: none"> 筆 待審核表單</span>
-                    <span class="checkformdesktoptext" style="box-shadow: none">({{ReviewCount.vaCount}}筆請假單
-                        {{ReviewCount.changeCount}}筆調班單 {{ReviewCount.delCount}}筆銷假單
-                        {{ReviewCount.forgetCount}}筆考勤異常簽認單)</span>
+                    <span style="color: #fff;font-size: 17px;box-shadow: none">
+                        <ng-container i18n>筆 待審核表單</ng-container>
+                    </span>
+                    <span class="checkformdesktoptext" style="box-shadow: none">
+                        ({{ReviewCount.vaCount}}<ng-container i18n>筆請假單</ng-container>
+                        {{ReviewCount.changeCount}}<ng-container i18n>筆調班單</ng-container>
+                        {{ReviewCount.delCount}}<ng-container i18n>筆銷假單</ng-container>
+                        {{ReviewCount.forgetCount}}<ng-container i18n>筆考勤異常簽認單</ng-container>)</span>
                 </div>
             </div>
         </div>
@@ -40,28 +44,36 @@
                     <div style="border: 1px solid #7796d4; padding: 10px 20px;">
                         <div style="font-size: 22px;color: #fff; font-weight: 500;">
                             <span i18n>員工考勤異常</span>
-                            <span class="mangerblocklefthourtitle">(每小時更新)</span>
+                            <span i18n class="mangerblocklefthourtitle">(每小時更新)</span>
                         </div>
                         <div class="row blockhover" [routerLink]="['/nav/PersonnelSearchComponent']">
                             <div class="col-md-6 col-xs-6 ">
-                                <div style="font-size: 14px;color: #fff;box-shadow: none;">今日 {{showTodayDateString}}
+                                <div style="font-size: 14px;color: #fff;box-shadow: none;">
+                                    <ng-container i18n>今日</ng-container>
+                                    {{showTodayDateString}}
                                 </div>
                                 <span
                                     style="padding-bottom: 3px;border-bottom: 4px #37fffd solid;text-align: center;box-shadow: none;">
                                     <span
                                         style="color: #37fffd;font-size: 36px;box-shadow: none;">{{TodayAttend.length}}</span>
                                 </span>
-                                <span style="font-size: 16px;color: #fff;box-shadow: none;">人異常</span>
+                                <span style="font-size: 16px;color: #fff;box-shadow: none;">
+                                    <ng-container i18n>人異常</ng-container>
+                                </span>
                             </div>
                             <div class="col-md-6 col-xs-6 ">
-                                <div style="font-size: 14px;color: #fff;box-shadow: none;">昨日 {{showLastdayDateString}}
+                                <div style="font-size: 14px;color: #fff;box-shadow: none;">
+                                    <ng-container i18n>昨日</ng-container>
+                                    {{showLastdayDateString}}
                                 </div>
                                 <span
                                     style="padding-bottom: 3px;border-bottom: 4px #37fffd solid;text-align: center;box-shadow: none;">
                                     <span
                                         style="color: #37fffd;font-size: 36px;box-shadow: none;">{{LastdayAttend.length}}</span>
                                 </span>
-                                <span style="font-size: 16px;color: #fff;box-shadow: none;">人異常</span>
+                                <span style="font-size: 16px;color: #fff;box-shadow: none;">
+                                    <ng-container i18n>人異常</ng-container>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -70,8 +82,8 @@
             <div class="col-sm-6 managerblockright">
                 <div class="managerblock">
                     <div class="blockhover" style="border: 1px solid #7796d4; padding: 10px 20px;;">
-                        <div i18n style="font-size: 22px;color: #fff; font-weight: 500;cursor: auto;box-shadow: none">
-                            今日請假人數
+                        <div style="font-size: 22px;color: #fff; font-weight: 500;cursor: auto;box-shadow: none">
+                            <ng-container i18n>今日請假人數</ng-container>
                         </div>
 
                         <div style="padding-top: 22px;" data-toggle="modal" data-target="#Abs_Today">
@@ -80,7 +92,9 @@
                                 <span
                                     style="color: #37fffd;font-size: 36px;box-shadow: none">{{AllAbsEmp.length}}</span>
                             </span>
-                            <span style="font-size: 16px;color: #fff;box-shadow: none">人請假</span>
+                            <span style="font-size: 16px;color: #fff;box-shadow: none">
+                                <ng-container i18n>人請假</ng-container>
+                            </span>
                             <span style="font-size: 16px;color: #fff;box-shadow: none">({{showDeptaName}})</span>
                         </div>
                     </div>
@@ -91,7 +105,9 @@
         </div> -->
         <!-- 虛線 -->
         <div class="myvacationblock" style="margin:0;margin-bottom: 15px;">
-            <h3 i18n style="margin-top: 0px">我的餘假</h3>
+            <h3 style="margin-top: 0px">
+                <ng-container i18n>我的餘假</ng-container>
+            </h3>
             <div class="row P_inf" style="margin:0;margin-bottom: 15px;">
                 <div *ngFor="let HoliDayBalance of showAllHoliDayBalance" class="col-md-4 col-xs-12"
                     style="padding: 0;">
@@ -111,7 +127,8 @@
                 <div>
                     <img src="./assets/images-template/icon-alert.png" style="width: 20px; height: 20px;" />
                     <div style="display: inline-block;padding: 10px 5px;">
-                        <span style="color: #d0021b;font-weight: bold">45 天內 即將到期之餘假時數：</span>
+                        <span style="color: #d0021b;font-weight: bold">45 <ng-container i18n>天內 即將到期之餘假時數</ng-container>
+                            ：</span>
                     </div>
                 </div>
                 <div style="padding-left: 25px">
@@ -126,17 +143,22 @@
             <div>
                 <div class="P_marginBotton" style="display: inline-block;">
                     <button class="btn btn-default " [routerLink]="['/nav/SurplusLeaveComponent']"
-                        style="margin-right: 10px;padding:6px 37.5px">查詢餘假明細
+                        style="margin-right: 10px;padding:6px 37.5px">
+                        <ng-container i18n>查詢餘假明細</ng-container>
                     </button>
                 </div>
-                <button class="btn btn-primary " [routerLink]="['/nav/vaform']" style="margin-right: 10px">填寫請假單
+                <button class="btn btn-primary " [routerLink]="['/nav/vaform']" style="margin-right: 10px">
+                    <ng-container i18n>填寫請假單</ng-container>
                 </button>
             </div>
         </div>
         <div class="myvacationblock">
-            <h3 style="margin-top: 0px;display: inline-block;margin-right: 5px">我的差勤表</h3>
+            <h3 style="margin-top: 0px;display: inline-block;margin-right: 5px">
+                <ng-container i18n>我的差勤表</ng-container>
+            </h3>
             <div style="display: inline-block;color:#777777;
-            margin-right: 5px;">考勤異常數量
+            margin-right: 5px;">
+                <ng-container i18n>考勤異常數量</ng-container>
                 :{{AttendExceptionalCount}}
             </div>
             <a data-toggle="modal" data-target="#AttendErrorTextDialog" style="cursor: pointer;">
@@ -149,14 +171,21 @@
                             <div [ngClass]="showTitleClass(i)" *ngIf="weekjob.today"
                                 style="color: #fff;background-color: #0068b7">{{weekjob.date}}</div>
                             <div [ngClass]="showTitleClass(i)" *ngIf="!weekjob.today">{{weekjob.date}}</div>
-                            <div [ngClass]="showContentClass(i)">{{weekjob.jobtime}}
+                            <div [ngClass]="showContentClass(i)">
+                                <ng-container i18n>{{weekjob.jobtime}}</ng-container>
+                                <!-- <ng-container i18n>{weekjob.jobtime, select, 例假日 {qwe} other {{{weekjob.jobtime}}}}</ng-container> -->
+                                <!-- <ng-container i18n>{weekjob.jobtime, select, 06:00-14:00 {qwe} other {{{weekjob.jobtime}}}}</ng-container> -->
                                 <div style="height: 22px;">
                                     <div *ngIf="weekjob.isAttend" style="color: 
                                                     #d0021b;text-decoration:underline;cursor: pointer;"
-                                        (click)="AtterrorClick(weekjob.realdate)">考勤異常</div>
+                                        (click)="AtterrorClick(weekjob.realdate)">
+                                        <ng-container i18n>考勤異常</ng-container>
+                                    </div>
                                     <div *ngIf="weekjob.isVa" style="color:
                                                     #4a90e2;text-decoration:underline;cursor: pointer;"
-                                        (click)="vaClick(weekjob.realdate,EmpCode)">查閱請假單</div>
+                                        (click)="vaClick(weekjob.realdate,EmpCode)">
+                                        <ng-container i18n>查閱請假單</ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -164,13 +193,15 @@
                 </ngx-slick-carousel>
             </div>
             <div *ngIf="weekjobs.length==0">
-                無出勤資料
+                <ng-container i18n>無出勤資料</ng-container>
             </div>
         </div>
     </div>
     <div id="NewsBlock" class="col-md-4">
         <div class="a-block" style="padding: 20px 30px;">
-            <h4 style="font-weight: bold;margin-bottom: 20px;">近期公告</h4>
+            <h4 style="font-weight: bold;margin-bottom: 20px;">
+                <ng-container i18n>近期公告</ng-container>
+            </h4>
             <div *ngIf="AllNewsList.length>0">
                 <div *ngFor="let oneNews of AllNewsList" class="onenewsblock">
                     <div data-toggle="modal" data-target="#showNews" (click)="goToNewsPage(oneNews)">
@@ -179,11 +210,13 @@
                     </div>
                 </div>
                 <div *ngIf="AllNewsList.length==5" style="text-align: right;margin-top: 10px">
-                    <a style="cursor: pointer;" [routerLink]="['/nav/NewsShowAllComponent']">更多＞</a>
+                    <a style="cursor: pointer;" [routerLink]="['/nav/NewsShowAllComponent']">
+                        <ng-container i18n>更多＞</ng-container>
+                    </a>
                 </div>
             </div>
             <div *ngIf="AllNewsList.length==0">
-                無
+                <ng-container i18n>無</ng-container>
             </div>
         </div>
     </div>
@@ -199,15 +232,23 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title" id="mySmallModalLabel">今日請假清單({{showTodayString}})</h4>
+                    <h4 class="modal-title" id="mySmallModalLabel">
+                        <ng-container i18n>今日請假清單</ng-container>({{showTodayString}})
+                    </h4>
                 </div>
                 <div class="modal-body">
                     <table class="table table-bordered table-striped table-hover table-content-center table-style01">
                         <thead>
                             <tr>
-                                <th style="background-image: unset;cursor: unset">工號</th>
-                                <th>姓名</th>
-                                <th>請假資訊</th>
+                                <th style="background-image: unset;cursor: unset">
+                                    <ng-container i18n>工號</ng-container>
+                                </th>
+                                <th>
+                                    <ng-container i18n>姓名</ng-container>
+                                </th>
+                                <th>
+                                    <ng-container i18n>請假資訊</ng-container>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -222,7 +263,9 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <ng-container i18n>關閉</ng-container>
+                    </button>
                 </div>
             </div>
         </div>
@@ -251,7 +294,7 @@
                         <ng-container *ngIf="showOneNew.UploadFileOld.length>0">
                             <div style="margin: 10px">
                                 <span style="color: #777777;margin-right: 5px">
-                                    附檔:
+                                    <ng-container i18n>附檔</ng-container>:
                                 </span>
                                 <ng-container style="margin-right: 5px" *ngFor="let upload of showOneNew.UploadFileOld">
                                     <ng-container *ngIf="upload">
@@ -273,7 +316,9 @@
                 </div>
                 <div class="modal-footer">
                     <div style="text-align: center">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <ng-container i18n>關閉</ng-container>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -294,7 +339,9 @@
                         <span aria-hidden="true">×</span>
                     </button>
                     <div style="text-align: center">
-                        <h3 style="margin: 0px">{{SearchAttendDate}} 請假資訊</h3>
+                        <h3 style="margin: 0px">{{SearchAttendDate}}
+                            <ng-container i18n>請假資訊</ng-container>
+                        </h3>
                     </div>
                 </div>
                 <div class="modal-body" style="padding: 25px;padding-top: 15px;">
@@ -302,13 +349,21 @@
                         <div class="row col-md-2 col-xs-12 P_padding" style="margin: 0px">
                             <div class="col-md-12   col-xs-6 P_left" style="color: #028fcf;padding:0px;
                     margin-bottom: 10px;">
-                                請假明細<span>{{showDay(i)}}</span>
+                                <ng-container i18n>請假明細</ng-container> <span>{{showDay(i)}}</span>
                             </div>
                             <div class="col-md-12   col-xs-6" style="padding: 0;text-align: right;">
-                                <div class="tag_blue" *ngIf="oneVaData.State=='1'">呈核中</div>
-                                <div class="tag_skyblue" *ngIf="oneVaData.State=='3'">已核准</div>
-                                <div class="tag_red" *ngIf="oneVaData.State=='2'">重擬</div>
-                                <div class="tag_gray" *ngIf="oneVaData.State=='7'">已抽單</div>
+                                <div class="tag_blue" *ngIf="oneVaData.State=='1'">
+                                    <ng-container i18n>呈核中</ng-container>
+                                </div>
+                                <div class="tag_skyblue" *ngIf="oneVaData.State=='3'">
+                                    <ng-container i18n>已核准</ng-container>
+                                </div>
+                                <div class="tag_red" *ngIf="oneVaData.State=='2'">
+                                    <ng-container i18n>重擬</ng-container>
+                                </div>
+                                <div class="tag_gray" *ngIf="oneVaData.State=='7'">
+                                    <ng-container i18n>已抽單</ng-container>
+                                </div>
                             </div>
                         </div>
                         <div class="row col-md-7 col-xs-10" style="margin: 0px;padding: 0">
@@ -316,11 +371,15 @@
                     margin-bottom: 10px;">
                                 <div class="row" style="margin: 0;padding-bottom: 5px;">
                                     <div class="col-md-6 col-xs-12" style="padding: 0">
-                                        <span style="color: #969696">起始：</span>
+                                        <span style="color: #969696">
+                                            <ng-container i18n>起始</ng-container>：
+                                        </span>
                                         <!--2019/01/18 08:00-->{{oneVaData.showDateB}} {{oneVaData.showTimeB}}
                                     </div>
                                     <div class="col-md-6 col-xs-12" style="padding: 0">
-                                        <span style="color: #969696">結束：</span>
+                                        <span style="color: #969696">
+                                            <ng-container i18n>結束</ng-container>：
+                                        </span>
                                         <!--2019/01/18 12:00-->{{oneVaData.showDateE}} {{oneVaData.showTimeE}}
                                     </div>
                                 </div>
@@ -328,29 +387,46 @@
                             <div class="col-md-12 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0">
                                 <div class="row" style="margin: 0;padding-bottom: 5px;">
                                     <div *ngIf="!oneVaData.showSignDate" class="col-md-6 col-xs-12" style="padding: 0">
-                                        <span style="color: #969696">批核：</span>
-                                        <!--2019/01/18 08:00-->尚未批核
+                                        <span style="color: #969696">
+                                            <ng-container i18n>批核</ng-container>：
+                                        </span>
+                                        <!--2019/01/18 08:00-->
+                                        <ng-container i18n>尚未批核</ng-container>
                                     </div>
                                     <div *ngIf="oneVaData.showSignDate" class="col-md-6 col-xs-12" style="padding: 0">
-                                        <span style="color: #969696">批核：</span>
+                                        <span style="color: #969696">
+                                            <ng-container i18n>批核</ng-container>：
+                                        </span>
                                         <!--2019/01/18 08:00-->{{oneVaData.showSignDate}} {{oneVaData.showSignTime}}
                                     </div>
                                     <div class="col-md-6 col-xs-12" style="padding: 0">
-                                        <span style="color: #969696">假別：</span>
+                                        <span style="color: #969696">
+                                            <ng-container i18n>假別</ng-container>：
+                                        </span>
                                         <!-- 特別休假 -->{{oneVaData.HoliDayNameC}}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 col-xs-12" style="padding: 0">
-                            <div class="P_All">共計 {{oneVaData.day}} 日 {{oneVaData.hour}} 時 {{oneVaData.minute}} 分</div>
+                            <div class="P_All">
+                                <ng-container i18n>共計</ng-container>
+                                {{oneVaData.day}}
+                                <ng-container i18n>日</ng-container>
+                                {{oneVaData.hour}}
+                                <ng-container i18n>時</ng-container>
+                                {{oneVaData.minute}}
+                                <ng-container i18n>分</ng-container>
+                            </div>
                         </div>
                     </div>
 
                 </div>
                 <div class="modal-footer">
                     <div style="text-align: center">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <ng-container i18n>關閉</ng-container>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -372,7 +448,9 @@ padding: 0px 17px;">
                         <span aria-hidden="true">×</span>
                     </button>
                     <div style="text-align: center">
-                        <h3 style="margin: 0px">{{SearchAttendDate}} 異常資訊</h3>
+                        <h3 style="margin: 0px">{{SearchAttendDate}}
+                            <ng-container i18n>異常資訊</ng-container>
+                        </h3>
                     </div>
                 </div>
                 <div class="modal-body" style="padding: 25px">
@@ -380,23 +458,35 @@ padding: 0px 17px;">
                     <div *ngFor="let Attend of AttendanceApiData"
                         style="border:1px solid #028fcf;padding: 20px 20px;margin: 0px;margin-bottom: 10px" class="row">
                         <div class="col-md-2 col-xs-6 P_zero">
-                            <div style="color: rgb(150, 149, 148);">班型</div>
+                            <div style="color: rgb(150, 149, 148);">
+                                <ng-container i18n>班型</ng-container>
+                            </div>
                             <div>{{Attend.RoteNameC}}</div>
                         </div>
                         <div class="col-md-2 col-md-push-8 col-xs-6" style="padding-top: 8px">
 
-                            <div *ngIf="Attend.LateMins" class="tag_red">遲到</div>
-                            <div *ngIf="Attend.EarlyMins" class="tag_red">早退</div>
-                            <div *ngIf="Attend.IsAbsent" class="tag_red">未刷卡</div>
+                            <div *ngIf="Attend.LateMins" class="tag_red">
+                                <ng-container i18n>遲到</ng-container>
+                            </div>
+                            <div *ngIf="Attend.EarlyMins" class="tag_red">
+                                <ng-container i18n>早退</ng-container>
+                            </div>
+                            <div *ngIf="Attend.IsAbsent" class="tag_red">
+                                <ng-container i18n>未刷卡</ng-container>
+                            </div>
                         </div>
                         <div class="col-md-8 col-md-pull-2 col-xs-12" style="padding: 0px">
                             <div class="row col-md-6 col-xs-12 P_line" style="margin:0px;padding: 0px">
                                 <div class="col-md-6 col-xs-6">
-                                    <div style="color: rgb(150, 149, 148);">應上班時間</div>
+                                    <div style="color: rgb(150, 149, 148);">
+                                        <ng-container i18n>應上班時間</ng-container>
+                                    </div>
                                     <div>{{Attend.OnTime}}</div>
                                 </div>
                                 <div class="col-md-6 col-xs-6 P_paddingRZ" style="padding-right: 0px">
-                                    <div style="color: rgb(150, 149, 148);">應下班時間</div>
+                                    <div style="color: rgb(150, 149, 148);">
+                                        <ng-container i18n>應下班時間</ng-container>
+                                    </div>
                                     <div style="display: inline-block;padding-right: 10px">{{Attend.OffTime}}</div>
                                     <div *ngIf="Attend.ActualRote_OffTime_calCrossDay" style="display: inline-block;
                                 height: 20px;
@@ -406,27 +496,36 @@ padding: 0px 17px;">
                                 color: #fff;
                                 background-color: #408cb6;
                                 border: 1px solid;
-                                border-radius: 15px;">+1日</div>
+                                border-radius: 15px;">+1<ng-container i18n>日</ng-container>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-3 col-xs-6">
                                 <div style="color: rgb(150, 149, 148);"
-                                    [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.LateMins)">到勤時間</div>
+                                    [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.LateMins)">
+                                    <ng-container i18n>到勤時間</ng-container>
+                                </div>
                                 <div *ngIf="Attend.OnTime"
                                     [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.LateMins)">
-                                    {{Attend.OnCardTime}}</div>
+                                    {{Attend.OnCardTime}}
+                                </div>
                                 <div *ngIf="!Attend.OnTime"
-                                    [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.LateMins)">無</div>
+                                    [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.LateMins)">
+                                    <ng-container i18n>無</ng-container>
+                                </div>
                             </div>
                             <div class="col-md-3 col-xs-6 P_paddingRZ">
                                 <div style="color: rgb(150, 149, 148);"
-                                    [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.EarlyMins)">離勤時間</div>
+                                    [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.EarlyMins)">
+                                    <ng-container i18n>離勤時間</ng-container>
+                                </div>
                                 <div>
                                     <div *ngIf="Attend.OffCardTime" style="display: inline-block;padding-right: 10px"
                                         [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.EarlyMins)">
                                         {{Attend.OffCardTime}}</div>
                                     <div *ngIf="!Attend.OffTime" style="display: inline-block;padding-right: 10px"
-                                        [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.EarlyMins)">無
+                                        [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.EarlyMins)">
+                                        <ng-container i18n>無</ng-container>
                                     </div>
                                     <div *ngIf="Attend.AttendCard_OffTime_calCrossDay" style="display: inline-block;
                                 height: 20px;
@@ -436,7 +535,8 @@ padding: 0px 17px;">
                                 color: #fff;
                                 background-color: #408cb6;
                                 border: 1px solid;
-                                border-radius: 15px;">+1日</div>
+                                border-radius: 15px;">+1<ng-container i18n>日</ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -446,21 +546,22 @@ padding: 0px 17px;">
                         <div>
                             <div style="border:1px solid #d9edf7;">
                                 <div style="background-color: #d9edf7;padding: 5px 20px;">
-                                    <label style="color: 
-                                #31708f">異常可能原因</label>
+                                    <label style="color: #31708f">
+                                        <ng-container i18n>異常可能原因</ng-container>
+                                    </label>
                                 </div>
                                 <div style="padding: 5px 20px;">
                                     <div>
-                                        1.請假問題 - 未請假、假單未核准、資訊填寫不正確..等，請查詢請假紀錄做確認
+                                        1.<ng-container i18n>請假問題 - 未請假、假單未核准、資訊填寫不正確..等，請查詢請假紀錄做確認</ng-container>
                                     </div>
                                     <div>
-                                        2.考勤不符 - 考勤與實際上班時間不同，請確認是否需要調班
+                                        2.<ng-container i18n>考勤不符 - 考勤與實際上班時間不同，請確認是否需要調班</ng-container>
                                     </div>
                                     <div>
-                                        3.刷卡因素 - 誤刷、未刷、早退等，請填寫考勤異常簽認單校正考勤
+                                        3.<ng-container i18n>刷卡因素 - 誤刷、未刷、早退等，請填寫考勤異常簽認單校正考勤</ng-container>
                                     </div>
                                     <div>
-                                        若以上皆非，請洽單位差假管理員
+                                        <ng-container i18n>若以上皆非，請洽單位差假管理員</ng-container>
                                     </div>
                                 </div>
                             </div>
@@ -469,7 +570,9 @@ padding: 0px 17px;">
                 </div>
                 <div class="modal-footer">
                     <div style="text-align: center">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+                            <ng-container i18n>確定</ng-container>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -487,14 +590,20 @@ padding: 0px 17px;">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title">考勤異常數量說明</h4>
+                    <h4 class="modal-title">
+                        <ng-container i18n>考勤異常數量說明</ng-container>
+                    </h4>
                 </div>
                 <div class="modal-body">
-                    <p>由2019/08/01後開始計算。</p>
+                    <p>
+                        <ng-container i18n>由2019/08/01後開始計算。</ng-container>
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <div style="text-align: center">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <ng-container i18n>關閉</ng-container>
+                        </button>
                     </div>
                 </div>
             </div>

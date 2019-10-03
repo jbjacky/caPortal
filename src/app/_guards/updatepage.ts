@@ -8,9 +8,9 @@
 
     // var TimeOut = '20000'
 
-    // var desktopTitleString = '國內(含外派)員工差假系統 (限FF/LD輪班)'
+    // var desktopTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
 
-    // var phoneTitleString = '國內(含外派)員工差假系統 (限FF/LD輪班)'
+    // var phoneTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
 
     // var footerString = 'copyright: China Airlines 2019 (測試環境 Test Environment)'
 
@@ -77,9 +77,9 @@
     
     // var TimeOut = '20000'
 
-    // var desktopTitleString = '國內(含外派)員工差假系統 (限FF/LD輪班)'
+    // var desktopTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
 
-    // var phoneTitleString = '國內(含外派)員工差假系統 (限FF/LD輪班)'
+    // var phoneTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
 
     // var footerString = 'copyright: China Airlines 2019 (測試環境 Test Environment)'
 
@@ -101,9 +101,9 @@
     
     // var TimeOut = '20000'
 
-    // var desktopTitleString = '國內(含外派)員工差假系統 (限FF/LD輪班)'
+    // var desktopTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
 
-    // var phoneTitleString = '國內(含外派)員工差假系統 (限FF/LD輪班)'
+    // var phoneTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
 
     // var footerString = 'copyright: China Airlines 2019 (1)'
 
@@ -125,9 +125,9 @@
     
     // var TimeOut = '20000'
 
-    // var desktopTitleString = '國內(含外派)員工差假系統 (限FF/LD輪班)'
+    // var desktopTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
 
-    // var phoneTitleString = '國內(含外派)員工差假系統 (限FF/LD輪班)'
+    // var phoneTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
 
     // var footerString = 'copyright: China Airlines 2019 (測試環境 Test Environment)'
 

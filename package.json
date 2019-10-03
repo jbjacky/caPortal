@@ -9,6 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "extract-i18n": "ng xi18n --output-path locale --i18n-locale zh --i18n-format=xlf  && xliffmerge --profile xliffmerge.json zh en",
+    "start-en": "ng serve --configuration=en --open",
     "build-i18n": "ng build --prod --base-href /EAM/zh/ --configuration=zh && ng build --prod --base-href /EAM/en/ --configuration=en"
   },
   "private": true,

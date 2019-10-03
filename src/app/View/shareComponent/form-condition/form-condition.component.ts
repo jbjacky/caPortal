@@ -66,8 +66,8 @@ export class FormConditionComponent implements OnInit , OnDestroy {
   }]
 
   ngOnInit() {
-    this.dateS.setMonth(this.dateS.getMonth()-3)
-    this.dateE.setMonth(this.dateE.getMonth()+12)
+    this.dateS.setMonth(this.dateS.getMonth()-2)
+    // this.dateE.setMonth(this.dateE.getMonth()+12)
     this.GetApiDataServiceService.getWebApiData_GetHoliDayByForm()
     .pipe(takeWhile(()=>this.api_subscribe))
     .subscribe(

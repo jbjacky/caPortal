@@ -2,22 +2,464 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="zh" datatype="plaintext" original="ng2.template" target-language="en">
     <body>
-      <trans-unit id="4a4a58bcfc47a29f9680195654b1216b728dcf5c" datatype="html">
-        <source>
-                            今日請假人數
-                        </source><target state="new">
-                            今日請假人數
-                        </target>
+      <trans-unit id="19c281335fe7d5ba74b29a2ca26ee6e276ade661" datatype="html">
+        <source>筆 待審核表單</source><target state="new">筆 待審核表單</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/View/home/home.component.html</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b3ffff07dcc6da2c5cb9d1be73a2380c65aa60b7" datatype="html">
+        <source>筆請假單</source><target state="new">筆請假單</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b20a9b4aa9ca02064bc34da21b73481ece022689" datatype="html">
+        <source>筆調班單</source><target state="new">筆調班單</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d1b9d98be6f747b2e76e56fb8eb4b81c8f97ce90" datatype="html">
+        <source>筆銷假單</source><target state="new">筆銷假單</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="000ac65ecf6d80c72b37fb71fe3718664525d060" datatype="html">
+        <source>筆考勤異常簽認單</source><target state="new">筆考勤異常簽認單</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7afc8a12cd48aa9b13cb2ff10386a34e7cbc666d" datatype="html">
+        <source>員工考勤異常</source><target state="new">員工考勤異常</target>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/View/home/home.component.html</context><context context-type="linenumber">46</context></context-group></trans-unit><trans-unit id="771722dc883aa0d23c11db56533b79a6e8662e98" datatype="html">
+        <source>(每小時更新)</source><target state="new">(每小時更新)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e2369423b4670030c9d43b1f725074b47248a476" datatype="html">
+        <source>今日</source><target state="new">今日</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2918fb0aee29ecb59f8485eb6ca71ef99577c858" datatype="html">
+        <source>人異常</source><target state="new">人異常</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="50ed34dec6bb8cda10b6392a583d2c93bb7433fd" datatype="html">
+        <source>昨日</source><target state="new">昨日</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8dfc8da688e15bb423a99e06e2eefd64acefe526" datatype="html">
+        <source>今日請假人數</source><target state="new">今日請假人數</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a55df184e4adc7c78c5dfdfff1379f7a37175013" datatype="html">
+        <source>人請假</source><target state="new">人請假</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">96</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b55409494fc162d9facbad26f6abb77fa053a1a0" datatype="html">
         <source>我的餘假</source><target state="new">my holiday</target>
+      <context-group purpose="location"><context context-type="sourcefile">app/View/home/home.component.html</context><context context-type="linenumber">109</context></context-group></trans-unit><trans-unit id="d982fa71f48f49ad14e3a7889085ae0e9d928e9d" datatype="html">
+        <source>天內 即將到期之餘假時數</source><target state="new">天內 即將到期之餘假時數</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/View/home/home.component.html</context>
-          <context context-type="linenumber">94</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4b062c09baee40d14c7e4a67788d3c6ade812892" datatype="html">
+        <source>查詢餘假明細</source><target state="new">查詢餘假明細</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">147</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e2d3e3654afb7d053b7d9f71fc9420f499812ee4" datatype="html">
+        <source>填寫請假單</source><target state="new">填寫請假單</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">151</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d19f58ebf4230dab2fa28afefeab88dc675e5e94" datatype="html">
+        <source>我的差勤表</source><target state="new">我的差勤表</target>
+      <context-group purpose="location"><context context-type="sourcefile">app/View/home/home.component.html</context><context context-type="linenumber">157</context></context-group></trans-unit><trans-unit id="158f78684a043ef2f7bd400150fcb08c2606c3dd" datatype="html">
+        <source>考勤異常數量</source><target state="new">考勤異常數量</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">161</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8bce9756dd74cdb997e82f9fb754656452fd56e3" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{weekjob.jobtime}}"/></source><target state="new"><x id="INTERPOLATION" equiv-text="{{weekjob.jobtime}}"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">175</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ff74d9a74527e1ecad86965335168e87f04ee9ea" datatype="html">
+        <source>考勤異常</source><target state="new">考勤異常</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">182</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="853f3e22321bd7a04252086e0f0287192eb2b105" datatype="html">
+        <source>查閱請假單</source><target state="new">查閱請假單</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">187</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a4886e9a21efc745a8f4a738b10ecacd488f9d29" datatype="html">
+        <source>無出勤資料</source><target state="new">無出勤資料</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">196</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9053f9288f08900f4cc961445a413cdb12237d47" datatype="html">
+        <source>近期公告</source><target state="new">近期公告</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">203</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4fdd0cc342c775a575a58cf5bb93f43b9d305316" datatype="html">
+        <source>更多＞</source><target state="new">更多＞</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">214</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6aa031f7ab57d25800d87868c5674ab27e5c1e5c" datatype="html">
+        <source>無</source><target state="new">無</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">219</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">514</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">528</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cdcb34ad1cda1997f5fa9cf8a4310d2081e6449c" datatype="html">
+        <source>今日請假清單</source><target state="new">今日請假清單</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">236</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="871cfefc71ec903d7a2edd03d78554ef8b2de995" datatype="html">
+        <source>工號</source><target state="new">工號</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">244</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ec8865f0b7417e7dd32e6a2ea18d415570f525f9" datatype="html">
+        <source>姓名</source><target state="new">姓名</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">247</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b0ae6e09933a9ba358a243b411b72f826ea6fb97" datatype="html">
+        <source>請假資訊</source><target state="new">請假資訊</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">250</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">343</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="452bf51706b16031d788d33160cb2b10817d0165" datatype="html">
+        <source>關閉</source><target state="new">關閉</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">267</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">320</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">428</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">605</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5b2ec8b0f7a2ff9d86de50906c5cdcd7a3da3406" datatype="html">
+        <source>附檔</source><target state="new">附檔</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">297</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="719d7324f583c44a4cdf351ebc4f4d6277ee2b9a" datatype="html">
+        <source>請假明細</source><target state="new">請假明細</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">352</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70910d3683ed1061bdc370dfb2e7a4dc2759eaa4" datatype="html">
+        <source>呈核中</source><target state="new">呈核中</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">356</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0405c4d76937c3fcac3b8afa9593cc1a930b6cb8" datatype="html">
+        <source>已核准</source><target state="new">已核准</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">359</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="96efe2506904728ec462c444b897c0377a09e02f" datatype="html">
+        <source>重擬</source><target state="new">重擬</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">362</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4a729cff9c4d93d362e8ebdf03924698c9683852" datatype="html">
+        <source>已抽單</source><target state="new">已抽單</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">365</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d572df9cabca458b89f4ce76dba28d844090f57d" datatype="html">
+        <source>起始</source><target state="new">起始</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">375</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3073d9b3ece751dad3888fdfba1e3ecce86649bb" datatype="html">
+        <source>結束</source><target state="new">結束</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">381</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5e1968bb9df21b57a617c37b6a1fbbc5fcdd8e31" datatype="html">
+        <source>批核</source><target state="new">批核</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">391</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">398</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="06176e71242fc048d94475769581a314e43fc64f" datatype="html">
+        <source>尚未批核</source><target state="new">尚未批核</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">394</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b5707832f710645ccb184ad699b87947856c28ad" datatype="html">
+        <source>假別</source><target state="new">假別</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">404</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="41e8392b5a94624d3e3c38b358c2cb35ce592c61" datatype="html">
+        <source>共計</source><target state="new">共計</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">413</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c782cb5ec24c42b7ed59dc73e00134da0f114fde" datatype="html">
+        <source>日</source><target state="new">日</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">415</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">499</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">538</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a7ca686c26ed6c60604fbdf3125203737d2e2b7d" datatype="html">
+        <source>時</source><target state="new">時</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">417</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d1726344d2d893a17e56d08b9e6a5ca1f37332e7" datatype="html">
+        <source>分</source><target state="new">分</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">419</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="229e78427926981ff18013e2d334ba1bd7869735" datatype="html">
+        <source>異常資訊</source><target state="new">異常資訊</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">452</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fede617193fd213715b1eaf7f31913a8bb758165" datatype="html">
+        <source>班型</source><target state="new">班型</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">462</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dd82b18146a01b87d5fc897644e75e248bc2f288" datatype="html">
+        <source>遲到</source><target state="new">遲到</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">469</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="03d56b8e290e38c8e7697f55e60829bdf7e0285f" datatype="html">
+        <source>早退</source><target state="new">早退</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">472</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ee2385b1b463cb9abe1b790f3c772c137124c1c1" datatype="html">
+        <source>未刷卡</source><target state="new">未刷卡</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">475</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8bf0cf4e08094b500fae655fd345497c8414dea8" datatype="html">
+        <source>應上班時間</source><target state="new">應上班時間</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">482</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cb8c2bd6ab7a3a78f5273a2cbc110e55bc2a59a5" datatype="html">
+        <source>應下班時間</source><target state="new">應下班時間</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">488</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ebd8d10c404c5af250ee2d7585503f71ff8002b3" datatype="html">
+        <source>到勤時間</source><target state="new">到勤時間</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">506</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cca8146eef3a8fe503f3b2ecd1ed12b3ccc830a9" datatype="html">
+        <source>離勤時間</source><target state="new">離勤時間</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">520</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="30b63748c63a19730dee20d9ebaa9ac398cb2d87" datatype="html">
+        <source>異常可能原因</source><target state="new">異常可能原因</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">550</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="964dfacb5ed379630fa2d01cc6af35ab089ac0cc" datatype="html">
+        <source>請假問題 - 未請假、假單未核准、資訊填寫不正確..等，請查詢請假紀錄做確認</source><target state="new">請假問題 - 未請假、假單未核准、資訊填寫不正確..等，請查詢請假紀錄做確認</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">555</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f2a0fbef6afcd33aa4efd0bd619a48dbc5a443ee" datatype="html">
+        <source>考勤不符 - 考勤與實際上班時間不同，請確認是否需要調班</source><target state="new">考勤不符 - 考勤與實際上班時間不同，請確認是否需要調班</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">558</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52bdbfcb7de8c872bf6985df8f03883f337ef970" datatype="html">
+        <source>刷卡因素 - 誤刷、未刷、早退等，請填寫考勤異常簽認單校正考勤</source><target state="new">刷卡因素 - 誤刷、未刷、早退等，請填寫考勤異常簽認單校正考勤</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">561</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f7d7e88a7a83ccb8c164a614dbd5c1257d957078" datatype="html">
+        <source>若以上皆非，請洽單位差假管理員</source><target state="new">若以上皆非，請洽單位差假管理員</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">564</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="560a7e9f27c7a073c76ce9ca5a51170047b76fa4" datatype="html">
+        <source>確定</source><target state="new">確定</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">574</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f589d98517b45649fc869712c13457f2c7db4c7c" datatype="html">
+        <source>考勤異常數量說明</source><target state="new">考勤異常數量說明</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">594</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="988cc389a49dfdd3d91b818754a57885b6b362ae" datatype="html">
+        <source>由2019/08/01後開始計算。</source><target state="new">由2019/08/01後開始計算。</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/View/home/home.component.html</context>
+          <context context-type="linenumber">599</context>
         </context-group>
       </trans-unit>
     </body>

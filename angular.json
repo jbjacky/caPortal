@@ -99,6 +99,9 @@
           "configurations": {
             "production": {
               "browserTarget": "caPortal:build:production"
+            },
+            "en": {
+              "browserTarget": "caPortal:build:en"
             }
           }
         },

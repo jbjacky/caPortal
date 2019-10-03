@@ -17,6 +17,7 @@ import { GetBaseByAuthByEmpIDDataClass } from 'src/app/Models/GetBaseByAuthByEmp
 import { GetDeptaByEmpDataClass, Base } from 'src/app/Models/GetDeptaByEmpDataClass';
 import { DeptDetailClass } from 'src/app/Models/DeptDetailClass';
 import { GetAttendInfoByDeptGetApiClass } from 'src/app/Models/PostData_API_Class/GetAttendInfoByDeptGetApiClass';
+import { void_MonthDiff } from 'src/app/UseVoid/void_DateDiff';
 
 @Component({
   selector: 'app-personnel-search',
@@ -271,11 +272,16 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
     this.dateE.setMinutes(0, 0, 0)
     this.dateE.setSeconds(0, 0)
 
+    var searchDateB: Date = new Date(this.dateB.toString())
+    var searchDateE: Date = new Date(this.dateE.toString())
+
     if (this.dateE > today) {
       $("#id_ipt_endday").addClass("errorInput");
       this.errorEndtDateState = { state: true, errorString: '結束日不得大於今天' }
     } else if (this.blurStartDate() || this.blurEndDate()) {
 
+    } else if (void_MonthDiff(searchDateB, searchDateE) > 3) {
+      alert('查詢起訖區間不得超過三個月')
     } else {
       this.Be_AttendanceApiData$.next([])
       var ipt_ListEmpID = [this.EmpBase.EmpCode]
@@ -363,8 +369,14 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
 
 
   onSearchDeptClick() {
+
+    var searchDateB: Date = new Date(this.dateB.toString())
+    var searchDateE: Date = new Date(this.dateE.toString())
+
     if (this.blurStartDate() || this.blurEndDate()) {
 
+    } else if (void_MonthDiff(searchDateB, searchDateE) > 3) {
+      alert('查詢起訖區間不得超過三個月')
     } else {
 
       this.Be_AttendanceApiData$.next([])
@@ -647,7 +659,7 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
                     }
                     this.AttendanceApiData.push(x[i]);
                   }
-                  
+
                   for (let i = 0; i < this.AttendanceApiData.length; i++) {
                     var date = new Date(this.AttendanceApiData[i].AttendDate.toString())
                     this.AttendanceApiData[i].AttendDate = doFormatDate(this.AttendanceApiData[i].AttendDate)

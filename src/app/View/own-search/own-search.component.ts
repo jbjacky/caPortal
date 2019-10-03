@@ -9,6 +9,7 @@ import { Attendance } from 'src/app/Models/Attendance';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
+import { void_MonthDiff } from 'src/app/UseVoid/void_DateDiff';
 
 @Component({
   selector: 'app-own-search',
@@ -158,10 +159,14 @@ export class OwnSearchComponent implements OnInit, AfterViewInit {
     this.SearchDateE.setMinutes(0, 0, 0)
     this.SearchDateE.setSeconds(0, 0)
 
+    var searchDateB: Date = new Date(this.SearchDateB.toString())
+    var searchDateE: Date = new Date(this.SearchDateE.toString())
     if (this.SearchDateE > today) {
       $("#id_ipt_endday").addClass("errorInput");
       this.errorEndtDateState = { state: true, errorString: '結束日不得大於今天' }
     } else if (this.blurStartDate() || this.blurEndDate()) {
+    } else if (void_MonthDiff(searchDateB, searchDateE) > 3) {
+      alert('查詢起訖區間不得超過三個月')
     } else {
       this.LoadingPage.show()
       this.Be_AttendanceApiData$.next([])

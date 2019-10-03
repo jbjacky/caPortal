@@ -16,6 +16,7 @@ import { GetFlowViewAbscGetApiDataClass } from 'src/app/Models/GetFlowViewAbscGe
 import { GetFlowViewCardGetApiDataClass } from 'src/app/Models/GetFlowViewCardGetApiDataClass';
 import { GetFlowViewShiftRoteGetApiDataClass } from 'src/app/Models/GetFlowViewShiftRoteGetApiDataClass';
 import { SearchChangeFormComponent } from '../shareComponent/search-change-form/search-change-form.component';
+import { void_DateDiff, void_MonthDiff } from 'src/app/UseVoid/void_DateDiff';
 declare let $: any; //use jquery
 
 @Component({
@@ -49,22 +50,22 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
 
   setFlowView: showFlowView[] = []//傳給查詢結果-表單
 
-  showSelectSearchForm:any = ''; //顯示表單種類
+  showSelectSearchForm: any = ''; //顯示表單種類
 
   isSearch: boolean = false; //第一次沒按不顯示查詢結果
   @ViewChild(SearchVaFormComponent) SearchVaFormComponent: SearchVaFormComponent;
   @ViewChild(SearchDelFormComponent) SearchDelFormComponent: SearchDelFormComponent;
   @ViewChild(SearchChangeFormComponent) SearchChangeFormComponent: SearchChangeFormComponent;
   @ViewChild(SearchForgetFormComponent) SearchForgetFormComponent: SearchForgetFormComponent;
-  showTransSign:boolean = false
-  showTake:boolean = false
-  ngOnInit() { 
-    
+  showTransSign: boolean = false
+  showTake: boolean = false
+  ngOnInit() {
+
     this.GetApiUserService.counter$
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: any) => {
-          if(x!=0){
+          if (x != 0) {
             this.showTransSign = x.IsAssistant
             this.showTake = x.IsAssistant
           }
@@ -79,21 +80,29 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
       ListEmpIDArray.push(oneEmp.EmpCode.toString())
     }
     this.Search_FormCondition.ListEmpID = ListEmpIDArray
-
     if (this.Search_FormCondition.ListEmpID) {
       if (this.Search_FormCondition.ListEmpID.length > 0) {
         this.showSelectSearchForm = '' //勿刪!! 讓搜尋後的結果重新載入一遍
         if (window.outerWidth < 800) {
-          $('#'  + '1_text').text('展開查詢選單')
-          $('#'  + '1_img').css({ "transition": "transform 0.5s" });
-          $('#'  + '1_img').css({ "transform": "rotate(0deg)" });
+          $('#' + '1_text').text('展開查詢選單')
+          $('#' + '1_img').css({ "transition": "transform 0.5s" });
+          $('#' + '1_img').css({ "transform": "rotate(0deg)" });
           $('#post1').collapse('hide')
           $('#phonetopdiv').css({ "height": "inherit" });
           this.diolog_state = false
           $('body').css("overflow-y", "auto");
         }
-        this.getSearchFlowForm(this.Search_FormCondition)
-      }else{
+
+        var searchDateB: Date = new Date(this.Search_FormCondition.DateB.toString())
+        var searchDateE: Date = new Date(this.Search_FormCondition.DateE.toString())
+        if (searchDateB > searchDateE) {
+          alert('結束日不得大於起始日')
+        } else if (void_MonthDiff(searchDateB, searchDateE) > 3) {
+          alert('查詢起訖區間不得超過三個月')
+        } else {
+          this.getSearchFlowForm(this.Search_FormCondition)
+        }
+      } else {
         alert('請輸入工號或選擇部門(該部門可能沒有人員)')
       }
     }
@@ -109,9 +118,9 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
   onCheckCollapseIn() {
     //確認是否收合
     if ($('#id1').hasClass('collapsed')) {
-      $('#'  + '1_text').text('收合查詢選單')
-      $('#'  + '1_img').css({ "transition": "transform 0.5s" });
-      $('#'  + '1_img').css({ "transform": "rotate(-180deg)" });
+      $('#' + '1_text').text('收合查詢選單')
+      $('#' + '1_img').css({ "transition": "transform 0.5s" });
+      $('#' + '1_img').css({ "transform": "rotate(-180deg)" });
       $('#showFormPalce').addClass('showForm_openDialog');
       $('#showFormPalce').removeClass('showForm_closeDialog');
 
@@ -129,9 +138,9 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
     } else {
       $('#chooseEmpdialog').modal('hide')
       $('#chooseDeptdialog').modal('hide')
-      $('#'  + '1_text').text('展開查詢選單')
-      $('#'  + '1_img').css({ "transition": "transform 0.5s" });
-      $('#'  + '1_img').css({ "transform": "rotate(0deg)" });
+      $('#' + '1_text').text('展開查詢選單')
+      $('#' + '1_img').css({ "transition": "transform 0.5s" });
+      $('#' + '1_img').css({ "transform": "rotate(0deg)" });
       $('#showFormPalce').addClass('showForm_closeDialog');
       $('#showFormPalce').removeClass('showForm_openDialog');
       document.getElementById("phonetopdiv").style.height = '90px';
@@ -148,13 +157,13 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
       if (this.isSearch) {
         this.TopresizeNav();
         this.windowSize()
-      }else{
-        if(window.outerWidth > 800){
+      } else {
+        if (window.outerWidth > 800) {
           document.getElementById("phonetopdiv").style.position = 'unset';
-        }else{
-          
+        } else {
+
         }
-        
+
       }
     })
   windowSize() {
@@ -172,9 +181,9 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
       // document.getElementById("phonetopdiv").style.height = '400px';
       document.getElementById("phonetopdiv").style.overflowY = 'auto';
 
-      $('#'  + '1_text').text('展開查詢選單')
-      $('#'  + '1_img').css({ "transition": "transform 0.5s" });
-      $('#'  + '1_img').css({ "transform": "rotate(0deg)" });
+      $('#' + '1_text').text('展開查詢選單')
+      $('#' + '1_img').css({ "transition": "transform 0.5s" });
+      $('#' + '1_img').css({ "transform": "rotate(0deg)" });
       $('#post1').collapse('hide')
       document.getElementById("id1").style.visibility = 'visible'
       // $('#id1').css({ "display": "block" });
@@ -191,9 +200,9 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
       $('#post1').collapse('show')
       document.getElementById("phonetopdiv").style.overflowY = 'unset';
       document.getElementById("phonetopdiv").style.height = ' 100%';
-      $('#'  + '1_text').text('收合查詢選單')
-      $('#'  + '1_img').css({ "transition": "transform 0.5s" });
-      $('#'  + '1_img').css({ "transform": "rotate(-180deg)" });
+      $('#' + '1_text').text('收合查詢選單')
+      $('#' + '1_img').css({ "transition": "transform 0.5s" });
+      $('#' + '1_img').css({ "transform": "rotate(-180deg)" });
       this.diolog_state = false
       $('body').css("overflow-y", "auto");
     }
