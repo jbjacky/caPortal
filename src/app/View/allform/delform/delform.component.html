@@ -1,10 +1,13 @@
 <div class="a-block" *ngIf="showBlockIsAssistant">
   <div class="a-block-body  a-block-container">
     <div class="row" style="margin: 0px;margin-bottom: 15px;">
-      <h3 style="margin:0px">行政區塊</h3>
+      <h3 style="margin:0px">
+        <ng-container i18n>行政區塊</ng-container>
+      </h3>
       <div class="col-md-6 col-xs-12  P_dashed">
         <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right;padding-top: 6px;">
-          <span class="form-must-fill">*</span>員工
+          <span class="form-must-fill">*</span>
+          <ng-container i18n>員工</ng-container>
         </label>
         <div class="col-md-8">
           <div class="row">
@@ -30,7 +33,9 @@
 
       <div class="col-md-6 col-xs-12  P_dashed">
         <div class="col-md-3 col-xs-12  P_textLeft">
-          <label class="control-label">填寫人</label>
+          <label class="control-label">
+            <ng-container i18n>填寫人</ng-container>
+          </label>
         </div>
         <div class="col-md-9  col-xs-12 P_paddingLRZ">
           <label class="control-label" style="font-weight: normal;padding-top: 6px;">{{writeEmpMan.EmpCode}}
@@ -41,7 +46,8 @@
     <div class="row" style="margin: 0px">
       <div class="col-md-6 firstinone-form-group">
         <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right;padding-top: 6px;">
-          <span class="form-must-fill">*</span>起始日期
+          <span class="form-must-fill">*</span>
+          <ng-container i18n>起始日期</ng-container>
         </label>
         <div class="col-md-8">
           <div class="row writerow">
@@ -68,7 +74,8 @@
       </div>
       <div class="col-md-6 firstintwo-form-group">
         <label class="col-md-3 control-label" style="padding: 0px;text-align: right;padding-top: 6px;">
-          <span class="form-must-fill">*</span>結束日期
+          <span class="form-must-fill">*</span>
+          <ng-container i18n>結束日期</ng-container>
         </label>
         <div class="col-md-8">
           <div class="row ">
@@ -97,7 +104,9 @@
     <div class="row" style="margin: 0px">
       <div class="col-md-6">
         <div class="col-md-4 col-md-offset-4" style="padding: 0">
-          <button class="btn btn-primary" (click)="onSearch()">查詢</button>
+          <button class="btn btn-primary" (click)="onSearch()">
+            <ng-container i18n>查詢</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -106,13 +115,15 @@
 
 <div class="a-block" *ngIf="alldelformpeople.length>0">
   <div class="a-block-body  a-block-container">
-    <h2>選擇銷假時間</h2>
+    <h2>
+      <ng-container i18n>選擇銷假時間</ng-container>
+    </h2>
     <section class="form-horizontal  form-style01">
 
       <div class="form-group ">
         <div class="col-md-6 ">
           <label class="col-md-4 control-label" style="padding-left: 0px">
-            員工
+            <ng-container i18n>員工</ng-container>
           </label>
           <div class="col-md-8" style="padding: 0;padding-top: 7px">
             <label style="font-weight: normal;">{{searchEmpCode}} {{searchEmpName}}</label>
@@ -133,7 +144,9 @@
                 <mat-checkbox class="delcheckbox" [(ngModel)]="alldelformpeople.checkedstate"
                   style="margin-right: 5px;margin-bottom: 5px" (click)="checkAll(alldelformpeople)"
                   [disabled]="disabled_checkAll(alldelformpeople)"></mat-checkbox>
-                <span class="showAllText">選取此時段所有時間</span>
+                <span class="showAllText">
+                  <ng-container i18n>選取此時段所有時間</ng-container>
+                </span>
               </div>
               <div class="col-md-11 col-xs-12  row" (click)="onCheckCollapseIn(alldelformpeople._id)"
                 style="margin: 0px;padding: 0px;cursor: pointer;" data-toggle="collapse"
@@ -143,40 +156,58 @@
                 <div class="col-md-11 col-xs-12" style="margin: 0px;padding: 0px">
                   <div *ngIf="!alldelformpeople.everyday" class="col-md-6 col-xs-12 row" style="margin:0;padding: 0px">
                     <div class="col-md-6 col-xs-12 P_startday" style="padding: 0px;">
-                      <span style="color: #7e7e7e">起始：</span>
+                      <span style="color: #7e7e7e">
+                        <ng-container i18n>起始</ng-container>：
+                      </span>
                       {{alldelformpeople.startdate}} <span>{{alldelformpeople.starttime}}</span>
                     </div>
                     <div class="col-md-6 col-xs-12" style="padding: 0px">
-                      <span style="color: #7e7e7e">結束：</span>
+                      <span style="color: #7e7e7e">
+                        <ng-container i18n>結束</ng-container>：
+                      </span>
                       {{alldelformpeople.enddate}} <span>{{alldelformpeople.endtime}}</span>
                     </div>
                     <div *ngIf="alldelformpeople.eventDate">
-                      <span style="color: #7e7e7e">事件發生日：</span>
+                      <span style="color: #7e7e7e">
+                        <ng-container i18n>事件發生日</ng-container>：
+                      </span>
                       {{alldelformpeople.eventDate}}
                     </div>
                     <div *ngIf="alldelformpeople.keyName">
-                      <span style="color: #7e7e7e">稱謂：</span>
+                      <span style="color: #7e7e7e">
+                        <ng-container i18n>稱謂</ng-container>：
+                      </span>
                       {{alldelformpeople.keyName}}
                     </div>
                   </div>
                   <div *ngIf="alldelformpeople.everyday" class="col-md-6 col-xs-12 row" style="margin:0;padding: 0px">
                     <div class="col-md-6 col-xs-12 P_startday" style="padding: 0px;">
-                      <span style="color: #7e7e7e">起始：</span>
+                      <span style="color: #7e7e7e">
+                        <ng-container i18n>起始</ng-container>：
+                      </span>
                       {{alldelformpeople.startdate}}
                     </div>
                     <div class="col-md-6 col-xs-12" style="padding: 0px">
-                      <span style="color: #7e7e7e">結束：</span>
+                      <span style="color: #7e7e7e">
+                        <ng-container i18n>結束</ng-container>：
+                      </span>
                       {{alldelformpeople.enddate}}
                     </div>
                     <div *ngIf="alldelformpeople.everyday">
-                      <span style="color: #7e7e7e">每日循環時段：</span>{{alldelformpeople.starttime}} - {{alldelformpeople.endtime}}
+                      <span style="color: #7e7e7e">
+                        <ng-container i18n>每日循環時段</ng-container>：
+                      </span>{{alldelformpeople.starttime}} - {{alldelformpeople.endtime}}
                     </div>
                     <div *ngIf="alldelformpeople.eventDate">
-                      <span style="color: #7e7e7e">事件發生日：</span>
+                      <span style="color: #7e7e7e">
+                        <ng-container i18n>事件發生日</ng-container>：
+                      </span>
                       {{alldelformpeople.eventDate}}
                     </div>
                     <div *ngIf="alldelformpeople.keyName">
-                      <span style="color: #7e7e7e">稱謂：</span>
+                      <span style="color: #7e7e7e">
+                        <ng-container i18n>稱謂</ng-container>：
+                      </span>
                       {{alldelformpeople.keyName}}
                     </div>
                   </div>
@@ -185,15 +216,23 @@
                     <div class="col-md-6 col-xs-12" style="padding: 0px;">
                       共計：
                       <span style="margin-right:5px">{{alldelformpeople.calday}}</span>
-                      <span style="margin-right:5px">日</span>
+                      <span style="margin-right:5px">
+                        <ng-container i18n>日</ng-container>
+                      </span>
                       <span style="margin-right:5px">{{alldelformpeople.calhour}}</span>
-                      <span style="margin-right:5px">時</span>
+                      <span style="margin-right:5px">
+                        <ng-container i18n>時</ng-container>
+                      </span>
                       <span style="margin-right:5px">{{alldelformpeople.calminute}}</span>
-                      <span style="margin-right:5px">分</span>
+                      <span style="margin-right:5px">
+                        <ng-container i18n>分</ng-container>
+                      </span>
                     </div>
                     <div class="col-md-6 col-xs-12" style="padding: 0px;">
                       <div>
-                        <span style="color: #7e7e7e">原始單號：</span>
+                        <span style="color: #7e7e7e">
+                          <ng-container i18n>原始單號</ng-container>：
+                        </span>
                         {{alldelformpeople.ProcessID}}
                       </div>
                     </div>
@@ -202,7 +241,9 @@
                   <div class="col-md-12 col-xs-12" style="margin: 0px;padding:0px">
                     <div style="color: #d0021b"
                       *ngIf="alldelformpeople.selectDetailSeveral != '0' && !alldelformpeople.checkedstate">
-                      (已選{{alldelformpeople.selectDetailSeveral}}段時間)
+                      (<ng-container i18n>已選</ng-container>
+                      {{alldelformpeople.selectDetailSeveral}}
+                      <ng-container i18n>段時間</ng-container>)
                     </div>
                     <div style="margin:0;padding: 8px 0px">
                       {{alldelformpeople.holiday.name}}
@@ -212,7 +253,9 @@
                 <!-- </div> -->
                 <div class="col-md-1 col-xs-12" style="padding: 0px">
                   <a>
-                    <span [id]="textid(alldelformpeople._id)">收合</span>
+                    <span [id]="textid(alldelformpeople._id)">
+                      <ng-container i18n>收合</ng-container>
+                    </span>
                     <img [id]="imgid(alldelformpeople._id)" src="./assets/images-template/icon-arrow.png"
                       style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
                   </a>
@@ -234,8 +277,15 @@
                         <span style="padding-left: 20px">{{detail_vaform.starttime}} - {{detail_vaform.endtime}}</span>
                       </div>
                       <div class="col-md-6 col-xs-12" style="padding: 0px;color: #a9a9a9">
-                        共計：{{detail_vaform.calday}}日{{detail_vaform.calhour}}時{{detail_vaform.calminute}}分
-                        (已銷假)</div>
+                        <ng-container i18n>共計</ng-container>：
+                        {{detail_vaform.calday}}
+                        <ng-container i18n> 日 </ng-container>
+                        {{detail_vaform.calhour}}
+                        <ng-container i18n> 時 </ng-container>
+                        {{detail_vaform.calminute}}
+                        <ng-container i18n> 分 </ng-container>
+                        (<ng-container i18n>已銷假</ng-container>)
+                      </div>
                     </div>
                   </div>
                   <!-- (2已銷假) -->
@@ -251,7 +301,14 @@
                         <span style="padding-left: 20px">{{detail_vaform.starttime}} - {{detail_vaform.endtime}}</span>
                       </div>
                       <div class="col-md-6 col-xs-12" style="padding: 0px">
-                        共計：{{detail_vaform.calday}}日{{detail_vaform.calhour}}時{{detail_vaform.calminute}}分</div>
+                        <ng-container i18n>共計</ng-container>：
+                        {{detail_vaform.calday}}
+                        <ng-container i18n> 日 </ng-container>
+                        {{detail_vaform.calhour}}
+                        <ng-container i18n> 時 </ng-container>
+                        {{detail_vaform.calminute}}
+                        <ng-container i18n> 分 </ng-container>
+                      </div>
                     </div>
                   </div>
                   <!-- (3可以銷假) -->
@@ -266,8 +323,15 @@
                         <span style="padding-left: 20px">{{detail_vaform.starttime}} - {{detail_vaform.endtime}}</span>
                       </div>
                       <div class="col-md-6 col-xs-12" style="padding: 0px;color: #a9a9a9">
-                        共計：{{detail_vaform.calday}}日{{detail_vaform.calhour}}時{{detail_vaform.calminute}}分
-                        (銷假呈核中)</div>
+                        <ng-container i18n>共計</ng-container>：
+                        {{detail_vaform.calday}}
+                        <ng-container i18n>日</ng-container>
+                        {{detail_vaform.calhour}}
+                        <ng-container i18n>時</ng-container>
+                        {{detail_vaform.calminute}}
+                        <ng-container i18n>分</ng-container>
+                        (<ng-container i18n>銷假呈核中</ng-container>)
+                      </div>
                     </div>
                   </div>
                   <!-- (1銷假呈核中) -->
@@ -282,8 +346,15 @@
                         <span style="padding-left: 20px">{{detail_vaform.starttime}} - {{detail_vaform.endtime}}</span>
                       </div>
                       <div class="col-md-6 col-xs-12" style="padding: 0px;color: #a9a9a9">
-                        共計：{{detail_vaform.calday}}日{{detail_vaform.calhour}}時{{detail_vaform.calminute}}分
-                        (7天限制)</div>
+                        <ng-container i18n>共計</ng-container>：
+                        {{detail_vaform.calday}}
+                        <ng-container i18n> 日 </ng-container>
+                        {{detail_vaform.calhour}}
+                        <ng-container i18n> 時 </ng-container>
+                        {{detail_vaform.calminute}}
+                        <ng-container i18n> 分 </ng-container>
+                        (<ng-container i18n>7天限制</ng-container>)
+                      </div>
                     </div>
                   </div>
                   <!-- (7天限制) -->
@@ -302,7 +373,9 @@
         <div>
           <div class="col-md-2" style="padding-left: 0px">
             <label class="control-label" style="padding-left: 0px;padding-right: 15px;">
-              <span class="form-must-fill">*</span> 銷假事由</label>
+              <span class="form-must-fill">*</span>
+              <ng-container i18n>銷假事由</ng-container>
+            </label>
           </div>
           <div class="col-md-8">
             <textarea [(ngModel)]="NoteText" class="inputTextarea" style="color:#020202;overflow-y: auto;height: 83px;"
@@ -315,7 +388,9 @@
         <div>
           <div class="col-md-2" style="padding-left: 0px">
             <label class="control-label" style="padding-left: 0px;padding-right: 15px;">
-              <span class="form-must-fill">*</span> 簽核人員</label>
+              <span class="form-must-fill">*</span>
+              <ng-container i18n>簽核人員</ng-container>
+            </label>
           </div>
           <div class="col-md-10 row" style="margin:0px;">
             <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeSingMan$"></app-select-signer>
@@ -330,7 +405,9 @@
           </div>
           <div class="col-md-8 row" style="margin:0px;padding: 0px">
             <div class="col-md-6">
-              <button class="btn btn-primary" data-toggle="modal" (click)="checkError()">送出申請單</button>
+              <button class="btn btn-primary" data-toggle="modal" (click)="checkError()">
+                <ng-container i18n>送出申請單</ng-container>
+              </button>
             </div>
             <div class="col-md-6">
             </div>
@@ -343,8 +420,9 @@
         <div style="border-top: 1px dashed #dcdcdc;padding: 15px 0px;margin-top: 20px;margin-bottom: 20px">
           <div style="border:1px solid #d9edf7;">
             <div style="background-color: #d9edf7;padding-left: 10px;padding-top: 5px;">
-              <label style="color: 
-                  #31708f">人力處提醒您</label>
+              <label style="color: #31708f">
+                <ng-container i18n>人力處提醒您</ng-container>
+              </label>
             </div>
             <div style="height: 50px;overflow-y: auto;padding: 10px 10px;">
               {{showNote}}
@@ -363,7 +441,7 @@
 <div class="a-block" *ngIf="showdataIsEmpty && !errorEmpSendForm.state">
   <div class="a-block-body  a-block-container">
     <div *ngIf="alldelformpeople.length==0 && showdataIsEmpty">
-      沒有可填寫的銷假單
+      <ng-container i18n>沒有可填寫的銷假單</ng-container>
     </div>
   </div>
 </div>
@@ -371,7 +449,8 @@
 <div class="a-block" *ngIf="errorEmpSendForm.state">
   <div class="a-block-body  a-block-container">
     <div>
-      {{errorEmpSendForm.errorEmpID}}此員工無申請表單權限，如需申請表單請洽單位行政設定
+      {{errorEmpSendForm.errorEmpID}}
+      <ng-container i18n>此員工無申請表單權限，如需申請表單請洽單位行政設定</ng-container>
     </div>
   </div>
 </div>
@@ -386,15 +465,25 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認送出?</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認送出?</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
-          『提醒您，此張假單依銷假規定，將由{{showSendTree}}級主管批核。』
+          『
+          <ng-container i18n>提醒您，此張假單依銷假規定，將由</ng-container>
+          {{showSendTree}}
+          <ng-container i18n>級主管批核。</ng-container>
+          』
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-            (click)="sendandSaveDelform()">送出</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            (click)="sendandSaveDelform()">
+            <ng-container i18n>送出</ng-container>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -409,18 +498,22 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <!-- <span aria-hidden="true">×</span> -->
           </button>
-          <h4 class="modal-title" style="text-align: center">申請完成</h4>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>申請完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
             <img src="./assets/images-template/icon-success.png" />
           </div>
           <div style="text-align: center">
-            表單送出完成!
+            <ng-container i18n>表單送出完成</ng-container>!
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='["../home"]'>確定</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='["../home"]'>
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -439,7 +532,9 @@
             <span aria-hidden="true">×</span>
           </button>
           <app-choosebase-ma (saveEmptoView)="onSaveEmptoView($event)" [IsTop]="true"></app-choosebase-ma>
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>

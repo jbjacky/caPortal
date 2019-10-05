@@ -2,9 +2,15 @@
 <section class="a-block stateblock">
   <div class="a-block-body  a-block-container">
     <ol id="navs" class="steps-indicator row">
-      <li id="li1" class="col-sm-3 active">選擇互換日期</li>
-      <li id="li2" class="col-sm-3">確認互換明細</li>
-      <li id="li3" class="col-sm-3">申請完成</li>
+      <li id="li1" class="col-sm-3 active">
+        <ng-container i18n>選擇互換日期</ng-container>
+      </li>
+      <li id="li2" class="col-sm-3">
+        <ng-container i18n>確認互換明細</ng-container>
+      </li>
+      <li id="li3" class="col-sm-3">
+        <ng-container i18n>申請完成</ng-container>
+      </li>
     </ol>
   </div>
   <!-- a-block-body End -->
@@ -15,7 +21,9 @@
     <div [hidden]="!showBlockIsAssistant" class="form-group first-form-group" style="border: 1px solid #979797;">
       <div class="row" style="margin:0px;    padding: 20px 0px 20px 0px;">
         <div class="col-md-2 col-xs-12 P_AssistantTitle">
-          <h3 style="margin:0px">選擇申請角色</h3>
+          <h3 style="margin:0px">
+            <ng-container i18n>選擇申請角色</ng-container>
+          </h3>
         </div>
         <div class="col-md-8 col-xs-12 P_radio">
           <div style="display: inline-block;margin-right:15px " *ngFor="let oneRadio of radiogroup">
@@ -30,7 +38,7 @@
           <div class="row" style="margin:0px">
             <div class="col-md-2 col-xs-12 P_title">
               <label class=" control-label">
-                員工
+                <ng-container i18n>員工</ng-container>
               </label>
             </div>
             <div class="col-md-10  col-xs-12 row" style="padding:0px;margin: 0px">
@@ -43,7 +51,8 @@
             <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
               <div class="col-md-4 col-xs-12 P_title" style="margin-top: 8px;">
                 <label class=" control-label">
-                  <span class="form-must-fill">*</span>例休日
+                  <span class="form-must-fill">*</span>
+                  <ng-container i18n>例休日</ng-container>
                 </label>
               </div>
               <div class="col-md-6 col-xs-10" style="padding:0px">
@@ -67,7 +76,8 @@
             <div [hidden]="!selectRZLoading" class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
               <div class="col-md-4 col-xs-12 P_title" style="margin-top: 8px;">
                 <label class=" control-label">
-                  <span class="form-must-fill">*</span>互換例休日
+                  <span class="form-must-fill">*</span>
+                  <ng-container i18n>互換例休日</ng-container>
                 </label>
               </div>
               <div class="col-md-6  col-xs-10" style="padding:0px">
@@ -85,7 +95,9 @@
             <div class="col-md-4 col-xs-12 " style="margin-top: 8px;">
             </div>
             <div class="col-md-6 col-xs-10" style="padding:0px">
-              <button class="btn btn-primary" (click)="My_nextPage()">下一步</button>
+              <button class="btn btn-primary" (click)="My_nextPage()">
+                <ng-container i18n>下一步</ng-container>
+              </button>
             </div>
           </div>
         </div>
@@ -98,7 +110,8 @@
             <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
               <div class="col-md-4 col-xs-12 P_title" style="margin-top: 6px;">
                 <label class=" control-label">
-                  <span class="form-must-fill">*</span>員工
+                  <span class="form-must-fill">*</span>
+                  <ng-container i18n>員工</ng-container>
                 </label>
               </div>
               <div class="col-md-3 col-xs-4" style="padding:0px">
@@ -120,7 +133,7 @@
             <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
               <div class="col-md-4 col-xs-3 P_title" style="margin-top: 6px;">
                 <label class=" control-label">
-                  填寫人
+                  <ng-container i18n>填寫人</ng-container>
                 </label>
               </div>
               <div class="col-md-8  col-xs-9" style="padding:0px;margin-top: 6px;">
@@ -135,7 +148,8 @@
             <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
               <div class="col-md-4 col-xs-12 P_title" style="margin-top: 8px;">
                 <label class=" control-label">
-                  <span class="form-must-fill">*</span>例休日
+                  <span class="form-must-fill">*</span>
+                  <ng-container i18n>例休日</ng-container>
                 </label>
               </div>
               <div class="col-md-6 col-xs-10" style="padding:0px">
@@ -159,7 +173,8 @@
             <div [hidden]="!Assistant_selectRZLoading" class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
               <div class="col-md-4 col-xs-12 P_title" style="margin-top: 8px;">
                 <label class=" control-label">
-                  <span class="form-must-fill">*</span>互換例休日
+                  <span class="form-must-fill">*</span>
+                  <ng-container i18n>互換例休日</ng-container>
                 </label>
               </div>
               <div class="col-md-6  col-xs-10" style="padding:0px">
@@ -177,7 +192,9 @@
             <div class="col-md-4 col-xs-12 " style="margin-top: 8px;">
             </div>
             <div class="col-md-6 col-xs-10" style="padding:0px">
-              <button class="btn btn-primary" (click)="Assistant_nextPage()">下一步</button>
+              <button class="btn btn-primary" (click)="Assistant_nextPage()">
+                <ng-container i18n>下一步</ng-container>
+              </button>
             </div>
           </div>
         </div>
@@ -190,14 +207,16 @@
 
 <div class="a-block" *ngIf="writeState==2">
   <div class="a-block-body  a-block-container">
-    <h3>確認互換明細</h3>
+    <h3>
+      <ng-container i18n>確認互換明細</ng-container>
+    </h3>
     <div>
       <div class="form-group first-form-group" style="border-bottom: 1px dashed #dcdcdc;
       padding-top: 20px;">
         <div class="row" style="padding-bottom: 15px;margin:0px">
           <div class="col-md-2 col-xs-12 P_title">
             <label class=" control-label">
-              員工
+              <ng-container i18n>員工</ng-container>
             </label>
           </div>
           <div class="col-md-10  col-xs-12 row" style="padding:0px;margin: 0px">
@@ -219,7 +238,8 @@
           </div>
           <div *ngIf="selectData.isSelect">
             <div class="title col-md-12 col-xs-6 DivDateStyle selectDateDiv">{{selectData.date}}</div>
-            <div class="job  col-md-12 col-xs-6 DivDateStyle selectJobDiv RoteLink" (click)="bt_Show_RoteInfo(selectData.RoteID)">
+            <div class="job  col-md-12 col-xs-6 DivDateStyle selectJobDiv RoteLink"
+              (click)="bt_Show_RoteInfo(selectData.RoteID)">
               <!-- {{selectData.job}} -->
               {{selectData.RoteName}}
             </div>
@@ -230,16 +250,23 @@
         style="padding: 25px;padding-top: 10px;border-bottom: 1px dashed #dcdcdc;">
         <div>
           <span style="color: #002f7b">{{selectDay.date}} ({{selectDay.dayofweek}})</span>
-          <span class="Rote RoteLink" (click)="bt_Show_RoteInfo(selectDay.RoteID)"><!-- {{selectDay.job}} -->{{selectDay.RoteName}}</span>
-          <span style="color: #002f7b">與 {{selectChangeDay.date}} ({{selectChangeDay.dayofweek}})</span>
-          <span class="Rote RoteLink" (click)="bt_Show_RoteInfo(selectChangeDay.RoteID)"><!-- {{selectChangeDay.job}}-->{{selectChangeDay.RoteName}}</span>
-          <span style="color: #002f7b">例休互換</span>
+          <span class="Rote RoteLink" (click)="bt_Show_RoteInfo(selectDay.RoteID)">
+            <!-- {{selectDay.job}} -->{{selectDay.RoteName}}</span>
+          <span style="color: #002f7b">
+            <ng-container i18n>與</ng-container>{{selectChangeDay.date}} ({{selectChangeDay.dayofweek}})
+          </span>
+          <span class="Rote RoteLink" (click)="bt_Show_RoteInfo(selectChangeDay.RoteID)">
+            <!-- {{selectChangeDay.job}}-->{{selectChangeDay.RoteName}}</span>
+          <span style="color: #002f7b">
+            <ng-container i18n>例休互換</ng-container>
+          </span>
         </div>
       </div>
 
       <div class="row" style="border: 0px;padding: 0;padding: 20px 0px;margin: 0;border-bottom: 1px dashed #dcdcdc;">
         <label class="col-md-2 control-label P_title">
-          <span class="form-must-fill">*</span>調班事由
+          <span class="form-must-fill">*</span>
+          <ng-container i18n>調班事由</ng-container>
         </label>
         <div class="col-md-8 " style="padding: 0">
           <textarea id="cause" [(ngModel)]="NoteString" class="inputTextarea" style="overflow-y: auto"
@@ -249,7 +276,8 @@
       </div>
       <div class="row" style="border: 0px;padding: 0;padding: 20px 0px;margin: 0;border-bottom: 1px dashed #dcdcdc;">
         <label class="col-md-2 control-label P_title">
-          <span class="form-must-fill">*</span>簽核人員
+          <span class="form-must-fill">*</span>
+          <ng-container i18n>簽核人員</ng-container>
         </label>
         <div class="col-md-8 " style="padding: 0">
           <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeSingMan$"></app-select-signer>
@@ -257,17 +285,21 @@
         </div>
       </div>
       <div style="border: 0px;padding: 20px 0px;margin: 0;">
-        <input type="checkbox"
-          [(ngModel)]="agreeCheckbox"><span style="color:#23569d">本人同意因業務需要或個人理由自願調換班別，並遵照勞基法例假日及休息日出勤規定，且連續出勤不逾六日，勾選同意並確認後，其效力等同書面同意。</span>
+        <input type="checkbox" [(ngModel)]="agreeCheckbox"><span style="color:#23569d">
+          <ng-container i18n>本人同意因業務需要或個人理由自願調換班別，並遵照勞基法例假日及休息日出勤規定，且連續出勤不逾六日，勾選同意並確認後，其效力等同書面同意。</ng-container>
+        </span>
       </div>
       <div class="row" style="border: 0px;padding: 0;padding: 20px 0px;margin: 0">
         <div class="col-md-2 col-xs-12"></div>
         <div class="col-md-10 col-xs-12 row" style="margin:0;padding:0">
           <div class="col-md-8 col-md-push-3  col-xs-12 " style="margin-bottom: 15px;">
-            <button class="btn btn-primary" (click)="checksenderror()" [disabled]="disableSend()">送出申請單</button>
+            <button class="btn btn-primary" (click)="checksenderror()" [disabled]="disableSend()">
+              <ng-container i18n>送出申請單</ng-container>
+            </button>
           </div>
-          <div class="col-md-3 col-md-pull-8  col-xs-12 "><button class="btn btn-default"
-              (click)="prePage()">上一步</button>
+          <div class="col-md-3 col-md-pull-8  col-xs-12 "><button class="btn btn-default" (click)="prePage()">
+              <ng-container i18n>上一步</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -285,12 +317,18 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認送出?</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認送出?</ng-container>
+          </h4>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-            (click)="sendandSaveChangeform()">送出</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            (click)="sendandSaveChangeform()">
+            <ng-container i18n>送出</ng-container>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -305,18 +343,22 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <!-- <span aria-hidden="true">×</span> -->
           </button>
-          <h4 class="modal-title" style="text-align: center">申請完成</h4>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>申請完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
             <img src="./assets/images-template/icon-success.png" />
           </div>
           <div style="text-align: center">
-            表單送出完成!
+            <ng-container i18n>表單送出完成</ng-container>!
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='["../home"]'>確定</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='["../home"]'>
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -333,8 +375,10 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <app-choosebase-ma (saveEmptoView)="onSaveEmptoView($event)"  [IsTop]="true"></app-choosebase-ma>
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <app-choosebase-ma (saveEmptoView)="onSaveEmptoView($event)" [IsTop]="true"></app-choosebase-ma>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -350,12 +394,16 @@
             <span aria-hidden="true">×</span>
           </button>
           <!-- <h4 class="modal-title" id="mySmallModalLabel">{{showSearchEmp.EmpCode}} 出勤班表</h4> -->
-          <h4 class="modal-title" id="mySmallModalLabel">班型資訊</h4>
+          <h4 class="modal-title" id="mySmallModalLabel">
+            <ng-container i18n>班型資訊</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <app-rote-inf [GetRoteInfo$]="Ob_setGetRoteInfo$"></app-rote-inf>
           <div style="text-align: center">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+              <ng-container i18n>確定</ng-container>
+            </button>
           </div>
         </div>
       </div>

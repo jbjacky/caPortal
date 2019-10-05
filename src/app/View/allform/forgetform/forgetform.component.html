@@ -2,9 +2,15 @@
   <section class="a-block stateblock">
     <div class="a-block-body  a-block-container">
       <ol class="steps-indicator row">
-        <li class="col-sm-3  active">選擇欲填寫之簽認單</li>
-        <li class="col-sm-3">填寫考勤異常簽認單</li>
-        <li class="col-sm-3">送出申請單</li>
+        <li class="col-sm-3  active">
+          <ng-container i18n>選擇欲填寫之簽認單</ng-container>
+        </li>
+        <li class="col-sm-3">
+          <ng-container i18n>填寫考勤異常簽認單</ng-container>
+        </li>
+        <li class="col-sm-3">
+          <ng-container i18n>送出申請單</ng-container>
+        </li>
       </ol>
     </div>
     <!-- a-block-body End -->
@@ -13,10 +19,13 @@
     <div class="a-block-body  a-block-container">
 
       <div class="row" style="margin: 0px;margin-bottom: 15px;">
-        <h3 style="margin: 0;">行政區塊</h3>
+        <h3 style="margin: 0;">
+          <ng-container i18n>行政區塊</ng-container>
+        </h3>
         <div class="col-md-6 col-xs-12  P_dashed">
           <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right;padding-top: 6px;">
-            <span class="form-must-fill">*</span>員工
+            <span class="form-must-fill">*</span>
+            <ng-container i18n>員工</ng-container>
           </label>
           <div class="col-md-8">
             <div class="row">
@@ -42,7 +51,9 @@
 
         <div class="col-md-6 col-xs-12  P_dashed">
           <div class="col-md-3 col-xs-12  P_textLeft">
-            <label class="control-label">填寫人</label>
+            <label class="control-label">
+              <ng-container i18n>填寫人</ng-container>
+            </label>
           </div>
           <div class="col-md-9  col-xs-12 P_paddingLRZ">
             <label class="control-label" style="font-weight: normal;padding-top: 6px;">{{User.write_man_code}}
@@ -55,7 +66,8 @@
       <div class="row" style="margin: 0px">
         <div class="col-md-6 firstinone-form-group">
           <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right;padding-top: 6px;">
-            <span class="form-must-fill">*</span>起始日期
+            <span class="form-must-fill">*</span>
+            <ng-container i18n>起始日期</ng-container>
           </label>
           <div class="col-md-8">
             <div class="row writerow">
@@ -82,7 +94,8 @@
         </div>
         <div class="col-md-6 firstintwo-form-group">
           <label class="col-md-3 control-label" style="padding: 0px;text-align: right;padding-top: 6px;">
-            <span class="form-must-fill">*</span>結束日期
+            <span class="form-must-fill">*</span>
+            <ng-container i18n>結束日期</ng-container>
           </label>
           <div class="col-md-8">
             <div class="row ">
@@ -112,7 +125,9 @@
       <div class="row" style="margin: 0px">
         <div class="col-md-6">
           <div class="col-md-4 col-md-offset-4" style="padding: 0">
-            <button class="btn btn-primary" (click)="onSearch()">查詢</button>
+            <button class="btn btn-primary" (click)="onSearch()">
+              <ng-container i18n>查詢</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -121,13 +136,20 @@
 
   <div class="a-block">
     <div class="a-block-body  a-block-container">
-      <h3 style="margin:0px;margin-bottom: 10px">出勤異常日</h3>
+      <h3 style="margin:0px;margin-bottom: 10px">
+        <ng-container i18n>出勤異常日</ng-container>
+      </h3>
       <div style="margin-bottom: 10px">
-        <label>員工</label> {{showSearchEmp.EmpCode}} {{showSearchEmp.EmpNameC}}
+        <label>
+          <ng-container i18n>員工</ng-container>
+        </label> {{showSearchEmp.EmpCode}} {{showSearchEmp.EmpNameC}}
       </div>
-      <div *ngIf=" AttendCard.length == 0 && !errorEmpSendForm.state">目前無考勤異常資料</div>
+      <div *ngIf=" AttendCard.length == 0 && !errorEmpSendForm.state">
+        <ng-container i18n>目前無考勤異常資料</ng-container>
+      </div>
       <div *ngIf="errorEmpSendForm.state">
-        {{errorEmpSendForm.errorEmpID}}此員工無申請表單權限，如需申請表單請洽單位行政設定
+        {{errorEmpSendForm.errorEmpID}}
+        <ng-container i18n>此員工無申請表單權限，如需申請表單請洽單位行政設定</ng-container>
       </div>
       <div *ngFor="let Attend of AttendCard"
         style="border:1px solid #028fcf;padding: 20px 20px;margin: 0px;margin-bottom: 10px" class="row">
@@ -145,7 +167,9 @@
                   width: 70px;
                   height: 23px;
                   font-size: 15px;
-                  text-align: center;">遲到</div>
+                  text-align: center;">
+                <ng-container i18n>遲到</ng-container>
+              </div>
               <div *ngIf="Attend.EarlyMins" style="color: #23569D;
                   background-color: #fff;
                   border: 1px solid #23569D;
@@ -153,7 +177,9 @@
                   width: 70px;
                   height: 23px;
                   font-size: 15px;
-                  text-align: center;">早退</div>
+                  text-align: center;">
+                <ng-container i18n>早退</ng-container>
+              </div>
               <div *ngIf="Attend.IsAbsent" style="color: #23569D;
                   background-color: #fff;
                   border: 1px solid #23569D;
@@ -161,20 +187,28 @@
                   width: 70px;
                   height: 23px;
                   font-size: 15px;
-                  text-align: center;">未刷卡</div>
+                  text-align: center;">
+                <ng-container i18n>未刷卡</ng-container>
+              </div>
             </div>
           </div>
           <div class="col-md-5 row P_bottomLine">
             <div class="col-md-4 col-xs-12 P_paddingBottom">
-              <div style="color: rgb(150, 149, 148);">班型</div>
+              <div style="color: rgb(150, 149, 148);">
+                <ng-container i18n>班型</ng-container>
+              </div>
               <div class="RoteLink" (click)="bt_Show_RoteInfo(Attend.RoteID)">{{Attend.RoteCode}}</div>
             </div>
             <div class="col-md-4 col-xs-6">
-              <div style="color: rgb(150, 149, 148);">應上班時間</div>
+              <div style="color: rgb(150, 149, 148);">
+                <ng-container i18n>應上班時間</ng-container>
+              </div>
               <div>{{Attend.ActualRote_OnTime}}</div>
             </div>
             <div class="col-md-4 col-xs-6 P_paddingRZ" style="padding-right: 0px">
-              <div style="color: rgb(150, 149, 148);">應下班時間</div>
+              <div style="color: rgb(150, 149, 148);">
+                <ng-container i18n>應下班時間</ng-container>
+              </div>
               <div style="display: inline-block;padding-right: 10px">{{Attend.ActualRote_OffTime}}</div>
               <div *ngIf="Attend.ActualRote_calCrossDay" style="display: inline-block;
                   height: 20px;
@@ -184,18 +218,23 @@
                   color: #fff;
                   background-color: #408cb6;
                   border: 1px solid;
-                  border-radius: 15px;">+1日</div>
+                  border-radius: 15px;">+1<ng-container i18n>日</ng-container>
+              </div>
             </div>
           </div>
           <div class="col-md-4 row P_paddingTop">
             <div class="col-md-6 col-xs-6">
               <div style="color: rgb(150, 149, 148);"
-                [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.LateMins)">到勤時間</div>
+                [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.LateMins)">
+                <ng-container i18n>到勤時間</ng-container>
+              </div>
               <div *ngIf="Attend.AttendCard_OnTime.length>0" style="display: inline-block;padding-right: 10px"
                 [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.LateMins)">{{Attend.AttendCard_OnTime}}
               </div>
               <div *ngIf="Attend.AttendCard_OnTime.length==0"
-                [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.LateMins)">無</div>
+                [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.LateMins)">
+                <ng-container i18n>無</ng-container>
+              </div>
               <div *ngIf="Attend.AttendCard_OnTime_calCrossDay" style="display: inline-block;
                     height: 20px;
                     font-size: 13px;
@@ -204,17 +243,23 @@
                     color: #fff;
                     background-color: #408cb6;
                     border: 1px solid;
-                    border-radius: 15px;">+1日</div>
+                    border-radius: 15px;">+1
+                <ng-container i18n>日</ng-container>
+              </div>
             </div>
             <div class="col-md-6 col-xs-6 P_paddingRZ">
               <div style="color: rgb(150, 149, 148);"
-                [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.EarlyMins)">離勤時間</div>
+                [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.EarlyMins)">
+                <ng-container i18n>離勤時間</ng-container>
+              </div>
               <div>
                 <div *ngIf="Attend.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px"
                   [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.EarlyMins)">
                   {{Attend.AttendCard_OffTime}}</div>
                 <div *ngIf="Attend.AttendCard_OffTime.length==0" style="display: inline-block;padding-right: 10px"
-                  [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.EarlyMins)">無</div>
+                  [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.EarlyMins)">
+                  <ng-container i18n>無</ng-container>
+                </div>
                 <div *ngIf="Attend.AttendCard_OffTime_calCrossDay" style="display: inline-block;
                     height: 20px;
                     font-size: 13px;
@@ -223,7 +268,8 @@
                     color: #fff;
                     background-color: #408cb6;
                     border: 1px solid;
-                    border-radius: 15px;">+1日</div>
+                    border-radius: 15px;">+1<ng-container i18n>日</ng-container>
+                </div>
               </div>
             </div>
           </div>
@@ -231,7 +277,9 @@
         <div class="col-md-1 col-xs-1 row" style="margin: 0px ;padding: 0px">
           <div class="P_lineHeight">
             <a style="cursor: pointer;text-decoration:underline" (click)="onGoWriteForm(Attend)">
-              <span class="P_textNotshow">填寫</span>
+              <span class="P_textNotshow">
+                <ng-container i18n>填寫</ng-container>
+              </span>
               <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
             </a>
           </div>
@@ -244,7 +292,9 @@
         <div style="border:1px solid #d9edf7;">
           <div style="background-color: #d9edf7;padding-left: 10px;padding-top: 5px;">
             <label style="color: 
-                #31708f">人力處提醒您</label>
+                #31708f">
+              <ng-container i18n>人力處提醒您</ng-container>
+            </label>
           </div>
           <div style="height: 50px;
                 overflow-y: auto;padding: 10px 10px;">
@@ -273,7 +323,9 @@
             <span aria-hidden="true">×</span>
           </button>
           <app-choosebase-ma (saveEmptoView)="onSaveEmptoView($event)" [IsTop]="true"></app-choosebase-ma>
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -291,12 +343,16 @@
             <span aria-hidden="true">×</span>
           </button>
           <!-- <h4 class="modal-title" id="mySmallModalLabel">{{showSearchEmp.EmpCode}} 出勤班表</h4> -->
-          <h4 class="modal-title" id="mySmallModalLabel">班型資訊</h4>
+          <h4 class="modal-title" id="mySmallModalLabel">
+            <ng-container i18n>班型資訊</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <app-rote-inf [GetRoteInfo$]="Ob_setGetRoteInfo$"></app-rote-inf>
           <div style="text-align: center">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+              <ng-container i18n>確定</ng-container>
+            </button>
           </div>
         </div>
       </div>

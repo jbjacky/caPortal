@@ -1,26 +1,44 @@
 <div class="a-block">
   <div class="a-block-body  a-block-container">
     <div style="margin-bottom: 10px;">
-      <button type="button" (click)="bt_insertCheck()">新增</button>
+      <button type="button" (click)="bt_insertCheck()">
+        <ng-container i18n>新增</ng-container>
+      </button>
     </div>
     <div style="margin-bottom: 30px;">
       <div style="margin-bottom: 10px;">
         <!-- <label style="margin-right: 2px; background-color: #bec0ff;">一級單位主管代填人</label> -->
-        <label style="margin-right: 2px;">請輸入單位代碼</label>
+        <label style="margin-right: 2px;">
+          <ng-container i18n>請輸入單位代碼</ng-container>
+        </label>
         <input type="text" [(ngModel)]="searchInput" style="margin-right: 5px">
-        <button type="button" (click)="bt_search()">查詢</button>
+        <button type="button" (click)="bt_search()">
+          <ng-container i18n>查詢</ng-container>
+        </button>
       </div>
       <div class="table-responsive">
 
         <table class="table table-bordered table-striped table-hover table-content-center table-style01">
           <thead>
             <tr>
-              <th style="background-image: unset;cursor: unset">單位代碼</th>
-              <th>單位名稱</th>
-              <th>代填人員編號</th>
-              <th>代填人人員姓名</th>
-              <th>備註</th>
-              <th>功能</th>
+              <th style="background-image: unset;cursor: unset">
+                <ng-container i18n>單位代碼</ng-container>
+              </th>
+              <th>
+                <ng-container i18n>單位名稱</ng-container>
+              </th>
+              <th>
+                <ng-container i18n>代填人員編號</ng-container>
+              </th>
+              <th>
+                <ng-container i18n>代填人人員姓名</ng-container>
+              </th>
+              <th>
+                <ng-container i18n>備註</ng-container>
+              </th>
+              <th>
+                <ng-container i18n>功能</ng-container>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -43,7 +61,9 @@
                 </td>
                 <td>
                   <a style="padding-right: 5px;cursor: pointer" (click)="bt_editCheck(oneDeptSecretaryData)">編輯</a>
-                  <a style="cursor: pointer" (click)="bt_delCheck(oneDeptSecretaryData)">刪除</a>
+                  <a style="cursor: pointer" (click)="bt_delCheck(oneDeptSecretaryData)">
+                    <ng-container i18n>刪除</ng-container>
+                  </a>
                 </td>
               </tr>
             </ng-container>
@@ -67,11 +87,17 @@
           <button type="button" class="close" data-dismiss="modal">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" style="text-align: center">確認刪除?</h4>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>確認刪除?</ng-container>
+          </h4>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_delSend()">刪除</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_delSend()">
+            <ng-container i18n>刪除</ng-container>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -87,14 +113,16 @@
           <button type="button" class="close" data-dismiss="modal">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" style="text-align: center">修改資料</h4>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>修改資料</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
 
           <div class="row" style="padding-bottom: 15px;margin:0px">
             <div class="col-md-3 col-xs-12 P_title" style="margin-top: 7px;padding: 0px;padding-right: 15px;">
               <label class=" control-label">
-                單位代碼
+                <ng-container i18n>單位代碼</ng-container>
               </label>
             </div>
             <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
@@ -106,7 +134,7 @@
           <div class="row" style="padding-bottom: 15px;margin:0px">
             <div class="col-md-3 col-xs-12 P_title" style="margin-top: 7px;padding: 0px;padding-right: 15px;">
               <label class=" control-label">
-                代理人員編號
+                <ng-container i18n>代理人員編號</ng-container>
               </label>
             </div>
             <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
@@ -128,7 +156,7 @@
           <div class="row" style="padding-bottom: 15px;margin:0px">
             <div class="col-md-3 col-xs-12 P_title" style="margin-top: 7px;padding: 0px;padding-right: 15px;">
               <label class=" control-label">
-                備註
+                <ng-container i18n>備註</ng-container>
               </label>
             </div>
             <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
@@ -138,8 +166,12 @@
         </div>
 
         <div class="modal-footer" style="text-align: center;">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_editSave()">儲存</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_editSave()">
+            <ng-container i18n>儲存</ng-container>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -149,88 +181,96 @@
 
 
 <div class="modal" id="insertAgentDialog" tabindex="-1" role="dialog">
-    <div class="vertical-alignment-helper">
-      <div class="modal-dialog  modal-sm vertical-align-center">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-              <span aria-hidden="true">×</span>
-            </button>
-            <h4 class="modal-title" style="text-align: center">新增資料</h4>
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>新增資料</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title" style="margin-top: 7px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                <ng-container i18n>單位代碼</ng-container>
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+
+              <ngx-select [items]="NgxDeptSelectBox" allowClear="true" optionValueField="DeptCode"
+                optionTextField="uiShowDeptCodeAndName" [(ngModel)]="insertDeptSecretaryData.DeptCode"></ngx-select>
+            </div>
           </div>
-          <div class="modal-body">
-  
-            <div class="row" style="padding-bottom: 15px;margin:0px">
-              <div class="col-md-3 col-xs-12 P_title" style="margin-top: 7px;padding: 0px;padding-right: 15px;">
-                <label class=" control-label">
-                  單位代碼
-                </label>
-              </div>
-              <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
-  
-                <ngx-select [items]="NgxDeptSelectBox" allowClear="true" optionValueField="DeptCode"
-                  optionTextField="uiShowDeptCodeAndName" [(ngModel)]="insertDeptSecretaryData.DeptCode"></ngx-select>
-              </div>
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title" style="margin-top: 7px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                <ng-container i18n>代理人員編號</ng-container>
+              </label>
             </div>
-            <div class="row" style="padding-bottom: 15px;margin:0px">
-              <div class="col-md-3 col-xs-12 P_title" style="margin-top: 7px;padding: 0px;padding-right: 15px;">
-                <label class=" control-label">
-                  代理人員編號
-                </label>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <div class="col-md-4 col-xs-6" style="padding:0px">
+                <input id="leavejobid" type="text" class="form-control" [(ngModel)]="insertDeptSecretaryData.EmpID"
+                  maxlength="6">
               </div>
-              <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
-                <div class="col-md-4 col-xs-6" style="padding:0px">
-                  <input id="leavejobid" type="text" class="form-control" [(ngModel)]="insertDeptSecretaryData.EmpID"
-                    maxlength="6">
-                </div>
-                <div class="col-md-2 col-xs-2" style="padding: 0px">
-                  <button data-toggle="modal" data-target="#chooseEmpdialog"
-                    style="cursor: pointer;border: 0;background: 0">
-                    <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
-                  </button>
-                </div>
-                <div class="col-md-6 col-xs-4" style="padding: 0px;padding-top: 8px;">
-                  {{insertDeptSecretaryDataEmpName}}
-                </div>
+              <div class="col-md-2 col-xs-2" style="padding: 0px">
+                <button data-toggle="modal" data-target="#chooseEmpdialog"
+                  style="cursor: pointer;border: 0;background: 0">
+                  <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+                </button>
               </div>
-            </div>
-            <div class="row" style="padding-bottom: 15px;margin:0px">
-              <div class="col-md-3 col-xs-12 P_title" style="margin-top: 7px;padding: 0px;padding-right: 15px;">
-                <label class=" control-label">
-                  備註
-                </label>
-              </div>
-              <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
-                <textarea [(ngModel)]="insertDeptSecretaryData.Note" class="inputTextarea"></textarea>
+              <div class="col-md-6 col-xs-4" style="padding: 0px;padding-top: 8px;">
+                {{insertDeptSecretaryDataEmpName}}
               </div>
             </div>
           </div>
-  
-          <div class="modal-footer" style="text-align: center;">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_insertSave()">新增</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title" style="margin-top: 7px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                <ng-container i18n>備註</ng-container>
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <textarea [(ngModel)]="insertDeptSecretaryData.Note" class="inputTextarea"></textarea>
+            </div>
           </div>
+        </div>
+
+        <div class="modal-footer" style="text-align: center;">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_insertSave()">
+            <ng-container i18n>新增</ng-container>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>
   </div>
-  <!--dialog新增-->
+</div>
+<!--dialog新增-->
 
 
-  
+
 <div class="modal" id="chooseEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="vertical-alignment-helper">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-body">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-            <app-choosebase (saveEmptoView)="onSaveEmptoView($event)" [IsTop]="true"></app-choosebase>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-          </div>
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <app-choosebase (saveEmptoView)="onSaveEmptoView($event)" [IsTop]="true"></app-choosebase>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>
   </div>
-  <!--dialog編輯選擇員工-->
+</div>
+<!--dialog編輯選擇員工-->

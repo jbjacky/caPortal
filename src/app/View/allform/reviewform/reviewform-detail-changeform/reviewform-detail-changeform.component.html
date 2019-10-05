@@ -3,7 +3,7 @@
     <div
       style="background-color: #fafafa;width: 100%;border: 1px solid #cccccc;padding: 2px 15px;padding-bottom: 5px;margin-bottom: 30px;">
       <div style="display: inline-block;padding-top: 5px;">
-        目前審核身份：
+        <ng-container i18n>目前審核身份</ng-container>：
         <span style="color:#028fcf;font-size: 18px">{{ReviewformServiceService.showReviewMan.EmpNameC}}
           {{ReviewformServiceService.showReviewMan.DeptName}} {{ReviewformServiceService.showReviewMan.PosName}}</span>
       </div>
@@ -13,7 +13,7 @@
     <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;">
       <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
         <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
-          表單編號
+          <ng-container i18n>表單編號</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
           <div class="row ">
@@ -26,10 +26,13 @@
       <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
         <div class="col-md-3 col-xs-12 P_left" style="padding: 0px">
           <label class="control-label">
-            表單狀態</label>
+            <ng-container i18n>表單狀態</ng-container>
+          </label>
         </div>
         <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
-          <label style="color: #d0021b">簽核中</label>
+          <label style="color: #d0021b">
+            <ng-container i18n>簽核中</ng-container>
+          </label>
         </div>
       </div>
     </div>
@@ -37,7 +40,7 @@
     <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
       <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
         <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
-          員工
+          <ng-container i18n>員工</ng-container>
         </label>
         <div class="col-md-8  col-xs-12">
           <div class="row ">
@@ -50,10 +53,13 @@
       <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
         <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
           <label class="control-label">
-            調班日</label>
+            <ng-container i18n>調班日</ng-container>
+          </label>
         </div>
         <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
-          請求調班共<label style="color: #d0021b">{{ReviewformServiceService.changeDetail.numberOfVaData}}</label>日
+          <ng-container i18n>請求調班共</ng-container><label
+            style="color: #d0021b">{{ReviewformServiceService.changeDetail.numberOfVaData}}</label>
+          <ng-container i18n>日</ng-container>
         </div>
       </div>
     </div>
@@ -61,7 +67,7 @@
     <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
       <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
         <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
-          填寫人
+          <ng-container i18n>填寫人</ng-container>
         </label>
         <div class="col-md-8  col-xs-12">
           <div class="row ">
@@ -86,7 +92,7 @@
     <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
       <div class="col-md-6 " style="margin-bottom: 10px">
         <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
-          調班事由
+          <ng-container i18n>調班事由</ng-container>
         </label>
         <div class="col-md-8">
           <div class="row ">
@@ -105,8 +111,14 @@
             <span style="color: #028fcf">{{showCheckDetail.ShiftRoteDate}}</span>
           </div>
           <div class="col-md-10  col-xs-12">
-            原始 <span style="margin: 0px 10px;" class="Rote RoteLink"   (click)="bt_Show_RoteInfo(showCheckDetail.RoteID1)">{{showCheckDetail.RoteName1}}</span>
-            請求調成 <span style="margin: 0px 10px;" class="Rote RoteLink"   (click)="bt_Show_RoteInfo(showCheckDetail.RoteID2)">{{showCheckDetail.RoteName2}}</span>
+            <ng-container i18n>原始</ng-container>
+            <span style="margin: 0px 10px;" class="Rote RoteLink" (click)="bt_Show_RoteInfo(showCheckDetail.RoteID1)">
+              {{showCheckDetail.RoteName1}}
+            </span>
+            <ng-container i18n>請求調成</ng-container>
+            <span style="margin: 0px 10px;" class="Rote RoteLink" (click)="bt_Show_RoteInfo(showCheckDetail.RoteID2)">
+              {{showCheckDetail.RoteName2}}
+            </span>
           </div>
         </div>
       </div>
@@ -119,7 +131,8 @@
     <div class="row" style="margin: 0px ;padding: 15px 0px ;">
       <div class="col-md-2 col-xs-12 P_right" style="padding-left: 0px;">
         <label class="control-label" style="padding-left: 0px;padding-right: 15px;">
-          簽核意見</label>
+          <ng-container i18n>簽核意見</ng-container>
+        </label>
       </div>
       <div class="col-md-10 col-xs-12">
         <textarea [(ngModel)]="signText" class="inputTextarea"
@@ -130,7 +143,8 @@
     <div class="row" style="margin: 0px ;margin-bottom:15px;padding: 15px 0px;">
       <div class="col-md-2 P_right" style="padding-left: 0px;padding-top: 5px;">
         <label class="control-label" style="padding-left: 0px;padding-right: 15px;">
-          簽核人員</label>
+          <ng-container i18n>簽核人員</ng-container>
+        </label>
       </div>
       <div class="col-md-10 row" style="margin:0px;">
         <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeSingMan$"></app-select-signer>
@@ -163,10 +177,14 @@
           <!-- <a>查詢請假規定</a> -->
         </div>
         <div class="col-xs-4" style="padding: 0px;text-align: center">
-          <a style="cursor: pointer;" data-toggle="modal" (click)="show_signRecord()">流程查詢</a>
+          <a style="cursor: pointer;" data-toggle="modal" (click)="show_signRecord()">
+            <ng-container i18n>流程查詢</ng-container>
+          </a>
         </div>
         <div class="col-xs-3" style="padding: 0px;text-align: center" (click)="backReview()" [routerLink]="['..']">
-          <a style="cursor: pointer;">回列表</a>
+          <a style="cursor: pointer;">
+            <ng-container i18n>回列表</ng-container>
+          </a>
         </div>
       </div>
     </div>
@@ -181,20 +199,36 @@ padding: 20px;
   <div class="a-block-buttom" *ngIf="ReviewformServiceService.changeDetail">
 
     <button *ngIf="ReviewformServiceService.changeDetail.isApproved" class="btn btn-primary" style="margin-right: 15px"
-      data-toggle="modal" data-target="#Approveddialog">核准</button>
+      data-toggle="modal" data-target="#Approveddialog">
+      <ng-container i18n>核准</ng-container>
+    </button>
     <button *ngIf="!ReviewformServiceService.changeDetail.isApproved" class="btn btn-primary" style="margin-right: 15px"
-      disabled>核准</button>
+      disabled>
+      <ng-container i18n>核准</ng-container>
+    </button>
     <button *ngIf="ReviewformServiceService.changeDetail.isSendback" class="btn btn-info" style="margin-right: 15px"
-      data-toggle="modal" data-target="#Sendbackdialog">退回</button>
+      data-toggle="modal" data-target="#Sendbackdialog">
+      <ng-container i18n>退回</ng-container>
+    </button>
     <button *ngIf="!ReviewformServiceService.changeDetail.isSendback" class="btn btn-info" style="margin-right: 15px"
-      disabled>退回</button>
+      disabled>
+      <ng-container i18n>退回</ng-container>
+    </button>
     <button *ngIf="ReviewformServiceService.changeDetail.isPutForward" class="btn btn-info" style="margin-right: 15px"
-      data-toggle="modal" (click)="checkCanSendPutForward()">呈核</button>
+      data-toggle="modal" (click)="checkCanSendPutForward()">
+      <ng-container i18n>呈核</ng-container>
+    </button>
     <button *ngIf="!ReviewformServiceService.changeDetail.isPutForward" class="btn btn-info" style="margin-right: 15px"
-      disabled>呈核</button>
+      disabled>
+      <ng-container i18n>呈核</ng-container>
+    </button>
     <!-- <a style="margin-right: 15px">查詢請假規定</a> -->
-    <a style="margin-right: 15px;cursor: pointer;" data-toggle="modal" (click)="show_signRecord()">流程查詢</a>
-    <a style="margin-right: 15px;cursor: pointer;" (click)="backReview()" [routerLink]="['..']">回列表</a>
+    <a style="margin-right: 15px;cursor: pointer;" data-toggle="modal" (click)="show_signRecord()">
+      <ng-container i18n>流程查詢</ng-container>
+    </a>
+    <a style="margin-right: 15px;cursor: pointer;" (click)="backReview()" [routerLink]="['..']">
+      <ng-container i18n>回列表</ng-container>
+    </a>
 
   </div>
 
@@ -205,21 +239,33 @@ background-color: #fff;padding: 20px 5px;
 ">
   <div class="col-xs-4" style="padding: 0px;text-align: center;">
     <button *ngIf="ReviewformServiceService.changeDetail.isApproved" class="btn btn-primary btm-sm"
-      style="padding: 6px 40px;" data-toggle="modal" data-target="#Approveddialog">核准</button>
+      style="padding: 6px 40px;" data-toggle="modal" data-target="#Approveddialog">
+      <ng-container i18n>核准</ng-container>
+    </button>
     <button *ngIf="!ReviewformServiceService.changeDetail.isApproved" class="btn btn-primary btm-sm"
-      style="padding: 6px 40px;" disabled>核准</button>
+      style="padding: 6px 40px;" disabled>
+      <ng-container i18n>核准</ng-container>
+    </button>
   </div>
   <div class="col-xs-4" style="padding: 0px;text-align: center;">
     <button *ngIf="ReviewformServiceService.changeDetail.isSendback" class="btn btn-info" style="padding: 6px 40px;"
-      data-toggle="modal" data-target="#Sendbackdialog">退回</button>
+      data-toggle="modal" data-target="#Sendbackdialog">
+      <ng-container i18n>退回</ng-container>
+    </button>
     <button *ngIf="!ReviewformServiceService.changeDetail.isSendback" class="btn btn-info" style="padding: 6px 40px;"
-      disabled>退回</button>
+      disabled>
+      <ng-container i18n>退回</ng-container>
+    </button>
   </div>
   <div class="col-xs-4" style="padding: 0px;text-align: center;">
     <button *ngIf="ReviewformServiceService.changeDetail.isPutForward" class="btn btn-info" style="padding: 6px 40px;"
-      data-toggle="modal" (click)="checkCanSendPutForward()">呈核</button>
+      data-toggle="modal" (click)="checkCanSendPutForward()">
+      <ng-container i18n>呈核</ng-container>
+    </button>
     <button *ngIf="!ReviewformServiceService.changeDetail.isPutForward" class="btn btn-info" style="padding: 6px 40px;"
-      disabled>呈核</button>
+      disabled>
+      <ng-container i18n>呈核</ng-container>
+    </button>
   </div>
 
 </div>
@@ -232,13 +278,19 @@ background-color: #fff;padding: 20px 5px;
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認核准?</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認核准?</ng-container>
+          </h4>
         </div>
         <div class="modal-footer">
           <div style="text-align: center">
             <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-              (click)="Approved_Click()">送出</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              (click)="Approved_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -255,18 +307,22 @@ background-color: #fff;padding: 20px 5px;
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <!-- <span aria-hidden="true">×</span> -->
           </button>
-          <h4 class="modal-title" style="text-align: center">核准完成</h4>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>核准完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
             <img src="./assets/images-template/icon-success.png" />
           </div>
           <div style="text-align: center">
-            核准送出完成!
+            <ng-container i18n>核准送出完成</ng-container>!
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">確定</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -281,13 +337,19 @@ background-color: #fff;padding: 20px 5px;
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認退回?</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認退回?</ng-container>
+          </h4>
         </div>
         <div class="modal-footer">
           <div style="text-align: center">
             <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-              (click)="Sendback_Click()">送出</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              (click)="Sendback_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -304,18 +366,22 @@ background-color: #fff;padding: 20px 5px;
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <!-- <span aria-hidden="true">×</span> -->
           </button>
-          <h4 class="modal-title" style="text-align: center">退回完成</h4>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>退回完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
             <img src="./assets/images-template/icon-success.png" />
           </div>
           <div style="text-align: center">
-            退回送出完成!
+            <ng-container i18n>退回送出完成</ng-container>!
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">確定</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -330,16 +396,23 @@ background-color: #fff;padding: 20px 5px;
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認呈核?</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認呈核?</ng-container>
+          </h4>
         </div>
         <div class="modal-body" *ngIf="FlowDynamic_Base">
-          送呈: {{FlowDynamic_Base.DeptaName}} {{FlowDynamic_Base.EmpID}} {{FlowDynamic_Base.EmpNameC}}
+          <ng-container i18n>送呈</ng-container>: {{FlowDynamic_Base.DeptaName}} {{FlowDynamic_Base.EmpID}}
+          {{FlowDynamic_Base.EmpNameC}}
         </div>
         <div class="modal-footer">
           <div style="text-align: center">
             <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-              (click)="PutForward_Click()">送出</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              (click)="PutForward_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -356,18 +429,22 @@ background-color: #fff;padding: 20px 5px;
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <!-- <span aria-hidden="true">×</span> -->
           </button>
-          <h4 class="modal-title" style="text-align: center">呈核完成</h4>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>呈核完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
             <img src="./assets/images-template/icon-success.png" />
           </div>
           <div style="text-align: center">
-            呈核送出完成!
+            <ng-container i18n>呈核送出完成</ng-container>!
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">確定</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -382,13 +459,17 @@ background-color: #fff;padding: 20px 5px;
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel">簽核流程紀錄</h4>
+          <h4 class="modal-title" id="mySmallModalLabel">
+            <ng-container i18n>簽核流程紀錄</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <app-from-sign-table *ngIf="signRecordDialog"
             [getProcessFlowID]="ReviewformServiceService.changeDetail.ProcessFlowID">
           </app-from-sign-table>
-          <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>關閉</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -396,24 +477,28 @@ background-color: #fff;padding: 20px 5px;
 </div>
 <!--dialog簽核流程紀錄-->
 <div class="modal" id="RoteInf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="vertical-alignment-helper">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <!-- <h4 class="modal-title" id="mySmallModalLabel">{{showSearchEmp.EmpCode}} 出勤班表</h4> -->
+          <h4 class="modal-title" id="mySmallModalLabel">
+            <ng-container i18n>班型資訊</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <app-rote-inf [GetRoteInfo$]="Ob_setGetRoteInfo$"></app-rote-inf>
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+              <ng-container i18n>確定</ng-container>
             </button>
-            <!-- <h4 class="modal-title" id="mySmallModalLabel">{{showSearchEmp.EmpCode}} 出勤班表</h4> -->
-            <h4 class="modal-title" id="mySmallModalLabel">班型資訊</h4>
-          </div>
-          <div class="modal-body">
-            <app-rote-inf [GetRoteInfo$]="Ob_setGetRoteInfo$"></app-rote-inf>
-            <div style="text-align: center">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
-            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!--dialog班表期間-->
+</div>
+<!--dialog班表期間-->

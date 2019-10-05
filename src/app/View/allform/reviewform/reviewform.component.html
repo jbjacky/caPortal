@@ -3,13 +3,15 @@
     <div id="phonetopdiv" style="top: 128px;zoom: 1;z-index: 1;left: 0px;background-color: #fff;width: 100%">
       <div class="row P_reviewDiv">
         <div class="col-md-7 col-xs-10" style="display: inline-block;padding-top: 5px;">
-          目前審核身份：
+          <ng-container i18n>目前審核身份</ng-container>：
           <span style="color:#028fcf;font-size: 18px">{{ReviewformServiceService.showReviewMan.EmpNameC}}
             {{ReviewformServiceService.showReviewMan.DeptName}}
             {{ReviewformServiceService.showReviewMan.PosName}}</span>
         </div>
         <div id="showSelectBox_desktop" class="col-md-5 col-xs-6" style="padding: 0;">
-          <span style="display: inline-block;">切換審核身份：</span>
+          <span style="display: inline-block;">
+            <ng-container i18n>切換審核身份</ng-container>：
+          </span>
           <select class="form-control" style="width: 290px;display: inline-block;" [(ngModel)]="selectReviewMan"
             (change)="changeSelectReviewMan(selectReviewMan)">
             <ng-container *ngFor="let oneGetReviewData of getReviewData">
@@ -23,33 +25,40 @@
 
         <div id="showSelectBox_phone" class="col-xs-2" style="padding: 0;text-align: right;">
           <button class="btn btn-info btn-sm" style="padding: 5px 12px;" data-toggle="modal"
-            data-target="#SwitchReviewDialog">切換</button>
+            data-target="#SwitchReviewDialog">
+            <ng-container i18n>切換</ng-container>
+          </button>
         </div>
 
       </div>
       <ul class="nav nav-tabs P_nav">
         <li class="active" style="width: 25%;text-align: center"
           (click)="vaTabClick(ReviewformServiceService.showReviewMan)">
-          <a id="vaTab" data-toggle="tab" href="#vaform" style="text-decoration: none;">請假單
+          <a id="vaTab" data-toggle="tab" href="#vaform" style="text-decoration: none;">
+            <ng-container i18n>請假單</ng-container>
             <span class="badge">{{vaCount}}</span>
           </a>
 
         </li>
         <li style="width: 25%;text-align: center">
           <a id="delTab" data-toggle="tab" href="#delform" style="text-decoration: none;"
-            (click)="delTabClick(ReviewformServiceService.showReviewMan)">銷假單
+            (click)="delTabClick(ReviewformServiceService.showReviewMan)">
+            <ng-container i18n>銷假單</ng-container>
             <span class="badge">{{delCount}}</span>
           </a>
         </li>
         <li style="width: 25%;text-align: center">
           <a id="changeTab" data-toggle="tab" href="#changeform" style="text-decoration: none;"
-            (click)="changeTabClick(ReviewformServiceService.showReviewMan)">調班單
+            (click)="changeTabClick(ReviewformServiceService.showReviewMan)">
+            <ng-container i18n>調班單</ng-container>
             <span class="badge">{{changeCount}}</span>
           </a>
         </li>
         <li style="width: 25%;text-align: center" (click)="forgetTabClick(ReviewformServiceService.showReviewMan)">
           <a id="forgetTab" data-toggle="tab" href="#forgetform" style="text-decoration: none;">
-            <span id="forgetTabText">考勤異常簽認單</span>
+            <span id="forgetTabText">
+              <ng-container i18n>考勤異常簽認單</ng-container>
+            </span>
             <span class="badge">{{forgetCount}}</span>
           </a>
         </li>
@@ -62,29 +71,48 @@
         <div class="panel-group">
           <div class="row ReviewTitle_mobile">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
-              <span>審核</span>
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
             </div>
-            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">員工</div>
-            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
-            <div class="col-md-2" style="text-align: center">明細</div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>員工</ng-container>
+            </div>
+            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>申請時段</ng-container>
+            </div>
+            <div class="col-md-2" style="text-align: center">
+              <ng-container i18n>明細</ng-container>
+            </div>
           </div>
           <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
-            <button class="AllCheckLeftButtonClass btn btn-primary"
-              (click)="Approved_All_Check(vaFlowSigns,'vaTab')">全部核准</button>
-            <button class="btn btn-primary" (click)="Sendback_All_Check(vaFlowSigns,'vaTab')">全部退回</button>
+            <button class="AllCheckLeftButtonClass btn btn-primary" (click)="Approved_All_Check(vaFlowSigns,'vaTab')">
+              <ng-container i18n>全部核准</ng-container>
+            </button>
+            <button class="btn btn-primary" (click)="Sendback_All_Check(vaFlowSigns,'vaTab')">
+              <ng-container i18n>全部退回</ng-container>
+            </button>
           </div>
           <div class="row ReviewTitle_desktop">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
-              <span>審核</span>
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
             </div>
             <div class="col-md-9 col-xs-12 row" style="margin: 0;padding: 0">
               <div class="col-md-10 col-xs-12 row" style="margin: 0;padding: 0">
-                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">單號</div>
-                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
-                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">時數總和</div>
+                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>單號</ng-container>
+                </div>
+                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>申請時段</ng-container>
+                </div>
+                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>時數總和</ng-container>
+                </div>
               </div>
               <div class="col-md-2 col-xs-12" style="margin: 0;padding: 0;text-align: center;">
-                明細
+                <ng-container i18n>明細</ng-container>
               </div>
             </div>
           </div>
@@ -115,7 +143,8 @@
                     <div>
                       <div *ngIf="vaFlowSign.Appointment">
                         <span style="color: #028fcf;border:#028fcf 1px solid;
-                          border-radius: 5px;padding: 2px">預排休假
+                          border-radius: 5px;padding: 2px">
+                          <ng-container i18n>預排休假</ng-container>
                         </span>
                       </div>
                       <div>
@@ -125,13 +154,19 @@
                         <span style="color: blue" *ngIf="vaFlowSign.checkProxy">(代)</span>
                       </div>
                       <div style="display: inline-block;margin-right: 10px">
-                        <span style="font-weight: bold;color: #969696">請假起始：</span>{{vaFlowSign.DateB}}
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>請假起始</ng-container>：
+                        </span>{{vaFlowSign.DateB}}
                       </div>
                       <div style="display: inline-block;">
-                        <span style="font-weight: bold;color: #969696">請假結束：</span>{{vaFlowSign.DateE}}
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>請假結束</ng-container>：
+                        </span>{{vaFlowSign.DateE}}
                       </div>
                       <div>
-                        <span style="font-weight: bold;color: #969696">請假假種：</span>
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>請假假種</ng-container>：
+                        </span>
                         <span *ngFor="let oneHolidayName of vaFlowSign.uiHolidayName; let i = index">
                           {{oneHolidayName}}
                           <span *ngIf="(i+1) != vaFlowSign.uiHolidayName.length">、</span>
@@ -146,13 +181,17 @@
                   </div>
                   <div class="col-md-3 col-xs-12 uiTimeSum">
                     <div>
-                      共計
-                      <span style="color:#d0021b;font-weight: bold;">{{vaFlowSign.day}}</span> 日
-                      <span style="color:#d0021b;font-weight: bold;">{{vaFlowSign.hour}}</span> 時
-                      <span style="color:#d0021b;font-weight: bold;">{{vaFlowSign.minute}}</span> 分
+                      <ng-container i18n>共計</ng-container>
+                      <span style="color:#d0021b;font-weight: bold;">{{vaFlowSign.day}}</span>
+                      <ng-container i18n> 日 </ng-container>
+                      <span style="color:#d0021b;font-weight: bold;">{{vaFlowSign.hour}}</span>
+                      <ng-container i18n> 時 </ng-container>
+                      <span style="color:#d0021b;font-weight: bold;">{{vaFlowSign.minute}}</span>
+                      <ng-container i18n> 日分 </ng-container>
                     </div>
                     <div>
-                      (合有 {{vaFlowSign.numberOfVaData}} 個差假時段)
+                      (<ng-container i18n> 合有 </ng-container>
+                      {{vaFlowSign.numberOfVaData}} <ng-container i18n>個差假時段</ng-container>)
                     </div>
                   </div>
                 </div>
@@ -160,7 +199,9 @@
                 <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
                   <a style="cursor: pointer;padding-left: 30px;" (click)="vaDetail_click(vaFlowSign,'vaTab')"
                     [routerLink]="['../ReviewformDetailVacationComponent']">
-                    <span class="P_notVisable">檢視</span>
+                    <span class="P_notVisable">
+                      <ng-container i18n>檢視</ng-container>
+                    </span>
                     <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
                   </a>
 
@@ -174,12 +215,12 @@
                   <button *ngIf="vaFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
                     style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="checkAbsLimit_Approved(vaFlowSign,'vaTab')">
-                    核准
+                    <ng-container i18n>核准</ng-container>
                   </button>
                   <div *ngIf="!vaFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
                     <button class="btn btn-primary btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
-                      核准
+                      <ng-container i18n>核准</ng-container>
                     </button>
                   </div>
                 </div>
@@ -187,12 +228,12 @@
                   <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
                     style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="vaDetail_click(vaFlowSign,'vaTab')">
-                    退回
+                    <ng-container i18n>退回</ng-container>
                   </button>
                   <div *ngIf="!vaFlowSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
                     <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
-                      退回
+                      <ng-container i18n>退回</ng-container>
                     </button>
                   </div>
                 </div>
@@ -200,12 +241,12 @@
                   <button *ngIf="vaFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
                     data-target="#PutForwarddialog" (click)="vaDetail_click(vaFlowSign,'vaTab')">
-                    呈核
+                    <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!vaFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
                     <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
-                      呈核
+                      <ng-container i18n>呈核</ng-container>
                     </button>
                   </div>
 
@@ -223,29 +264,48 @@
         <div class="panel-group">
           <div class="row ReviewTitle_mobile">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
-              <span>審核</span>
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
             </div>
-            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">員工</div>
-            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
-            <div class="col-md-2" style="text-align: center">明細</div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>員工</ng-container>
+            </div>
+            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>申請時段</ng-container>
+            </div>
+            <div class="col-md-2" style="text-align: center">
+              <ng-container i18n>明細</ng-container>
+            </div>
           </div>
           <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
-            <button class="AllCheckLeftButtonClass btn btn-primary"
-              (click)="Approved_All_Check(delFlowSigns,'delTab')">全部核准</button>
-            <button class="btn btn-primary" (click)="Sendback_All_Check(delFlowSigns,'delTab')">全部退回</button>
+            <button class="AllCheckLeftButtonClass btn btn-primary" (click)="Approved_All_Check(delFlowSigns,'delTab')">
+              <ng-container i18n>全部核准</ng-container>
+            </button>
+            <button class="btn btn-primary" (click)="Sendback_All_Check(delFlowSigns,'delTab')">
+              <ng-container i18n>全部退回</ng-container>
+            </button>
           </div>
           <div class="row ReviewTitle_desktop">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
-              <span>審核</span>
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
             </div>
             <div class="col-md-9 col-xs-12 row" style="margin: 0;padding: 0">
               <div class="col-md-10 col-xs-12 row" style="margin: 0;padding: 0">
-                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">單號</div>
-                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
-                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">時數總和</div>
+                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>單號</ng-container>
+                </div>
+                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>申請時段</ng-container>
+                </div>
+                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>時數總和</ng-container>
+                </div>
               </div>
               <div class="col-md-2 col-xs-12" style="margin: 0;padding: 0;text-align: center;">
-                明細
+                <ng-container i18n>明細</ng-container>
               </div>
             </div>
           </div>
@@ -268,13 +328,16 @@
                         {{delFlowSign.EmpCode}}
                         <span *ngIf="delFlowSign.EmpNameC.length != 0">{{delFlowSign.EmpNameC}}</span>
                         <span *ngIf="delFlowSign.EmpNameC.length == 0">{{delFlowSign.EmpNameE}}</span>
-                        <span style="color: blue" *ngIf="delFlowSign.checkProxy">(代)</span>
+                        <span style="color: blue" *ngIf="delFlowSign.checkProxy">
+                          (<ng-container i18n>代</ng-container>)</span>
                       </div>
                       <div>
-                        <span style="font-weight: bold;color: #969696">銷假日期：</span>
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>銷假日期</ng-container>：
+                        </span>
                         <div style="display: inline-block;margin-right: 5px"
                           *ngFor="let oneYear of delFlowSign.YearAndDate">
-                          {{oneYear.OneYear}}年-
+                          {{oneYear.OneYear}}<ng-container i18n>年</ng-container>-
                           <span *ngFor="let showdate of oneYear.YearofDate;let index_YearofDate = index">
                             <ng-container *ngIf=" 5 > index_YearofDate">
                               {{showdate}}
@@ -287,7 +350,9 @@
                         </div>
                       </div>
                       <div>
-                        <span style="font-weight: bold;color: #969696">銷假假種：</span>
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>銷假假種</ng-container>：
+                        </span>
                         <span *ngFor="let oneHolidayName of delFlowSign.uiHolidayName; let i = index">
                           {{oneHolidayName}}
                           <span *ngIf="(i+1) != delFlowSign.uiHolidayName.length">、</span>
@@ -297,13 +362,18 @@
                   </div>
                   <div class="col-md-3 col-xs-12 uiTimeSum">
                     <div>
-                      共計
-                      <span style="color:#d0021b;font-weight: bold;">{{delFlowSign.day}}</span> 日
-                      <span style="color:#d0021b;font-weight: bold;">{{delFlowSign.hour}}</span> 時
-                      <span style="color:#d0021b;font-weight: bold;">{{delFlowSign.minute}}</span> 分
+                      <ng-container i18n>共計</ng-container>
+                      <span style="color:#d0021b;font-weight: bold;">{{delFlowSign.day}}</span>
+                      <ng-container i18n> 日 </ng-container>
+                      <span style="color:#d0021b;font-weight: bold;">{{delFlowSign.hour}}</span>
+                      <ng-container i18n> 時 </ng-container>
+                      <span style="color:#d0021b;font-weight: bold;">{{delFlowSign.minute}}</span>
+                      <ng-container i18n> 分 </ng-container>
                     </div>
                     <div>
-                      (合有 {{delFlowSign.numberOfVaData}} 個銷假時間)
+                      (<ng-container i18n>合有</ng-container>
+                      {{delFlowSign.numberOfVaData}}
+                      <ng-container i18n> 個銷假時間 </ng-container>)
                     </div>
                   </div>
                 </div>
@@ -311,7 +381,9 @@
                 <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
                   <a style="cursor: pointer;padding-left: 30px;" [routerLink]="['../ReviewformDetailDelformComponent']"
                     (click)="delDetail_click(delFlowSign,'delTab')">
-                    <span class="P_notVisable">檢視</span>
+                    <span class="P_notVisable">
+                      <ng-container i18n>檢視</ng-container>
+                    </span>
                     <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
                   </a>
 
@@ -325,12 +397,12 @@
                   <button *ngIf="delFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
                     data-target="#Approveddialog" style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="delDetail_click(delFlowSign,'delTab')">
-                    核准
+                    <ng-container i18n>核准</ng-container>
                   </button>
                   <div *ngIf="!delFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
                     <button class="btn btn-primary btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
-                      核准
+                      <ng-container i18n>核准</ng-container>
                     </button>
                   </div>
                 </div>
@@ -338,12 +410,12 @@
                   <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
                     style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="delDetail_click(delFlowSign,'delTab')">
-                    退回
+                    <ng-container i18n>退回</ng-container>
                   </button>
                   <div *ngIf="!delFlowSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
                     <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
-                      退回
+                      <ng-container i18n>退回</ng-container>
                     </button>
                   </div>
                 </div>
@@ -351,12 +423,12 @@
                   <button *ngIf="delFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
                     data-target="#PutForwarddialog" (click)="delDetail_click(delFlowSign,'delTab')">
-                    呈核
+                    <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!delFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
                     <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
-                      呈核
+                      <ng-container i18n>呈核</ng-container>
                     </button>
                   </div>
 
@@ -374,29 +446,49 @@
         <div class="panel-group">
           <div class="row ReviewTitle_mobile">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
-              <span>審核</span>
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
             </div>
-            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">員工</div>
-            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
-            <div class="col-md-2" style="text-align: center">明細</div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>員工</ng-container>
+            </div>
+            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>申請時段</ng-container>
+            </div>
+            <div class="col-md-2" style="text-align: center">
+              <ng-container i18n>明細</ng-container>
+            </div>
           </div>
           <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
             <button class="AllCheckLeftButtonClass btn btn-primary"
-              (click)="Approved_All_Check(changeFlowSigns,'changeTab')">全部核准</button>
-            <button class="btn btn-primary" (click)="Sendback_All_Check(changeFlowSigns,'changeTab')">全部退回</button>
+              (click)="Approved_All_Check(changeFlowSigns,'changeTab')">
+              <ng-container i18n>全部核准</ng-container>
+            </button>
+            <button class="btn btn-primary" (click)="Sendback_All_Check(changeFlowSigns,'changeTab')">
+              <ng-container i18n>全部退回</ng-container>
+            </button>
           </div>
           <div class="row ReviewTitle_desktop">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
-              <span>審核</span>
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
             </div>
             <div class="col-md-9 col-xs-12 row" style="margin: 0;padding: 0">
               <div class="col-md-10 col-xs-12 row" style="margin: 0;padding: 0">
-                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">單號</div>
-                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
-                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">時數總和</div>
+                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>單號</ng-container>
+                </div>
+                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>申請時段</ng-container>
+                </div>
+                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>時數總和</ng-container>
+                </div>
               </div>
               <div class="col-md-2 col-xs-12" style="margin: 0;padding: 0;text-align: center;">
-                明細
+                <ng-container i18n>明細</ng-container>
               </div>
             </div>
           </div>
@@ -419,7 +511,8 @@
                         <div style="display: inline-block;margin-right: 15px;">
                           {{changeFlowSign.EmpID1}}
                           <span>{{changeFlowSign.EmpNameC1}}</span>
-                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">(代)</span>
+                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">(<ng-container i18n>代
+                            </ng-container>)</span>
                         </div>
                         <div style="display: inline-block;">
                           {{changeFlowSign.EmpID2}}
@@ -431,29 +524,38 @@
                         <div>
                           {{changeFlowSign.EmpID1}}
                           <span>{{changeFlowSign.EmpNameC1}}</span>
-                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">(代)</span>
+                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">(<ng-container i18n>代
+                            </ng-container>)</span>
                         </div>
                       </div>
                       <!-- 不是雙人調班顯示一個申請人 -->
                       <div>
-                        <span style="font-weight: bold;color: #969696">調班日期：</span>
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>調班日期</ng-container>：
+                        </span>
                         <div style="display: inline-block;" *ngFor="let oneYear of changeFlowSign.YearAndDate">
-                          {{oneYear.OneYear}}年- <span
+                          {{oneYear.OneYear}}<ng-container i18n>年</ng-container>- <span
                             *ngFor="let showdate of oneYear.YearofDate;let index_YearofDate = index">
                             {{showdate}}
                             <span *ngIf="oneYear.YearofDate.length != (index_YearofDate+1)">、</span>
                           </span>
                         </div>
                       </div>
-                      <div *ngIf="changeFlowSign.isDR" class="tag_blue">請求調班</div>
-                      <div *ngIf="changeFlowSign.isRR" class="tag_fluorescentblue">雙人調班</div>
-                      <div *ngIf="changeFlowSign.isRZ" class="tag_skyblue">RZ互換</div>
+                      <div *ngIf="changeFlowSign.isDR" class="tag_blue">
+                        <ng-container i18n>請求調班</ng-container>
+                      </div>
+                      <div *ngIf="changeFlowSign.isRR" class="tag_fluorescentblue">
+                        <ng-container i18n>雙人調班</ng-container>
+                      </div>
+                      <div *ngIf="changeFlowSign.isRZ" class="tag_skyblue">
+                        <ng-container i18n>RZ互換</ng-container>
+                      </div>
 
                     </div>
                   </div>
                   <div id="changeTimeSum" class="col-md-3 col-xs-12 uiTimeSum">
                     <div>
-                      調班共計
+                      <ng-container i18n>調班共計</ng-container>
                       <span style="color:#d0021b;font-weight: bold;">{{changeFlowSign.numberOfVaData}}</span> 日
                     </div>
                   </div>
@@ -462,7 +564,9 @@
                 <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
                   <a style="cursor: pointer;padding-left: 30px;"
                     (click)="changeDetail_click_checktoView(changeFlowSign,'changeTab')">
-                    <span class="P_notVisable">檢視</span>
+                    <span class="P_notVisable">
+                      <ng-container i18n>檢視</ng-container>
+                    </span>
                     <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
                   </a>
 
@@ -476,12 +580,12 @@
                   <button *ngIf="changeFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
                     data-target="#Approveddialog" style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="changeDetail_click(changeFlowSign,'changeTab')">
-                    核准
+                    <ng-container i18n>核准</ng-container>
                   </button>
                   <div *ngIf="!changeFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
                     <button class="btn btn-primary btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
-                      核准
+                      <ng-container i18n>核准</ng-container>
                     </button>
                   </div>
                 </div>
@@ -489,12 +593,12 @@
                   <button (click)="changeDetail_click(changeFlowSign,'changeTab')" class="btn btn-info btn-sm"
                     data-toggle="modal" data-target="#Sendbackdialog"
                     style="padding: 5px 0px;text-align: center;width: 100%;">
-                    退回
+                    <ng-container i18n>退回</ng-container>
                   </button>
                   <div *ngIf="!changeFlowSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
                     <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
-                      退回
+                      <ng-container i18n>退回</ng-container>
                     </button>
                   </div>
                 </div>
@@ -502,12 +606,12 @@
                   <button *ngIf="changeFlowSign.isPutForward" (click)="changeDetail_click(changeFlowSign,'changeTab')"
                     class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                     data-toggle="modal" data-target="#PutForwarddialog">
-                    呈核
+                    <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!changeFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
                     <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
-                      呈核
+                      <ng-container i18n>呈核</ng-container>
                     </button>
                   </div>
 
@@ -525,29 +629,47 @@
         <div class="panel-group">
           <div class="row ReviewTitle_mobile">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
-              <span>審核</span>
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
             </div>
-            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">員工</div>
-            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
-            <div class="col-md-2" style="text-align: center">明細</div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>員工</ng-container>
+            </div>
+            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>申請時段</ng-container>
+            </div>
+            <div class="col-md-2" style="text-align: center">
+              <ng-container i18n>明細</ng-container>
+            </div>
           </div>
           <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
             <button class="AllCheckLeftButtonClass btn btn-primary"
-              (click)="Approved_All_Check(forgetFlowSigns,'forgetTab')">全部核准</button>
-            <button class="btn btn-primary" (click)="Sendback_All_Check(forgetFlowSigns,'forgetTab')">全部退回</button>
+              (click)="Approved_All_Check(forgetFlowSigns,'forgetTab')">
+              <ng-container i18n>全部核准</ng-container>
+            </button>
+            <button class="btn btn-primary" (click)="Sendback_All_Check(forgetFlowSigns,'forgetTab')">
+              <ng-container i18n>全部退回</ng-container>
+            </button>
           </div>
           <div class="row ReviewTitle_desktop">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
-              <span>審核</span>
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
             </div>
             <div class="col-md-9 col-xs-12 row" style="margin: 0;padding: 0">
               <div class="col-md-10 col-xs-12 row" style="margin: 0;padding: 0">
-                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">單號</div>
-                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">申請時段</div>
+                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>單號</ng-container>
+                </div>
+                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>申請時段</ng-container>
+                </div>
                 <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">異常狀態</div>
               </div>
               <div class="col-md-2 col-xs-12" style="margin: 0;padding: 0;text-align: center;">
-                明細
+                <ng-container i18n>明細</ng-container>
               </div>
             </div>
           </div>
@@ -570,11 +692,14 @@
                         {{forgetFlowSign.EmpCode}}
                         <span *ngIf="forgetFlowSign.EmpNameC.length != 0">{{forgetFlowSign.EmpNameC}}</span>
                         <span *ngIf="forgetFlowSign.EmpNameC.length == 0">{{forgetFlowSign.EmpNameE}}</span>
-                        <span style="color: blue" *ngIf="forgetFlowSign.checkProxy">(代)</span>
+                        <span style="color: blue" *ngIf="forgetFlowSign.checkProxy">(<ng-container i18n>代</ng-container>
+                          )</span>
                       </div>
                       <div>
                         <!-- 2019年-1/02 -->
-                        <span style="font-weight: bold;color: #969696">異常日期：</span> {{forgetFlowSign.Date}}
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>異常日期</ng-container>：
+                        </span> {{forgetFlowSign.Date}}
                       </div>
                       <!-- <div>
                         <span style="font-weight: bold;color: #969696">異常狀態：</span>
@@ -583,16 +708,26 @@
                         <div *ngIf="forgetFlowSign.isForgetCard" class="tag_red" style="margin: 0px">未刷卡</div>
                       </div> -->
                       <div>
-                        <span style="font-weight: bold;color: #969696">班型：</span>
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>班型</ng-container>：
+                        </span>
                         <span>{{forgetFlowSign.RoteCode}}</span>
                       </div>
                     </div>
                   </div>
                   <div id="forgetTimeSum" class="col-md-3 col-xs-12 uiTimeSum">
-                    <span class="P_displayShow" style="font-weight: bold;color: #969696">異常狀態：</span>
-                    <div *ngIf="forgetFlowSign.isLateMins" class="tag_red" style="margin: 0px">遲到</div>
-                    <div *ngIf="forgetFlowSign.isEarlyMins" class="tag_red" style="margin: 0px">早退</div>
-                    <div *ngIf="forgetFlowSign.isForgetCard" class="tag_red" style="margin: 0px">未刷卡</div>
+                    <span class="P_displayShow" style="font-weight: bold;color: #969696">
+                      <ng-container i18n>異常狀態</ng-container>：
+                    </span>
+                    <div *ngIf="forgetFlowSign.isLateMins" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>遲到</ng-container>
+                    </div>
+                    <div *ngIf="forgetFlowSign.isEarlyMins" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>早退</ng-container>
+                    </div>
+                    <div *ngIf="forgetFlowSign.isForgetCard" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>未刷卡</ng-container>
+                    </div>
                   </div>
                 </div>
 
@@ -600,7 +735,9 @@
                   <a style="cursor: pointer;padding-left: 30px;"
                     [routerLink]="['../ReviewformDetailForgetformComponent']"
                     (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
-                    <span class="P_notVisable">檢視</span>
+                    <span class="P_notVisable">
+                      <ng-container i18n>檢視</ng-container>
+                    </span>
                     <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
                   </a>
 
@@ -614,12 +751,12 @@
                   <button *ngIf="forgetFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
                     data-target="#Approveddialog" style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
-                    核准
+                    <ng-container i18n>核准</ng-container>
                   </button>
                   <div *ngIf="!forgetFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
                     <button class="btn btn-primary btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
-                      核准
+                      <ng-container i18n>核准</ng-container>
                     </button>
                   </div>
                 </div>
@@ -627,12 +764,12 @@
                   <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
                     style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
-                    退回
+                    <ng-container i18n>退回</ng-container>
                   </button>
                   <div *ngIf="!forgetFlowSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
                     <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
-                      退回
+                      <ng-container i18n>退回</ng-container>
                     </button>
                   </div>
                 </div>
@@ -640,12 +777,12 @@
                   <button *ngIf="forgetFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
                     data-target="#PutForwarddialog" (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
-                    呈核
+                    <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!forgetFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
                     <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
-                      呈核
+                      <ng-container i18n>呈核</ng-container>
                     </button>
                   </div>
 
@@ -671,7 +808,7 @@
 </div>
 <div *ngIf="!isGetFlowSignRole" class="a-block">
   <div class="a-block-body  a-block-container">
-    目前無審核資料
+    <ng-container i18n>目前無審核資料</ng-container>
   </div>
 </div>
 <!-- 目前無審核資料 -->
@@ -688,7 +825,9 @@
         box-shadow: inset 0 0.5px 0 0 #e1e0e0;">
         <img (click)="bt_pre()" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(90deg);" />
         <img (click)="bt_next()" src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
-        <a style="float: right" data-dismiss="modal">完成</a>
+        <a style="float: right" data-dismiss="modal">
+          <ng-container i18n>完成</ng-container>
+        </a>
       </div>
       <div style="height:150px;overflow-y: auto;">
         <div *ngFor="let getoneReviewData of getReviewData;let i = index">
@@ -716,21 +855,27 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認核准?</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認核准?</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div>
-            表單總筆數：{{AllReview.length}}
+            <ng-container i18n>表單總筆數</ng-container>：{{AllReview.length}}
           </div>
           <div>
-            批核筆數：{{AllCanReviewFlow.length}}
+            <ng-container i18n>批核筆數</ng-container>：{{AllCanReviewFlow.length}}
           </div>
         </div>
         <div class="modal-footer">
           <div style="text-align: center">
             <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-              (click)="Approved_All_Click()">送出</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              (click)="Approved_All_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -746,21 +891,27 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認退回?</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認退回?</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div>
-            表單總筆數：{{AllReview.length}}
+            <ng-container i18n>表單總筆數</ng-container>：{{AllReview.length}}
           </div>
           <div>
-            批核筆數：{{AllCanReviewFlow.length}}
+            <ng-container i18n>批核筆數</ng-container>：{{AllCanReviewFlow.length}}
           </div>
         </div>
         <div class="modal-footer">
           <div style="text-align: center">
             <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-              (click)="Sendback_All_Click()">送出</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              (click)="Sendback_All_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -777,7 +928,9 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認核准?</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認核准?</ng-container>
+          </h4>
         </div>
         <div class="modal-body" *ngIf="vaShowLimitText.length>0">
           {{vaShowLimitText}}
@@ -785,8 +938,12 @@
         <div class="modal-footer">
           <div style="text-align: center">
             <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-              (click)="Approved_Click()">送出</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              (click)="Approved_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -802,13 +959,19 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認核准?</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認核准?</ng-container>
+          </h4>
         </div>
         <div class="modal-footer">
           <div style="text-align: center">
             <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-              (click)="Approved_Click()">送出</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              (click)="Approved_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -825,18 +988,22 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <!-- <span aria-hidden="true">×</span> -->
           </button>
-          <h4 class="modal-title" style="text-align: center">核准完成</h4>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>核准完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
             <img src="./assets/images-template/icon-success.png" />
           </div>
           <div style="text-align: center">
-            核准送出完成!
+            <ng-container i18n>核准送出完成</ng-container>!
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -851,13 +1018,19 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認退回?</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認退回?</ng-container>
+          </h4>
         </div>
         <div class="modal-footer">
           <div style="text-align: center">
             <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-              (click)="Sendback_Click()">送出</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              (click)="Sendback_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -874,18 +1047,22 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <!-- <span aria-hidden="true">×</span> -->
           </button>
-          <h4 class="modal-title" style="text-align: center">退回完成</h4>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>退回完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
             <img src="./assets/images-template/icon-success.png" />
           </div>
           <div style="text-align: center">
-            退回送出完成!
+            <ng-container i18n>退回送出完成</ng-container>!
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -901,18 +1078,24 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">填寫呈核資訊</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>填寫呈核資訊</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div>
             {{vaShowLimitText}}
           </div>
           <div style="margin-bottom:10px">
-            <p>簽核意見</p>
+            <p>
+              <ng-container i18n>簽核意見</ng-container>
+            </p>
             <textarea class="inputTextarea" [(ngModel)]="signText" style="overflow-y: auto"></textarea>
           </div>
           <div>
-            <p>簽核人員</p>
+            <p>
+              <ng-container i18n>簽核人員</ng-container>
+            </p>
             <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
             </app-select-signer>
           </div>
@@ -920,8 +1103,12 @@
         <div class="modal-footer" style="text-align: center">
           <div style="text-align: center">
             <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-              (click)="PutForward_Click()" [disabled]="checkHaveFlowDynamic_EmpID()">送出</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              (click)="PutForward_Click()" [disabled]="checkHaveFlowDynamic_EmpID()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -938,15 +1125,21 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">填寫呈核資訊</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>填寫呈核資訊</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="margin-bottom:10px">
-            <p>簽核意見</p>
+            <p>
+              <ng-container i18n>簽核意見</ng-container>
+            </p>
             <textarea class="inputTextarea" [(ngModel)]="signText" style="overflow-y: auto"></textarea>
           </div>
           <div>
-            <p>簽核人員</p>
+            <p>
+              <ng-container i18n>簽核人員</ng-container>
+            </p>
             <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
             </app-select-signer>
           </div>
@@ -954,8 +1147,12 @@
         <div class="modal-footer" style="text-align: center">
           <div style="text-align: center">
             <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-              (click)="PutForward_Click()" [disabled]="checkHaveFlowDynamic_EmpID()">送出</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              (click)="PutForward_Click()" [disabled]="checkHaveFlowDynamic_EmpID()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -972,18 +1169,22 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <!-- <span aria-hidden="true">×</span> -->
           </button>
-          <h4 class="modal-title" style="text-align: center">呈核完成</h4>
+          <h4 class="modal-title" style="text-align: center">
+              <ng-container i18n>呈核完成</ng-container>
+            </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
             <img src="./assets/images-template/icon-success.png" />
           </div>
           <div style="text-align: center">
-            呈核送出完成!
+            <ng-container i18n>呈核送出完成</ng-container>!
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">
+              <ng-container i18n>確定</ng-container>
+            </button>
         </div>
       </div>
     </div>
@@ -1004,24 +1205,28 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <!-- <span aria-hidden="true">×</span> -->
           </button>
-          <h4 class="modal-title" style="text-align: center">核准完成</h4>
+          <h4 class="modal-title" style="text-align: center">
+              <ng-container i18n>核准完成</ng-container>
+            </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
             <img src="./assets/images-template/icon-success.png" />
           </div>
           <div>
-            送出筆數:{{sendReviewLength}}
+              <ng-container i18n>送出筆數</ng-container>:{{sendReviewLength}}
           </div>
           <div>
-            批核筆數:{{realReviewLength}}
+              <ng-container i18n>批核筆數</ng-container>:{{realReviewLength}}
           </div>
           <div style="text-align: center">
-            核准送出完成!
+            <ng-container i18n>核准送出完成</ng-container>!
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">
+              <ng-container i18n>確定</ng-container>
+            </button>
         </div>
       </div>
     </div>
@@ -1038,24 +1243,28 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <!-- <span aria-hidden="true">×</span> -->
           </button>
-          <h4 class="modal-title" style="text-align: center">退回完成</h4>
+          <h4 class="modal-title" style="text-align: center">
+              <ng-container i18n>退回完成</ng-container>
+            </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
             <img src="./assets/images-template/icon-success.png" />
           </div>
           <div>
-            送出筆數:{{sendReviewLength}}
+            <ng-container i18n>送出筆數</ng-container>:{{sendReviewLength}}
           </div>
           <div>
-            批核筆數:{{realReviewLength}}
+            <ng-container i18n>批核筆數</ng-container>:{{realReviewLength}}
           </div>
           <div style="text-align: center">
-            退回送出完成!
+              <ng-container i18n>退回送出完成</ng-container>!
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">
+              <ng-container i18n>確定</ng-container>
+            </button>
         </div>
       </div>
     </div>

@@ -172,7 +172,7 @@
                                 style="color: #fff;background-color: #0068b7">{{weekjob.date}}</div>
                             <div [ngClass]="showTitleClass(i)" *ngIf="!weekjob.today">{{weekjob.date}}</div>
                             <div [ngClass]="showContentClass(i)">
-                                <ng-container i18n>{{weekjob.jobtime}}</ng-container>
+                                {{weekjob.jobtime}}
                                 <!-- <ng-container i18n>{weekjob.jobtime, select, 例假日 {qwe} other {{{weekjob.jobtime}}}}</ng-container> -->
                                 <!-- <ng-container i18n>{weekjob.jobtime, select, 06:00-14:00 {qwe} other {{{weekjob.jobtime}}}}</ng-container> -->
                                 <div style="height: 22px;">
