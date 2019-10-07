@@ -1,10 +1,12 @@
 <div class="a-block">
   <div class="a-block-body  a-block-container">
-    <h3>調班單明細</h3>
+    <h3>
+      <ng-container i18n>調班單明細</ng-container>
+    </h3>
     <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
       <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
         <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
-          表單編號
+          <ng-container i18n>表單編號</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
           <div class="row ">
@@ -12,11 +14,15 @@
               <span style="color: #028fcf">{{getChangeDataTitle.showProcessFlowID}}</span>
 
               <a style="cursor: pointer;">
-                <span *ngIf="getChangeDataTitle.Take && getShowTakeDetail" data-toggle="modal" data-target="#Cancelformdialog">(抽單)</span>
+                <span *ngIf="getChangeDataTitle.Take && getShowTakeDetail" data-toggle="modal"
+                  data-target="#Cancelformdialog">
+                  (<ng-container i18n>抽單</ng-container>)
+                </span>
               </a>
-              <a style="cursor: pointer;" data-toggle="modal"
-                (click)="checkTransSignForm(getChangeDataTitle)">
-                <span *ngIf="getChangeDataTitle.TransSign && getShowTransSignDetail">(轉呈)</span>
+              <a style="cursor: pointer;" data-toggle="modal" (click)="checkTransSignForm(getChangeDataTitle)">
+                <span *ngIf="getChangeDataTitle.TransSign && getShowTransSignDetail">
+                  (<ng-container i18n>轉呈</ng-container>)
+                </span>
               </a>
             </div>
           </div>
@@ -25,22 +31,35 @@
       <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
         <div class="col-md-3  col-xs-12 P_right">
           <label class="control-label ">
-            表單狀態</label>
+            <ng-container i18n>表單狀態</ng-container>
+          </label>
         </div>
         <div class="col-md-7  col-xs-12 P_LFZero" style="padding-right: 0px">
           <div *ngIf="getChangeDataTitle.ManageEmpName && getChangeDataTitle.State =='1'" style="padding-right: 0px">
-            <label class="tag_blue" style="margin-right: 5px">呈核中</label> <span
-              *ngIf="getChangeDataTitle.ManageEmpName">{{getChangeDataTitle.ManageEmpName}} 審核中</span>
+            <label class="tag_blue" style="margin-right: 5px">
+              <ng-container i18n>呈核中</ng-container>
+            </label>
+            <span *ngIf="getChangeDataTitle.ManageEmpName">{{getChangeDataTitle.ManageEmpName}}
+              <ng-container i18n> 審核中 </ng-container>
+            </span>
           </div>
           <div *ngIf="getChangeDataTitle.State == '3'" style="padding-right: 0px">
-            <label class="tag_skyblue" style="margin-right: 5px">已核准</label> <span
-              *ngIf="showAprovedName">{{showAprovedName}} 核單</span>
+            <label class="tag_skyblue" style="margin-right: 5px">
+              <ng-container i18n>已核准</ng-container>
+            </label>
+            <span *ngIf="showAprovedName">{{showAprovedName}}
+              <ng-container i18n>核單</ng-container>
+            </span>
           </div>
           <div *ngIf="getChangeDataTitle.State == '2'" class="tag_red" style="padding-right: 0px">
-            <label style="color: #d0021b">重擬</label>
+            <label style="color: #d0021b">
+              <ng-container i18n>重擬</ng-container>
+            </label>
           </div>
           <div *ngIf="getChangeDataTitle.State == '7'" class="tag_gray" style="padding-right: 0px">
-            <label style="color: #9b9b9b">已抽單</label>
+            <label style="color: #9b9b9b">
+              <ng-container i18n>已抽單</ng-container>
+            </label>
           </div>
         </div>
       </div>
@@ -49,7 +68,7 @@
     <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0;">
       <div class="col-md-6  col-xs-12">
         <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
-          員工
+          <ng-container i18n>員工</ng-container>
         </label>
         <div class="col-md-8  col-xs-12">
           <div class="row ">
@@ -65,7 +84,7 @@
     <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
       <div class="col-md-12 row" style="margin:0;margin-bottom: 10px">
         <label class="col-md-2 control-label" style="padding-left: 0px;text-align: right;padding-right: 10px">
-          調班事由
+          <ng-container i18n>調班事由</ng-container>
         </label>
         <div class="col-md-8 row" style="margin: 0;padding: 0">
           <div class="row " style="margin: 0;padding: 0">
@@ -82,10 +101,14 @@
       <div class="desktopCalender">
         <button id="bt_RoteShow" class="onShowButton" (click)="OriginalRote()" style="
         border-top-left-radius: 23px;
-        border-bottom-left-radius: 23px;">原始調班前</button>
+        border-bottom-left-radius: 23px;">
+          <ng-container i18n>原始調班前</ng-container>
+        </button>
         <button id="bt_TimeShow" class="offShowButton" (click)="SimulationRote()" style="
         border-top-right-radius: 23px;
-        border-bottom-right-radius: 23px;">模擬調班後</button>
+        border-bottom-right-radius: 23px;">
+          <ng-container i18n>模擬調班後</ng-container>
+        </button>
       </div>
     </div>
     <div class="row two-seven-cols" style="margin: 0;margin-bottom: 10px;">
@@ -98,7 +121,7 @@
 
             <div class="col-md-12 col-md-push-0 col-xs-push-4 col-xs-4 datePadding">
               <div class="DivDateStyle" style="background-color: #e8e8e8">
-                員工
+                <ng-container i18n>員工</ng-container>
               </div>
             </div>
             <div id="onePadding_View2" class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle"
@@ -144,7 +167,8 @@
                 </div>
               </div>
               <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle selectJobDiv">
-                <div [id]="'oneCheckHeight_View2_isCheck'+i.toString()"  class="RoteLink" (click)="bt_Show_RoteInfo(ui.onePRoteID)">
+                <div [id]="'oneCheckHeight_View2_isCheck'+i.toString()" class="RoteLink"
+                  (click)="bt_Show_RoteInfo(ui.onePRoteID)">
                   <!-- {{ui.oneP}} -->
                   {{ui.onePRoteName}}
                 </div>
@@ -153,7 +177,8 @@
                 </div>
               </div>
               <div class="col-md-12 col-xs-4 twoDivJobStyle selectJobDiv">
-                <div [id]="'twoCheckHeight_View2_isCheck'+i.toString()"  class="RoteLink" (click)="bt_Show_RoteInfo(ui.twoPRoteID)">
+                <div [id]="'twoCheckHeight_View2_isCheck'+i.toString()" class="RoteLink"
+                  (click)="bt_Show_RoteInfo(ui.twoPRoteID)">
                   <!-- {{ui.twoP}} -->
                   {{ui.twoPRoteName}}
                 </div>
@@ -176,7 +201,8 @@
                 </div>
               </div>
               <div class="col-md-12  col-md-pull-0 col-xs-pull-4 col-xs-4 oneDivJobStyle">
-                <div [id]="'oneCheckHeight_View2'+i.toString()"  class="RoteLink" (click)="bt_Show_RoteInfo(ui.onePRoteID)">
+                <div [id]="'oneCheckHeight_View2'+i.toString()" class="RoteLink"
+                  (click)="bt_Show_RoteInfo(ui.onePRoteID)">
                   <!-- {{ui.oneP}} -->
                   {{ui.onePRoteName}}
                 </div>
@@ -185,7 +211,8 @@
                 </div>
               </div>
               <div class="col-md-12 col-xs-4 twoDivJobStyle">
-                <div [id]="'twoCheckHeight_View2'+i.toString()"  class="RoteLink" (click)="bt_Show_RoteInfo(ui.twoPRoteID)">
+                <div [id]="'twoCheckHeight_View2'+i.toString()" class="RoteLink"
+                  (click)="bt_Show_RoteInfo(ui.twoPRoteID)">
                   <!-- {{ui.twoP}} -->
                   {{ui.twoPRoteName}}
                 </div>
@@ -214,13 +241,15 @@
             <div *ngFor="let select of SimulationRoteData[0].ShiftRoteFlowAppsDetail" class="row" style="margin: 0">
               <div>
                 <span style="color:#002f7b;" class="col-md-2 col-xs-3">{{FormatDate(select.ShiftRoteDate)}}</span>
-                <span class="col-md-4 col-xs-3 Rote RoteLink"  (click)="bt_Show_RoteInfo(select.RoteID1)">
+                <span class="col-md-4 col-xs-3 Rote RoteLink" (click)="bt_Show_RoteInfo(select.RoteID1)">
                   <!-- {{select.oneP}} -->
                   {{select.RoteName1}}
                   <!-- {{select.RoteID1Info.OnTime}} - {{select.RoteID1Info.OffTime}} -->
                 </span>
-                <span style="color:#002f7b;" class="col-md-2 col-xs-3">調成</span>
-                <span class="col-md-4 col-xs-3 Rote RoteLink"  (click)="bt_Show_RoteInfo(select.RoteID1c)">
+                <span style="color:#002f7b;" class="col-md-2 col-xs-3">
+                  <ng-container i18n>調成</ng-container>
+                </span>
+                <span class="col-md-4 col-xs-3 Rote RoteLink" (click)="bt_Show_RoteInfo(select.RoteID1c)">
                   <!-- {{select.twoP}} -->
                   {{select.RoteName1c}}
                   <!-- {{select.RoteID1cInfo.OnTime}} - {{select.RoteID1cInfo.OffTime}} -->
@@ -239,13 +268,15 @@
             <div *ngFor="let select of SimulationRoteData[0].ShiftRoteFlowAppsDetail" class="row" style="margin: 0">
               <div>
                 <span style="color:#002f7b;" class="col-md-2 col-xs-3">{{FormatDate(select.ShiftRoteDate)}}</span>
-                <span class="col-md-4 col-xs-3 Rote RoteLink"  (click)="bt_Show_RoteInfo(select.RoteID2)">
+                <span class="col-md-4 col-xs-3 Rote RoteLink" (click)="bt_Show_RoteInfo(select.RoteID2)">
                   <!-- {{select.oneP}} -->
                   {{select.RoteName2}}
                   <!-- {{select.RoteID2Info.OnTime}} - {{select.RoteID2Info.OffTime}} -->
                 </span>
-                <span style="color:#002f7b;" class="col-md-2 col-xs-3">調成</span>
-                <span class="col-md-4 col-xs-3 Rote RoteLink"  (click)="bt_Show_RoteInfo(select.RoteID2c)">
+                <span style="color:#002f7b;" class="col-md-2 col-xs-3">
+                  <ng-container i18n>調成</ng-container>
+                </span>
+                <span class="col-md-4 col-xs-3 Rote RoteLink" (click)="bt_Show_RoteInfo(select.RoteID2c)">
                   <!-- {{select.twoP}} -->
                   {{select.RoteName2c}}
                   <!-- {{select.RoteID2cInfo.OnTime}} - {{select.RoteID2cInfo.OffTime}} -->
@@ -261,8 +292,12 @@
     <app-from-sign [getProcessFlowID]="getChangeDataTitle.ProcessFlowID"></app-from-sign>
     <!--歷程主管意見-->
     <div style="text-align:center">
-      <button class="btn btn-primary btnFeatures" data-toggle="modal" (click)="show_signRecord()">簽核流程紀錄</button>
-      <button class="btn btn-default btnFeatures" (click)="previouspage()">回上一頁</button>
+      <button class="btn btn-primary btnFeatures" data-toggle="modal" (click)="show_signRecord()">
+        <ng-container i18n>簽核流程紀錄</ng-container>
+      </button>
+      <button class="btn btn-default btnFeatures" (click)="previouspage()">
+        <ng-container i18n>回上一頁</ng-container>
+      </button>
     </div>
 
   </div>
@@ -276,12 +311,18 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
-            <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認抽單?</h4>
+            <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+              <ng-container i18n>確認抽單?</ng-container>
+            </h4>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-              (click)="Cancelform_Click()">送出</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              (click)="Cancelform_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
           </div>
         </div>
       </div>
@@ -296,92 +337,112 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
-            <h4 class="modal-title" id="mySmallModalLabel">簽核流程紀錄</h4>
+            <h4 class="modal-title" id="mySmallModalLabel">
+              <ng-container i18n>簽核流程紀錄</ng-container>
+            </h4>
           </div>
           <div class="modal-body">
             <app-from-sign-table *ngIf="signRecordDialog" [getProcessFlowID]="getChangeDataTitle.ProcessFlowID">
             </app-from-sign-table>
-            <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>關閉</ng-container>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
   <!--dialog簽核流程紀錄-->
-<div class="modal" id="TransSignformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-aria-hidden="true">
-<div class="vertical-alignment-helper">
-  <div class="modal-dialog  modal-md vertical-align-center">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-        <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認轉呈?</h4>
-      </div>
-      <div class="modal-body">
-        <div>
-          <p>簽核人員</p>
-          <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
-          </app-select-signer>
-        </div>
-      </div>
-      <div class="modal-footer" style="text-align: center">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-          (click)="TransSignform_Click()">送出</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-<!--dialog轉呈確認送出 -->
-<div class="modal" id="TransSignformSussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-aria-hidden="true">
-<div class="vertical-alignment-helper">
-  <div class="modal-dialog  modal-sm vertical-align-center">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <!-- <span aria-hidden="true">×</span> -->
-        </button>
-        <h4 class="modal-title" style="text-align: center">轉呈完成</h4>
-      </div>
-      <div class="modal-body">
-        <div style="text-align: center;margin-bottom: 10px">
-          <img src="./assets/images-template/icon-success.png" />
-        </div>
-        <div style="text-align: center">
-          已成功轉呈
-        </div>
-      </div>
-      <div class="modal-footer" style="text-align: center">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-<!--dialog轉呈送出成功 -->
-<div class="modal" id="RoteInf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="vertical-alignment-helper">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-          <!-- <h4 class="modal-title" id="mySmallModalLabel">{{showSearchEmp.EmpCode}} 出勤班表</h4> -->
-          <h4 class="modal-title" id="mySmallModalLabel">班型資訊</h4>
-        </div>
-        <div class="modal-body">
-          <app-rote-inf [GetRoteInfo$]="Ob_setGetRoteInfo$"></app-rote-inf>
-          <div style="text-align: center">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+  <div class="modal" id="TransSignformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="vertical-alignment-helper">
+      <div class="modal-dialog  modal-md vertical-align-center">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+              <ng-container i18n>確認轉呈?</ng-container>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div>
+              <p>
+                <ng-container i18n>簽核人員</ng-container>
+              </p>
+              <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+              </app-select-signer>
+            </div>
+          </div>
+          <div class="modal-footer" style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="TransSignform_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<!--dialog班表期間-->
+  <!--dialog轉呈確認送出 -->
+  <div class="modal" id="TransSignformSussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="vertical-alignment-helper">
+      <div class="modal-dialog  modal-sm vertical-align-center">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <!-- <span aria-hidden="true">×</span> -->
+            </button>
+            <h4 class="modal-title" style="text-align: center">
+              <ng-container i18n>轉呈完成</ng-container>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div style="text-align: center;margin-bottom: 10px">
+              <img src="./assets/images-template/icon-success.png" />
+            </div>
+            <div style="text-align: center">
+              <ng-container i18n>已成功轉呈</ng-container>
+            </div>
+          </div>
+          <div class="modal-footer" style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+              <ng-container i18n>確定</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--dialog轉呈送出成功 -->
+  <div class="modal" id="RoteInf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <!-- <h4 class="modal-title" id="mySmallModalLabel">{{showSearchEmp.EmpCode}} 出勤班表</h4> -->
+            <h4 class="modal-title" id="mySmallModalLabel">
+              <ng-container i18n>班型資訊</ng-container>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <app-rote-inf [GetRoteInfo$]="Ob_setGetRoteInfo$"></app-rote-inf>
+            <div style="text-align: center">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">
+                <ng-container i18n>確定</ng-container>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--dialog班表期間-->

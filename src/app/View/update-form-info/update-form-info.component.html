@@ -1,6 +1,8 @@
 <div class="a-block">
   <div class="a-block-body  a-block-container">
-    <h3>人力處提醒字維護</h3>
+    <h3>
+        <ng-container i18n>人力處提醒字維護</ng-container>
+      </h3>
     <div class="P_fullwidth" style="margin-bottom: 20px">
       <ngx-select [items]="NgxFormInfoSelectBox" optionValueField="FormCode" optionTextField="FormName"
         [(ngModel)]="selectFormCode" (select)=onSelectChange(selectFormCode)></ngx-select>
@@ -12,7 +14,9 @@
       <textarea class="inputTextarea" style="overflow-y: auto" [(ngModel)]="editFormInfo.StdNote"></textarea>
     </div>
     <div style="text-align: center">
-        <button data-toggle="modal" data-target="#SaveDialog" class="btn btn-primary">儲存</button>
+        <button data-toggle="modal" data-target="#SaveDialog" class="btn btn-primary">
+            <ng-container i18n>儲存</ng-container>
+          </button>
     </div>
   </div>
 </div>
@@ -27,11 +31,17 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" style="text-align: center">確認儲存?</h4>
+          <h4 class="modal-title" style="text-align: center">
+              <ng-container i18n>確認儲存?</ng-container>
+            </h4>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_UpdateFormInfo()">送出</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_UpdateFormInfo()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
         </div>
       </div>
     </div>
@@ -46,18 +56,22 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <!-- <span aria-hidden="true">×</span> -->
             </button>
-            <h4 class="modal-title" style="text-align: center">送出成功</h4>
+            <h4 class="modal-title" style="text-align: center">
+                <ng-container i18n>送出成功</ng-container>
+              </h4>
           </div>
           <div class="modal-body">
             <div style="text-align: center;margin-bottom: 10px">
               <img src="./assets/images-template/icon-success.png" />
             </div>
             <div style="text-align: center">
-              修改完成!
+              <ng-container i18n>修改完成</ng-container>!
             </div>
           </div>
           <div class="modal-footer" style="text-align: center">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+                <ng-container i18n>確定</ng-container>
+              </button>
           </div>
         </div>
       </div>

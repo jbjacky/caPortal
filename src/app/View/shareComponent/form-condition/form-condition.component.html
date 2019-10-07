@@ -4,7 +4,8 @@
       <div class="col-md-4 col-xs-12" style="margin: 0px ; padding: 0px">
         <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 8px;padding-left: 0;">
           <label class=" control-label">
-            <span class="form-must-fill">*</span>起始日期
+            <span class="form-must-fill">*</span>
+            <ng-container i18n>起始日期</ng-container>
           </label>
         </div>
         <div class="col-md-6 col-xs-10" style="padding:0px">
@@ -26,7 +27,8 @@
       <div class="col-md-4 col-xs-12" style="margin: 0px ; padding: 0px">
         <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 8px;padding-left: 0;">
           <label class=" control-label">
-            <span class="form-must-fill">*</span>結束日期
+            <span class="form-must-fill">*</span>
+            <ng-container i18n>結束日期</ng-container>
           </label>
         </div>
         <div class="col-md-6  col-xs-10" style="padding:0px">
@@ -47,7 +49,8 @@
       <div class="col-md-4 col-xs-12" style="margin: 0px ; padding: 0px">
         <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 8px;padding-left: 0;">
           <label class=" control-label">
-            <span class="form-must-fill">*</span>表單種類
+            <span class="form-must-fill">*</span>
+            <ng-container i18n>表單種類</ng-container>
           </label>
         </div>
         <div class="col-md-8  col-xs-12" style="padding:0px">
@@ -66,24 +69,36 @@
       <div class="col-md-4 col-xs-12" style="padding: 0">
         <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
           <label class=" control-label">
-            表單狀態
+            <ng-container i18n>表單狀態</ng-container>
           </label>
         </div>
         <div class="col-md-8  col-xs-12" style="padding:0px;">
           <select id="selectDisplay" class="form-control" [(ngModel)]="selectState" (change)="setSearchVal()">
-            <option [value]='0'>全部</option>
-            <option [value]='1'>呈核中</option>
-            <option [value]='2'>重擬</option>
-            <option [value]='3'>已核准</option>
-            <option [value]='7'>已抽單</option>
-            <option [value]='6'>預排中</option>
+            <option [value]='0'>
+                <ng-container i18n>全部</ng-container>
+              </option>
+            <option [value]='1'>
+                <ng-container i18n>呈核中</ng-container>
+              </option>
+            <option [value]='2'>
+                <ng-container i18n>重擬</ng-container>
+              </option>
+            <option [value]='3'>
+                <ng-container i18n>已核准</ng-container>
+              </option>
+            <option [value]='7'>
+                <ng-container i18n>已抽單</ng-container>
+              </option>
+            <option [value]='6'>
+                <ng-container i18n>預排中</ng-container>
+              </option>
           </select>
         </div>
       </div>
       <div class="col-md-4 col-xs-12" style="padding: 0">
         <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
           <label class=" control-label">
-            篩選條件
+            <ng-container i18n>篩選條件</ng-container>
           </label>
         </div>
         <div class="col-md-8  col-xs-12" style="padding:0px;">
@@ -97,7 +112,7 @@
       <div class="col-md-4 col-xs-12" style="padding: 0" *ngIf="selectFilterCondition=='vaType'">
         <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
           <label class=" control-label">
-            假別種類
+            <ng-container i18n>假別種類</ng-container>
           </label>
         </div>
         <div class="col-md-8  col-xs-12" style="padding:0px;">
@@ -111,7 +126,7 @@
       <div class="col-md-4 col-xs-12" style="padding: 0" *ngIf="selectFilterCondition=='Sameday'">
         <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
           <label class=" control-label">
-            當日請假
+            <ng-container i18n>當日請假</ng-container>
           </label>
         </div>
         <div class="col-md-8  col-xs-12" style="padding:0px;">
@@ -130,7 +145,7 @@
       <div class="col-md-4 col-xs-12" style="padding: 0">
         <div class="col-md-4 col-xs-12 P_textLeft" style="margin-top: 5px;padding-left: 0;">
           <label class=" control-label">
-            經手表單
+            <ng-container i18n>經手表單</ng-container>
           </label>
           <a data-toggle="modal" data-target="#isHandleDialog" style="cursor: pointer;">
             <img src="./assets/images-template/icon-question.png" />

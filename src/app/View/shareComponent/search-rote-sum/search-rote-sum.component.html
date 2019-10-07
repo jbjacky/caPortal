@@ -1,6 +1,7 @@
 <div class="row" style="margin:0">
   <label class="col-md-2 col-xs-12 control-label P_left" style="padding: 0px;padding-top: 6px;">
-    <span class="form-must-fill">*</span>起始日期
+    <span class="form-must-fill">*</span>
+    <ng-container i18n>起始日期</ng-container>
   </label>
   <div class="col-md-10 col-xs-12">
     <div class="row" style="margin:0">
@@ -27,7 +28,8 @@
 </div>
 <div class="row" style="margin:0">
   <label class="col-md-2 col-xs-12 control-label P_left" style="padding: 0px;padding-top: 6px;">
-    <span class="form-must-fill ">*</span>結束日期
+    <span class="form-must-fill ">*</span>
+    <ng-container i18n>結束日期</ng-container>
   </label>
   <div class="col-md-10 col-xs-12">
     <div class="row" style="margin:0">
@@ -56,7 +58,8 @@
   <div class="col-md-2 col-xs-12 control-label">
   </div>
   <div class="col-md-10  col-xs-12">
-    <div style="display: inline-block;margin-right:15px " *ngFor="let oneRadio of radiogroup" (click)="changeRadio(oneRadio)">
+    <div style="display: inline-block;margin-right:15px " *ngFor="let oneRadio of radiogroup"
+      (click)="changeRadio(oneRadio)">
       <input type="radio" name="chooseRadio" [(ngModel)]="chooseRadio" [value]="oneRadio.id">{{oneRadio.name}}
     </div>
   </div>
@@ -64,7 +67,7 @@
 <div *ngIf="chooseRadio == 1">
   <div *ngIf="MyselfSearch" class="row" style="margin:0;margin-bottom: 10px">
     <label class="col-md-2 col-xs-12 control-label P_left P_padding" style="padding-top: 6px;">
-      員工
+      <ng-container i18n>員工</ng-container>
     </label>
     <div class="col-md-10  col-xs-12" style="padding-top: 6px;">
       {{setMan.EmpID}} {{setMan.EmpNameC}}
@@ -72,7 +75,7 @@
   </div>
   <div *ngIf="PersonSearch" class="row" style="margin:0;margin-bottom: 10px">
     <label class="col-md-2 col-xs-12 control-label P_left P_padding" style="padding-top: 6px;">
-      員工
+      <ng-container i18n>員工</ng-container>
     </label>
     <div class="col-md-10  col-xs-12" style="padding:0px">
       <div class="col-md-4 col-xs-5">
@@ -95,7 +98,7 @@
 <div *ngIf="chooseRadio == 2">
   <div class="row" style="margin:0;margin-bottom: 10px">
     <label class="col-md-2 col-xs-12 control-label P_left P_padding" style="padding-top: 6px;">
-      單位
+      <ng-container i18n>單位</ng-container>
     </label>
     <div class="col-md-10 col-xs-12">
       <div class="P_fullwidth">
@@ -107,12 +110,12 @@
 </div>
 <div class="row" style="margin:0;margin-bottom: 10px">
   <label class="col-md-2 col-xs-12 control-label P_left P_padding" style="padding-top: 6px;">
-    班型
+    <ng-container i18n>班型</ng-container>
   </label>
   <div class="col-md-10 col-xs-12">
     <div class="P_fullwidth">
-      <ngx-select allowClear="true" [items]="NgxRoteSelectBox" optionValueField="RoteID" optionTextField="uiShowRoteName"
-        [(ngModel)]="SearchRoteID"></ngx-select>
+      <ngx-select allowClear="true" [items]="NgxRoteSelectBox" optionValueField="RoteID"
+        optionTextField="uiShowRoteName" [(ngModel)]="SearchRoteID"></ngx-select>
     </div>
   </div>
 </div>
@@ -125,19 +128,22 @@ border-bottom: 1px solid #a0a0a0;
   <label class="col-md-2 col-xs-12 control-label" style="padding: 0px;text-align: right;padding-top: 6px;">
   </label>
   <div style="display: inline-block;padding: 0px 15px;">
-    <button class="btn btn-primary" (click)="onSearch()">查詢</button>
+    <button class="btn btn-primary" (click)="onSearch()">
+      <ng-container i18n>查詢</ng-container>
+    </button>
   </div>
 </div>
 
 
 <div style="padding: 0px 15px">
   <div *ngIf="showSerchNonBlock">
-    查無資料
+    <ng-container i18n>查無資料</ng-container>
   </div>
 </div>
 <div style="padding: 0px 15px">
   <div *ngFor="let aa of showSearchRote">
-    {{aa.Rote.RoteNameC}}： {{aa.Sum}} 天
+    {{aa.Rote.RoteNameC}}： {{aa.Sum}}
+    <ng-container i18n>天</ng-container>
   </div>
 </div>
 
@@ -157,7 +163,9 @@ border-bottom: 1px solid #a0a0a0;
             </app-choosebase-ma>
           </div>
           <!-- <app-choosebase (saveEmptoView)="onSaveEmptoView($event)"></app-choosebase> -->
-          <button type="button" class="btn btn-default" (click)="close_chooseEmpdialogRoteSum()">取消</button>
+          <button type="button" class="btn btn-default" (click)="close_chooseEmpdialogRoteSum()">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>

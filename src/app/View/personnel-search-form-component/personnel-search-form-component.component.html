@@ -3,7 +3,9 @@
     <div class="a-block-body  a-block-container">
 
         <a [id]="'id1'" data-toggle="collapse" [href]="'#post1'" (click)="onCheckCollapseIn()">
-            <span [id]="'1_text'">收合查詢選單</span>
+            <span [id]="'1_text'">
+                <ng-container i18n>收合查詢選單</ng-container>
+            </span>
             <img [id]="'1_img'" src="./assets/images-template/icon-arrow.png"
                 style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
         </a>
@@ -11,7 +13,8 @@
             <div id="showP_margin"> </div>
             <app-choose-base-or-dept (outPutChoose)="getEmpCode($event)"></app-choose-base-or-dept>
 
-            <app-form-condition (outPutSearch)="getSearchFormCondition($event)" [ownerReview]="false"></app-form-condition>
+            <app-form-condition (outPutSearch)="getSearchFormCondition($event)" [ownerReview]="false">
+            </app-form-condition>
 
             <div class="form-group first-form-group">
                 <div class="row" style="margin:0px;padding: 0px 15px">
@@ -19,7 +22,9 @@
                         <div class="col-md-4  col-xs-12" style="padding:0px">
                         </div>
                         <div class="col-md-8  col-xs-12" style="padding:0px">
-                            <button type="button" class="btn btn-primary" (click)="onSearchForm()">查詢</button>
+                            <button type="button" class="btn btn-primary" (click)="onSearchForm()">
+                                <ng-container i18n>查詢</ng-container>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -42,13 +47,17 @@
 </div>
 
 <div id="showFormPalce" class="showForm">
-    <app-search-va-form [getVaData]="getApiVaData" [getShowTransSign] = "showTransSign"  [getShowTake]= "showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
-        *ngIf="isSearch && showSelectSearchForm == 'Abs'"></app-search-va-form>
-    <app-search-del-form [getDelData]="getApiDelData" [getShowTransSign] = "showTransSign"  [getShowTake]= "showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
-        *ngIf="isSearch && showSelectSearchForm == 'Absc'"></app-search-del-form>
-    <app-search-forget-form [getForgetData]="getApiForgetData" [getShowTransSign] = "showTransSign"  [getShowTake]= "showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+    <app-search-va-form [getVaData]="getApiVaData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
+        (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Abs'">
+    </app-search-va-form>
+    <app-search-del-form [getDelData]="getApiDelData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
+        (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Absc'">
+    </app-search-del-form>
+    <app-search-forget-form [getForgetData]="getApiForgetData" [getShowTransSign]="showTransSign"
+        [getShowTake]="showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
         *ngIf="isSearch && showSelectSearchForm == 'Card'"></app-search-forget-form>
-    <app-search-change-form [getChangeData]="getApiShiftRoteData" [getShowTransSign] = "showTransSign"  [getShowTake]= "showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+    <app-search-change-form [getChangeData]="getApiShiftRoteData" [getShowTransSign]="showTransSign"
+        [getShowTake]="showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
         *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'"></app-search-change-form>
 </div>
 
@@ -62,15 +71,21 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title">經手表單說明</h4>
+                    <h4 class="modal-title">
+                        <ng-container i18n>經手表單說明</ng-container>
+                    </h4>
                 </div>
                 <div class="modal-body">
-                    <p>查詢該員工號所有曾經代填、批核、退回、呈核表單。</p>
+                    <p>
+                        <ng-container i18n>查詢該員工號所有曾經代填、批核、退回、呈核表單。</ng-container>
+                    </p>
                 </div>
                 <div class="modal-footer">
-                        <div style="text-align: center">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
-                        </div>
+                    <div style="text-align: center">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <ng-container i18n>關閉</ng-container>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

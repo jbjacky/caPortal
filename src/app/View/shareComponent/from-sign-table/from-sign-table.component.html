@@ -1,13 +1,19 @@
 <div *ngIf="showFormSign.length==0" style="margin: 10px">
-  無簽核流程紀錄
+  <ng-container i18n>無簽核流程紀錄</ng-container>
 </div>
 <table *ngIf="showFormSign.length>0"
   class="table table-bordered table-striped table-hover table-content-center table-style01">
   <thead>
     <tr>
-      <th style="background-image: unset;cursor: unset">姓名</th>
-      <th>時間</th>
-      <th>動作</th>
+      <th style="background-image: unset;cursor: unset">
+        <ng-container i18n>姓名</ng-container>
+      </th>
+      <th>
+        <ng-container i18n>時間</ng-container>
+      </th>
+      <th>
+        <ng-container i18n>動作</ng-container>
+      </th>
     </tr>
   </thead>
   <tbody>

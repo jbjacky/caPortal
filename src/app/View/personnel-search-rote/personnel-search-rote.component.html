@@ -3,7 +3,8 @@
     <div class="row" style="padding-bottom: 15px;margin:0px">
       <div class="col-md-2 col-xs-12 P_title">
         <label class=" control-label">
-          <span class="form-must-fill">*</span>員工
+          <span class="form-must-fill">*</span>
+          <ng-container i18n>員工</ng-container>
         </label>
       </div>
       <div class="col-md-10  col-xs-12" style="padding:0px">
@@ -26,7 +27,8 @@
 
     <div class="row" style="margin:0;margin-bottom: 10px">
       <label class="col-md-2 col-xs-12 P_title">
-        <span class="form-must-fill">*</span>查詢日期
+        <span class="form-must-fill">*</span>
+        <ng-container i18n>查詢日期</ng-container>
       </label>
       <div class="col-md-10 col-xs-12" style="padding: 0">
         <div class="row writerow" style="margin:0">
@@ -60,10 +62,14 @@
       <div class="col-md-2 col-xs-12"></div>
       <div class="col-md-10 col-xs-12" style="padding: 0">
         <div style="display: inline-block;margin-right: 50px;">
-            <button type="button" class="btn btn-primary" (click)="search(dateS)">查詢</button>
+          <button type="button" class="btn btn-primary" (click)="search(dateS)">
+            <ng-container i18n>查詢</ng-container>
+          </button>
         </div>
         <div style="display: inline-block">
-            <a data-toggle="modal" style="cursor: pointer;" (click)="bt_showroteSumDialog()">班別統計表</a>
+          <a data-toggle="modal" style="cursor: pointer;" (click)="bt_showroteSumDialog()">
+            <ng-container i18n>班別統計表</ng-container>
+          </a>
         </div>
       </div>
     </div>
@@ -72,7 +78,9 @@
 
 <div *ngIf="nonRote" class="a-block">
   <div class="a-block-body  a-block-container">
-    <div>查無班表資料</div>
+    <div>
+      <ng-container i18n>查無班表資料</ng-container>
+    </div>
   </div>
 </div>
 <app-sharecalendar *ngIf="!nonRote" [searchCalendarData]="Ob_RoteApiData$"></app-sharecalendar>
@@ -94,7 +102,9 @@
             </app-choosebase-ma>
           </div>
           <!-- <app-choosebase (saveEmptoView)="onSaveEmptoView($event)"></app-choosebase> -->
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -111,14 +121,18 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
-        <h5 class="modal-title">班別統計表</h5>
+        <h5 class="modal-title">
+          <ng-container i18n>班別統計表</ng-container>
+        </h5>
       </div>
       <div class="modal-body">
         <app-search-rote-sum *ngIf="showroteSumDialog" [setMan]="SearchRoteMan" [MyselfSearch]=false
           [PersonSearch]="true"></app-search-rote-sum>
       </div>
       <div class="modal-footer" style="text-align: center">
-        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          <ng-container i18n>關閉</ng-container>
+        </button>
       </div>
     </div>
   </div>

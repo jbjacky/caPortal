@@ -1,10 +1,12 @@
 <form [formGroup]="radioFormGroup">
   <div style="margin-bottom: 15px">
     <div style="display: inline-block;margin-right:15px ">
-      <input type="radio" name="gender" value="dept" formControlName="gender" (click)="firstGetDeptData()"> 依單位查詢
+      <input type="radio" name="gender" value="dept" formControlName="gender" (click)="firstGetDeptData()"> 
+      <ng-container i18n>依單位查詢</ng-container>
     </div>
     <div style="display: inline-block;">
-      <input type="radio" name="gender" value="keyinput" formControlName="gender"> 關鍵字查詢
+      <input type="radio" name="gender" value="keyinput" formControlName="gender"> 
+      <ng-container i18n>關鍵字查詢</ng-container>
     </div>
   </div>
   <div *ngIf="radioFormGroup.get('gender').value == 'dept'">
@@ -23,7 +25,7 @@
             </ng-container>
             <ng-container *ngIf="selectBox_dept.DeptID ==-1">
               <option [value]="selectBox_dept.DeptID" style="color: inherit" [value]="selectBox_dept.DeptID">
-                請選擇單位
+                <ng-container i18n>請選擇單位</ng-container>
               </option>
             </ng-container>
           </ng-container>
@@ -32,7 +34,7 @@
     </div>
 
     <div style="padding: 0px;margin-bottom: 20px">
-      <h4>選擇單位:{{DeptName()}}</h4>
+      <h4><ng-container i18n>選擇單位</ng-container>:{{DeptName()}}</h4>
       <!-- <ngx-select [items]="searchBase" (selectionChanges)="search($event)" placeholder="請選擇員工或是輸入搜尋員工"
         [disabled]="selectBase_disable()" noResultsFound="此條件找不到員工">
       </ngx-select> -->

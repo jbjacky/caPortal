@@ -1,25 +1,35 @@
 <!-- <div class="a-block">
   <div class="a-block-body  a-block-container"> -->
-    <!-- <h3>請假簽核權限表</h3> -->
-    <table class="table table-bordered table-striped table-hover table-content-center table-style01">
-        <thead>
-            <tr >
-              <th style="background-image: unset;cursor: unset">假別代碼</th>
-              <th >假別名稱</th>
-              <th >一級主管</th>
-              <th >二級主管</th>
-              <th>三級主管</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let HoliDayFlowConditionView of HoliDayFlowConditionView">
-              <td>{{HoliDayFlowConditionView.HoliDayCode}}</td>
-              <td style="text-align: left">{{HoliDayFlowConditionView.HoliDayNameC}}</td>
-              <td>{{HoliDayFlowConditionView.Max1}}</td>
-              <td>{{HoliDayFlowConditionView.Max2}}</td>
-              <td>{{HoliDayFlowConditionView.Max3}}</td>
-            </tr>
-          </tbody>
-    </table>
-  <!-- </div>
+<!-- <h3>請假簽核權限表</h3> -->
+<table class="table table-bordered table-striped table-hover table-content-center table-style01">
+  <thead>
+    <tr>
+      <th style="background-image: unset;cursor: unset">
+        <ng-container i18n>假別代碼</ng-container>
+      </th>
+      <th>
+        <ng-container i18n>假別名稱</ng-container>
+      </th>
+      <th>
+        <ng-container i18n>一級主管</ng-container>
+      </th>
+      <th>
+        <ng-container i18n>二級主管</ng-container>
+      </th>
+      <th>
+        <ng-container i18n>三級主管</ng-container>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let HoliDayFlowConditionView of HoliDayFlowConditionView">
+      <td>{{HoliDayFlowConditionView.HoliDayCode}}</td>
+      <td style="text-align: left">{{HoliDayFlowConditionView.HoliDayNameC}}</td>
+      <td>{{HoliDayFlowConditionView.Max1}}</td>
+      <td>{{HoliDayFlowConditionView.Max2}}</td>
+      <td>{{HoliDayFlowConditionView.Max3}}</td>
+    </tr>
+  </tbody>
+</table>
+<!-- </div>
 </div> -->

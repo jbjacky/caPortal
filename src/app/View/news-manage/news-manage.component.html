@@ -4,7 +4,9 @@
     display: flex;
     justify-content: space-between;">
       <div style="text-align: left">
-        <span>查詢：</span>
+        <span>
+          <ng-container i18n>查詢</ng-container>：
+        </span>
         <mat-form-field>
           <input matInput #filter placeholder="">
         </mat-form-field>
@@ -12,7 +14,7 @@
       <div style="text-align: right;
       padding-top: 1.25em;">
         <button (click)="newEditorClick()">
-          新增公告
+          <ng-container i18n>新增公告</ng-container>
         </button>
       </div>
     </div>
@@ -22,39 +24,57 @@
         class="table table-bordered table-striped table-hover table-content-center table-style01">
 
         <ng-container matColumnDef="ShowNewsHead">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> 標題 </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>標題</ng-container>
+          </th>
           <td mat-cell *matCellDef="let element" style="text-align: left;"> {{element.ShowNewsHead}} </td>
         </ng-container>
 
         <ng-container matColumnDef="PostDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> 公告日期 </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>公告日期</ng-container>
+          </th>
           <td mat-cell *matCellDef="let element"> {{element.PostDate}} </td>
         </ng-container>
 
         <ng-container matColumnDef="PostDeadline">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> 失效日期 </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>失效日期</ng-container>
+          </th>
           <td mat-cell *matCellDef="let element"> {{element.PostDeadline}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Sort">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> 排序 </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>排序</ng-container>
+          </th>
           <td mat-cell *matCellDef="let element"> {{element.Sort}} </td>
         </ng-container>
 
         <ng-container matColumnDef="KeyMan">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> 更新人員 </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>更新人員</ng-container>
+          </th>
           <td mat-cell *matCellDef="let element"> {{element.KeyMan}} </td>
         </ng-container>
         <ng-container matColumnDef="UpdateDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> 更新時間 </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>更新時間</ng-container>
+          </th>
           <td mat-cell *matCellDef="let element"> {{element.UpdateDate}} </td>
         </ng-container>
 
         <ng-container matColumnDef="NewsID">
-          <th mat-header-cell *matHeaderCellDef> 功能 </th>
+          <th mat-header-cell *matHeaderCellDef>
+            <ng-container i18n>功能</ng-container>
+          </th>
           <td mat-cell *matCellDef="let element">
-            <a (click)="editButtonClick(element.NewsID)" style="cursor: pointer;margin: 0px 5px">編輯</a>
-            <a (click)="delButtonClick(element.NewsID)" style="cursor: pointer;margin: 0px 5px">刪除</a>
+            <a (click)="editButtonClick(element.NewsID)" style="cursor: pointer;margin: 0px 5px">
+              <ng-container i18n>編輯</ng-container>
+            </a>
+            <a (click)="delButtonClick(element.NewsID)" style="cursor: pointer;margin: 0px 5px">
+              <ng-container i18n>刪除</ng-container>
+            </a>
           </td>
         </ng-container>
 
@@ -77,11 +97,17 @@
           <button type="button" class="close" data-dismiss="modal">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" style="text-align: center">確認刪除?</h4>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>確認刪除?</ng-container>
+          </h4>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delOneNewsData()">刪除</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delOneNewsData()">
+            <ng-container i18n>刪除</ng-container>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>

@@ -1,5 +1,3 @@
-
-
 <div class="modal" id="checksenddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog  modal-sm vertical-align-center">
@@ -8,11 +6,18 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認送出?</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認送出?</ng-container>
+          </h4>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#sussesdialog">送出</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+            data-target="#sussesdialog">
+            <ng-container i18n>送出</ng-container>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -27,7 +32,9 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <!-- <span aria-hidden="true">×</span> -->
           </button>
-          <h4 class="modal-title" style="text-align: center">申請完成</h4>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>申請完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
@@ -38,7 +45,10 @@
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='_routerlink' (click)="goTop()">確定</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='_routerlink'
+            (click)="goTop()">
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>

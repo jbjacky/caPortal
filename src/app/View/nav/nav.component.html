@@ -55,7 +55,9 @@
                         </li> -->
                     </ul>
                     <!--header-subfunctions End-->
-                    <a class="btn-log-out" style="cursor: pointer;" (click)="signOut()">登出</a>
+                    <a class="btn-log-out" style="cursor: pointer;" (click)="signOut()">
+                        <ng-container i18n>登出</ng-container>
+                    </a>
                 </div>
                 <!--header-subarea End-->
 
@@ -129,7 +131,10 @@
                     <p>
                         <span class="user-empId">{{selectUserData.EmpCode}}</span>
                         <a *ngIf="IsHasSwitchUser" class="bt_switch" style="text-decoration: underline;"
-                            data-toggle="modal" (click)="bt_showSwitchEmpDialog()">切換</a>
+                            data-toggle="modal" (click)="bt_showSwitchEmpDialog()">
+                            <ng-container i18n>切換</ng-container>
+                        </a>
+
                         <br>
                         <span class="user-empName">{{selectUserData.EmpNameC}}</span>
                     </p>
@@ -271,7 +276,9 @@
             </div>
             <!-- <a id="btn-log-out-inMainNav" style="cursor: pointer;border: 0;text-align: right"
                 (click)="changeLang()">{{showLang}}</a> -->
-            <a id="btn-log-out-inMainNav" (click)="signOut()">登 出</a>
+            <a id="btn-log-out-inMainNav" (click)="signOut()">
+                <ng-container i18n>登 出</ng-container>
+            </a>
 
         </div>
         <!--#main-nav-inner End -->
@@ -305,7 +312,9 @@
                     <app-adminkeybase *ngIf="showSwitchEmpDialog" (click_saveEmptoView)="change($event)"
                         [IsTop]="IsAdmin"></app-adminkeybase>
 
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <ng-container i18n>取消</ng-container>
+                    </button>
 
                 </div>
             </div>

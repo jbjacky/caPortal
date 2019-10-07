@@ -1,6 +1,7 @@
 
 <label class="btn  btn-default" style="padding: 5px 15px;">
-  <input type="file" (change)="onChangefile($event.target.files)" style="display:none;"  /> 瀏覽...
+  <input type="file" (change)="onChangefile($event.target.files)" style="display:none;"  />
+  <ng-container i18n>瀏覽...</ng-container> 
 </label>
 <div *ngFor="let oneFileArray of fileArray ; let i = index" class="filenamesort">
   <a (click)="downloadOnefile(oneFileArray)" style="margin:7px;cursor: pointer;">{{oneFileArray.name}}</a>

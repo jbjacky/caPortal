@@ -5,8 +5,8 @@
       <ngx-select [items]="NgxDeptSelectBox" optionValueField="DeptID" optionTextField="uiShowDeptCodeAndName"
         [(ngModel)]="SearchDeptID" (select)=onSelectChange()></ngx-select>
     </div>
-    <ngx-fullcalendar #calendar id="calendar" defaultView="month" [header]='plugin' [events]="events" [options]="options"
-      (onDatesRender)="SearchDeptCalendar(SearchDeptID)" (onEventClick)="dateClick($event)">
+    <ngx-fullcalendar #calendar id="calendar" defaultView="month" [header]='plugin' [events]="events"
+      [options]="options" (onDatesRender)="SearchDeptCalendar(SearchDeptID)" (onEventClick)="dateClick($event)">
     </ngx-fullcalendar>
   </div>
 </div>
@@ -22,13 +22,15 @@
           <div>{{showDialogDate}}</div>
         </div>
         <div class="modal-body" style="padding: 25px;padding-top: 15px;">
-            <div *ngFor="let oneTitle of showDialogTitles">
-              <span class="basetext">{{oneTitle}}</span>
-            </div>
+          <div *ngFor="let oneTitle of showDialogTitles">
+            <span class="basetext">{{oneTitle}}</span>
+          </div>
         </div>
         <div class="modal-footer">
           <div style="text-align: center">
-            <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>關閉</ng-container>
+            </button>
           </div>
         </div>
       </div>

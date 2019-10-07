@@ -6,7 +6,7 @@
         <div class="col-md-3 col-xs-6" style="padding: 0">
           <div class="col-md-4 col-xs-12 P_textLeft" style="padding-left: 0;">
             <label class=" control-label">
-              員工
+              <ng-container i18n>員工</ng-container>
             </label>
           </div>
           <div class="col-md-8  col-xs-12" style="padding:0px">
@@ -16,7 +16,7 @@
         <div class="col-md-9 col-xs-6" style="padding: 0px">
           <div class="col-md-4 col-xs-12 P_textLeft" style="padding-left: 0;">
             <label class=" control-label">
-              年度特休基準日
+              <ng-container i18n>年度特休基準日</ng-container>
             </label>
           </div>
           <div class="col-md-8  col-xs-12" style="padding:0px">
@@ -29,20 +29,28 @@
       showSpecialLeave.AbsAddition.length == 0 &&
       showWelfare.AbsAddition.length == 0 &&
       showDomestic.AbsAddition.length == 0">
-      目前無剩餘餘假時數
+      <ng-container i18n>目前無剩餘餘假時數</ng-container>
     </div>
     <div *ngIf="showSurplusLeaveAbsDeduction.length > 0" class="tableTitle">
-      ⌾餘假資訊
+      <ng-container i18n>⌾餘假資訊</ng-container>
     </div>
     <div *ngIf="showSurplusLeaveAbsDeduction.length > 0" class="table-responsive">
       <table class="table table-bordered  table-striped table-hover table-content-center table-style01" style="
       white-space: nowrap;">
         <thead>
           <tr>
-            <th style="background-image: unset;cursor: unset;width: 45%">假別</th>
-            <th>結餘</th>
-            <th>呈核中</th>
-            <th>已請</th>
+            <th style="background-image: unset;cursor: unset;width: 45%">
+              <ng-container i18n>假別</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>結餘</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>呈核中</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>已請</ng-container>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -53,25 +61,34 @@
             <td>
               <!-- 結餘 -->
               <div *ngIf="surplusLeave.BalanceDayHourMin != null">
-                <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Day}}</div> 日
-                <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Hour}}</div> 時
-                <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Minute}}</div> 分
+                <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Day}}</div>
+                <ng-container i18n> 日 </ng-container>
+                <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Hour}}</div>
+                <ng-container i18n> 時 </ng-container>
+                <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Minute}}</div>
+                <ng-container i18n> 分 </ng-container>
               </div>
             </td>
             <td>
               <!-- 呈核中 -->
               <div *ngIf="surplusLeave.FlowUseDayHourMin != null">
-                <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Day}}</div> 日
-                <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Hour}}</div> 時
-                <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Minute}}</div> 分
+                <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Day}}</div>
+                <ng-container i18n> 日 </ng-container>
+                <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Hour}}</div>
+                <ng-container i18n> 時 </ng-container>
+                <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Minute}}</div>
+                <ng-container i18n> 分 </ng-container>
               </div>
             </td>
             <td>
               <!-- 已請 -->
               <div *ngIf="surplusLeave.UseDayHourMin != null">
-                <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Day}}</div> 日
-                <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Hour}}</div> 時
-                <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Minute}}</div> 分
+                <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Day}}</div>
+                <ng-container i18n> 日 </ng-container>
+                <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Hour}}</div>
+                <ng-container i18n> 時 </ng-container>
+                <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Minute}}</div>
+                <ng-container i18n> 分 </ng-container>
               </div>
             </td>
           </tr>
@@ -81,16 +98,24 @@
     </div>
 
     <div *ngIf="showSpecialLeave.AbsAddition.length > 0" class="tableTitle">
-      ⌾特別休假結餘明細
+      <ng-container i18n>⌾特別休假結餘明細</ng-container>
     </div>
     <div *ngIf="showSpecialLeave.AbsAddition.length > 0" class="table-responsive">
       <table class="table table-bordered table-striped table-hover table-content-center table-style01">
         <thead>
           <tr>
-            <th style="background-image: unset;cursor: unset">特別休假年份</th>
-            <th>差假結餘</th>
-            <th>生效日</th>
-            <th>到期日</th>
+            <th style="background-image: unset;cursor: unset">
+              <ng-container i18n>特別休假年份</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>差假結餘</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>生效日</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>到期日</ng-container>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -101,9 +126,12 @@
             </td>
             <td>
               <!-- 差假結餘 -->
-              <div class="showDayHourMin">{{specialLeave_AbsAddition.RestAmountDayHourMin.Day}}</div> 日
-              <div class="showDayHourMin">{{specialLeave_AbsAddition.RestAmountDayHourMin.Hour}}</div> 時
-              <div class="showDayHourMin">{{specialLeave_AbsAddition.RestAmountDayHourMin.Minute}}</div> 分
+              <div class="showDayHourMin">{{specialLeave_AbsAddition.RestAmountDayHourMin.Day}}</div>
+              <ng-container i18n> 日 </ng-container>
+              <div class="showDayHourMin">{{specialLeave_AbsAddition.RestAmountDayHourMin.Hour}}</div>
+              <ng-container i18n> 時 </ng-container>
+              <div class="showDayHourMin">{{specialLeave_AbsAddition.RestAmountDayHourMin.Minute}}</div>
+              <ng-container i18n> 分 </ng-container>
             </td>
             <td>
               <!-- 生效日 -->
@@ -119,16 +147,24 @@
     </div>
 
     <div *ngIf="showWelfare.AbsAddition.length > 0" class="tableTitle">
-      ⌾福利補休結餘明細
+      <ng-container i18n>⌾福利補休結餘明細</ng-container>
     </div>
     <div *ngIf="showWelfare.AbsAddition.length > 0" class="table-responsive">
       <table class="table table-bordered table-striped table-hover table-content-center table-style01">
         <thead>
           <tr>
-            <th style="background-image: unset;cursor: unset">福利補休年份</th>
-            <th>差假結餘</th>
-            <th>生效日</th>
-            <th>到期日</th>
+            <th style="background-image: unset;cursor: unset">
+              <ng-container i18n>福利補休年份</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>差假結餘</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>生效日</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>到期日</ng-container>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -139,9 +175,12 @@
             </td>
             <td>
               <!-- 差假結餘 -->
-              <div class="showDayHourMin">{{showWelfare_AbsAddition.RestAmountDayHourMin.Day}}</div> 日
-              <div class="showDayHourMin">{{showWelfare_AbsAddition.RestAmountDayHourMin.Hour}}</div> 時
-              <div class="showDayHourMin">{{showWelfare_AbsAddition.RestAmountDayHourMin.Minute}}</div> 分
+              <div class="showDayHourMin">{{showWelfare_AbsAddition.RestAmountDayHourMin.Day}}</div>
+              <ng-container i18n> 日 </ng-container>
+              <div class="showDayHourMin">{{showWelfare_AbsAddition.RestAmountDayHourMin.Hour}}</div>
+              <ng-container i18n> 時 </ng-container>
+              <div class="showDayHourMin">{{showWelfare_AbsAddition.RestAmountDayHourMin.Minute}}</div>
+              <ng-container i18n> 分 </ng-container>
             </td>
             <td>
               <!-- 生效日 -->
@@ -157,16 +196,24 @@
     </div>
 
     <div *ngIf="showDomestic.AbsAddition.length > 0" class="tableTitle">
-      ⌾國內補休結餘明細
+      <ng-container i18n>⌾國內補休結餘明細</ng-container>
     </div>
     <div *ngIf="showDomestic.AbsAddition.length > 0" class="table-responsive">
       <table class="table table-bordered table-striped table-hover table-content-center table-style01">
         <thead>
           <tr>
-            <th style="background-image: unset;cursor: unset">國內補休年份</th>
-            <th>差假結餘</th>
-            <th>生效日</th>
-            <th>到期日</th>
+            <th style="background-image: unset;cursor: unset">
+              <ng-container i18n>國內補休年份</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>差假結餘</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>生效日</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>到期日</ng-container>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -177,9 +224,12 @@
             </td>
             <td>
               <!-- 差假結餘 -->
-              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Day}}</div> 日
-              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Hour}}</div> 時
-              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Minute}}</div> 分
+              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Day}}</div> 
+              <ng-container i18n> 日 </ng-container>
+              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Hour}}</div> 
+              <ng-container i18n> 時 </ng-container>
+              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Minute}}</div> 
+              <ng-container i18n> 分 </ng-container>
             </td>
             <td>
               <!-- 生效日 -->

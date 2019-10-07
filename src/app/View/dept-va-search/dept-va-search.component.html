@@ -3,7 +3,9 @@
     <div class="form-group first-form-group" style="border: 1px solid #979797;">
       <div class="row" style="margin:0px;    padding: 20px 0px 20px 0px;">
         <div class="col-md-2 col-xs-12 P_Right">
-          <h3 style="margin:0px">選擇查詢類型</h3>
+          <h3 style="margin:0px">
+            <ng-container i18n>選擇查詢類型</ng-container>
+          </h3>
         </div>
         <div class="col-md-8 col-xs-12 P_radio">
           <div style="display: inline-block;margin-right:15px " *ngFor="let oneRadio of radiogroup">
@@ -16,7 +18,7 @@
       <div class="row" style="padding-bottom: 15px;margin:0px">
         <div class="col-md-2 col-xs-12 P_Right" style="margin-top: 7px;">
           <span class="form-must-fill">*</span><span class=" control-label">
-            單位
+            <ng-container i18n>單位</ng-container>
           </span>
         </div>
         <div class="col-md-10  col-xs-12 row" style="margin: 0px">
@@ -31,12 +33,18 @@
         <div class="col-md-1"></div>
         <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
           <div class="col-md-3 col-xs-12 P_Right" style="padding-top: 8px;">
-            <span class="form-must-fill">*</span><span>起始日</span>
+            <span class="form-must-fill">*</span>
+            <span>
+              <ng-container i18n>起始日</ng-container>
+            </span>
           </div>
           <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
             <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
-              <input [matDatepicker]="StartDatePicker_Dept" id="Dept_StartDate" [(ngModel)]="SearchStartDate_Dept" class="form-control" type="text" (blur)="SerchStartDateChange_My()"  (dateChange)="SerchStartDateChange_My()"/>
-              <div *ngIf="Dept_errorStartDateState.state" style="color: #e60012">{{Dept_errorStartDateState.errorString}}</div>
+              <input [matDatepicker]="StartDatePicker_Dept" id="Dept_StartDate" [(ngModel)]="SearchStartDate_Dept"
+                class="form-control" type="text" (blur)="SerchStartDateChange_My()"
+                (dateChange)="SerchStartDateChange_My()" />
+              <div *ngIf="Dept_errorStartDateState.state" style="color: #e60012">
+                {{Dept_errorStartDateState.errorString}}</div>
               <mat-datepicker #StartDatePicker_Dept touchUi [calendarHeaderComponent]="exampleHeader">
               </mat-datepicker>
             </div>
@@ -53,12 +61,17 @@
         </div>
         <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
           <div class="col-md-3 col-xs-12 P_Right" style="padding-top: 8px;">
-            <span class="form-must-fill">*</span><span>結束日</span>
+            <span class="form-must-fill">*</span>
+            <span>
+              <ng-container i18n>結束日</ng-container>
+            </span>
           </div>
           <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
             <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
-              <input [matDatepicker]="EndDatePicker_Dept" id="Dept_EndDate" [(ngModel)]="SearchEndDate_Dept" class="form-control" type="text" (blur)="blurEndDate_Dept()" (dateChange)="blurEndDate_Dept()"/>
-              <div *ngIf="Dept_errorEndtDateState.state" style="color: #e60012">{{Dept_errorEndtDateState.errorString}}</div>
+              <input [matDatepicker]="EndDatePicker_Dept" id="Dept_EndDate" [(ngModel)]="SearchEndDate_Dept"
+                class="form-control" type="text" (blur)="blurEndDate_Dept()" (dateChange)="blurEndDate_Dept()" />
+              <div *ngIf="Dept_errorEndtDateState.state" style="color: #e60012">{{Dept_errorEndtDateState.errorString}}
+              </div>
               <mat-datepicker #EndDatePicker_Dept touchUi [calendarHeaderComponent]="exampleHeader">
               </mat-datepicker>
             </div>
@@ -77,11 +90,11 @@
       </div>
       <div class="row" style="margin:0">
         <div class="col-md-2">
-
         </div>
         <div class="col-md-10">
-
-          <button class="btn btn-primary " (click)="bt_searchDept()">查詢</button>
+          <button class="btn btn-primary " (click)="bt_searchDept()">
+            <ng-container i18n>查詢</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -90,7 +103,7 @@
       <div class="row" style="padding-bottom: 15px;margin:0px">
         <div class="col-md-2 col-xs-12 P_Right" style="margin-top: 7px;">
           <span class="form-must-fill">*</span><span class=" control-label">
-            員工
+            <ng-container i18n>員工</ng-container>
           </span>
         </div>
         <div class="col-md-10  col-xs-12 row" style="margin: 0px">
@@ -115,12 +128,18 @@
         <div class="col-md-1"></div>
         <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
           <div class="col-md-3 col-xs-12 P_Right" style="padding-top: 8px;">
-            <span class="form-must-fill">*</span><span>起始日</span>
+            <span class="form-must-fill">*</span>
+            <span>
+              <ng-container i18n>起始日</ng-container>
+            </span>
           </div>
           <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
             <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
-              <input [matDatepicker]="StartDatePicker_OneEmp" id="OneEmp_StartDate" [(ngModel)]="OneEmp_SearchStartDate" class="form-control" type="text" (blur)="SerchStartDateChange_OneEmp()"  (dateChange)="SerchStartDateChange_OneEmp()"/>
-              <div *ngIf="OneEmp_errorStartDateState.state" style="color: #e60012">{{OneEmp_errorStartDateState.errorString}}</div>
+              <input [matDatepicker]="StartDatePicker_OneEmp" id="OneEmp_StartDate" [(ngModel)]="OneEmp_SearchStartDate"
+                class="form-control" type="text" (blur)="SerchStartDateChange_OneEmp()"
+                (dateChange)="SerchStartDateChange_OneEmp()" />
+              <div *ngIf="OneEmp_errorStartDateState.state" style="color: #e60012">
+                {{OneEmp_errorStartDateState.errorString}}</div>
               <mat-datepicker #StartDatePicker_OneEmp touchUi [calendarHeaderComponent]="exampleHeader">
               </mat-datepicker>
             </div>
@@ -137,12 +156,17 @@
         </div>
         <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
           <div class="col-md-3 col-xs-12 P_Right" style="padding-top: 8px;">
-            <span class="form-must-fill">*</span><span>結束日</span>
+            <span class="form-must-fill">*</span>
+            <span>
+              <ng-container i18n>結束日</ng-container>
+            </span>
           </div>
           <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
             <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
-              <input [matDatepicker]="EndDatePicker_OneEmp" id="OneEmp_EndDate" [(ngModel)]="OneEmp_SearchEndDate" class="form-control" type="text" (blur)="blurEndDate_OneEmp()"  (dateChange)="blurEndDate_OneEmp()"/>
-              <div *ngIf="OneEmp_errorEndtDateState.state" style="color: #e60012">{{OneEmp_errorEndtDateState.errorString}}</div>
+              <input [matDatepicker]="EndDatePicker_OneEmp" id="OneEmp_EndDate" [(ngModel)]="OneEmp_SearchEndDate"
+                class="form-control" type="text" (blur)="blurEndDate_OneEmp()" (dateChange)="blurEndDate_OneEmp()" />
+              <div *ngIf="OneEmp_errorEndtDateState.state" style="color: #e60012">
+                {{OneEmp_errorEndtDateState.errorString}}</div>
               <mat-datepicker #EndDatePicker_OneEmp touchUi [calendarHeaderComponent]="exampleHeader">
               </mat-datepicker>
             </div>
@@ -164,7 +188,9 @@
 
         </div>
         <div class="col-md-10">
-          <button class="btn btn-primary " (click)="bt_search()">查詢</button>
+          <button class="btn btn-primary " (click)="bt_search()">
+            <ng-container i18n>查詢</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -177,13 +203,27 @@
       <table class="table table-bordered table-striped table-hover table-content-center table-style01">
         <thead>
           <tr>
-            <th style="background-image: unset;cursor: unset">工號</th>
-            <th>姓名</th>
-            <th>請假區間</th>
-            <th>日</th>
-            <th>時</th>
-            <th>分</th>
-            <th>狀態</th>
+            <th style="background-image: unset;cursor: unset">
+              <ng-container i18n>工號</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>姓名</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>請假區間</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>日</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>時</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>分</ng-container>
+            </th>
+            <th>
+              <ng-container i18n>狀態</ng-container>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -203,12 +243,24 @@
               {{AbsEmp.setMin}}
             </td>
             <td>
-              <div *ngIf="AbsEmp.State=='1'">呈核中</div>
-              <div *ngIf="AbsEmp.State=='3'">已核准</div>
-              <div *ngIf="AbsEmp.State=='2'">重擬</div>
-              <div *ngIf="AbsEmp.State=='7'">已抽單</div>
-              <div *ngIf="AbsEmp.State=='6'">預排中</div>
-              <div *ngIf="AbsEmp.State=='8'">已異動</div>
+              <div *ngIf="AbsEmp.State=='1'">
+                <ng-container i18n>呈核中</ng-container>
+              </div>
+              <div *ngIf="AbsEmp.State=='3'">
+                <ng-container i18n>已核准</ng-container>
+              </div>
+              <div *ngIf="AbsEmp.State=='2'">
+                <ng-container i18n>重擬</ng-container>
+              </div>
+              <div *ngIf="AbsEmp.State=='7'">
+                <ng-container i18n>已抽單</ng-container>
+              </div>
+              <div *ngIf="AbsEmp.State=='6'">
+                <ng-container i18n>預排中</ng-container>
+              </div>
+              <div *ngIf="AbsEmp.State=='8'">
+                <ng-container i18n>已異動</ng-container>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -229,7 +281,9 @@
           </button>
           <app-choosebase (saveEmptoView)="Dept_onSaveChangeEmptoView($event)" [systemID]="SearchMan.EmpCode">
           </app-choosebase>
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>

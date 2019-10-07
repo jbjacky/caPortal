@@ -1,10 +1,12 @@
 <div class="a-block">
   <div class="a-block-body  a-block-container">
-    <h3>銷假單明細</h3>
+    <h3>
+      <ng-container i18n>銷假單明細</ng-container>
+    </h3>
     <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
       <div class="col-md-6 " style="margin-bottom: 10px;padding-top: 2px">
         <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
-          表單編號
+          <ng-container i18n>表單編號</ng-container>
         </label>
         <div class="col-md-8">
           <div class="row ">
@@ -13,11 +15,15 @@
                 <!-- 20180000000201104 -->{{getDelDataTitle.showProcessFlowID}}
               </span>
               <a style="cursor: pointer;">
-                <span *ngIf="getDelDataTitle.Take && getShowTakeDetail" data-toggle="modal" data-target="#Cancelformdialog">(抽單)</span>
+                <span *ngIf="getDelDataTitle.Take && getShowTakeDetail" data-toggle="modal"
+                  data-target="#Cancelformdialog">
+                  (<ng-container i18n>抽單</ng-container>)
+                </span>
               </a>
-              <a style="cursor: pointer;" data-toggle="modal"
-                (click)="checkTransSignForm(getDelDataTitle)">
-                <span *ngIf="getDelDataTitle.TransSign && getShowTransSignDetail">(轉呈)</span>
+              <a style="cursor: pointer;" data-toggle="modal" (click)="checkTransSignForm(getDelDataTitle)">
+                <span *ngIf="getDelDataTitle.TransSign && getShowTransSignDetail">
+                  (<ng-container i18n>轉呈</ng-container>)
+                </span>
               </a>
             </div>
           </div>
@@ -26,24 +32,39 @@
       <div class="col-md-6 col-xs-12" style="margin-bottom: 10px;">
         <div class="col-md-3 col-xs-12 P_Lzero">
           <label class="control-label">
-            表單狀態</label>
+            <ng-container i18n>表單狀態</ng-container>
+          </label>
         </div>
         <div *ngIf="getDelDataTitle.State =='1'" class="col-md-9 col-xs-12 " style="padding: 0px">
-          <label class="tag_blue" style="margin-right: 5px">呈核中</label> <span
-            *ngIf="getDelDataTitle.ManageEmpName">{{getDelDataTitle.ManageEmpName}} 審核中</span>
+          <label class="tag_blue" style="margin-right: 5px">
+            <ng-container i18n>呈核中</ng-container>
+          </label>
+          <span *ngIf="getDelDataTitle.ManageEmpName">{{getDelDataTitle.ManageEmpName}}
+            <ng-container i18n> 審核中 </ng-container>
+          </span>
         </div>
         <div *ngIf="getDelDataTitle.State == '3'" class="col-md-9 col-xs-12" style="padding: 0px">
-          <label class="tag_skyblue" style="margin-right: 5px">已核准</label> <span
-            *ngIf="showAprovedName">{{showAprovedName}} 核單</span>
+          <label class="tag_skyblue" style="margin-right: 5px">
+            <ng-container i18n>已核准</ng-container>
+          </label>
+          <span *ngIf="showAprovedName">{{showAprovedName}}
+            <ng-container i18n> 核單 </ng-container>
+          </span>
         </div>
         <div *ngIf="getDelDataTitle.State == '2'" class="col-md-9 col-xs-12  tag_red" style="padding: 0px">
-          <label style="color: #d0021b">重擬</label>
+          <label style="color: #d0021b">
+            <ng-container i18n>重擬</ng-container>
+          </label>
         </div>
         <div *ngIf="getDelDataTitle.State == '7'" class="col-md-9 col-xs-12  tag_gray" style="padding: 0px">
-          <label style="color: #9b9b9b">已抽單</label>
+          <label style="color: #9b9b9b">
+            <ng-container i18n>已抽單</ng-container>
+          </label>
         </div>
         <div *ngIf="getDelDataTitle.State == '8'" class="col-md-9 col-xs-12  tag_red" style="padding: 0px">
-          <label style="color: #d0021b">已異動</label>
+          <label style="color: #d0021b">
+            <ng-container i18n>已異動</ng-container>
+          </label>
         </div>
       </div>
     </div>
@@ -52,7 +73,7 @@
     <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
       <div class="col-md-6 " style="margin-bottom: 10px">
         <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
-          員工
+          <ng-container i18n>員工</ng-container>
         </label>
         <div class="col-md-8">
           <div class="row ">
@@ -67,7 +88,8 @@
       <div class="col-md-6 col-xs-12" style="margin-bottom: 10px;">
         <div class="col-md-3 col-xs-12 P_LTzero">
           <label class="control-label">
-            填寫人</label>
+            <ng-container i18n>填寫人</ng-container>
+          </label>
         </div>
         <div class="col-md-9 col-xs-12 " style="padding: 0px">
           {{getDelDataTitle.WriteEmpCode}}
@@ -79,7 +101,7 @@
     <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
       <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
         <label class="col-md-4 col-xs-12 control-label P_LTzero">
-          銷假事由
+          <ng-container i18n>銷假事由</ng-container>
         </label>
         <div class="col-md-8">
           <div class="row ">
@@ -94,7 +116,7 @@
     <div class="row" style="border-bottom: 1px dashed #dcdcdc;
       padding: 15px;margin:0px;">
       <label class="col-md-2 col-xs-12 control-label P_LTzero">
-        銷假總工時
+        <ng-container i18n>銷假總工時</ng-container>
       </label>
       <div class="col-md-10 col-xs-12">
         <div class="row ">
@@ -120,9 +142,13 @@
           </div>
           <div class="col-md-10 col-xs-12">
             <div class="col-md-3 col-xs-12 D_leftP_toppadding">
-              <span style="color: #969696">起始：</span>{{showDelDetail.startdate}} {{showDelDetail.starttime}}</div>
+              <span style="color: #969696">
+                <ng-container i18n>起始</ng-container>：
+              </span>{{showDelDetail.startdate}} {{showDelDetail.starttime}}</div>
             <div class="col-md-3 col-xs-12 D_leftP_toppadding">
-              <span style="color: #969696">結束：</span>{{showDelDetail.enddate}} {{showDelDetail.endtime}}</div>
+              <span style="color: #969696">
+                <ng-container i18n>結束</ng-container>：
+              </span>{{showDelDetail.enddate}} {{showDelDetail.endtime}}</div>
             <div class="col-md-3 col-xs-12 col-md-offset-3 D_leftP_toppadding">本次欲銷 {{showDelDetail.calday}} 日
               {{showDelDetail.calhour}} 時 {{showDelDetail.calminute}} 分</div>
           </div>
@@ -133,13 +159,26 @@
           </div>
           <div class="col-md-10 col-xs-12">
             <div class="col-md-3 col-xs-12 D_leftP_toppadding">
-              <span style="color: #969696">起始：</span>{{showDelDetail.startdate}}</div>
+              <span style="color: #969696">
+                <ng-container i18n>起始</ng-container>：
+              </span>{{showDelDetail.startdate}}</div>
             <div class="col-md-3 col-xs-12 D_leftP_toppadding">
-              <span style="color: #969696">結束：</span>{{showDelDetail.enddate}}</div>
-            <div class="col-md-3 col-xs-12 col-md-offset-3 D_leftP_toppadding">本次欲銷 {{showDelDetail.calday}} 日
-              {{showDelDetail.calhour}} 時 {{showDelDetail.calminute}} 分</div>
+              <span style="color: #969696">
+                <ng-container i18n>結束</ng-container>：
+              </span>{{showDelDetail.enddate}}</div>
+            <div class="col-md-3 col-xs-12 col-md-offset-3 D_leftP_toppadding">
+              <ng-container i18n>本次欲銷</ng-container>
+              {{showDelDetail.calday}}
+              <ng-container i18n> 日 </ng-container>
+              {{showDelDetail.calhour}}
+              <ng-container i18n> 時 </ng-container>
+              {{showDelDetail.calminute}}
+              <ng-container i18n> 分 </ng-container>
+            </div>
             <div class="col-md-12 col-xs-12" style="padding: 0;">
-              <span style="color: #969696">每日循環時段：</span>{{showDelDetail.starttime}} - {{showDelDetail.endtime}}
+              <span style="color: #969696">
+                <ng-container i18n>每日循環時段</ng-container>：
+              </span>{{showDelDetail.starttime}} - {{showDelDetail.endtime}}
             </div>
           </div>
         </div>
@@ -148,7 +187,9 @@
           </div>
           <div class="col-md-10 col-xs-12">
             <div class="col-md-5 col-xs-12 D_leftP_toppadding" style="padding-bottom: 5px">
-              <span style="color: #969696">事件發生日：</span>
+              <span style="color: #969696">
+                <ng-container i18n>事件發生日</ng-container>：
+              </span>
               {{showDelDetail.eventDate}}
             </div>
           </div>
@@ -158,7 +199,9 @@
           </div>
           <div class="col-md-10 col-xs-12">
             <div class="col-md-5 col-xs-12 D_leftP_toppadding" style="padding-bottom: 5px">
-              <span style="color: #969696">假別：</span>
+              <span style="color: #969696">
+                <ng-container i18n>假別</ng-container>：
+              </span>
               {{showDelDetail.holiday.name}}
             </div>
           </div>
@@ -168,7 +211,9 @@
           </div>
           <div class="col-md-10 col-xs-12">
             <div class="col-md-5 col-xs-12 D_leftP_toppadding" style="padding-bottom: 5px">
-              <span style="color: #969696">稱謂：</span>
+              <span style="color: #969696">
+                <ng-container i18n>稱謂</ng-container>：
+              </span>
               {{showDelDetail.keyName}}
             </div>
           </div>
@@ -180,7 +225,9 @@
           <div class="col-md-10 col-xs-12">
             <a [id]="'id_deldetail'+del_i.toString()" data-toggle="collapse" [href]="'#postdel'+del_i.toString()"
               (click)="onCheckCollapseIn(del_i.toString())">
-              <span [id]="del_i.toString()+'deldetail_text'">收合銷假明細</span>
+              <span [id]="del_i.toString()+'deldetail_text'">
+                <ng-container i18n>收合銷假明細</ng-container>
+              </span>
               <img [id]="del_i.toString()+'deldetail_img'" src="./assets/images-template/icon-arrow.png"
                 style=" transform:rotate(-180deg);height: 20px;width: 20px;" />
             </a>
@@ -190,39 +237,73 @@
           <div class="row D_tabletop" style="padding: 0px;margin: 0px;background-color: #edf5ff">
             <div class="col-md-3 "
               style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">
-              日期</div>
+              <ng-container i18n>日期</ng-container>
+            </div>
             <div class="col-md-3 "
               style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">
-              原始請假時段</div>
+              <ng-container i18n>原始請假時段</ng-container>
+            </div>
             <div class="col-md-3 "
               style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0;border-right: 0px">
-              狀態</div>
+              <ng-container i18n>狀態</ng-container>
+            </div>
             <div class="col-md-3 "
-              style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0">欲銷假工時</div>
+              style="text-align: center;padding:5px 15px;font-weight: bolder;border:1px solid #e0e0e0">
+              <ng-container i18n>欲銷假工時</ng-container>
+            </div>
           </div>
           <div class="row" style="padding: 0px;margin: 0px" *ngFor="let onedetail of showDelDetail.detail_delform">
             <div class="col-md-3 D_context">{{onedetail.startdate}}</div>
             <div class="col-md-3 D_context">{{onedetail.starttime}} - {{onedetail.endtime}}</div>
-            <div class="col-md-3 D_context" *ngIf="onedetail.state=='1' && !onedetail.reallyDelShowState">請求銷假(流程中)
+            <div class="col-md-3 D_context" *ngIf="onedetail.state=='1' && !onedetail.reallyDelShowState">
+              <ng-container i18n>請求銷假(流程中)</ng-container>
             </div>
             <div class="col-md-3 D_context"
               *ngIf="onedetail.reallyDelShowState  && !( onedetail.state=='2' || onedetail.state=='3')"
-              style="color: #d0021b">請求銷假</div>
-            <div class="col-md-3 D_context" *ngIf="onedetail.state=='2'">已銷假</div>
-            <div class="col-md-3 D_context" *ngIf="onedetail.state=='3'">無異動</div>
-            <div class="col-md-3 D_context" style="border-right: 1px">{{onedetail.calday}} 日 {{onedetail.calhour}} 時
-              {{onedetail.calminute}} 分</div>
+              style="color: #d0021b">
+              <ng-container i18n>請求銷假</ng-container>
+            </div>
+            <div class="col-md-3 D_context" *ngIf="onedetail.state=='2'">
+              <ng-container i18n>已銷假</ng-container>
+            </div>
+            <div class="col-md-3 D_context" *ngIf="onedetail.state=='3'">
+              <ng-container i18n>無異動</ng-container>
+            </div>
+            <div class="col-md-3 D_context" style="border-right: 1px">
+              {{onedetail.calday}}
+              <ng-container i18n> 日 </ng-container>
+              {{onedetail.calhour}}
+              <ng-container i18n> 時 </ng-container>
+              {{onedetail.calminute}}
+              <ng-container i18n> 分 </ng-container>
+            </div>
             <!-- 電腦 -->
             <div class="col-xs-12 P_date">{{onedetail.startdate}} {{onedetail.starttime}} - {{onedetail.endtime}}</div>
             <div class="col-xs-12 P_context" style="padding-top: 10px"
-              *ngIf="onedetail.state=='1' && !onedetail.reallyDelShowState">狀態:請求銷假(流程中)</div>
+              *ngIf="onedetail.state=='1' && !onedetail.reallyDelShowState">
+              <ng-container i18n>狀態</ng-container>:<ng-container i18n>請求銷假(流程中)</ng-container>
+            </div>
             <div class="col-xs-12 P_context" style="padding-top: 10px"
-              *ngIf="onedetail.reallyDelShowState && !( onedetail.state=='2' || onedetail.state=='3')">狀態:<span
-                style="color: #d0021b">請求銷假</span></div>
-            <div class="col-xs-12 P_context" style="padding-top: 10px" *ngIf="onedetail.state=='2'">狀態:已銷假</div>
-            <div class="col-xs-12 P_context" style="padding-top: 10px" *ngIf="onedetail.state=='3'">狀態:無異動</div>
-            <div class="col-xs-12 P_context">欲銷假工時:{{onedetail.calday}} 日 {{onedetail.calhour}} 時
-              {{onedetail.calminute}} 分</div>
+              *ngIf="onedetail.reallyDelShowState && !( onedetail.state=='2' || onedetail.state=='3')">
+              <ng-container i18n>狀態</ng-container>:
+              <span style="color: #d0021b">
+                <ng-container i18n>請求銷假</ng-container>
+              </span>
+            </div>
+            <div class="col-xs-12 P_context" style="padding-top: 10px" *ngIf="onedetail.state=='2'">
+              <ng-container i18n>狀態</ng-container>:已銷假
+            </div>
+            <div class="col-xs-12 P_context" style="padding-top: 10px" *ngIf="onedetail.state=='3'">
+              <ng-container i18n>狀態</ng-container>:無異動
+            </div>
+            <div class="col-xs-12 P_context">
+              <ng-container i18n>欲銷假工時</ng-container>:{{onedetail.calday}}
+              <ng-container i18n> 日 </ng-container>
+              {{onedetail.calhour}}
+              <ng-container i18n> 時 </ng-container>
+              {{onedetail.calminute}}
+              <ng-container i18n> 分 </ng-container>
+            </div>
             <!-- 手機 -->
           </div>
         </div>
@@ -237,11 +318,16 @@
     <app-from-sign [getProcessFlowID]="getDelDataTitle.ProcessFlowID"></app-from-sign>
     <!--歷程主管意見-->
     <div style="text-align:center">
-      <button class="btn btn-primary btnFeatures" data-toggle="modal" (click)="show_signRecord()">簽核流程紀錄</button>
-      <button class="btn btn-info btnFeatures" data-toggle="modal" data-target="#signDay">准假規定</button>
-      <button class="btn btn-default btnFeatures" (click)="previouspage()">回上一頁</button>
+      <button class="btn btn-primary btnFeatures" data-toggle="modal" (click)="show_signRecord()">
+        <ng-container i18n>簽核流程紀錄</ng-container>
+      </button>
+      <button class="btn btn-info btnFeatures" data-toggle="modal" data-target="#signDay">
+        <ng-container i18n>准假規定</ng-container>
+      </button>
+      <button class="btn btn-default btnFeatures" (click)="previouspage()">
+        <ng-container i18n>回上一頁</ng-container>
+      </button>
     </div>
-
   </div>
 </div>
 
@@ -255,12 +341,18 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認抽單?</h4>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認抽單?</ng-container>
+          </h4>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-            (click)="Cancelform_Click()">送出</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            (click)="Cancelform_Click()">
+            <ng-container i18n>送出</ng-container>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -278,11 +370,15 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel">請假簽核權限表</h4>
+          <h4 class="modal-title" id="mySmallModalLabel">
+            <ng-container i18n>請假簽核權限表</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <app-canapprovidday></app-canapprovidday>
-          <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>關閉</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -297,12 +393,16 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="mySmallModalLabel">簽核流程紀錄</h4>
+          <h4 class="modal-title" id="mySmallModalLabel">
+            <ng-container i18n>簽核流程紀錄</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <app-from-sign-table *ngIf="signRecordDialog" [getProcessFlowID]="getDelDataTitle.ProcessFlowID">
           </app-from-sign-table>
-          <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>關閉</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -310,58 +410,70 @@
 </div>
 <!--dialog簽核流程紀錄-->
 <div class="modal" id="TransSignformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-aria-hidden="true">
-<div class="vertical-alignment-helper">
-  <div class="modal-dialog  modal-md vertical-align-center">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-        <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">確認轉呈?</h4>
-      </div>
-      <div class="modal-body">
-        <div>
-          <p>簽核人員</p>
-          <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
-          </app-select-signer>
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-md vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認轉呈?</ng-container>
+          </h4>
         </div>
-      </div>
-      <div class="modal-footer" style="text-align: center">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-          (click)="TransSignform_Click()">送出</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <div class="modal-body">
+          <div>
+            <p>
+              <ng-container i18n>簽核人員</ng-container>
+            </p>
+            <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            </app-select-signer>
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+            (click)="TransSignform_Click()">
+            <ng-container i18n>送出</ng-container>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 <!--dialog轉呈確認送出 -->
 
 <div class="modal" id="TransSignformSussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-aria-hidden="true">
-<div class="vertical-alignment-helper">
-  <div class="modal-dialog  modal-sm vertical-align-center">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <!-- <span aria-hidden="true">×</span> -->
-        </button>
-        <h4 class="modal-title" style="text-align: center">轉呈完成</h4>
-      </div>
-      <div class="modal-body">
-        <div style="text-align: center;margin-bottom: 10px">
-          <img src="./assets/images-template/icon-success.png" />
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>轉呈完成</ng-container>
+          </h4>
         </div>
-        <div style="text-align: center">
-          已成功轉呈
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            <ng-container i18n>已成功轉呈</ng-container>
+          </div>
         </div>
-      </div>
-      <div class="modal-footer" style="text-align: center">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">
+            <ng-container i18n>確定</ng-container>
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 <!--dialog轉呈送出成功 -->

@@ -4,7 +4,7 @@
       <div class="row" style="margin:0px">
         <div class="col-md-2 col-xs-12 P_title">
           <label class=" control-label">
-            員工
+            <ng-container i18n>員工</ng-container>
           </label>
         </div>
         <div class="col-md-10  col-xs-12" style="padding:0px">
@@ -17,7 +17,8 @@
         <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
           <div class="col-md-4 col-xs-12 P_title" style="margin-top: 8px;">
             <label class=" control-label">
-              <span class="form-must-fill">*</span>起始日期
+              <span class="form-must-fill">*</span>
+              <ng-container i18n>起始日期</ng-container>
             </label>
           </div>
           <div class="col-md-6 col-xs-10" style="padding:0px">
@@ -41,7 +42,8 @@
         <div class="col-md-6 col-xs-12" style="margin: 0px ; padding: 0px">
           <div class="col-md-4 col-xs-12 P_title" style="margin-top: 8px;">
             <label class=" control-label">
-              <span class="form-must-fill">*</span>結束日期
+              <span class="form-must-fill">*</span>
+              <ng-container i18n>結束日期</ng-container>
             </label>
           </div>
           <div class="col-md-6  col-xs-10" style="padding:0px">
@@ -69,21 +71,32 @@
       <div class="row" style="margin:0px">
         <div class="col-md-2 col-xs-12 P_title" style="margin-top: 5px">
           <label class=" control-label">
-            查詢條件
+            <ng-container i18n>查詢條件</ng-container>
           </label>
         </div>
         <div class="col-md-3  col-xs-12" style="padding:0px;margin-bottom: 15px">
           <select id="selectDisplay" [(ngModel)]="SelectDisplay" class="form-control" (change)="onSearchChange()">
-            <option [value]="1">全部</option>
-            <option [value]="2">正常出勤</option>
-            <option [value]="3">異常出勤</option>
+            <option [value]="1">
+              <ng-container i18n>全部</ng-container>
+            </option>
+            <option [value]="2">
+              <ng-container i18n>正常出勤</ng-container>
+            </option>
+            <option [value]="3">
+              <ng-container i18n>異常出勤</ng-container>
+            </option>
           </select>
         </div>
         <div *ngIf="showSearchCheckbok" class="col-md-7  col-xs-12" style="margin-top: 10px">
-          <mat-checkbox [(ngModel)]="LateMins" style="margin-right: 15px;margin-bottom: 5px;font-weight: unset">遲到
+          <mat-checkbox [(ngModel)]="LateMins" style="margin-right: 15px;margin-bottom: 5px;font-weight: unset">
+            <ng-container i18n>遲到</ng-container>
           </mat-checkbox>
-          <mat-checkbox [(ngModel)]="EarlyMins" style="margin-right: 15px;margin-bottom: 5px">早退</mat-checkbox>
-          <mat-checkbox [(ngModel)]="IsAbsent" style="margin-right: 15px;margin-bottom: 5px">未刷卡</mat-checkbox>
+          <mat-checkbox [(ngModel)]="EarlyMins" style="margin-right: 15px;margin-bottom: 5px">
+            <ng-container i18n>早退</ng-container>
+          </mat-checkbox>
+          <mat-checkbox [(ngModel)]="IsAbsent" style="margin-right: 15px;margin-bottom: 5px">
+            <ng-container i18n>未刷卡</ng-container>
+          </mat-checkbox>
         </div>
       </div>
     </div>
@@ -93,7 +106,9 @@
         <div class="col-md-2 ">
         </div>
         <div class="col-md-3  col-xs-12" style="padding:0px">
-          <button type="button" class="btn btn-primary" (click)="onSearchClick()">查詢</button>
+          <button type="button" class="btn btn-primary" (click)="onSearchClick()">
+            <ng-container i18n>查詢</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -103,13 +118,15 @@
 <div *ngIf="AttendanceApiData">
   <div class="a-block" *ngIf="AttendanceApiData.length>0">
     <div class="a-block-body  a-block-container">
-      <h3>考勤資訊</h3>
+      <h3>
+          <ng-container i18n>考勤資訊</ng-container>
+        </h3>
       <app-search-attendance [searchAttendanceApiData]='Ob_AttendanceApiData$'></app-search-attendance>
     </div>
   </div>
   <div class="a-block" *ngIf="AttendanceApiData.length==0">
     <div class="a-block-body  a-block-container">
-      此查詢區間無資料
+      <ng-container i18n>此查詢區間無資料</ng-container>
     </div>
   </div>
 </div>

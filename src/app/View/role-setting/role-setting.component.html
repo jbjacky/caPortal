@@ -1,19 +1,27 @@
 <div class="a-block">
   <div class="a-block-body  a-block-container">
 
-      <div style="margin-bottom: 10px;">
-          <button type="button" (click)="bt_insertCheck()">新增</button>
-        </div>
+    <div style="margin-bottom: 10px;">
+      <button type="button" (click)="bt_insertCheck()">
+        <ng-container i18n>新增</ng-container>
+      </button>
+    </div>
     <div>
       <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover table-content-center table-style01">
           <thead>
             <tr>
               <th style="background-image: unset;cursor: unset" style="width: 30%">Code</th>
-              <th style="width: 40%">角色名稱</th>
+              <th style="width: 40%">
+                <ng-container i18n>角色名稱</ng-container>
+              </th>
               <th style="width: 6%">Level</th>
-              <th style="width: 8%">即期向下</th>
-              <th style="width: 8%">行政權限</th>
+              <th style="width: 8%">
+                <ng-container i18n>即期向下</ng-container>
+              </th>
+              <th style="width: 8%">
+                <ng-container i18n>行政權限</ng-container>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -22,8 +30,10 @@
                 <td>{{oneAllRole.RoleCode}}</td>
                 <td>{{oneAllRole.RoleName}}</td>
                 <td>{{oneAllRole.Level}}</td>
-                <td><input type="checkbox" (change)="changeisIncludeChild(oneAllRole)" [(ngModel)]="oneAllRole.isIncludeChild"></td>
-                <td><input type="checkbox" (change)="changeisisAssistant(oneAllRole)" [(ngModel)]="oneAllRole.isAssistant"></td>
+                <td><input type="checkbox" (change)="changeisIncludeChild(oneAllRole)"
+                    [(ngModel)]="oneAllRole.isIncludeChild"></td>
+                <td><input type="checkbox" (change)="changeisisAssistant(oneAllRole)"
+                    [(ngModel)]="oneAllRole.isAssistant"></td>
               </tr>
             </ng-container>
           </tbody>
@@ -35,76 +45,82 @@
 </div>
 
 <div class="modal" id="insertRoleDialog" tabindex="-1" role="dialog">
-    <div class="vertical-alignment-helper">
-      <div class="modal-dialog  modal-sm vertical-align-center">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-              <span aria-hidden="true">×</span>
-            </button>
-            <h4 class="modal-title" style="text-align: center">新增資料</h4>
-          </div>
-          <div class="modal-body">
-  
-            <div class="row" style="padding-bottom: 15px;margin:0px">
-              <div class="col-md-3 col-xs-12 P_title" style="margin-top: 2px;padding: 0px;padding-right: 15px;">
-                <label class=" control-label">
-                  RoleCode
-                </label>
-              </div>
-              <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
-                <input [(ngModel)]="insertData.RoleCode" />
-              </div>
-            </div>
-            <div class="row" style="padding-bottom: 15px;margin:0px">
-              <div class="col-md-3 col-xs-12 P_title" style="margin-top: 2px;padding: 0px;padding-right: 15px;">
-                <label class=" control-label">
-                  角色名稱
-                </label>
-              </div>
-              <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
-                <input [(ngModel)]="insertData.RoleName" />
-              </div>
-            </div>
-            <div class="row" style="padding-bottom: 15px;margin:0px">
-              <div class="col-md-3 col-xs-12 P_title" style="margin-top: 2px;padding: 0px;padding-right: 15px;">
-                <label class=" control-label">
-                  Level
-                </label>
-              </div>
-              <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
-                <input [(ngModel)]="insertData.Level" />
-              </div>
-            </div>
-            <div class="row" style="padding-bottom: 15px;margin:0px">
-              <div class="col-md-3 col-xs-12 P_title" style="margin-top: 2px;padding: 0px;padding-right: 15px;">
-                <label class=" control-label">
-                  即期向下
-                </label>
-              </div>
-              <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
-                  <input type="checkbox" [(ngModel)]="insertData.IsIncludeChild"/>
-              </div>
-            </div>
-            <div class="row" style="padding-bottom: 15px;margin:0px">
-              <div class="col-md-3 col-xs-12 P_title" style="margin-top: 2px;padding: 0px;padding-right: 15px;">
-                <label class=" control-label">
-                  行政權限
-                </label>
-              </div>
-              <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
-                  <input type="checkbox" [(ngModel)]="insertData.IsAssistant"/>
-              </div>
-            </div>
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>新增資料</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
 
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title" style="margin-top: 2px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                RoleCode
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <input [(ngModel)]="insertData.RoleCode" />
+            </div>
           </div>
-  
-          <div class="modal-footer" style="text-align: center;">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_insertSave()">新增</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title" style="margin-top: 2px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                <ng-container i18n>角色名稱</ng-container>
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <input [(ngModel)]="insertData.RoleName" />
+            </div>
           </div>
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title" style="margin-top: 2px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                Level
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <input [(ngModel)]="insertData.Level" />
+            </div>
+          </div>
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title" style="margin-top: 2px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                <ng-container i18n>即期向下</ng-container>
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <input type="checkbox" [(ngModel)]="insertData.IsIncludeChild" />
+            </div>
+          </div>
+          <div class="row" style="padding-bottom: 15px;margin:0px">
+            <div class="col-md-3 col-xs-12 P_title" style="margin-top: 2px;padding: 0px;padding-right: 15px;">
+              <label class=" control-label">
+                <ng-container i18n>行政權限</ng-container>
+              </label>
+            </div>
+            <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
+              <input type="checkbox" [(ngModel)]="insertData.IsAssistant" />
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer" style="text-align: center;">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bt_insertSave()">
+            <ng-container i18n>新增</ng-container>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
         </div>
       </div>
     </div>
   </div>
-  <!--dialog新增-->
+</div>
+<!--dialog新增-->

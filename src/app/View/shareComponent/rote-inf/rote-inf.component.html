@@ -1,5 +1,5 @@
 <div *ngIf="showAttendArray.length==0">
-  無班表時間
+  <ng-container i18n>無班表時間</ng-container>
 </div>
 <div *ngFor="let showAttend of showAttendArray" class="row dayRoteClass">
   <div class="col-md-3 col-xs-12" style="margin-bottom: 5px;">
@@ -28,13 +28,14 @@
             color: #fff;
             background-color: #408cb6;
             border: 1px solid;
-            border-radius: 15px;">+1日</div>
+            border-radius: 15px;">+1<ng-container i18n>日</ng-container>
+      </div>
     </div>
   </div>
   <div class="col-md-9 col-xs-12 row P_grayLine">
     <div class="col-md-5 col-xs-12">
       <div class="graytitle">
-        休息時間
+        <ng-container i18n>休息時間</ng-container>
       </div>
       <div *ngFor="let rest of showAttend.RoteRest;let i = index " style="display: inline-block">
         <span>
@@ -45,18 +46,25 @@
     </div>
     <div class="col-md-3 col-xs-6">
       <div class="graytitle">
-        工時
+        <ng-container i18n>工時</ng-container>
       </div>
       <div>
-        {{showAttend.uiWorkTime.Hour}} 時 {{showAttend.uiWorkTime.Min}} 分
+        {{showAttend.uiWorkTime.Hour}}
+        <ng-container i18n> 時 </ng-container>
+        {{showAttend.uiWorkTime.Min}}
+        <ng-container i18n> 分 </ng-container>
       </div>
     </div>
     <div class="col-md-4 col-xs-6">
       <div class="graytitle">
-        彈性
+        <ng-container i18n>彈性</ng-container>
       </div>
       <div>
-        前{{showAttend.FlexibleMinuteForward}}分/後{{showAttend.FlexibleMinuteBehind}}分
+        <ng-container i18n>前</ng-container>
+        {{showAttend.FlexibleMinuteForward}}
+        <ng-container i18n>分/後</ng-container>
+        {{showAttend.FlexibleMinuteBehind}}
+        <ng-container i18n>分</ng-container>
       </div>
     </div>
   </div>

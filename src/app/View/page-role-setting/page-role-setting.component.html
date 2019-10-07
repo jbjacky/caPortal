@@ -7,6 +7,8 @@
     <tree-root [(state)]="state" id="tree1" [nodes]="nodes" [options]="options">
     </tree-root>
 
-    <button (click)="saveNode()">儲存</button>
+    <button (click)="saveNode()">
+        <ng-container i18n>儲存</ng-container>
+      </button>
   </div>
 </div>
