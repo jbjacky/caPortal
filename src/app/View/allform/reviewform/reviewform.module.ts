@@ -18,6 +18,7 @@ import { ErrorHandler } from 'src/app/Service/error_handler';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from 'src/app/Service/http_interceptor';
 import { TimeoutInterceptor } from 'src/app/_guards/TimeoutInterceptor';
+import { ReviewformServiceService } from 'src/app/Service/reviewform-service.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,6 +39,7 @@ import { TimeoutInterceptor } from 'src/app/_guards/TimeoutInterceptor';
     ReviewformDetailChangeformRZComponent
   ],
   providers: [
+    ReviewformServiceService,
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro },
     ErrorHandler,
     {

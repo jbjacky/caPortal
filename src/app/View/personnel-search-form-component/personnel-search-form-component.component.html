@@ -11,7 +11,7 @@
         </a>
         <div [id]="'post1'" class="panel-collapse collapse in active">
             <div id="showP_margin"> </div>
-            <app-choose-base-or-dept (outPutChoose)="getEmpCode($event)"></app-choose-base-or-dept>
+            <app-choose-base-or-dept (outPutChoose)="getSearhVal($event)"></app-choose-base-or-dept>
 
             <app-form-condition (outPutSearch)="getSearchFormCondition($event)" [ownerReview]="false">
             </app-form-condition>
@@ -47,18 +47,24 @@
 </div>
 
 <div id="showFormPalce" class="showForm">
-    <app-search-va-form [getVaData]="getApiVaData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
-        (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Abs'">
-    </app-search-va-form>
-    <app-search-del-form [getDelData]="getApiDelData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
-        (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Absc'">
-    </app-search-del-form>
-    <app-search-forget-form [getForgetData]="getApiForgetData" [getShowTransSign]="showTransSign"
-        [getShowTake]="showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
-        *ngIf="isSearch && showSelectSearchForm == 'Card'"></app-search-forget-form>
-    <app-search-change-form [getChangeData]="getApiShiftRoteData" [getShowTransSign]="showTransSign"
-        [getShowTake]="showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
-        *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'"></app-search-change-form>
+    <div *ngIf="isSearch">
+            <app-search-va-form [getVaData]="getApiVaData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
+                [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept" [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Abs'">
+            </app-search-va-form>
+            <app-search-del-form [getDelData]="getApiDelData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
+                [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept" [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+                *ngIf="isSearch && showSelectSearchForm == 'Absc'">
+            </app-search-del-form>
+            <app-search-forget-form [getForgetData]="getApiForgetData" [getShowTransSign]="showTransSign" [getShowTake]="showTake" 
+                [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept" [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+                *ngIf="isSearch && showSelectSearchForm == 'Card'"></app-search-forget-form>
+            <app-search-change-form [getChangeData]="getApiShiftRoteData" [getShowTransSign]="showTransSign" [getShowTake]="showTake" 
+                [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept" [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+                *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'"></app-search-change-form>
+            <!-- <button *ngIf="SearchVal.chooseRadio == 2 && CanSerchMore" (click)="MoreOnSearchForm()">
+                <ng-container i18n>載入更多資料</ng-container>
+            </button> -->
+    </div>
 </div>
 
 

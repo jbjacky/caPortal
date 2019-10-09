@@ -1191,7 +1191,7 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
       "FlowApp": {
         "ShiftRoteType": "RR",
         "ShiftRoteName": "雙人互調",
-        "DifferShift": false,
+        "DifferShift": false, //不等工時註記
         "FlowApps": [
           {
             "EmpID1": this.Emp.EmpCode,

@@ -13,6 +13,7 @@ import { from, BehaviorSubject, Observable } from 'rxjs';
 import { GetFlowViewCardGetApiDataClass } from 'src/app/Models/GetFlowViewCardGetApiDataClass';
 import { TransSignStateGetApiClass } from 'src/app/Models/PostData_API_Class/TransSignStateGetApiClass';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
+import { GetFlowViewDeptClass } from 'src/app/Models/PostData_API_Class/GetFlowViewDeptClass';
 
 declare let $: any; //use jquery
 
@@ -34,6 +35,10 @@ export class SearchForgetFormComponent implements OnInit, OnDestroy {
   @Input() getShowTake: boolean
   forgetSearchFlowSign: forgetSearchFlowSignClass[] = []
 
+  MoreSearchPage = 1
+  @Input() CanSerchMore: boolean = true
+  @Input() getCatchMoreGetFlowViewDept: GetFlowViewDeptClass
+  
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
     private LoadingPage: NgxSpinnerService,
     private GetApiUserService: GetApiUserService) { }
@@ -321,6 +326,37 @@ export class SearchForgetFormComponent implements OnInit, OnDestroy {
           // alert('與api連線異常，getWebApiData_TakeSetFlowState')
         }
       )
+  }
+
+  
+  MoreOnSearchForm() {
+    if (this.CanSerchMore) {
+      this.MoreSearchPage = this.MoreSearchPage + 1
+    }else{}
+    this.getCatchMoreGetFlowViewDept.PageCurrent = this.MoreSearchPage
+    this.getMoreSearchFlowForm_Dept(this.getCatchMoreGetFlowViewDept)
+  }
+  getMoreSearchFlowForm_Dept(GetFlowViewDept: GetFlowViewDeptClass) {
+
+    this.LoadingPage.show()
+
+    this.GetApiDataServiceService.getWebApiData_GetFlowViewCardByDept(GetFlowViewDept)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (GetFlowViewCardGetApiData: GetFlowViewCardGetApiDataClass[]) => {
+          if (GetFlowViewCardGetApiData.length > 0) {
+            this.GetFlowData_forget(GetFlowViewCardGetApiData)
+            this.CanSerchMore = true
+          } else {
+            this.CanSerchMore = false
+            alert('無更多資料')
+          }
+          this.LoadingPage.hide()
+        }, error => {
+          this.LoadingPage.hide()
+        }
+      )
+
   }
 }
 export class forgetSearchFlowSignClass {

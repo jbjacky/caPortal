@@ -33,6 +33,8 @@ export class ChooseBaseOrDeptComponent implements OnInit, OnDestroy {
   SearhMan = { EmpCode: '', Name: '' }; //查詢人
   errorLeavemanState = { state: false, errorString: '' }
 
+  downDept: boolean = false
+  chooseDeptaID
   chooseDeptName = '';
   chooseDeptBase = [];
   radiogroup: any = [
@@ -73,7 +75,7 @@ export class ChooseBaseOrDeptComponent implements OnInit, OnDestroy {
       EmpCodeOrNameKey: '',
       EffectDate: _NowToday,
       IsTop: this.IsTop,
-      IsShift:false
+      IsShift: false
     }
     var GetBaseByAuthByEmpIDgetDeptInfoGetApi: GetBaseByAuthByEmpIDgetDeptInfoGetApiClass =
     {
@@ -156,6 +158,7 @@ export class ChooseBaseOrDeptComponent implements OnInit, OnDestroy {
 
     this.chooseDeptName = DeptName;
     this.chooseDeptBase = BaseArray;
+    this.chooseDeptaID = event.DeptID;
     this.outPutEmpValue(this.EmpBase.EmpCode, this.EmpBase.Name)
     if ($('#chooseEmpdialog').hasClass('modal in') || $('#chooseDeptdialog').hasClass('modal in')) {
       document.getElementById("phonetopdiv").style.position = 'unset';
@@ -179,12 +182,13 @@ export class ChooseBaseOrDeptComponent implements OnInit, OnDestroy {
 
     this.chooseDeptName = DeptName;
     this.chooseDeptBase = BaseArray;
+    this.chooseDeptaID = event.DeptID;
     this.outPutEmpValue(this.EmpBase.EmpCode, this.EmpBase.Name)
     var aa = $('#id1').css('visibility')
     if (aa == 'visible') {
       if (event.isSearchClick) {
         document.getElementById("phonetopdiv").style.position = 'fixed';
-      }else{
+      } else {
         document.getElementById("phonetopdiv").style.position = 'unset';
       }
     } else {
@@ -214,10 +218,28 @@ export class ChooseBaseOrDeptComponent implements OnInit, OnDestroy {
       } else {
         EmpArray = []
       }
-      this.outPutChoose.emit(EmpArray)
+      var _OutPutVal_Emp: OutPutValClass = {
+        chooseRadio: this.chooseRadio,
+        chooseEmp: {
+          EmpArray: EmpArray
+        },
+        chooseDepta: null
+      }
+      this.outPutChoose.emit(_OutPutVal_Emp)
     } else if (this.chooseRadio == 2) {
       // console.log(this.chooseDeptBase)
-      this.outPutChoose.emit(this.chooseDeptBase)
+
+      var _OutPutVal_Dept: OutPutValClass = {
+        chooseRadio: this.chooseRadio,
+        chooseEmp: {
+          EmpArray: this.chooseDeptBase
+        },
+        chooseDepta: {
+          DeptaID: this.chooseDeptaID,
+          isChildDept: this.downDept
+        }
+      }
+      this.outPutChoose.emit(_OutPutVal_Dept)
     }
   }
   blurEmpCode() {
@@ -337,5 +359,16 @@ export class ChooseBaseOrDeptComponent implements OnInit, OnDestroy {
 class EmpArray {
   EmpCode: string;
   EmpNameC: string;
+}
+
+export class OutPutValClass {
+  chooseRadio: number;
+  chooseEmp: {
+    EmpArray: Array<EmpArray>
+  }
+  chooseDepta: {
+    DeptaID: number
+    isChildDept: boolean
+  }
 }
 

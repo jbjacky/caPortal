@@ -82,6 +82,8 @@ import { GetAttendExceptionalCountClass } from '../Models/PostData_API_Class/Get
 import { GetAttendInfoByDeptGetApiClass } from '../Models/PostData_API_Class/GetAttendInfoByDeptGetApiClass';
 import { GetEventDateGetApiClass } from '../Models/PostData_API_Class/GetEventDateGetApiClass';
 import { GetAttendWishByDeptaGetApiClass } from '../Models/PostData_API_Class/GetAttendWishByDeptaGetApiClass';
+import { GetFlowViewDeptClass } from '../Models/PostData_API_Class/GetFlowViewDeptClass';
+import { GetFlowSignAbsGetApiClass } from '../Models/PostData_API_Class/GetFlowSignAbsGetApiClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -1436,6 +1438,16 @@ export class GetApiDataServiceService {
 
 
   /**
+   * @todo 流程檢視(請假)-部門
+   */
+  getWebApiData_GetFlowViewAbsByDept(GetFlowViewDept: GetFlowViewDeptClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewAbsByDept',
+      JSON.stringify(GetFlowViewDept), {
+        headers: this.GetHeader()
+      })
+  }
+
+  /**
    * @todo 流程檢視(請假)
    */
   getWebApiData_GetFlowViewAbs(GetFlowView: GetFlowViewClass) {
@@ -1445,6 +1457,15 @@ export class GetApiDataServiceService {
       })
   }
 
+  /**
+   * @todo 流程檢視(銷假)-部門
+   */
+  getWebApiData_GetFlowViewAbscByDept(GetFlowViewDept: GetFlowViewDeptClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewAbscByDept',
+      JSON.stringify(GetFlowViewDept), {
+        headers: this.GetHeader()
+      })
+  }
   /**
    * @todo 流程檢視(銷假)
    */
@@ -1456,6 +1477,15 @@ export class GetApiDataServiceService {
   }
 
   /**
+   * @todo 流程檢視(考勤異常確認)-部門
+   */
+  getWebApiData_GetFlowViewCardByDept(GetFlowViewDept: GetFlowViewDeptClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewCardByDept',
+      JSON.stringify(GetFlowViewDept), {
+        headers: this.GetHeader()
+      })
+  }
+  /**
    * @todo 流程檢視(考勤異常確認)
    */
   getWebApiData_GetFlowViewCard(GetFlowView: GetFlowViewClass) {
@@ -1465,6 +1495,15 @@ export class GetApiDataServiceService {
       })
   }
 
+  /**
+   * @todo 流程檢視(調班)-部門
+   */
+  getWebApiData_GetFlowViewShiftRoteByDept(GetFlowViewDept: GetFlowViewDeptClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewShiftRoteByDept',
+      JSON.stringify(GetFlowViewDept), {
+        headers: this.GetHeader()
+      })
+  }
   /**
    * @todo 流程檢視(調班)
    */
@@ -1655,6 +1694,46 @@ export class GetApiDataServiceService {
       })
   }
 
+  /**
+   * @todo 取得目前待審核的表單-請假
+   */
+  getWebApiData_GetFlowSignAbs(GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignAbs',
+      JSON.stringify(GetFlowSignAbsGetApi), {
+        headers: this.GetHeader()
+      })
+  }
+
+  /**
+   * @todo 取得目前待審核的表單-銷假
+   */
+  getWebApiData_GetFlowSignAbsc(GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignAbsc',
+      JSON.stringify(GetFlowSignAbsGetApi), {
+        headers: this.GetHeader()
+      })
+  }
+  
+  /**
+   * @todo 取得目前待審核的表單-忘刷
+   */
+  getWebApiData_GetFlowSignCard(GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignCard',
+      JSON.stringify(GetFlowSignAbsGetApi), {
+        headers: this.GetHeader()
+      })
+  }
+
+  /**
+   * @todo 取得目前待審核的表單-調班
+   */
+  getWebApiData_GetFlowSignShiftRote(GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignShiftRote',
+      JSON.stringify(GetFlowSignAbsGetApi), {
+        headers: this.GetHeader()
+      })
+  }
+  
 }
 
 

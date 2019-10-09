@@ -45,7 +45,12 @@ export class FromSignTableComponent implements OnInit , OnDestroy {
               NodeName: x_GetFormSign.NodeName,
               Note: x_GetFormSign.Note,
               ProcessFlowID: x_GetFormSign.ProcessFlowID,
-              SignDate: formatDateTime(x_GetFormSign.SignDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(x_GetFormSign.SignDate).getTime)
+              SignDate: formatDateTime(x_GetFormSign.SignDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(x_GetFormSign.SignDate).getTime),
+              ToEmpID: x_GetFormSign.ToEmpID,
+              ToEmpCode: x_GetFormSign.ToEmpCode,
+              ToEmpNameC: x_GetFormSign.ToEmpNameC,
+              ToDeptNameC: x_GetFormSign.ToDeptNameC,
+              ToJobName: x_GetFormSign.ToJobName,
             })
           }
           this.LoadingPage.hide()

@@ -30,6 +30,7 @@ export class FromSignComponent implements OnInit , OnDestroy {
       .subscribe(
         (x_GetFormSigns: FormSign[]) => {
           this.showFormSign = []
+          // console.log(x_GetFormSigns)
           for (let x_GetFormSign of x_GetFormSigns) {
             this.showFormSign.push({
               DeptNameC: x_GetFormSign.DeptNameC,
@@ -42,7 +43,12 @@ export class FromSignComponent implements OnInit , OnDestroy {
               NodeName: x_GetFormSign.NodeName,
               Note: x_GetFormSign.Note,
               ProcessFlowID: x_GetFormSign.ProcessFlowID,
-              SignDate: formatDateTime(x_GetFormSign.SignDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(x_GetFormSign.SignDate).getTime)
+              SignDate: formatDateTime(x_GetFormSign.SignDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(x_GetFormSign.SignDate).getTime),
+              ToEmpID: x_GetFormSign.ToEmpID,
+              ToEmpCode: x_GetFormSign.ToEmpCode,
+              ToEmpNameC: x_GetFormSign.ToEmpNameC,
+              ToDeptNameC: x_GetFormSign.ToDeptNameC,
+              ToJobName: x_GetFormSign.ToJobName,
             })
           }
         },

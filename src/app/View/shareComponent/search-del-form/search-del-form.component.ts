@@ -11,6 +11,7 @@ import { GetFlowViewAbscGetApiDataClass } from 'src/app/Models/GetFlowViewAbscGe
 import { TransSignStateGetApiClass } from 'src/app/Models/PostData_API_Class/TransSignStateGetApiClass';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
+import { GetFlowViewDeptClass } from 'src/app/Models/PostData_API_Class/GetFlowViewDeptClass';
 
 declare let $: any; //use jquery
 
@@ -31,6 +32,9 @@ export class SearchDelFormComponent implements OnInit, OnDestroy {
   delSearchFlowSign: delSearchFlowSignClass[] = [];
   showDelDataDetail: boolean = false  // 顯示明細
 
+  MoreSearchPage = 1
+  @Input() CanSerchMore: boolean = true
+  @Input() getCatchMoreGetFlowViewDept: GetFlowViewDeptClass
 
   api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
 
@@ -196,6 +200,38 @@ export class SearchDelFormComponent implements OnInit, OnDestroy {
           // alert('與api連線異常，getWebApiData_TakeSetFlowState')
         }
       )
+  }
+
+
+  
+  MoreOnSearchForm() {
+    if (this.CanSerchMore) {
+      this.MoreSearchPage = this.MoreSearchPage + 1
+    }else{}
+    this.getCatchMoreGetFlowViewDept.PageCurrent = this.MoreSearchPage
+    this.getMoreSearchFlowForm_Dept(this.getCatchMoreGetFlowViewDept)
+  }
+  getMoreSearchFlowForm_Dept(GetFlowViewDept: GetFlowViewDeptClass) {
+
+    this.LoadingPage.show()
+
+    this.GetApiDataServiceService.getWebApiData_GetFlowViewAbscByDept(GetFlowViewDept)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (GetFlowViewAbscGetApiData: GetFlowViewAbscGetApiDataClass[]) => {
+          if (GetFlowViewAbscGetApiData.length > 0) {
+            this.GetFlowData_del(GetFlowViewAbscGetApiData)
+            this.CanSerchMore = true
+          } else {
+            this.CanSerchMore = false
+            alert('無更多資料')
+          }
+          this.LoadingPage.hide()
+        }, error => {
+          this.LoadingPage.hide()
+        }
+      )
+
   }
 
 }

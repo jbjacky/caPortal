@@ -741,5 +741,10 @@ export class FormSign {
   Note: string
   ProcessFlowID: number
   SignDate: string
+  ToDeptNameC: string
+  ToEmpCode: string
+  ToEmpID: string
+  ToEmpNameC: string
+  ToJobName: string
 }
 

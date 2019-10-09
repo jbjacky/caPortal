@@ -113,6 +113,11 @@
         </a>
       </div>
     </div>
+    <div>
+      <button *ngIf="CanSerchMore" (click)="MoreOnSearchForm()">
+        <ng-container i18n>載入更多資料</ng-container>
+      </button>
+    </div>
   </div>
 </div>
 

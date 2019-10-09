@@ -11,6 +11,7 @@ import { takeWhile } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { TransSignStateGetApiClass } from 'src/app/Models/PostData_API_Class/TransSignStateGetApiClass';
+import { GetFlowViewDeptClass } from 'src/app/Models/PostData_API_Class/GetFlowViewDeptClass';
 
 declare let $: any; //use jquery
 
@@ -32,6 +33,11 @@ export class SearchVaFormComponent implements OnInit, OnDestroy {
   // @Input() getSearchFlowView: GetFlowViewClass
   @Input() getShowTransSign: boolean
   @Input() getShowTake: boolean
+
+  
+  MoreSearchPage = 1
+  @Input() CanSerchMore: boolean = true
+  @Input() getCatchMoreGetFlowViewDept: GetFlowViewDeptClass
 
   vaSearchFlowSign: DetailNewVaSearchFlowSignClass[] = [];
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
@@ -210,6 +216,35 @@ export class SearchVaFormComponent implements OnInit, OnDestroy {
       )
   }
 
+  MoreOnSearchForm() {
+    if (this.CanSerchMore) {
+      this.MoreSearchPage = this.MoreSearchPage + 1
+    }else{}
+    this.getCatchMoreGetFlowViewDept.PageCurrent = this.MoreSearchPage
+    this.getMoreSearchFlowForm_Dept(this.getCatchMoreGetFlowViewDept)
+  }
+  getMoreSearchFlowForm_Dept(GetFlowViewDept: GetFlowViewDeptClass) {
+
+    this.LoadingPage.show()
+
+    this.GetApiDataServiceService.getWebApiData_GetFlowViewAbsByDept(GetFlowViewDept)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (GetFlowViewAbsGetApiData: GetFlowViewAbsGetApiDataClass[]) => {
+          if (GetFlowViewAbsGetApiData.length > 0) {
+            this.GetFlowData_vaData(GetFlowViewAbsGetApiData)
+            this.CanSerchMore = true
+          } else {
+            this.CanSerchMore = false
+            alert('無更多資料')
+          }
+          this.LoadingPage.hide()
+        }, error => {
+          this.LoadingPage.hide()
+        }
+      )
+
+  }
 }
 
 

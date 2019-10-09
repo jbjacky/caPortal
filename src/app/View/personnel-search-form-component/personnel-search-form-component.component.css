@@ -39,9 +39,6 @@
 .errorInput{
     border: 1px solid #e60012
 }
-.showForm{
-    padding-top:0px
-}
 @media screen and (max-width:992px) {
    
 .P_base{

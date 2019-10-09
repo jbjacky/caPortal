@@ -12,6 +12,7 @@ import { from, BehaviorSubject, Observable } from 'rxjs';
 import { GetFlowViewShiftRoteGetApiDataClass } from 'src/app/Models/GetFlowViewShiftRoteGetApiDataClass';
 import { TransSignStateGetApiClass } from 'src/app/Models/PostData_API_Class/TransSignStateGetApiClass';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
+import { GetFlowViewDeptClass } from 'src/app/Models/PostData_API_Class/GetFlowViewDeptClass';
 
 declare let $: any; //use jquery
 
@@ -38,6 +39,10 @@ export class SearchChangeFormComponent implements OnInit, OnDestroy {
 
   @Output() gotoShowFormPlace: EventEmitter<number> = new EventEmitter<number>();
 
+  MoreSearchPage = 1
+  @Input() CanSerchMore: boolean = true
+  @Input() getCatchMoreGetFlowViewDept: GetFlowViewDeptClass
+  
   changeSearchFlowSign: changeSearchFlowSignClass[] = []
   showChangeDataDetailRZ: boolean = false
   ngOnInit() {
@@ -227,6 +232,38 @@ export class SearchChangeFormComponent implements OnInit, OnDestroy {
     this.gotoShowFormPlace.emit();
     // window.scroll(0, 0);
     //回列表
+  }
+
+
+  
+  MoreOnSearchForm() {
+    if (this.CanSerchMore) {
+      this.MoreSearchPage = this.MoreSearchPage + 1
+    }else{}
+    this.getCatchMoreGetFlowViewDept.PageCurrent = this.MoreSearchPage
+    this.getMoreSearchFlowForm_Dept(this.getCatchMoreGetFlowViewDept)
+  }
+  getMoreSearchFlowForm_Dept(GetFlowViewDept: GetFlowViewDeptClass) {
+
+    this.LoadingPage.show()
+
+    this.GetApiDataServiceService.getWebApiData_GetFlowViewShiftRoteByDept(GetFlowViewDept)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (GetFlowViewShiftRoteGetApiData: GetFlowViewShiftRoteGetApiDataClass[]) => {
+          if (GetFlowViewShiftRoteGetApiData.length > 0) {
+            this.GetFlowData_change(GetFlowViewShiftRoteGetApiData)
+            this.CanSerchMore = true
+          } else {
+            this.CanSerchMore = false
+            alert('無更多資料')
+          }
+          this.LoadingPage.hide()
+        }, error => {
+          this.LoadingPage.hide()
+        }
+      )
+
   }
 
 }

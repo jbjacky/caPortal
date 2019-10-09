@@ -56,20 +56,22 @@
 </div>
 
 
-<div id="showFormPalce" class="showForm">
-
-  <app-search-va-form [getVaData]="getApiVaData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
-    (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Abs'">
-  </app-search-va-form>
-  <app-search-del-form [getDelData]="getApiDelData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
-    (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Absc'">
-  </app-search-del-form>
-  <app-search-forget-form [getForgetData]="getApiForgetData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
-    (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Card'">
-  </app-search-forget-form>
-  <app-search-change-form [getChangeData]="getApiShiftRoteData" [getShowTransSign]="showTransSign"
-    [getShowTake]="showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
-    *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'"></app-search-change-form>
+<div id="showFormPalce">
+  <div *ngIf="isSearch">
+          <app-search-va-form [getVaData]="getApiVaData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
+            (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Abs'">
+          </app-search-va-form>
+          <app-search-del-form [getDelData]="getApiDelData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
+            (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Absc'">
+          </app-search-del-form>
+          <app-search-forget-form [getForgetData]="getApiForgetData" [getShowTransSign]="showTransSign"
+            [getShowTake]="showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+            *ngIf="isSearch && showSelectSearchForm == 'Card'">
+          </app-search-forget-form>
+          <app-search-change-form [getChangeData]="getApiShiftRoteData" [getShowTransSign]="showTransSign"
+            [getShowTake]="showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+            *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'"></app-search-change-form>
+  </div>
 </div>
 
 

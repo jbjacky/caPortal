@@ -139,7 +139,7 @@ export class delFlowSign{
   WriteEmpNameC:string;
   
   YearAndDate:YearAndDateClass[];
-  dateArray:dateArrayClass[];
+  dateArray:any[];
   day:string;
   hour:string;
   minute:string;

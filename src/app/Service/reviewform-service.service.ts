@@ -25,8 +25,8 @@ export class ReviewformServiceService {
 
   clearReview() {
 
-    this.showReviewTab = '';
-    this.showReviewMan = new AllformReview()
+    // this.showReviewTab = '';
+    // this.showReviewMan = new AllformReview()
 
     this.vaDetailProcessFlowID = ''
 

@@ -147,6 +147,11 @@
         </a>
       </div>
     </div>
+    <div>
+      <button *ngIf="CanSerchMore" (click)="MoreOnSearchForm()">
+        <ng-container i18n>載入更多資料</ng-container>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -268,8 +273,8 @@
             <!-- <span aria-hidden="true">×</span> -->
           </button>
           <h4 class="modal-title" style="text-align: center">
-              <ng-container i18n>轉呈完成</ng-container>
-            </h4>
+            <ng-container i18n>轉呈完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
@@ -281,8 +286,8 @@
         </div>
         <div class="modal-footer" style="text-align: center">
           <button type="button" class="btn btn-primary" data-dismiss="modal">
-              <ng-container i18n>確定</ng-container>
-            </button>
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>

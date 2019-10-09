@@ -17,6 +17,9 @@ import { GetFlowViewCardGetApiDataClass } from 'src/app/Models/GetFlowViewCardGe
 import { GetFlowViewShiftRoteGetApiDataClass } from 'src/app/Models/GetFlowViewShiftRoteGetApiDataClass';
 import { SearchChangeFormComponent } from '../shareComponent/search-change-form/search-change-form.component';
 import { void_DateDiff, void_MonthDiff } from 'src/app/UseVoid/void_DateDiff';
+import { OutPutValClass } from '../shareComponent/choose-base-or-dept/choose-base-or-dept.component';
+import { GetFlowViewDeptClass } from 'src/app/Models/PostData_API_Class/GetFlowViewDeptClass';
+import { doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
 declare let $: any; //use jquery
 
 @Component({
@@ -73,39 +76,87 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
       )
   }
 
+  CatchMoreGetFlowViewDept: GetFlowViewDeptClass
+  // MoreSearchPage = 1
+  CanSerchMore:boolean = false
+  // MoreOnSearchForm() {
+  //   if(this.CanSerchMore){
+  //     this.MoreSearchPage = this.MoreSearchPage + 1
+  //     this.CatchMoreGetFlowViewDept.PageCurrent = this.MoreSearchPage
+  //     this.getMoreSearchFlowForm_Dept(this.CatchMoreGetFlowViewDept)
+  //   }else{
+  //     alert('無更多資料')
+  //   }
+  // }
+
   onSearchForm() {
 
     var ListEmpIDArray = []
-    for (let oneEmp of this.Search_EmpArray) {
-      ListEmpIDArray.push(oneEmp.EmpCode.toString())
-    }
-    this.Search_FormCondition.ListEmpID = ListEmpIDArray
-    if (this.Search_FormCondition.ListEmpID) {
-      if (this.Search_FormCondition.ListEmpID.length > 0) {
-        this.showSelectSearchForm = '' //勿刪!! 讓搜尋後的結果重新載入一遍
-        if (window.outerWidth < 800) {
-          $('#' + '1_text').text('展開查詢選單')
-          $('#' + '1_img').css({ "transition": "transform 0.5s" });
-          $('#' + '1_img').css({ "transform": "rotate(0deg)" });
-          $('#post1').collapse('hide')
-          $('#phonetopdiv').css({ "height": "inherit" });
-          this.diolog_state = false
-          $('body').css("overflow-y", "auto");
-        }
+    // console.log(this.SearchVal)
+    if (this.SearchVal.chooseRadio == 1) {
 
-        var searchDateB: Date = new Date(this.Search_FormCondition.DateB.toString())
-        var searchDateE: Date = new Date(this.Search_FormCondition.DateE.toString())
-        if (searchDateB > searchDateE) {
-          alert('結束日不得大於起始日')
-        } else if (void_MonthDiff(searchDateB, searchDateE) > 3) {
-          alert('查詢起訖區間不得超過三個月')
+      for (let oneEmp of this.SearchVal.chooseEmp.EmpArray) {
+        ListEmpIDArray.push(oneEmp.EmpCode.toString())
+      }
+      this.Search_FormCondition.ListEmpID = ListEmpIDArray
+      if (this.Search_FormCondition.ListEmpID) {
+        if (this.Search_FormCondition.ListEmpID.length > 0) {
+          if (this.CheckSearch()) {
+            this.getSearchFlowForm(this.Search_FormCondition)
+          }
         } else {
-          this.getSearchFlowForm(this.Search_FormCondition)
+          alert('請輸入工號或選擇部門(該部門可能沒有人員)')
         }
-      } else {
-        alert('請輸入工號或選擇部門(該部門可能沒有人員)')
+      }
+
+    } else if (this.SearchVal.chooseRadio == 2) {
+      var today = new Date()
+      var GetFlowViewDept: GetFlowViewDeptClass = {
+        DeptaID: this.SearchVal.chooseDepta.DeptaID,
+        ChildDept: this.SearchVal.chooseDepta.isChildDept,
+        PageCurrent: 1,
+        PageRows: 100, //100
+        EffectDate: doFormatDate(today),
+        DateB: this.Search_FormCondition.DateB,
+        DateE: this.Search_FormCondition.DateE,
+        FormCode: this.Search_FormCondition.FormCode,
+        State: this.Search_FormCondition.State,
+        ProcessFlowID: this.Search_FormCondition.ProcessFlowID,
+        Cond1: this.Search_FormCondition.Cond1,
+        Cond2: this.Search_FormCondition.Cond2,
+        Cond3: this.Search_FormCondition.Cond3,
+        Handle: this.Search_FormCondition.Handle
+      }
+
+      if (this.CheckSearch()) {
+        this.CatchMoreGetFlowViewDept = JSON.parse(JSON.stringify(GetFlowViewDept))
+        this.getSearchFlowForm_Dept(GetFlowViewDept)
       }
     }
+  }
+  CheckSearch(): boolean {
+    var CanSearch: boolean = false
+    this.showSelectSearchForm = '' //勿刪!! 讓搜尋後的結果重新載入一遍
+    if (window.outerWidth < 800) {
+      $('#' + '1_text').text('展開查詢選單')
+      $('#' + '1_img').css({ "transition": "transform 0.5s" });
+      $('#' + '1_img').css({ "transform": "rotate(0deg)" });
+      $('#post1').collapse('hide')
+      $('#phonetopdiv').css({ "height": "inherit" });
+      this.diolog_state = false
+      $('body').css("overflow-y", "auto");
+    }
+
+    var searchDateB: Date = new Date(this.Search_FormCondition.DateB.toString())
+    var searchDateE: Date = new Date(this.Search_FormCondition.DateE.toString())
+    if (searchDateB > searchDateE) {
+      alert('結束日不得大於起始日')
+    } else if (void_MonthDiff(searchDateB, searchDateE) > 3) {
+      alert('查詢起訖區間不得超過三個月')
+    } else {
+      CanSearch = true
+    }
+    return CanSearch
   }
 
 
@@ -269,6 +320,7 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
 
     this.LoadingPage.show()
     this.isSearch = false
+    this.CanSerchMore = false
     if (GetFlowView.FormCode == 'Abs') {
 
       this.LoadingPage.show()
@@ -277,7 +329,7 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
         .subscribe(
           (GetFlowViewAbsGetApiData: GetFlowViewAbsGetApiDataClass[]) => {
             this.getApiVaData = GetFlowViewAbsGetApiData
-            this.showForm(GetFlowView)
+            this.showForm(GetFlowView.FormCode)
             this.LoadingPage.hide()
           }, error => {
             this.LoadingPage.hide()
@@ -291,7 +343,7 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
         .subscribe(
           (GetFlowViewAbscGetApiData: GetFlowViewAbscGetApiDataClass[]) => {
             this.getApiDelData = GetFlowViewAbscGetApiData
-            this.showForm(GetFlowView)
+            this.showForm(GetFlowView.FormCode)
             this.LoadingPage.hide()
           }, error => {
             this.LoadingPage.hide()
@@ -304,7 +356,7 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
         .subscribe(
           (GetFlowViewCardGetApiData: GetFlowViewCardGetApiDataClass[]) => {
             this.getApiForgetData = GetFlowViewCardGetApiData
-            this.showForm(GetFlowView)
+            this.showForm(GetFlowView.FormCode)
             this.LoadingPage.hide()
           }, error => {
             this.LoadingPage.hide()
@@ -317,7 +369,7 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
         .subscribe(
           (GetFlowViewShiftRoteGetApiData: GetFlowViewShiftRoteGetApiDataClass[]) => {
             this.getApiShiftRoteData = GetFlowViewShiftRoteGetApiData
-            this.showForm(GetFlowView)
+            this.showForm(GetFlowView.FormCode)
             this.LoadingPage.hide()
           }, error => {
             this.LoadingPage.hide()
@@ -326,9 +378,190 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
     }
   }
 
-  showForm(GetFlowView: GetFlowViewClass) {
 
-    this.showSelectSearchForm = GetFlowView.FormCode; //顯示查詢結果
+
+  getSearchFlowForm_Dept(GetFlowViewDept: GetFlowViewDeptClass) {
+    // console.log(GetFlowView)
+
+    this.LoadingPage.show()
+    this.isSearch = false
+    if (GetFlowViewDept.FormCode == 'Abs') {
+
+      this.LoadingPage.show()
+      this.GetApiDataServiceService.getWebApiData_GetFlowViewAbsByDept(GetFlowViewDept)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (GetFlowViewAbsGetApiData: GetFlowViewAbsGetApiDataClass[]) => {
+            this.getApiVaData = GetFlowViewAbsGetApiData
+            this.showForm(GetFlowViewDept.FormCode)
+            if(GetFlowViewAbsGetApiData.length>0){
+              this.CanSerchMore = true
+            }else{
+              this.CanSerchMore = false
+            }
+            this.LoadingPage.hide()
+          }, error => {
+            this.LoadingPage.hide()
+          }
+        )
+
+    } else if (GetFlowViewDept.FormCode == 'Absc') {
+      this.LoadingPage.show()
+      this.GetApiDataServiceService.getWebApiData_GetFlowViewAbscByDept(GetFlowViewDept)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (GetFlowViewAbscGetApiData: GetFlowViewAbscGetApiDataClass[]) => {
+            this.getApiDelData = GetFlowViewAbscGetApiData
+            this.showForm(GetFlowViewDept.FormCode)
+            if(GetFlowViewAbscGetApiData.length>0){
+              this.CanSerchMore = true
+            }else{
+              this.CanSerchMore = false
+            }
+            this.LoadingPage.hide()
+          }, error => {
+            this.LoadingPage.hide()
+          }
+        )
+    } else if (GetFlowViewDept.FormCode == 'Card') {
+
+      this.GetApiDataServiceService.getWebApiData_GetFlowViewCardByDept(GetFlowViewDept)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (GetFlowViewCardGetApiData: GetFlowViewCardGetApiDataClass[]) => {
+            this.getApiForgetData = GetFlowViewCardGetApiData
+            this.showForm(GetFlowViewDept.FormCode)
+            if(GetFlowViewCardGetApiData.length>0){
+              this.CanSerchMore = true
+            }else{
+              this.CanSerchMore = false
+            }
+            this.LoadingPage.hide()
+          }, error => {
+            this.LoadingPage.hide()
+          }
+        )
+    } else if (GetFlowViewDept.FormCode == 'ShiftRote') {
+
+      this.GetApiDataServiceService.getWebApiData_GetFlowViewShiftRoteByDept(GetFlowViewDept)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (GetFlowViewShiftRoteGetApiData: GetFlowViewShiftRoteGetApiDataClass[]) => {
+            this.getApiShiftRoteData = GetFlowViewShiftRoteGetApiData
+            this.showForm(GetFlowViewDept.FormCode)
+            if(GetFlowViewShiftRoteGetApiData.length>0){
+              this.CanSerchMore = true
+            }else{
+              this.CanSerchMore = false
+            }
+            this.LoadingPage.hide()
+          }, error => {
+            this.LoadingPage.hide()
+          }
+        )
+    }
+  }
+
+
+  // getMoreSearchFlowForm_Dept(GetFlowViewDept: GetFlowViewDeptClass) {
+  //   // console.log(GetFlowView)
+
+  //   this.LoadingPage.show()
+  //   this.isSearch = false
+  //   if (GetFlowViewDept.FormCode == 'Abs') {
+
+  //     this.LoadingPage.show()
+  //     this.GetApiDataServiceService.getWebApiData_GetFlowViewAbsByDept(GetFlowViewDept)
+  //       .pipe(takeWhile(() => this.api_subscribe))
+  //       .subscribe(
+  //         (GetFlowViewAbsGetApiData: GetFlowViewAbsGetApiDataClass[]) => {
+  //           if (GetFlowViewAbsGetApiData.length > 0) {
+  //             for (let g of GetFlowViewAbsGetApiData) {
+  //               this.getApiVaData.push(g)
+  //             }
+  //             // console.log(this.getApiVaData)
+  //             this.CanSerchMore = true
+  //           } else {
+  //             this.CanSerchMore = false
+  //             alert('無更多資料')
+  //           }
+  //           this.isSearch = true
+  //           this.LoadingPage.hide()
+  //         }, error => {
+  //           this.LoadingPage.hide()
+  //         }
+  //       )
+
+  //   } else if (GetFlowViewDept.FormCode == 'Absc') {
+  //     this.LoadingPage.show()
+  //     this.GetApiDataServiceService.getWebApiData_GetFlowViewAbscByDept(GetFlowViewDept)
+  //       .pipe(takeWhile(() => this.api_subscribe))
+  //       .subscribe(
+  //         (GetFlowViewAbscGetApiData: GetFlowViewAbscGetApiDataClass[]) => {
+  //           if (GetFlowViewAbscGetApiData.length > 0) {
+  //             for (let g of GetFlowViewAbscGetApiData) {
+  //               this.getApiDelData.push(g)
+  //             }
+  //             this.CanSerchMore = true
+  //           } else {
+  //             this.CanSerchMore = false
+  //             alert('無更多資料')
+  //           }
+  //           this.isSearch = true
+  //           this.LoadingPage.hide()
+  //         }, error => {
+  //           this.LoadingPage.hide()
+  //         }
+  //       )
+  //   } else if (GetFlowViewDept.FormCode == 'Card') {
+
+  //     this.GetApiDataServiceService.getWebApiData_GetFlowViewCardByDept(GetFlowViewDept)
+  //       .pipe(takeWhile(() => this.api_subscribe))
+  //       .subscribe(
+  //         (GetFlowViewCardGetApiData: GetFlowViewCardGetApiDataClass[]) => {
+  //           if (GetFlowViewCardGetApiData.length > 0) {
+  //             for (let g of GetFlowViewCardGetApiData) {
+  //               this.getApiForgetData.push(g)
+  //             }
+  //             this.CanSerchMore = true
+  //           } else {
+  //             this.CanSerchMore = false
+  //             alert('無更多資料')
+  //           }
+  //           this.isSearch = true
+  //           this.LoadingPage.hide()
+  //         }, error => {
+  //           this.LoadingPage.hide()
+  //         }
+  //       )
+  //   } else if (GetFlowViewDept.FormCode == 'ShiftRote') {
+
+  //     this.GetApiDataServiceService.getWebApiData_GetFlowViewShiftRoteByDept(GetFlowViewDept)
+  //       .pipe(takeWhile(() => this.api_subscribe))
+  //       .subscribe(
+  //         (GetFlowViewShiftRoteGetApiData: GetFlowViewShiftRoteGetApiDataClass[]) => {
+
+  //           if (GetFlowViewShiftRoteGetApiData.length > 0) {
+  //             for (let g of GetFlowViewShiftRoteGetApiData) {
+  //               this.getApiShiftRoteData.push(g)
+  //             }
+  //             this.CanSerchMore = true
+  //           } else {
+  //             this.CanSerchMore = false
+  //             alert('無更多資料')
+  //           }
+  //           this.isSearch = true
+  //           this.LoadingPage.hide()
+  //         }, error => {
+  //           this.LoadingPage.hide()
+  //         }
+  //       )
+  //   }
+  // }
+
+  showForm(FormCode) {
+
+    this.showSelectSearchForm = FormCode; //顯示查詢結果
     this.isSearch = true;//顯示查詢結果
 
     if (this.SearchVaFormComponent) {
@@ -344,9 +577,13 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
     this.windowSize()
   }
 
-  getEmpCode(emp: EmpArray[]) {
-    this.Search_EmpArray = emp;
-    // console.log(r)
+  // getEmpCode(emp: EmpArray[]) {
+  //   this.Search_EmpArray = emp;
+  //   // console.log(r)
+  // }
+  SearchVal: OutPutValClass
+  getSearhVal(OutPutVal: OutPutValClass) {
+    this.SearchVal = JSON.parse(JSON.stringify(OutPutVal))
   }
   getSearchFormCondition(flowcondition: GetFlowViewClass) {
     this.Search_FormCondition = flowcondition
