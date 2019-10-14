@@ -582,8 +582,14 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
   //   // console.log(r)
   // }
   SearchVal: OutPutValClass
+  HideCondition:boolean = false
   getSearhVal(OutPutVal: OutPutValClass) {
     this.SearchVal = JSON.parse(JSON.stringify(OutPutVal))
+    if(this.SearchVal.chooseRadio == 3){
+      this.HideCondition = true
+    }else{
+      this.HideCondition = false
+    }
   }
   getSearchFormCondition(flowcondition: GetFlowViewClass) {
     this.Search_FormCondition = flowcondition

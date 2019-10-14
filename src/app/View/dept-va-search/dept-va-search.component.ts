@@ -25,10 +25,7 @@ export class DeptVaSearchComponent implements OnInit, OnDestroy {
   }
   api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
 
-  radiogroup: any = [
-    { id: 1, name: '查詢單位' },
-    { id: 2, name: '查詢單一員工' }
-  ];
+
   chooseRadio: number = 1;
 
   constructor(

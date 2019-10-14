@@ -452,6 +452,7 @@ export class ReviewformDetailVacationComponent implements OnInit, OnDestroy, Aft
     $('#vaPutForwarddialog').modal('show')
     if (!this.FlowDynamic_Base) {
       alert('請選擇呈核人員')
+      this.LoadingPage.hide()
     } else {
       this.GetApiDataServiceService.getWebApiData_AbsLimitCheck(parseInt(this.ReviewformServiceService.vaDetail.ProcessFlowID))
         .pipe(takeWhile(() => this.api_subscribe))

@@ -12,19 +12,50 @@
         <div [id]="'post1'" class="panel-collapse collapse in active">
             <div id="showP_margin"> </div>
             <app-choose-base-or-dept (outPutChoose)="getSearhVal($event)"></app-choose-base-or-dept>
+            <div *ngIf="!HideCondition">
+                <app-form-condition (outPutSearch)="getSearchFormCondition($event)" [ownerReview]="false">
+                </app-form-condition>
 
-            <app-form-condition (outPutSearch)="getSearchFormCondition($event)" [ownerReview]="false">
-            </app-form-condition>
-
-            <div class="form-group first-form-group">
-                <div class="row" style="margin:0px;padding: 0px 15px">
-                    <div class="col-md-4  col-xs-12" style="padding:0px">
+                <div class="form-group first-form-group">
+                    <div class="row" style="margin:0px;padding: 0px 15px">
                         <div class="col-md-4  col-xs-12" style="padding:0px">
+                            <div class="col-md-4  col-xs-12" style="padding:0px">
+                            </div>
+                            <div class="col-md-8  col-xs-12" style="padding:0px">
+                                <button type="button" class="btn btn-primary" (click)="onSearchForm()">
+                                    <ng-container i18n>查詢</ng-container>
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-md-8  col-xs-12" style="padding:0px">
-                            <button type="button" class="btn btn-primary" (click)="onSearchForm()">
-                                <ng-container i18n>查詢</ng-container>
-                            </button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="HideCondition">
+                <div class="row" style="margin: 0;padding: 0;margin-bottom: 15px">
+                    <div class="col-md-10 col-xs-12" style="margin: 0">
+                        <div class="col-md-2 col-xs-2 P_textLeft P_zero" style="margin-top: 7px;">
+                            <label class="control-label">
+                                <ng-container i18n>單號</ng-container>
+                            </label>
+                        </div>
+                        <div class="col-md-10 col-xs-10" style="margin:0px;padding: 0">
+                            <div class="col-md-4 col-xs-12">
+                                <input type="text" class="form-control" maxlength="10">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin: 0;padding: 0;margin-bottom: 15px">
+                    <div class="col-md-10 col-xs-12" style="margin: 0">
+                        <div class="col-md-2 col-xs-2" style="margin:0;padding:0px">
+                       
+                        </div>
+                        <div class="col-md-10 col-xs-10" style="margin:0px;padding: 0">
+                            <div class="col-md-4 col-xs-12">
+                                <button type="button" class="btn btn-primary">
+                                    <ng-container i18n>查詢</ng-container>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,20 +79,23 @@
 
 <div id="showFormPalce" class="showForm">
     <div *ngIf="isSearch">
-            <app-search-va-form [getVaData]="getApiVaData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
-                [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept" [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Abs'">
-            </app-search-va-form>
-            <app-search-del-form [getDelData]="getApiDelData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
-                [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept" [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')"
-                *ngIf="isSearch && showSelectSearchForm == 'Absc'">
-            </app-search-del-form>
-            <app-search-forget-form [getForgetData]="getApiForgetData" [getShowTransSign]="showTransSign" [getShowTake]="showTake" 
-                [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept" [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')"
-                *ngIf="isSearch && showSelectSearchForm == 'Card'"></app-search-forget-form>
-            <app-search-change-form [getChangeData]="getApiShiftRoteData" [getShowTransSign]="showTransSign" [getShowTake]="showTake" 
-                [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept" [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')"
-                *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'"></app-search-change-form>
-            <!-- <button *ngIf="SearchVal.chooseRadio == 2 && CanSerchMore" (click)="MoreOnSearchForm()">
+        <app-search-va-form [getVaData]="getApiVaData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
+            [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept" [CanSerchMore]="CanSerchMore"
+            (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Abs'">
+        </app-search-va-form>
+        <app-search-del-form [getDelData]="getApiDelData" [getShowTransSign]="showTransSign" [getShowTake]="showTake"
+            [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept" [CanSerchMore]="CanSerchMore"
+            (gotoShowFormPlace)="scrollTo('showFormPalce')" *ngIf="isSearch && showSelectSearchForm == 'Absc'">
+        </app-search-del-form>
+        <app-search-forget-form [getForgetData]="getApiForgetData" [getShowTransSign]="showTransSign"
+            [getShowTake]="showTake" [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept"
+            [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+            *ngIf="isSearch && showSelectSearchForm == 'Card'"></app-search-forget-form>
+        <app-search-change-form [getChangeData]="getApiShiftRoteData" [getShowTransSign]="showTransSign"
+            [getShowTake]="showTake" [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept"
+            [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+            *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'"></app-search-change-form>
+        <!-- <button *ngIf="SearchVal.chooseRadio == 2 && CanSerchMore" (click)="MoreOnSearchForm()">
                 <ng-container i18n>載入更多資料</ng-container>
             </button> -->
     </div>

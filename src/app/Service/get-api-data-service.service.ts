@@ -84,6 +84,7 @@ import { GetEventDateGetApiClass } from '../Models/PostData_API_Class/GetEventDa
 import { GetAttendWishByDeptaGetApiClass } from '../Models/PostData_API_Class/GetAttendWishByDeptaGetApiClass';
 import { GetFlowViewDeptClass } from '../Models/PostData_API_Class/GetFlowViewDeptClass';
 import { GetFlowSignAbsGetApiClass } from '../Models/PostData_API_Class/GetFlowSignAbsGetApiClass';
+import { GetCheckAgentByTargetGetApiClass } from '../Models/PostData_API_Class/GetCheckAgentByTargetGetApiClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -982,6 +983,16 @@ export class GetApiDataServiceService {
   getWebApiData_GetCheckAgent(EmpID: string) {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetCheckAgent',
       JSON.stringify(EmpID), {
+        headers: this.GetHeader()
+      })
+  }
+
+  /**
+   * @todo 取得你那些人設定你為代理人
+   */
+  getWebApiData_GetCheckAgentBySource(GetCheckAgentByTargetGetApi: GetCheckAgentByTargetGetApiClass) {
+    return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetCheckAgentByTarget',
+      JSON.stringify(GetCheckAgentByTargetGetApi), {
         headers: this.GetHeader()
       })
   }

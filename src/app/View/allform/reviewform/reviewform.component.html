@@ -240,7 +240,7 @@
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
                   <button *ngIf="vaFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
-                    data-target="#PutForwarddialog" (click)="vaDetail_click(vaFlowSign,'vaTab')">
+                     (click)="checkAbsLimit_PutForward(vaFlowSign,'vaTab')">
                     <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!vaFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
@@ -1001,7 +1001,7 @@
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">
+          <button id="bt_Sus_Apr" type="button" class="btn btn-primary" data-dismiss="modal">
             <ng-container i18n>確定</ng-container>
           </button>
         </div>
@@ -1028,7 +1028,7 @@
               (click)="Sendback_Click()">
               <ng-container i18n>送出</ng-container>
             </button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">
+            <button  type="button" class="btn btn-default" data-dismiss="modal">
               <ng-container i18n>取消</ng-container>
             </button>
           </div>
@@ -1060,7 +1060,7 @@
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">
+          <button id="bt_Sus_Sbk" type="button" class="btn btn-primary" data-dismiss="modal">
             <ng-container i18n>確定</ng-container>
           </button>
         </div>
@@ -1182,7 +1182,7 @@
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">
+          <button id="bt_Sus_Put" type="button" class="btn btn-primary" data-dismiss="modal">
               <ng-container i18n>確定</ng-container>
             </button>
         </div>
@@ -1224,7 +1224,7 @@
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">
+          <button id="bt_Sus_AllApr" type="button" class="btn btn-primary" data-dismiss="modal">
               <ng-container i18n>確定</ng-container>
             </button>
         </div>
@@ -1262,7 +1262,7 @@
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">
+          <button id="bt_Sus_AllSbk" type="button" class="btn btn-primary" data-dismiss="modal">
               <ng-container i18n>確定</ng-container>
             </button>
         </div>

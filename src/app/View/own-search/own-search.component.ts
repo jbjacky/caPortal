@@ -91,24 +91,37 @@ export class OwnSearchComponent implements OnInit, AfterViewInit {
       today.setMinutes(0, 0, 0)
       today.setSeconds(0, 0)
 
+      this.SearchDateB.setHours(0, 0, 0)
+      this.SearchDateB.setMinutes(0, 0, 0)
+      this.SearchDateB.setSeconds(0, 0)
+
       this.SearchDateE.setHours(0, 0, 0)
       this.SearchDateE.setMinutes(0, 0, 0)
       this.SearchDateE.setSeconds(0, 0)
 
-      if (this.SearchDateB > this.SearchDateE) {
+      var startdate = this.SearchDateB
+      var enddate = this.SearchDateE
+
+      if (startdate > enddate) {
         $("#id_ipt_startday").addClass("errorInput");
         this.errorStartDateState = { state: true, errorString: '起始日期不能大於結束日期' }
-        return true
-      } else if (this.SearchDateE > today) {
+      } else {
+        $("#id_ipt_startday").removeClass("errorInput");
+        this.errorStartDateState = { state: false, errorString: '' }
+      }
+
+      if (enddate > today) {
         $("#id_ipt_endday").addClass("errorInput");
         this.errorEndtDateState = { state: true, errorString: '結束日不得大於今天' }
-        return true
       } else {
         $("#id_ipt_endday").removeClass("errorInput");
         this.errorEndtDateState = { state: false, errorString: '' }
-        $("#id_ipt_startday").removeClass("errorInput");
-        this.errorStartDateState = { state: false, errorString: '' }
+      }
+
+      if (enddate <= today && startdate <= enddate) {
         return false
+      } else {
+        return true
       }
     }
   }
@@ -124,24 +137,37 @@ export class OwnSearchComponent implements OnInit, AfterViewInit {
       today.setMinutes(0, 0, 0)
       today.setSeconds(0, 0)
 
+      this.SearchDateB.setHours(0, 0, 0)
+      this.SearchDateB.setMinutes(0, 0, 0)
+      this.SearchDateB.setSeconds(0, 0)
+
       this.SearchDateE.setHours(0, 0, 0)
       this.SearchDateE.setMinutes(0, 0, 0)
       this.SearchDateE.setSeconds(0, 0)
 
-      if (this.SearchDateB > this.SearchDateE) {
-        $("#id_ipt_endday").addClass("errorInput");
-        this.errorEndtDateState = { state: true, errorString: '起始日期不能大於結束日期' }
-        return true
-      } else if (this.SearchDateE > today) {
+      var startdate = this.SearchDateB
+      var enddate = this.SearchDateE
+
+      if (startdate > enddate) {
+        $("#id_ipt_startday").addClass("errorInput");
+        this.errorStartDateState = { state: true, errorString: '起始日期不能大於結束日期' }
+      } else {
+        $("#id_ipt_startday").removeClass("errorInput");
+        this.errorStartDateState = { state: false, errorString: '' }
+      }
+
+      if (enddate > today) {
         $("#id_ipt_endday").addClass("errorInput");
         this.errorEndtDateState = { state: true, errorString: '結束日不得大於今天' }
-        return true
       } else {
         $("#id_ipt_endday").removeClass("errorInput");
         this.errorEndtDateState = { state: false, errorString: '' }
-        $("#id_ipt_startday").removeClass("errorInput");
-        this.errorStartDateState = { state: false, errorString: '' }
+      }
+
+      if (enddate <= today && startdate <= enddate) {
         return false
+      } else {
+        return true
       }
     }
   }

@@ -39,7 +39,8 @@ export class ChooseBaseOrDeptComponent implements OnInit, OnDestroy {
   chooseDeptBase = [];
   radiogroup: any = [
     { id: 1, name: '查詢單一員工' },
-    { id: 2, name: '查詢單位' }
+    { id: 2, name: '查詢單位' },
+    { id: 3, name: '依單號查詢' }
   ];
   chooseRadio: number = 1;
   constructor(private GetApiUserService: GetApiUserService,
@@ -238,6 +239,15 @@ export class ChooseBaseOrDeptComponent implements OnInit, OnDestroy {
           DeptaID: this.chooseDeptaID,
           isChildDept: this.downDept
         }
+      }
+      this.outPutChoose.emit(_OutPutVal_Dept)
+    } else if (this.chooseRadio == 3) {
+      // console.log(this.chooseDeptBase)
+
+      var _OutPutVal_Dept: OutPutValClass = {
+        chooseRadio: this.chooseRadio,
+        chooseEmp: null,
+        chooseDepta: null
       }
       this.outPutChoose.emit(_OutPutVal_Dept)
     }

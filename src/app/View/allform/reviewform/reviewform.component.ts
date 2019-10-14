@@ -671,6 +671,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
                 this.LoadingPage.hide()
                 if (x.Finish) {
                   $('#Approveddialog_sussesdialog').modal('show');
+                  document.getElementById("bt_Sus_Apr").focus();
                   this.ReloadData()
                 } else {
                   alert(x.MessageContent)
@@ -720,6 +721,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
                 this.LoadingPage.hide()
                 if (x.Finish) {
                   $('#Sendbackdialog_sussesdialog').modal('show');
+                  document.getElementById("bt_Sus_Sbk").focus();
                   this.ReloadData()
                 } else {
                   alert(x.MessageContent)
@@ -773,6 +775,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
                   this.LoadingPage.hide()
                   if (x.Finish) {
                     $('#PutForwarddialog_sussesdialog').modal('show');
+                    document.getElementById("bt_Sus_Put").focus();
                     this.ReloadData()
                   } else {
                     alert(x.MessageContent)
@@ -1624,6 +1627,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
                 this.sendReviewLength = SendFlowNodeFinish.length.toString()
                 this.realReviewLength = x.toString()
                 $('#All_Approveddialog_sussesdialog').modal('show');
+                document.getElementById("bt_Sus_AllApr").focus();
                 this.ReloadData()
                 this.LoadingPage.hide()
               }
@@ -1676,6 +1680,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
                 this.sendReviewLength = SendFlowNodeFinish.length.toString()
                 this.realReviewLength = x.toString()
                 $('#All_Sendbackdialog_sussesdialog').modal('show');
+                document.getElementById("bt_Sus_AllSbk").focus();
                 this.ReloadData()
               }
             )

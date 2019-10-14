@@ -15,6 +15,7 @@ import { UpdateCheckAgentClass } from 'src/app/Models/PostData_API_Class/UpdateC
 import { isValidDate } from 'src/app/UseVoid/void_isVaildDatetime';
 import { takeWhile } from 'rxjs/operators';
 import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByFormClass';
+import { GetCheckAgentByTargetGetApiClass } from 'src/app/Models/PostData_API_Class/GetCheckAgentByTargetGetApiClass';
 
 declare let $: any; //use jquery
 @Component({
@@ -56,6 +57,7 @@ export class SignProxymanComponent implements OnInit, AfterContentInit, OnDestro
   selectSort = 1
 
   SetAgentArray: GetCheckAgentClass[] = [] //取得代理人資訊
+  SetBeApppointedAgentArray: GetCheckAgentClass[] = [] //取得你那些人設定你為代理人
 
   searchBeProxyMan: GetBaseInfoDetailClass = new GetBaseInfoDetailClass()
 
@@ -193,9 +195,10 @@ export class SignProxymanComponent implements OnInit, AfterContentInit, OnDestro
     //取得代理人資訊
     this.LoadingPage.show()
     this.GetApiDataServiceService.getWebApiData_GetCheckAgent(EmpID)
+      .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: GetCheckAgentClass[]) => {
-          this.SetAgentArray = x
+          this.SetAgentArray = JSON.parse(JSON.stringify(x))
           for (let oneAgent of this.SetAgentArray) {
             oneAgent.DateB = formatDateTime(oneAgent.DateB).getDate
             oneAgent.DateE = formatDateTime(oneAgent.DateE).getDate
@@ -204,7 +207,29 @@ export class SignProxymanComponent implements OnInit, AfterContentInit, OnDestro
           this.SetAgentArray.sort((a: GetCheckAgentClass, b: GetCheckAgentClass) => {
             return a.Sort - b.Sort;
           });
-          this.LoadingPage.hide()
+          var today = new Date() 
+          var GetCheckAgentByTargetGetApi: GetCheckAgentByTargetGetApiClass = {
+            "SignEmpID": EmpID.toString(),
+            "SignRoleID": "",
+            "SignDate": doFormatDate(today)
+          }
+          this.GetApiDataServiceService.getWebApiData_GetCheckAgentBySource(GetCheckAgentByTargetGetApi)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (y: GetCheckAgentClass[]) => {
+                this.SetBeApppointedAgentArray = JSON.parse(JSON.stringify(y))
+                for (let oneBeAgent of this.SetBeApppointedAgentArray) {
+                  oneBeAgent.DateB = formatDateTime(oneBeAgent.DateB).getDate
+                  oneBeAgent.DateE = formatDateTime(oneBeAgent.DateE).getDate
+                  oneBeAgent.KeyDate = formatDateTime(oneBeAgent.KeyDate).getDate
+                }
+                this.SetBeApppointedAgentArray.sort((a: GetCheckAgentClass, b: GetCheckAgentClass) => {
+                  return a.Sort - b.Sort;
+                });
+                // console.log(this.SetBeApppointedAgentArray)
+                this.LoadingPage.hide()
+              })
+
         }, error => {
           this.LoadingPage.hide()
         }

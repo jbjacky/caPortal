@@ -49,10 +49,7 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
   LateMins: boolean = true; //遲到
   EarlyMins: boolean = true; //早退
   IsAbsent: boolean = true; //未刷卡
-  radiogroup: any = [
-    { id: 1, name: '查詢單一員工' },
-    { id: 2, name: '查詢單位' }
-  ];
+
   chooseRadio: number = 1;
 
 
@@ -194,6 +191,10 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
     today.setMinutes(0, 0, 0)
     today.setSeconds(0, 0)
 
+    this.dateB.setHours(0, 0, 0)
+    this.dateB.setMinutes(0, 0, 0)
+    this.dateB.setSeconds(0, 0)
+
     this.dateE.setHours(0, 0, 0)
     this.dateE.setMinutes(0, 0, 0)
     this.dateE.setSeconds(0, 0)
@@ -205,20 +206,27 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
     } else {
       var startdate = this.dateB
       var enddate = this.dateE
+
       if (startdate > enddate) {
         $("#id_ipt_startday").addClass("errorInput");
         this.errorStartDateState = { state: true, errorString: '起始日期不能大於結束日期' }
-        return true
-      } else if (this.dateE > today) {
-        $("#id_ipt_endday").addClass("errorInput");
-        this.errorEndtDateState = { state: true, errorString: '結束日不得大於今天' }
-        return true
       } else {
         $("#id_ipt_startday").removeClass("errorInput");
         this.errorStartDateState = { state: false, errorString: '' }
+      }
+
+      if (enddate > today) {
+        $("#id_ipt_endday").addClass("errorInput");
+        this.errorEndtDateState = { state: true, errorString: '結束日不得大於今天' }
+      } else {
         $("#id_ipt_endday").removeClass("errorInput");
         this.errorEndtDateState = { state: false, errorString: '' }
+      }
+
+      if (enddate <= today && startdate <= enddate) {
         return false
+      } else {
+        return true
       }
     }
   }
@@ -227,6 +235,10 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
     today.setHours(0, 0, 0)
     today.setMinutes(0, 0, 0)
     today.setSeconds(0, 0)
+
+    this.dateB.setHours(0, 0, 0)
+    this.dateB.setMinutes(0, 0, 0)
+    this.dateB.setSeconds(0, 0)
 
     this.dateE.setHours(0, 0, 0)
     this.dateE.setMinutes(0, 0, 0)
@@ -239,20 +251,27 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
     } else {
       var startdate = this.dateB
       var enddate = this.dateE
+
       if (startdate > enddate) {
         $("#id_ipt_startday").addClass("errorInput");
         this.errorStartDateState = { state: true, errorString: '起始日期不能大於結束日期' }
-        return true
-      } else if (this.dateE > today) {
-        $("#id_ipt_endday").addClass("errorInput");
-        this.errorEndtDateState = { state: true, errorString: '結束日不得大於今天' }
-        return true
       } else {
         $("#id_ipt_startday").removeClass("errorInput");
         this.errorStartDateState = { state: false, errorString: '' }
+      }
+
+      if (enddate > today) {
+        $("#id_ipt_endday").addClass("errorInput");
+        this.errorEndtDateState = { state: true, errorString: '結束日不得大於今天' }
+      } else {
         $("#id_ipt_endday").removeClass("errorInput");
         this.errorEndtDateState = { state: false, errorString: '' }
+      }
+
+      if (enddate <= today && startdate <= enddate) {
         return false
+      } else {
+        return true
       }
     }
   }

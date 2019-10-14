@@ -40,6 +40,8 @@ export class SearchFormComponent implements OnInit, AfterViewInit, OnDestroy {
   SearchMan: SearchMan = new SearchMan();
   setFlowView: showFlowView[] = []//傳給查詢結果-表單
 
+  chooseRadio: number = 1;
+
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
     private GetApiUserService: GetApiUserService,
     private viewScroller: ViewportScroller,

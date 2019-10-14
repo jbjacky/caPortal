@@ -129,14 +129,18 @@
 <div class="a-block">
    <!-- <div class="table-responsive"> -->
    <div class="a-block-body  a-block-container">
-      <h3 style="margin: 0px ; margin-bottom: 15px;display: inline-block;">
-         <ng-container i18n>被代理人</ng-container>:
-      </h3>
-      <div style="display: inline-block;">
+      
+      <div style="margin-bottom: 15px">
+            <ng-container i18n>工號</ng-container>:
          <input [(ngModel)]="searchBeProxyMan.EmpID" />
          <button style="margin: 0px 10px" (click)="CanSearchGetCheckAgent(searchBeProxyMan.EmpID)">
             <ng-container i18n>查詢</ng-container>
          </button>
+      </div>
+      <div>
+         <h3 style="margin: 0px ; margin-bottom: 15px;display: inline-block;">
+            <ng-container i18n>被代理資訊</ng-container>
+         </h3>
       </div>
       <div class="table-responsive">
          <table class="table table-bordered table-striped table-hover table-content-center table-style01">
@@ -204,7 +208,77 @@
             </tbody>
          </table>
       </div>
-
+      <div>
+         <h3 style="margin: 0px ; margin-bottom: 15px;display: inline-block;">
+            <ng-container i18n>代理資訊</ng-container>
+         </h3>
+      </div>
+      <div class="table-responsive">
+         <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+            <thead>
+               <tr>
+                  <th style="background-image: unset;cursor: unset;width: 20%">
+                     <ng-container i18n>被代理人角色</ng-container>
+                  </th>
+                  <th style="width: 15%">
+                     <ng-container i18n>被代理人工號</ng-container>
+                  </th>
+                  <th style="width: 15%">
+                     <ng-container i18n>被代理人姓名</ng-container>
+                  </th>
+                  <th style="width: 10%">
+                     <ng-container i18n>生效日</ng-container>
+                  </th>
+                  <th style="width: 10%">
+                     <ng-container i18n>失效日</ng-container>
+                  </th>
+                  <th style="width: 10%">
+                     <ng-container i18n>登入者</ng-container>
+                  </th>
+                  <th style="width: 10%">
+                     <ng-container i18n>登入日期</ng-container>
+                  </th>
+                  <!-- <th style="width: 10%">
+                     <ng-container i18n>功能</ng-container>
+                  </th> -->
+               </tr>
+            </thead>
+            <tbody>
+               <tr *ngFor="let oneBeAgent of SetBeApppointedAgentArray">
+                  <ng-container *ngIf="oneBeAgent.IsValid">
+                     <td style="width: 20%">
+                        {{oneBeAgent.RoleNameSource}}
+                     </td>
+                     <td style="width: 15%">
+                        {{oneBeAgent.EmpIdSource}}
+                     </td>
+                     <td style="width: 15%">
+                        {{oneBeAgent.EmpNameSource}}
+                     </td>
+                     <td style="width: 10%">
+                        {{oneBeAgent.DateB}}
+                     </td>
+                     <td style="width: 10%">
+                        {{oneBeAgent.DateE}}
+                     </td>
+                     <td style="width: 10%">
+                        {{oneBeAgent.KeyMan}}
+                     </td>
+                     <td style="width: 10%">
+                        {{oneBeAgent.KeyDate}}
+                     </td>
+                     <!-- <td style="width: 10%">
+                        <a (click)="editAgentDate(oneAgent)" style="cursor: pointer;padding: 2px">
+                           <ng-container i18n>修改</ng-container>
+                        </a>
+                        <a (click)="checkDelAgent(oneAgent)" style="cursor: pointer;padding: 2px">
+                           <ng-container i18n>刪除</ng-container>
+                        </a>
+                     </td> -->
+                  </ng-container>
+            </tbody>
+         </table>
+      </div>
    </div>
    <!-- </div> -->
 </div>
