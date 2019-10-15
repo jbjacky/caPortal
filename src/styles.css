@@ -19,98 +19,129 @@
 
 @import '~angular-tree-component/dist/angular-tree-component.css';
 
-.modal-open {    
+.modal-open {
   overflow-y: hidden !important;
-  padding-right: 0px !important;    
+  padding-right: 0px !important;
 }
-.modal-open .modal{
+
+.modal-open .modal {
   padding-right: 0 !important;
   padding-left: 0 !important;
 }
-.cdk-overlay-container  {
-    z-index: 99999;
+
+.cdk-overlay-container {
+  z-index: 99999;
 }
-.mat-calendar-body-selected{
-    background-color: #3a5bb7;
+
+.mat-calendar-body-selected {
+  background-color: #3a5bb7;
 }
 
 .my-special-class .mat-expansion-panel-body {
-    padding: 0;
-    
-    border-left: 4px solid #0e76c1;
-  }
+  padding: 0;
 
-  .my-special-class .mat-expansion-panel-header-description, .mat-expansion-panel-header-title:hover {
-
-    color: #23b7e5;
+  border-left: 4px solid #0e76c1;
 }
-  .my-special-class .mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover{
-    color: #23b7e5;
-    
+
+.my-special-class .mat-expansion-panel-header-description,
+.mat-expansion-panel-header-title:hover {
+
+  color: #23b7e5;
+}
+
+.my-special-class .mat-expansion-panel-header.mat-expanded:focus,
+.mat-expansion-panel-header.mat-expanded:hover {
+  color: #23b7e5;
+
   border-left: 4px solid #0e76c1;
   background-color: #efefef;
-  }
-
-  
-  .my-special-class ::after{
-    content: attr(target);
-    color:#ef4a4a;
-  }
-
-  .my-special-class   .mat-expansion-panel-header-title{
-    color: #333;
-  }
-
-  .my-special-class .mat-expansion-panel-header-title:hover {
-    color: #23b7e5;
 }
-  .my-special-class .mat-expansion-panel.ng-star-inserted.mat-expanded.mat-expansion-panel-spacing .mat-expansion-panel-header{
-    
+
+
+.my-special-class ::after {
+  content: attr(target);
+  color: #ef4a4a;
+}
+
+.my-special-class .mat-expansion-panel-header-title {
+  color: #333;
+}
+
+.my-special-class .mat-expansion-panel-header-title:hover {
+  color: #23b7e5;
+}
+
+.my-special-class .mat-expansion-panel.ng-star-inserted.mat-expanded.mat-expansion-panel-spacing .mat-expansion-panel-header {
+
   border-left: 4px solid #0e76c1;
   background-color: #efefef;
-  }
+}
 
-  
-   .vertical-alignment-helper {
-    display:table;
-    height: 100%;
-    width: 100%;
-  }
-   .vertical-align-center {
-    /* To center vertically */
-    display: table-cell;
-    vertical-align: middle;
-  }
-   .modal-content {
-    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
-    width:inherit;
-    height:inherit;
-    /* To center horizontally */
-    margin: 0 auto;
-  }
-  
 
- .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
-    color: #fff;
-    outline: 0;
-    background-color: #428bca;
+.vertical-alignment-helper {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
+.vertical-align-center {
+  /* To center vertically */
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-content {
+  /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+  width: inherit;
+  height: inherit;
+  /* To center horizontally */
+  margin: 0 auto;
+}
+
+
+.dropdown-menu>li>a:hover,
+.dropdown-menu>li>a:focus {
+  color: #fff;
+  outline: 0;
+  background-color: #428bca;
 
 }
 
- .ngx-select__toggle{
-    padding: 5px 12px;
+.ngx-select__toggle {
+  padding: 5px 12px;
 }
 
-.btn-primary[disabled]{
+.btn-primary[disabled] {
   background-color: #e0e0e0;
   border-color: #d9d9d9;
 }
-.btn-info[disabled]{
-    background-color: #e0e0e0;
-    border-color: #d9d9d9;
+
+.btn-info[disabled] {
+  background-color: #e0e0e0;
+  border-color: #d9d9d9;
 }
-.errorInput{
-    border: 1px solid #e60012
+
+.errorInput {
+  border: 1px solid #e60012
+}
+
+
+.mat-snack-bar-container .flex {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.SussesSnackClass {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+
+.ErrorSnackClass {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
 }
 
 @media (min-width: 768px) {

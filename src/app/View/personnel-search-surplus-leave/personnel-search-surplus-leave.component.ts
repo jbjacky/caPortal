@@ -86,7 +86,6 @@ export class PersonnelSearchSurplusLeaveComponent implements OnInit, OnDestroy {
       "ListAbsFlow": null
     }
     this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(EmpID)
-
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (GetBaseInfoDetail: GetBaseInfoDetailClass[]) => {
@@ -287,8 +286,9 @@ export class PersonnelSearchSurplusLeaveComponent implements OnInit, OnDestroy {
         EffectDate: _NowToday
       }
       this.LoadingPage.show()
-      this.GetApiDataServiceService.getWebApiData_GetBaseByForm(GetBaseByFormClass).
-        subscribe((x: any) => {
+      this.GetApiDataServiceService.getWebApiData_GetBaseByForm(GetBaseByFormClass)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((x: any) => {
           if (x == null) {
             // alert('工號輸入錯誤')
             this.Assistant(GetBaseByFormClass)
@@ -328,12 +328,14 @@ export class PersonnelSearchSurplusLeaveComponent implements OnInit, OnDestroy {
           this.SearchMan.EmpNameC = ''
           this.errorLeavemanState = { state: true, errorString: '非同單位或無該部門的行政權限' }
           $("#leavejobid").addClass("errorInput");
+          this.LoadingPage.hide();
         }
         else if (x.length == 0) {
           // alert('工號輸入錯誤')
           this.SearchMan.EmpNameC = ''
           this.errorLeavemanState = { state: true, errorString: '非同單位或無該部門的行政權限' }
           $("#leavejobid").addClass("errorInput");
+          this.LoadingPage.hide();
         }
         else {
           // alert('工號正確')

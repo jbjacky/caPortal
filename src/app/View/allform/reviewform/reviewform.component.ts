@@ -22,6 +22,14 @@ import { GetFlowSignAbsApiDataClass } from 'src/app/Models/GetFlowSignAbsApiData
 import { GetFlowSignAbscApiDataClass } from 'src/app/Models/GetFlowSignAbscApiDataClass';
 import { GetFlowSignCardApiDataClass } from 'src/app/Models/GetFlowSignCardApiDataClass';
 import { GetFlowSignShiftRoteApiDataClass } from 'src/app/Models/GetFlowSignShiftRoteApiDataClass';
+import { MatSnackBar } from '@angular/material';
+import { SussesApproveSnackComponent } from '../../shareComponent/snackbar/susses-approve-snack/susses-approve-snack.component';
+import { SnackSetting } from '../../shareComponent/snackbar/SnackSetting';
+import { ErrorApproveSnackComponent } from '../../shareComponent/snackbar/error-approve-snack/error-approve-snack.component';
+import { SussesPutForwardSnackComponent } from '../../shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
+import { ErrorPutForwardSnackComponent } from '../../shareComponent/snackbar/error-put-forward-snack/error-put-forward-snack.component';
+import { SussesSendbackSnackComponent } from '../../shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
+import { ErrorSendbackSnackComponent } from '../../shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
 declare let $: any; //use jquery
 
 @Component({
@@ -54,7 +62,8 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     public ReviewformServiceService: ReviewformServiceService,
     private GetApiUserService: GetApiUserService,
     private router: Router,
-    private LoadingPage: NgxSpinnerService) { }
+    private LoadingPage: NgxSpinnerService,
+    private SnackBar: MatSnackBar) { }
   // loading: boolean;
 
   FirstEmpCode: string = ''
@@ -670,11 +679,25 @@ export class ReviewformComponent implements OnInit, OnDestroy {
               (x: FlowNodeFinishGetDataClass) => {
                 this.LoadingPage.hide()
                 if (x.Finish) {
-                  $('#Approveddialog_sussesdialog').modal('show');
-                  document.getElementById("bt_Sus_Apr").focus();
+                  // $('#Approveddialog_sussesdialog').modal('show');
+                  // document.getElementById("bt_Sus_Apr").focus();
+                  this.SnackBar.openFromComponent(SussesApproveSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
                   this.ReloadData()
                 } else {
-                  alert(x.MessageContent)
+                  // alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
+                    data: x.MessageContent.toString(),
+                    panelClass: x.MessageContent,
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
                 }
               }
             )
@@ -720,11 +743,25 @@ export class ReviewformComponent implements OnInit, OnDestroy {
               (x: FlowNodeFinishGetDataClass) => {
                 this.LoadingPage.hide()
                 if (x.Finish) {
-                  $('#Sendbackdialog_sussesdialog').modal('show');
-                  document.getElementById("bt_Sus_Sbk").focus();
+                  // $('#Sendbackdialog_sussesdialog').modal('show');
+                  // document.getElementById("bt_Sus_Sbk").focus();
+                  this.SnackBar.openFromComponent(SussesSendbackSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
                   this.ReloadData()
                 } else {
-                  alert(x.MessageContent)
+                  // alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorSendbackSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
                 }
               }
             )
@@ -774,11 +811,25 @@ export class ReviewformComponent implements OnInit, OnDestroy {
                 (x: FlowNodeFinishGetDataClass) => {
                   this.LoadingPage.hide()
                   if (x.Finish) {
-                    $('#PutForwarddialog_sussesdialog').modal('show');
-                    document.getElementById("bt_Sus_Put").focus();
+                    // $('#PutForwarddialog_sussesdialog').modal('show');
+                    // document.getElementById("bt_Sus_Put").focus();
+                    this.SnackBar.openFromComponent(SussesPutForwardSnackComponent, {
+                      data: null,
+                      panelClass: 'SussesSnackClass',
+                      duration: SnackSetting.duration,
+                      verticalPosition: SnackSetting.verticalPosition,
+                      horizontalPosition: SnackSetting.horizontalPosition
+                    });
                     this.ReloadData()
                   } else {
-                    alert(x.MessageContent)
+                    // alert(x.MessageContent)
+                    this.SnackBar.openFromComponent(ErrorPutForwardSnackComponent, {
+                      data: x.MessageContent,
+                      panelClass: 'ErrorSnackClass',
+                      duration: SnackSetting.duration,
+                      verticalPosition: SnackSetting.verticalPosition,
+                      horizontalPosition: SnackSetting.horizontalPosition
+                    });
                   }
                 }
               )

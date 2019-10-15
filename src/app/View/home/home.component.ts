@@ -31,6 +31,16 @@ import { Router, NavigationEnd } from '@angular/router';
 import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
 import { Location } from '@angular/common';
 import { GetAttendExceptionalCountClass } from 'src/app/Models/PostData_API_Class/GetAttendExceptionalCountClass';
+import { MatSnackBar } from '@angular/material';
+import { SussesSnackComponent } from '../shareComponent/snackbar/susses-snack/susses-snack.component';
+import { ErrorSnackComponent } from '../shareComponent/snackbar/error-snack/error-snack.component';
+import { SnackSetting } from '../shareComponent/snackbar/SnackSetting';
+import { SussesApproveSnackComponent } from '../shareComponent/snackbar/susses-approve-snack/susses-approve-snack.component';
+import { ErrorApproveSnackComponent } from '../shareComponent/snackbar/error-approve-snack/error-approve-snack.component';
+import { SussesPutForwardSnackComponent } from '../shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
+import { ErrorPutForwardSnackComponent } from '../shareComponent/snackbar/error-put-forward-snack/error-put-forward-snack.component';
+import { SussesSendbackSnackComponent } from '../shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
+import { ErrorSendbackSnackComponent } from '../shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
 declare var $: any;
 @Component({
   selector: 'app-home',
@@ -64,7 +74,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     private GetApiDataServiceService: GetApiDataServiceService,
     private LoadingPage: NgxSpinnerService,
     private FileDownloadService: FileDownloadService,
-    private location: Location) {
+    private location: Location,
+    private SnackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -637,15 +648,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  showContentClass(length:number) {
-    if ((length+1) == this.weekjobs.length) {
+  showContentClass(length: number) {
+    if ((length + 1) == this.weekjobs.length) {
       return "weekdatecontent_lastday"
     } else {
       return "weekdatecontent"
     }
   }
-  showTitleClass(length:number) {
-    if ((length+1) == this.weekjobs.length) {
+  showTitleClass(length: number) {
+    if ((length + 1) == this.weekjobs.length) {
       return "weekdate_lastday"
     } else {
       return "weekdate"
@@ -763,7 +774,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  AttendExceptionalCount:number = 0
+  AttendExceptionalCount: number = 0
   setGetAttendExceptionalCount(EmpID: string) {
     var today = new Date()
     var GetAttendExceptionalCount: GetAttendExceptionalCountClass = {
@@ -798,6 +809,68 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
+  // bt_ApproveSusses() {
+  //   this.SnackBar.openFromComponent(SussesApproveSnackComponent, {
+  //     data: null,
+  //     panelClass: 'SussesSnackClass',
+  //     duration: SnackSetting.duration,
+  //     verticalPosition: SnackSetting.verticalPosition,
+  //     horizontalPosition: SnackSetting.horizontalPosition
+  //   });
+  //   this.router.navigateByUrl('/nav/reviewform')
+  // }
+  // bt_ApproveError() {
+
+  //   this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
+  //     data: '資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常',
+  //     panelClass: 'ErrorSnackClass',
+  //     duration: SnackSetting.duration,
+  //     verticalPosition: SnackSetting.verticalPosition,
+  //     horizontalPosition: SnackSetting.horizontalPosition
+  //   });
+  // }
+
+  // bt_SendbackSusses() {
+  //   this.SnackBar.openFromComponent(SussesSendbackSnackComponent, {
+  //     data: null,
+  //     panelClass: 'SussesSnackClass',
+  //     duration: SnackSetting.duration,
+  //     verticalPosition: SnackSetting.verticalPosition,
+  //     horizontalPosition: SnackSetting.horizontalPosition
+  //   });
+  //   this.router.navigateByUrl('/nav/reviewform')
+  // }
+  // bt_SendbackError() {
+
+  //   this.SnackBar.openFromComponent(ErrorSendbackSnackComponent, {
+  //     data: '資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常',
+  //     panelClass: 'ErrorSnackClass',
+  //     duration: SnackSetting.duration,
+  //     verticalPosition: SnackSetting.verticalPosition,
+  //     horizontalPosition: SnackSetting.horizontalPosition
+  //   });
+  // }
+
+  // bt_PutForwardSusses() {
+  //   this.SnackBar.openFromComponent(SussesPutForwardSnackComponent, {
+  //     data: null,
+  //     panelClass: 'SussesSnackClass',
+  //     duration: SnackSetting.duration,
+  //     verticalPosition: SnackSetting.verticalPosition,
+  //     horizontalPosition: SnackSetting.horizontalPosition
+  //   });
+  //   this.router.navigateByUrl('/nav/reviewform')
+  // }
+  // bt_PutForwardError() {
+
+  //   this.SnackBar.openFromComponent(ErrorPutForwardSnackComponent, {
+  //     data: '資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常',
+  //     panelClass: 'ErrorSnackClass',
+  //     duration: SnackSetting.duration,
+  //     verticalPosition: SnackSetting.verticalPosition,
+  //     horizontalPosition: SnackSetting.horizontalPosition
+  //   });
+  // }
 }
 class weekjobs {
   realdate: string;

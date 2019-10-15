@@ -207,13 +207,8 @@ export class SignProxymanComponent implements OnInit, AfterContentInit, OnDestro
           this.SetAgentArray.sort((a: GetCheckAgentClass, b: GetCheckAgentClass) => {
             return a.Sort - b.Sort;
           });
-          var today = new Date() 
-          var GetCheckAgentByTargetGetApi: GetCheckAgentByTargetGetApiClass = {
-            "SignEmpID": EmpID.toString(),
-            "SignRoleID": "",
-            "SignDate": doFormatDate(today)
-          }
-          this.GetApiDataServiceService.getWebApiData_GetCheckAgentBySource(GetCheckAgentByTargetGetApi)
+          
+          this.GetApiDataServiceService.getWebApiData_GetCheckAgentBySource(EmpID)
             .pipe(takeWhile(() => this.api_subscribe))
             .subscribe(
               (y: GetCheckAgentClass[]) => {

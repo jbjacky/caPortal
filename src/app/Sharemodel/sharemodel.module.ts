@@ -29,13 +29,12 @@ import { SearchChangeDetailRZComponent } from '../View/shareComponent/search-cha
 import { SearchChangeDetailDRComponent } from '../View/shareComponent/search-change-detail-dr/search-change-detail-dr.component';
 import { QuillModule } from 'ngx-quill'
 import { SafeHtmlPipe } from '../UseVoid/safeHtmlPipe';
-import { MatPaginatorModule } from '@angular/material';
+import { MatPaginatorModule, MatSnackBarModule, MatIconModule, MatButtonModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FormConditionComponent } from '../View/shareComponent/form-condition/form-condition.component';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker/dist/ngx-my-date-picker.module';
 import { SimulationClalenderComponent } from '../View/shareComponent/simulation-clalender/simulation-clalender.component';
-import {MatIconModule} from '@angular/material/icon';
 import { ChoosebaselevelComponent } from '../View/shareComponent/choosebaselevel/choosebaselevel.component';
 import { SerchkeybaselevelComponent } from '../View/shareComponent/serchkeybaselevel/serchkeybaselevel.component';
 import { ChoosebaseMAComponent } from '../View/shareComponent/choosebase-ma/choosebase-ma.component';
@@ -51,6 +50,14 @@ import { FromSignComponent } from '../View/shareComponent/from-sign/from-sign.co
 import { FromSignTableComponent } from '../View/shareComponent/from-sign-table/from-sign-table.component';
 import { SearchRoteSumComponent } from '../View/shareComponent/search-rote-sum/search-rote-sum.component';
 import { RoteInfComponent } from '../View/shareComponent/rote-inf/rote-inf.component';
+import { SussesSnackComponent } from '../View/shareComponent/snackbar/susses-snack/susses-snack.component';
+import { ErrorSnackComponent } from '../View/shareComponent/snackbar/error-snack/error-snack.component';
+import { SussesApproveSnackComponent } from '../View/shareComponent/snackbar/susses-approve-snack/susses-approve-snack.component';
+import { ErrorApproveSnackComponent } from '../View/shareComponent/snackbar/error-approve-snack/error-approve-snack.component';
+import { ErrorPutForwardSnackComponent } from '../View/shareComponent/snackbar/error-put-forward-snack/error-put-forward-snack.component';
+import { SussesPutForwardSnackComponent } from '../View/shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
+import { SussesSendbackSnackComponent } from '../View/shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
+import { ErrorSendbackSnackComponent } from '../View/shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
 
 @NgModule({
   imports: [
@@ -65,6 +72,8 @@ import { RoteInfComponent } from '../View/shareComponent/rote-inf/rote-inf.compo
     NgxSpinnerModule,
     NgxMyDatePickerModule.forRoot(),
     MatIconModule,
+    MatButtonModule,
+    MatSnackBarModule,
     MatCheckboxModule
   ],
   exports:[
@@ -99,7 +108,9 @@ import { RoteInfComponent } from '../View/shareComponent/rote-inf/rote-inf.compo
     MatDatepickerModule,
     FormConditionComponent,
     NgxMyDatePickerModule,
+    MatSnackBarModule,
     MatIconModule,
+    MatButtonModule,
     ChoosebaseMAComponent,
     ChoosedeptMAComponent,
     SearchkeydeptMAComponent,
@@ -111,8 +122,15 @@ import { RoteInfComponent } from '../View/shareComponent/rote-inf/rote-inf.compo
     FromSignComponent,
     FromSignTableComponent,
     SearchRoteSumComponent,
-    RoteInfComponent
-
+    RoteInfComponent,
+    SussesSnackComponent,
+    ErrorSnackComponent,
+    SussesApproveSnackComponent,
+    ErrorApproveSnackComponent,
+    ErrorPutForwardSnackComponent,
+    SussesPutForwardSnackComponent,
+    SussesSendbackSnackComponent,
+    ErrorSendbackSnackComponent,
   ],
   providers: [
     LZStringService,
@@ -157,8 +175,27 @@ import { RoteInfComponent } from '../View/shareComponent/rote-inf/rote-inf.compo
     FromSignComponent,
     FromSignTableComponent,
     SearchRoteSumComponent,
-    RoteInfComponent
+    RoteInfComponent,
+    
+    SussesSnackComponent,
+    ErrorSnackComponent,
+    SussesApproveSnackComponent,
+    ErrorApproveSnackComponent,
+    ErrorPutForwardSnackComponent,
+    SussesPutForwardSnackComponent,
+    SussesSendbackSnackComponent,
+    ErrorSendbackSnackComponent,
 
-  ]
+  ],
+  entryComponents: [
+    SussesSnackComponent,
+    ErrorSnackComponent,
+    SussesApproveSnackComponent,
+    ErrorApproveSnackComponent,
+    ErrorPutForwardSnackComponent,
+    SussesPutForwardSnackComponent,
+    SussesSendbackSnackComponent,
+    ErrorSendbackSnackComponent,
+  ],
 })
 export class SharemodelModule { }

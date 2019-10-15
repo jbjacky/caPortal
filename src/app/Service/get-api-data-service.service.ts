@@ -988,11 +988,11 @@ export class GetApiDataServiceService {
   }
 
   /**
-   * @todo 取得你那些人設定你為代理人
+   * @todo 取得"被"代理人資訊
    */
-  getWebApiData_GetCheckAgentBySource(GetCheckAgentByTargetGetApi: GetCheckAgentByTargetGetApiClass) {
-    return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetCheckAgentByTarget',
-      JSON.stringify(GetCheckAgentByTargetGetApi), {
+  getWebApiData_GetCheckAgentBySource(EmpID: string) {
+    return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetCheckBeAgent',
+      JSON.stringify(EmpID), {
         headers: this.GetHeader()
       })
   }

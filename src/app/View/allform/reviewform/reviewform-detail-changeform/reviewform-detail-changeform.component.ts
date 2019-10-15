@@ -15,6 +15,14 @@ import { sendEmpPersonnelClass } from 'src/app/Models/sendEmpPersonnelClass';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { FlowNodeFinishGetDataClass } from 'src/app/Models/FlowNodeFinishGetDataClass';
+import { MatSnackBar } from '@angular/material';
+import { SussesApproveSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-approve-snack/susses-approve-snack.component';
+import { SnackSetting } from 'src/app/View/shareComponent/snackbar/SnackSetting';
+import { ErrorApproveSnackComponent } from 'src/app/View/shareComponent/snackbar/error-approve-snack/error-approve-snack.component';
+import { SussesSendbackSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
+import { ErrorSendbackSnackComponent } from 'src/app/View/shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
+import { SussesPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
+import { ErrorPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/error-put-forward-snack/error-put-forward-snack.component';
 
 declare let $: any; //use jquery;
 
@@ -51,7 +59,8 @@ export class ReviewformDetailChangeformComponent implements OnInit, OnDestroy {
     private LoadingPage: NgxSpinnerService,
     private GetApiDataServiceService: GetApiDataServiceService,
     private router: Router,
-    private GetApiUserService: GetApiUserService) { }
+    private GetApiUserService: GetApiUserService,
+    private SnackBar: MatSnackBar) { }
   desktopOrphone() {
     if (window.innerWidth > 768) {
       this.inbodybuttomdiv = 'inherit';
@@ -196,31 +205,43 @@ export class ReviewformDetailChangeformComponent implements OnInit, OnDestroy {
               DeptID: '',
               PosID: ''
             },
-            CheckEmpID:this.ReviewformServiceService.showReviewMan.EmpCode
+            CheckEmpID: this.ReviewformServiceService.showReviewMan.EmpCode
           }
           // console.log(FlowNodeFinish)
           this.LoadingPage.show()
           this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish)
-          .pipe(takeWhile(() => this.api_subscribe))
-          .subscribe(
-            (x: FlowNodeFinishGetDataClass) => {
-              this.LoadingPage.hide()
-              if (x.Finish) {
-                $('#Approveddialog_sussesdialog').modal('show');
-              }else{
-                alert(x.MessageContent)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (x: FlowNodeFinishGetDataClass) => {
+                this.LoadingPage.hide()
+                if (x.Finish) {
+                  // $('#Approveddialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesApproveSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
+                } else {
+                  // alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                }
+              },
+              error => {
+                this.LoadingPage.hide()
               }
-              this.LoadingPage.hide()
-            },
-            error => {
-              this.LoadingPage.hide()
-              // alert('與api連線異常，getWebApiData_FlowNodeFinish')
-            }
-          )
+            )
         },
         error => {
           this.LoadingPage.hide()
-          // alert('與api連線異常，getWebApiData_FlowNodeFinish')
         }
       )
   }
@@ -252,27 +273,41 @@ export class ReviewformDetailChangeformComponent implements OnInit, OnDestroy {
               DeptID: '',
               PosID: ''
             },
-            CheckEmpID:this.ReviewformServiceService.showReviewMan.EmpCode
+            CheckEmpID: this.ReviewformServiceService.showReviewMan.EmpCode
           }
           // console.log(FlowNodeFinish)
           this.LoadingPage.show()
           this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish)
-          .pipe(takeWhile(() => this.api_subscribe))
-          .subscribe(
-            (x: FlowNodeFinishGetDataClass) => {
-              this.LoadingPage.hide()
-              if (x.Finish) {
-                $('#Sendbackdialog_sussesdialog').modal('show');
-              }else{
-                alert(x.MessageCode)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (x: FlowNodeFinishGetDataClass) => {
+                this.LoadingPage.hide()
+                if (x.Finish) {
+                  // $('#Sendbackdialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesSendbackSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
+                } else {
+                  // alert(x.MessageCode)
+                  this.SnackBar.openFromComponent(ErrorSendbackSnackComponent, {
+                    data: x.MessageCode,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                }
+                this.LoadingPage.hide()
+              },
+              error => {
+                this.LoadingPage.hide()
               }
-              this.LoadingPage.hide()
-            },
-            error => {
-              this.LoadingPage.hide()
-              // alert('與api連線異常，getWebApiData_FlowNodeFinish')
-            }
-          )
+            )
         },
         error => {
           this.LoadingPage.hide()
@@ -305,30 +340,43 @@ export class ReviewformDetailChangeformComponent implements OnInit, OnDestroy {
               FlowNode: this.ReviewformServiceService.changeDetail.FlowNodeID,
               RoleID: '',
               EmpID: this.FlowDynamic_Base.EmpID.toString(),
-              DeptID:this.FlowDynamic_Base.DeptaID.toString(),
-              PosID:this.FlowDynamic_Base.JobID.toString(),
+              DeptID: this.FlowDynamic_Base.DeptaID.toString(),
+              PosID: this.FlowDynamic_Base.JobID.toString(),
             },
-            CheckEmpID:this.ReviewformServiceService.showReviewMan.EmpCode
+            CheckEmpID: this.ReviewformServiceService.showReviewMan.EmpCode
           }
           // console.log(FlowNodeFinish)
           this.LoadingPage.show()
           this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish)
-          .pipe(takeWhile(() => this.api_subscribe))
-          .subscribe(
-            (x: FlowNodeFinishGetDataClass) => {
-              this.LoadingPage.hide()
-              if (x.Finish) {
-                $('#PutForwarddialog_sussesdialog').modal('show');
-              }else{
-                alert(x.MessageContent)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (x: FlowNodeFinishGetDataClass) => {
+                this.LoadingPage.hide()
+                if (x.Finish) {
+                  // $('#PutForwarddialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesPutForwardSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
+                } else {
+                  // alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorPutForwardSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                }
+              },
+              error => {
+                this.LoadingPage.hide()
               }
-              this.LoadingPage.hide()
-            },
-            error => {
-              this.LoadingPage.hide()
-              // alert('與api連線異常，getWebApiData_FlowNodeFinish')
-            }
-          )
+            )
         },
         error => {
           this.LoadingPage.hide()
@@ -336,11 +384,6 @@ export class ReviewformDetailChangeformComponent implements OnInit, OnDestroy {
         }
       )
 
-    // this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish).subscribe(
-    //   x=>{
-
-    //   }
-    // )
   }
   sendFinish() {
     this.backReview()
@@ -358,20 +401,20 @@ export class ReviewformDetailChangeformComponent implements OnInit, OnDestroy {
     }
   }
 
-  signRecordDialog:boolean = false
-  show_signRecord(){
-    if(!this.signRecordDialog){
+  signRecordDialog: boolean = false
+  show_signRecord() {
+    if (!this.signRecordDialog) {
       this.signRecordDialog = true
     }
     $('#signRecord').modal('show')
   }
-  
+
   private Be_setGetRoteInfo$: BehaviorSubject<any> = new BehaviorSubject<Array<number>>(null);
   Ob_setGetRoteInfo$: Observable<any> = this.Be_setGetRoteInfo$;
-  
-  bt_Show_RoteInfo(oneSearchRoteID:number) {
+
+  bt_Show_RoteInfo(oneSearchRoteID: number) {
     var searchRoteID: Array<number> = []
-    if(oneSearchRoteID){
+    if (oneSearchRoteID) {
       searchRoteID.push(oneSearchRoteID)
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf').modal('show')

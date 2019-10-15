@@ -23,13 +23,14 @@ import { RouteReuseStrategy } from '@angular/router';
 import { AppRoutingCache } from './_guards/AppRoutingCache';
 import { TimeoutInterceptor } from './_guards/TimeoutInterceptor';
 import { ErrorStateService } from './Service/error-state.service';
+import { MatSnackBarModule, MAT_SNACK_BAR_DATA } from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ErrorPageComponent,
     LinkOuthpageComponent,
-    CheckLoginPageComponent
+    CheckLoginPageComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +51,8 @@ import { ErrorStateService } from './Service/error-state.service';
       useClass: RequestInterceptor,
       multi: true,
     },
-    [{ provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true }]
+    [{ provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true }],
+    [ { provide: MAT_SNACK_BAR_DATA, useValue: {} }]
   ],
   bootstrap: [AppComponent],
 })

@@ -26,6 +26,14 @@ import { GetFlowViewAbsGetApiDataClass } from 'src/app/Models/GetFlowViewAbsGetA
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { FlowNodeFinishGetDataClass } from 'src/app/Models/FlowNodeFinishGetDataClass';
 import { vaRote } from 'src/app/Models/vaform';
+import { MatSnackBar } from '@angular/material';
+import { SussesApproveSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-approve-snack/susses-approve-snack.component';
+import { SnackSetting } from 'src/app/View/shareComponent/snackbar/SnackSetting';
+import { ErrorApproveSnackComponent } from 'src/app/View/shareComponent/snackbar/error-approve-snack/error-approve-snack.component';
+import { SussesSendbackSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
+import { ErrorSendbackSnackComponent } from 'src/app/View/shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
+import { SussesPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
+import { ErrorPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/error-put-forward-snack/error-put-forward-snack.component';
 
 declare let $: any; //use jquery
 
@@ -76,7 +84,8 @@ export class ReviewformDetailVacationComponent implements OnInit, OnDestroy, Aft
     private GetApiDataServiceService: GetApiDataServiceService,
     private FileDownloadService: FileDownloadService,
     private LoadingPage: NgxSpinnerService,
-    private GetApiUserService: GetApiUserService) {
+    private GetApiUserService: GetApiUserService,
+    private SnackBar: MatSnackBar) {
   }
 
   desktopOrphone() {
@@ -317,7 +326,7 @@ export class ReviewformDetailVacationComponent implements OnInit, OnDestroy, Aft
               allMinute = data.UseDayHourMinute.Minute
 
               this.vaSearchFlowSign.push({
-                uiHolidayName:data.ListHoliDayNameC,
+                uiHolidayName: data.ListHoliDayNameC,
                 ProcessFlowID: data.ProcessFlowID,
                 showProcessFlowID: void_completionTenNum(data.ProcessFlowID),
                 EmpCode: data.EmpID,//申請人工號
@@ -507,15 +516,29 @@ export class ReviewformDetailVacationComponent implements OnInit, OnDestroy, Aft
               (x: FlowNodeFinishGetDataClass) => {
                 this.LoadingPage.hide()
                 if (x.Finish) {
-                  $('#Approveddialog_sussesdialog').modal('show');
+                  // $('#Approveddialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesApproveSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
                 } else {
-                  alert(x.MessageContent)
+                  // alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
                 }
                 this.LoadingPage.hide()
               },
               error => {
                 this.LoadingPage.hide()
-                // alert('與api連線異常，getWebApiData_FlowNodeFinish')
               }
             )
         },
@@ -565,15 +588,29 @@ export class ReviewformDetailVacationComponent implements OnInit, OnDestroy, Aft
               (x: FlowNodeFinishGetDataClass) => {
                 this.LoadingPage.hide()
                 if (x.Finish) {
-                  $('#Sendbackdialog_sussesdialog').modal('show');
+                  // $('#Sendbackdialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesSendbackSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
                 } else {
-                  alert(x.MessageContent)
+                  // alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorSendbackSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
                 }
                 this.LoadingPage.hide()
               },
               error => {
                 this.LoadingPage.hide()
-                // alert('與api連線異常，getWebApiData_FlowNodeFinish')
               }
             )
         }
@@ -619,15 +656,29 @@ export class ReviewformDetailVacationComponent implements OnInit, OnDestroy, Aft
               (x: FlowNodeFinishGetDataClass) => {
                 this.LoadingPage.hide()
                 if (x.Finish) {
-                  $('#PutForwarddialog_sussesdialog').modal('show');
+                  // $('#PutForwarddialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesPutForwardSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
                 } else {
-                  alert(x.MessageContent)
+                  // alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorPutForwardSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
                 }
                 this.LoadingPage.hide()
               },
               error => {
                 this.LoadingPage.hide()
-                // alert('與api連線異常，getWebApiData_FlowNodeFinish')
               }
 
             )

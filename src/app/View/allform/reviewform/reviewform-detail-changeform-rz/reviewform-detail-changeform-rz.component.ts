@@ -20,6 +20,14 @@ import { sendEmpPersonnelClass } from 'src/app/Models/sendEmpPersonnelClass';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { GetShiftRoteFlowAppsByProcessFlowIDDataClass } from 'src/app/Models/GetShiftRoteFlowAppsByProcessFlowIDDataClass';
 import { FlowNodeFinishGetDataClass } from 'src/app/Models/FlowNodeFinishGetDataClass';
+import { SussesApproveSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-approve-snack/susses-approve-snack.component';
+import { ErrorApproveSnackComponent } from 'src/app/View/shareComponent/snackbar/error-approve-snack/error-approve-snack.component';
+import { SnackSetting } from 'src/app/View/shareComponent/snackbar/SnackSetting';
+import { SussesSendbackSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
+import { ErrorSendbackSnackComponent } from 'src/app/View/shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
+import { SussesPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
+import { ErrorPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/error-put-forward-snack/error-put-forward-snack.component';
+import { MatSnackBar } from '@angular/material';
 declare let $: any; //use jquery;
 
 @Component({
@@ -72,7 +80,8 @@ export class ReviewformDetailChangeformRZComponent implements OnInit, OnDestroy 
     private viewScroller: ViewportScroller,
     private router: Router,
     public ReviewformServiceService: ReviewformServiceService,
-    private LoadingPage: NgxSpinnerService) { }
+    private LoadingPage: NgxSpinnerService,
+    private SnackBar: MatSnackBar) { }
 
   uishowProcessFlowID
 
@@ -350,21 +359,34 @@ export class ReviewformDetailChangeformRZComponent implements OnInit, OnDestroy 
           // console.log(FlowNodeFinish)
           this.LoadingPage.show()
           this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish)
-          .pipe(takeWhile(() => this.api_subscribe))
-          .subscribe(
-            (x: FlowNodeFinishGetDataClass) => {
-              this.LoadingPage.hide()
-              if (x.Finish) {
-                $('#Approveddialog_sussesdialog').modal('show');
-              }else{
-                alert(x.MessageContent)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (x: FlowNodeFinishGetDataClass) => {
+                this.LoadingPage.hide()
+                if (x.Finish) {
+                  // $('#Approveddialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesApproveSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
+                } else {
+                  // alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                }
+              }, error => {
+                this.LoadingPage.hide()
               }
-              this.LoadingPage.hide()
-            }, error => {
-              this.LoadingPage.hide()
-              // alert('api連線異常，getWebApiData_FlowNodeFinish')
-            }
-          )
+            )
         }, error => {
           this.LoadingPage.hide()
           // alert('api連線異常，getWebApiData_GetManInfo')
@@ -404,21 +426,34 @@ export class ReviewformDetailChangeformRZComponent implements OnInit, OnDestroy 
           // console.log(FlowNodeFinish)
           this.LoadingPage.show()
           this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish)
-          .pipe(takeWhile(() => this.api_subscribe))
-          .subscribe(
-            (x: FlowNodeFinishGetDataClass) => {
-              this.LoadingPage.hide()
-              if (x.Finish) {
-                $('#Sendbackdialog_sussesdialog').modal('show');
-              }else{
-                alert(x.MessageContent)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (x: FlowNodeFinishGetDataClass) => {
+                this.LoadingPage.hide()
+                if (x.Finish) {
+                  // $('#Sendbackdialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesSendbackSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
+                } else {
+                  // alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorSendbackSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                }
+              }, error => {
+                this.LoadingPage.hide()
               }
-              this.LoadingPage.hide()
-            }, error => {
-              this.LoadingPage.hide()
-              // alert('api連線異常，getWebApiData_FlowNodeFinish')
-            }
-          )
+            )
         }, error => {
           this.LoadingPage.hide()
           // alert('api連線異常，getWebApiData_GetManInfo')
@@ -458,54 +493,61 @@ export class ReviewformDetailChangeformRZComponent implements OnInit, OnDestroy 
           // console.log(FlowNodeFinish)
           this.LoadingPage.show()
           this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish)
-          .pipe(takeWhile(() => this.api_subscribe))
-          .subscribe(
-            (x: FlowNodeFinishGetDataClass) => {
-              this.LoadingPage.hide()
-              if (x.Finish) {
-                $('#PutForwarddialog_sussesdialog').modal('show');
-              }else{
-                alert(x.MessageContent)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (x: FlowNodeFinishGetDataClass) => {
+                this.LoadingPage.hide()
+                if (x.Finish) {
+                  // $('#PutForwarddialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesPutForwardSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
+                } else {
+                  alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorPutForwardSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                }
+              },
+              error => {
+                this.LoadingPage.hide()
               }
-              this.LoadingPage.hide()
-            },
-            error => {
-              this.LoadingPage.hide()
-              // alert('與api連線異常，getWebApiData_FlowNodeFinish')
-            }
-          )
+            )
         },
         error => {
           this.LoadingPage.hide()
           // alert('與api連線異常，getWebApiData_GetManInfo')
         }
       )
-
-    // this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish).subscribe(
-    //   x=>{
-
-    //   }
-    // )
   }
   sendFinish() {
     this.backReview()
     this.router.navigate(['../nav/reviewform']);
   }
-  
-  signRecordDialog:boolean = false
-  show_signRecord(){
-    if(!this.signRecordDialog){
+
+  signRecordDialog: boolean = false
+  show_signRecord() {
+    if (!this.signRecordDialog) {
       this.signRecordDialog = true
     }
     $('#signRecord').modal('show')
   }
-  
+
   private Be_setGetRoteInfo$: BehaviorSubject<any> = new BehaviorSubject<Array<number>>(null);
   Ob_setGetRoteInfo$: Observable<any> = this.Be_setGetRoteInfo$;
-  
-  bt_Show_RoteInfo(oneSearchRoteID:number) {
+
+  bt_Show_RoteInfo(oneSearchRoteID: number) {
     var searchRoteID: Array<number> = []
-    if(oneSearchRoteID){
+    if (oneSearchRoteID) {
       searchRoteID.push(oneSearchRoteID)
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf').modal('show')

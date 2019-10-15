@@ -20,6 +20,14 @@ import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { reallyData_P } from 'src/app/Models/reallyData_P';
 import { FlowNodeFinishGetDataClass } from 'src/app/Models/FlowNodeFinishGetDataClass';
 import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
+import { SussesApproveSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-approve-snack/susses-approve-snack.component';
+import { SnackSetting } from 'src/app/View/shareComponent/snackbar/SnackSetting';
+import { ErrorApproveSnackComponent } from 'src/app/View/shareComponent/snackbar/error-approve-snack/error-approve-snack.component';
+import { SussesSendbackSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
+import { ErrorSendbackSnackComponent } from 'src/app/View/shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
+import { SussesPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
+import { ErrorPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/error-put-forward-snack/error-put-forward-snack.component';
+import { MatSnackBar } from '@angular/material';
 declare let $: any; //use jquery;
 
 @Component({
@@ -77,7 +85,8 @@ export class ReviewformDetailChangeformRRComponent implements OnInit, OnDestroy 
     private viewScroller: ViewportScroller,
     private router: Router,
     public ReviewformServiceService: ReviewformServiceService,
-    private LoadingPage: NgxSpinnerService) { }
+    private LoadingPage: NgxSpinnerService,
+    private SnackBar: MatSnackBar) { }
 
   uishowProcessFlowID
 
@@ -265,10 +274,10 @@ export class ReviewformDetailChangeformRRComponent implements OnInit, OnDestroy 
         oneP: oP.job,
         oneP_OnTime: oP.OnTime,
         oneP_OffTime: oP.OffTime,
-        onePRoteID:oP.RoteID,
+        onePRoteID: oP.RoteID,
         onePRoteName: oP.RoteName,
         twoP: '',
-        twoPRoteID:null,
+        twoPRoteID: null,
         twoPRoteName: '',
         twoP_OnTime: '',
         twoP_OffTime: '',
@@ -321,12 +330,12 @@ export class ReviewformDetailChangeformRRComponent implements OnInit, OnDestroy 
         realDate: Real.realDate,
         date: Real.date,
         oneP: Real.oneP,
-        onePRoteID:Real.onePRoteID,
+        onePRoteID: Real.onePRoteID,
         onePRoteName: Real.onePRoteName,
         oneP_OnTime: void_crossDay(Real.oneP_OnTime).EndTime,
         oneP_OffTime: void_crossDay(Real.oneP_OffTime).EndTime,
         twoP: Real.twoP,
-        twoPRoteID:Real.twoPRoteID,
+        twoPRoteID: Real.twoPRoteID,
         twoPRoteName: Real.twoPRoteName,
         twoP_OnTime: void_crossDay(Real.twoP_OnTime).EndTime,
         twoP_OffTime: void_crossDay(Real.twoP_OffTime).EndTime,
@@ -352,12 +361,12 @@ export class ReviewformDetailChangeformRRComponent implements OnInit, OnDestroy 
         realDate: Real.realDate,
         date: Real.date,
         oneP: Real.oneP,
-        onePRoteID:Real.onePRoteID,
+        onePRoteID: Real.onePRoteID,
         oneP_OnTime: void_crossDay(Real.oneP_OnTime).EndTime,
         oneP_OffTime: void_crossDay(Real.oneP_OffTime).EndTime,
         onePRoteName: Real.onePRoteName,
         twoP: Real.twoP,
-        twoPRoteID:Real.twoPRoteID,
+        twoPRoteID: Real.twoPRoteID,
         twoPRoteName: Real.twoPRoteName,
         twoP_OnTime: void_crossDay(Real.twoP_OnTime).EndTime,
         twoP_OffTime: void_crossDay(Real.twoP_OffTime).EndTime,
@@ -452,26 +461,38 @@ export class ReviewformDetailChangeformRRComponent implements OnInit, OnDestroy 
           // console.log(FlowNodeFinish)
           this.LoadingPage.show()
           this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish)
-          .pipe(takeWhile(() => this.api_subscribe))
-          .subscribe(
-            (x: FlowNodeFinishGetDataClass) => {
-              this.LoadingPage.hide()
-              if (x.Finish) {
-                $('#Approveddialog_sussesdialog').modal('show');
-              } else {
-                alert(x.MessageContent)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (x: FlowNodeFinishGetDataClass) => {
+                this.LoadingPage.hide()
+                if (x.Finish) {
+                  // $('#Approveddialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesApproveSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
+                } else {
+                  // alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                }
+              },
+              error => {
+                this.LoadingPage.hide()
               }
-              this.LoadingPage.hide()
-            },
-            error => {
-              this.LoadingPage.hide()
-              // alert('與api連線異常，getWebApiData_FlowNodeFinish')
-            }
-          )
+            )
         },
         error => {
           this.LoadingPage.hide()
-          // alert('與api連線異常，getWebApiData_FlowNodeFinish')
         }
       )
   }
@@ -513,15 +534,28 @@ export class ReviewformDetailChangeformRRComponent implements OnInit, OnDestroy 
               (x: FlowNodeFinishGetDataClass) => {
                 this.LoadingPage.hide()
                 if (x.Finish) {
-                  $('#Sendbackdialog_sussesdialog').modal('show');
+                  // $('#Sendbackdialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesSendbackSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
                 } else {
                   alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorSendbackSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
                 }
-                this.LoadingPage.hide()
               },
               error => {
                 this.LoadingPage.hide()
-                // alert('與api連線異常，getWebApiData_FlowNodeFinish')
               }
             )
         },
@@ -569,15 +603,29 @@ export class ReviewformDetailChangeformRRComponent implements OnInit, OnDestroy 
               (x: FlowNodeFinishGetDataClass) => {
                 this.LoadingPage.hide()
                 if (x.Finish) {
-                  $('#PutForwarddialog_sussesdialog').modal('show');
-                }else{
+                  // $('#PutForwarddialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesPutForwardSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
+                } else {
                   alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorPutForwardSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
                 }
                 this.LoadingPage.hide()
               },
               error => {
                 this.LoadingPage.hide()
-                // alert('與api連線異常，getWebApiData_FlowNodeFinish')
               }
             )
 
@@ -588,11 +636,6 @@ export class ReviewformDetailChangeformRRComponent implements OnInit, OnDestroy 
         }
       )
 
-    // this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish).subscribe(
-    //   x=>{
-
-    //   }
-    // )
   }
   sendFinish() {
     this.backReview()
@@ -604,21 +647,21 @@ export class ReviewformDetailChangeformRRComponent implements OnInit, OnDestroy 
     return doFormatDate_getMonthAndDay(formatDateTime(date).getDate)
   }
 
-  signRecordDialog:boolean = false
-  show_signRecord(){
-    if(!this.signRecordDialog){
+  signRecordDialog: boolean = false
+  show_signRecord() {
+    if (!this.signRecordDialog) {
       this.signRecordDialog = true
     }
     $('#signRecord').modal('show')
   }
 
-  
+
   private Be_setGetRoteInfo$: BehaviorSubject<any> = new BehaviorSubject<Array<number>>(null);
   Ob_setGetRoteInfo$: Observable<any> = this.Be_setGetRoteInfo$;
-  
-  bt_Show_RoteInfo(oneSearchRoteID:number) {
+
+  bt_Show_RoteInfo(oneSearchRoteID: number) {
     var searchRoteID: Array<number> = []
-    if(oneSearchRoteID){
+    if (oneSearchRoteID) {
       searchRoteID.push(oneSearchRoteID)
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf').modal('show')
@@ -630,12 +673,12 @@ export class uiShow {
   realDate: string
   date: string;
   oneP: string;
-  onePRoteID:number;
+  onePRoteID: number;
   onePRoteName: string;
   oneP_OnTime: string;
   oneP_OffTime: string;
   twoP: string;
-  twoPRoteID:number;
+  twoPRoteID: number;
   twoPRoteName: string
   twoP_OnTime: string;
   twoP_OffTime: string;

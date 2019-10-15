@@ -16,6 +16,14 @@ import { GetApiUserService } from 'src/app/Service/get-api-user.service';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { GetCardFlowAppsByProcessFlowIDDataClass } from 'src/app/Models/CardFlowAppsByProcessFlowID';
 import { FlowNodeFinishGetDataClass } from 'src/app/Models/FlowNodeFinishGetDataClass';
+import { MatSnackBar } from '@angular/material';
+import { SussesApproveSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-approve-snack/susses-approve-snack.component';
+import { SnackSetting } from 'src/app/View/shareComponent/snackbar/SnackSetting';
+import { ErrorApproveSnackComponent } from 'src/app/View/shareComponent/snackbar/error-approve-snack/error-approve-snack.component';
+import { SussesSendbackSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
+import { ErrorSendbackSnackComponent } from 'src/app/View/shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
+import { SussesPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
+import { ErrorPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/error-put-forward-snack/error-put-forward-snack.component';
 declare let $: any; //use jquery
 
 @Component({
@@ -55,7 +63,8 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
     private GetApiDataServiceService: GetApiDataServiceService,
     private LoadingPage: NgxSpinnerService,
     private FileDownloadService: FileDownloadService,
-    private GetApiUserService: GetApiUserService) { }
+    private GetApiUserService: GetApiUserService,
+    private SnackBar: MatSnackBar) { }
   desktopOrphone() {
     if (window.innerWidth > 768) {
       this.inbodybuttomdiv = 'inherit';
@@ -183,16 +192,16 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
     // console.log(upload.ServerName)
     // this.LoadingPage.show()
     this.GetApiDataServiceService.getWebApiData_GetUploadFileByStreamOnly(upload.ServerName)
-      // .pipe(takeWhile(() => this.api_subscribe))
-      // .subscribe(
-      //   (data: Array<any>) => {
-      //     // this.FileDownloadService.base64(data[0])
-      //     this.LoadingPage.hide()
-      //   }
-      //   , error => {
-      //     this.LoadingPage.hide()
-      //   }
-      // )
+    // .pipe(takeWhile(() => this.api_subscribe))
+    // .subscribe(
+    //   (data: Array<any>) => {
+    //     // this.FileDownloadService.base64(data[0])
+    //     this.LoadingPage.hide()
+    //   }
+    //   , error => {
+    //     this.LoadingPage.hide()
+    //   }
+    // )
     // this.FileDownloadService.base64(upload);
   }
   Approved_Click() {
@@ -223,26 +232,39 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
               DeptID: '',
               PosID: ''
             },
-            CheckEmpID:this.ReviewformServiceService.showReviewMan.EmpCode
+            CheckEmpID: this.ReviewformServiceService.showReviewMan.EmpCode
           }
           // console.log(FlowNodeFinish)
           this.LoadingPage.show()
           this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish)
-          .pipe(takeWhile(() => this.api_subscribe))
-          .subscribe(
-            (x: FlowNodeFinishGetDataClass) => {
-              this.LoadingPage.hide()
-              if (x.Finish) {
-                $('#Approveddialog_sussesdialog').modal('show');
-              }else{
-                alert(x.MessageContent)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (x: FlowNodeFinishGetDataClass) => {
+                this.LoadingPage.hide()
+                if (x.Finish) {
+                  // $('#Approveddialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesApproveSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
+                } else {
+                  // alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                }
+              }, error => {
+                this.LoadingPage.hide()
               }
-              this.LoadingPage.hide()
-            }, error => {
-              this.LoadingPage.hide()
-              // alert('與api連線異常，getWebApiData_FlowNodeFinish')
-            }
-          )
+            )
         }, error => {
           this.LoadingPage.hide()
           // alert('與api連線異常，getWebApiData_GetManInfo')
@@ -277,26 +299,39 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
               DeptID: '',
               PosID: ''
             },
-            CheckEmpID:this.ReviewformServiceService.showReviewMan.EmpCode
+            CheckEmpID: this.ReviewformServiceService.showReviewMan.EmpCode
           }
           // console.log(FlowNodeFinish)
           this.LoadingPage.show()
           this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish)
-          .pipe(takeWhile(() => this.api_subscribe))
-          .subscribe(
-            (x: FlowNodeFinishGetDataClass) => {
-              this.LoadingPage.hide()
-              if (x.Finish) {
-                $('#Sendbackdialog_sussesdialog').modal('show');
-              }else{
-                alert(x.MessageContent)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (x: FlowNodeFinishGetDataClass) => {
+                this.LoadingPage.hide()
+                if (x.Finish) {
+                  // $('#Sendbackdialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesSendbackSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
+                } else {
+                  alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorSendbackSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                }
+              }, error => {
+                this.LoadingPage.hide()
               }
-              this.LoadingPage.hide()
-            }, error => {
-              this.LoadingPage.hide()
-              // alert('與api連線異常，getWebApiData_FlowNodeFinish')
-            }
-          )
+            )
         }, error => {
           this.LoadingPage.hide()
           // alert('與api連線異常，getWebApiData_GetManInfo')
@@ -331,39 +366,46 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
               DeptID: this.FlowDynamic_Base.DeptaID.toString(),
               PosID: this.FlowDynamic_Base.JobID.toString()
             },
-            CheckEmpID:this.ReviewformServiceService.showReviewMan.EmpCode
+            CheckEmpID: this.ReviewformServiceService.showReviewMan.EmpCode
           }
           // console.log(FlowNodeFinish)
           this.LoadingPage.show()
           this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish)
-          .pipe(takeWhile(() => this.api_subscribe))
-          .subscribe(
-            (x: FlowNodeFinishGetDataClass) => {
-              this.LoadingPage.hide()
-              if (x.Finish) {
-                $('#PutForwarddialog_sussesdialog').modal('show');
-              }else{
-                alert(x.MessageContent)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (x: FlowNodeFinishGetDataClass) => {
+                this.LoadingPage.hide()
+                if (x.Finish) {
+                  // $('#PutForwarddialog_sussesdialog').modal('show');
+                  this.SnackBar.openFromComponent(SussesPutForwardSnackComponent, {
+                    data: null,
+                    panelClass: 'SussesSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                  this.router.navigateByUrl('/nav/reviewform')
+                } else {
+                  // alert(x.MessageContent)
+                  this.SnackBar.openFromComponent(ErrorPutForwardSnackComponent, {
+                    data: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
+                    duration: SnackSetting.duration,
+                    verticalPosition: SnackSetting.verticalPosition,
+                    horizontalPosition: SnackSetting.horizontalPosition
+                  });
+                }
+              },
+              error => {
+                this.LoadingPage.hide()
               }
-              this.LoadingPage.hide()
-            },
-            error => {
-              // alert('與api連線異常，getWebApiData_FlowNodeFinish')
-              this.LoadingPage.hide()
-            }
-          )
+            )
         },
         error => {
           // alert('與api連線異常，getWebApiData_GetManInfo')
           this.LoadingPage.hide()
         }
       )
-
-    // this.GetApiDataServiceService.getWebApiData_FlowNodeFinish(FlowNodeFinish).subscribe(
-    //   x=>{
-
-    //   }
-    // )
   }
 
   checkCanSendPutForward() {
@@ -382,46 +424,46 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
     return void_completionTenNum(e)
   }
 
-  color_CardOnTime(){
+  color_CardOnTime() {
 
-    if(this.ReviewformServiceService.forgetDetail.isLateMins || this.ReviewformServiceService.forgetDetail.isForgetCard){
+    if (this.ReviewformServiceService.forgetDetail.isLateMins || this.ReviewformServiceService.forgetDetail.isForgetCard) {
       return '#d0021b'
-    }else{
+    } else {
       return '#4c4c4c'
     }
   }
-  color_CardOffTime(){
-    
-    if(this.ReviewformServiceService.forgetDetail.isEarlyMins || this.ReviewformServiceService.forgetDetail.isForgetCard){
+  color_CardOffTime() {
+
+    if (this.ReviewformServiceService.forgetDetail.isEarlyMins || this.ReviewformServiceService.forgetDetail.isForgetCard) {
       return '#d0021b'
-    }else{
+    } else {
       return '#4c4c4c'
     }
   }
-  color_ActualOnTime(){
-    if(this.GetCardFlowAppsByProcessFlowIDData.DateB){
+  color_ActualOnTime() {
+    if (this.GetCardFlowAppsByProcessFlowIDData.DateB) {
       return '#028fcf'
-    }else{
+    } else {
       return '#4c4c4c'
     }
   }
-  
-  color_ActualOffTime(){
-    if(this.GetCardFlowAppsByProcessFlowIDData.DateE){
+
+  color_ActualOffTime() {
+    if (this.GetCardFlowAppsByProcessFlowIDData.DateE) {
       return '#028fcf'
-    }else{
+    } else {
       return '#4c4c4c'
     }
   }
-  
-  signRecordDialog:boolean = false
-  show_signRecord(){
-    if(!this.signRecordDialog){
+
+  signRecordDialog: boolean = false
+  show_signRecord() {
+    if (!this.signRecordDialog) {
       this.signRecordDialog = true
     }
     $('#signRecord').modal('show')
   }
-  
+
 }
 
 
