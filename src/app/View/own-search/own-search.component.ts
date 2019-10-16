@@ -192,7 +192,7 @@ export class OwnSearchComponent implements OnInit, AfterViewInit {
       this.errorEndtDateState = { state: true, errorString: '結束日不得大於今天' }
     } else if (this.blurStartDate() || this.blurEndDate()) {
     } else if (void_MonthDiff(searchDateB, searchDateE) > 3) {
-      alert('查詢起訖區間不得超過三個月')
+      alert('查詢起訖區間"月份"不得超過三個月')
     } else {
       this.LoadingPage.show()
       this.Be_AttendanceApiData$.next([])

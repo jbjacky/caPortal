@@ -300,7 +300,7 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
     } else if (this.blurStartDate() || this.blurEndDate()) {
 
     } else if (void_MonthDiff(searchDateB, searchDateE) > 3) {
-      alert('查詢起訖區間不得超過三個月')
+      alert('查詢起訖區間"月份"不得超過三個月')
     } else {
       this.Be_AttendanceApiData$.next([])
       var ipt_ListEmpID = [this.EmpBase.EmpCode]
@@ -395,7 +395,7 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
     if (this.blurStartDate() || this.blurEndDate()) {
 
     } else if (void_MonthDiff(searchDateB, searchDateE) > 3) {
-      alert('查詢起訖區間不得超過三個月')
+      alert('查詢起訖區間"月份"不得超過三個月')
     } else {
 
       this.Be_AttendanceApiData$.next([])
