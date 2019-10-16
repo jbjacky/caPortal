@@ -12,48 +12,64 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, max-age=0, must-revalidate">
   <meta http-equiv="pragma" content="no-cache" />
   <meta http-equiv="expires" content="0" />
-  <title>EAM</title>
+  <title>JB</title>
 
-  <base href="/EAM/">
+  <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script>
 
-    var loadbalance = ''
+    var QAhref = 'https://publish.jbjob.com.tw/DEMO/eepWebServiceExtend/Upload/EAM_QA.pdf'
 
-    var OAuthPath = 'https://192.168.1.46/OAuth20/authorize.aspx'
+    var manualhref = 'https://publish.jbjob.com.tw/DEMO/eepWebServiceExtend/Upload/EAM_Manual.pdf'
+
+    var TimeOut = '200000'
+
+    var desktopTitleString = '員工差假系統'
+
+    var phoneTitleString = '員工差假系統'
+
+    var footerString = ''
+
+    var OAuthPath = 'https://publish.jbjob.com.tw/DEMO/OAuth20/authorize.aspx'
 
     var _client_id = 't4Ev4xhBABswPSkXIwBn'
 
-    var _redirect_uri_LinkOuthpage = 'https://192.168.1.46/EAM/LinkOuthpageComponent'
+    var _redirect_uri_LinkOuthpage = 'http://localhost:4200/LinkOuthpageComponent'
 
-    var apiPostURL = 'https://192.168.1.46/eepWebService/'
+    var apiPostURL = 'https://publish.jbjob.com.tw/DEMO/eepWebService/'
+
+    var apiGetFileURL = 'https://publish.jbjob.com.tw/DEMO/eepWebServiceExtend/'
 
     var FileUploadType = [
-        ".doc",
-        ".docx",
-        ".ppt",
-        ".pptx",
-        ".xls",
-        ".xlsx",
-        ".jpg",
-        ".txt",
-        ".odt",
-        ".odp",
-        ".ods",
-        ".htm",
-        ".html",
-        ".mht",
-        ".pdf",
-        ".jpeg"
-      ]
-
+      ".doc",
+      ".docx",
+      ".ppt",
+      ".pptx",
+      ".xls",
+      ".xlsx",
+      ".jpg",
+      ".txt",
+      ".odt",
+      ".odp",
+      ".ods",
+      ".htm",
+      ".html",
+      ".mht",
+      ".pdf",
+      ".jpeg"
+    ]
   </script>
-<link rel="stylesheet" href="styles.fd50eef78a1612ca6e7b.css"></head>
+  <link rel="stylesheet" href="styles.fd50eef78a1612ca6e7b.css">
+</head>
 
 <body class="fixed-header  fixed-main-nav  ">
   <app-root></app-root>
-<script type="text/javascript" src="runtime.15aa3375c4a0be09460f.js"></script><script type="text/javascript" src="polyfills.c981e9687d902b9b0200.js"></script><script type="text/javascript" src="scripts.ee61f56403886dbba696.js"></script><script type="text/javascript" src="main.6d779cb81ca791d74d43.js"></script></body>
+  <script type="text/javascript" src="runtime.15aa3375c4a0be09460f.js"></script>
+  <script type="text/javascript" src="polyfills.c981e9687d902b9b0200.js"></script>
+  <script type="text/javascript" src="scripts.ee61f56403886dbba696.js"></script>
+  <script type="text/javascript" src="main.6d779cb81ca791d74d43.js"></script>
+</body>
 
 </html>
