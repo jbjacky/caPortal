@@ -97,8 +97,9 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
         EffectDate: _NowToday
       }
       this.LoadingPage.show()
-      this.GetApiDataServiceService.getWebApiData_GetBaseByForm(GetBaseByFormClass).
-        subscribe((x: any) => {
+      this.GetApiDataServiceService.getWebApiData_GetBaseByFormDeptDown(GetBaseByFormClass)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((x: any) => {
           if (x == null) {
             // alert('工號輸入錯誤')
             this.Assistant(GetBaseByFormClass)

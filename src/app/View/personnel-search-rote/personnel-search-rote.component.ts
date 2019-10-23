@@ -82,6 +82,9 @@ export class PersonnelSearchRoteComponent implements OnInit, AfterViewInit, OnDe
     private LoadingPage: NgxSpinnerService) { }
     
   SearchRoteMan
+  
+  setMan = { EmpCode: '', EmpName: '', DeptaID: '', DeptaName: '' }
+
   ngOnInit() {
 
     this.GetApiUserService.counter$.subscribe(
@@ -91,10 +94,13 @@ export class PersonnelSearchRoteComponent implements OnInit, AfterViewInit, OnDe
 
           this.SearchRoteMan = x
           this.SearchMan.EmpCode = x.EmpCode
+          this.setMan.EmpCode = x.EmpCode
           if (x.EmpNameC) {
             this.SearchMan.EmpNameC = x.EmpNameC;
+            this.setMan.EmpName = x.EmpNameC;
           } else {
             this.SearchMan.EmpNameC = x.EmpNameE;
+            this.setMan.EmpName = x.EmpNameE;
           }
           var today = new Date()
           this.search(today)
@@ -129,16 +135,17 @@ export class PersonnelSearchRoteComponent implements OnInit, AfterViewInit, OnDe
       var _NowDate = new Date();
       var _NowToday = doFormatDate(_NowDate);
       var GetBaseByFormClass: GetBaseByFormClass = {
-        EmpCode: this.SearchMan.EmpCode,
+        EmpCode: this.setMan.EmpCode,
         AppEmpCode: this.SearchMan.EmpCode,
         EffectDate: _NowToday
       }
       this.LoadingPage.show()
-      this.GetApiDataServiceService.getWebApiData_GetBaseByForm(GetBaseByFormClass).
-        subscribe((x: any) => {
+      this.GetApiDataServiceService.getWebApiData_GetBaseByFormDeptDown(GetBaseByFormClass)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((x: any) => {
           if (x == null) {
             this.SearchMan.EmpNameC = ''
-            // alert('工號輸入錯誤')
+            // alert('工號輸入錯誤') 
             this.Assistant(GetBaseByFormClass)
           } else if (x.length == 0) {
             // alert('工號輸入錯誤')

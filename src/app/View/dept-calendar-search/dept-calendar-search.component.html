@@ -5,7 +5,7 @@
       <ngx-select [items]="NgxDeptSelectBox" optionValueField="DeptID" optionTextField="uiShowDeptCodeAndName"
         [(ngModel)]="SearchDeptID" (select)=onSelectChange()></ngx-select>
     </div>
-    <ngx-fullcalendar #calendar id="calendar" defaultView="month" [header]='plugin' [events]="events"
+    <ngx-fullcalendar #calendar id="calendar" defaultView="month" [header]='plugin' [events]="events" [eventOrder]="'id'"
       [options]="options" (onDatesRender)="SearchDeptCalendar(SearchDeptID)" (onEventClick)="dateClick($event)">
     </ngx-fullcalendar>
   </div>

@@ -377,11 +377,15 @@
       <div class="col-md-2 col-xs-12">
       </div>
       <div class="col-md-4 col-md-push-2 col-xs-12" style="margin-bottom: 10px">
-        <button class="btn btn-primary btn_text_send" data-toggle="modal" (click)="checkError()"></button>
+        <button class="btn btn-primary" data-toggle="modal" (click)="checkError()">
+          <ng-container i18n>送出表單</ng-container>
+        </button>
         <!-- 送出申請單 -->
       </div>
       <div class="col-md-2 col-md-pull-4 col-xs-12 ">
-        <button class="btn btn-default btn_text_return" (click)="onpreviousForm()"></button>
+        <button class="btn btn-default" (click)="onpreviousForm()">
+          <ng-container i18n>返回修改</ng-container>
+        </button>
         <!-- 返回 -->
       </div>
     </div>

@@ -181,6 +181,18 @@ export class GetApiDataServiceService {
   }
 
 
+  /**
+   * @todo  取得同部門即期向下
+   * @author jacky
+   */
+  getWebApiData_GetBaseByFormDeptDown(GetBaseByFormClass: GetBaseByFormClass) {
+    return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByFormDeptDown',
+      JSON.stringify(GetBaseByFormClass), {
+        headers: this.GetHeader(),
+
+
+      })
+  }
 
   /**
    * @todo  取得被申請基本資料(含權限檢核)即期向下

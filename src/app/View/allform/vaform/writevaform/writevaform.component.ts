@@ -147,6 +147,14 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
         (x: any) => {
           if (x != 0) {
 
+            this.dateS.setHours(0, 0, 0)
+            this.dateS.setMinutes(0, 0, 0)
+            this.dateS.setSeconds(0, 0)
+            
+            this.dateE.setHours(0, 0, 0)
+            this.dateE.setMinutes(0, 0, 0)
+            this.dateE.setSeconds(0, 0)
+
             this.SearchMan.EmpCode = x.EmpCode
             this.SearchMan.EmpNameC = x.EmpNameC
             this.showBnftDate = formatDateTime(x.BnftDate).getDate
@@ -206,6 +214,13 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     this.Show_signDay = false//請假簽核權限表Dialog
     this.dateS = new Date()
     this.dateE = new Date()
+    this.dateS.setHours(0, 0, 0)
+    this.dateS.setMinutes(0, 0, 0)
+    this.dateS.setSeconds(0, 0)
+
+    this.dateE.setHours(0, 0, 0)
+    this.dateE.setMinutes(0, 0, 0)
+    this.dateE.setSeconds(0, 0)
     this.dateTimeS = ''
     this.dateTimeE = ''
     this.eventDate = new Date()
@@ -601,17 +616,43 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
   }
-  blurDateAndTime(): boolean {
-    //true:出錯 
+
+  valLimitSevenDay(): boolean {
+
     var today = new Date()
     today.setDate(today.getDate() - 7)
     today.setHours(0, 0, 0)
     today.setMinutes(0, 0, 0)
     today.setSeconds(0, 0)
-    if (this.dateS < today && !(this.showBlockIsAssistant)) {
+
+    var NowToday = new Date()
+    NowToday.setHours(0, 0, 0)
+    NowToday.setMinutes(0, 0, 0)
+    NowToday.setSeconds(0, 0)
+    var valToday = new Date('2019/11/06')//11/06前不卡7天限制
+    var valWriteDay = new Date('2019/10/01')//只能填寫10月份的假單
+    // console.log(this.dateS)
+    if(valToday > NowToday && !(this.showBlockIsAssistant) && valWriteDay > this.dateS){
+      // 11/06前不卡7天限制
+      this.errorDateAndTime = { state: true, errorString: '2019/11/06前只能填寫10月份的假單' }
+      $("#id_ipt_startday").addClass("errorInput");
+      return true
+
+    }else if (this.dateS < today && !(this.showBlockIsAssistant) && NowToday >= valToday) {
       // alert('不能請')
       this.errorDateAndTime = { state: true, errorString: '7天限制' }
       $("#id_ipt_startday").addClass("errorInput");
+      return true
+    }
+
+    return false
+  }
+  blurDateAndTime(): boolean {
+    //true:出錯 
+    if (this.valLimitSevenDay()) {
+      // alert('不能請')
+      // this.errorDateAndTime = { state: true, errorString: '7天限制' }
+      // $("#id_ipt_startday").addClass("errorInput");
       return true
     } else {
       this.errorDateAndTime = { state: false, errorString: '' }
@@ -741,15 +782,11 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   changeStartDateView() {
-    var today = new Date()
-    today.setDate(today.getDate() - 7)
-    today.setHours(0, 0, 0)
-    today.setMinutes(0, 0, 0)
-    today.setSeconds(0, 0)
-    if (this.dateS < today && !(this.showBlockIsAssistant)) {
+
+    if (this.valLimitSevenDay()) {
       // alert('不能請')
-      this.errorDateAndTime = { state: true, errorString: '7天限制' }
-      $("#id_ipt_startday").addClass("errorInput");
+      // this.errorDateAndTime = { state: true, errorString: '7天限制' }
+      // $("#id_ipt_startday").addClass("errorInput");
     } else {
       this.errorDateAndTime = { state: false, errorString: '' }
       $("#id_ipt_startday").removeClass("errorInput");
@@ -945,6 +982,14 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     //新增差假時段按鈕
     this.dateS = new Date()
     this.dateE = new Date()
+    this.dateS.setHours(0, 0, 0)
+    this.dateS.setMinutes(0, 0, 0)
+    this.dateS.setSeconds(0, 0)
+    
+    this.dateE.setHours(0, 0, 0)
+    this.dateE.setMinutes(0, 0, 0)
+    this.dateE.setSeconds(0, 0)
+
     this.NowIsWirteForm = true;
     this.newtitle = '差假時段' + chinesenum(this.titlechinesenum + 1)
     this.writevaform.everydayloop = false;

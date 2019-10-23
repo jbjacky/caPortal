@@ -129,7 +129,7 @@ export class DeptCalendarSearchComponent implements OnInit, OnDestroy {
                 var setDateTimeE = new Date(formatDateTime(emp.DateB).getDate + ' ' + getapi_formatTimetoString(emp.TimeE))
 
                 this.events.push(
-                  { id: emp.AbsID, title: emp.Base.EmpNameC, start: setDateTimeB.toJSON(), end: setDateTimeE.toJSON(), startEditable: false }
+                  { id: emp.EmpID, title: emp.Base.EmpNameC, start: setDateTimeB.toJSON(), end: setDateTimeE.toJSON(), startEditable: false }
                 )
               }
               this.LoadingPage.hide()
@@ -150,6 +150,11 @@ export class DeptCalendarSearchComponent implements OnInit, OnDestroy {
     // console.log(this.events)
     this.showDialogTitles = []
     var setTitles = []
+    this.events.sort((a ,b)=>{
+      var s = parseInt(a.id.toString()) 
+      var e = parseInt(b.id.toString())
+      return s - e
+    })
     for (let ev of this.events) {
       if (formatDateTime(ev.start).getDate == formatDateTime(e.event.start).getDate) {
         setTitles.push(ev.title)
@@ -166,5 +171,4 @@ export class DeptCalendarSearchComponent implements OnInit, OnDestroy {
   onSelectChange() {
     this.SearchDeptCalendar(this.SearchDeptID)
   }
-
 }

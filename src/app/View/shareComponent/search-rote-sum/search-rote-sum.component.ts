@@ -95,6 +95,7 @@ export class SearchRoteSumComponent implements OnInit, OnDestroy {
 
   errorLeavemanState = { state: false, errorString: '' }
   SearchMan = { EmpCode: '', EmpNameC: '' }
+  
   constructor(
     private GetApiUserService: GetApiUserService,
     private GetApiDataServiceService: GetApiDataServiceService,
@@ -291,13 +292,14 @@ export class SearchRoteSumComponent implements OnInit, OnDestroy {
       var _NowDate = new Date();
       var _NowToday = doFormatDate(_NowDate);
       var GetBaseByFormClass: GetBaseByFormClass = {
-        EmpCode: this.SearchMan.EmpCode,
+        EmpCode: this.setMan.EmpCode,
         AppEmpCode: this.SearchMan.EmpCode,
         EffectDate: _NowToday
       }
       this.LoadingPage.show()
-      this.GetApiDataServiceService.getWebApiData_GetBaseByForm(GetBaseByFormClass).
-        subscribe((x: any) => {
+      this.GetApiDataServiceService.getWebApiData_GetBaseByFormDeptDown(GetBaseByFormClass)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((x: any) => {
           if (x == null) {
             this.SearchMan.EmpNameC = ''
             // alert('工號輸入錯誤')
