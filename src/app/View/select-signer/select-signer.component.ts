@@ -31,20 +31,20 @@ export class SelectSignerComponent implements OnInit, OnDestroy {
     this.sysEmp$
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        y => {
+        (y:any) => {
           if (y == 0) {
 
           } else {
             this.SelectApiData = [];
             this.DeptSelectBox = [];
             this.NgxBaseSelectBox = [];
-            this.selectboxValue(y)
+            this.selectboxValue(y.toString())
           }
         }
       )
   }
 
-  selectboxValue(_EmpCode) {
+  selectboxValue(_EmpCode:string) {
     // console.log(_EmpCode)
     if (_EmpCode) {
 

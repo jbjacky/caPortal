@@ -19,11 +19,11 @@ import { fromEvent } from 'rxjs';
 declare let $: any; //use jquery
 
 @Component({
-  selector: 'app-dept-va-search',
-  templateUrl: './dept-va-search.component.html',
-  styleUrls: ['./dept-va-search.component.css']
+  selector: 'app-personnel-search-va',
+  templateUrl: './personnel-search-va.component.html',
+  styleUrls: ['./personnel-search-va.component.css']
 })
-export class DeptVaSearchComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PersonnelSearchVaComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     fromEvent(this.filter.nativeElement, 'keyup').pipe(
       debounceTime(300),
@@ -53,9 +53,7 @@ export class DeptVaSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('filter') filter: ElementRef;
   @ViewChild('sortTable') sortTable: MatSort;
 
-  // displayedColumns: string[] = ['uiEmpID', 'uiEmpName', 'HoliDayNameC', 'DateRange', 'setDay', 'setHour', 'setMin', 'StateText', 'uiShowFlowID'];
-  displayedColumns: string[] = ['uiEmpID', 'uiEmpName', 'DateRange', 'setDay', 'setHour', 'setMin', 'StateText'];
-
+  displayedColumns: string[] = ['uiEmpID', 'uiEmpName', 'HoliDayNameC', 'DateRange', 'setDay', 'setHour', 'setMin', 'StateText', 'uiShowFlowID'];
   dataSource = new MatTableDataSource<any>();
   ngOnInit() {
     this.GetApiUserService.counter$
@@ -325,7 +323,7 @@ export class DeptVaSearchComponent implements OnInit, OnDestroy, AfterViewInit {
             EffectDate: _NowToday
           }
           this.LoadingPage.show()
-          this.GetApiDataServiceService.getWebApiData_GetBaseByFormNotDown(GetBaseByForm)
+          this.GetApiDataServiceService.getWebApiData_GetBaseByFormDeptDown(GetBaseByForm)
             .pipe(takeWhile(() => this.api_subscribe))
             .subscribe((x: any) => {
 
@@ -610,4 +608,5 @@ export class DeptVaSearchComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 }
+
 

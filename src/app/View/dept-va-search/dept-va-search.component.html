@@ -1,300 +1,359 @@
 <div class="a-block">
-  <div class="a-block-body  a-block-container">
-    <div class="form-group first-form-group" style="border: 1px solid #979797;">
-      <div class="row" style="margin:0px;    padding: 20px 0px 20px 0px;">
-        <div class="col-md-2 col-xs-12 P_Right">
-          <h3 style="margin:0px">
-            <ng-container i18n>選擇查詢類型</ng-container>
-          </h3>
-        </div>
-        <div class="col-md-8 col-xs-12 P_radio">
-          <!-- <div style="display: inline-block;margin-right:15px " *ngFor="let oneRadio of radiogroup">
-            <input type="radio" name="chooseRadio" [(ngModel)]="chooseRadio" [value]="oneRadio.id">{{oneRadio.name}}
-          </div> -->
-          <div style="display: inline-block;margin-right:15px ">
-            <input type="radio" name="chooseRadio" [(ngModel)]="chooseRadio" [value]="1">
-            <ng-container i18n>查詢單位</ng-container>
+    <div class="a-block-body  a-block-container">
+      <div class="form-group first-form-group" style="border: 1px solid #979797;">
+        <div class="row" style="margin:0px;    padding: 20px 0px 20px 0px;">
+          <div class="col-md-2 col-xs-12 P_Right">
+            <h3 style="margin:0px">
+              <ng-container i18n>選擇查詢類型</ng-container>
+            </h3>
           </div>
-          <div style="display: inline-block;margin-right:15px ">
-            <input type="radio" name="chooseRadio" [(ngModel)]="chooseRadio" [value]="2">
-            <ng-container i18n>查詢單一員工</ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="chooseRadio == 1" class="form-group first-form-group">
-      <div class="row" style="padding-bottom: 15px;margin:0px">
-        <div class="col-md-2 col-xs-12 P_Right" style="margin-top: 7px;">
-          <span class="form-must-fill">*</span><span class=" control-label">
-            <ng-container i18n>單位</ng-container>
-          </span>
-        </div>
-        <div class="col-md-10  col-xs-12 row" style="margin: 0px">
-          <!-- <div>{{SearchMan.DeptaName}}</div> -->
-          <div class="P_fullwidth">
-            <ngx-select [items]="NgxDeptSelectBox" optionValueField="DeptID" optionTextField="uiShowDeptCodeAndName"
-              [(ngModel)]="SearchDeptID"></ngx-select>
-          </div>
-        </div>
-      </div>
-      <div class="row" style="margin: 0px;margin-bottom: 10px">
-        <div class="col-md-1"></div>
-        <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
-          <div class="col-md-3 col-xs-12 P_Right" style="padding-top: 8px;">
-            <span class="form-must-fill">*</span>
-            <span>
-              <ng-container i18n>起始日</ng-container>
-            </span>
-          </div>
-          <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
-            <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
-              <input [matDatepicker]="StartDatePicker_Dept" id="Dept_StartDate" [(ngModel)]="SearchStartDate_Dept"
-                class="form-control" type="text" (blur)="SerchStartDateChange_My()"
-                (dateChange)="SerchStartDateChange_My()" />
-              <div *ngIf="Dept_errorStartDateState.state" style="color: #e60012">
-                {{Dept_errorStartDateState.errorString}}</div>
-              <mat-datepicker #StartDatePicker_Dept touchUi [calendarHeaderComponent]="exampleHeader">
-              </mat-datepicker>
+          <div class="col-md-8 col-xs-12 P_radio">
+            <!-- <div style="display: inline-block;margin-right:15px " *ngFor="let oneRadio of radiogroup">
+              <input type="radio" name="chooseRadio" [(ngModel)]="chooseRadio" [value]="oneRadio.id">{{oneRadio.name}}
+            </div> -->
+            <div style="display: inline-block;margin-right:15px ">
+              <input type="radio" name="chooseRadio" [(ngModel)]="chooseRadio" [value]="1">
+              <ng-container i18n>查詢單一員工</ng-container>
             </div>
-            <div class="col-md-4 col-xs-2" style="padding: 0px">
-              <input (click)="StartDatePicker_Dept.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
-                                            cursor: pointer;
-                                            color: transparent;
-                                            border: 1px solid transparent;
-                                            width: 50px;
-                                            height: 40px;
-                                            ">
+            <div style="display: inline-block;margin-right:15px ">
+              <input type="radio" name="chooseRadio" [(ngModel)]="chooseRadio" [value]="2">
+              <ng-container i18n>查詢單位</ng-container>
             </div>
           </div>
         </div>
-        <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
-          <div class="col-md-3 col-xs-12 P_Right" style="padding-top: 8px;">
-            <span class="form-must-fill">*</span>
-            <span>
-              <ng-container i18n>結束日</ng-container>
+      </div>
+      <div *ngIf="chooseRadio == 1" class="form-group first-form-group">
+  
+        <div class="row" style="padding-bottom: 15px;margin:0px">
+          <div class="col-md-2 col-xs-12 P_Right" style="margin-top: 7px;">
+            <span class="form-must-fill">*</span><span class=" control-label">
+              <ng-container i18n>員工</ng-container>
             </span>
           </div>
-          <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
-            <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
-              <input [matDatepicker]="EndDatePicker_Dept" id="Dept_EndDate" [(ngModel)]="SearchEndDate_Dept"
-                class="form-control" type="text" (blur)="blurEndDate_Dept()" (dateChange)="blurEndDate_Dept()" />
-              <div *ngIf="Dept_errorEndtDateState.state" style="color: #e60012">{{Dept_errorEndtDateState.errorString}}
+          <div class="col-md-10  col-xs-12 row" style="margin: 0px">
+            <div class="col-md-2 col-xs-6" style="padding:0px">
+              <input id="Dept_ChangeEmpCode" type="text" class="form-control" placeholder="員工號"
+                [(ngModel)]="Dept_ChangeEmp.EmpCode" maxlength="6" (blur)="Dept_blurChangeEmpCode()">
+              <div *ngIf="Dept_errorChangeEmpState.state" style="color: #e60012">{{Dept_errorChangeEmpState.errorString}}
               </div>
-              <mat-datepicker #EndDatePicker_Dept touchUi [calendarHeaderComponent]="exampleHeader">
-              </mat-datepicker>
             </div>
-            <div class="col-md-4 col-xs-2" style="padding: 0px">
-
-              <input (click)="EndDatePicker_Dept.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
-                                cursor: pointer;
-                                color: transparent;
-                                border: 1px solid transparent;
-                                width: 50px;
-                                height: 40px;
-                                ">
+            <div class="col-md-1 col-xs-2 P_Emp">
+              <button data-toggle="modal" data-target="#Dept_chooseChnageEmpdialog"
+                style="cursor: pointer;border: 0;background: 0">
+                <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+              </button>
+            </div>
+            <div class="col-md-9 col-xs-4" style="padding: 0px;padding-top: 8px;">
+              <label style="font-weight: normal;">{{Dept_ChangeEmp.EmpName}}</label>
             </div>
           </div>
         </div>
-      </div>
-      <div class="row" style="margin:0">
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-10">
-          <button class="btn btn-primary " (click)="bt_searchDept()">
-            <ng-container i18n>查詢</ng-container>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="chooseRadio == 2" class="form-group first-form-group">
-
-      <div class="row" style="padding-bottom: 15px;margin:0px">
-        <div class="col-md-2 col-xs-12 P_Right" style="margin-top: 7px;">
-          <span class="form-must-fill">*</span><span class=" control-label">
-            <ng-container i18n>員工</ng-container>
-          </span>
-        </div>
-        <div class="col-md-10  col-xs-12 row" style="margin: 0px">
-          <div class="col-md-2 col-xs-6" style="padding:0px">
-            <input id="Dept_ChangeEmpCode" type="text" class="form-control" placeholder="員工號"
-              [(ngModel)]="Dept_ChangeEmp.EmpCode" maxlength="6" (blur)="Dept_blurChangeEmpCode()">
-            <div *ngIf="Dept_errorChangeEmpState.state" style="color: #e60012">{{Dept_errorChangeEmpState.errorString}}
+        <div class="row" style="margin: 0px;margin-bottom: 10px">
+          <div class="col-md-1"></div>
+          <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
+            <div class="col-md-3 col-xs-12 P_Right" style="padding-top: 8px;">
+              <span class="form-must-fill">*</span>
+              <span>
+                <ng-container i18n>起始日</ng-container>
+              </span>
+            </div>
+            <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
+              <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
+                <input [matDatepicker]="StartDatePicker_OneEmp" id="OneEmp_StartDate" [(ngModel)]="OneEmp_SearchStartDate"
+                  class="form-control" type="text" (blur)="SerchStartDateChange_OneEmp()"
+                  (dateChange)="SerchStartDateChange_OneEmp()" />
+                <div *ngIf="OneEmp_errorStartDateState.state" style="color: #e60012">
+                  {{OneEmp_errorStartDateState.errorString}}</div>
+                <mat-datepicker #StartDatePicker_OneEmp touchUi [calendarHeaderComponent]="exampleHeader">
+                </mat-datepicker>
+              </div>
+              <div class="col-md-4 col-xs-2" style="padding: 0px">
+                <input (click)="StartDatePicker_OneEmp.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                                          cursor: pointer;
+                                          color: transparent;
+                                          border: 1px solid transparent;
+                                          width: 50px;
+                                          height: 40px;
+                                          ">
+              </div>
             </div>
           </div>
-          <div class="col-md-1 col-xs-2" style="padding: 0px 23px;">
-            <button data-toggle="modal" data-target="#Dept_chooseChnageEmpdialog"
-              style="cursor: pointer;border: 0;background: 0">
-              <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+          <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
+            <div class="col-md-3 col-xs-12 P_Right" style="padding-top: 8px;">
+              <span class="form-must-fill">*</span>
+              <span>
+                <ng-container i18n>結束日</ng-container>
+              </span>
+            </div>
+            <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
+              <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
+                <input [matDatepicker]="EndDatePicker_OneEmp" id="OneEmp_EndDate" [(ngModel)]="OneEmp_SearchEndDate"
+                  class="form-control" type="text" (blur)="blurEndDate_OneEmp()" (dateChange)="blurEndDate_OneEmp()" />
+                <div *ngIf="OneEmp_errorEndtDateState.state" style="color: #e60012">
+                  {{OneEmp_errorEndtDateState.errorString}}</div>
+                <mat-datepicker #EndDatePicker_OneEmp touchUi [calendarHeaderComponent]="exampleHeader">
+                </mat-datepicker>
+              </div>
+              <div class="col-md-4 col-xs-2" style="padding: 0px">
+  
+                <input (click)="EndDatePicker_OneEmp.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                              cursor: pointer;
+                              color: transparent;
+                              border: 1px solid transparent;
+                              width: 50px;
+                              height: 40px;
+                              ">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin:0">
+          <div class="col-md-2">
+  
+          </div>
+          <div class="col-md-10">
+            <button class="btn btn-primary " (click)="bt_search()">
+              <ng-container i18n>查詢</ng-container>
             </button>
           </div>
-          <div class="col-md-9 col-xs-4" style="padding: 0px;padding-top: 8px;">
-            <label style="font-weight: normal;">{{Dept_ChangeEmp.EmpName}}</label>
-          </div>
         </div>
       </div>
-      <div class="row" style="margin: 0px;margin-bottom: 10px">
-        <div class="col-md-1"></div>
-        <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
-          <div class="col-md-3 col-xs-12 P_Right" style="padding-top: 8px;">
-            <span class="form-must-fill">*</span>
-            <span>
-              <ng-container i18n>起始日</ng-container>
+      <div *ngIf="chooseRadio == 2" class="form-group first-form-group">
+        <div class="row" style="padding-bottom: 15px;margin:0px">
+          <div class="col-md-2 col-xs-12 P_Right" style="margin-top: 7px;">
+            <span class="form-must-fill">*</span><span class=" control-label">
+              <ng-container i18n>單位</ng-container>
             </span>
           </div>
-          <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
-            <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
-              <input [matDatepicker]="StartDatePicker_OneEmp" id="OneEmp_StartDate" [(ngModel)]="OneEmp_SearchStartDate"
-                class="form-control" type="text" (blur)="SerchStartDateChange_OneEmp()"
-                (dateChange)="SerchStartDateChange_OneEmp()" />
-              <div *ngIf="OneEmp_errorStartDateState.state" style="color: #e60012">
-                {{OneEmp_errorStartDateState.errorString}}</div>
-              <mat-datepicker #StartDatePicker_OneEmp touchUi [calendarHeaderComponent]="exampleHeader">
-              </mat-datepicker>
+          <div class="col-md-10  col-xs-12 row" style="margin: 0px">
+            <!-- <div>{{SearchMan.DeptaName}}</div> -->
+            <!-- <div class="P_fullwidth">
+              <ngx-select [items]="NgxDeptSelectBox" optionValueField="DeptID" optionTextField="uiShowDeptCodeAndName"
+                [(ngModel)]="SearchDeptID"></ngx-select>
+            </div> -->
+            <div class="col-md-1  col-xs-2 row" style="padding:0px;margin: 0px;">
+              <button data-toggle="modal" (click)="bt_ShowDialog_chooseDeptdialog()"
+                style="cursor: pointer;border: 0;background: 0">
+                <img src="./assets/images-template/icon-persongroup.png" style="cursor: pointer;padding-top: 5px" />
+              </button>
             </div>
-            <div class="col-md-4 col-xs-2" style="padding: 0px">
-              <input (click)="StartDatePicker_OneEmp.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
-                                        cursor: pointer;
-                                        color: transparent;
-                                        border: 1px solid transparent;
-                                        width: 50px;
-                                        height: 40px;
-                                        ">
+            <div class="col-md-11  col-xs-10 row" style="padding: 0; margin: 0;margin-top: 8px;">
+              {{chooseDeptName}}
             </div>
           </div>
         </div>
-        <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
-          <div class="col-md-3 col-xs-12 P_Right" style="padding-top: 8px;">
-            <span class="form-must-fill">*</span>
-            <span>
-              <ng-container i18n>結束日</ng-container>
-            </span>
-          </div>
-          <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
-            <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
-              <input [matDatepicker]="EndDatePicker_OneEmp" id="OneEmp_EndDate" [(ngModel)]="OneEmp_SearchEndDate"
-                class="form-control" type="text" (blur)="blurEndDate_OneEmp()" (dateChange)="blurEndDate_OneEmp()" />
-              <div *ngIf="OneEmp_errorEndtDateState.state" style="color: #e60012">
-                {{OneEmp_errorEndtDateState.errorString}}</div>
-              <mat-datepicker #EndDatePicker_OneEmp touchUi [calendarHeaderComponent]="exampleHeader">
-              </mat-datepicker>
+        <div class="row" style="margin: 0px;margin-bottom: 10px">
+          <div class="col-md-1"></div>
+          <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
+            <div class="col-md-3 col-xs-12 P_Right" style="padding-top: 8px;">
+              <span class="form-must-fill">*</span>
+              <span>
+                <ng-container i18n>起始日</ng-container>
+              </span>
             </div>
-            <div class="col-md-4 col-xs-2" style="padding: 0px">
-
-              <input (click)="EndDatePicker_OneEmp.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
-                            cursor: pointer;
-                            color: transparent;
-                            border: 1px solid transparent;
-                            width: 50px;
-                            height: 40px;
-                            ">
+            <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
+              <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
+                <input [matDatepicker]="StartDatePicker_Dept" id="Dept_StartDate" [(ngModel)]="SearchStartDate_Dept"
+                  class="form-control" type="text" (blur)="SerchStartDateChange_My()"
+                  (dateChange)="SerchStartDateChange_My()" />
+                <div *ngIf="Dept_errorStartDateState.state" style="color: #e60012">
+                  {{Dept_errorStartDateState.errorString}}</div>
+                <mat-datepicker #StartDatePicker_Dept touchUi [calendarHeaderComponent]="exampleHeader">
+                </mat-datepicker>
+              </div>
+              <div class="col-md-4 col-xs-2" style="padding: 0px">
+                <input (click)="StartDatePicker_Dept.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                                              cursor: pointer;
+                                              color: transparent;
+                                              border: 1px solid transparent;
+                                              width: 50px;
+                                              height: 40px;
+                                              ">
+              </div>
+            </div>
+          </div>
+          <div class="row col-md-4 col-xs-12" style="margin: 0px;padding: 0px">
+            <div class="col-md-3 col-xs-12 P_Right" style="padding-top: 8px;">
+              <span class="form-must-fill">*</span>
+              <span>
+                <ng-container i18n>結束日</ng-container>
+              </span>
+            </div>
+            <div class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0px">
+              <div class="col-md-8 col-xs-10" style=" padding-top: 3px;">
+                <input [matDatepicker]="EndDatePicker_Dept" id="Dept_EndDate" [(ngModel)]="SearchEndDate_Dept"
+                  class="form-control" type="text" (blur)="blurEndDate_Dept()" (dateChange)="blurEndDate_Dept()" />
+                <div *ngIf="Dept_errorEndtDateState.state" style="color: #e60012">{{Dept_errorEndtDateState.errorString}}
+                </div>
+                <mat-datepicker #EndDatePicker_Dept touchUi [calendarHeaderComponent]="exampleHeader">
+                </mat-datepicker>
+              </div>
+              <div class="col-md-4 col-xs-2" style="padding: 0px">
+  
+                <input (click)="EndDatePicker_Dept.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                                  cursor: pointer;
+                                  color: transparent;
+                                  border: 1px solid transparent;
+                                  width: 50px;
+                                  height: 40px;
+                                  ">
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="row" style="margin:0">
-        <div class="col-md-2">
-
-        </div>
-        <div class="col-md-10">
-          <button class="btn btn-primary " (click)="bt_search()">
-            <ng-container i18n>查詢</ng-container>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="a-block">
-  <div class="a-block-body  a-block-container">
-    <h3>{{SearchMan.DeptaName}}</h3>
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped table-hover table-content-center table-style01">
-        <thead>
-          <tr>
-            <th style="background-image: unset;cursor: unset">
-              <ng-container i18n>工號</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>姓名</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>請假區間</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>日</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>時</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>分</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>狀態</ng-container>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let AbsEmp of AllAbsEmp">
-            <td>{{AbsEmp.Base.EmpID}}</td>
-            <td>{{AbsEmp.Base.EmpNameC}}</td>
-            <td>
-              {{AbsEmp.DateB}} {{AbsEmp.TimeB}} - {{AbsEmp.DateE}} {{AbsEmp.TimeE}}
-            </td>
-            <td>
-              {{AbsEmp.setDay}}
-            </td>
-            <td>
-              {{AbsEmp.setHour}}
-            </td>
-            <td>
-              {{AbsEmp.setMin}}
-            </td>
-            <td>
-              <div *ngIf="AbsEmp.State=='1'">
-                <ng-container i18n>呈核中</ng-container>
-              </div>
-              <div *ngIf="AbsEmp.State=='3'">
-                <ng-container i18n>已核准</ng-container>
-              </div>
-              <div *ngIf="AbsEmp.State=='2'">
-                <ng-container i18n>重擬</ng-container>
-              </div>
-              <div *ngIf="AbsEmp.State=='7'">
-                <ng-container i18n>已抽單</ng-container>
-              </div>
-              <div *ngIf="AbsEmp.State=='6'">
-                <ng-container i18n>預排中</ng-container>
-              </div>
-              <div *ngIf="AbsEmp.State=='8'">
-                <ng-container i18n>已異動</ng-container>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal" id="Dept_chooseChnageEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="vertical-alignment-helper">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-body">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-          <app-choosebase (saveEmptoView)="Dept_onSaveChangeEmptoView($event)" [systemID]="SearchMan.EmpCode">
-          </app-choosebase>
-          <button type="button" class="btn btn-default" data-dismiss="modal">
-            <ng-container i18n>取消</ng-container>
-          </button>
+        <div class="row" style="margin:0">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-10">
+            <button class="btn btn-primary " (click)="bt_searchDept()">
+              <ng-container i18n>查詢</ng-container>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<!--My dialog選擇互調員工-->
+  <div *ngIf="!showVaDataDetail" class="a-block">
+    <div class="a-block-body  a-block-container">
+      <h3>
+        <ng-container i18n>查詢結果</ng-container>
+      </h3>
+      <div  class="table-responsive">
+        <div style="text-align: left">
+          <span>
+            <ng-container i18n>查詢</ng-container>：
+          </span>
+          <mat-form-field>
+            <input matInput #filter placeholder="" autocomplete="off">
+          </mat-form-field>
+        </div>
+        <div class="table-responsive">
+          <table id="ShowVaTable" mat-table matSort #sortTable="matSort" [dataSource]="dataSource"
+          (matSortChange)="changeSort($event)"
+            class="table table-bordered table-striped table-hover table-content-center table-style01">
+  
+            <ng-container matColumnDef="uiEmpID">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0">
+                <ng-container i18n>工號</ng-container>
+              </th>
+              <td mat-cell *matCellDef="let element" style="text-align: left;"> {{element.uiEmpID}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="uiEmpName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <ng-container i18n>姓名</ng-container>
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.uiEmpName}} </td>
+            </ng-container>
+  
+            <!-- <ng-container matColumnDef="HoliDayNameC">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <ng-container i18n>假別</ng-container>
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.HoliDayNameC}} </td>
+            </ng-container> -->
+  
+            <ng-container matColumnDef="DateRange">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <ng-container i18n>請假區間</ng-container>
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.DateRange}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="setDay">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <ng-container i18n>日</ng-container>
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.setDay}} </td>
+            </ng-container>
+            <ng-container matColumnDef="setHour">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <ng-container i18n>時</ng-container>
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.setHour}} </td>
+            </ng-container>
+            <ng-container matColumnDef="setMin">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <ng-container i18n>分</ng-container>
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.setMin}} </td>
+            </ng-container>
+            <ng-container matColumnDef="StateText">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <ng-container i18n>狀態</ng-container>
+              </th>
+              <td mat-cell *matCellDef="let element">
+                  {{element.StateText}}
+              </td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="uiShowFlowID">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <ng-container i18n>表單編號</ng-container>
+              </th>
+              <td mat-cell *matCellDef="let element">
+                
+                <a *ngIf="element.uiShowFlowID.ProcessFlowID > 0" (click)="setVaProFIDDetail(element)"
+                  style="cursor: pointer;">{{element.uiShowFlowID.uiShowProcessFlowID}}</a>
+                <a *ngIf="element.uiShowFlowID.ProcessFlowID == 0" (click)="setVaKeyDetail(element)"
+                  style="cursor: pointer;">{{element.uiShowFlowID.uiShowAbsID}}</a> </td>
+            </ng-container> -->
+  
+  
+  
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+  
+      </div>
+      <div *ngIf="AllAbsEmp.length == 0">
+        <ng-container i18n>此查詢條件查無資訊</ng-container>
+      </div>
+    </div>
+  </div>
+  
+  <app-search-va-detail *ngIf="showVaDataDetail" [getVaDataTitle]="setToNextVaDataTitle" [getShowTransSignDetail]="false"
+    [getShowTakeDetail]="false" (goback)="onGoBackFunction()">
+  </app-search-va-detail>
+  
+  <div class="modal" id="Dept_chooseChnageEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="vertical-alignment-helper">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <app-choosebase (saveEmptoView)="Dept_onSaveChangeEmptoView($event)" [systemID]="SearchMan.EmpCode">
+            </app-choosebase>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--My dialog選擇互調員工-->
+  <div class="modal" id="chooseDeptdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <div *ngIf="SearchMan">
+              <app-choosedept-ma *ngIf="chooseDeptdialog_ShowDialog" [IsTop]="true" [SearchEmpID]="SearchMan.EmpCode"
+                (saveDepttoView)="onSaveDepttoView_KeyDept($event)"></app-choosedept-ma>
+            </div>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>確認</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--dialog選擇請假部門-->

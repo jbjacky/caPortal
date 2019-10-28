@@ -118,7 +118,7 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
             this.searchEmpCode = x.EmpCode
             this.writeEmpMan.EmpCode = x.EmpCode
             this.writeEmpMan.EmpNameC = x.EmpNameC
-            this.Sub_onChangeSignMan$.next(x.EmpCode)
+
             if (x.EmpNameC) {
               this.searchEmpName = x.EmpNameC;
             } else {
@@ -538,6 +538,8 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
               this.alldelformpeople[i]._id = 'del_id' + i;
               this.alldelformpeople[i]._idherf = '#del_id' + i;
             }
+            this.Sub_onChangeSignMan$.next(EmpID)
+            //簽核人員
           }
         }
       )

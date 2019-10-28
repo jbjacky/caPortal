@@ -30,6 +30,7 @@ import { CheckDayHourMinuteNotZero } from 'src/app/UseVoid/void_CheckDayHourMinu
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GetEventDateDataClass } from 'src/app/Models/GetEventDateDataClass';
 import { GetEventDateGetApiClass } from 'src/app/Models/PostData_API_Class/GetEventDateGetApiClass';
+import { isValidTime } from 'src/app/UseVoid/void_isVaildDatetime';
 
 declare let $: any; //use jquery
 
@@ -692,22 +693,22 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
           $("#id_ipt_starttime").addClass("errorInput");
           return true
         }
-        //  else if (!isValidTime(this.dateTimeS.toString())) {
-        //   this.errorDateAndTime = { state: true, errorString: '起始時間格式錯誤' };
-        //   $("#id_ipt_starttime").addClass("errorInput");
-        //   return
-        // }
+         else if (!isValidTime(this.dateTimeS.toString())) {
+          this.errorDateAndTime = { state: true, errorString: '起始時間格式錯誤' };
+          $("#id_ipt_starttime").addClass("errorInput");
+          return
+        }
 
         if ((this.writevaform.endtime).length == 0) {
           this.errorDateAndTime = { state: true, errorString: '請填寫結束時間' }
           $("#id_ipt_endtime").addClass("errorInput");
           return true
         }
-        //  else if (!isValidTime(doFormatDate(this.dateTimeE.toString()))) {
-        //   this.errorDateAndTime = { state: true, errorString: '結束時間格式錯誤' };
-        //   $("#id_ipt_endtime").addClass("errorInput");
-        //   return
-        // }
+         else if (!isValidTime(this.dateTimeE.toString())) {
+          this.errorDateAndTime = { state: true, errorString: '結束時間格式錯誤' };
+          $("#id_ipt_endtime").addClass("errorInput");
+          return
+        }
       }
 
       if (this.writevaform.everydayloop) {

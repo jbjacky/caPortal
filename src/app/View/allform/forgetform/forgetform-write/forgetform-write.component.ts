@@ -68,7 +68,9 @@ export class ForgetformWriteComponent implements OnInit, AfterViewInit, OnDestro
   ngOnInit() {
     this.Sub_onChangeSignMan$.next(this.getAttendCard.forget_man_code)
 
-    this.GetApiDataServiceService.getWebApiData_GetCauseByForm().subscribe(
+    this.GetApiDataServiceService.getWebApiData_GetCauseByForm()
+    .pipe(takeWhile(() => this.api_subscribe))
+    .subscribe(
       (data: any) => {
         for (let x of data) {
           this.Cause.push({ CauseID: x.CauseID, CauseNameC: x.CauseNameC })

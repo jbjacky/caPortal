@@ -15,6 +15,7 @@ import { NewVaSearchFlowSignClass } from 'src/app/Models/NewVaSearchFlowSignClas
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { TransSignStateGetApiClass } from 'src/app/Models/PostData_API_Class/TransSignStateGetApiClass';
+import { void_completionTenNum } from 'src/app/UseVoid/void_CompletionTenNum';
 declare let $: any; //use jquery
 
 @Component({
@@ -80,9 +81,20 @@ export class SearchVaDetailComponent implements OnInit, OnDestroy {
       .subscribe(
         (xData: any) => {
 
+
           this.uishowVaDetail = []
           var i = 0
           for (let data of xData.FlowApps) {
+            this.getVaDataTitle.showProcessFlowID = void_completionTenNum(data.ProcessID)
+            this.getVaDataTitle.State =data.State
+            this.getVaDataTitle.EmpCode =data.EmpCode
+            this.getVaDataTitle.EmpNameC =data.EmpNameC
+            this.getVaDataTitle.WriteEmpCode =data.AppEmpCode
+            this.getVaDataTitle.WriteEmpNameC =data.AppEmpNameC
+            this.getVaDataTitle.day =data.UseDayHourMinute.Day
+            this.getVaDataTitle.hour =data.UseDayHourMinute.Hour
+            this.getVaDataTitle.minute =data.UseDayHourMinute.Minute
+
             i++
             var getSetAbsFlowAppsDetail: showAbsFlowAppsDetailClass[] = []
 
@@ -165,6 +177,25 @@ export class SearchVaDetailComponent implements OnInit, OnDestroy {
           this.uishowVaDetail = []
           var i = 0
           for (let data of xData.FlowApps) {
+            if(data.AutoKey){
+              if(data.AutoKey > 0){
+                this.getVaDataTitle.key =data.AutoKey.toString()
+              }else{
+                this.getVaDataTitle.key =data.key.toString()
+              }
+            }else{
+              this.getVaDataTitle.key =data.key.toString()
+            }
+            
+            this.getVaDataTitle.State =data.State
+            this.getVaDataTitle.EmpCode =data.EmpCode
+            this.getVaDataTitle.EmpNameC =data.EmpNameC
+            this.getVaDataTitle.WriteEmpCode =data.AppEmpCode
+            this.getVaDataTitle.WriteEmpNameC =data.AppEmpNameC
+            this.getVaDataTitle.day =data.UseDayHourMinute.Day
+            this.getVaDataTitle.hour =data.UseDayHourMinute.Hour
+            this.getVaDataTitle.minute =data.UseDayHourMinute.Minute
+
             i++
             var getSetAbsFlowAppsDetail: showAbsFlowAppsDetailClass[] = []
 

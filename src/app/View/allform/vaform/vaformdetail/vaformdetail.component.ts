@@ -180,7 +180,7 @@ export class VaformdetailComponent implements OnInit, OnDestroy {
         sendAbsFlowAppsDetail.push({
           EmpID: reallysendvaformFlowApps_AbsFlowAppsDetail.EmpID,
           HoliDayID: reallysendvaformFlowApps_AbsFlowAppsDetail.HoliDayID,
-          DateB: doFormatDate(reallysendvaformFlowApps_AbsFlowAppsDetail.DateB),
+          DateB: formatDateTime(reallysendvaformFlowApps_AbsFlowAppsDetail.DateB).getDate,
           TimeB: reallysendvaformFlowApps_AbsFlowAppsDetail.TimeB,
           TimeE: reallysendvaformFlowApps_AbsFlowAppsDetail.TimeE,
           DateTimeB: reallysendvaformFlowApps_AbsFlowAppsDetail.DateTimeB,

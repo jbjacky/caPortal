@@ -72,6 +72,7 @@ import { SwitchUserComponent } from '../switch-user/switch-user.component';
 import { LoginLogInfoComponent } from '../login-log-info/login-log-info.component';
 import { EmailLogInfoComponent } from '../email-log-info/email-log-info.component';
 import { DayRoteComponent } from '../shareComponent/day-rote/day-rote.component';
+import { PersonnelSearchVaComponent } from '../personnel-search-va/personnel-search-va.component';
 
 const routes: Routes = [
   {
@@ -87,136 +88,262 @@ const routes: Routes = [
       //   path: 'vaform',
       //   loadChildren: () => VaFormModule
       // },
-      { path: 'vaform', loadChildren: 'src/app/View/allform/vaform/vaform.module#VaformModule' ,
-      canActivate: [AuthGuard],},
-    
+      {
+        path: 'vaform', loadChildren: 'src/app/View/allform/vaform/vaform.module#VaformModule',
+        canActivate: [AuthGuard],
+      },
+
       //請假單
-      { path: 'delform', component: DelformComponent ,
-      canActivate: [AuthGuard]},
-      { path: 'changeform', component: ChangeformComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'forgetform', component: ForgetformComponent ,
-      canActivate: [AuthGuard],},
+      {
+        path: 'delform', component: DelformComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'changeform', component: ChangeformComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'forgetform', component: ForgetformComponent,
+        canActivate: [AuthGuard],
+      },
       //lazylodingtest
       { path: 'reviewform', loadChildren: 'src/app/View/allform/reviewform/reviewform.module#ReviewformModule' },
-    
+
       // { path: 'reviewform', component: ReviewformComponent },
       // { path: 'reviewformdetailvacation', component: ReviewformDetailVacationComponent },
-      { path: 'ChoosebaseComponent', component: ChoosebaseComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'ChoosebaselevelComponent', component: ChoosebaselevelComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'OwnSearchComponent', component: OwnSearchComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'SearchAttendanceComponent', component: SearchAttendanceComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'PersonnelSearchComponent', component: PersonnelSearchComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'ChoosedeptComponent', component: ChoosedeptComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'SearchkeydeptComponent', component: SearchkeydeptComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'SelectSignerComponent', component: SelectSignerComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'RemarksComponent', component: RemarksComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'WriteremarksformComponent', component: WriteremarksformComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'ChoosedatetimeSeComponent', component: ChoosedatetimeSeComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'CanapproviddayComponent', component: CanapproviddayComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'EditCanapproviddayComponent', component: EditCanapproviddayComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'ChangeNonShiftComponent', component: ChangeNonShiftComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'ChangeRzComponent', component: ChangeRzComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'SearchForgetFormComponent', component: SearchForgetFormComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'SearchFormComponent', component: SearchFormComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'ChooseBaseOrDeptComponent', component: ChooseBaseOrDeptComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'PersonnelSearchFormComponentComponent', component: PersonnelSearchFormComponentComponent ,
-      canActivate: [AuthGuard],},
-      { path: 'SharecalendarComponent', component: SharecalendarComponent,
-      canActivate: [AuthGuard],},
-      { path: 'OwnSearchRoteComponent', component: OwnSearchRoteComponent,
-      canActivate: [AuthGuard],},
-      { path: 'PersonnelSearchRoteComponent', component: PersonnelSearchRoteComponent,
-      canActivate: [AuthGuard],},
-      { path: 'SearchDelDetailComponent', component: SearchDelDetailComponent,
-      canActivate: [AuthGuard],},
-      { path: 'SearchForgetDetailComponent', component: SearchForgetDetailComponent,
-      canActivate: [AuthGuard],},
-      { path: 'PersonnelSearchTreeviewComponent', component: PersonnelSearchTreeviewComponent,
-      canActivate: [AuthGuard],},
-      { path: 'PersonnelSearchSupervisorlVaRecordComponent', component: PersonnelSearchSupervisorlVaRecordComponent,
-      canActivate: [AuthGuard],},
-      { path: 'SearchChangeDetailRRComponent', component: SearchChangeDetailRRComponent,
-      canActivate: [AuthGuard],},
-      { path: 'SearchChangeDetailRZComponent', component: SearchChangeDetailRZComponent,
-      canActivate: [AuthGuard],},
-      { path: 'SearchChangeDetailDRComponent', component: SearchChangeDetailDRComponent,
-      canActivate: [AuthGuard],},
-      { path: 'NewsShowDetailComponent/:id', component: NewsShowDetailComponent,
-      canActivate: [AuthGuard],},
-      { path: 'NewsShowAllComponent', component: NewsShowAllComponent,
-      canActivate: [AuthGuard],},
-      { path: 'NewsManageComponent', component: NewsManageComponent,
-      canActivate: [AuthGuard],},
-      { path: 'NewsDataEditComponent/:id', component: NewsDataEditComponent,
-      canActivate: [AuthGuard],},
-      { path: 'NewsAddComponent', component: NewsAddComponent,
-      canActivate: [AuthGuard],},
+      {
+        path: 'ChoosebaseComponent', component: ChoosebaseComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'ChoosebaselevelComponent', component: ChoosebaselevelComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'OwnSearchComponent', component: OwnSearchComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SearchAttendanceComponent', component: SearchAttendanceComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'PersonnelSearchComponent', component: PersonnelSearchComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'ChoosedeptComponent', component: ChoosedeptComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SearchkeydeptComponent', component: SearchkeydeptComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SelectSignerComponent', component: SelectSignerComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'RemarksComponent', component: RemarksComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'WriteremarksformComponent', component: WriteremarksformComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'ChoosedatetimeSeComponent', component: ChoosedatetimeSeComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'CanapproviddayComponent', component: CanapproviddayComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'EditCanapproviddayComponent', component: EditCanapproviddayComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'ChangeNonShiftComponent', component: ChangeNonShiftComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'ChangeRzComponent', component: ChangeRzComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SearchForgetFormComponent', component: SearchForgetFormComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SearchFormComponent', component: SearchFormComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'ChooseBaseOrDeptComponent', component: ChooseBaseOrDeptComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'PersonnelSearchFormComponentComponent', component: PersonnelSearchFormComponentComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SharecalendarComponent', component: SharecalendarComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'OwnSearchRoteComponent', component: OwnSearchRoteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'PersonnelSearchRoteComponent', component: PersonnelSearchRoteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SearchDelDetailComponent', component: SearchDelDetailComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SearchForgetDetailComponent', component: SearchForgetDetailComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'PersonnelSearchTreeviewComponent', component: PersonnelSearchTreeviewComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'PersonnelSearchSupervisorlVaRecordComponent', component: PersonnelSearchSupervisorlVaRecordComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SearchChangeDetailRRComponent', component: SearchChangeDetailRRComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SearchChangeDetailRZComponent', component: SearchChangeDetailRZComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SearchChangeDetailDRComponent', component: SearchChangeDetailDRComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'NewsShowDetailComponent/:id', component: NewsShowDetailComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'NewsShowAllComponent', component: NewsShowAllComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'NewsManageComponent', component: NewsManageComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'NewsDataEditComponent/:id', component: NewsDataEditComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'NewsAddComponent', component: NewsAddComponent,
+        canActivate: [AuthGuard],
+      },
 
-      { path: 'TestWriteComponent', component: TestWriteComponent,
-      canActivate: [AuthGuard],},
-      { path: 'FormConditionComponent', component: FormConditionComponent,
-      canActivate: [AuthGuard],},
+      {
+        path: 'TestWriteComponent', component: TestWriteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'FormConditionComponent', component: FormConditionComponent,
+        canActivate: [AuthGuard],
+      },
 
-      { path: 'SurplusLeaveComponent', component: SurplusLeaveComponent,
-      canActivate: [AuthGuard],},
-      { path: 'DesignatedAuditorComponent', component: DesignatedAuditorComponent,
-      canActivate: [AuthGuard],},
-      { path: 'DeptAdministrativeComponent', component: DeptAdministrativeComponent,
-      canActivate: [AuthGuard],},
-      { path: 'AgentWriteComponent', component: AgentWriteComponent,
-      canActivate: [AuthGuard],},
-      { path: 'HrDeptComponent', component: HrDeptComponent,
-      canActivate: [AuthGuard],},
-      { path: 'SignProxymanComponent', component: SignProxymanComponent,
-      canActivate: [AuthGuard],},
-      { path: 'ChangeRzNRComponent', component: ChangeRzNRComponent,
-      canActivate: [AuthGuard],},
-      { path: 'ChangeTwoRComponent', component: ChangeTwoRComponent,
-      canActivate: [AuthGuard],},
-      { path: 'ChangeNonShiftSameComponent', component: ChangeNonShiftSameComponent,
-      canActivate: [AuthGuard],},
-      { path: 'EmailContentEditComponent', component: EmailContentEditComponent,
-      canActivate: [AuthGuard],},
-      { path: 'ChangeTwoPTComponent', component: ChangeTwoPTComponent,
-      canActivate: [AuthGuard],},
-      { path: 'RoleSettingComponent', component: RoleSettingComponent,
-      canActivate: [AuthGuard],},
-      { path: 'PageRoleSettingComponent', component: PageRoleSettingComponent,
-      canActivate: [AuthGuard],},
-      { path: 'PersonRoleSettingComponent', component: PersonRoleSettingComponent,
-      canActivate: [AuthGuard],},
-      { path: 'PersonnelSearchSurplusLeaveComponent', component: PersonnelSearchSurplusLeaveComponent,
-      canActivate: [AuthGuard],},
-      { path: 'DeptVaSearchComponent', component: DeptVaSearchComponent,
-      canActivate: [AuthGuard],},
-      { path: 'DeptCalendarSearchComponent', component: DeptCalendarSearchComponent,
-      canActivate: [AuthGuard],},
-      { path: 'UpdateFormInfoComponent', component: UpdateFormInfoComponent,
-      canActivate: [AuthGuard],},
-      { path: 'SwitchUserComponent', component: SwitchUserComponent,
-      canActivate: [AuthGuard],},
-      { path: 'LoginLogInfoComponent', component: LoginLogInfoComponent},
-      { path: 'EmailLogInfoComponent', component: EmailLogInfoComponent,
-      canActivate: [AuthGuard],}
+      {
+        path: 'SurplusLeaveComponent', component: SurplusLeaveComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'DesignatedAuditorComponent', component: DesignatedAuditorComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'DeptAdministrativeComponent', component: DeptAdministrativeComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'AgentWriteComponent', component: AgentWriteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'HrDeptComponent', component: HrDeptComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SignProxymanComponent', component: SignProxymanComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'ChangeRzNRComponent', component: ChangeRzNRComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'ChangeTwoRComponent', component: ChangeTwoRComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'ChangeNonShiftSameComponent', component: ChangeNonShiftSameComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'EmailContentEditComponent', component: EmailContentEditComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'ChangeTwoPTComponent', component: ChangeTwoPTComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'RoleSettingComponent', component: RoleSettingComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'PageRoleSettingComponent', component: PageRoleSettingComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'PersonRoleSettingComponent', component: PersonRoleSettingComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'PersonnelSearchSurplusLeaveComponent', component: PersonnelSearchSurplusLeaveComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'DeptVaSearchComponent', component: DeptVaSearchComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'DeptCalendarSearchComponent', component: DeptCalendarSearchComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'UpdateFormInfoComponent', component: UpdateFormInfoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'SwitchUserComponent', component: SwitchUserComponent,
+        canActivate: [AuthGuard],
+      },
+      { path: 'LoginLogInfoComponent', component: LoginLogInfoComponent },
+      {
+        path: 'EmailLogInfoComponent', component: EmailLogInfoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'PersonnelSearchVaComponent', component: PersonnelSearchVaComponent,
+        canActivate: [AuthGuard],
+      }
+
+
     ]
   },
 

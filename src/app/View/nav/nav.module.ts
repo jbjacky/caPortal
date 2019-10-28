@@ -106,6 +106,7 @@ import { LoginLogInfoComponent } from '../login-log-info/login-log-info.componen
 import { EmailLogInfoComponent } from '../email-log-info/email-log-info.component';
 import { ExampleHeaderMonth } from 'src/app/Service/datepickerHeaderMonth';
 import { TimeoutInterceptor } from 'src/app/_guards/TimeoutInterceptor';
+import { PersonnelSearchVaComponent } from '../personnel-search-va/personnel-search-va.component';
 
 const MY_DATE_FORMATS = {
   parse: {
@@ -242,7 +243,9 @@ export class MyDateAdapter extends NativeDateAdapter {
     UpdateFormInfoComponent,
     SwitchUserComponent,
     LoginLogInfoComponent,
-    EmailLogInfoComponent
+    EmailLogInfoComponent,
+    
+    PersonnelSearchVaComponent,
 
   ],
   providers: [
