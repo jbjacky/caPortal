@@ -97,7 +97,7 @@ export class SearchChangeDetailRZComponent implements OnInit, OnDestroy {
                 for (let data of x) {
                   var setAttendDate = doFormatDate_getMonthAndDay(formatDateTime(data.AttendDate).getDate)
                   var isSelect: boolean = false
-                  var dataAttenDate = doFormatDate(data.AttendDate)
+                  var dataAttenDate = formatDateTime(data.AttendDate).getDate
                   var calDate = new Date(formatDateTime(data.AttendDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(data.AttendDate).getTime))
                   var calDate_dayofweek = calDate.getDay()
                   if (calDate_dayofweek == 0) {

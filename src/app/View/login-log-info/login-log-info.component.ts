@@ -74,7 +74,7 @@ export class LoginLogInfoComponent implements OnInit, OnDestroy {
     if (this.searchEmpID == '全部') {
       if(this.SearchDate){
         for (let oneLoginLogData of this.LoginLogData) {
-          if (doFormatDate(this.SearchDate) == doFormatDate(oneLoginLogData.LoginDateTime)) {
+          if (doFormatDate(this.SearchDate) == formatDateTime(oneLoginLogData.LoginDateTime).getDate) {
             this.showLoginLogData.push({
               EmpID: oneLoginLogData.EmpID,
               ChangeEmpID: oneLoginLogData.ChangeEmpID,
@@ -98,7 +98,7 @@ export class LoginLogInfoComponent implements OnInit, OnDestroy {
       if(this.SearchDate){
         for (let oneLoginLogData of this.LoginLogData) {
           if (this.searchEmpID == oneLoginLogData.EmpID) {
-            if(doFormatDate(this.SearchDate) == doFormatDate(oneLoginLogData.LoginDateTime)){
+            if(doFormatDate(this.SearchDate) == formatDateTime(oneLoginLogData.LoginDateTime).getDate){
               this.showLoginLogData.push({
                 EmpID: oneLoginLogData.EmpID,
                 ChangeEmpID: oneLoginLogData.ChangeEmpID,

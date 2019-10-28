@@ -91,13 +91,13 @@ export class ChangeRzNRComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.ngZone.run(() => { });
                     this.LoadingPage.show()
                     var checkHaveDate = x.filter(item => {
-                      return doFormatDate(item.AttendDate) == selectDateB
+                      return formatDateTime(item.AttendDate).getDate == selectDateB
                     })
                     if (x.length > 1) {
                       if (checkHaveDate.length > 0) {
                         // console.log('可換')
                         for (let data of x) {
-                          data.AttendDate = doFormatDate(data.AttendDate)
+                          data.AttendDate = formatDateTime(data.AttendDate).getDate
                           if (checkHaveDate[0].ActualRote.RoteID == data.ActualRote.RoteID) {
 
                           } else {
@@ -161,13 +161,13 @@ export class ChangeRzNRComponent implements OnInit, AfterViewInit, OnDestroy {
                   this.ngZone.run(() => { });
                   this.LoadingPage.show()
                   var checkHaveDate = x.filter(item => {
-                    return doFormatDate(item.AttendDate) == selectDateB
+                    return formatDateTime(item.AttendDate).getDate == selectDateB
                   })
                   if (x.length > 1) {
                     if (checkHaveDate.length > 0) {
                       // console.log('可換')
                       for (let data of x) {
-                        data.AttendDate = doFormatDate(data.AttendDate)
+                        data.AttendDate = formatDateTime(data.AttendDate).getDate
                         if (checkHaveDate[0].ActualRote.RoteID == data.ActualRote.RoteID) {
 
                         } else {
@@ -503,7 +503,7 @@ export class ChangeRzNRComponent implements OnInit, AfterViewInit, OnDestroy {
                   for (let data of x) {
                     var setAttendDate = doFormatDate_getMonthAndDay(formatDateTime(data.AttendDate).getDate)
                     var isSelect: boolean = false
-                    var dataAttenDate = doFormatDate(data.AttendDate)
+                    var dataAttenDate = formatDateTime(data.AttendDate).getDate
                     var calDate = new Date(formatDateTime(data.AttendDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(data.AttendDate).getTime))
                     var calDate_dayofweek = calDate.getDay()
                     if (calDate_dayofweek == 0) {

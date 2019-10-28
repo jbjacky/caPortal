@@ -467,7 +467,7 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
             this.AttendanceApiData = x;
             for (let i = 0; i < this.AttendanceApiData.length; i++) {
               var date = new Date(this.AttendanceApiData[i].AttendDate.toString())
-              this.AttendanceApiData[i].AttendDate = doFormatDate(this.AttendanceApiData[i].AttendDate)
+              this.AttendanceApiData[i].AttendDate = formatDateTime(this.AttendanceApiData[i].AttendDate).getDate
               if (date.getDay() == 0) {
                 this.AttendanceApiData[i].DayOfweek = '日'
               } else {
@@ -682,7 +682,7 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
 
                   for (let i = 0; i < this.AttendanceApiData.length; i++) {
                     var date = new Date(this.AttendanceApiData[i].AttendDate.toString())
-                    this.AttendanceApiData[i].AttendDate = doFormatDate(this.AttendanceApiData[i].AttendDate)
+                    this.AttendanceApiData[i].AttendDate = formatDateTime(this.AttendanceApiData[i].AttendDate).getDate
                     if (date.getDay() == 0) {
                       this.AttendanceApiData[i].DayOfweek = '日'
                     } else {

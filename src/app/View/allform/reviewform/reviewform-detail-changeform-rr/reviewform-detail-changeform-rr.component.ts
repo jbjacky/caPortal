@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
-import { doFormatDate, formatDateTime, doFormatDate_getMonthAndDay, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { formatDateTime, doFormatDate_getMonthAndDay, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
 import { weekDate } from 'src/app/UseVoid/void_weekDate';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { mergeMap, takeWhile, debounceTime } from 'rxjs/operators';

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
-import { doFormatDate, formatDateTime, doFormatDate_getMonthAndDay, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { formatDateTime, doFormatDate_getMonthAndDay, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
 import { weekDate } from 'src/app/UseVoid/void_weekDate';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { mergeMap, takeWhile, debounceTime } from 'rxjs/operators';
@@ -178,7 +178,7 @@ export class ReviewformDetailChangeformRZComponent implements OnInit, OnDestroy 
                   for (let data of x) {
                     var setAttendDate = doFormatDate_getMonthAndDay(formatDateTime(data.AttendDate).getDate)
                     var isSelect: boolean = false
-                    var dataAttenDate = doFormatDate(data.AttendDate)
+                    var dataAttenDate = formatDateTime(data.AttendDate).getDate
                     var calDate = new Date(formatDateTime(data.AttendDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(data.AttendDate).getTime))
                     var calDate_dayofweek = calDate.getDay()
                     if (calDate_dayofweek == 0) {

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy, AfterViewInit } fr
 import { Router, NavigationEnd } from '@angular/router';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { GetAttendExceptionalClass } from 'src/app/Models/PostData_API_Class/GetAttendExceptionalClass';
-import { getapi_formatTimetoString, doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
+import { getapi_formatTimetoString, doFormatDate, formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
 import { AttendCard } from 'src/app/Models/AttendCard'
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
@@ -267,7 +267,7 @@ export class ForgetformComponent implements OnInit, AfterViewInit, OnDestroy {
               AttendData.write_man_code = this.User.write_man_code
               AttendData.write_man_name = this.User.write_man_name
 
-              AttendData.AttendDate = doFormatDate(x.AttendDate)
+              AttendData.AttendDate = formatDateTime(x.AttendDate).getDate
 
               if (x.LateMins > 0) {
                 AttendData.LateMins = true
