@@ -39,6 +39,7 @@ export function void_ReGoLoginPage(){
 export function void_LogoutPage(){
     localStorage.removeItem('API_Token')
     localStorage.removeItem('API_Code')
-    var URL = 'https://iam.china-airlines.com/pkmslogout'
-    window.location.href = URL;
+    void_goLoginPage();
+    // var URL = 'https://iam.china-airlines.com/pkmslogout'
+    // window.location.href = URL;
 }

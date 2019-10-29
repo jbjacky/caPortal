@@ -3,7 +3,7 @@
 // 10.16.47.61
 
     // var QAhref = 'https://192.168.1.46/eepWebServiceExtend/Upload/EAM_QA.pdf'
-    
+
     // var manualhref = 'https://192.168.1.46/eepWebServiceExtend/Upload/EAM_Manual.pdf'
 
     // var TimeOut = '20000'
@@ -47,7 +47,7 @@
 
 
     // var QAhref = 'https://192.168.1.46/eepWebServiceExtend/Upload/EAM_QA.pdf'
-    
+
     // var manualhref = 'https://192.168.1.46/eepWebServiceExtend/Upload/EAM_Manual.pdf'
 
     // var TimeOut = '20000'
@@ -72,9 +72,9 @@
 
 
     // var QAhref = 'https://hdqhr05t.china-airlines.com/eepWebServiceExtend/Upload/EAM_QA.pdf'
-    
+
     // var manualhref = 'https://hdqhr05t.china-airlines.com/eepWebServiceExtend/Upload/EAM_Manual.pdf'
-    
+
     // var TimeOut = '20000'
 
     // var desktopTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
@@ -96,9 +96,9 @@
     //上華航測試區
 
     // var QAhref = 'https://eam.china-airlines.com/eepWebServiceExtend/Upload/EAM_QA.pdf'
-    
+
     // var manualhref = 'https://eam.china-airlines.com/eepWebServiceExtend/Upload/EAM_Manual.pdf'
-    
+
     // var TimeOut = '20000'
 
     // var desktopTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
@@ -120,9 +120,9 @@
     //上華航正式區
 
     // var QAhref = 'https://192.168.1.46/eepWebServiceExtend/Upload/EAM_QA.pdf'
-    
+
     // var manualhref = 'https://192.168.1.46/eepWebServiceExtend/Upload/EAM_Manual.pdf'
-    
+
     // var TimeOut = '20000'
 
     // var desktopTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
@@ -141,6 +141,42 @@
 
     // var apiGetFileURL = 'https://192.168.1.46/eepWebServiceExtend/'
     // 本機
+
+
+
+
+
+
+//   <title>JB</title>
+
+//   <base href="/JbPortal/Portal/">
+
+//   <meta name="viewport" content="width=device-width, initial-scale=1">
+//   <link rel="icon" type="image/x-icon" href="favicon.ico">
+//   <script>
+
+//     var QAhref = 'https://publish.jbjob.com.tw/JbPortal/testPDF.pdf'
+
+//     var manualhref = 'https://publish.jbjob.com.tw/JbPortal/testPDF.pdf'
+
+//     var TimeOut = '200000'
+
+//     var desktopTitleString = '員工差假系統'
+
+//     var phoneTitleString = '員工差假系統'
+
+//     var footerString = ''
+
+//     var OAuthPath = 'https://publish.jbjob.com.tw/DEMO/OAuth20/authorize.aspx'
+
+//     var _client_id = 't4Ev4xhBABswPSkXIwBn'
+
+//     var _redirect_uri_LinkOuthpage = 'https://publish.jbjob.com.tw/JbPortal/Portal/LinkOuthpageComponent'
+
+//     var apiPostURL = 'https://publish.jbjob.com.tw/DEMO/eepWebService/'
+
+//     var apiGetFileURL = 'https://publish.jbjob.com.tw/DEMO/eepWebServiceExtend/'
+//JB
 
 
 

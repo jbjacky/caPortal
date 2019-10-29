@@ -3,9 +3,6 @@
   為了能以中文註解，一定要宣告為UTF-8
 */
 /*------------------------------------------------------------------------*-
-$2015樣版 template: SystemMain
-version 1.1 date 2018/09/13
-
 
 說明
 IE CSS hack
@@ -295,8 +292,9 @@ body {
 
 .logo-ci {
   margin: 10px;
+  margin-left: 0px;
   margin-top: 12.5px;
-  margin-right: 20px;
+  margin-right: 28px;
   width: 160px;
   height: 36px;
   float: left;
@@ -426,7 +424,7 @@ a.btn-log-out{
 .btn-main-nav{
   width: 45px;
   height: 45px;
-  margin: 8px 10px 8px;
+  margin: 8px 8px 8px;
   background: url(../images-template/img-temp-systemMain/btn-main-nav.png) center center no-repeat;
   /* _background: url(../images-template/img-temp-systemMain/btn-main-nav.gif) center center no-repeat; */
   border-radius: 5px;

@@ -48,7 +48,7 @@ $(document).ready(function () {
 	//手機瑩幕時(768px內)，收合選單
 	if( $('body').hasClass("body-small") ){
 		$('body').removeClass("offcanvas-active");
-		$.cookie("isMainNavActive", false);	
+		// $.cookie("isMainNavActive", false);	
 	}
 
 
@@ -63,7 +63,7 @@ $(document).ready(function () {
 			
 			//手機瑩幕時(768px內)，收合選單
 			$('body').removeClass("offcanvas-active");
-			$.cookie("isMainNavActive", false);
+			// $.cookie("isMainNavActive", false);
 			
 		}
 		
@@ -182,48 +182,48 @@ $(document).ready(function () {
 	
 	// isMainNavActive
 	// 先判斷是否已有 cookie 值
-	if($.cookie("isMainNavActive")===null){
-	   console.log("[New] 進入判斷是否有 isMainNavActive 為 null");
+	// if($.cookie("isMainNavActive")===null){
+	//    console.log("[New] 進入判斷是否有 isMainNavActive 為 null");
 	  
-	  if( $("body").hasClass("offcanvas-active") ){
-		  $.cookie("isMainNavActive", true, { expires: 0.02});		//cookie半小時後失效
-		  console.log("[New] 載入頁面後，偵測到null 然後放true");
+	//   if( $("body").hasClass("offcanvas-active") ){
+	// 	  $.cookie("isMainNavActive", true, { expires: 0.02});		//cookie半小時後失效
+	// 	  console.log("[New] 載入頁面後，偵測到null 然後放true");
 		  
-	  }else{
-		  $.cookie("isMainNavActive", false);
-		  console.log("[New] 載入頁面後偵測到null 然後放false");
-	  }
+	//   }else{
+	// 	  $.cookie("isMainNavActive", false);
+	// 	  console.log("[New] 載入頁面後偵測到null 然後放false");
+	//   }
 	  
-	}else{
-	  console.log("[New] 進入判斷是否有 isMainNavActive 有東西");  
+	// }else{
+	//   console.log("[New] 進入判斷是否有 isMainNavActive 有東西");  
 		
-	  // 取出記錄中的 isMainNavActive
-	  var _isMainNavActive = $.cookie("isMainNavActive");
-	  console.log( _isMainNavActive );
+	//   // 取出記錄中的 isMainNavActive
+	//   var _isMainNavActive = $.cookie("isMainNavActive");
+	//   console.log( _isMainNavActive );
 	  
-	  if(_isMainNavActive === 'true'){
+	//   if(_isMainNavActive === 'true'){
 		  
-		  //載入記錄之前，將offcanvas動畫取消 cancel transition
-		  $('#page-container').addClass("transition-none");
-		  $('#main-nav').addClass("transition-none");
-		  
-		  
-		  $("body").addClass("offcanvas-active");
-		  console.log("[New] 載入頁面後，偵測到有值為true 然後body 為 active");
+	// 	  //載入記錄之前，將offcanvas動畫取消 cancel transition
+	// 	  $('#page-container').addClass("transition-none");
+	// 	  $('#main-nav').addClass("transition-none");
 		  
 		  
-		  //確定之後，回覆動畫
-          setTimeout(function () {
-		  	$('#page-container').removeClass("transition-none");
-		  	$('#main-nav').removeClass("transition-none");			
-          }, 1000);
+	// 	  $("body").addClass("offcanvas-active");
+	// 	  console.log("[New] 載入頁面後，偵測到有值為true 然後body 為 active");
 		  
 		  
-	  }else if( _isMainNavActive === 'false' ){
-		  $("body").removeClass("offcanvas-active");
-		  console.log("載入頁面後，偵測到有值為false 然後body 為 沒有 active");
-	  }
-	}
+	// 	  //確定之後，回覆動畫
+    //       setTimeout(function () {
+	// 	  	$('#page-container').removeClass("transition-none");
+	// 	  	$('#main-nav').removeClass("transition-none");			
+    //       }, 1000);
+		  
+		  
+	//   }else if( _isMainNavActive === 'false' ){
+	// 	  $("body").removeClass("offcanvas-active");
+	// 	  console.log("載入頁面後，偵測到有值為false 然後body 為 沒有 active");
+	//   }
+	// }
 	//==========[cookie] 跨頁面記錄offcanvas啟動狀態 End ==========
 
 	  
@@ -231,22 +231,22 @@ $(document).ready(function () {
 
 
 	//========== offcanvas 開啟收合控制==========
-	$('[data-toggle="offcanvas"]').click(function () {
-	  $('body').toggleClass('offcanvas-active');
+	// $('[data-toggle="offcanvas"]').click(function () {
+	//   $('body').toggleClass('offcanvas-active');
 	  
 	  
-	  //寫入cookie記錄
-	  if( $("body").hasClass("offcanvas-active") ){
-		  $.cookie("isMainNavActive", true, { expires: 0.02});		//cookie半小時後失效
-		  //console.log("按下選單 active 開啟")
+	//   //寫入cookie記錄
+	//   if( $("body").hasClass("offcanvas-active") ){
+	// 	  $.cookie("isMainNavActive", true, { expires: 0.02});		//cookie半小時後失效
+	// 	  //console.log("按下選單 active 開啟")
 		    
-	  }else if ( !$("body").hasClass("offcanvas-active") ){
-		  $.cookie("isMainNavActive", false);
-		  //console.log("按下選單 active 刪除");		  
-	  }	
+	//   }else if ( !$("body").hasClass("offcanvas-active") ){
+	// 	  $.cookie("isMainNavActive", false);
+	// 	  //console.log("按下選單 active 刪除");		  
+	//   }	
 	  
 	   
-	});
+	// });
 	//========== offcanvas 開啟收合控制 end ==========
 
 	
