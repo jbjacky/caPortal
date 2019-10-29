@@ -78,7 +78,7 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
 
   CatchMoreGetFlowViewDept: GetFlowViewDeptClass
   // MoreSearchPage = 1
-  CanSerchMore:boolean = false
+  CanSerchMore: boolean = false
   // MoreOnSearchForm() {
   //   if(this.CanSerchMore){
   //     this.MoreSearchPage = this.MoreSearchPage + 1
@@ -128,9 +128,13 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
         Handle: this.Search_FormCondition.Handle
       }
 
-      if (this.CheckSearch()) {
-        this.CatchMoreGetFlowViewDept = JSON.parse(JSON.stringify(GetFlowViewDept))
-        this.getSearchFlowForm_Dept(GetFlowViewDept)
+      if (this.SearchVal.chooseDepta.DeptaID) {
+        if (this.CheckSearch()) {
+          this.CatchMoreGetFlowViewDept = JSON.parse(JSON.stringify(GetFlowViewDept))
+          this.getSearchFlowForm_Dept(GetFlowViewDept)
+        }
+      }else{
+        alert('請選擇查詢單位')
       }
     }
   }
@@ -394,13 +398,11 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
           (GetFlowViewAbsGetApiData: GetFlowViewAbsGetApiDataClass[]) => {
             this.getApiVaData = GetFlowViewAbsGetApiData
             this.showForm(GetFlowViewDept.FormCode)
-            if(GetFlowViewAbsGetApiData.length>0){
+            if (GetFlowViewAbsGetApiData.length > 0) {
               this.CanSerchMore = true
-            }else{
+            } else {
               this.CanSerchMore = false
             }
-            this.LoadingPage.hide()
-          }, error => {
             this.LoadingPage.hide()
           }
         )
@@ -413,13 +415,11 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
           (GetFlowViewAbscGetApiData: GetFlowViewAbscGetApiDataClass[]) => {
             this.getApiDelData = GetFlowViewAbscGetApiData
             this.showForm(GetFlowViewDept.FormCode)
-            if(GetFlowViewAbscGetApiData.length>0){
+            if (GetFlowViewAbscGetApiData.length > 0) {
               this.CanSerchMore = true
-            }else{
+            } else {
               this.CanSerchMore = false
             }
-            this.LoadingPage.hide()
-          }, error => {
             this.LoadingPage.hide()
           }
         )
@@ -431,13 +431,11 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
           (GetFlowViewCardGetApiData: GetFlowViewCardGetApiDataClass[]) => {
             this.getApiForgetData = GetFlowViewCardGetApiData
             this.showForm(GetFlowViewDept.FormCode)
-            if(GetFlowViewCardGetApiData.length>0){
+            if (GetFlowViewCardGetApiData.length > 0) {
               this.CanSerchMore = true
-            }else{
+            } else {
               this.CanSerchMore = false
             }
-            this.LoadingPage.hide()
-          }, error => {
             this.LoadingPage.hide()
           }
         )
@@ -449,13 +447,11 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
           (GetFlowViewShiftRoteGetApiData: GetFlowViewShiftRoteGetApiDataClass[]) => {
             this.getApiShiftRoteData = GetFlowViewShiftRoteGetApiData
             this.showForm(GetFlowViewDept.FormCode)
-            if(GetFlowViewShiftRoteGetApiData.length>0){
+            if (GetFlowViewShiftRoteGetApiData.length > 0) {
               this.CanSerchMore = true
-            }else{
+            } else {
               this.CanSerchMore = false
             }
-            this.LoadingPage.hide()
-          }, error => {
             this.LoadingPage.hide()
           }
         )
@@ -582,12 +578,12 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
   //   // console.log(r)
   // }
   SearchVal: OutPutValClass
-  HideCondition:boolean = false
+  HideCondition: boolean = false
   getSearhVal(OutPutVal: OutPutValClass) {
     this.SearchVal = JSON.parse(JSON.stringify(OutPutVal))
-    if(this.SearchVal.chooseRadio == 3){
+    if (this.SearchVal.chooseRadio == 3) {
       this.HideCondition = true
-    }else{
+    } else {
       this.HideCondition = false
     }
   }
