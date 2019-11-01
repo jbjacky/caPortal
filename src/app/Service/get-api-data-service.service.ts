@@ -85,6 +85,7 @@ import { GetAttendWishByDeptaGetApiClass } from '../Models/PostData_API_Class/Ge
 import { GetFlowViewDeptClass } from '../Models/PostData_API_Class/GetFlowViewDeptClass';
 import { GetFlowSignAbsGetApiClass } from '../Models/PostData_API_Class/GetFlowSignAbsGetApiClass';
 import { GetCheckAgentByTargetGetApiClass } from '../Models/PostData_API_Class/GetCheckAgentByTargetGetApiClass';
+import { jbUserLoginClass } from '../Models/PostData_API_Class/jbUserLoginClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -123,7 +124,7 @@ export class GetApiDataServiceService {
       'Content-Type': 'application/json',
       // 'Authorization': 'dGVzdDY2Njp0ZXN0NjY2'
 
-      'Authorization': _basic
+      // 'Authorization': _basic
     })
     return _header
   }
@@ -141,6 +142,13 @@ export class GetApiDataServiceService {
       'Authorization': _basic
     })
     return _header
+  }
+
+  getWebApiData_jbLoggin(jbUserLogin:jbUserLoginClass) {
+    return this.http.post(this.localUrl + 'api/BaseHandler/Accountloggin',
+      JSON.stringify(jbUserLogin), {
+        headers: this.GetHeader(),
+      })
   }
 
   /**
