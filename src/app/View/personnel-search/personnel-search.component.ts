@@ -347,7 +347,7 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
         Display: setDisplay,
         ListState: checkListState
       }
-      if (this.EmpBase.EmpCode.length > 0) {
+      if (this.EmpBase.EmpCode.length > 0 && this.errorLeavemanState.state == false) {
 
         this.LoadingPage.show()
         this.GetApiDataServiceService.getWebApiData_GetAttendInfo_Integration(this.GetAttendInfoClass)
@@ -439,6 +439,10 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
       // }
 
       this.searchPageCurrent = 1
+      if(this.chooseDeptaID == null){
+        alert('請選擇查詢部門')
+      }else{
+        
       var GetAttendInfoByDeptGetApi: GetAttendInfoByDeptGetApiClass =
       {
         "DateB": ipt_DateB,
@@ -485,6 +489,7 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
             this.LoadingPage.hide()
           }
         )
+      }
     }
   }
 
