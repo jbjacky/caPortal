@@ -107,7 +107,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
     var _NowDate = new Date();
     var _NowToday = doFormatDate(_NowDate);
 
-    if (localStorage.getItem('API_Token') && localStorage.getItem('API_Code')) {
+    // if (localStorage.getItem('API_Token') && localStorage.getItem('API_Code')) {
       this.GetApiUserService.counter$
         .subscribe(
           (x: any) => {
@@ -118,12 +118,13 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         )
       this.LoadingPage.show()
-      this.GetApiDataServiceService.getWebApiData_GetAuthToken()
-        .pipe(takeWhile(() => this.api_subscribe))
-        .subscribe(
-          (x: CaUserClass) => {
-            if (x) {
+      // this.GetApiDataServiceService.getWebApiData_GetAuthToken()
+      //   .pipe(takeWhile(() => this.api_subscribe))
+      //   .subscribe(
+      //     (x: CaUserClass) => {
+      //       if (x) {
               // console.log('nav')
+              var x = {EmpID:'644488'}
               this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(x.EmpID)
                 .pipe(takeWhile(() => this.api_subscribe))
                 .subscribe(
@@ -189,12 +190,12 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
               this.changeSencondTitle(this.router.url);
 
               // console.log(this.router)
-            } else {
-            }
-          }, error => {
-          }
-        )
-    }
+            // } else {
+        //     }
+        //   }, error => {
+        //   }
+        // )
+    // }
 
 
     this.checkdesktop();

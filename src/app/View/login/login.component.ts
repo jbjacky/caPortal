@@ -40,47 +40,28 @@ export class LoginComponent implements OnInit, OnDestroy {
     // } else {
     //   this.login()
     // }
-
   }
 
   login() {
     // void_goLoginPage();
     // console.log(this.GetApiDataServiceService.localUrl)
-    var _header = new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
     var userLogin: jbUserLoginClass = {
       "Account": this.account.toString(),
       "Password": this.password.toString()
     }
-    this.http.post('http://192.168.1.46/HRWebService/api/BaseHandler/Accountloggin',
-      JSON.stringify(userLogin), {
-      headers: _header,
-    })
+    this.GetApiDataServiceService.getWebApiData_jbLoggin(userLogin)
+
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (jbLoginData: jbLoginDataClass) => {
-          if (jbLoginData.Pass) {
-            localStorage.setItem('EmpID', jbLoginData.EmpID)
-            // this.route.navigateByUrl('/nav')
+         
+          if (jbLoginData.pass) {
+            this.route.navigateByUrl('/nav')
           } else {
             alert('密碼輸入錯誤')
           }
         }
       )
-    // this.GetApiDataServiceService.getWebApiData_jbLoggin(userLogin)
-
-    //   .pipe(takeWhile(() => this.api_subscribe))
-    //   .subscribe(
-    //     (jbLoginData: jbLoginDataClass) => {
-    //       if(jbLoginData.Pass){
-    //         localStorage.setItem('EmpID', jbLoginData.EmpID)
-    //         // this.route.navigateByUrl('/nav')
-    //       }else{
-    //         alert('密碼輸入錯誤')
-    //       }
-    //     }
-    //   )
   }
 
 }

@@ -145,7 +145,7 @@ export class GetApiDataServiceService {
   }
 
   getWebApiData_jbLoggin(jbUserLogin:jbUserLoginClass) {
-    return this.http.post(this.localUrl + 'api/BaseHandler/Accountloggin',
+    return this.http.post(this.localUrl + 'BaseHandler/Accountloggin',
       JSON.stringify(jbUserLogin), {
         headers: this.GetHeader(),
       })
