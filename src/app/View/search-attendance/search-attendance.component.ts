@@ -36,6 +36,8 @@ export class SearchAttendanceComponent implements OnInit {
   ngOnInit() {
     this.searchAttendanceApiData.subscribe(
       (x:any)=>{
+        console.log(void_crossDay('2410'))
+        console.log(getapi_formatTimetoString(void_crossDay('2410').EndTime))
         // console.log(getapi_formatTimetoString(void_crossDay('2402').EndTime))
         this.AttendanceApiData = JSON.parse(JSON.stringify(x));
         // console.log(x)

@@ -14,6 +14,6 @@ var _client_id = 't4Ev4xhBABswPSkXIwBn'
 
 var _redirect_uri_LinkOuthpage = 'http://localhost:4200/LinkOuthpageComponent'
 
-var apiPostURL = 'http://192.168.1.46/HRWebService/api/'
+var apiPostURL = 'https://192.168.1.46/eepwebservice/'
 
 var apiGetFileURL = 'https://192.168.1.46/eepWebServiceExtend/'
