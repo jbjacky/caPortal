@@ -98,8 +98,8 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
       }
       this.LoadingPage.show()
       this.GetApiDataServiceService.getWebApiData_GetBaseByFormDeptDown(GetBaseByFormClass)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe((x: any) => {
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe((x: any) => {
           if (x == null) {
             // alert('工號輸入錯誤')
             this.Assistant(GetBaseByFormClass)
@@ -347,7 +347,7 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
         Display: setDisplay,
         ListState: checkListState
       }
-      if (this.EmpBase.EmpCode.length > 0) {
+      if (this.EmpBase.EmpCode.length > 0 && this.errorLeavemanState.state == false) {
 
         this.LoadingPage.show()
         this.GetApiDataServiceService.getWebApiData_GetAttendInfo_Integration(this.GetAttendInfoClass)
@@ -439,55 +439,59 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
       // }
 
       this.searchPageCurrent = 1
-      var GetAttendInfoByDeptGetApi: GetAttendInfoByDeptGetApiClass =
-      {
-        "DateB": ipt_DateB,
-        "DateE": ipt_DateE,
-        "DeptaID": this.chooseDeptaID,
-        "ChildDept": this.downDept,
-        "PageCurrent": this.searchPageCurrent,
-        "PageRows": this.searchPageRows,
-        "EffectDate": _NowToday,
-        "Display": setDisplay,
-        "ListState": checkListState
+      if (this.chooseDeptaID == null) {
+        alert('請選擇查詢部門')
+      } else {
+
+        var GetAttendInfoByDeptGetApi: GetAttendInfoByDeptGetApiClass =
+        {
+          "DateB": ipt_DateB,
+          "DateE": ipt_DateE,
+          "DeptaID": this.chooseDeptaID,
+          "ChildDept": this.downDept,
+          "PageCurrent": this.searchPageCurrent,
+          "PageRows": this.searchPageRows,
+          "EffectDate": _NowToday,
+          "Display": setDisplay,
+          "ListState": checkListState
+        }
+
+        this.LoadingPage.show()
+        this.GetApiDataServiceService.getWebApiData_GetAttendInfoByDept_Integration(GetAttendInfoByDeptGetApi)
+          .pipe(takeWhile(() => this.api_subscribe))
+          .subscribe(
+            (x: any) => {
+              for (let i = 0; i < x.length; i++) {
+                if (x[i].AttendAbsInfo) {
+                  x[i].AttendAbsInfo = true
+                } else {
+                  x[i].AttendAbsInfo = false
+                }
+              }
+              this.AttendanceApiData = x;
+              for (let i = 0; i < this.AttendanceApiData.length; i++) {
+                var date = new Date(this.AttendanceApiData[i].AttendDate.toString())
+                this.AttendanceApiData[i].AttendDate = formatDateTime(this.AttendanceApiData[i].AttendDate).getDate
+                if (date.getDay() == 0) {
+                  this.AttendanceApiData[i].DayOfweek = '日'
+                } else {
+                  this.AttendanceApiData[i].DayOfweek = chinesenum(date.getDay())
+                }
+              }
+              this.Be_AttendanceApiData$.next(this.AttendanceApiData)
+
+              this.searchPageCurrent = 2
+
+              this.LoadingPage.hide()
+            },
+            err => {
+
+              this.LoadingPage.hide()
+            }
+          )
       }
-
-      this.LoadingPage.show()
-      this.GetApiDataServiceService.getWebApiData_GetAttendInfoByDept_Integration(GetAttendInfoByDeptGetApi)
-        .pipe(takeWhile(() => this.api_subscribe))
-        .subscribe(
-          (x: any) => {
-            for (let i = 0; i < x.length; i++) {
-              if (x[i].AttendAbsInfo) {
-                x[i].AttendAbsInfo = true
-              } else {
-                x[i].AttendAbsInfo = false
-              }
-            }
-            this.AttendanceApiData = x;
-            for (let i = 0; i < this.AttendanceApiData.length; i++) {
-              var date = new Date(this.AttendanceApiData[i].AttendDate.toString())
-              this.AttendanceApiData[i].AttendDate = formatDateTime(this.AttendanceApiData[i].AttendDate).getDate
-              if (date.getDay() == 0) {
-                this.AttendanceApiData[i].DayOfweek = '日'
-              } else {
-                this.AttendanceApiData[i].DayOfweek = chinesenum(date.getDay())
-              }
-            }
-            this.Be_AttendanceApiData$.next(this.AttendanceApiData)
-
-            this.searchPageCurrent = 2
-
-            this.LoadingPage.hide()
-          },
-          err => {
-
-            this.LoadingPage.hide()
-          }
-        )
     }
   }
-
   onSaveEmptoView(event) {
     // console.log(event)
     this.EmpBase.EmpCode = event.split('，')[0]
