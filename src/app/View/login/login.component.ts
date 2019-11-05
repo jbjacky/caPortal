@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   login() {
     // void_goLoginPage();
     // console.log(this.GetApiDataServiceService.localUrl)
+    this.LoadingPage.show()
     var userLogin: jbUserLoginClass = {
       "Account": this.account.toString(),
       "Password": this.password.toString()
@@ -55,10 +56,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe(
         (jbLoginData: jbLoginDataClass) => {
          
-          if (jbLoginData.pass) {
+          if (jbLoginData.Pass) {
             this.route.navigateByUrl('/nav')
           } else {
             alert('密碼輸入錯誤')
+            this.LoadingPage.hide()
           }
         }
       )

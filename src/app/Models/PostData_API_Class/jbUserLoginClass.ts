@@ -4,8 +4,8 @@ export class jbUserLoginClass {
     Password: string
 }
 export class jbLoginDataClass {
-    pass: boolean;
-    code: string;
-    token: string;
-    empID: string;
+    Pass: boolean;
+    Code: string;
+    Token: string;
+    EmpID: string;
 }
