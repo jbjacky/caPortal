@@ -21,7 +21,8 @@ export class ErrorPageComponent implements OnInit ,AfterViewInit{
 
   constructor(
     private ErrorStateService: ErrorStateService,
-    private LoadingPage: NgxSpinnerService) { }
+    private LoadingPage: NgxSpinnerService,
+    private router:Router) { }
 
   errorState: number = 0 //1-沒權限，2-連線逾時
   ngOnInit() {
@@ -33,12 +34,14 @@ export class ErrorPageComponent implements OnInit ,AfterViewInit{
   }
   relogin() {
     localStorage.removeItem('API_Token')
-    localStorage.removeItem('API_Code')
-    void_goLoginPage()
+    // localStorage.removeItem('API_Code')
+    // void_goLoginPage()
+    this.router.navigateByUrl('/LoginComponent')
   }
 
 
   logout() {
-    void_LogoutPage()
+    this.router.navigateByUrl('/LoginComponent')
+    // void_LogoutPage()
   }
 }

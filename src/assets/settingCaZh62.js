@@ -1,3 +1,7 @@
+var QAhref = 'https://eam.china-airlines.com/eepWebServiceExtend/Upload/EAM_QA.pdf'
+
+var manualhref = 'https://eam.china-airlines.com/eepWebServiceExtend/Upload/EAM_Manual.pdf'
+
 var _redirect_uri_LinkOuthpage = 'https://eam.china-airlines.com/LinkOuthpageComponent'
 
 var apiPostURL = 'https://eam.china-airlines.com/eepWebService/'

@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         (jbLoginData: jbLoginDataClass) => {
          
           if (jbLoginData.Pass) {
+            localStorage.setItem('API_Token',jbLoginData.EmpID)
             this.route.navigateByUrl('/nav')
           } else {
             alert('密碼輸入錯誤')

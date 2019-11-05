@@ -30,6 +30,12 @@ export class ErrorHandler implements OnDestroy {
     checkEverRequestError: boolean = false
 
     public handleError(request: HttpRequest<any>, error: HttpErrorResponse) {
+        if(localStorage.getItem('API_Token')){
+            
+        }else{
+            this.router.navigateByUrl('./LoginComponent')
+        }
+        return
         if (error.error instanceof ErrorEvent) {
             // console.log(`Error: ${error.error.message}`);
             // console.log(error)

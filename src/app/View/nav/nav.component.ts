@@ -124,7 +124,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
       //     (x: CaUserClass) => {
       //       if (x) {
               // console.log('nav')
-              var x = {EmpID:'644488'}
+              var x = {EmpID:localStorage.getItem('API_Token')}
               this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(x.EmpID)
                 .pipe(takeWhile(() => this.api_subscribe))
                 .subscribe(
@@ -137,13 +137,13 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
                     for (let BaseInfoDetail of GetBaseInfoDetail) {
                       if (BaseInfoDetail.PosType == 'M') {
                         this.GetApiUserService.onChange(BaseInfoDetail)
-                        // this.selectUserData = BaseInfoDetail
+                        this.selectUserData = BaseInfoDetail
                       }
                     }
 
 
-
                     // this.LoadingPage.hide()
+                    // console.log(this.selectUserData)
                     this.setMenu(this.selectUserData.EmpCode)
                     if (GetBaseInfoDetail) {
                       if (GetBaseInfoDetail.length > 0) {
@@ -306,13 +306,15 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   signOut() {
-    this.GetApiDataServiceService.getWebApiData_DeleteAuthToken()
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        x => {
-          void_LogoutPage()
-        }
-      )
+    this.router.navigateByUrl('/LoginComponent')
+    localStorage.removeItem('API_Token')
+    // this.GetApiDataServiceService.getWebApiData_DeleteAuthToken()
+    //   .pipe(takeWhile(() => this.api_subscribe))
+    //   .subscribe(
+    //     x => {
+    //       void_LogoutPage()
+    //     }
+    //   )
   }
 
   //切換人員起

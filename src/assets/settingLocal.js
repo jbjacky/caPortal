@@ -1,3 +1,6 @@
+var QAhref = ''
+    
+var manualhref = ''
 
 var desktopTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
 
