@@ -1,3 +1,6 @@
+var QAhref = ''
+    
+var manualhref = ''
 
 var desktopTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
 
@@ -11,6 +14,6 @@ var _client_id = 't4Ev4xhBABswPSkXIwBn'
 
 var _redirect_uri_LinkOuthpage = 'http://localhost:4200/LinkOuthpageComponent'
 
-var apiPostURL = 'https://192.168.1.46/eepWebService/'
+var apiPostURL = 'http://192.168.1.46/HRWebService/api/'
 
 var apiGetFileURL = 'https://192.168.1.46/eepWebServiceExtend/'
