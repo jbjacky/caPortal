@@ -144,7 +144,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
 
                     // this.LoadingPage.hide()
                     // console.log(this.selectUserData)
-                    this.setMenu(this.selectUserData.EmpCode)
+                    this.setMenu(this.selectUserData.EmpID)
                     if (GetBaseInfoDetail) {
                       if (GetBaseInfoDetail.length > 0) {
 

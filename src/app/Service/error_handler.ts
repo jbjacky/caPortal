@@ -33,7 +33,7 @@ export class ErrorHandler implements OnDestroy {
         if(localStorage.getItem('API_Token')){
             
         }else{
-            this.router.navigateByUrl('./LoginComponent')
+            this.router.navigateByUrl('/LoginComponent')
         }
         return
         if (error.error instanceof ErrorEvent) {
