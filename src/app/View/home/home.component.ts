@@ -200,8 +200,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     changeCount: 0,
     forgetCount: 0
   }
+  DL_showReviewCount:boolean=false
   showReviewCount(EmpID: string) {
     this.LoadingPage.show()
+    this.DL_showReviewCount = false
     var GetFlowSignRole: GetFlowSignRoleClass = {
       "SignEmpID": EmpID,
       "SignRoleID": "",
@@ -244,7 +246,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
               }
             }
           }
-
+          this.DL_showReviewCount = true
           this.LoadingPage.hide()
         },
         error => {
@@ -254,10 +256,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       )
   }
 
-
+  DL_showallnews:boolean = false
   AllNewsList: GetNewsClass[] = []
   showallnews() {
-
+    this.DL_showallnews = false 
     var DateB = new Date()
     var GetNewsByDateNowGetApi: GetNewsByDateNowGetApiClass = {
       "DateNow": doFormatDate(DateB.toString()),
@@ -298,6 +300,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
             // console.log(this.AllNewsList)
           }
+          this.DL_showallnews = true 
           this.LoadingPage.hide()
         },
         error => {
@@ -332,9 +335,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     //   }
     // )
   }
-
+  DL_showAttendExceptionalByDept_Today:boolean = false
   TodayAttend: Array<any> = []
   showAttendExceptionalByDept_Today(GetBaseInfoDetail: GetBaseInfoDetailClass) {
+    this.DL_showAttendExceptionalByDept_Today = false
     var GetAttendExceptionalByDept: GetAttendExceptionalByDeptClass = {
       DateB: this.showTodayString,
       DateE: this.showTodayString,
@@ -345,6 +349,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(
         (x: any) => {
           this.TodayAttend = x
+          this.DL_showAttendExceptionalByDept_Today = true
         }, error => {
           // alert('與api連線異常,getWebApiData_GetAttendExceptionalByDept')
         }
@@ -372,10 +377,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       )
   }
-
+  DL_showAbsDetailByDept:boolean = false
   AllAbsEmp: showAllAbsEmpClass[] = []
   showAbsDetailByDept(GetBaseInfoDetail: GetBaseInfoDetailClass) {
-
+    this.DL_showAbsDetailByDept = false
     var GetAbsDetailByDept: GetAbsDetailByDeptGetApiClass = {
       DateB: this.showTodayString,
       DateE: this.showTodayString,
@@ -432,6 +437,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
           // console.log(showAllAbsEmp)
           this.AllAbsEmp = showAllAbsEmp
 
+          this.DL_showAbsDetailByDept = true
           this.LoadingPage.hide()
         },
         error => {
@@ -440,10 +446,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       )
   }
-
+  DL_setWeekjobs:boolean = false
   weekjobs: weekjobs[] = [];
 
   setWeekjobs(GetBaseInfoDetail: GetBaseInfoDetailClass) {
+    this.DL_setWeekjobs = false
     this.LoadingPage.show()
     var today = new Date()
     today.setDate(today.getDate() - 3)
@@ -520,6 +527,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
           this.slideConfig.initialSlide = showNum
 
+          this.DL_setWeekjobs = true
           this.LoadingPage.hide()
         },
         error => {
@@ -534,9 +542,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.router.navigate([`/nav/NewsShowDetailComponent/${oneNews.NewsID}`]);
     // [routerLink]="['/nav/NewsShowDetailComponent/'+oneNews.NewsID]"
   }
-
+  DL_showHoliDayBalance:boolean = false
   showHoliDayBalance(EmpID: string) {
     this.LoadingPage.show()
+    this.DL_showHoliDayBalance = false
     var GetHoliDayBalanceFlow: GetHoliDayBalanceFlow = {
       EmpID: EmpID,
       DateB: doFormatDate(new Date()),
@@ -639,7 +648,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
               })
             }
         }
-
+        this.DL_showHoliDayBalance = true
         this.LoadingPage.hide()
       }, error => {
         this.LoadingPage.hide()
