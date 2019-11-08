@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from 'src/app/app.component';
 import { LoginComponent } from 'src/app/View/login/login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorPageComponent } from './View/error-page/error-page.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -38,6 +38,7 @@ import { MatSnackBarModule, MAT_SNACK_BAR_DATA } from '@angular/material';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     NgxSpinnerModule,
     HttpClientModule,
     DeviceDetectorModule.forRoot()

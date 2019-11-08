@@ -73,6 +73,7 @@ import { LoginLogInfoComponent } from '../login-log-info/login-log-info.componen
 import { EmailLogInfoComponent } from '../email-log-info/email-log-info.component';
 import { DayRoteComponent } from '../shareComponent/day-rote/day-rote.component';
 import { PersonnelSearchVaComponent } from '../personnel-search-va/personnel-search-va.component';
+import { OtformComponent } from '../allform/otform/otform.component';
 
 const routes: Routes = [
   {
@@ -340,6 +341,10 @@ const routes: Routes = [
       },
       {
         path: 'PersonnelSearchVaComponent', component: PersonnelSearchVaComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'OtformComponent', component: OtformComponent,
         canActivate: [AuthGuard],
       }
 

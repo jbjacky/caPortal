@@ -1,0 +1,65 @@
+<div>
+  <section class="a-block stateblock">
+    <div class="a-block-body  a-block-container">
+      <ol class="steps-indicator row">
+        <li class="col-sm-3  active">
+          <ng-container i18n>填寫加班單</ng-container>
+        </li>
+        <li class="col-sm-3">
+          <ng-container i18n>加班單明細確認</ng-container>
+        </li>
+        <li class="col-sm-3">
+          <ng-container i18n>完成送出申請</ng-container>
+        </li>
+      </ol>
+    </div>
+    <!-- a-block-body End -->
+  </section>
+
+  <div class="a-block">
+    <div class="a-block-body  a-block-container">
+      <button (click)="resetFormGroup()">reset</button>
+      <form [formGroup]="otForm" (ngSubmit)="onSubmit()">
+
+        <div>
+          <label>員工號</label>
+          <input class="form-control" type="text" formControlName="name">
+        </div>
+        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+
+          <div *ngIf="!!name.errors.required">
+            請輸入員工號
+          </div>
+          <div *ngIf="!!name.errors.errorEmpID">
+            查無此員工號
+          </div>
+
+        </div>
+        <div>
+          <label>Address</label>
+          <input class="form-control" type="text" formControlName="address">
+        </div>
+        <p>
+          Form Status: {{ otForm.status }}
+        </p>
+        <button class="button btn btn-primary" type="submit" [disabled]="!otForm.valid">確認</button>
+
+      </form>
+      <button (click)="login()">
+        login
+      </button>
+      <div>
+        <label for="name">password</label>
+        <input type="text" class="form-control"  required [(ngModel)]="password" #Tname="ngModel">
+        <div [hidden]="Tname.valid || Tname.pristine" class="redDanger">
+          Name is required
+        </div>
+        <div>
+          <button class="btn btn-primary" [disabled]="checkUpdate()">
+            送出
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

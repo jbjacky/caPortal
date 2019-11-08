@@ -17,7 +17,7 @@ export function void_crossDay(_EndTime) {
                 _isCrossDay = true
             } else {
                 _EndTime = (parseInt((_EndTime).toString()) - 2400)
-                if (_EndTime > 10) {
+                if (_EndTime >= 10) {
                     _EndTime = '00' + _EndTime.toString()
                 } else {
                     _EndTime = '000' + _EndTime.toString()

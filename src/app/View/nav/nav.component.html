@@ -129,7 +129,7 @@
             <div id="user-profile">
                 <div id="user-profile-inner">
                     <p>
-                        <span class="user-empId">{{selectUserData.EmpCode}}</span>
+                        <span class="user-empId">{{selectUserData.EmpID}}</span>
                         <a *ngIf="IsHasSwitchUser" class="bt_switch" style="text-decoration: underline;"
                             data-toggle="modal" (click)="bt_showSwitchEmpDialog()">
                             <ng-container i18n>切換</ng-container>
@@ -155,6 +155,12 @@
 
             <div id="main-nav-area" class="main-nav-metismenu">
                 <ul id="main-nav-menu">
+                    <li>
+                        <a [routerLink]="['OtformComponent']" (click)="phone_bt_toggleactive()">
+                            <span class="mn-item">加班單
+                            </span>
+                        </a>
+                    </li>
                     <mat-accordion class="my-special-class">
                         <ng-container *ngFor="let allform of two_nav">
                             <ng-container>
