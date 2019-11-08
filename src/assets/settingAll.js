@@ -1,9 +1,9 @@
 
 var TimeOut = '20000'
 
-var OAuthPath = 'https://iam.china-airlines.com/mga/sps/oauth/oauth20/authorize'
+var OAuthPath = ''
 
-var _client_id = 't4Ev4xhBABswPSkXIwBn'
+var _client_id = ''
 
 var FileUploadType = [
         ".doc",
