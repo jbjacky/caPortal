@@ -783,6 +783,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
   DL_showAttendExceptionalCount:boolean  = false
+  showAttendExceptionalCount:boolean = true
   AttendExceptionalCount: number = 0
   setGetAttendExceptionalCount(EmpID: string) {
     var today = new Date()
@@ -800,6 +801,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         (x: number) => {
           this.AttendExceptionalCount = x
           this.DL_showAttendExceptionalCount = true
+          if(x>0){
+            this.showAttendExceptionalCount = true
+          }else{
+            this.showAttendExceptionalCount = false
+          }
         }
       )
   }
