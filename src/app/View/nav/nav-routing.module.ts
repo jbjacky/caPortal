@@ -74,6 +74,7 @@ import { EmailLogInfoComponent } from '../email-log-info/email-log-info.componen
 import { DayRoteComponent } from '../shareComponent/day-rote/day-rote.component';
 import { PersonnelSearchVaComponent } from '../personnel-search-va/personnel-search-va.component';
 import { OtformComponent } from '../allform/otform/otform.component';
+import { SalarySearchComponent } from '../salary-search/salary-search.component';
 
 const routes: Routes = [
   {
@@ -346,8 +347,11 @@ const routes: Routes = [
       {
         path: 'OtformComponent', component: OtformComponent,
         canActivate: [AuthGuard],
+      },
+      {
+        path: 'SalarySearchComponent', component: SalarySearchComponent,
+        canActivate: [AuthGuard],
       }
-
 
     ]
   },

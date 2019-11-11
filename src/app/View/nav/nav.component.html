@@ -161,6 +161,12 @@
                             </span>
                         </a>
                     </li> -->
+                    <li>
+                        <a [routerLink]="['SalarySearchComponent']" (click)="phone_bt_toggleactive()">
+                            <span class="mn-item">薪資單查詢
+                            </span>
+                        </a>
+                    </li>
                     <mat-accordion class="my-special-class">
                         <ng-container *ngFor="let allform of two_nav">
                             <ng-container>
