@@ -1,5 +1,10 @@
-
-
+.smallstar{
+    color:red;
+}
+.smallstar::before{
+    content:"*";
+    color:red;
+}
 /* CSS Document */
 /*
   為了能以中文註解，一定要宣告為UTF-8

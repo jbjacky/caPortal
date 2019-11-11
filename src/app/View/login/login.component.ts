@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UUID } from 'angular2-uuid';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
@@ -36,8 +36,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     private GetApiDataServiceService: GetApiDataServiceService
   ) { 
   }
-
+  @ViewChild('user_password') user_password: ElementRef;
+  get account() { return this.loginFromGroup.get('account') }
+  get accountError_required() { return this.loginFromGroup.get('account').hasError('required'); }
+  get password() { return this.loginFromGroup.get('password') }
+  get passwordError_required() { return this.loginFromGroup.get('password').hasError('required'); }
   ngOnInit() {
+    // this.user_password.nativeElement.addEventListener('keyup', function(event) {
+    //   if (event.getModifierState("CapsLock")) {
+    //     console.log('大寫')
+    //   } else {
+    //     console.log('小寫')
+    //   }
+    // });
+    
     // this.LoadingPage.show()
     // if (localStorage.getItem('API_Token') &&
     //   localStorage.getItem('API_Code')) {

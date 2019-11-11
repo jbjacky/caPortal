@@ -1,4 +1,4 @@
- <div id="wrapper">
+<div id="wrapper">
     <div id="header">
         <div id="header-inner">
             <div id="website-title-group">
@@ -20,7 +20,7 @@
 
                 <div id="block01-body">
                     <section id="login_area">
-                        <form [formGroup]="loginFromGroup" (ngSubmit)="login()">
+                        <form  [formGroup]="loginFromGroup" (ngSubmit)="login()">
 
                             <div id="login_form" class="">
                                 <dl class="form-group-civd-style001">
@@ -28,29 +28,45 @@
                                         <label for="user_id" class="label-tw">帳 號</label>
                                     </dt>
                                     <dd class="value">
-                                        <input id="user_id" class="input-style001" type="text" formControlName="account" autocomplete="off"/>
+                                        <input id="user_id" class="input-style001" type="text" formControlName="account"
+                                            autocomplete="off" />
                                     </dd>
                                 </dl>
-    
-    
+
                                 <dl class="form-group-civd-style001">
                                     <dt class="prop">
                                         <label for="user_password" class="label-tw">密 碼</label>
                                     </dt>
                                     <dd class="value">
-                                        <input id="user_password" class="input-style001" type="password" formControlName="password" />
+                                        <input #user_password id="user_password" class="input-style001" type="password"
+                                            formControlName="password" />
                                     </dd>
                                 </dl>
-    
-    
+
                             </div>
-                            <p class="text-center   text-danger   hide">
+                            <div class="text-center   text-danger">
+                                    <div  *ngIf="account.invalid && (account.dirty || account.touched)">
+                                            <div *ngIf="accountError_required">
+                                                <span class="smallstar">
+                                                        <ng-container i18n>請輸入帳號</ng-container>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div  *ngIf="password.invalid && (password.dirty || password.touched)">
+                                            <div *ngIf="passwordError_required">
+                                                <span class="smallstar">
+                                                        <ng-container i18n>請輸入密碼</ng-container>
+                                                </span>
+                                            </div>
+                                        </div>
+                            </div>
+                            <div class="text-center   text-danger   hide">
                                 錯誤訊息錯誤訊息錯誤訊息錯誤訊息
-                            </p>
-    
-    
+                            </div>
+
+
                             <p class="text-center">
-                                <input id="btn-login-style001" type="submit" class="btn btn-primary" value="登入"/>
+                                <input id="btn-login-style001" type="submit" class="btn btn-primary" value="登入" />
                             </p>
                         </form>
                         <!-- <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
