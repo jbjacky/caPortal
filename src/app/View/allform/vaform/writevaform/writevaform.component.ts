@@ -621,7 +621,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
   valLimitSevenDay(): boolean {
 
     var today = new Date()
-    today.setDate(today.getDate() - 7)
+    today.setDate(today.getDate() - 6)
     today.setHours(0, 0, 0)
     today.setMinutes(0, 0, 0)
     today.setSeconds(0, 0)

@@ -782,10 +782,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       )
 
   }
-
+  DL_showAttendExceptionalCount:boolean  = false
   AttendExceptionalCount: number = 0
   setGetAttendExceptionalCount(EmpID: string) {
     var today = new Date()
+    this.DL_showAttendExceptionalCount  = false
     var GetAttendExceptionalCount: GetAttendExceptionalCountClass = {
       "DateB": "2019/08/01",
       "DateE": doFormatDate(today),
@@ -798,6 +799,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(
         (x: number) => {
           this.AttendExceptionalCount = x
+          this.DL_showAttendExceptionalCount = true
         }
       )
   }
