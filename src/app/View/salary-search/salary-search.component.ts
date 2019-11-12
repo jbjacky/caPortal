@@ -12,10 +12,10 @@ export class SalarySearchComponent implements OnInit {
 
   constructor() { }
 
-  time = 5
+  time = 180
   get getTime() { return this.time }
   resetTime() {
-    this.time = 5
+    this.time = 180
   }
   time_subscribe = true;
   ngOnInit() {

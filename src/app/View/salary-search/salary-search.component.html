@@ -16,7 +16,7 @@
           <div style="color: #8b8484;margin-bottom: 10px;">
             2019/11/06 15:20
           </div>
-          <div class="row oneLine" style="margin: 0;">
+          <div class="row oneLine reTimeBlock">
             <div class="col-md-8 col-xs-6 reTime">
               <span style="color: #fc0202;padding-right: 5px;">
                 <span>
@@ -26,20 +26,24 @@
               </span>
             </div>
             <div class="col-md-4 col-xs-6" style="padding: 0;">
-              <a (click)="resetTime()" style="cursor: pointer;">重新計時</a>
+              <a (click)="resetTime()" style="cursor: pointer;padding-right: 5px;">重新計時</a>
+              <img src="/assets/jbIcon/icon-restart.png" width="20px" height="20px" />
             </div>
           </div>
         </div>
         <div class="col-md-8 col-md-pull-4 col-xs-12" style="padding:0px;">
           <div class="infoblock">
             <div class="oneLine empIdText">
-              員工： 644488 張小倩
+              <div style="display: inline-block;">員工：</div>
+              <div style="display: inline-block;">0082520 李大白</div>
             </div>
             <div class="oneLine">
-              入帳帳號：台灣銀行 (004 ) 1234567890123456
+              <div style="display: inline-block;">入帳帳號：</div>
+              <div style="display: inline-block;">台灣銀行 (004 ) 1234567890123456</div>
             </div>
             <div>
-              部門：財務系統部
+              <div style="display: inline-block;">部門：</div>
+              <div style="display: inline-block;">財務系統部</div>
             </div>
           </div>
         </div>
@@ -69,31 +73,19 @@
           <button class="btn btn-info" style="padding: 5px 20px;">確定</button>
         </div>
       </div>
-      <div class="salaryInfoBlock">
-        <div style="text-align: right;">
-          <input data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
-                    cursor: pointer;
-                    color: transparent;
-                    border: 1px solid transparent;
-                    width: 50px;
-                    height: 40px;
-                    ">
-          <input data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
-                    cursor: pointer;
-                    color: transparent;
-                    border: 1px solid transparent;
-                    width: 50px;
-                    height: 40px;
-                    ">
-          <input data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
-                    cursor: pointer;
-                    color: transparent;
-                    border: 1px solid transparent;
-                    width: 50px;
-                    height: 40px;
-                    ">
+      <div class="salaryInfoBlock" style="margin: 0;display: flex;flex-flow: column;">
+        <div class="iconBlock">
+          <button style="background:0;border:0">
+            <img src="/assets/jbIcon/icon-email.png" width="25px" height="23px" />
+          </button>
+          <button style="background:0;border:0">
+            <img src="/assets/jbIcon/icon-down.png" width="25px" height="23px" />
+          </button>
+          <button style="background:0;border:0">
+            <img src="/assets/jbIcon/icon-print.png" width="25px" height="23px" />
+          </button>
         </div>
-        <div style="font-weight: 600;">
+        <div class="salaryDetailBlock">
           <div class="oneLine" style="text-align: center;font-size: 22px;">
             薪資單
           </div>
@@ -109,7 +101,7 @@
             <div class="col-md-4 col-xs-12">
               <div style="border-bottom: 1px solid #028fcf;">
                 <div style="font-size: 20px;background-color: #a9e2fb;padding:5px 20px;text-align: center;
-                margin: 20px;">
+                    margin: 20px;">
                   實發薪資
                 </div>
               </div>
@@ -146,7 +138,7 @@
             <div class="col-md-4 col-xs-12">
               <div style="border-bottom: 1px solid #028fcf;">
                 <div style="font-size: 20px;background-color: #e7f8ff;padding:5px 20px;text-align: center;
-                margin: 20px;">
+                    margin: 20px;">
                   本月所得
                 </div>
               </div>
@@ -214,7 +206,7 @@
             <div class="col-md-4 col-xs-12">
               <div style="border-bottom: 1px solid #028fcf;">
                 <div style="font-size: 20px;background-color: #e7f8ff;padding:5px 20px;text-align: center;
-                margin: 20px;">
+                    margin: 20px;">
                   本月扣款
                 </div>
               </div>
@@ -284,7 +276,7 @@
             <div class="col-md-4 col-xs-12">
               <div style="border-bottom: 1px solid #028fcf;">
                 <div style="font-size: 20px;background-color: #e7f8ff;padding:5px 20px;text-align: center;
-                margin: 20px;">
+                    margin: 20px;">
                   勞退新制
                 </div>
               </div>
@@ -313,7 +305,7 @@
             <div class="col-md-4 col-xs-12">
               <div style="border-bottom: 1px solid #028fcf;">
                 <div style="font-size: 20px;background-color: #e7f8ff;padding:5px 20px;text-align: center;
-                margin: 20px;">
+                    margin: 20px;">
                   本月加班
                 </div>
               </div>
@@ -350,7 +342,7 @@
             <div class="col-md-4 col-xs-12">
               <div style="border-bottom: 1px solid #028fcf;">
                 <div style="font-size: 20px;background-color: #e7f8ff;padding:5px 20px;text-align: center;
-                margin: 20px;">
+                    margin: 20px;">
                   本月出勤
                 </div>
               </div>

@@ -11,6 +11,9 @@
     font-weight: 600;
 }
 
+.info>.empInfoBlock .reTimeBlock {
+    margin: 0px;
+}
 .info>.selectSearchBlock {
     margin: 0;
     border-bottom: 1px solid #c7c7c7;
@@ -25,6 +28,15 @@
 .info>.salaryInfoBlock{
     padding: 0px 50px;
 }
+.info>.salaryInfoBlock>.iconBlock{
+    order: 1;
+    text-align: right;
+}
+.info>.salaryInfoBlock>.salaryDetailBlock{
+    order: 2;
+    font-weight: 600;
+}
+
 .info .infoblock {
     padding: 0px;
 }
@@ -63,6 +75,9 @@
     .info>.empInfoBlock {
         border-bottom: 0;
     }
+    .info>.empInfoBlock .reTimeBlock {
+        margin-bottom: 5px;
+    }
     .info>.selectSearchBlock {
         border-bottom: 1px solid #c7c7c7;
     }
@@ -73,6 +88,14 @@
     }
     .info>.salaryInfoBlock{
         padding: 5px;
+    }
+    .info>.salaryInfoBlock>.iconBlock{
+        order: 2;
+        text-align: center;
+        padding-top: 10px;
+    }
+    .info>.salaryInfoBlock>.salaryDetailBlock{
+        order: 1;
     }
     .info .infoblock {
         padding: 10px 20px;
