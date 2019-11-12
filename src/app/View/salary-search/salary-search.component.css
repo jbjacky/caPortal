@@ -1,0 +1,26 @@
+.ipt_empid {
+    background: url('/assets/images-template/img-temp-systemMain/icon_header_home.png') no-repeat scroll 7px 7px;
+    padding-left: 30px;
+}
+
+.salaryDialog .iptBlock {
+    padding: 5px 10px;
+}
+
+.salaryDialog .modal-dialog {
+    width: 365px;
+    padding: 10px;
+}
+
+.salaryDialog .modal-content {
+    padding: 0px 20px;
+}
+.salaryDialog .iptTitleBlock{
+    color:  #8b8484;
+}
+
+@media screen and (max-width:576px) {
+    .salaryDialog .modal-dialog {
+        width: 100%;
+    }
+}

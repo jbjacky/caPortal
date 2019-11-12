@@ -1,4 +1,179 @@
-<p>
-  salary-search works!
-</p>
+<a data-toggle="modal" data-target="#FirstStPwDialog" style="cursor: pointer;">
+  初次登入
+</a> /
+<a data-toggle="modal" data-target="#FirstStPwSussesDialog" style="cursor: pointer;">
+  完成密碼設定
+</a> /
+<a data-toggle="modal" data-target="#LoginDialog" style="cursor: pointer;">
+  登入
+</a>
 
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div style="border-bottom: 1px solid #999;">
+      <div class="row" style="margin: 0px;">
+        <div class="col-md-10 col-xs-12">
+          <span>員工： 644488 張小倩</span>
+        </div>
+        <div class="col-md-2 col-xs-12" style="text-align: right;">
+          <span>2019/11/06 15:20</span>
+        </div>
+      </div>
+      <div class="row" style="margin: 0px;">
+        <div class="col-md-8 col-xs-12">
+          入帳帳號：台灣銀行 (004 ) 1234567890123456
+        </div>
+        <div class="col-md-4 col-xs-12" style="text-align: right;">
+          <span style="color: #fc0202;padding-right: 5px;">
+            <span>
+                {{time}}
+            </span>
+            秒後自動登出
+          </span>
+          <a (click)="resetTime()" style="cursor: pointer;">重新計時</a>
+        </div>
+
+
+      </div>
+      <div>
+        部門：財務系統部
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal salaryDialog" id="FirstStPwDialog" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" style="text-align: center;">
+            <ng-container i18n>初次登入</ng-container>
+            <br />
+            <ng-container i18n>請設定薪資密碼</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="firstPwFromGroup" (ngSubmit)="submit()">
+            <div>
+              <span class="iptTitleBlock">
+                <ng-container i18n>輸入工號</ng-container>
+              </span>
+            </div>
+            <div class="iptBlock">
+              <input class="form-control" type="text" formControlName="empID" autocomplete="off" />
+            </div>
+            <div>
+              <span class="iptTitleBlock">
+                <ng-container i18n>輸入薪資密碼</ng-container>
+              </span>
+            </div>
+            <div class="iptBlock">
+              <input class="form-control" type="text" formControlName="password" autocomplete="off" />
+            </div>
+            <div>
+              <span class="iptTitleBlock">
+                <ng-container i18n>確認薪資密碼</ng-container>
+              </span>
+            </div>
+            <div class="iptBlock">
+              <input class="form-control" type="text" formControlName="checkPassword" autocomplete="off" />
+            </div>
+            <!-- {{firstPwFromGroup.status}} -->
+            <div style="text-align: center;margin: 10px 0px;">
+              <button type="submit" class="btn btn-primary">設定密碼</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="FirstStPwSussesDialog" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          </button>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>完成密碼設定</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            <ng-container i18n>請登入看薪資</ng-container>!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">
+            <ng-container i18n>確定</ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal salaryDialog" id="LoginDialog" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" style="text-align: center;">
+            <ng-container i18n>輸入定薪資密碼</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="firstPwFromGroup" (ngSubmit)="submit()">
+            <div>
+              <span class="iptTitleBlock">
+                <ng-container i18n>輸入工號</ng-container>
+              </span>
+            </div>
+            <div class="iptBlock">
+              <input class="form-control" type="text" formControlName="empID" autocomplete="off" />
+            </div>
+            <div>
+              <span class="iptTitleBlock">
+                <ng-container i18n>輸入身分證字號</ng-container>
+              </span>
+            </div>
+            <div class="iptBlock">
+              <input class="form-control" type="text" formControlName="password" autocomplete="off" />
+            </div>
+            <div>
+              <span class="iptTitleBlock">
+                <ng-container i18n>輸入薪資密碼</ng-container>
+              </span>
+            </div>
+            <div class="iptBlock">
+              <input class="form-control" type="text" formControlName="checkPassword" autocomplete="off" />
+            </div>
+            <!-- {{firstPwFromGroup.status}} -->
+            <div style="text-align: center;margin: 10px 0px;
+            margin-bottom: 0px;">
+              <button type="submit" class="btn btn-primary" style="
+              margin-bottom: 10px;">登入看薪資</button>
+              <div style="text-align: right;">
+                <a style="cursor: pointer;">重設密碼</a>
+                <a style="cursor: pointer;">
+                  <img src="./assets/images-template/icon-question.png" />
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
