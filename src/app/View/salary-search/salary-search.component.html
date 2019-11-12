@@ -10,33 +10,366 @@
 
 <div class="a-block">
   <div class="a-block-body  a-block-container">
-    <div style="border-bottom: 1px solid #999;">
-      <div class="row" style="margin: 0px;">
-        <div class="col-md-10 col-xs-12">
-          <span>員工： 644488 張小倩</span>
+    <div class="info">
+      <div class="row empInfoBlock">
+        <div class="col-md-4 col-md-push-8 col-xs-12" style="text-align: right;padding:0px;">
+          <div style="color: #8b8484;margin-bottom: 10px;">
+            2019/11/06 15:20
+          </div>
+          <div class="row oneLine" style="margin: 0;">
+            <div class="col-md-8 col-xs-6 reTime">
+              <span style="color: #fc0202;padding-right: 5px;">
+                <span>
+                  {{time}}
+                </span>
+                秒後自動登出
+              </span>
+            </div>
+            <div class="col-md-4 col-xs-6" style="padding: 0;">
+              <a (click)="resetTime()" style="cursor: pointer;">重新計時</a>
+            </div>
+          </div>
         </div>
-        <div class="col-md-2 col-xs-12" style="text-align: right;">
-          <span>2019/11/06 15:20</span>
+        <div class="col-md-8 col-md-pull-4 col-xs-12" style="padding:0px;">
+          <div class="infoblock">
+            <div class="oneLine empIdText">
+              員工： 644488 張小倩
+            </div>
+            <div class="oneLine">
+              入帳帳號：台灣銀行 (004 ) 1234567890123456
+            </div>
+            <div>
+              部門：財務系統部
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row" style="margin: 0px;">
-        <div class="col-md-8 col-xs-12">
-          入帳帳號：台灣銀行 (004 ) 1234567890123456
+      <div class="row selectSearchBlock">
+        <div class="col-md-2 col-xs-12" style="padding:0;font-size: 17px;color: #8b8484;font-weight: 500;">
+          選擇薪資單期間
         </div>
-        <div class="col-md-4 col-xs-12" style="text-align: right;">
-          <span style="color: #fc0202;padding-right: 5px;">
-            <span>
-                {{time}}
-            </span>
-            秒後自動登出
-          </span>
-          <a (click)="resetTime()" style="cursor: pointer;">重新計時</a>
+        <div class="col-md-8 col-xs-12" style="padding:0;">
+          <div class="col-md-4 col-xs-3" style="padding: 0px 2px;">
+            <select class="form-control" style="text-align-last: center;padding:0">
+              <option>2019年</option>
+            </select>
+          </div>
+          <div class="col-md-4 col-xs-3" style="padding: 0px 2px;">
+            <select class="form-control" style="text-align-last: center;padding:0">
+              <option>10月</option>
+            </select>
+          </div>
+          <div class="col-md-4 col-xs-6" style="padding: 0px 2px;">
+            <select class="form-control" style="text-align-last: center;padding:0">
+              <option>本期(第二期)</option>
+            </select>
+          </div>
         </div>
-
-
+        <div class="col-md-2 col-xs-12 btnSelectSearch">
+          <button class="btn btn-info" style="padding: 5px 20px;">確定</button>
+        </div>
       </div>
-      <div>
-        部門：財務系統部
+      <div class="salaryInfoBlock">
+        <div style="text-align: right;">
+          <input data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                    cursor: pointer;
+                    color: transparent;
+                    border: 1px solid transparent;
+                    width: 50px;
+                    height: 40px;
+                    ">
+          <input data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                    cursor: pointer;
+                    color: transparent;
+                    border: 1px solid transparent;
+                    width: 50px;
+                    height: 40px;
+                    ">
+          <input data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                    cursor: pointer;
+                    color: transparent;
+                    border: 1px solid transparent;
+                    width: 50px;
+                    height: 40px;
+                    ">
+        </div>
+        <div style="font-weight: 600;">
+          <div class="oneLine" style="text-align: center;font-size: 22px;">
+            薪資單
+          </div>
+          <div>
+            <div class="oneLine">
+              區間：2019/10/01-2019/10/31
+            </div>
+            <div class="oneLine">
+              轉帳日期：2019/11/05
+            </div>
+          </div>
+          <div class="row" style="margin:0">
+            <div class="col-md-4 col-xs-12">
+              <div style="border-bottom: 1px solid #028fcf;">
+                <div style="font-size: 20px;background-color: #a9e2fb;padding:5px 20px;text-align: center;
+                margin: 20px;">
+                  實發薪資
+                </div>
+              </div>
+              <div style="padding:5px 20px">
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    應稅薪資
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    23,100
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    應發薪資
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    24,519
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    實發薪資
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    <span style="color: #14b2f6;">24,519</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+
+              </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+              <div style="border-bottom: 1px solid #028fcf;">
+                <div style="font-size: 20px;background-color: #e7f8ff;padding:5px 20px;text-align: center;
+                margin: 20px;">
+                  本月所得
+                </div>
+              </div>
+              <div style="padding:5px 20px;padding-bottom:20px;border-bottom: 1px solid #028fcf;">
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    本俸
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    23,100
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    職務加給
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    1000
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    夜點費
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    1000
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    全勤獎金
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    0
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    免稅加班
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    382
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    應稅加班
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    0
+                  </div>
+                </div>
+              </div>
+              <div style="padding:5px 20px;">
+                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    小計(B)
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    25,485元
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+              <div style="border-bottom: 1px solid #028fcf;">
+                <div style="font-size: 20px;background-color: #e7f8ff;padding:5px 20px;text-align: center;
+                margin: 20px;">
+                  本月扣款
+                </div>
+              </div>
+              <div style="padding:5px 20px;padding-bottom:20px;border-bottom: 1px solid #028fcf;">
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    勞保費
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    508
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    健保費
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    325
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    福利金
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    133
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    事假
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    0
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    病假
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    0
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    伙食費
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    0
+                  </div>
+                </div>
+              </div>
+              <div style="padding:5px 20px;">
+                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    小計(C)
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    966元
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin:0">
+            <div class="col-md-4 col-xs-12">
+              <div style="border-bottom: 1px solid #028fcf;">
+                <div style="font-size: 20px;background-color: #e7f8ff;padding:5px 20px;text-align: center;
+                margin: 20px;">
+                  勞退新制
+                </div>
+              </div>
+              <div style="padding:5px 20px">
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    公司提撥
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    1,386
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    勞工自提
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    0
+                  </div>
+                </div>
+              </div>
+              <div>
+
+              </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+              <div style="border-bottom: 1px solid #028fcf;">
+                <div style="font-size: 20px;background-color: #e7f8ff;padding:5px 20px;text-align: center;
+                margin: 20px;">
+                  本月加班
+                </div>
+              </div>
+              <div style="padding:5px 20px">
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    平日加班費
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    4.00小時
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    休假日加班費
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    0小時
+                  </div>
+                </div>
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    休息日加班費
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    0小時
+                  </div>
+                </div>
+              </div>
+              <div>
+
+              </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+              <div style="border-bottom: 1px solid #028fcf;">
+                <div style="font-size: 20px;background-color: #e7f8ff;padding:5px 20px;text-align: center;
+                margin: 20px;">
+                  本月出勤
+                </div>
+              </div>
+              <div style="padding:5px 20px">
+                <div class="row" style="padding: 5px;margin: 0;border-bottom: 1px solid #c7c7c7;text-align: center;">
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    調休
+                  </div>
+                  <div class="col-md-6 col-xs-6" style="padding:0">
+                    2.5小時
+                  </div>
+                </div>
+              </div>
+              <div>
+
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -95,7 +428,7 @@
 </div>
 <div class="modal" id="FirstStPwSussesDialog" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="vertical-alignment-helper">
-    <div class="modal-dialog  modal-sm vertical-align-center">
+    <div class="modal-dialog  modal-sm vertical-align-center" style="padding: 10px;">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">

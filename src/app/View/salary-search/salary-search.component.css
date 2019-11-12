@@ -3,6 +3,45 @@
     padding-left: 30px;
 }
 
+.info>.empInfoBlock {
+    margin: 0;
+    border-bottom: 1px solid #c7c7c7;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.info>.selectSearchBlock {
+    margin: 0;
+    border-bottom: 1px solid #c7c7c7;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.info>.selectSearchBlock .btnSelectSearch{
+    padding:0;
+    text-align: center;
+}
+.info>.salaryInfoBlock{
+    padding: 0px 50px;
+}
+.info .infoblock {
+    padding: 0px;
+}
+
+.info .oneLine {
+    margin-bottom: 5px;
+}
+
+.info .oneLine.empIdText {
+    font-size: 18px;
+}
+
+.info .oneLine .reTime {
+    text-align: right;
+    padding: 0;
+}
+
 .salaryDialog .iptBlock {
     padding: 5px 10px;
 }
@@ -15,11 +54,41 @@
 .salaryDialog .modal-content {
     padding: 0px 20px;
 }
-.salaryDialog .iptTitleBlock{
-    color:  #8b8484;
+
+.salaryDialog .iptTitleBlock {
+    color: #8b8484;
 }
 
 @media screen and (max-width:576px) {
+    .info>.empInfoBlock {
+        border-bottom: 0;
+    }
+    .info>.selectSearchBlock {
+        border-bottom: 1px solid #c7c7c7;
+    }
+    .info>.selectSearchBlock .btnSelectSearch{
+        padding: 0;
+        text-align: right;
+        padding-top: 10px;
+    }
+    .info>.salaryInfoBlock{
+        padding: 5px;
+    }
+    .info .infoblock {
+        padding: 10px 20px;
+        border: 1px solid #14b2f6;
+        border-radius: 10px;
+    }
+
+    .info .oneLine.empIdText {
+        font-size: 15px;
+    }
+
+    .info .oneLine .reTime {
+        text-align: left;
+        padding: 0;
+    }
+
     .salaryDialog .modal-dialog {
         width: 100%;
     }
