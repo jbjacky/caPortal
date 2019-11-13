@@ -6,10 +6,10 @@
           <ng-container i18n>填寫加班單</ng-container>
         </li>
         <li class="col-sm-3">
-          <ng-container i18n>加班單明細確認</ng-container>
+          <ng-container i18n>加班明細確認</ng-container>
         </li>
         <li class="col-sm-3">
-          <ng-container i18n>完成送出申請</ng-container>
+          <ng-container i18n>加班完成</ng-container>
         </li>
       </ol>
     </div>
@@ -18,48 +18,305 @@
 
   <div class="a-block">
     <div class="a-block-body  a-block-container">
-      <button (click)="resetFormGroup()">reset</button>
-      <form [formGroup]="otForm" (ngSubmit)="onSubmit()">
-
-        <div>
-          <label>員工號</label>
-          <input class="form-control" type="text" formControlName="name">
+      <div class="row">
+        <div class="col-md-7 control-label" style="display: inline-block;color:#8b8484">
+          <label>本月累計加班時數：2小時</label>
         </div>
-        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
-
-          <div *ngIf="!!name.errors.required">
-            請輸入員工號
+        <div class="col-md-5 control-label" style="display: inline-block;text-align:right">
+          <div style="display: inline-block">
           </div>
-          <div *ngIf="!!name.errors.errorEmpID">
-            查無此員工號
+          <div style="display: inline-block">
+            <a data-toggle="modal" style="cursor: pointer;padding-left: 15px">
+              <ng-container i18n>加班紀錄資訊</ng-container>
+            </a>
           </div>
-
-        </div>
-        <div>
-          <label>Address</label>
-          <input class="form-control" type="text" formControlName="address">
-        </div>
-        <p>
-          Form Status: {{ otForm.status }}
-        </p>
-        <button class="button btn btn-primary" type="submit" [disabled]="!otForm.valid">確認</button>
-
-      </form>
-      <button (click)="login()">
-        login
-      </button>
-      <div>
-        <label for="name">password</label>
-        <input type="text" class="form-control"  required [(ngModel)]="password" #Tname="ngModel">
-        <div [hidden]="Tname.valid || Tname.pristine" class="redDanger">
-          Name is required
-        </div>
-        <div>
-          <button class="btn btn-primary" [disabled]="checkUpdate()">
-            送出
-          </button>
+          <div style="display: inline-block">
+            <a data-toggle="modal" data-target="#signDay" style="cursor: pointer;padding-left: 15px">
+              <ng-container i18n>加班簽核權限表</ng-container>
+            </a>
+            <a data-toggle="modal" data-target="#beforholidayDialog" style="cursor: pointer;">
+              <img src="./assets/images-template/icon-question.png" />
+            </a>
+          </div>
         </div>
       </div>
+      <div>
+        <div style="text-align:center">
+          <label>
+            <ng-container i18n>
+              <h2 style="color:#8b8384">填寫加班資訊</h2>
+            </ng-container>
+          </label>
+        </div>
+        <section class="form-horizontal">
+          <div class="row" style="margin:0px ;margin-bottom: 5px;">
+            <label class="col-md-2 control-label" style="padding-left: 0px">
+              <span class="form-must-fill">*</span>
+              <ng-container i18n>表單類型</ng-container>
+            </label>
+            <div class="col-md-3">
+              <div class="row writerow">
+                <select class="form-control">
+                </select>
+
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-horizontal  form-style01">
+          <div *ngIf="!loading" class="form-group first-form-group">
+            <div class="col-md-6 firstinone-form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+              <label class="col-md-4 control-label">
+                <span class="form-must-fill">*</span>
+                <ng-container i18n>員工</ng-container>
+              </label>
+              <div class="col-md-8">
+                <div class="row writerow">
+                  <div class="col-md-6 col-xs-6" style="padding: 0;">
+                    <input id="leavejobid" type="text" class="form-control" placeholder="員工號">
+
+
+                  </div>
+                  <div class="col-md-2 col-xs-3"
+                    style="height: 23px;padding: 0px;padding-left: 2px;text-align: center;">
+                    <button data-toggle="modal" data-target="#chooseEmpdialog"
+                      style="cursor: pointer;border: 0;background: 0">
+                      <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 firstintwo-form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+              <div class="col-md-3 oneintwotitle" style="padding: 0px;">
+                <label class="control-label">
+                  <ng-container i18n>填寫人</ng-container>
+                </label>
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+
+
+          <div id="NowIsWirteFormTop"></div>
+
+          <div appSpyngif>
+            <div class="form-group" style="border: 0px">
+              <!-- 手機顯示 -->
+              <div class="col-md-2 D_right" style="margin-top: 10px;padding-right: 5px;">
+                <a class="P_button" style="padding-top: 2px;cursor: pointer;">刪除</a>
+              </div>
+            </div>
+            <div class="form-group" style="border: 0px;padding: 0;">
+              <div class="col-md-6 ">
+                <label class="col-md-4 control-label" style="padding-left: 0px">
+                  <span class="form-must-fill">*</span>
+                  <ng-container i18n>起始日期</ng-container>
+                </label>
+                <div class="col-md-8 ">
+                  <div class="row writerow">
+                    <div class="col-md-10 col-xs-10" style="padding: 0px">
+                      <input [matDatepicker]="StartDatePicker" id="id_ipt_startday" type="text" class="form-control"
+                        style="background-color: #ffffff;" placeholder="年/月/日" />
+                      <mat-datepicker #StartDatePicker></mat-datepicker>
+                    </div>
+                    <!--  -->
+                    <div class="col-md-2 col-xs-2" style="padding: 0px">
+                      <input (click)="StartDatePicker.open()" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                        cursor: pointer;
+                        color: transparent;
+                        border: 1px solid transparent;
+                        width: 50px;
+                        height: 33px;
+                        ">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 ">
+                <div class="col-md-3 oneintwotitle" style="padding: 0px">
+                  <label class="control-label">
+                    <span class="form-must-fill">*</span>
+                    <ng-container i18n>起始時間</ng-container>
+                  </label>
+                </div>
+                <div class="col-md-9 oneintwocontent">
+                  <div class="col-md-6 col-xs-10" style="padding: 0px">
+                    <input id="id_ipt_starttime" type="text" class="form-control" style="background-color: #ffffff">
+
+                  </div>
+                  <!--  -->
+                  <div class="col-md-4 col-xs-2" style="padding: 0px">
+                    <input #StartTimeView id="id_bt_starttime" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                      cursor: pointer;
+                      color: transparent;
+                      border: 1px solid transparent;
+                      width: 50px;
+                      height: 33px;
+                      padding: 0px;
+                      ">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- form-group end -->
+            <div class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+              <div class="col-md-6 ">
+                <label class="col-md-4 control-label" style="padding-left: 0px">
+                  <span class="form-must-fill">*</span>
+                  <ng-container i18n>終止日期</ng-container>
+                </label>
+                <div class="col-md-8">
+                  <div class="row writerow">
+                    <div class="col-md-10 col-xs-10" style="padding: 0px">
+                      <input [matDatepicker]="EndDatePicker" id="id_ipt_endday" type="text" class="form-control"
+                        style="background-color: #ffffff" placeholder="年/月/日">
+                      <mat-datepicker #EndDatePicker></mat-datepicker>
+                    </div>
+                    <div class="col-md-2 col-xs-2" style="padding: 0px">
+                      <input (click)="EndDatePicker.open()" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                            cursor: pointer;
+                            color: transparent;
+                            border: 1px solid transparent;
+                            width: 50px;
+                            height: 33px;
+                            ">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 ">
+                <div class="col-md-3 oneintwotitle" style="padding: 0px">
+                  <label class="control-label">
+                    <span class="form-must-fill">*</span>
+                    <ng-container i18n>終止時間</ng-container>
+                  </label>
+                </div>
+                <div class="col-md-9 oneintwocontent">
+                  <!--  -->
+                  <div class="col-md-6 col-xs-10" style="padding: 0px">
+                    <input type="text" id="id_ipt_endtime" class="form-control" style="background-color: #ffffff">
+                  </div>
+                  <!--  -->
+                  <div class="col-md-4 col-xs-2" style="padding: 0px">
+                    <input #EndTimeView type="button" id="id_bt_endtime" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                        cursor: pointer;
+                        color: transparent;
+                        border: 1px solid transparent;
+                        width: 50px;
+                        height: 33px;
+                        padding: 0px;
+                        ">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- form-group end -->
+            <div class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+              <div class="col-md-6 " style="margin-bottom: 5px;">
+                <label class="col-md-4 control-label" style="padding-left: 0px">
+                  <span class="form-must-fill">*</span>
+                  <ng-container i18n>申請類型</ng-container>
+                </label>
+                <div class="col-md-8">
+                  <div class="row writerow">
+                    <select class="form-control" style="width:70%">
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 ">
+                <div class="col-md-3 oneintwotitle" style="padding: 0px">
+                  <label class=" control-label" style="padding-left: 0px">
+                    <span class="form-must-fill">*</span>
+                    <ng-container i18n>加班部門</ng-container>
+                  </label>
+                </div>
+                <div class="col-md-9 oneintwocontent">
+                  <div class="col-md-6 col-xs-10" style="padding:0px">
+                    <select class="form-control">
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- form-group end -->
+
+
+
+            <!-- <div *ngIf="showEventDate" class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+          <div class="col-md-6 col-xs-12">
+            <label class="col-md-4 control-label" style="padding-left: 0px">
+              上次事件發生日
+            </label>
+            <div class="col-md-8">
+              <div class="row writerow">
+                <div>2019/08/08</div>
+                <div>2019/08/09</div>
+                <div>2019/08/10</div>
+                <div>2019/08/11</div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+            <!-- form-group end -->
+            <div class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+              <div class="col-md-6 " style="margin-bottom: 5px;">
+                <label class="col-md-4 control-label" style="padding-left: 0px">
+                  <span class="form-must-fill">*</span>
+                  <ng-container i18n>加班原因</ng-container>
+                </label>
+                <div class="col-md-8">
+                  <div class="row writerow">
+                    <select class="form-control" style="width:70%">
+                    </select>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6" style="margin: 0px">
+                <label class="col-md-3 oneintwotitle" style="padding-right: 0px">
+                  <ng-container i18n>上傳附件</ng-container>
+                </label>
+                <div class="col-md-9 oneintwocontent">
+                  <!-- <button class="btn btn-default" style="padding: 5px 15px;" data-toggle="modal" data-target="#uploadfiledialog">瀏覽...</button> -->
+
+                  <app-fileuploadbutton></app-fileuploadbutton>
+
+                  <br class="br_phone" />
+                  <!-- <button (click)="qlog()">checkfile</button> -->
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <!-- form-group end -->
+          <div class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+            <div class="row" style="margin:0px">
+              <label class="col-md-2 control-label" style="padding-right: 10px">
+                <ng-container i18n>備註</ng-container>
+              </label>
+              <div class="col-md-8 oneLineWrite">
+                <!-- <button class="btn btn-default" style="padding: 5px 15px;">瀏覽...</button> -->
+                <textarea id="cause" class="inputTextarea" style="overflow-y: auto" placeholder=""
+                  maxlength="1000"></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- form-group end -->
+          <div class="form-group" style="text-align:center">
+              <button class="btn btn-default" style="padding: 5px 15px;" data-toggle="modal" >下一步</button>
+
+          </div>
+
+
+
+        </section>
+      </div>
+
     </div>
   </div>
-</div>

@@ -303,10 +303,6 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!oneurl || oneurl == 'home') {
       this.secondtitle = null
     }
-
-    if (oneurl == 'OtformComponent') {
-      this.secondtitle = '加班單'
-    }
   }
 
   signOut() {

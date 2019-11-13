@@ -22,59 +22,28 @@ export class LinkOuthpageComponent implements OnInit, OnDestroy {
   api_subscribe = true; //ngOnDestroy時要取消
 
   constructor(private route: Router,
-    private ErrorStateService:ErrorStateService,
+    private ErrorStateService: ErrorStateService,
     private GetApiDataServiceService: GetApiDataServiceService,
     private LoadingPage: NgxSpinnerService) { }
 
   ngOnInit() {
     var urlQuery: any = this.queryString()
-    // console.log(urlQuery.code)
-    this.regitPage(urlQuery)
+    // console.log(urlQuery.token)
+    this.regitToken(urlQuery)
   }
 
-  regitPage(urlQuery: any) {
-    if (urlQuery.state) {
-      this.regitSussesState(urlQuery)
-    }
-  }
 
-  regitSussesState(urlQuery) {
+  regitToken(urlQuery) {
+    //auth
     this.LoadingPage.show()
-    if (urlQuery.error && urlQuery.error_description) {
-
-      alert(urlQuery.error_description)
-      this.ErrorStateService.errorState = 3
-      this.route.navigateByUrl('/ErrorPageComponent')
+    if (urlQuery.token) {
+      // console.log(urlQuery.token)
+      localStorage.setItem('API_Token', '0004420')
+      this.route.navigateByUrl('/nav')
+    } else {
       this.LoadingPage.hide()
-
-    } else if (urlQuery.code) {
-
-      localStorage.setItem('API_Code', urlQuery.code)
-
-      this.GetApiDataServiceService.getWebApiData_Token(urlQuery.code)
-        .pipe(takeWhile(() => this.api_subscribe))
-        .subscribe(
-          (x: CaUserClass) => {
-            this.LoadingPage.show()
-            if (x.Pass) {
-              localStorage.setItem('API_Token', x.Token)
-              localStorage.setItem('API_Code', x.Code)
-              this.route.navigateByUrl('/nav')
-            } else {
-              this.LoadingPage.hide()
-              alert(x.MessageContent)
-              this.ErrorStateService.errorState = 1
-              this.route.navigateByUrl('/ErrorPageComponent')
-            }
-          }, error => {
-            // alert('GetToken連線異常')
-            this.LoadingPage.hide()
-            this.ErrorStateService.errorState = 5
-            this.route.navigateByUrl('/ErrorPageComponent')
-            // alert('與api連線異常，getWebApiData_Token')
-          }
-        )
-
+      this.ErrorStateService.errorState = 5
+      this.route.navigateByUrl('/ErrorPageComponent')
     }
   }
 
