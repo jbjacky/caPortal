@@ -49,7 +49,6 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
 
   NowURL = ''
   ngAfterViewInit(): void {
-
     this.NowURL = this.router.url.toString()
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -64,6 +63,13 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
         this.NowURL = this.router.url.toString()
       }
     });//route位址改變時
+    fromEvent(window, 'resize')
+      //視窗大小改變時，修正width:800~1024的phonediv寬度及位置
+      .pipe(debounceTime(0))
+      .subscribe((event) => {
+        // alert('改變視窗大小了')
+        this.winR_toggleactive()
+      })
   }
   selectUserData: GetBaseInfoDetailClass = new GetBaseInfoDetailClass() //目前選到的人員
   UserAllData: GetBaseInfoDetailClass[] = [] //選擇部門下拉選單
@@ -219,8 +225,14 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
     if (window.innerWidth > 1023) {
       // $('body').addClass("offcanvas-active");
       //civd2015-systemMain.js修正
+      $('.top').addClass('conTopDis')
+      $('.middle').addClass('conMiddleDis')
+      $('.bottom').addClass('conBottomDis')
     } else {
       $('body').removeClass("offcanvas-active");//如果是手機畫面，就收合導覽列
+      $('.top').removeClass('conTopDis')
+      $('.middle').removeClass('conMiddleDis')
+      $('.bottom').removeClass('conBottomDis')
       this.state = false;
     }
   }
@@ -243,24 +255,71 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
       this.bt_toggleactive()
     }
   }
-  bt_toggleactive() {
-    if ($('body').hasClass("offcanvas-active")) {
-      $('body').removeClass('offcanvas-active');
-    } else {
-      $('body').addClass('offcanvas-active');
-    }
-
+  winR_toggleactive() {
     //左上角收合導覽列按鈕
     if (window.innerWidth > 800) {
-    } else {
-      if (!$('body').hasClass("offcanvas-active")) {
-        this.state = false;
-        //$('body').css("position", "unset");
-        // $('body').css("overflow-y", "auto");
+      if ($('body').hasClass("offcanvas-active")) {
+        $('body').removeClass('offcanvas-active');
+
+        $('.con').removeClass('conMoveLeft')
+        $('.top').addClass('conTopDis')
+        $('.middle').addClass('conMiddleDis')
+        $('.bottom').addClass('conBottomDis')
+
       } else {
+        $('body').addClass('offcanvas-active');
+
+        $('.con').addClass('conMoveLeft')
+        $('.top').removeClass('conTopDis')
+        $('.middle').removeClass('conMiddleDis')
+        $('.bottom').removeClass('conBottomDis')
+
+      }
+    } else {
+      if ($('.con').hasClass("conMoveLeft")) { $('.con').removeClass('conMoveLeft') } else { }
+      this.state = false;
+      $('body').removeClass('offcanvas-active');
+      $('.top').removeClass('conTopDis')
+      $('.middle').removeClass('conMiddleDis')
+      $('.bottom').removeClass('conBottomDis')
+    }
+  }
+  bt_toggleactive() {
+    //左上角收合導覽列按鈕
+    if (window.innerWidth > 800) {
+      if ($('body').hasClass("offcanvas-active")) {
+        $('body').removeClass('offcanvas-active');
+
+        $('.con').removeClass('conMoveLeft')
+        $('.top').addClass('conTopDis')
+        $('.middle').addClass('conMiddleDis')
+        $('.bottom').addClass('conBottomDis')
+
+      } else {
+        $('body').addClass('offcanvas-active');
+
+        $('.con').addClass('conMoveLeft')
+        $('.top').removeClass('conTopDis')
+        $('.middle').removeClass('conMiddleDis')
+        $('.bottom').removeClass('conBottomDis')
+
+      }
+    } else {
+      if ($('.con').hasClass("conMoveLeft")) { $('.con').removeClass('conMoveLeft') } else { }
+      if (!$('body').hasClass("offcanvas-active")) {
         this.state = true;
-        // $('body').css("position", "fixed");
-        // $('body').css("overflow-y", "hidden");
+        $('body').addClass('offcanvas-active');
+
+        $('.top').addClass('conTopDis')
+        $('.middle').addClass('conMiddleDis')
+        $('.bottom').addClass('conBottomDis')
+      } else {
+
+        this.state = false;
+        $('body').removeClass('offcanvas-active');
+        $('.top').removeClass('conTopDis')
+        $('.middle').removeClass('conMiddleDis')
+        $('.bottom').removeClass('conBottomDis')
       }
     }
   }

@@ -2,11 +2,11 @@ var QAhref = ''
     
 var manualhref = ''
 
-var desktopTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
+var desktopTitleString = '員工差假系統'
 
-var phoneTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
+var phoneTitleString = '員工差假系統'
 
-var footerString = 'copyright: China Airlines 2019 (測試環境 Test Environment)'
+var footerString = ''
 
 var OAuthPath = 'https://192.168.1.46/OAuth20/authorize.aspx'
 

@@ -1,19 +1,19 @@
-var QAhref = 'https://hdqhr05t.china-airlines.com/eepWebServiceExtend/Upload/EAM_QA.pdf'
+var QAhref = ''
 
-var manualhref = 'https://hdqhr05t.china-airlines.com/eepWebServiceExtend/Upload/EAM_Manual.pdf'
+var manualhref = ''
 
-var desktopTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
+var desktopTitleString = '員工差假系統'
 
-var phoneTitleString = '國內(含外派)員工差假系統 (限TT/FF/LD輪班)'
+var phoneTitleString = '員工差假系統'
 
-var footerString = 'copyright: China Airlines 2019 (測試環境 Test Environment)'
+var footerString = ''
 
-var OAuthPath = 'https://192.168.1.46/OAuth20/authorize.aspx'
+var OAuthPath = ''
 
-var _client_id = 't4Ev4xhBABswPSkXIwBn'
+var _client_id = ''
 
-var _redirect_uri_LinkOuthpage = 'https://192.168.1.46/EAM/LinkOuthpageComponent'
+var _redirect_uri_LinkOuthpage = ''
 
-var apiPostURL = 'https://192.168.1.46/eepWebService/'
+var apiPostURL = 'https://192.168.1.46/HRWebService/api/'
 
-var apiGetFileURL = 'https://192.168.1.46/eepWebServiceExtend/'
+var apiGetFileURL = ''

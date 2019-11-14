@@ -1,26 +1,38 @@
 <div id="wrapper">
     <div id="page-container">
         <a id="anchor-pagetop" name="anchor-pagetop">錨點/anchor</a>
-        <header id="header">
+        <header id="header" style="height: 60px;">
             <div id="header-inner" class="clearfix">
 
                 <div id="header-navbar">
-                    <div class="btn-main-nav" data-toggle="offcanvas" (click)="bt_toggleactive()"></div>
+                    <!-- <div class="btn-main-nav" data-toggle="offcanvas" (click)="bt_toggleactive()"></div> -->
 
-
+                    <div class="btMenuBlock">
+                        <div class="col" (click)="bt_toggleactive()">
+                            <div class="con">
+                                <div class="bar top"></div>
+                                <div class="bar middle"></div>
+                                <div class="bar bottom"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
                 <div id="header-title">
-                    <div class="logo-ci">
+                    <!-- <div class="logo-ci" style="background-color:#2c61aa;">
                         <a [routerLink]="['home']">
                             <img src="./assets/images-template/img-temp-systemMain/logo-ci-tw.png"
                                 style="width: 100%;height: 100%;" />
 
                         </a>
-                    </div>
+                    </div> -->
                     <div class="website-title  website-title-pc">
-                        <div class="website-title-pc-ellipsis">
+                        <div class="website-title-pc-ellipsis" style="
+                        text-align: left;
+                        color: #2c61aa;
+                        font-size: 20px;
+                        padding-left: 30px;">
                             {{DesktopBlockTitleString}}
                         </div>
                     </div>
@@ -42,11 +54,11 @@
                                 <img src="./assets/images-template/qa.png" />
                             </a>
                         </li>
-                        <li class="subfunc-level01" style="cursor: pointer;">
+                        <!-- <li class="subfunc-level01" style="cursor: pointer;">
                             <a>
                                 <span>v2.0.2</span>
                             </a>
-                        </li>
+                        </li> -->
                         <!-- <li class="subfunc-level01" style="cursor: pointer;" (click)="changeLang()">
                             <a>{{showLang}}</a>
                         </li> -->
@@ -126,8 +138,8 @@
     <nav id="main-nav">
         <div id="main-nav-inner">
 
-            <div id="user-profile">
-                <div id="user-profile-inner">
+            <div style="background-color: #2c61aa;">
+                <div class="uesrInfo">
                     <p>
                         <span class="user-empId">{{selectUserData.EmpID}}</span>
                         <a *ngIf="IsHasSwitchUser" class="bt_switch" style="text-decoration: underline;"
@@ -254,7 +266,6 @@
                     <!-- 二階層nav -->
                 </ul>
 
-
             </div>
             <!--main-nav-area End-->
 
@@ -269,7 +280,7 @@
                 </li>
             </ul> -->
             <!--nav-subfunctions-fromHeader End-->
-            <div id="btn-log-out-inMainNav" style="border: 0;text-align: left">
+            <!-- <div id="btn-log-out-inMainNav" style="border: 0;text-align: left">
                 <div style="cursor: pointer;display: inline-block;
                 margin: 0px 5px;">
                     <a data-toggle="modal" [href]="manualhrefString" target="_blank" style="cursor: pointer;">
@@ -285,15 +296,16 @@
                 <div style="float: right;cursor: pointer; margin: 0px 5px ; ">
                     <span>v2.0.2</span>
                 </div>
-            </div>
+            </div> -->
             <!-- <a id="btn-log-out-inMainNav" style="cursor: pointer;border: 0;text-align: right"
                 (click)="changeLang()">{{showLang}}</a> -->
-            <a id="btn-log-out-inMainNav" (click)="signOut()">
+            <!-- <a id="btn-log-out-inMainNav" (click)="signOut()">
                 <ng-container i18n>登 出</ng-container>
-            </a>
+            </a> -->
 
         </div>
         <!--#main-nav-inner End -->
+        <div style="text-align: center;color:#9b9b9b">v2.0.2</div>
     </nav>
     <!--#main-nav End -->
 

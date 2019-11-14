@@ -3,9 +3,6 @@
     padding-left: 20px;
     padding-right: 0px
 }
-.oneLineWrite{
-    padding-left: 23px;
-}
 
 
 .inputTextarea{
@@ -42,7 +39,9 @@
     display: none;
 }
 
-
+.noteWrite{
+    padding:0px 20px;
+}
 @media screen and (max-width:850px) {
     #holidayInfo .modal-dialog {    
         position: relative;
@@ -135,12 +134,17 @@
         overflow-y: auto;
         height:200px
     }
-    .oneLineWrite{
-        padding-left: 15px
-    }
     .radiobt{
         padding:0;
         padding-top: 0px
+    }
+
+    .noteText{
+        padding: 0px;
+    }
+    .noteWrite{
+        padding: 0px;
+
     }
 }
     
