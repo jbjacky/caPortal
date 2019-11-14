@@ -40,7 +40,7 @@ export class SearchChangeFormComponent implements OnInit, OnDestroy {
   @Output() gotoShowFormPlace: EventEmitter<number> = new EventEmitter<number>();
 
   MoreSearchPage = 1
-  @Input() CanSerchMore: boolean = true
+  @Input() CanSerchMore: boolean = false
   @Input() getCatchMoreGetFlowViewDept: GetFlowViewDeptClass
   
   changeSearchFlowSign: changeSearchFlowSignClass[] = []

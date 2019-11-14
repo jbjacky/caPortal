@@ -704,7 +704,10 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
                   (y: boolean) => {
                     var canNext_ChangeEmp: boolean = false
                     if (y) {
-                      if (this.val_TT(this.selectDay).State) {
+                      if (this.search_IsAssistant) {
+                        //行政不限制
+                        canNext_ChangeEmp = true
+                      } else if (this.val_TT(this.selectDay).State) {
                         //如果通過地服處內規
                         canNext_ChangeEmp = true
                       } else {

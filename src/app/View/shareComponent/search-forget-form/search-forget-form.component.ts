@@ -36,7 +36,7 @@ export class SearchForgetFormComponent implements OnInit, OnDestroy {
   forgetSearchFlowSign: forgetSearchFlowSignClass[] = []
 
   MoreSearchPage = 1
-  @Input() CanSerchMore: boolean = true
+  @Input() CanSerchMore: boolean = false
   @Input() getCatchMoreGetFlowViewDept: GetFlowViewDeptClass
   
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
