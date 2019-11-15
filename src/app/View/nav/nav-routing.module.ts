@@ -73,6 +73,8 @@ import { LoginLogInfoComponent } from '../login-log-info/login-log-info.componen
 import { EmailLogInfoComponent } from '../email-log-info/email-log-info.component';
 import { DayRoteComponent } from '../shareComponent/day-rote/day-rote.component';
 import { PersonnelSearchVaComponent } from '../personnel-search-va/personnel-search-va.component';
+import { RmStateFormComponent } from '../allform/rm-state-form/rm-state-form.component';
+import { RmStateFormWriteComponent } from '../allform/rm-state-form/rm-state-form-write/rm-state-form-write.component';
 
 const routes: Routes = [
   {
@@ -341,9 +343,11 @@ const routes: Routes = [
       {
         path: 'PersonnelSearchVaComponent', component: PersonnelSearchVaComponent,
         canActivate: [AuthGuard],
+      },
+      {
+        path: 'RmStateFormComponent', component: RmStateFormComponent,
+        canActivate: [AuthGuard],
       }
-
-
     ]
   },
 
