@@ -148,46 +148,48 @@
 }
 
 ::ng-deep .slick-prev{
-    left: -30px;
+    top: 110px;
+    left: -21px;
     width: 50px;
     height: 50px;
-    background: url(../../../assets/images-template/icon-left.png) ;
+    background: url(../../../assets/jbIcon/icon_btn-Triangle-left.png) ;
     background-repeat:no-repeat;
     
 }
 ::ng-deep  .slick-prev:hover {
     color: #f00;
     outline:none;
-    background: url(../../../assets/images-template/icon-left.png) ;
+    background: url(../../../assets/jbIcon/icon_btn-Triangle-left.png) ;
     background-repeat:no-repeat;
     
 }
 ::ng-deep .slick-prev:focus{
     color: #f00;
     outline:none;
-    background: url(../../../assets/images-template/icon-left.png) ;
+    background: url(../../../assets/jbIcon/icon_btn-Triangle-left.png) ;
     background-repeat:no-repeat;
     
 }
 ::ng-deep .slick-next{
-    right: -45px;
+    top: 110px;
+    right: -32px;
     width: 50px;
     height: 50px;
-    background: url(../../../assets/images-template/icon-right.png) ;
+    background: url(../../../assets/jbIcon/icon_btn-Triangle-right.png) ;
     background-repeat:no-repeat;
     
 }
 ::ng-deep  .slick-next:hover {
     color: #f00;
     outline:none;
-    background: url(../../../assets/images-template/icon-right.png) ;
+    background: url(../../../assets/jbIcon/icon_btn-Triangle-right.png) ;
     background-repeat:no-repeat;
 }
 
 ::ng-deep   .slick-next:focus{
     color: #f00;
     outline:none;
-    background: url(../../../assets/images-template/icon-right.png) ;
+    background: url(../../../assets/jbIcon/icon_btn-Triangle-right.png) ;
     background-repeat:no-repeat;
     
 }
@@ -256,6 +258,31 @@
 }
 .P_zero{
     padding: 0px;
+}
+.P_zero_DRZ{
+    padding-right: 0px;
+}
+.P_zero_DLZ{
+    padding-left: 0px;
+}
+.RightBlock{
+    display: block;
+}
+.vaBlock{
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 10px 25px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 7.5px 0 rgba(0, 0, 0, 0.15);
+    min-height: 250px;
+}
+.reviewBlock{
+    margin-bottom: 10px;
+    padding: 20px 25px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 7.5px 0 rgba(0, 0, 0, 0.15);
+    background-color: #4087ce;
+    min-height: 440px;
 }
 @media (min-width:968px) and (max-width:1280px) {
     #InfoBlock.col-md-8{
@@ -341,6 +368,22 @@
     }
     .P_marginBotton{
         margin-bottom: 5px
+    }
+    .P_zero_DRZ{
+        padding: 0px;
+    }
+    .P_zero_DLZ{
+        padding: 0px;
+    }
+    .RightBlock{
+        display: grid;
+    }
+    .vaBlock{
+        order:2;
+    }
+    .reviewBlock{
+        order:1;
+        min-height: auto;
     }
 }
 @media screen and (max-width:1024px) {

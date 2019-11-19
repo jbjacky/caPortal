@@ -48,6 +48,19 @@ declare var $: any;
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
+  onCheckCollapseIn() {
+    //確認是否收合
+    if (!$('#collapseOne').hasClass('collapse in')) {
+      $('#_text').text('收合')
+      $('#_img').css({ "transition": "transform 0.5s" });
+      $('#_img').css({ "transform": "rotate(-180deg)" });
+
+    } else {
+      $('#_text').text('展開')
+      $('#_img').css({ "transition": "transform 0.5s" });
+      $('#_img').css({ "transform": "rotate(0deg)" });
+    }
+  }
   ngOnDestroy(): void {
     // throw new Error("Method not implemented.");
     this.api_subscribe = false;
@@ -112,7 +125,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             this.showReviewCount(x.EmpID)
             this.showHoliDayBalance(x.EmpID)
             this.setWeekjobs(x)
-            this.setGetAttendExceptionalCount(x.EmpID)
+            // this.setGetAttendExceptionalCount(x.EmpID)
           }
         }
       )
@@ -131,6 +144,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     initialSlide: 3,
   }
   ngAfterViewInit(): void {
+    if (window.outerWidth > 968) {
+      $('#collapseOne').collapse('show')
+      $('#_text').text('收合')
+      $('#_img').css({ "transition": "transform 0.5s" });
+      $('#_img').css({ "transform": "rotate(-180deg)" });
+    } else {
+      $('#collapseOne').addClass('collapse');
+      $('#collapseOne').collapse('hide')
+      $('#_text').text('展開')
+      $('#_img').css({ "transition": "transform 0.5s" });
+      $('#_img').css({ "transform": "rotate(0deg)" });
+    }
     // $(".slideblock").not('.slick-initialized').slick({
     //   slidesToShow: 7,
     //   slidesToScroll: 7,
@@ -295,7 +320,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.AllNewsList.push(data_news)
               }
             }
-
             // console.log(this.AllNewsList)
           }
           this.LoadingPage.hide()
@@ -774,24 +798,24 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  AttendExceptionalCount: number = 0
-  setGetAttendExceptionalCount(EmpID: string) {
-    var today = new Date()
-    var GetAttendExceptionalCount: GetAttendExceptionalCountClass = {
-      "DateB": "2019/08/01",
-      "DateE": doFormatDate(today),
-      "ListEmpID": [
-        EmpID
-      ]
-    }
-    this.GetApiDataServiceService.getWebApiData_GetAttendExceptionalCount(GetAttendExceptionalCount)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (x: number) => {
-          this.AttendExceptionalCount = x
-        }
-      )
-  }
+  // AttendExceptionalCount: number = 0
+  // setGetAttendExceptionalCount(EmpID: string) {
+  //   var today = new Date()
+  //   var GetAttendExceptionalCount: GetAttendExceptionalCountClass = {
+  //     "DateB": "2019/08/01",
+  //     "DateE": doFormatDate(today),
+  //     "ListEmpID": [
+  //       EmpID
+  //     ]
+  //   }
+  //   this.GetApiDataServiceService.getWebApiData_GetAttendExceptionalCount(GetAttendExceptionalCount)
+  //     .pipe(takeWhile(() => this.api_subscribe))
+  //     .subscribe(
+  //       (x: number) => {
+  //         this.AttendExceptionalCount = x
+  //       }
+  //     )
+  // }
 
   RedAttendString_Title(e: boolean, b: boolean) {
     if (e || b) {
