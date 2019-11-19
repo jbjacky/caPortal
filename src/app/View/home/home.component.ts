@@ -276,7 +276,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             //   function custom_sort(a, b) {
             //     return new Date(b.PostDate).getTime() - new Date(a.PostDate).getTime();
             //   })
-            let fontlength = 50
+            let fontlength = 27
             for (let oneNewList of x) {
               if (oneNewList.NewsHead.length > fontlength) {
                 var title_slice = oneNewList.NewsHead.slice(0, fontlength)

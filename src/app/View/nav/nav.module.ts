@@ -107,8 +107,9 @@ import { EmailLogInfoComponent } from '../email-log-info/email-log-info.componen
 import { ExampleHeaderMonth } from 'src/app/Service/datepickerHeaderMonth';
 import { TimeoutInterceptor } from 'src/app/_guards/TimeoutInterceptor';
 import { PersonnelSearchVaComponent } from '../personnel-search-va/personnel-search-va.component';
-import { OtformComponent } from '../allform/otform/otform.component';
+import { OtformComponent } from '../allform/otform/writeotform/otform.component';
 import { SalarySearchComponent } from '../salary-search/salary-search.component';
+import { OtformdetailComponent } from '../allform/otform/otformdetail/otformdetail.component';
 
 const MY_DATE_FORMATS = {
   parse: {
@@ -250,6 +251,7 @@ export class MyDateAdapter extends NativeDateAdapter {
     
     SalarySearchComponent,
     PersonnelSearchVaComponent,
+    OtformdetailComponent,
 
   ],
   providers: [

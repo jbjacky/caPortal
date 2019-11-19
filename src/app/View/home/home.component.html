@@ -17,6 +17,161 @@
     Loading stuff...
 </ng-template> -->
 <!-- 測試 -->
+<div class="row" style="margin: 0px;">
+    <div id="InfoBlock" class="col-md-8">
+        <div style="
+        background-color: #fff;
+        margin-bottom: 10px;
+        padding: 10px 25px;
+        border-radius: 10px;
+        box-shadow: 1px 1px 7.5px 0 rgba(0, 0, 0, 0.15);
+        min-height: 250px;">
+            <div style="font-weight: bold;margin-bottom: 10px;">
+                <img src="./assets/jbIcon/icon_megaphone.png" width="27px" height="25px" style="margin-right: 7px;" />
+                <div style="display: inline-block;font-size: 20px;">
+                    <ng-container i18n>近期公告</ng-container>
+                </div>
+            </div>
+            <div style="padding: 0px 20px;">
+                <div>
+                    <div style="min-height: 160px;">
+                        <div *ngIf="AllNewsList.length>0">
+                            <div *ngFor="let oneNews of AllNewsList">
+                                <div data-toggle="modal" data-target="#showNews" (click)="goToNewsPage(oneNews)"
+                                    class="row" style="margin:0px;cursor: pointer;">
+                                    <div class="col-md-10 col-xs-8">
+                                        <p style="word-break: break-all;">{{oneNews.ShowNewsHead}}</p>
+                                    </div>
+                                    <div class="col-md-2 col-xs-4">
+                                        <div style="text-align: right">{{oneNews.PostDate}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="AllNewsList.length==0">
+                            <ng-container i18n>無</ng-container>
+                        </div>
+                    </div>
+                    <div style="text-align: center;margin-top: 10px">
+                        <div style="cursor: pointer;color:#ed3d54">
+                            <ng-container i18n>More...</ng-container>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div *ngIf="AllNewsList.length>0">
+                    <div *ngFor="let oneNews of AllNewsList" class="onenewsblock">
+                        <div data-toggle="modal" data-target="#showNews" (click)="goToNewsPage(oneNews)">
+                            <p style="word-break: break-all;">{{oneNews.ShowNewsHead}}</p>
+                            <div style="text-align: right">{{oneNews.PostDate}}</div>
+                        </div>
+                    </div>
+                    <div *ngIf="AllNewsList.length==5" style="text-align: center;margin-top: 10px">
+                        <a style="cursor: pointer;" [routerLink]="['/nav/NewsShowAllComponent']">
+                            <ng-container i18n>More...</ng-container>
+                        </a>
+                    </div>
+                </div>
+                <div *ngIf="AllNewsList.length==0">
+                    <ng-container i18n>無</ng-container>
+                </div> -->
+            </div>
+        </div>
+        <div class="myvacationblock" style="margin:0;margin-bottom: 15px;">
+            <h3 style="margin-top: 0px">
+                <ng-container i18n>我的餘假</ng-container>
+            </h3>
+            <div class="row P_inf" style="margin:0;margin-bottom: 15px;">
+                <div *ngFor="let HoliDayBalance of showAllHoliDayBalance" class="col-md-4 col-xs-12"
+                    style="padding: 0;">
+                    <div style="text-align: center;
+                    background-color: #edf5ff;
+                    color:#4c4c4c;
+                    font-weight: 600;
+                    padding: 10px 0px;
+                    border: 1px solid #e0e0e0;">{{HoliDayBalance.HoliDayKindNameC}}</div>
+                    <div style="text-align: center;padding: 10px 0px;
+                    border: 1px solid #e0e0e0">
+                        {{HoliDayBalance.useday}} 日 {{HoliDayBalance.usehour}} 時 {{HoliDayBalance.useminute}} 分
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="showHoliDayBalanceDateE.length > 0" style="margin-bottom: 25px">
+                <div>
+                    <img src="./assets/images-template/icon-alert.png" style="width: 20px; height: 20px;" />
+                    <div style="display: inline-block;padding: 10px 5px;">
+                        <span style="color: #d0021b;font-weight: bold">45 <ng-container i18n>天內 即將到期之餘假時數</ng-container>
+                            ：</span>
+                    </div>
+                </div>
+                <div style="padding-left: 25px">
+                    <div *ngFor="let oneHoliDayBalanceDateE of showHoliDayBalanceDateE" style="display: inline-block;">
+                        <span style="margin-right: 5px">{{oneHoliDayBalanceDateE.HoliDayKindNameC}}</span>
+                        <span style="color: #d0021b;margin-right: 25px"> {{oneHoliDayBalanceDateE.useday}} 日
+                            {{oneHoliDayBalanceDateE.usehour}} 時 {{oneHoliDayBalanceDateE.useminute}} 分</span>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <div class="P_marginBotton" style="display: inline-block;">
+                    <button class="btn btn-default " [routerLink]="['/nav/SurplusLeaveComponent']"
+                        style="margin-right: 10px;padding:6px 37.5px">
+                        <ng-container i18n>查詢餘假明細</ng-container>
+                    </button>
+                </div>
+                <button class="btn btn-primary " [routerLink]="['/nav/vaform']" style="margin-right: 10px">
+                    <ng-container i18n>填寫請假單</ng-container>
+                </button>
+            </div>
+        </div>
+        <div class="myvacationblock">
+            <h3 style="margin-top: 0px;display: inline-block;margin-right: 5px">
+                <ng-container i18n>我的差勤表</ng-container>
+            </h3>
+            <div style="display: inline-block;color:#777777;
+            margin-right: 5px;">
+                <ng-container i18n>考勤異常數量</ng-container>
+                :{{AttendExceptionalCount}}
+            </div>
+            <a data-toggle="modal" data-target="#AttendErrorTextDialog" style="cursor: pointer;">
+                <img src="./assets/images-template/icon-question.png" />
+            </a>
+            <div *ngIf="weekjobs.length>0" appShowAttend>
+                <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+                    <div ngxSlickItem *ngFor="let weekjob of weekjobs;let i = index">
+                        <div>
+                            <div [ngClass]="showTitleClass(i)" *ngIf="weekjob.today"
+                                style="color: #fff;background-color: #0068b7">{{weekjob.date}}</div>
+                            <div [ngClass]="showTitleClass(i)" *ngIf="!weekjob.today">{{weekjob.date}}</div>
+                            <div [ngClass]="showContentClass(i)">
+                                {{weekjob.jobtime}}
+                                <!-- <ng-container i18n>{weekjob.jobtime, select, 例假日 {qwe} other {{{weekjob.jobtime}}}}</ng-container> -->
+                                <!-- <ng-container i18n>{weekjob.jobtime, select, 06:00-14:00 {qwe} other {{{weekjob.jobtime}}}}</ng-container> -->
+                                <div style="height: 22px;">
+                                    <div *ngIf="weekjob.isAttend" style="color: 
+                                                    #d0021b;text-decoration:underline;cursor: pointer;"
+                                        (click)="AtterrorClick(weekjob.realdate)">
+                                        <ng-container i18n>考勤異常</ng-container>
+                                    </div>
+                                    <div *ngIf="weekjob.isVa" style="color:
+                                                    #4a90e2;text-decoration:underline;cursor: pointer;"
+                                        (click)="vaClick(weekjob.realdate,EmpCode)">
+                                        <ng-container i18n>查閱請假單</ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-slick-carousel>
+            </div>
+            <div *ngIf="weekjobs.length==0">
+                <ng-container i18n>無出勤資料</ng-container>
+            </div>
+        </div>
+    </div>
+    <div id="NewsBlock" class="col-md-4">
+    </div>
+</div>
 <div class="row" style="margin: 0px">
     <div id="InfoBlock" class="col-md-8">
         <div [routerLink]="['/nav/reviewform']" class="checkform" style="margin-bottom: 15px">
@@ -199,7 +354,7 @@
     </div>
     <div id="NewsBlock" class="col-md-4">
         <div class="a-block" style="padding: 20px 30px;">
-            <h4 style="font-weight: bold;margin-bottom: 20px;">
+            <h4 style="font-weight: bold;margin-bottom: 19px;">
                 <ng-container i18n>近期公告</ng-container>
             </h4>
             <div *ngIf="AllNewsList.length>0">
