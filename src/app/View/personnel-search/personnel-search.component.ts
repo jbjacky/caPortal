@@ -49,6 +49,8 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
   LateMins: boolean = true; //遲到
   EarlyMins: boolean = true; //早退
   IsAbsent: boolean = true; //未刷卡
+  IsEarlyCome: boolean = true; //早來
+  IsLateBack: boolean = true; //晚走
 
   chooseRadio: number = 1;
 
@@ -329,6 +331,13 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
         if (this.IsAbsent) {//未刷卡
           checkListState.push('3')
         }
+        if (this.IsEarlyCome) {//早來
+          checkListState.push('4')
+        }
+        if (this.IsLateBack) {//晚走
+          checkListState.push('5')
+        }
+
       }
 
       // this.GetAttendInfoClass = { DateB: "2018/8/1", DateE: "2018/8/10", ListEmpID: ["051005"], EffectDate: "", Display: "1", ListState: ["1", "2", "3"] }
@@ -423,6 +432,12 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
         }
         if (this.IsAbsent) {//未刷卡
           checkListState.push('3')
+        }
+        if (this.IsEarlyCome) {//早來
+          checkListState.push('4')
+        }
+        if (this.IsLateBack) {//晚走
+          checkListState.push('5')
         }
       }
 
@@ -648,6 +663,12 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
           }
           if (this.IsAbsent) {//未刷卡
             checkListState.push('3')
+          }
+          if (this.IsEarlyCome) {//早來
+            checkListState.push('4')
+          }
+          if (this.IsLateBack) {//晚走
+            checkListState.push('5')
           }
         }
 

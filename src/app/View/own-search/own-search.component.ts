@@ -1,6 +1,5 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
-declare let $: any; //use jquery
 import { chinesenum } from 'src/app/UseVoid/void_chinesenumber'
 import { GetAttendInfoClass } from 'src/app/Models/PostData_API_Class/GetAttendInfoClass';
 import { doFormatDate, timeZone_tw, formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
@@ -10,6 +9,8 @@ import { GetApiUserService } from 'src/app/Service/get-api-user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { void_MonthDiff } from 'src/app/UseVoid/void_DateDiff';
+import { takeWhile } from 'rxjs/operators';
+declare let $: any; //use jquery
 
 @Component({
   selector: 'app-own-search',
@@ -18,16 +19,23 @@ import { void_MonthDiff } from 'src/app/UseVoid/void_DateDiff';
   providers: [GetAttendInfoClass, Attendance]
 
 })
-export class OwnSearchComponent implements OnInit, AfterViewInit {
+export class OwnSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   exampleHeader = ExampleHeader //日期套件header
   ngAfterViewInit(): void {
   }
+
+  ngOnDestroy(): void {
+    this.api_subscribe = false;
+  }
+  api_subscribe = true;
 
   showSearchCheckbok = false;
   EmpBase = { EmpCode: '', Name: '' };
   LateMins = true; //遲到
   EarlyMins = true; //早退
   IsAbsent = true; //未刷卡
+  IsEarlyCome = true; //早來
+  IsLateBack = true; //晚走
 
   errorStartDateState = { state: false, errorString: '' }
   errorEndtDateState = { state: false, errorString: '' }
@@ -221,6 +229,12 @@ export class OwnSearchComponent implements OnInit, AfterViewInit {
         if (this.IsAbsent) {//未刷卡
           checkListState.push('3')
         }
+        if (this.IsEarlyCome) {//早來
+          checkListState.push('4')
+        }
+        if (this.IsLateBack) {//晚走
+          checkListState.push('5')
+        }
       }
 
       // this.GetAttendInfoClass = { DateB: "2018/8/1", DateE: "2018/8/10", ListEmpID: ["051005"], EffectDate: "", Display: "1", ListState: ["1", "2", "3"] }
@@ -243,7 +257,9 @@ export class OwnSearchComponent implements OnInit, AfterViewInit {
       }
 
 
-      this.GetApiDataServiceService.getWebApiData_GetAttendInfo_Integration(GetAttendInfo).subscribe(
+      this.GetApiDataServiceService.getWebApiData_GetAttendInfo_Integration(GetAttendInfo)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
         (x: any) => {
           for (let i = 0; i < x.length; i++) {
             if (x[i].AttendAbsInfo) {

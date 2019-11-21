@@ -106,7 +106,7 @@
           <div class="tag_red" *ngIf="OneAttendance.LateMins">
             <ng-container i18n>遲到</ng-container>
           </div>
-          <div class="tag_blue" *ngIf="!OneAttendance.LateMins && !OneAttendance.IsAbsent && !OneAttendance.EarlyMins">
+          <div class="tag_blue" *ngIf="!OneAttendance.LateMins && !OneAttendance.IsAbsent && !OneAttendance.EarlyMins && !OneAttendance.EarlyarriveMins && !OneAttendance.LateleaveMins">
             <ng-container i18n>正常</ng-container>
           </div>
           <div class="tag_red" style="width: 65px;" *ngIf="OneAttendance.IsAbsent">
@@ -114,6 +114,12 @@
           </div>
           <div class="tag_red" *ngIf="OneAttendance.EarlyMins">
             <ng-container i18n>早退</ng-container>
+          </div>
+          <div class="tag_red" *ngIf="OneAttendance.EarlyarriveMins">
+            <ng-container i18n>早來</ng-container>
+          </div>
+          <div class="tag_red" *ngIf="OneAttendance.LateleaveMins">
+            <ng-container i18n>晚走</ng-container>
           </div>
         </div>
       </div>

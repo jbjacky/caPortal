@@ -26,6 +26,9 @@ export class Attendance {
     EarlyMins: number; //早退
     IsAbsent: boolean;//未刷卡
   
+    EarlyarriveMins: number;//早來
+    LateleaveMins: number; //晚走
+    
     ForgetCard: number;//忘刷次數
 
     ActualRote:any
