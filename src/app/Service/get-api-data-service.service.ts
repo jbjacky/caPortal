@@ -85,6 +85,7 @@ import { GetAttendWishByDeptaGetApiClass } from '../Models/PostData_API_Class/Ge
 import { GetFlowViewDeptClass } from '../Models/PostData_API_Class/GetFlowViewDeptClass';
 import { GetFlowSignAbsGetApiClass } from '../Models/PostData_API_Class/GetFlowSignAbsGetApiClass';
 import { GetCheckAgentByTargetGetApiClass } from '../Models/PostData_API_Class/GetCheckAgentByTargetGetApiClass';
+import { AttendUnusualSaveAndFlowStartClass } from '../Models/PostData_API_Class/AttendUnusualSaveAndFlowStart';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -1753,6 +1754,28 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowSignShiftRote(GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignShiftRote',
       JSON.stringify(GetFlowSignAbsGetApi), {
+        headers: this.GetHeader()
+      })
+  }
+
+
+  
+  /**
+   * @todo 取得班別異常資訊-註記單
+   */
+  getWebApiData_GetAttendExceptionalNew(GetAttendExceptional: GetAttendExceptionalClass) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendExceptionalNew',
+      JSON.stringify({ "DateB": GetAttendExceptional.DateB, "DateE": GetAttendExceptional.DateE, "ListEmpID": GetAttendExceptional.ListEmpID }), {
+        headers: this.GetHeader()
+      })
+  }
+
+  /**
+   * @todo 儲存並起單-註記單
+   */
+  getWebApiData_AttendUnusualSaveAndFlowStart(AttendUnusualSaveAndFlowStart: AttendUnusualSaveAndFlowStartClass) {
+    return this.http.post(this.localUrl + 'Flow/AttendUnusualFlowHandler.svc/SaveAndFlowStart',
+      JSON.stringify(AttendUnusualSaveAndFlowStart), {
         headers: this.GetHeader()
       })
   }

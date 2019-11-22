@@ -21,42 +21,62 @@
       <ng-container i18n>考勤異常資訊</ng-container>
     </h3>
     <div style="border:1px solid #028fcf;padding: 20px 20px;margin: 0px;margin-bottom: 10px" class="row">
-      <div class="col-md-11 col-xs-11 row" style="margin: 0px ;padding: 0px">
+      <div class="row" style="margin: 0px ;padding: 0px">
 
         <div class="col-md-3 row P_paddingTitle">
           <div class="col-md-6  col-xs-6">
             <span style="color: #028fcf">{{getAttendCard.AttendDate}}</span>
           </div>
           <div class="col-md-6  col-xs-6">
-            <div *ngIf="getAttendCard.LateMins" style="color: #23569D;
-                background-color: #fff;
-                border: 1px solid #23569D;
-                border-radius: 15px;
-                width: 70px;
-                height: 23px;
-                font-size: 15px;
-                text-align: center;">
-              <ng-container i18n>遲到</ng-container>
+            <div *ngIf="getAttendCard.LateMins">
+              <div *ngIf="getAttendCard.EliminateLate;else nonEliminateLate" class="tagBlueLineThrough">
+                <ng-container i18n>遲到</ng-container>
+              </div>
+              <ng-template #nonEliminateLate>
+                <div class="tagBlue">
+                  <ng-container i18n>遲到</ng-container>
+                </div>
+              </ng-template>
             </div>
-            <div *ngIf="getAttendCard.EarlyMins" style="color: #23569D;
-                background-color: #fff;
-                border: 1px solid #23569D;
-                border-radius: 15px;
-                width: 70px;
-                height: 23px;
-                font-size: 15px;
-                text-align: center;">
-              <ng-container i18n>早退</ng-container>
+            <div *ngIf="getAttendCard.EarlyMins">
+              <div *ngIf="getAttendCard.EliminateEarly;else nonEliminateEarly" class="tagBlueLineThrough">
+                <ng-container i18n>早退</ng-container>
+              </div>
+              <ng-template #nonEliminateEarly>
+                <div class="tagBlue">
+                  <ng-container i18n>早退</ng-container>
+                </div>
+              </ng-template>
             </div>
-            <div *ngIf="getAttendCard.IsAbsent" style="color: #23569D;
-                background-color: #fff;
-                border: 1px solid #23569D;
-                border-radius: 15px;
-                width: 70px;
-                height: 23px;
-                font-size: 15px;
-                text-align: center;">
-              <ng-container i18n>未刷卡</ng-container>
+            <div *ngIf="getAttendCard.IsAbsent">
+              <div *ngIf="getAttendCard.EliminateAbsent;else nonEliminateAbsent" class="tagBlueLineThrough">
+                <ng-container i18n>未刷卡</ng-container>
+              </div>
+              <ng-template #nonEliminateAbsent>
+                <div class="tagBlue">
+                  <ng-container i18n>未刷卡</ng-container>
+                </div>
+              </ng-template>
+            </div>
+            <div *ngIf="getAttendCard.OnBeforeMins">
+              <div *ngIf="getAttendCard.EliminateOnBefore;else nonEliminateOnBefore" class="tagBlueLineThrough">
+                <ng-container i18n>早來</ng-container>
+              </div>
+              <ng-template #nonEliminateOnBefore>
+                <div class="tagBlue">
+                  <ng-container i18n>早來</ng-container>
+                </div>
+              </ng-template>
+            </div>
+            <div *ngIf="getAttendCard.OffAfterMins">
+              <div *ngIf="getAttendCard.EliminateOffAfter;else nonEliminateOffAfter" class="tagBlueLineThrough">
+                <ng-container i18n>晚走</ng-container>
+              </div>
+              <ng-template #nonEliminateOffAfter>
+                <div class="tagBlue">
+                  <ng-container i18n>晚走</ng-container>
+                </div>
+              </ng-template>
             </div>
           </div>
         </div>
@@ -65,7 +85,7 @@
             <div style="color: rgb(150, 149, 148);">
               <ng-container i18n>班型</ng-container>
             </div>
-            <div class="RoteLink" (click)="bt_Show_RoteInfo(getAttendCard.RoteID)">{{getAttendCard.RoteCode}}</div>
+            <div class="RoteLink" (click)="bt_Show_RoteInfo(getAttendCard.RoteID)">{{getAttendCard.RoteNameC}}</div>
           </div>
           <div class="col-md-4 col-xs-6">
             <div style="color: rgb(150, 149, 148);">
@@ -144,9 +164,6 @@
           </div>
         </div>
       </div>
-      <div class="col-md-1 col-xs-1 row" style="margin: 0px ;padding: 0px">
-
-      </div>
 
     </div>
     <h3>
@@ -185,28 +202,33 @@
         <div class="col-md-10 col-xs-12">
           <form [formGroup]="ErrorStateOptionGroup">
             <div class="checkboxBlock">
-              <mat-checkbox formControlName="lateComeCard">
+              <mat-checkbox formControlName="EliminateLate"
+                [disabled]="(!getAttendCard.LateMins || (getAttendCard.LateMins && getAttendCard.EliminateLate))">
                 <ng-container i18n>遲到</ng-container>
               </mat-checkbox>
             </div>
             <div class="checkboxBlock">
-              <mat-checkbox formControlName="earlyBackCard">
-                  <ng-container i18n>早退</ng-container>
+              <mat-checkbox formControlName="EliminateEarly"
+                [disabled]="(!getAttendCard.EarlyMins || (getAttendCard.EarlyMins && getAttendCard.EliminateEarly))">
+                <ng-container i18n>早退</ng-container>
               </mat-checkbox>
             </div>
             <div class="checkboxBlock">
-              <mat-checkbox formControlName="nonCard">
-                  <ng-container i18n>未刷卡</ng-container>
+              <mat-checkbox formControlName="EliminateAbsent"
+                [disabled]="(!getAttendCard.IsAbsent || (getAttendCard.EliminateAbsent && getAttendCard.EliminateAbsent))">
+                <ng-container i18n>未刷卡</ng-container>
               </mat-checkbox>
             </div>
             <div class="checkboxBlock">
-              <mat-checkbox formControlName="earlyComeCard">
-                  <ng-container i18n>早到</ng-container>
+              <mat-checkbox formControlName="EliminateOnBefore"
+                [disabled]="(!getAttendCard.OnBeforeMins || (getAttendCard.OnBeforeMins && getAttendCard.EliminateOnBefore))">
+                <ng-container i18n>早來</ng-container>
               </mat-checkbox>
             </div>
             <div class="checkboxBlock">
-              <mat-checkbox formControlName="lateBackCard">
-                  <ng-container i18n>晚退</ng-container>
+              <mat-checkbox formControlName="EliminateOffAfter"
+                [disabled]="(!getAttendCard.OffAfterMins || (getAttendCard.OffAfterMins && getAttendCard.EliminateOffAfter))">
+                <ng-container i18n>晚走</ng-container>
               </mat-checkbox>
             </div>
           </form>

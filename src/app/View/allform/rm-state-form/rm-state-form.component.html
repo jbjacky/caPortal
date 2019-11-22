@@ -151,44 +151,62 @@
         {{errorEmpSendForm.errorEmpID}}
         <ng-container i18n>此員工無申請表單權限，如需申請表單請洽單位行政設定</ng-container>
       </div>
-      <div *ngFor="let Attend of AttendCard"
-        style="border:1px solid #028fcf;padding: 20px 20px;margin: 0px;margin-bottom: 10px" class="row">
+      <div *ngFor="let Attend of AttendCard" class="row cardBlock">
         <div class="col-md-11 col-xs-11 row" style="margin: 0px ;padding: 0px">
-
           <div class="col-md-3 row P_paddingZ">
             <div class="col-md-6  col-xs-6">
               <span style="color: #028fcf">{{Attend.AttendDate}}</span>
             </div>
             <div class="col-md-6  col-xs-6">
-              <div *ngIf="Attend.LateMins" style="color: #23569D;
-                  background-color: #fff;
-                  border: 1px solid #23569D;
-                  border-radius: 15px;
-                  width: 70px;
-                  height: 23px;
-                  font-size: 15px;
-                  text-align: center;">
-                <ng-container i18n>遲到</ng-container>
+              <div *ngIf="Attend.LateMins">
+                <div *ngIf="Attend.EliminateLate;else nonEliminateLate" class="tagBlueLineThrough">
+                  <ng-container i18n>遲到</ng-container>
+                </div>
+                <ng-template #nonEliminateLate>
+                  <div class="tagBlue">
+                    <ng-container i18n>遲到</ng-container>
+                  </div>
+                </ng-template>
               </div>
-              <div *ngIf="Attend.EarlyMins" style="color: #23569D;
-                  background-color: #fff;
-                  border: 1px solid #23569D;
-                  border-radius: 15px;
-                  width: 70px;
-                  height: 23px;
-                  font-size: 15px;
-                  text-align: center;">
-                <ng-container i18n>早退</ng-container>
+              <div *ngIf="Attend.EarlyMins">
+                <div *ngIf="Attend.EliminateEarly;else nonEliminateEarly" class="tagBlueLineThrough">
+                  <ng-container i18n>早退</ng-container>
+                </div>
+                <ng-template #nonEliminateEarly>
+                  <div class="tagBlue">
+                    <ng-container i18n>早退</ng-container>
+                  </div>
+                </ng-template>
               </div>
-              <div *ngIf="Attend.IsAbsent" style="color: #23569D;
-                  background-color: #fff;
-                  border: 1px solid #23569D;
-                  border-radius: 15px;
-                  width: 70px;
-                  height: 23px;
-                  font-size: 15px;
-                  text-align: center;">
-                <ng-container i18n>未刷卡</ng-container>
+              <div *ngIf="Attend.IsAbsent">
+                <div *ngIf="Attend.EliminateAbsent;else nonEliminateAbsent" class="tagBlueLineThrough">
+                  <ng-container i18n>未刷卡</ng-container>
+                </div>
+                <ng-template #nonEliminateAbsent>
+                  <div class="tagBlue">
+                    <ng-container i18n>未刷卡</ng-container>
+                  </div>
+                </ng-template>
+              </div>
+              <div *ngIf="Attend.OnBeforeMins">
+                <div *ngIf="Attend.EliminateOnBefore;else nonEliminateOnBefore" class="tagBlueLineThrough">
+                  <ng-container i18n>早來</ng-container>
+                </div>
+                <ng-template #nonEliminateOnBefore>
+                  <div class="tagBlue">
+                    <ng-container i18n>早來</ng-container>
+                  </div>
+                </ng-template>
+              </div>
+              <div *ngIf="Attend.OffAfterMins">
+                <div *ngIf="Attend.EliminateOffAfter;else nonEliminateOffAfter" class="tagBlueLineThrough">
+                  <ng-container i18n>晚走</ng-container>
+                </div>
+                <ng-template #nonEliminateOffAfter>
+                  <div class="tagBlue">
+                    <ng-container i18n>晚走</ng-container>
+                  </div>
+                </ng-template>
               </div>
             </div>
           </div>
@@ -197,7 +215,7 @@
               <div style="color: rgb(150, 149, 148);">
                 <ng-container i18n>班型</ng-container>
               </div>
-              <div class="RoteLink" (click)="bt_Show_RoteInfo(Attend.RoteID)">{{Attend.RoteCode}}</div>
+              <div class="RoteLink" (click)="bt_Show_RoteInfo(Attend.RoteID)">{{Attend.RoteNameC}}</div>
             </div>
             <div class="col-md-4 col-xs-6">
               <div style="color: rgb(150, 149, 148);">
@@ -284,7 +302,6 @@
             </a>
           </div>
         </div>
-
       </div>
 
 

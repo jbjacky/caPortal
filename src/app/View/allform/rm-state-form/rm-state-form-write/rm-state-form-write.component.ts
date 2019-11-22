@@ -16,6 +16,7 @@ import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { takeWhile } from 'rxjs/operators';
 import { MatSelectionList } from '@angular/material';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { AttendUnusualSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/AttendUnusualSaveAndFlowStart';
 
 declare let $: any; //use jquery
 
@@ -59,13 +60,15 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
     private router: Router,
     private LoadingPage: NgxSpinnerService,
     private formBuilder: FormBuilder) {
-    this.ErrorStateOptionGroup = this.formBuilder.group({
-      lateComeCard: false,
-      earlyBackCard: false,
-      nonCard: false,
-      earlyComeCard: false,
-      lateBackCard: false,
-    });
+
+    var State: StateClass = {
+      EliminateLate: false,
+      EliminateEarly: false,
+      EliminateAbsent: false,
+      EliminateOnBefore: false,
+      EliminateOffAfter: false
+    }
+    this.ErrorStateOptionGroup = this.formBuilder.group(State);
   }
 
   selectOnWorkArray = []
@@ -128,6 +131,7 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
     this.sendForgetForm.CauseName1 = name.trim()
   }
 
+
   checkError() {
     var checkTure = []
 
@@ -139,7 +143,7 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
     if (checkTure.length == 0) {
       alert('請選擇異常狀態')
     } else {
-      console.log(checkTure)
+      // console.log(this.checkTure)
     }
     var all: number = 0
     for (let up of this.UploadFile) {
@@ -154,12 +158,92 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
       $('#checksenddialog').modal('show');
     }
   }
+
   onSubmit() {
-    console.log(this.getAttendCard.forget_man_code)
-    console.log(this.getAttendCard.write_man_code)
-    console.log(this.sendForgetForm)
-    console.log(this.UploadFile)
-    console.log(this.FlowDynamic_Base)
+    var ExceptionalCode = ''
+    var ExceptionalName = ''
+    if (this.getAttendCard.EarlyMins && !this.getAttendCard.EliminateEarly) {
+      ExceptionalCode += '1,'
+      ExceptionalName += '早退,'
+    }
+    if (this.getAttendCard.LateMins && !this.getAttendCard.EliminateLate) {
+      ExceptionalCode += '2,'
+      ExceptionalName += '遲到,'
+    }
+    if (this.getAttendCard.IsAbsent && !this.getAttendCard.EliminateAbsent) {
+      ExceptionalCode += '3,'
+      ExceptionalName += '未刷卡,'
+    }
+    if (this.getAttendCard.OnBeforeMins && !this.getAttendCard.EliminateOnBefore) {
+      ExceptionalCode += '4,'
+      ExceptionalName += '早來,'
+    }
+    if (this.getAttendCard.OffAfterMins && !this.getAttendCard.EliminateOffAfter) {
+      ExceptionalCode += '5,'
+      ExceptionalName += '晚走,'
+    }
+    var State: StateClass = this.ErrorStateOptionGroup.value
+    var AttendUnusualSaveAndFlowStart: AttendUnusualSaveAndFlowStartClass = new AttendUnusualSaveAndFlowStartClass()
+    AttendUnusualSaveAndFlowStart = {
+      "FlowApp": {
+        "FlowApps": [
+          {
+            "EmpID": this.getAttendCard.forget_man_code.toString(),
+            "EmpCode": this.getAttendCard.forget_man_code.toString(),
+            "EmpNameC": this.getAttendCard.forget_man_name,
+            "Date": this.getAttendCard.AttendDate,
+            "RoteDateTimeB": this.getAttendCard.ActualRote_OnDateTime,
+            "RoteDateTimeE": this.getAttendCard.ActualRote_OffDateTime,
+            "CardDateTimeB": this.getAttendCard.AttendCard_OnDateTime,
+            "CardDateTimeE": this.getAttendCard.AttendCard_OffDateTime,
+            "EliminateLate": State.EliminateLate,
+            "EliminateEarly": State.EliminateEarly,
+            "EliminateAbsent": State.EliminateAbsent,
+            "EliminateOnBefore": State.EliminateOnBefore,
+            "EliminateOffAfter": State.EliminateOffAfter,
+            "CauseID": parseInt(this.sendForgetForm.CauseID1),
+            "CauseName": this.sendForgetForm.CauseName1,
+            "Info": "",
+            "MailBody": "",
+            "State": "1",
+            "UploadFile": this.UploadFile,
+            "ExceptionalCode": ExceptionalCode,
+            "ExceptionalName": ExceptionalName,
+            "RoteID": this.getAttendCard.RoteID,
+            "RoteNameC": this.getAttendCard.RoteNameC
+          }
+        ],
+        "EmpID": this.getAttendCard.write_man_code,
+        "EmpCode": this.getAttendCard.write_man_code,
+        "EmpNameC": this.getAttendCard.write_man_name,
+        "State": "1"
+      },
+      "FlowDynamic": {
+        "FlowNode": "504",
+        "RoleID": "",
+        "EmpID": this.FlowDynamic_Base.EmpID,
+        "DeptID": this.FlowDynamic_Base.DeptaID.toString(),
+        "PosID": this.FlowDynamic_Base.JobID.toString()
+      }
+    }
+    console.log(AttendUnusualSaveAndFlowStart)
+
+    // this.LoadingPage.show()
+    // this.GetApiDataServiceService.getWebApiData_AttendUnusualSaveAndFlowStart(AttendUnusualSaveAndFlowStart)
+    // .pipe(takeWhile(() => this.api_subscribe))
+    // .subscribe((x) => {
+    //   if (x == 1) {
+    //     $('#sussesdialog').modal('show');
+    //   } else {
+    //     alert('送出失敗');
+    //   }
+    //   this.LoadingPage.hide()
+    // })
+    // console.log(this.getAttendCard.forget_man_code)
+    // console.log(this.getAttendCard.write_man_code)
+    // console.log(this.sendForgetForm)
+    // console.log(this.UploadFile)
+    // console.log(this.FlowDynamic_Base)
   }
 
   reload() {
@@ -227,3 +311,13 @@ class sendForgetForm {
   Note: string;
   ReviewEmpID: string
 }
+
+class StateClass {
+  EliminateLate: boolean;
+  EliminateEarly: boolean;
+  EliminateAbsent: boolean;
+  EliminateOnBefore: boolean;
+  EliminateOffAfter: boolean;
+}
+
+
