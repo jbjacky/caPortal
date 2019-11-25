@@ -151,7 +151,9 @@
                         {{vaFlowSign.EmpCode}}
                         <span *ngIf="vaFlowSign.EmpNameC.length != 0">{{vaFlowSign.EmpNameC}}</span>
                         <span *ngIf="vaFlowSign.EmpNameC.length == 0">{{vaFlowSign.EmpNameE}}</span>
-                        <span style="color: blue" *ngIf="vaFlowSign.checkProxy">(代)</span>
+                        <span style="color: blue" *ngIf="vaFlowSign.checkProxy">
+                            (<ng-container i18n>代</ng-container>)
+                        </span>
                       </div>
                       <div style="display: inline-block;margin-right: 10px">
                         <span style="font-weight: bold;color: #969696">
@@ -329,7 +331,8 @@
                         <span *ngIf="delFlowSign.EmpNameC.length != 0">{{delFlowSign.EmpNameC}}</span>
                         <span *ngIf="delFlowSign.EmpNameC.length == 0">{{delFlowSign.EmpNameE}}</span>
                         <span style="color: blue" *ngIf="delFlowSign.checkProxy">
-                          (<ng-container i18n>代</ng-container>)</span>
+                          (<ng-container i18n>代</ng-container>)
+                        </span>
                       </div>
                       <div>
                         <span style="font-weight: bold;color: #969696">
@@ -511,8 +514,9 @@
                         <div style="display: inline-block;margin-right: 15px;">
                           {{changeFlowSign.EmpID1}}
                           <span>{{changeFlowSign.EmpNameC1}}</span>
-                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">(<ng-container i18n>代
-                            </ng-container>)</span>
+                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">
+                            (<ng-container i18n>代</ng-container>)
+                          </span>
                         </div>
                         <div style="display: inline-block;">
                           {{changeFlowSign.EmpID2}}
@@ -524,8 +528,9 @@
                         <div>
                           {{changeFlowSign.EmpID1}}
                           <span>{{changeFlowSign.EmpNameC1}}</span>
-                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">(<ng-container i18n>代
-                            </ng-container>)</span>
+                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">
+                            (<ng-container i18n>代</ng-container>)
+                          </span>
                         </div>
                       </div>
                       <!-- 不是雙人調班顯示一個申請人 -->
@@ -692,8 +697,9 @@
                         {{forgetFlowSign.EmpCode}}
                         <span *ngIf="forgetFlowSign.EmpNameC.length != 0">{{forgetFlowSign.EmpNameC}}</span>
                         <span *ngIf="forgetFlowSign.EmpNameC.length == 0">{{forgetFlowSign.EmpNameE}}</span>
-                        <span style="color: blue" *ngIf="forgetFlowSign.checkProxy">(<ng-container i18n>代</ng-container>
-                          )</span>
+                        <span style="color: blue" *ngIf="forgetFlowSign.checkProxy">
+                          (<ng-container i18n>代</ng-container>)
+                        </span>
                       </div>
                       <div>
                         <!-- 2019年-1/02 -->

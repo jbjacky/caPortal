@@ -93,7 +93,31 @@
 .P_paddingBottom{
     padding-bottom:0px;
 }
+
+.featuresBlock{
+    display: flex;
+}
+.btSend{
+    order: 2;
+}
+.btCancel{
+    order: 1;
+    margin-right: 10px;
+}
+
 @media screen and (max-width:992px) {
+    .featuresBlock{
+        display: block;
+    }
+    .btSend{
+        order: 1;
+        margin-bottom: 10px;
+    }
+    .btCancel{
+        order: 2;
+        margin-right: 0px;
+    }
+    
     .stateblock{
         display: none;
     }
