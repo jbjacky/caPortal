@@ -561,21 +561,23 @@ export class ReviewformComponent implements OnInit, OnDestroy {
         }
       )
   }
-
+  showvaPutForwarddialog = false
   checkAbsLimit_PutForward(e_vaFlowSign: vaFlowSign, ReloadTabData) {
     this.vaDetail_click(e_vaFlowSign, ReloadTabData)
     this.LoadingPage.show()
+    this.showvaPutForwarddialog = true
     this.GetApiDataServiceService.getWebApiData_AbsLimitCheck(this.FinallyReviewForm.ProcessFlowID)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: string) => {
           this.vaShowLimitText = x.toString()
           this.LoadingPage.hide()
+          
           $('#vaPutForwarddialog').modal('show')
         }
       )
   }
-
+  showPutForwarddialog = false
   delDetail_click(e_delFlowSign: delFlowSign, ReloadTabData) {
 
     this.ReloadTabData = ReloadTabData;
@@ -586,6 +588,11 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.delDetail.FlowTreeID
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.delDetail.FlowNodeID
   }
+  del_PutForward(e_delFlowSign: delFlowSign, ReloadTabData){
+    this.delDetail_click(e_delFlowSign,ReloadTabData)
+    this.showPutForwarddialog = true
+    $('#PutForwarddialog').modal('show')
+  }
   forgetDetail_click(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
     this.ReloadTabData = ReloadTabData;
     this.signText = '';
@@ -594,6 +601,35 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.forgetDetail.ProcessApParmAuto
     this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.forgetDetail.FlowTreeID
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.forgetDetail.FlowNodeID
+  }
+  forgetShowCheckText = ''
+  showforgetPutForwarddialog = false
+  checkforgetCardText_Approved(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
+    this.forgetDetail_click(e_forgetFlowSign, ReloadTabData)
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_CardCheckByProcessFlowID(this.FinallyReviewForm.ProcessFlowID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: string) => {
+          this.forgetShowCheckText = x.toString()
+          this.LoadingPage.hide()
+          $('#forgetApproveddialog').modal('show')
+        }
+      )
+  }
+  checkforgetCardText_PutForward(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
+    this.forgetDetail_click(e_forgetFlowSign, ReloadTabData)
+    this.LoadingPage.show()
+    this.showforgetPutForwarddialog = true
+    this.GetApiDataServiceService.getWebApiData_CardCheckByProcessFlowID(this.FinallyReviewForm.ProcessFlowID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: string) => {
+          this.forgetShowCheckText = x.toString()
+          this.LoadingPage.hide()
+          $('#forgetPutForwarddialog').modal('show')
+        }
+      )
   }
 
   changeDetail_click_checktoView(e_changeFlowSign: changeFlowSign, ReloadTabData) {
@@ -615,6 +651,12 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.changeDetail.ProcessApParmAuto
     this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.changeDetail.FlowTreeID
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.changeDetail.FlowNodeID
+  }
+
+  change_PutForward(e_changeFlowSign: changeFlowSign, ReloadTabData){
+    this.changeDetail_click(e_changeFlowSign,ReloadTabData)
+    this.showPutForwarddialog = true
+    $('#PutForwarddialog').modal('show')
   }
 
 

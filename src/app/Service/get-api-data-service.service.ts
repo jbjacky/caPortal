@@ -646,6 +646,15 @@ export class GetApiDataServiceService {
         headers: this.GetHeader()
       })
   }
+  /**
+   * @todo 檢查考勤異常確認單
+   */
+  getWebApiData_CardCheckByProcessFlowID(ProcessFlowID) {
+    return this.http.post(this.localUrl + 'Flow/CardFlowHandler.svc/CardCheckByProcessFlowID',
+      JSON.stringify(ProcessFlowID), {
+        headers: this.GetHeader()
+      })
+  }
 
 
 

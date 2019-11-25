@@ -1,4 +1,4 @@
-<div class="row" style="margin: 0">
+<div *ngIf="LoadingSelectSigner" class="row" style="margin: 0">
   <div class="col-md-4 col-xs-12 selectDept">
     <select [(ngModel)]="SelectDeptVal" class="form-control" (change)="onChangeDept($event)">
       <ng-container *ngFor="let DeptSelectBox of DeptSelectBox">
@@ -19,4 +19,10 @@
     <ngx-select [items]="NgxBaseSelectBox" allowClear="true" optionValueField="BaseData" optionTextField="ShowBaseText"
     [(ngModel)]="selectBase" (select)="onChangeBase(selectBase)" (remove)="onChangeBase(selectBase)"  placeholder="請選擇員工或是輸入搜尋員工" noResultsFound="此條件找不到員工"></ngx-select>
   </div>
+</div>
+
+
+<div *ngIf="!LoadingSelectSigner">
+    <img
+        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
 </div>
