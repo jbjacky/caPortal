@@ -326,16 +326,16 @@ export class ForgetformWriteComponent implements OnInit, AfterViewInit, OnDestro
       EmpID: SaveAndFlowStart.EmpID,
       DateB: this.OnWorkDate,
       DateE: this.OffWorkDate,
-      TimeB: $('#id_ipt_starttime').val(),
-      TimeE: $('#id_ipt_endtime').val(),
+      TimeB: sumbit_formatTimetoString($('#id_ipt_starttime').val()),
+      TimeE: sumbit_formatTimetoString($('#id_ipt_endtime').val()),
       CauseID1: SaveAndFlowStart.CauseID1
     }
     var FlowCardCheck: FlowCardCheckClass = {
       EmpID: SaveAndFlowStart.EmpID,
       DateB: this.OnWorkDate,
       DateE: this.OffWorkDate,
-      TimeB: $('#id_ipt_starttime').val(),
-      TimeE: $('#id_ipt_endtime').val(),
+      TimeB: sumbit_formatTimetoString($('#id_ipt_starttime').val()),
+      TimeE: sumbit_formatTimetoString($('#id_ipt_endtime').val()),
     }
     if (this.FlowDynamic_Base) {
       if(this.getAttendCard.ActualRote_OnDateTime === null){
@@ -423,9 +423,13 @@ export class ForgetformWriteComponent implements OnInit, AfterViewInit, OnDestro
                       this.LoadingPage.hide()
                       // console.log(error)
                     })
+                }else{
+                  alert(r)
                 }
               }
             )
+          }else{
+            alert(y)
           }
         }
       )
