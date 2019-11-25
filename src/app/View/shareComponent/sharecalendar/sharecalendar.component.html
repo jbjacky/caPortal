@@ -319,6 +319,12 @@
               <div *ngIf="AttendanceApiData.IsAbsent" class="tag_red">
                 <ng-container i18n>未刷卡</ng-container>
               </div>
+              <div *ngIf="AttendanceApiData.OnBeforeMins" class="tag_red">
+                <ng-container i18n>早來</ng-container>
+              </div>
+              <div *ngIf="AttendanceApiData.OffAfterMins" class="tag_red">
+                <ng-container i18n>晚走</ng-container>
+              </div>
             </div>
             <div class="col-md-8 col-md-pull-2 col-xs-12" style="padding: 0px">
               <div class="row col-md-6 col-xs-12 P_line">

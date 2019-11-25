@@ -518,6 +518,12 @@ padding: 0px 17px;">
                             <div *ngIf="Attend.IsAbsent" class="tag_red">
                                 <ng-container i18n>未刷卡</ng-container>
                             </div>
+                            <div *ngIf="Attend.OnBeforeMins" class="tag_red">
+                                <ng-container i18n>早來</ng-container>
+                            </div>
+                            <div *ngIf="Attend.OffAfterMins" class="tag_red">
+                                <ng-container i18n>晚走</ng-container>
+                            </div>
                         </div>
                         <div class="col-md-8 col-md-pull-2 col-xs-12" style="padding: 0px">
                             <div class="row col-md-6 col-xs-12 P_line" style="margin:0px;padding: 0px">

@@ -18,6 +18,8 @@ export interface AttendError {
     FlexibleMinute: number;
     LateMins:       number;
     EarlyMins:      number;
+    OnBeforeMins:   number;
+    OffAfterMins:   number;
     IsAbsent:       boolean;
     ForgetCard:     number;
     ActualRote:     ActualRote;
