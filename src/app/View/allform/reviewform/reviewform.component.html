@@ -240,7 +240,7 @@
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
                   <button *ngIf="vaFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
-                     (click)="checkAbsLimit_PutForward(vaFlowSign,'vaTab')">
+                    (click)="checkAbsLimit_PutForward(vaFlowSign,'vaTab')">
                     <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!vaFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
@@ -749,8 +749,8 @@
 
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
                   <button *ngIf="forgetFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
-                    data-target="#Approveddialog" style="padding: 5px 0px;text-align: center;width: 100%;"
-                    (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
+                    style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="checkforgetCardText_Approved(forgetFlowSign,'forgetTab')">
                     <ng-container i18n>核准</ng-container>
                   </button>
                   <div *ngIf="!forgetFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
@@ -776,7 +776,7 @@
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
                   <button *ngIf="forgetFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
-                    data-target="#PutForwarddialog" (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
+                    (click)="checkforgetCardText_PutForward(forgetFlowSign,'forgetTab')">
                     <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!forgetFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
@@ -951,6 +951,38 @@
   </div>
 </div>
 <!--dialog請假單核准確認送出 -->
+<div class="modal" id="forgetApproveddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認核准?</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body" *ngIf="forgetShowCheckText.length>0">
+          {{forgetShowCheckText}}
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="Approved_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog考勤異常確認單核准確認送出 -->
 <div class="modal" id="Approveddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog  modal-sm vertical-align-center">
@@ -1028,7 +1060,7 @@
               (click)="Sendback_Click()">
               <ng-container i18n>送出</ng-container>
             </button>
-            <button  type="button" class="btn btn-default" data-dismiss="modal">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
               <ng-container i18n>取消</ng-container>
             </button>
           </div>
@@ -1116,6 +1148,53 @@
   </div>
 </div>
 <!--dialog請假單呈核確認送出 -->
+<div class="modal" id="forgetPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" style="padding-right:0px;padding: 17px">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-md vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>填寫呈核資訊</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="forgetShowCheckText.length>0" style="margin-bottom:10px">
+            {{forgetShowCheckText}}
+          </div>
+          <div style="margin-bottom:10px">
+            <p>
+              <ng-container i18n>簽核意見</ng-container>
+            </p>
+            <textarea class="inputTextarea" [(ngModel)]="signText" style="overflow-y: auto"></textarea>
+          </div>
+          <div>
+            <p>
+              <ng-container i18n>簽核人員</ng-container>
+            </p>
+            <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            </app-select-signer>
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="PutForward_Click()" [disabled]="checkHaveFlowDynamic_EmpID()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog考勤異常確認單呈核確認送出 -->
 <div class="modal" id="PutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
   style="padding-right:0px;padding: 17px">
   <div class="vertical-alignment-helper">
@@ -1170,8 +1249,8 @@
             <!-- <span aria-hidden="true">×</span> -->
           </button>
           <h4 class="modal-title" style="text-align: center">
-              <ng-container i18n>呈核完成</ng-container>
-            </h4>
+            <ng-container i18n>呈核完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
@@ -1183,8 +1262,8 @@
         </div>
         <div class="modal-footer" style="text-align: center">
           <button id="bt_Sus_Put" type="button" class="btn btn-primary" data-dismiss="modal">
-              <ng-container i18n>確定</ng-container>
-            </button>
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -1206,18 +1285,18 @@
             <!-- <span aria-hidden="true">×</span> -->
           </button>
           <h4 class="modal-title" style="text-align: center">
-              <ng-container i18n>核准完成</ng-container>
-            </h4>
+            <ng-container i18n>核准完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
             <img src="./assets/images-template/icon-success.png" />
           </div>
           <div>
-              <ng-container i18n>送出筆數</ng-container>:{{sendReviewLength}}
+            <ng-container i18n>送出筆數</ng-container>:{{sendReviewLength}}
           </div>
           <div>
-              <ng-container i18n>批核筆數</ng-container>:{{realReviewLength}}
+            <ng-container i18n>批核筆數</ng-container>:{{realReviewLength}}
           </div>
           <div style="text-align: center">
             <ng-container i18n>核准送出完成</ng-container>!
@@ -1225,8 +1304,8 @@
         </div>
         <div class="modal-footer" style="text-align: center">
           <button id="bt_Sus_AllApr" type="button" class="btn btn-primary" data-dismiss="modal">
-              <ng-container i18n>確定</ng-container>
-            </button>
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -1244,8 +1323,8 @@
             <!-- <span aria-hidden="true">×</span> -->
           </button>
           <h4 class="modal-title" style="text-align: center">
-              <ng-container i18n>退回完成</ng-container>
-            </h4>
+            <ng-container i18n>退回完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
@@ -1258,13 +1337,13 @@
             <ng-container i18n>批核筆數</ng-container>:{{realReviewLength}}
           </div>
           <div style="text-align: center">
-              <ng-container i18n>退回送出完成</ng-container>!
+            <ng-container i18n>退回送出完成</ng-container>!
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
           <button id="bt_Sus_AllSbk" type="button" class="btn btn-primary" data-dismiss="modal">
-              <ng-container i18n>確定</ng-container>
-            </button>
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>

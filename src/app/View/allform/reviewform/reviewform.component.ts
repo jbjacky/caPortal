@@ -595,6 +595,33 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.forgetDetail.FlowTreeID
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.forgetDetail.FlowNodeID
   }
+  forgetShowCheckText = ''
+  checkforgetCardText_Approved(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
+    this.forgetDetail_click(e_forgetFlowSign, ReloadTabData)
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_CardCheckByProcessFlowID(this.FinallyReviewForm.ProcessFlowID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: string) => {
+          this.forgetShowCheckText = x.toString()
+          this.LoadingPage.hide()
+          $('#forgetApproveddialog').modal('show')
+        }
+      )
+  }
+  checkforgetCardText_PutForward(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
+    this.forgetDetail_click(e_forgetFlowSign, ReloadTabData)
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_CardCheckByProcessFlowID(this.FinallyReviewForm.ProcessFlowID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: string) => {
+          this.forgetShowCheckText = x.toString()
+          this.LoadingPage.hide()
+          $('#forgetPutForwarddialog').modal('show')
+        }
+      )
+  }
 
   changeDetail_click_checktoView(e_changeFlowSign: changeFlowSign, ReloadTabData) {
     if (e_changeFlowSign.isRR) {
