@@ -425,7 +425,7 @@
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
                   <button *ngIf="delFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
-                    data-target="#PutForwarddialog" (click)="delDetail_click(delFlowSign,'delTab')">
+                    (click)="del_PutForward(delFlowSign,'delTab')">
                     <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!delFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
@@ -608,9 +608,8 @@
                   </div>
                 </div>
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
-                  <button *ngIf="changeFlowSign.isPutForward" (click)="changeDetail_click(changeFlowSign,'changeTab')"
-                    class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
-                    data-toggle="modal" data-target="#PutForwarddialog">
+                  <button *ngIf="changeFlowSign.isPutForward" class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                    data-toggle="modal" (click)="change_PutForward(changeFlowSign,'changeTab')">
                     <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!changeFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
@@ -1107,7 +1106,7 @@
   </div>
 </div>
 <!--dialog退回送出成功 -->
-<div class="modal" id="vaPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+<div  class="modal" id="vaPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
   style="padding-right:0px;padding: 17px">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog  modal-md vertical-align-center">
@@ -1134,7 +1133,7 @@
             <p>
               <ng-container i18n>簽核人員</ng-container>
             </p>
-            <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            <app-select-signer *ngIf="showvaPutForwarddialog" (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
             </app-select-signer>
           </div>
         </div>
@@ -1154,7 +1153,7 @@
   </div>
 </div>
 <!--dialog請假單呈核確認送出 -->
-<div class="modal" id="forgetPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div  class="modal" id="forgetPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true" style="padding-right:0px;padding: 17px">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog  modal-md vertical-align-center">
@@ -1181,7 +1180,7 @@
             <p>
               <ng-container i18n>簽核人員</ng-container>
             </p>
-            <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            <app-select-signer *ngIf="showforgetPutForwarddialog" (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
             </app-select-signer>
           </div>
         </div>
@@ -1201,7 +1200,7 @@
   </div>
 </div>
 <!--dialog考勤異常確認單呈核確認送出 -->
-<div class="modal" id="PutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+<div  class="modal" id="PutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
   style="padding-right:0px;padding: 17px">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog  modal-md vertical-align-center">
@@ -1225,7 +1224,7 @@
             <p>
               <ng-container i18n>簽核人員</ng-container>
             </p>
-            <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            <app-select-signer *ngIf="showPutForwarddialog" (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
             </app-select-signer>
           </div>
         </div>

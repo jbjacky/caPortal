@@ -21,7 +21,7 @@ export class SelectSignerComponent implements OnInit, OnDestroy {
   NgxBaseSelectBox = [];
   SelectDeptVal: any //簽核人員的部門
   selectBase: any
-
+  LoadingSelectSigner = false
   constructor(private GetApiDataServiceService: GetApiDataServiceService, private GetApiUserService: GetApiUserService) { }
   // @Input() sysEmpID: string
   @Output() selectBaseChange: EventEmitter<any> = new EventEmitter<any>();
@@ -31,7 +31,7 @@ export class SelectSignerComponent implements OnInit, OnDestroy {
     this.sysEmp$
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        (y:any) => {
+        (y: any) => {
           if (y == 0) {
 
           } else {
@@ -44,10 +44,10 @@ export class SelectSignerComponent implements OnInit, OnDestroy {
       )
   }
 
-  selectboxValue(_EmpCode:string) {
+  selectboxValue(_EmpCode: string) {
     // console.log(_EmpCode)
     if (_EmpCode) {
-
+      this.LoadingSelectSigner = false
       this.GetApiDataServiceService.getWebApiData_GetDeptaBySign(_EmpCode)
         .pipe(takeWhile(() => this.api_subscribe))
         .subscribe((x: any) => {
@@ -61,7 +61,7 @@ export class SelectSignerComponent implements OnInit, OnDestroy {
               if (Base.PosType == 'S') {
                 if (Base.ChiefCode != 999) {
                   // this.NgxBaseSelectBox.push(Base.EmpCode + '，' + Base.EmpNameC + '，' + Base.JobName + '，' + Base.ChiefCode + '，' + '兼職')
-                  this.NgxBaseSelectBox.push({ BaseData: Base, ShowBaseText: Base.EmpCode + ' ' + Base.EmpNameC + ' ' + Base.JobName + ' '  +"("+ Base.ChiefCode +")"+ ' ' + '兼職' })
+                  this.NgxBaseSelectBox.push({ BaseData: Base, ShowBaseText: Base.EmpCode + ' ' + Base.EmpNameC + ' ' + Base.JobName + ' ' + "(" + Base.ChiefCode + ")" + ' ' + '兼職' })
                 } else {
                   // this.NgxBaseSelectBox.push(Base.EmpCode + '，' + Base.EmpNameC + '，' + Base.ChiefCode + '，' + '兼職')
                   this.NgxBaseSelectBox.push({ BaseData: Base, ShowBaseText: Base.EmpCode + ' ' + Base.EmpNameC + ' ' + '兼職' })
@@ -69,7 +69,7 @@ export class SelectSignerComponent implements OnInit, OnDestroy {
               } else {
                 if (Base.ChiefCode != 999) {
                   // this.NgxBaseSelectBox.push(Base.EmpCode + '，' + Base.EmpNameC + '，' + Base.JobName + '，' + Base.ChiefCode)
-                  this.NgxBaseSelectBox.push({ BaseData: Base, ShowBaseText: Base.EmpCode + ' ' + Base.EmpNameC + ' ' + Base.JobName + ' '  +"("+ Base.ChiefCode +")"})
+                  this.NgxBaseSelectBox.push({ BaseData: Base, ShowBaseText: Base.EmpCode + ' ' + Base.EmpNameC + ' ' + Base.JobName + ' ' + "(" + Base.ChiefCode + ")" })
                 } else {
                   // this.NgxBaseSelectBox.push(Base.EmpCode + '，' + Base.EmpNameC + '，' + Base.ChiefCode)
                   this.NgxBaseSelectBox.push({ BaseData: Base, ShowBaseText: Base.EmpCode + ' ' + Base.EmpNameC })
@@ -81,6 +81,9 @@ export class SelectSignerComponent implements OnInit, OnDestroy {
               return a.BaseData.ChiefCode - b.BaseData.ChiefCode
             })
             //按職等排序 不論是否兼職
+
+
+            this.LoadingSelectSigner = true
           }
         })
     }
