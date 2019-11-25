@@ -202,32 +202,27 @@
         <div class="col-md-10 col-xs-12">
           <form [formGroup]="ErrorStateOptionGroup">
             <div class="checkboxBlock">
-              <mat-checkbox formControlName="EliminateLate"
-                [disabled]="(!getAttendCard.LateMins || (getAttendCard.LateMins && getAttendCard.EliminateLate))">
+              <mat-checkbox formControlName="EliminateLate">
                 <ng-container i18n>遲到</ng-container>
               </mat-checkbox>
             </div>
             <div class="checkboxBlock">
-              <mat-checkbox formControlName="EliminateEarly"
-                [disabled]="(!getAttendCard.EarlyMins || (getAttendCard.EarlyMins && getAttendCard.EliminateEarly))">
+              <mat-checkbox formControlName="EliminateEarly">
                 <ng-container i18n>早退</ng-container>
               </mat-checkbox>
             </div>
             <div class="checkboxBlock">
-              <mat-checkbox formControlName="EliminateAbsent"
-                [disabled]="(!getAttendCard.IsAbsent || (getAttendCard.EliminateAbsent && getAttendCard.EliminateAbsent))">
+              <mat-checkbox formControlName="EliminateAbsent">
                 <ng-container i18n>未刷卡</ng-container>
               </mat-checkbox>
             </div>
             <div class="checkboxBlock">
-              <mat-checkbox formControlName="EliminateOnBefore"
-                [disabled]="(!getAttendCard.OnBeforeMins || (getAttendCard.OnBeforeMins && getAttendCard.EliminateOnBefore))">
+              <mat-checkbox formControlName="EliminateOnBefore">
                 <ng-container i18n>早來</ng-container>
               </mat-checkbox>
             </div>
             <div class="checkboxBlock">
-              <mat-checkbox formControlName="EliminateOffAfter"
-                [disabled]="(!getAttendCard.OffAfterMins || (getAttendCard.OffAfterMins && getAttendCard.EliminateOffAfter))">
+              <mat-checkbox formControlName="EliminateOffAfter">
                 <ng-container i18n>晚走</ng-container>
               </mat-checkbox>
             </div>

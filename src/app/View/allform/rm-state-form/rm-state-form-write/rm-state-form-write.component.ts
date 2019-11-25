@@ -15,7 +15,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { takeWhile } from 'rxjs/operators';
 import { MatSelectionList } from '@angular/material';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AttendUnusualSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/AttendUnusualSaveAndFlowStart';
 
 declare let $: any; //use jquery
@@ -55,7 +55,6 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
 
   private Sub_onChangeSignMan$: BehaviorSubject<any> = new BehaviorSubject(0)
   onChangeSingMan$: Observable<any> = this.Sub_onChangeSignMan$; //切換選擇簽核人員使用
-
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
     private router: Router,
     private LoadingPage: NgxSpinnerService,
@@ -68,7 +67,33 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
       EliminateOnBefore: false,
       EliminateOffAfter: false
     }
-    this.ErrorStateOptionGroup = this.formBuilder.group(State);
+
+    var StateFormControl = {
+      EliminateLate: new FormControl(false),
+      EliminateEarly: new FormControl(false),
+      EliminateAbsent: new FormControl(false),
+      EliminateOnBefore: new FormControl(false),
+      EliminateOffAfter: new FormControl(false)
+    }
+    this.ErrorStateOptionGroup = this.formBuilder.group(StateFormControl);
+
+
+  }
+  disableCheckBox() {
+    this.fnDisable(this.getAttendCard,"LateMins","EliminateLate");
+    this.fnDisable(this.getAttendCard,"EarlyMins","EliminateEarly");
+    this.fnDisable(this.getAttendCard,"IsAbsent","EliminateAbsent");
+    this.fnDisable(this.getAttendCard,"OnBeforeMins","EliminateOnBefore");
+    this.fnDisable(this.getAttendCard,"OffAfterMins","EliminateOffAfter");
+  }
+  fnDisable(_CardData:AttendCard,eleMin:string,eleEliminate:string){
+    var CardData =  JSON.parse(JSON.stringify(_CardData))
+    if(CardData[eleMin] && !CardData[eleEliminate]){
+      //如果無異常分鐘數和無異常註記就可以勾選
+      this.ErrorStateOptionGroup.get(eleEliminate).enable()
+    }else{
+      this.ErrorStateOptionGroup.get(eleEliminate).disable()
+    }
   }
 
   selectOnWorkArray = []
@@ -80,6 +105,7 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
   ngOnInit() {
     this.Sub_onChangeSignMan$.next(this.getAttendCard.forget_man_code)
 
+    this.disableCheckBox()
     this.GetApiDataServiceService.getWebApiData_GetCauseByForm()
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
