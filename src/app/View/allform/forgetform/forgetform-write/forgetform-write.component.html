@@ -376,17 +376,20 @@
     <div class="P_smallpadding row" style="border:0px">
       <div class="col-md-2 col-xs-12">
       </div>
-      <div class="col-md-4 col-md-push-2 col-xs-12" style="margin-bottom: 10px">
-        <button class="btn btn-primary" data-toggle="modal" (click)="checkError()">
-          <ng-container i18n>送出表單</ng-container>
-        </button>
-        <!-- 送出申請單 -->
-      </div>
-      <div class="col-md-2 col-md-pull-4 col-xs-12 ">
-        <button class="btn btn-default" (click)="onpreviousForm()">
-          <ng-container i18n>返回修改</ng-container>
-        </button>
-        <!-- 返回 -->
+      <div class="col-md-10 col-xs-12">
+        <div class="featuresBlock">
+          <div class="btSend">
+            <button class="btn btn-primary" data-toggle="modal" (click)="checkError()">
+              <ng-container i18n>送出表單</ng-container>
+            </button>
+            <!-- 送出申請單 -->
+          </div>
+          <div class="btCancel">
+            <button class="btn btn-default" (click)="onpreviousForm()">
+              <ng-container i18n>返回修改</ng-container>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <!-- 返回，呈核按鈕 -->
@@ -408,6 +411,14 @@
           <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
             <ng-container i18n>確認送出?</ng-container>
           </h4>
+        </div>
+        <div class="modal-body" *ngIf="forgetShowCheckText.length>0 || forgetShowCheckFlowText.length>0">
+          <div *ngIf="forgetShowCheckText.length>0" style="margin-bottom: 10px;">
+            {{forgetShowCheckText}}
+          </div>
+          <div *ngIf="forgetShowCheckFlowText.length>0">
+            {{forgetShowCheckFlowText}}
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" (click)="onSubmit()">

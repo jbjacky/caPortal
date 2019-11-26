@@ -254,6 +254,7 @@ export class ChangeTwoRComponent implements OnInit, AfterViewInit, OnDestroy {
   RRoneZ_Disable() {
     for (let ui of this.uiShow) {
       var uiDate = new Date()
+      uiDate.setFullYear( (parseInt(ui.reallydate.split('/')[0])) )
       uiDate.setMonth((parseInt(ui.date.split('/')[0]) - 1))
       uiDate.setDate(parseInt(ui.date.split('/')[1]))
       uiDate.setHours(0, 0, 0)

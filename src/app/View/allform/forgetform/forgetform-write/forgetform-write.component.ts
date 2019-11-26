@@ -69,32 +69,32 @@ export class ForgetformWriteComponent implements OnInit, AfterViewInit, OnDestro
     this.Sub_onChangeSignMan$.next(this.getAttendCard.forget_man_code)
 
     this.GetApiDataServiceService.getWebApiData_GetCauseByForm()
-    .pipe(takeWhile(() => this.api_subscribe))
-    .subscribe(
-      (data: any) => {
-        for (let x of data) {
-          this.Cause.push({ CauseID: x.CauseID, CauseNameC: x.CauseNameC })
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (data: any) => {
+          for (let x of data) {
+            this.Cause.push({ CauseID: x.CauseID, CauseNameC: x.CauseNameC })
+          }
+
+          this.selectOnWorkArray = []
+          this.sendForgetForm.CauseID1 = data[0].CauseID
+          this.sendForgetForm.CauseName1 = data[0].CauseNameC
+
+          var calonDate = new Date(this.getAttendCard.AttendDate)
+          this.selectOnWorkArray.push(doFormatDate(calonDate))
+          calonDate.setDate(calonDate.getDate() - 1)
+          this.selectOnWorkArray.push(doFormatDate(calonDate))
+
+          var caloffDate = new Date(this.getAttendCard.AttendDate)
+          this.selectOffWorkArray.push(doFormatDate(caloffDate))
+          caloffDate.setDate(caloffDate.getDate() + 1)
+          this.selectOffWorkArray.push(doFormatDate(caloffDate))
+
+          this.OnWorkDate = this.selectOnWorkArray[0]
+          this.OffWorkDate = this.selectOffWorkArray[0]
+
         }
-
-        this.selectOnWorkArray = []
-        this.sendForgetForm.CauseID1 = data[0].CauseID
-        this.sendForgetForm.CauseName1 = data[0].CauseNameC
-
-        var calonDate = new Date(this.getAttendCard.AttendDate)
-        this.selectOnWorkArray.push(doFormatDate(calonDate))
-        calonDate.setDate(calonDate.getDate() - 1)
-        this.selectOnWorkArray.push(doFormatDate(calonDate))
-
-        var caloffDate = new Date(this.getAttendCard.AttendDate)
-        this.selectOffWorkArray.push(doFormatDate(caloffDate))
-        caloffDate.setDate(caloffDate.getDate() + 1)
-        this.selectOffWorkArray.push(doFormatDate(caloffDate))
-
-        this.OnWorkDate = this.selectOnWorkArray[0]
-        this.OffWorkDate = this.selectOffWorkArray[0]
-
-      }
-    )
+      )
   }
 
 
@@ -250,6 +250,9 @@ export class ForgetformWriteComponent implements OnInit, AfterViewInit, OnDestro
         this.blurEndTime();
       });
   }
+
+  forgetShowCheckText = ''
+  forgetShowCheckFlowText = ''
   checkError() {
     // console.log(this.OnWorkDate)
     // console.log(this.OffWorkDate)
@@ -268,10 +271,39 @@ export class ForgetformWriteComponent implements OnInit, AfterViewInit, OnDestro
       this.errorEndTime = { state: true, errorString: '請輸入實際離勤時間' };
     } else if (!this.sendForgetForm.CauseID1) {
       this.errorCause = { state: true, errorString: '請選擇異常原因' };
-    } else if (!this.goWork && !this.offWork){
+    } else if (!this.goWork && !this.offWork) {
       alert('請輸入實際到勤時間或實際離勤時間')
     } else {
-      $('#checksenddialog').modal('show');
+      var CardCheck: CardCheckClass = {
+        EmpID: this.getAttendCard.forget_man_code.toString(),
+        DateB: this.OnWorkDate,
+        DateE: this.OffWorkDate,
+        TimeB: sumbit_formatTimetoString($('#id_ipt_starttime').val()),
+        TimeE: sumbit_formatTimetoString($('#id_ipt_endtime').val()),
+        CauseID1: this.sendForgetForm.CauseID1
+      }
+      var FlowCardCheck: FlowCardCheckClass = {
+        EmpID: this.getAttendCard.forget_man_code.toString(),
+        DateB: this.OnWorkDate,
+        DateE: this.OffWorkDate,
+        TimeB: sumbit_formatTimetoString($('#id_ipt_starttime').val()),
+        TimeE: sumbit_formatTimetoString($('#id_ipt_endtime').val()),
+      }
+      this.LoadingPage.show()
+      this.GetApiDataServiceService.getWebApiData_CardCheck(CardCheck)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          y => {
+            this.forgetShowCheckText = y.toString()
+            this.GetApiDataServiceService.getWebApiData_FlowCardCheck(FlowCardCheck)
+              .pipe(takeWhile(() => this.api_subscribe))
+              .subscribe(
+                r => {
+                  this.forgetShowCheckFlowText = r.toString()
+                  $('#checksenddialog').modal('show');
+                  this.LoadingPage.hide()
+                })
+          })
     }
   }
   onSubmit() {
@@ -322,35 +354,20 @@ export class ForgetformWriteComponent implements OnInit, AfterViewInit, OnDestro
     SaveAndFlowStart.ReviewEmpID = this.sendForgetForm.ReviewEmpID
 
 
-    var CardCheck: CardCheckClass = {
-      EmpID: SaveAndFlowStart.EmpID,
-      DateB: this.OnWorkDate,
-      DateE: this.OffWorkDate,
-      TimeB: $('#id_ipt_starttime').val(),
-      TimeE: $('#id_ipt_endtime').val(),
-      CauseID1: SaveAndFlowStart.CauseID1
-    }
-    var FlowCardCheck: FlowCardCheckClass = {
-      EmpID: SaveAndFlowStart.EmpID,
-      DateB: this.OnWorkDate,
-      DateE: this.OffWorkDate,
-      TimeB: $('#id_ipt_starttime').val(),
-      TimeE: $('#id_ipt_endtime').val(),
-    }
     if (this.FlowDynamic_Base) {
-      if(this.getAttendCard.ActualRote_OnDateTime === null){
-        this.getAttendCard.ActualRote_OnDateTime =''
+      if (this.getAttendCard.ActualRote_OnDateTime === null) {
+        this.getAttendCard.ActualRote_OnDateTime = ''
       }
-      if(this.getAttendCard.ActualRote_OffDateTime === null){
-        this.getAttendCard.ActualRote_OffDateTime =''
+      if (this.getAttendCard.ActualRote_OffDateTime === null) {
+        this.getAttendCard.ActualRote_OffDateTime = ''
       }
-      if(this.getAttendCard.AttendCard_OnDateTime === null){
-        this.getAttendCard.AttendCard_OnDateTime =''
+      if (this.getAttendCard.AttendCard_OnDateTime === null) {
+        this.getAttendCard.AttendCard_OnDateTime = ''
       }
-      if(this.getAttendCard.AttendCard_OffDateTime === null){
-        this.getAttendCard.AttendCard_OffDateTime =''
+      if (this.getAttendCard.AttendCard_OffDateTime === null) {
+        this.getAttendCard.AttendCard_OffDateTime = ''
       }
-      
+
       var ForgetSaveAndFlowStart: ForgetSaveAndFlowStartClass = {
         "FlowApp": {
           "FlowApps": [
@@ -396,39 +413,24 @@ export class ForgetformWriteComponent implements OnInit, AfterViewInit, OnDestro
         }
       }
       // console.log(ForgetSaveAndFlowStart)
-      this.GetApiDataServiceService.getWebApiData_CardCheck(CardCheck)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        y => {
-          if (y == 1) {
-            this.GetApiDataServiceService.getWebApiData_FlowCardCheck(FlowCardCheck)
-            .pipe(takeWhile(() => this.api_subscribe))
-            .subscribe(
-              r => {
-                if (r == 1) {
-                  // console.log(SaveAndFlowStart)
-                  this.LoadingPage.show()
-                  this.GetApiDataServiceService.getWebApiData_SaveAndFlowStart(ForgetSaveAndFlowStart)
-                  .pipe(takeWhile(() => this.api_subscribe))
-                  .subscribe(x => {
-                    // console.log(SaveAndFlowStart)
-                    if (x == 1) {
-                      $('#sussesdialog').modal('show');
-                    } else {
-                      alert('送出失敗');
-                    }
-                    this.LoadingPage.hide()
-                  },
-                    error => {
-                      this.LoadingPage.hide()
-                      // console.log(error)
-                    })
-                }
-              }
-            )
+
+      // console.log(SaveAndFlowStart)
+      this.LoadingPage.show()
+      this.GetApiDataServiceService.getWebApiData_SaveAndFlowStart(ForgetSaveAndFlowStart)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(x => {
+          // console.log(SaveAndFlowStart)
+          if (x == 1) {
+            $('#sussesdialog').modal('show');
+          } else {
+            alert('送出失敗');
           }
-        }
-      )
+          this.LoadingPage.hide()
+        },
+          error => {
+            this.LoadingPage.hide()
+            // console.log(error)
+          })
     } else {
       alert('請選擇簽核人員')
     }
@@ -475,30 +477,30 @@ export class ForgetformWriteComponent implements OnInit, AfterViewInit, OnDestro
 
     // $('#id_ipt_startday').val(this.getAttendCard.AttendDate.toString())
     // $('#id_ipt_endday').val(doFormatDate(calDate).toString())
-    
+
     this.OnWorkDate = formatDateTime(this.getAttendCard.ActualRote_OnDateTime).getDate
     this.OffWorkDate = formatDateTime(this.getAttendCard.ActualRote_OffDateTime).getDate
 
-    var showOnTime  = getapi_formatTimetoString(formatDateTime(this.getAttendCard.ActualRote_OnDateTime).getTime)
-    var showOffTime  = getapi_formatTimetoString(formatDateTime(this.getAttendCard.ActualRote_OffDateTime).getTime)
+    var showOnTime = getapi_formatTimetoString(formatDateTime(this.getAttendCard.ActualRote_OnDateTime).getTime)
+    var showOffTime = getapi_formatTimetoString(formatDateTime(this.getAttendCard.ActualRote_OffDateTime).getTime)
 
     $('#id_ipt_starttime').val(showOnTime.toString())
     $('#id_ipt_endtime').val(showOffTime.toString())
-    if(this.getAttendCard.ActualRote_calCrossDay){
-      var addDate = new Date(this.getAttendCard.AttendDate+' '+'00:00')
-      addDate.setDate(addDate.getDate()+1)
+    if (this.getAttendCard.ActualRote_calCrossDay) {
+      var addDate = new Date(this.getAttendCard.AttendDate + ' ' + '00:00')
+      addDate.setDate(addDate.getDate() + 1)
       this.OffWorkDate = doFormatDate(addDate)
-      
+
     }
 
   }
 
   private Be_setGetRoteInfo$: BehaviorSubject<any> = new BehaviorSubject<Array<number>>(null);
   Ob_setGetRoteInfo$: Observable<any> = this.Be_setGetRoteInfo$;
-  
-  bt_Show_RoteInfo(oneSearchRoteID:number) {
+
+  bt_Show_RoteInfo(oneSearchRoteID: number) {
     var searchRoteID: Array<number> = []
-    if(oneSearchRoteID){
+    if (oneSearchRoteID) {
       searchRoteID.push(oneSearchRoteID)
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf_write').modal('show')
