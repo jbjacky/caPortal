@@ -59,6 +59,7 @@ import { SussesPutForwardSnackComponent } from '../View/shareComponent/snackbar/
 import { SussesSendbackSnackComponent } from '../View/shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
 import { ErrorSendbackSnackComponent } from '../View/shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
 import { SearchAttendUnusualFormComponent } from '../View/shareComponent/search-attend-unusual-form/search-attend-unusual-form.component';
+import { SearchAttendUnusualFormDetailComponent } from '../View/shareComponent/search-attend-unusual-form-detail/search-attend-unusual-form-detail.component';
 
 @NgModule({
   imports: [
@@ -104,6 +105,7 @@ import { SearchAttendUnusualFormComponent } from '../View/shareComponent/search-
     SearchChangeDetailRRComponent,
     SearchChangeDetailRZComponent,
     SearchChangeDetailDRComponent,
+    SearchAttendUnusualFormDetailComponent,
     SafeHtmlPipe,
     SpyChangeformNgifDirective,
     NgxSpinnerModule,
@@ -164,7 +166,7 @@ import { SearchAttendUnusualFormComponent } from '../View/shareComponent/search-
     SearchChangeDetailRRComponent,
     SearchChangeDetailRZComponent,
     SearchChangeDetailDRComponent,
-
+    SearchAttendUnusualFormDetailComponent,
     SpyChangeformNgifDirective,
     SafeHtmlPipe,
     FormConditionComponent,

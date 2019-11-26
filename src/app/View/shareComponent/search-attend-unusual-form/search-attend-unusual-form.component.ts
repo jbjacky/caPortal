@@ -15,6 +15,7 @@ import { TransSignStateGetApiClass } from 'src/app/Models/PostData_API_Class/Tra
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { GetFlowViewDeptClass } from 'src/app/Models/PostData_API_Class/GetFlowViewDeptClass';
 import { GetFlowSignAttendUnusualApiDataClass } from 'src/app/Models/GetFlowSignAttendUnusualApiDataClass';
+import { GetFlowViewAttendUnusualDataClass } from 'src/app/Models/GetFlowViewAttendUnusualDataClass';
 
 declare let $: any; //use jquery
 
@@ -31,11 +32,11 @@ export class SearchAttendUnusualFormComponent implements OnInit, OnDestroy {
 
   api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
 
-  @Input() getFlowSignAttendUnusualApiData: GetFlowSignAttendUnusualApiDataClass[]
+  @Input() getFlowSignAttendUnusualApiData: GetFlowViewAttendUnusualDataClass[]
   @Input() getShowTransSign: boolean
   @Input() getShowTake: boolean
 
-  AttendUnusualSearchFlowSign: AttendUnusualSearchFlowSignClass[] = []
+  getAttendUnusualSearchFlowSign: AttendUnusualSearchFlowSignClass[] = []
 
   MoreSearchPage = 1
   @Input() CanSerchMore: boolean = false
@@ -61,20 +62,31 @@ export class SearchAttendUnusualFormComponent implements OnInit, OnDestroy {
   }
 
 
-  GetFlowData_AttendUnusual(GetFlowSignAttendUnusualApiData: GetFlowSignAttendUnusualApiDataClass[]) {
+  GetFlowData_AttendUnusual(GetFlowSignAttendUnusualApiData: GetFlowViewAttendUnusualDataClass[]) {
     //考勤異常簽認單
-
+    // console.log(GetFlowSignAttendUnusualApiData)
+    this.getAttendUnusualSearchFlowSign = JSON.parse(JSON.stringify(GetFlowSignAttendUnusualApiData))
+    for(let data of this.getAttendUnusualSearchFlowSign){
+      if(data.EmpID != data.AppEmpID){
+        data.checkProxy = true
+      }else{
+        data.checkProxy = false
+      }
+      data.showProcessFlowID = void_completionTenNum(data.ProcessFlowID)
+      data.Date = formatDateTime(data.Date).getDate
+    }
   }
-
   showAttendUnusualDataDetail: boolean = false  // 顯示明細
+  setToNextAttendUnusualDataTitle: AttendUnusualSearchFlowSignClass
   @Output() gotoShowFormPlace: EventEmitter<number> = new EventEmitter<number>();
-  nextShowDetail() {
+  nextShowDetail(setToNextAttendUnusualDataTitle: AttendUnusualSearchFlowSignClass) {
 
     // console.log(setToNextVaDataTitle)
 
     this.gotoShowFormPlace.emit();
 
     this.showAttendUnusualDataDetail = true
+    this.setToNextAttendUnusualDataTitle = setToNextAttendUnusualDataTitle
   }
 
   onGoBackFunction() {
@@ -183,7 +195,7 @@ export class SearchAttendUnusualFormComponent implements OnInit, OnDestroy {
     this.GetApiDataServiceService.getWebApiData_GetFlowViewAttendUnusualByDept(GetFlowViewDept)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        (GetFlowSignAttendUnusualApiData: GetFlowSignAttendUnusualApiDataClass[]) => {
+        (GetFlowSignAttendUnusualApiData: GetFlowViewAttendUnusualDataClass[]) => {
           if (GetFlowSignAttendUnusualApiData.length > 0) {
             this.GetFlowData_AttendUnusual(GetFlowSignAttendUnusualApiData)
             this.CanSerchMore = true
@@ -201,29 +213,31 @@ export class SearchAttendUnusualFormComponent implements OnInit, OnDestroy {
 }
 
 export class AttendUnusualSearchFlowSignClass {
-  ProcessFlowID: number;
-  FlowTreeID: string;
-  FlowNodeID: string;
-  ProcessApParmAuto: number;
-  EmpCode: string;
-  EmpNameC: string;
-  EmpNameE: string;
-  isApproved: boolean;
-  isSendback: boolean;
-  isPutForward: boolean;
-  WriteEmpCode: string;
-  WriteEmpNameC: string;
-  checkProxy: boolean;
-  ExceptionalCode: string;
-  ExceptionalName: string;
-  ExceptionalCancelCode: string;
-  ExceptionalCancelName: string;
-  Date: string;
-  RoteCode: string;
-  EliminateLate: boolean;
-  EliminateEarly: boolean;
+
+  showProcessFlowID: string;
+  checkProxy:        boolean;
+  EmpID:             string;
+  EmpName:           string;
+  DeptName:          string;
+  Date:              string;
+  EliminateLate:     boolean;
+  EliminateEarly:    boolean;
   EliminateOnBefore: boolean;
   EliminateOffAfter: boolean;
-  EliminateAbsent: boolean;
+  EliminateAbsent:   boolean;
+  RoteNameC:         string;
+  ErrorState:        string;
+  Key:               string;
+  ProcessFlowID:     number;
+  FormName:          string;
+  AppEmpID:          string;
+  AppEmpName:        string;
+  AppDeptName:       string;
+  ManageEmpName:     string;
+  RealManageEmpName: string;
+  State:             string;
+  Handle:            boolean;
+  Take:              boolean;
+  TransSign:         boolean;
 
 }

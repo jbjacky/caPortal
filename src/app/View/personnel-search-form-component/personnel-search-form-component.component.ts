@@ -22,6 +22,7 @@ import { GetFlowViewDeptClass } from 'src/app/Models/PostData_API_Class/GetFlowV
 import { doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
 import { GetFlowSignAttendUnusualApiDataClass } from 'src/app/Models/GetFlowSignAttendUnusualApiDataClass';
 import { SearchAttendUnusualFormComponent } from '../shareComponent/search-attend-unusual-form/search-attend-unusual-form.component';
+import { GetFlowViewAttendUnusualDataClass } from 'src/app/Models/GetFlowViewAttendUnusualDataClass';
 declare let $: any; //use jquerysrc/app/View/shareComponent/search-attend-unusual-form/search-attend-unusual-form.component
 
 @Component({
@@ -321,10 +322,10 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
   getApiDelData: GetFlowViewAbscGetApiDataClass[] = []
   getApiForgetData: GetFlowViewCardGetApiDataClass[] = []
   getApiShiftRoteData: GetFlowViewShiftRoteGetApiDataClass[] = []
-  getFlowSignAttendUnusualApiData: GetFlowSignAttendUnusualApiDataClass[] = []
+  getFlowSignAttendUnusualApiData: GetFlowViewAttendUnusualDataClass[] = []
 
   getSearchFlowForm(GetFlowView: GetFlowViewClass) {
-    console.log(GetFlowView)
+    // console.log(GetFlowView)
 
     this.LoadingPage.show()
     this.isSearch = false
@@ -388,7 +389,7 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
       this.GetApiDataServiceService.getWebApiData_GetFlowViewAttendUnusual(GetFlowView)
         .pipe(takeWhile(() => this.api_subscribe))
         .subscribe(
-          (GetFlowSignAttendUnusualApiData: GetFlowSignAttendUnusualApiDataClass[]) => {
+          (GetFlowSignAttendUnusualApiData: GetFlowViewAttendUnusualDataClass[]) => {
             this.getFlowSignAttendUnusualApiData =  JSON.parse(JSON.stringify(GetFlowSignAttendUnusualApiData)) 
             this.showForm(GetFlowView.FormCode)
             this.LoadingPage.hide()
@@ -465,6 +466,22 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
             this.getApiShiftRoteData = GetFlowViewShiftRoteGetApiData
             this.showForm(GetFlowViewDept.FormCode)
             if (GetFlowViewShiftRoteGetApiData.length > 0) {
+              this.CanSerchMore = true
+            } else {
+              this.CanSerchMore = false
+            }
+            this.LoadingPage.hide()
+          }
+        )
+    } else if (GetFlowViewDept.FormCode == 'AttendUnusual') {
+
+      this.GetApiDataServiceService.getWebApiData_GetFlowViewAttendUnusualByDept(GetFlowViewDept)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (GetFlowSignAttendUnusualApiData: GetFlowViewAttendUnusualDataClass[]) => {
+            this.getFlowSignAttendUnusualApiData =  JSON.parse(JSON.stringify(GetFlowSignAttendUnusualApiData)) 
+            this.showForm(GetFlowViewDept.FormCode)
+            if (GetFlowSignAttendUnusualApiData.length > 0) {
               this.CanSerchMore = true
             } else {
               this.CanSerchMore = false

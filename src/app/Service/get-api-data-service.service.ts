@@ -605,6 +605,16 @@ export class GetApiDataServiceService {
     })
 
   }
+  /**
+   * @todo 取得註記單流程資料(審核頁面)
+   */
+  getWebApiData_GetAttendUnusualFlowAppsByProcessFlowID(ProcessFlowID,Miniature) {
+    return this.http.post(this.localUrl + 'Flow/AttendUnusualFlowHandler.svc/GetAttendUnusualFlowAppsByProcessFlowID',
+    JSON.stringify({ "ProcessFlowID": ProcessFlowID, "Miniature": Miniature }), {
+      headers: this.GetHeader()
+    })
+
+  }
 
   /**
    * @todo 取得角色資訊

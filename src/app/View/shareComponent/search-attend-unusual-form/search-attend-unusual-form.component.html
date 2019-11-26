@@ -1,9 +1,9 @@
-<div class="a-block" *ngIf="getFlowSignAttendUnusualApiData.length!=0 && !showAttendUnusualDataDetail">
+<div class="a-block" *ngIf="getAttendUnusualSearchFlowSign.length!=0 && !showAttendUnusualDataDetail">
   <div class="a-block-body  a-block-container">
     <h3>
       <ng-container i18n>查詢結果</ng-container>
     </h3>
-    <div class="row P_div" *ngFor="let oneforgetData of forgetSearchFlowSign">
+    <div class="row P_div" *ngFor="let oneforgetData of getAttendUnusualSearchFlowSign">
       <div class="row col-md-3 col-xs-12 P_borderBottom">
         <div class="col-md-6   col-xs-7  col-md-push-5" style="color: #326299;padding:3px 0px;">
           <div>
@@ -48,7 +48,7 @@
         <div class="col-md-9 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0">
           <div class="row" style="margin: 0;padding-bottom: 5px;">
             <div class="col-md-4 col-xs-12" style="padding: 0">
-              <!-- 643345 李大仁 --> {{oneforgetData.EmpCode}} {{oneforgetData.EmpNameC}}<span
+              <!-- 643345 李大仁 --> {{oneforgetData.EmpID}} {{oneforgetData.EmpName}}<span
                 *ngIf="oneforgetData.checkProxy" style="color: blue">
                 (<ng-container i18n>代</ng-container>)
               </span>
@@ -74,19 +74,19 @@
               <span style="color: #969696">
                 <ng-container i18n>異常狀態</ng-container>：
               </span>
-              <span *ngIf="oneforgetData.isEarlyMins">
+              <span *ngIf="oneforgetData.EliminateEarly" style="margin-right: 5px;">
                 <ng-container i18n>早退</ng-container>
               </span>
-              <span *ngIf="oneforgetData.isLateMins">
+              <span *ngIf="oneforgetData.EliminateLate" style="margin-right: 5px;">
                 <ng-container i18n>遲到</ng-container>
               </span>
-              <span *ngIf="oneforgetData.isForgetCard">
+              <span *ngIf="oneforgetData.EliminateAbsent" style="margin-right: 5px;">
                 <ng-container i18n>未刷卡</ng-container>
               </span>
-              <span *ngIf="oneforgetData.isForgetCard">
+              <span *ngIf="oneforgetData.EliminateOnBefore" style="margin-right: 5px;">
                 <ng-container i18n>早來</ng-container>
               </span>
-              <span *ngIf="oneforgetData.isForgetCard">
+              <span *ngIf="oneforgetData.EliminateOffAfter" style="margin-right: 5px;">
                 <ng-container i18n>晚走</ng-container>
               </span>
             </div>
@@ -114,16 +114,16 @@
   </div>
 </div>
 
-<div class="a-block" *ngIf="getForgetData.length==0">
+<div class="a-block" *ngIf="getFlowSignAttendUnusualApiData.length==0">
   <div class="a-block-body  a-block-container">
     <ng-container i18n>此查詢條件查無資料</ng-container>
   </div>
 </div>
 
 
-<app-search-forget-detail *ngIf="showAttendUnusualDataDetail" [getForgetDataTitle]="setToNextForgetDataTitle"
+<app-search-attend-unusual-form-detail *ngIf="showAttendUnusualDataDetail" [getAttendUnusualDataTitle]="setToNextAttendUnusualDataTitle"
   [getShowTakeDetail]="getShowTake" [getShowTransSignDetail]="getShowTransSign" (goback)="onGoBackFunction()">
-</app-search-forget-detail>
+</app-search-attend-unusual-form-detail>
 
 
 <div class="modal" id="Cancelformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
