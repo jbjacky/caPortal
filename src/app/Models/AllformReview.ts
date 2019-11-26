@@ -179,11 +179,40 @@ export class changeFlowSign{
 }
 export class YearAndDateClass{
   OneYear:string
-  YearofDate:Array<string>
+  YearofDate:Array<any>
 }
 
 
 export class dateArrayClass{
   DateB:string;
   DateE:string;
+}
+
+
+export class AttendUnusualFlowSign {
+  uiProcessFlowID:       number;
+  ProcessFlowID:         string;
+  FlowTreeID:            string;
+  FlowNodeID:            string;
+  ProcessApParmAuto:     string;
+  EmpCode:               string;
+  EmpNameC:              string;
+  EmpNameE:              string;
+  isApproved:            boolean;
+  isSendback:            boolean;
+  isPutForward:          boolean;
+  WriteEmpCode:          string;
+  WriteEmpNameC:         string;
+  checkProxy:            boolean;
+  ExceptionalCode:       string;
+  ExceptionalName:       string;
+  ExceptionalCancelCode: string;
+  ExceptionalCancelName: string;
+  Date:                  string;
+  RoteCode:              string;
+  EliminateLate:         boolean;
+  EliminateEarly:        boolean;
+  EliminateOnBefore:     boolean;
+  EliminateOffAfter:     boolean;
+  EliminateAbsent:       boolean;
 }

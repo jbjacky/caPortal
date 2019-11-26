@@ -189,10 +189,10 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseByFormDeptDown(GetBaseByFormClass: GetBaseByFormClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByFormDeptDown',
       JSON.stringify(GetBaseByFormClass), {
-        headers: this.GetHeader(),
+      headers: this.GetHeader(),
 
 
-      })
+    })
   }
 
   /**
@@ -202,10 +202,10 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseByForm(GetBaseByFormClass: GetBaseByFormClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByForm',
       JSON.stringify(GetBaseByFormClass), {
-        headers: this.GetHeader(),
+      headers: this.GetHeader(),
 
 
-      })
+    })
   }
 
   /**
@@ -215,10 +215,10 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseByFormNotDown(GetBaseByFormClass: GetBaseByFormClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByFormNotDown',
       JSON.stringify(GetBaseByFormClass), {
-        headers: this.GetHeader(),
+      headers: this.GetHeader(),
 
 
-      })
+    })
   }
 
   /**
@@ -228,10 +228,10 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseByFormShift(GetBaseByFormClass: GetBaseByFormClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByFormShift',
       JSON.stringify(GetBaseByFormClass), {
-        headers: this.GetHeader(),
+      headers: this.GetHeader(),
 
 
-      })
+    })
   }
 
   /**
@@ -241,10 +241,10 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseByFormStaff(GetBaseByFormClass: GetBaseByFormClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByFormStaff',
       JSON.stringify(GetBaseByFormClass), {
-        headers: this.GetHeader(),
+      headers: this.GetHeader(),
 
 
-      })
+    })
   }
 
   /**
@@ -254,10 +254,10 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseParameter(EmpID: string) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseParameter',
       JSON.stringify([EmpID]), {
-        headers: this.GetHeader(),
+      headers: this.GetHeader(),
 
 
-      })
+    })
   }
 
   /**
@@ -267,8 +267,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetDeptaByEmp(GetDeptaByEmpClass: GetDeptaByEmpTTClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetDeptaByEmp',
       JSON.stringify(GetDeptaByEmpClass), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -278,8 +278,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetDeptaByEmpLevel(GetDeptaByEmpClass: GetDeptaByEmpClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetDeptaByEmp1',
       JSON.stringify(GetDeptaByEmpClass), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -289,8 +289,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetHoliDayByForm() {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetHoliDayByForm',
       JSON.stringify({}), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -302,8 +302,8 @@ export class GetApiDataServiceService {
     var today = doFormatDate(date);
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetDeptaBySign',
       JSON.stringify({ "EmpID": _EmpID, "DeptID": 0, "EffectDate": today }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 取得考勤資訊
@@ -311,8 +311,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendInfo(GetAttendInfo: GetAttendInfoClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendInfo',
       JSON.stringify(GetAttendInfo), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -321,8 +321,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendInfo_Integration(GetAttendInfo: GetAttendInfoClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAttendInfo',
       JSON.stringify(GetAttendInfo), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -331,8 +331,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendInfoByDept_Integration(GetAttendInfoByDeptGetApi: GetAttendInfoByDeptGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAttendInfoByDept',
       JSON.stringify(GetAttendInfoByDeptGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -342,8 +342,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttend(GetAttend: GetAttendClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttend',
       JSON.stringify({ "DateB": GetAttend.DateB, "DateE": GetAttend.DateE, "ListEmpID": GetAttend.ListEmpID, "ListRoteID": null }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -363,8 +363,8 @@ export class GetApiDataServiceService {
         "ProcessUse": AbsCheck.ProcessUse,
         "Time24": AbsCheck.Time24
       }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -373,8 +373,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetCalculate(GetCalculate: GetCalculateClass) {
     return this.http.post(this.localUrl + 'AbsHandler.svc/GetCalculate',
       JSON.stringify({ "EmpID": GetCalculate.EmpID, "HoliDayID": GetCalculate.HoliDayID, "DateB": GetCalculate.DateB, "DateE": GetCalculate.DateE, "TimeB": GetCalculate.TimeB, "TimeE": GetCalculate.TimeE, "CalculateWorkTime": true, "CalculateRes": true, "FixedCycle": GetCalculate.FixedCycle, "Exception": 0, "RoteID": 0, "Time24": true, "ListAbsFlow": null }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -383,8 +383,8 @@ export class GetApiDataServiceService {
   getWebApiData_SaveAttendWish(SaveAttendWish: SaveAttendWishClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/SaveAttendWish',
       JSON.stringify({ "EmpID": SaveAttendWish.EmpID, "WishTypeID": SaveAttendWish.WishTypeID, "DateB": SaveAttendWish.DateB, "DateE": SaveAttendWish.DateE, "TimeB": SaveAttendWish.TimeB, "TimeE": SaveAttendWish.TimeE, "Note": SaveAttendWish.Note, "KeyMan": SaveAttendWish.KeyMan }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 取得部門群組底下的單位並展現到幾級單位(for地服處)
@@ -394,8 +394,8 @@ export class GetApiDataServiceService {
     var today = doFormatDate(date);
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetDeptaByDeptTree',
       JSON.stringify({ "EmpID": '', "SuperDeptCode": "240_0", "DeptTree": 3, "EffectDate": today }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -406,8 +406,8 @@ export class GetApiDataServiceService {
     var today = doFormatDate(date);
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByDeptID',
       JSON.stringify({ "DeptID": DeptID, "EffectDate": today }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -417,8 +417,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendWish(GetAttendWish: GetAttendWishClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendWish',
       JSON.stringify({ "DateB": GetAttendWish.DateB, "DateE": GetAttendWish.DateE, "WishTypeID": GetAttendWish.WishTypeID, "ListState": GetAttendWish.ListState, "ListEmpID": GetAttendWish.ListEmpID }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -429,8 +429,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendWishByDepta(GetAttendWishByDeptaGetApi: GetAttendWishByDeptaGetApiClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendWishByDepta',
       JSON.stringify(GetAttendWishByDeptaGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 取得請假簽核檢視表
@@ -438,8 +438,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetHoliDayFlowConditionView() {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetHoliDayFlowConditionView',
       JSON.stringify({}), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -448,8 +448,8 @@ export class GetApiDataServiceService {
   getWebApiData_SaveHoliDayFlowCondition(SaveHoliDayFlowCondition: SaveHoliDayFlowConditionClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/SaveHoliDayFlowCondition',
       JSON.stringify({ "HoliDayCode": SaveHoliDayFlowCondition.HoliDayCode, "Tree": SaveHoliDayFlowCondition.Tree, "AbsUseDay": SaveHoliDayFlowCondition.AbsUseDay, "Note": SaveHoliDayFlowCondition.Note, "KeyMan": SaveHoliDayFlowCondition.KeyMan }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -458,8 +458,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendExceptional(GetAttendExceptional: GetAttendExceptionalClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendExceptional',
       JSON.stringify({ "DateB": GetAttendExceptional.DateB, "DateE": GetAttendExceptional.DateE, "ListEmpID": GetAttendExceptional.ListEmpID }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -468,8 +468,8 @@ export class GetApiDataServiceService {
   getWebApiData_AbscIntegrationHandlerGetAbsFlowApps(AbscIntegrationHandlerGetAbsFlowApps: AbscIntegrationHandlerGetAbsFlowAppsClass) {
     return this.http.post(this.localUrl + 'Integration/AbscIntegrationHandler.svc/GetAbsFlowApps',
       JSON.stringify(AbscIntegrationHandlerGetAbsFlowApps), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -478,8 +478,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetCauseByForm() {
     return this.http.post(this.localUrl + 'CardHandler.svc/GetCauseByForm',
       JSON.stringify({}), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 忘刷-儲存並起單
@@ -487,8 +487,8 @@ export class GetApiDataServiceService {
   getWebApiData_SaveAndFlowStart(ForgetSaveAndFlowStart: ForgetSaveAndFlowStartClass) {
     return this.http.post(this.localUrl + 'Flow/CardFlowHandler.svc/SaveAndFlowStart',
       JSON.stringify(ForgetSaveAndFlowStart), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -498,8 +498,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendWishByPerson(GetAttendWishByPerson: GetAttendWishByPersonClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendWishByPerson',
       JSON.stringify({ "DateB": GetAttendWishByPerson.DateB, "WishTypeID": GetAttendWishByPerson.WishTypeID, "ListState": ["1"], "ListEmpID": [GetAttendWishByPerson.ListEmpID] }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 修改意願備註表(刪除)
@@ -507,8 +507,8 @@ export class GetApiDataServiceService {
   getWebApiData_UpdateAttendWish(AttendWishID, KeyMan) {
     return this.http.post(this.localUrl + 'AttHandler.svc/UpdateAttendWish',
       JSON.stringify({ "AttendWishID": AttendWishID, "State": "2", "KeyMan": KeyMan }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -525,8 +525,8 @@ export class GetApiDataServiceService {
         "CauseID1": CardCheck.CauseID1,
         "CauseID2": CardCheck.CauseID1
       }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 忘刷_流程中重複檢查 (儲存並起單檢核)
@@ -540,8 +540,8 @@ export class GetApiDataServiceService {
         "TimeB": FlowCardCheck.TimeB,
         "TimeE": FlowCardCheck.TimeE
       }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 取得待審核名單(整合簽核權限判斷)
@@ -551,8 +551,8 @@ export class GetApiDataServiceService {
     GetFlowSignRole.SignDate = doFormatDate(date);
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignRole',
       JSON.stringify(GetFlowSignRole), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -561,8 +561,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAbsFlowAppsByProcessFlowID(ProcessFlowID, Miniature: boolean) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAbsFlowAppsByProcessFlowID',
       JSON.stringify({ "ProcessFlowID": ProcessFlowID, "Miniature": Miniature }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
 
   }
   /**
@@ -571,8 +571,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAbscFlowAppsByProcessFlowID(ProcessFlowID) {
     return this.http.post(this.localUrl + 'Integration/AbscIntegrationHandler.svc/GetAbscFlowAppsByProcessFlowID',
       ProcessFlowID, {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
 
   }
 
@@ -582,8 +582,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetCardFlowAppsByProcessFlowID(ProcessFlowID, Miniature) {
     return this.http.post(this.localUrl + 'Flow/CardFlowHandler.svc/GetCardFlowAppsByProcessFlowID',
       JSON.stringify({ "ProcessFlowID": ProcessFlowID, "Miniature": Miniature }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 取得調班流程資料(審核頁面)
@@ -591,8 +591,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetShiftFlowAppsByProcessFlowID(ProcessFlowID) {
     return this.http.post(this.localUrl + 'Flow/ShiftRoteFlowHandler.svc/GetShiftRoteFlowAppsByProcessFlowID',
       ProcessFlowID, {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
 
   }
   /**
@@ -601,8 +601,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetShiftRoteFlowAppsByProcessFlowID(ProcessFlowID) {
     return this.http.post(this.localUrl + 'Integration/ShiftRoteIntegrationHandler.svc/GetShiftRoteFlowAppsByProcessFlowID',
       ProcessFlowID, {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
 
   }
 
@@ -614,8 +614,8 @@ export class GetApiDataServiceService {
     var today = doFormatDate(date);
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetManInfo',
       JSON.stringify({ "ListEmpID": [ListEmpID], "EffectDate": today }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -624,8 +624,8 @@ export class GetApiDataServiceService {
   getWebApiData_FlowNodeFinish(FlowNodeFinish: FlowNodeFinishClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/FlowNodeFinish',
       JSON.stringify(FlowNodeFinish), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -634,8 +634,8 @@ export class GetApiDataServiceService {
   getWebApiData_ListFlowNodeFinish(FlowNodeFinish: FlowNodeFinishClass[]) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/ListFlowNodeFinish',
       JSON.stringify(FlowNodeFinish), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 檢查部門請假限額
@@ -643,8 +643,8 @@ export class GetApiDataServiceService {
   getWebApiData_AbsLimitCheck(ProcessFlowID) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/AbsLimitCheck',
       JSON.stringify(ProcessFlowID), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 檢查考勤異常確認單
@@ -652,8 +652,8 @@ export class GetApiDataServiceService {
   getWebApiData_CardCheckByProcessFlowID(ProcessFlowID) {
     return this.http.post(this.localUrl + 'Flow/CardFlowHandler.svc/CardCheckByProcessFlowID',
       JSON.stringify(ProcessFlowID), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -664,8 +664,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFormSign(ProcessFlowID) {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetFormSign',
       JSON.stringify(ProcessFlowID), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -691,8 +691,8 @@ export class GetApiDataServiceService {
     }
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetCalculateFlowData',
       JSON.stringify(sendCalculateFlowData), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -701,8 +701,8 @@ export class GetApiDataServiceService {
   getWebApiData_AbsSaveAndFlowStart(AbsSaveAndFlowStart: AbsSaveAndFlowStartClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/SaveAndFlowStart',
       JSON.stringify(AbsSaveAndFlowStart), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -712,8 +712,8 @@ export class GetApiDataServiceService {
   getWebApiData_AbscFlowHandlerSaveAndFlowStart(AbscFlowHandlerSaveAndFlowStart: AbscFlowHandlerSaveAndFlowStartClass) {
     return this.http.post(this.localUrl + 'Integration/AbscIntegrationHandler.svc/SaveAndFlowStart',
       JSON.stringify(AbscFlowHandlerSaveAndFlowStart), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -723,8 +723,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowView(GetFlowView: GetFlowViewClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowView',
       JSON.stringify(GetFlowView), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -733,8 +733,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetShiftRoteDateRange(DateB: string, EmpID: string) {
     return this.http.post(this.localUrl + 'ShiftRoteHandler.svc/GetShiftRoteDateRange',
       JSON.stringify({ "DateB": DateB, "EmpID": EmpID }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -743,8 +743,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetRoteMappingByHoliday() {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetRoteMappingByHoliday',
       null, {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -754,8 +754,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetRote(RoteID: Array<number>) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetRote',
       JSON.stringify(RoteID), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -765,8 +765,8 @@ export class GetApiDataServiceService {
   getWebApiData_ShiftRoteSaveAndFlowStart(ShiftRoteSaveAndFlowStart: ShiftRoteSaveAndFlowStartClass) {
     return this.http.post(this.localUrl + 'Flow/ShiftRoteFlowHandler.svc/SaveAndFlowStart',
       JSON.stringify(ShiftRoteSaveAndFlowStart), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -777,8 +777,8 @@ export class GetApiDataServiceService {
     var today = doFormatDate(new Date())
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseInfoDetail',
       JSON.stringify({ "ListEmpID": [ListEmpID], "EffectDate": today }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -787,8 +787,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetHolidayShiftRote(DateB: string, EmpID: string) {
     return this.http.post(this.localUrl + 'ShiftRoteHandler.svc/GetHolidayShiftRote',
       JSON.stringify({ "DateB": DateB, "EmpID": EmpID }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -797,8 +797,8 @@ export class GetApiDataServiceService {
   getWebApiData_ShiftRoteCheckByTwoPerson(ShiftRoteCheckByTwoPerson: ShiftRoteCheckByTwoPersonClass) {
     return this.http.post(this.localUrl + 'ShiftRoteHandler.svc/ShiftRoteCheckByTwoPerson',
       JSON.stringify(ShiftRoteCheckByTwoPerson), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -807,8 +807,8 @@ export class GetApiDataServiceService {
   getWebApiData_SaveNews(SaveNews: SaveNewsClass) {
     return this.http.post(this.localUrl + 'MainHandler.svc/SaveNews',
       JSON.stringify(SaveNews), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -825,8 +825,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetNewsByDateNow(GetNewsByDateNowGetApi: GetNewsByDateNowGetApiClass) {
     return this.http.post(this.localUrl + 'MainHandler.svc/GetNewsByDateNow',
       JSON.stringify(GetNewsByDateNowGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -835,8 +835,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetNewsByID(GetNewsByIDGetApi: GetNewsByIDGetApiClass) {
     return this.http.post(this.localUrl + 'MainHandler.svc/GetNewsByID',
       JSON.stringify(GetNewsByIDGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -845,8 +845,8 @@ export class GetApiDataServiceService {
   getWebApiData_DeleteNews(NewsID: string) {
     return this.http.post(this.localUrl + 'MainHandler.svc/DeleteNews',
       JSON.stringify(NewsID), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -856,8 +856,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetUploadFileByOnly(ServerName: string) {
     return this.http.post(this.localUrl + 'Flow/MultiFlowHandler.svc/GetUploadFileByOnly',
       JSON.stringify(ServerName), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -866,8 +866,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetUploadFileByOnly_NotFlow(ServerName: string) {
     return this.http.post(this.localUrl + 'MultiHandler.svc/GetUploadFileByOnly',
       JSON.stringify(ServerName), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -885,8 +885,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendCalendar(GetAttendCalendar: GetAttendCalendarClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAttendCalendar',
       JSON.stringify(GetAttendCalendar), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -895,8 +895,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendCalendarSimplify(GetAttendCalendar: GetAttendCalendarClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAttendCalendarSimplify',
       JSON.stringify(GetAttendCalendar), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -905,8 +905,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendExceptionalByDept(GetAttendExceptionalByDept: GetAttendExceptionalByDeptClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendExceptionalByDept',
       JSON.stringify(GetAttendExceptionalByDept), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -915,8 +915,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetRoteByEmpID(EmpID: string, DateB: string) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetRoteByEmpID',
       JSON.stringify({ "EmpID": EmpID, "DateB": DateB }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -930,8 +930,8 @@ export class GetApiDataServiceService {
         "EmpID": EmpID,
         "SignEmpID": null
       }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -940,8 +940,8 @@ export class GetApiDataServiceService {
   getWebApiData_TransSignState(TransSignStateGetApi: TransSignStateGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/SetFlowState',
       JSON.stringify(TransSignStateGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -950,8 +950,8 @@ export class GetApiDataServiceService {
   getWebApiData_SaveToday(AutoKey, Today: boolean) {
     return this.http.post(this.localUrl + 'Flow/AbsFlowHandler.svc/SaveToday',
       JSON.stringify({ "AutoKey": AutoKey, "Today": Today }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
 
   }
 
@@ -962,8 +962,8 @@ export class GetApiDataServiceService {
   getWebApiData_ShiftRoteCheck(ShiftRoteCheckClass: ShiftRoteCheckClass) {
     return this.http.post(this.localUrl + 'ShiftRoteHandler.svc/ShiftRoteCheck',
       JSON.stringify(ShiftRoteCheckClass), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
 
   }
 
@@ -974,8 +974,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetHoliDayBalanceFlow(GetHoliDayBalanceFlow: GetHoliDayBalanceFlow) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetHoliDayBalance',
       JSON.stringify(GetHoliDayBalanceFlow), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -984,8 +984,8 @@ export class GetApiDataServiceService {
   getWebApiData_FlowShiftRoteCheck(FlowShiftRoteCheck: FlowShiftRoteCheckClass) {
     return this.http.post(this.localUrl + 'Flow/ShiftRoteFlowHandler.svc/ShiftRoteCheck',
       JSON.stringify(FlowShiftRoteCheck), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -994,8 +994,8 @@ export class GetApiDataServiceService {
   getWebApiData_InsertCheckAgent(InsertCheckAgent: InsertCheckAgentClass) {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/InsertCheckAgent',
       JSON.stringify(InsertCheckAgent), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1005,8 +1005,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetCheckAgent(EmpID: string) {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetCheckAgent',
       JSON.stringify(EmpID), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1015,8 +1015,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetCheckAgentBySource(EmpID: string) {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetCheckBeAgent',
       JSON.stringify(EmpID), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1026,8 +1026,8 @@ export class GetApiDataServiceService {
   getWebApiData_UpdateCheckAgent(UpdateCheckAgent: UpdateCheckAgentClass) {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/UpdateCheckAgent',
       JSON.stringify(UpdateCheckAgent), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1037,8 +1037,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetPageByEmp(EmpID: string) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/GetPageByEmp',
       JSON.stringify(EmpID), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1047,8 +1047,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFormMail(GetFormMail: GetFormMailClass) {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetFormMail',
       JSON.stringify(GetFormMail), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1057,8 +1057,8 @@ export class GetApiDataServiceService {
   getWebApiData_SaveFormMail(SaveFormMail: SaveFormMailClass) {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/SaveFormMail',
       JSON.stringify(SaveFormMail), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1068,8 +1068,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFormColumn() {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetFormColumns',
       JSON.stringify(''), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1078,8 +1078,8 @@ export class GetApiDataServiceService {
   getWebApiData_DeleteFormMail(AutoKey: number) {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/DeleteFormMail',
       JSON.stringify(AutoKey), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1089,8 +1089,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetRoteByShift(isChange: string) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetRoteByShift',
       JSON.stringify(isChange), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1099,8 +1099,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetRoteDifferShift(isChange: string) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetRoteDifferShift',
       JSON.stringify(isChange), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1109,8 +1109,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetDeptHuman(search: string) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetDeptHuman',
       JSON.stringify(search), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1119,8 +1119,8 @@ export class GetApiDataServiceService {
   getWebApiData_InsertDeptHuman(InsertDeptHumanGetApi: InsertDeptHumanGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/InsertDeptHuman',
       JSON.stringify(InsertDeptHumanGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1129,8 +1129,8 @@ export class GetApiDataServiceService {
   getWebApiData_UpdateDeptHuman(UpdateDeptHumanGetApi: UpdateDeptHumanGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/UpdateDeptHuman',
       JSON.stringify(UpdateDeptHumanGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1140,8 +1140,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetDept(GetDeptGetApi: GetDeptGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetDept',
       JSON.stringify(GetDeptGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1150,8 +1150,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetDeptSecretary(search: string) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetDeptSecretary',
       JSON.stringify(search), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 新增主管代填人設定
@@ -1159,8 +1159,8 @@ export class GetApiDataServiceService {
   getWebApiData_InsertDeptSecretary(InsertDeptSecretaryGetApi: InsertDeptSecretaryGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/InsertDeptSecretary',
       JSON.stringify(InsertDeptSecretaryGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1169,8 +1169,8 @@ export class GetApiDataServiceService {
   getWebApiData_UpdateDeptSecretary(UpdateDeptSecretaryGetApi: UpdateDeptSecretaryGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/UpdateDeptSecretary',
       JSON.stringify(UpdateDeptSecretaryGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1180,8 +1180,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseSpecialFlow(GetBaseSpecialFlowGetApi: GetBaseSpecialFlowGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseSpecialFlow',
       JSON.stringify(GetBaseSpecialFlowGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1191,8 +1191,8 @@ export class GetApiDataServiceService {
   getWebApiData_InsertBaseSpecialFlow(InsertBaseSpecialFlowGetApi: InsertBaseSpecialFlowGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/InsertBaseSpecialFlow',
       JSON.stringify(InsertBaseSpecialFlowGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1201,8 +1201,8 @@ export class GetApiDataServiceService {
   getWebApiData_UpdateBaseSpecialFlow(UpdateBaseSpecialFlowGetApiClass: UpdateBaseSpecialFlowGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/UpdateBaseSpecialFlow',
       JSON.stringify(UpdateBaseSpecialFlowGetApiClass), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1211,8 +1211,8 @@ export class GetApiDataServiceService {
   getWebApiData_SetDeptByEmp(SetDeptByEmpGetApi: SetDeptByEmpGetApiClass) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/SetDeptByEmp',
       JSON.stringify(SetDeptByEmpGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1222,8 +1222,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAssistantByDeptID(DeptID) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/GetAssistantByDeptID',
       JSON.stringify(DeptID), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1232,8 +1232,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetRoleByAuth(EmpID) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/GetRoleByAuth',
       JSON.stringify(EmpID), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1251,8 +1251,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseByListDeptaID(GetBaseByListDeptaIDGetApi: GetBaseByListDeptaIDGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByListDeptaID',
       JSON.stringify(GetBaseByListDeptaIDGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1261,8 +1261,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseByListDeptID(GetBaseByListDeptIDGetApi: GetBaseByListDeptIDGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByListDeptID',
       JSON.stringify(GetBaseByListDeptIDGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1271,8 +1271,8 @@ export class GetApiDataServiceService {
   getWebApiData_SetRole(SetRoleGetApi: SetRoleGetApiClass) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/SetRole',
       JSON.stringify(SetRoleGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1281,8 +1281,8 @@ export class GetApiDataServiceService {
   getWebApiData_DelRole(SetRoleGetApi: SetRoleGetApiClass) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/DelRole',
       JSON.stringify(SetRoleGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1301,8 +1301,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetPageByRoleCode(RoleCode: string) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/GetPageByRoleCode',
       JSON.stringify(RoleCode), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1311,8 +1311,8 @@ export class GetApiDataServiceService {
   getWebApiData_SetRolePageByEmp(SetRolePageByEmpGetApi: SetRolePageByEmpGetApiClass) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/SetRolePageByEmp',
       JSON.stringify(SetRolePageByEmpGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1321,8 +1321,8 @@ export class GetApiDataServiceService {
   getWebApiData_CreateRole(CreateRoleGetApi: CreateRoleGetApiClass) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/CreateRole',
       JSON.stringify(CreateRoleGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1331,8 +1331,8 @@ export class GetApiDataServiceService {
   getWebApiData_UpdateRole(UpdateRoleGetApi: UpdateRoleGetApiClass) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/UpdateRole',
       JSON.stringify(UpdateRoleGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1341,8 +1341,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetDeptsByEmp(EmpID: string) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/GetDeptsByEmp',
       JSON.stringify(EmpID), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1351,9 +1351,9 @@ export class GetApiDataServiceService {
   getWebApiData_GetDeptByEmpCode(EmpID: string) {
     var today = new Date()
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetDeptByEmpCode',
-      JSON.stringify({"EmpCode":EmpID,"EffectDate":doFormatDate(today)}), {
-        headers: this.GetHeader()
-      })
+      JSON.stringify({ "EmpCode": EmpID, "EffectDate": doFormatDate(today) }), {
+      headers: this.GetHeader()
+    })
   }
   /**
   * @todo 刪除單位管理員
@@ -1361,8 +1361,8 @@ export class GetApiDataServiceService {
   getWebApiData_DelDeptByEmp(DelDeptByEmpGetApi: DelDeptByEmpGetApiClass) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/DelDeptByEmp',
       JSON.stringify(DelDeptByEmpGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1371,8 +1371,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAbsFlowSignTree(GetAbsFlowSignTreeGetApi: GetAbsFlowSignTreeGetApiClass[]) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAbsFlowSignTree',
       JSON.stringify(GetAbsFlowSignTreeGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1381,8 +1381,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFormInfo(GetFormInfoGetApi: GetFormInfoGetApiClass) {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetFormInfo',
       JSON.stringify(GetFormInfoGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1391,8 +1391,8 @@ export class GetApiDataServiceService {
   getWebApiData_UpdateFormInfo(UpdateFormInfoGetApi: UpdateFormInfoGetApiClass) {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/UpdateFormInfo',
       JSON.stringify(UpdateFormInfoGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1402,8 +1402,8 @@ export class GetApiDataServiceService {
   getWebApiData_LogApiMsg(LogApiMsgGetApi: LogApiMsgGetApiClass) {
     return this.http.post(this.localUrl + 'MultiHandler.svc/LogApiMsg',
       JSON.stringify(LogApiMsgGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1413,8 +1413,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetShiftRoteTwoPersonAfter(GetShiftRoteTwoPersonAfterGetApi: GetShiftRoteTwoPersonAfterGetApiClass[]) {
     return this.http.post(this.localUrl + 'ShiftRoteHandler.svc/GetShiftRoteTwoPersonAfter',
       JSON.stringify(GetShiftRoteTwoPersonAfterGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1423,8 +1423,8 @@ export class GetApiDataServiceService {
   getWebApiData_ShiftRoteCount(ShiftRoteCountGetApi: ShiftRoteCountGetApiClass) {
     return this.http.post(this.localUrl + 'Flow/ShiftRoteFlowHandler.svc/ShiftRoteCount',
       JSON.stringify(ShiftRoteCountGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
   * @todo 判斷變形週期需要的例假及休息日(單人)
@@ -1432,8 +1432,8 @@ export class GetApiDataServiceService {
   getWebApiData_ShiftRoteCheckByWeekType(ShiftRoteCheckByWeekTypeGetApi: ShiftRoteCheckByWeekTypeGetApiClass) {
     return this.http.post(this.localUrl + 'ShiftRoteHandler.svc/ShiftRoteCheckByWeekType',
       JSON.stringify(ShiftRoteCheckByWeekTypeGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1443,8 +1443,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendCalendarExceptional(GetAttendCalendarExceptionalGetApi: GetAttendCalendarExceptionalGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAttendCalendarExceptional',
       JSON.stringify(GetAttendCalendarExceptionalGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1454,8 +1454,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendCalendarAbs(GetAttendCalendarAbsGetApi: GetAttendCalendarAbsGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAttendCalendarAbs',
       JSON.stringify(GetAttendCalendarAbsGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1465,8 +1465,8 @@ export class GetApiDataServiceService {
   getWebApiData_IsTZTT(EmpCode: string) {
     return this.http.post(this.localUrl + 'ShiftRoteHandler.svc/IsTZTT',
       JSON.stringify(EmpCode), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1476,8 +1476,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowViewAbsByDept(GetFlowViewDept: GetFlowViewDeptClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewAbsByDept',
       JSON.stringify(GetFlowViewDept), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1486,8 +1486,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowViewAbs(GetFlowView: GetFlowViewClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewAbs',
       JSON.stringify(GetFlowView), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1496,8 +1496,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowViewAbscByDept(GetFlowViewDept: GetFlowViewDeptClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewAbscByDept',
       JSON.stringify(GetFlowViewDept), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 流程檢視(銷假)
@@ -1505,8 +1505,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowViewAbsc(GetFlowView: GetFlowViewClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewAbsc',
       JSON.stringify(GetFlowView), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1515,8 +1515,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowViewCardByDept(GetFlowViewDept: GetFlowViewDeptClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewCardByDept',
       JSON.stringify(GetFlowViewDept), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 流程檢視(考勤異常確認)
@@ -1524,8 +1524,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowViewCard(GetFlowView: GetFlowViewClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewCard',
       JSON.stringify(GetFlowView), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1534,8 +1534,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowViewShiftRoteByDept(GetFlowViewDept: GetFlowViewDeptClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewShiftRoteByDept',
       JSON.stringify(GetFlowViewDept), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
   /**
    * @todo 流程檢視(調班)
@@ -1543,8 +1543,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowViewShiftRote(GetFlowView: GetFlowViewClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewShiftRote',
       JSON.stringify(GetFlowView), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1553,8 +1553,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAbsByFlowStructure(Key, Miniature: boolean) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAbsByFlowStructure',
       JSON.stringify({ "Key": Key, "Miniature": Miniature }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
 
   }
 
@@ -1564,8 +1564,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAbsDetailByDeptHide(GetAbsDetailByDeptGetApi: GetAbsDetailByDeptGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAbsDetailByDeptHide',
       JSON.stringify(GetAbsDetailByDeptGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
 
   }
 
@@ -1575,8 +1575,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAbsDetailByListEmpIDHide(GetAbsDetailByListEmpIDGetApi: GetAbsDetailByListEmpIDGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAbsDetailByListEmpIDHide',
       JSON.stringify(GetAbsDetailByListEmpIDGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
 
   }
   /**
@@ -1585,8 +1585,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAbsDetailByDept(GetAbsDetailByDeptGetApi: GetAbsDetailByDeptGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAbsDetailByDept',
       JSON.stringify(GetAbsDetailByDeptGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1595,8 +1595,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAbsDetailByListEmpID(GetAbsDetailByListEmpIDGetApi: GetAbsDetailByListEmpIDGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAbsDetailByListEmpID',
       JSON.stringify(GetAbsDetailByListEmpIDGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
 
   }
 
@@ -1608,8 +1608,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseByFormAuth(GetBaseByForm: GetBaseByFormClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByFormAuth',
       JSON.stringify(GetBaseByForm), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
 
   }
 
@@ -1619,8 +1619,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetBase(ListEmpID: Array<string>, EffectDate: string) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBase',
       JSON.stringify({ "ListEmpID": ListEmpID, "EffectDate": EffectDate }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
 
   }
 
@@ -1630,8 +1630,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseByFormEmp(GetBaseByFormEmpGetApi: GetBaseByFormEmpGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByFormEmp',
       JSON.stringify(GetBaseByFormEmpGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1640,8 +1640,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseByFormDept(GetBaseByFormDeptGetApi: GetBaseByFormDeptGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByFormDept',
       JSON.stringify(GetBaseByFormDeptGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1651,8 +1651,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetBaseByAuthByEmpIDgetDeptInfo(GetBaseByAuthByEmpIDgetDeptInfoGetApi: GetBaseByAuthByEmpIDgetDeptInfoGetApiClass) {
     return this.http.post(this.localUrl + 'BaseHandler.svc/GetBaseByAuthByEmpIDgetDeptInfo',
       JSON.stringify(GetBaseByAuthByEmpIDgetDeptInfoGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1661,8 +1661,8 @@ export class GetApiDataServiceService {
   getWebApiData_IsLoginPass(IsLoginPassGetApi: IsLoginPassGetApiClass) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/IsLoginPass',
       JSON.stringify(IsLoginPassGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1671,8 +1671,8 @@ export class GetApiDataServiceService {
   getWebApiData_IsAllowLogin(IsLoginPassGetApi: IsLoginPassGetApiClass) {
     return this.http.post(this.localUrl + 'AuthHandler.svc/IsAllowLogin',
       JSON.stringify(IsLoginPassGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1681,8 +1681,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetLoginLog() {
     return this.http.post(this.localUrl + 'AuthHandler.svc/GetLoginLog',
       null, {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1691,8 +1691,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetSendMailLog(GetSendMailLog: GetSendMailLogClass) {
     return this.http.post(this.localUrl + 'Flow/FlowMainHandler.svc/GetSendMailLog',
       JSON.stringify(GetSendMailLog), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1701,8 +1701,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendSumRote(GetAttendSumRoteGetApi: GetAttendSumRoteGetApiClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendSumRote',
       JSON.stringify(GetAttendSumRoteGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1712,8 +1712,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendExceptionalCount(GetAttendExceptionalCount: GetAttendExceptionalCountClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendExceptionalCount',
       JSON.stringify(GetAttendExceptionalCount), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
 
@@ -1723,8 +1723,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetEventDate(GetEventDateGetApi: GetEventDateGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetEventDate',
       JSON.stringify(GetEventDateGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1733,8 +1733,8 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowSignAbs(GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignAbs',
       JSON.stringify(GetFlowSignAbsGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1743,18 +1743,18 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowSignAbsc(GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignAbsc',
       JSON.stringify(GetFlowSignAbsGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
-  
+
   /**
    * @todo 取得目前待審核的表單-忘刷
    */
   getWebApiData_GetFlowSignCard(GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignCard',
       JSON.stringify(GetFlowSignAbsGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1763,20 +1763,29 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowSignShiftRote(GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignShiftRote',
       JSON.stringify(GetFlowSignAbsGetApi), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
+  }
+  /**
+   * @todo 取得目前待審核的表單-異常註記單
+   */
+  getWebApiData_GetFlowSignAttendUnusual(GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignAttendUnusual',
+      JSON.stringify(GetFlowSignAbsGetApi), {
+      headers: this.GetHeader()
+    })
   }
 
 
-  
+
   /**
    * @todo 取得班別異常資訊-註記單
    */
   getWebApiData_GetAttendExceptionalNew(GetAttendExceptional: GetAttendExceptionalClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendExceptionalNew',
       JSON.stringify({ "DateB": GetAttendExceptional.DateB, "DateE": GetAttendExceptional.DateE, "ListEmpID": GetAttendExceptional.ListEmpID }), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
   }
 
   /**
@@ -1785,10 +1794,30 @@ export class GetApiDataServiceService {
   getWebApiData_AttendUnusualSaveAndFlowStart(AttendUnusualSaveAndFlowStart: AttendUnusualSaveAndFlowStartClass) {
     return this.http.post(this.localUrl + 'Flow/AttendUnusualFlowHandler.svc/SaveAndFlowStart',
       JSON.stringify(AttendUnusualSaveAndFlowStart), {
-        headers: this.GetHeader()
-      })
+      headers: this.GetHeader()
+    })
+  }
+  /**
+   * @todo 流程檢視(異常註記單)
+   */
+  getWebApiData_GetFlowViewAttendUnusual(GetFlowView: GetFlowViewClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewAttendUnusual',
+      JSON.stringify(GetFlowView), {
+      headers: this.GetHeader()
+    })
+  }
+
+  /**
+   * @todo 流程檢視(異常註記單)-部門
+   */
+  getWebApiData_GetFlowViewAttendUnusualByDept(GetFlowViewDept: GetFlowViewDeptClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewAttendUnusualByDept',
+      JSON.stringify(GetFlowViewDept), {
+      headers: this.GetHeader()
+    })
   }
   
+
 }
 
 

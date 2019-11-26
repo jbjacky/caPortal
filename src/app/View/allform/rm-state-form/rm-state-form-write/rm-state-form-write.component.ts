@@ -1,12 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-
 import { AttendCard } from 'src/app/Models/AttendCard'
-import { doFormatDate, getapi_formatTimetoString, sumbit_formatTimetoString, formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
+import { doFormatDate, getapi_formatTimetoString, formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
-import { SaveAndFlowStartClass, ForgetSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/SaveAndFlowStartClass';
-import { isValidDate, isValidTime } from 'src/app/UseVoid/void_isVaildDatetime';
-import { CardCheckClass } from 'src/app/Models/PostData_API_Class/CardCheckClass';
-import { FlowCardCheckClass } from 'src/app/Models/PostData_API_Class/FlowCardCheckClass';
 import { Router } from '@angular/router';
 import { uploadFileClass } from 'src/app/Models/uploadFileClass';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -14,8 +9,7 @@ import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { takeWhile } from 'rxjs/operators';
-import { MatSelectionList } from '@angular/material';
-import { FormGroup, FormBuilder, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import { AttendUnusualSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/AttendUnusualSaveAndFlowStart';
 
 declare let $: any; //use jquery
@@ -60,14 +54,6 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
     private LoadingPage: NgxSpinnerService,
     private formBuilder: FormBuilder) {
 
-    var State: StateClass = {
-      EliminateLate: false,
-      EliminateEarly: false,
-      EliminateAbsent: false,
-      EliminateOnBefore: false,
-      EliminateOffAfter: false
-    }
-
     var StateFormControl = {
       EliminateLate: new FormControl(false),
       EliminateEarly: new FormControl(false),
@@ -76,22 +62,20 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
       EliminateOffAfter: new FormControl(false)
     }
     this.ErrorStateOptionGroup = this.formBuilder.group(StateFormControl);
-
-
   }
   disableCheckBox() {
-    this.fnDisable(this.getAttendCard,"LateMins","EliminateLate");
-    this.fnDisable(this.getAttendCard,"EarlyMins","EliminateEarly");
-    this.fnDisable(this.getAttendCard,"IsAbsent","EliminateAbsent");
-    this.fnDisable(this.getAttendCard,"OnBeforeMins","EliminateOnBefore");
-    this.fnDisable(this.getAttendCard,"OffAfterMins","EliminateOffAfter");
+    this.fnDisable(this.getAttendCard, "LateMins", "EliminateLate");
+    this.fnDisable(this.getAttendCard, "EarlyMins", "EliminateEarly");
+    this.fnDisable(this.getAttendCard, "IsAbsent", "EliminateAbsent");
+    this.fnDisable(this.getAttendCard, "OnBeforeMins", "EliminateOnBefore");
+    this.fnDisable(this.getAttendCard, "OffAfterMins", "EliminateOffAfter");
   }
-  fnDisable(_CardData:AttendCard,eleMin:string,eleEliminate:string){
-    var CardData =  JSON.parse(JSON.stringify(_CardData))
-    if(CardData[eleMin] && !CardData[eleEliminate]){
+  fnDisable(_CardData: AttendCard, eleMin: string, eleEliminate: string) {
+    var CardData = JSON.parse(JSON.stringify(_CardData))
+    if (CardData[eleMin] && !CardData[eleEliminate]) {
       //如果無異常分鐘數和無異常註記就可以勾選
       this.ErrorStateOptionGroup.get(eleEliminate).enable()
-    }else{
+    } else {
       this.ErrorStateOptionGroup.get(eleEliminate).disable()
     }
   }
@@ -160,23 +144,19 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
 
   checkError() {
     var checkTure = []
-
     Object.keys(this.ErrorStateOptionGroup.value).map(x => {
       if (this.ErrorStateOptionGroup.value[x] == true) {
         checkTure.push(x)
       }
     })
-    if (checkTure.length == 0) {
-      alert('請選擇異常狀態')
-    } else {
-      // console.log(this.checkTure)
-    }
     var all: number = 0
     for (let up of this.UploadFile) {
       all += (+up.Size)
     }
 
-    if (all > 10485760) {
+    if (checkTure.length == 0) {
+      alert('請選擇消除異常狀態')
+    } else if (all > 10485760) {
       alert('檔案不能超過10MB')
     } else if (!this.FlowDynamic_Base) {
       alert('請選擇簽核人員')
@@ -188,26 +168,50 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
   onSubmit() {
     var ExceptionalCode = ''
     var ExceptionalName = ''
-    if (this.getAttendCard.EarlyMins && !this.getAttendCard.EliminateEarly) {
+    if (this.getAttendCard.EarlyMins) {
       ExceptionalCode += '1,'
       ExceptionalName += '早退,'
     }
-    if (this.getAttendCard.LateMins && !this.getAttendCard.EliminateLate) {
+    if (this.getAttendCard.LateMins) {
       ExceptionalCode += '2,'
       ExceptionalName += '遲到,'
     }
-    if (this.getAttendCard.IsAbsent && !this.getAttendCard.EliminateAbsent) {
+    if (this.getAttendCard.IsAbsent) {
       ExceptionalCode += '3,'
       ExceptionalName += '未刷卡,'
     }
-    if (this.getAttendCard.OnBeforeMins && !this.getAttendCard.EliminateOnBefore) {
+    if (this.getAttendCard.OnBeforeMins) {
       ExceptionalCode += '4,'
       ExceptionalName += '早來,'
     }
-    if (this.getAttendCard.OffAfterMins && !this.getAttendCard.EliminateOffAfter) {
+    if (this.getAttendCard.OffAfterMins) {
       ExceptionalCode += '5,'
       ExceptionalName += '晚走,'
     }
+
+    var ExceptionalCodeCancel=''
+    var ExceptionalNameCancel=''
+    if (this.getAttendCard.EarlyMins && this.getAttendCard.EliminateEarly) {
+      ExceptionalCodeCancel += '1,'
+      ExceptionalNameCancel += '早退,'
+    }
+    if (this.getAttendCard.LateMins && this.getAttendCard.EliminateLate) {
+      ExceptionalCodeCancel += '2,'
+      ExceptionalNameCancel += '遲到,'
+    }
+    if (this.getAttendCard.IsAbsent && this.getAttendCard.EliminateAbsent) {
+      ExceptionalCodeCancel += '3,'
+      ExceptionalNameCancel += '未刷卡,'
+    }
+    if (this.getAttendCard.OnBeforeMins && this.getAttendCard.EliminateOnBefore) {
+      ExceptionalCodeCancel += '4,'
+      ExceptionalNameCancel += '早來,'
+    }
+    if (this.getAttendCard.OffAfterMins && this.getAttendCard.EliminateOffAfter) {
+      ExceptionalCodeCancel += '5,'
+      ExceptionalNameCancel += '晚走,'
+    }
+
     var State: StateClass = this.ErrorStateOptionGroup.value
     var AttendUnusualSaveAndFlowStart: AttendUnusualSaveAndFlowStartClass = new AttendUnusualSaveAndFlowStartClass()
     AttendUnusualSaveAndFlowStart = {
@@ -222,11 +226,11 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
             "RoteDateTimeE": this.getAttendCard.ActualRote_OffDateTime,
             "CardDateTimeB": this.getAttendCard.AttendCard_OnDateTime,
             "CardDateTimeE": this.getAttendCard.AttendCard_OffDateTime,
-            "EliminateLate": State.EliminateLate,
-            "EliminateEarly": State.EliminateEarly,
-            "EliminateAbsent": State.EliminateAbsent,
-            "EliminateOnBefore": State.EliminateOnBefore,
-            "EliminateOffAfter": State.EliminateOffAfter,
+            "EliminateLate": State.EliminateLate ? State.EliminateLate : false,
+            "EliminateEarly": State.EliminateEarly ? State.EliminateEarly : false,
+            "EliminateAbsent": State.EliminateAbsent ? State.EliminateAbsent : false,
+            "EliminateOnBefore": State.EliminateOnBefore ? State.EliminateOnBefore : false,
+            "EliminateOffAfter": State.EliminateOffAfter ? State.EliminateOffAfter : false,
             "CauseID": parseInt(this.sendForgetForm.CauseID1),
             "CauseName": this.sendForgetForm.CauseName1,
             "Info": "",
@@ -234,7 +238,9 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
             "State": "1",
             "UploadFile": this.UploadFile,
             "ExceptionalCode": ExceptionalCode,
-            "ExceptionalName": ExceptionalName,
+            "ExceptionalName": ExceptionalName, //有異常但沒註記
+            "ExceptionalCodeCancel": ExceptionalCodeCancel,
+            "ExceptionalNameCancel": ExceptionalNameCancel, //有異常且已經註記
             "RoteID": this.getAttendCard.RoteID,
             "RoteNameC": this.getAttendCard.RoteNameC
           }
@@ -245,26 +251,27 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
         "State": "1"
       },
       "FlowDynamic": {
-        "FlowNode": "504",
+        "FlowNode": "519",
         "RoleID": "",
         "EmpID": this.FlowDynamic_Base.EmpID,
         "DeptID": this.FlowDynamic_Base.DeptaID.toString(),
         "PosID": this.FlowDynamic_Base.JobID.toString()
       }
     }
-    console.log(AttendUnusualSaveAndFlowStart)
+    // console.log(AttendUnusualSaveAndFlowStart)
 
-    // this.LoadingPage.show()
-    // this.GetApiDataServiceService.getWebApiData_AttendUnusualSaveAndFlowStart(AttendUnusualSaveAndFlowStart)
-    // .pipe(takeWhile(() => this.api_subscribe))
-    // .subscribe((x) => {
-    //   if (x == 1) {
-    //     $('#sussesdialog').modal('show');
-    //   } else {
-    //     alert('送出失敗');
-    //   }
-    //   this.LoadingPage.hide()
-    // })
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_AttendUnusualSaveAndFlowStart(AttendUnusualSaveAndFlowStart)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((x: any) => {
+        if (x.isOK) {
+          $('#sussesdialog').modal('show');
+        } else {
+          alert(x.ErrorMsg);
+        }
+        this.LoadingPage.hide()
+      })
+
     // console.log(this.getAttendCard.forget_man_code)
     // console.log(this.getAttendCard.write_man_code)
     // console.log(this.sendForgetForm)

@@ -90,11 +90,18 @@
         <app-search-forget-form [getForgetData]="getApiForgetData" [getShowTransSign]="showTransSign"
             [getShowTake]="showTake" [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept"
             [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')"
-            *ngIf="isSearch && showSelectSearchForm == 'Card'"></app-search-forget-form>
+            *ngIf="isSearch && showSelectSearchForm == 'Card'">
+        </app-search-forget-form>
         <app-search-change-form [getChangeData]="getApiShiftRoteData" [getShowTransSign]="showTransSign"
             [getShowTake]="showTake" [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept"
             [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')"
-            *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'"></app-search-change-form>
+            *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'">
+        </app-search-change-form>
+        <app-search-attend-unusual-form [getFlowSignAttendUnusualApiData]="getFlowSignAttendUnusualApiData" [getShowTransSign]="showTransSign"
+            [getShowTake]="showTake" [getCatchMoreGetFlowViewDept]="CatchMoreGetFlowViewDept"
+            [CanSerchMore]="CanSerchMore" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+            *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'">
+        </app-search-attend-unusual-form>
         <!-- <button *ngIf="SearchVal.chooseRadio == 2 && CanSerchMore" (click)="MoreOnSearchForm()">
                 <ng-container i18n>載入更多資料</ng-container>
             </button> -->

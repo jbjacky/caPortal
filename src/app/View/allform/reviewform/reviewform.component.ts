@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { pagechange } from 'src/app/Models/pagechange';
-import { AllformReview, FlowSign, vaFlowSign, forgetFlowSign, delFlowSign, dateArrayClass, changeFlowSign } from 'src/app/Models/AllformReview';
+import { AllformReview, FlowSign, vaFlowSign, forgetFlowSign, delFlowSign, dateArrayClass, changeFlowSign, AttendUnusualFlowSign } from 'src/app/Models/AllformReview';
 import { ReviewformServiceService } from 'src/app/Service/reviewform-service.service';
 import { GetFlowSignRoleClass } from 'src/app/Models/PostData_API_Class/GetFlowSignRoleClass';
 import { formatDateTime, getapi_formatTimetoString, doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
@@ -30,6 +30,7 @@ import { SussesPutForwardSnackComponent } from '../../shareComponent/snackbar/su
 import { ErrorPutForwardSnackComponent } from '../../shareComponent/snackbar/error-put-forward-snack/error-put-forward-snack.component';
 import { SussesSendbackSnackComponent } from '../../shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
 import { ErrorSendbackSnackComponent } from '../../shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
+import { GetFlowSignAttendUnusualApiDataClass } from 'src/app/Models/GetFlowSignAttendUnusualApiDataClass';
 declare let $: any; //use jquery
 
 @Component({
@@ -53,6 +54,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
   del_pagechange = new pagechange();
   change_pagechange = new pagechange();
   forget_pagechange = new pagechange();
+  AttendUnusual_pagechange = new pagechange();
   // jumpPage_forget(e) {
   //   this.forget_pagechange.lowValue = e
   //   this.forget_pagechange.highValue = e + 5
@@ -155,11 +157,13 @@ export class ReviewformComponent implements OnInit, OnDestroy {
   delCount = '0';
   changeCount = '0';
   forgetCount = '0';
+  AttendUnusualCount = '0';
 
   vaFlowSigns: vaFlowSign[] = [];
   forgetFlowSigns: forgetFlowSign[] = [];
   delFlowSigns: delFlowSign[] = [];
   changeFlowSigns: changeFlowSign[] = [];
+  AttendUnusualFlowSigns: AttendUnusualFlowSign[] = [];
 
   chooseEmpIDReviewForm(EmpID, RoleID, getReviewDatas: AllformReview[]) {
     //取得明細
@@ -167,6 +171,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.forgetFlowSigns = [];
     this.delFlowSigns = [];
     this.changeFlowSigns = [];
+    this.AttendUnusualFlowSigns = []
 
     for (let getReviewData of getReviewDatas) {
       if (EmpID == getReviewData.EmpCode && RoleID == getReviewData.RoleID) {
@@ -178,11 +183,14 @@ export class ReviewformComponent implements OnInit, OnDestroy {
             //銷假單
             this.delCount = FlowSignForm.Count
           } else if (FlowSignForm.FormCode == 'Card') {
-            //考勤異常簽認單
+            //忘刷單
             this.forgetCount = FlowSignForm.Count
           } else if (FlowSignForm.FormCode == 'ShiftRote') {
             //調班單
             this.changeCount = FlowSignForm.Count
+          } else if (FlowSignForm.FormCode == 'AttendUnusual') {
+            //考勤異常確認
+            this.AttendUnusualCount = FlowSignForm.Count
           }
 
         }
@@ -222,6 +230,11 @@ export class ReviewformComponent implements OnInit, OnDestroy {
         $('#' + this.ReviewformServiceService.showReviewTab).click();
         this.forgetTabClick(this.ReviewformServiceService.showReviewMan);
       }
+      else if (this.ReviewformServiceService.showReviewTab == 'AttendUnusualTab') {
+        this.ReviewformServiceService.changeReview('AttendUnusualTab', this.ReviewformServiceService.showReviewMan);
+        $('#' + this.ReviewformServiceService.showReviewTab).click();
+        this.AttendUnusualTabClick(this.ReviewformServiceService.showReviewMan);
+      }
       else {
         this.LoadingPage.hide();
       }
@@ -252,6 +265,12 @@ export class ReviewformComponent implements OnInit, OnDestroy {
       $('#' + this.ReviewformServiceService.showReviewTab).click();
       // this.changeTabClick(this.ReviewformServiceService.showReviewMan)
       this.GetFlowData_change(EmpID, RoleID, getReviewDatas);
+    }
+    else if (parseInt(this.AttendUnusualCount) > 0) {
+      this.ReviewformServiceService.changeReview('AttendUnusualTab', this.ReviewformServiceService.showReviewMan);
+      $('#' + this.ReviewformServiceService.showReviewTab).click();
+      // this.AttendUnusualTabClick(this.ReviewformServiceService.showReviewMan)
+      this.GetFlowData_AttendUnusual(EmpID, RoleID, getReviewDatas);
     }
     else if (parseInt(this.forgetCount) > 0) {
       this.ReviewformServiceService.changeReview('forgetTab', this.ReviewformServiceService.showReviewMan);
@@ -366,6 +385,22 @@ export class ReviewformComponent implements OnInit, OnDestroy {
         "SignDate": ""
       }
       this.void_GetFlowSignRole(GetFlowSignRole, 'forgetTabClick')
+      window.scroll(0, 0)
+    }
+  }
+  AttendUnusualTabClick(selectReviewMan: AllformReview) {
+    if (this.FirstEmpCode.length != 0) {
+
+      this.LoadingPage.show()
+      var GetFlowSignRole: GetFlowSignRoleClass = {
+        "SignEmpID": this.FirstEmpCode,
+        "SignRoleID": "",
+        "RealSignEmpID": selectReviewMan.EmpCode,
+        "RealSignRoleID": selectReviewMan.RoleID,
+        "FlowTreeID": "83",
+        "SignDate": ""
+      }
+      this.void_GetFlowSignRole(GetFlowSignRole, 'AttendUnusualTabClick')
       window.scroll(0, 0)
     }
   }
@@ -513,6 +548,9 @@ export class ReviewformComponent implements OnInit, OnDestroy {
               } else if (ReloadOrChangeTabString == 'forgetTabClick') {
 
                 this.GetFlowData_forget(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, this.getReviewData)
+              } else if (ReloadOrChangeTabString == 'AttendUnusualTabClick') {
+
+                this.GetFlowData_AttendUnusual(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, this.getReviewData)
               }
 
 
@@ -572,7 +610,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
         (x: string) => {
           this.vaShowLimitText = x.toString()
           this.LoadingPage.hide()
-          
+
           $('#vaPutForwarddialog').modal('show')
         }
       )
@@ -588,8 +626,8 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.delDetail.FlowTreeID
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.delDetail.FlowNodeID
   }
-  del_PutForward(e_delFlowSign: delFlowSign, ReloadTabData){
-    this.delDetail_click(e_delFlowSign,ReloadTabData)
+  del_PutForward(e_delFlowSign: delFlowSign, ReloadTabData) {
+    this.delDetail_click(e_delFlowSign, ReloadTabData)
     this.showPutForwarddialog = true
     $('#PutForwarddialog').modal('show')
   }
@@ -653,13 +691,27 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.changeDetail.FlowNodeID
   }
 
-  change_PutForward(e_changeFlowSign: changeFlowSign, ReloadTabData){
-    this.changeDetail_click(e_changeFlowSign,ReloadTabData)
+  change_PutForward(e_changeFlowSign: changeFlowSign, ReloadTabData) {
+    this.changeDetail_click(e_changeFlowSign, ReloadTabData)
     this.showPutForwarddialog = true
     $('#PutForwarddialog').modal('show')
   }
 
 
+  AttendUnusualDetail_click(e_AttendUnusualFlowSign: AttendUnusualFlowSign, ReloadTabData) {
+    this.ReloadTabData = ReloadTabData;
+    this.signText = '';
+    this.ReviewformServiceService.AttendUnusualDetail = e_AttendUnusualFlowSign
+    this.FinallyReviewForm.ProcessFlowID = this.ReviewformServiceService.AttendUnusualDetail.ProcessFlowID
+    this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.AttendUnusualDetail.ProcessApParmAuto
+    this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.AttendUnusualDetail.FlowTreeID
+    this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.AttendUnusualDetail.FlowNodeID
+  }
+  checkAttendUnusualText_PutForward(e_AttendUnusualFlowSign: AttendUnusualFlowSign, ReloadTabData){
+    this.AttendUnusualDetail_click(e_AttendUnusualFlowSign, ReloadTabData)
+    this.showPutForwarddialog = true
+    $('#PutForwarddialog').modal('show')
+  }
   FlowDynamic_Base: GetSelectBaseClass;
   chooseBase(GetSelectBase: GetSelectBaseClass) {
     this.FlowDynamic_Base = GetSelectBase
@@ -679,6 +731,9 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     } else if (this.ReloadTabData == 'changeTab') {
       this.changeFlowSigns = []
       this.changeTabClick(this.ReviewformServiceService.showReviewMan);
+    } else if (this.ReloadTabData == 'AttendUnusualTab') {
+      this.changeFlowSigns = []
+      this.AttendUnusualTabClick(this.ReviewformServiceService.showReviewMan);
     } else {
       alert('取值錯誤')
     }
@@ -1001,9 +1056,37 @@ export class ReviewformComponent implements OnInit, OnDestroy {
           this.LoadingPage.hide()
         })
   }
-
-  GetFlowData_forget(EmpID: string, RoleID, getReviewDatas: AllformReview[]) {
+  GetFlowData_AttendUnusual(EmpID: string, RoleID, getReviewDatas: AllformReview[]) {
     //考勤異常簽認單
+    var today = new Date()
+    var GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass = {
+      RealSignEmpID: EmpID,
+      RealSignRoleID: RoleID,
+      SignDate: doFormatDate(today)
+    }
+
+    this.GetApiDataServiceService.getWebApiData_GetFlowSignAttendUnusual(GetFlowSignAbsGetApi)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: GetFlowSignAttendUnusualApiDataClass[]) => {
+          this.AttendUnusualFlowSigns =[]
+          this.AttendUnusualFlowSigns = JSON.parse(JSON.stringify(x))
+          // console.log(this.AttendUnusualFlowSigns)
+          for(let signs of  this.AttendUnusualFlowSigns){
+            signs.uiProcessFlowID = void_completionTenNum(signs.ProcessFlowID) 
+            signs.Date = formatDateTime(signs.Date).getDate
+          }
+          this.AttendUnusualFlowSigns.sort((a: any, b: any) => {
+            return b.ProcessFlowID - a.ProcessFlowID;
+          });
+
+          this.AttendUnusualCount = this.AttendUnusualFlowSigns.length.toString()
+          this.LoadingPage.hide()
+        }
+      )
+  }
+  GetFlowData_forget(EmpID: string, RoleID, getReviewDatas: AllformReview[]) {
+    //忘刷單
 
     var today = new Date()
     var GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass = {

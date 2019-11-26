@@ -54,14 +54,22 @@
             <span class="badge">{{changeCount}}</span>
           </a>
         </li>
-        <li style="width: 25%;text-align: center" (click)="forgetTabClick(ReviewformServiceService.showReviewMan)">
+        <li style="width: 25%;text-align: center" (click)="AttendUnusualTabClick(ReviewformServiceService.showReviewMan)">
+          <a id="AttendUnusualTab" data-toggle="tab" href="#AttendUnusualform" style="text-decoration: none;">
+            <span id="AttendUnusualTabText">
+              <ng-container i18n>考勤異常簽認單</ng-container>
+            </span>
+            <span class="badge">{{AttendUnusualCount}}</span>
+          </a>
+        </li>
+        <!-- <li style="width: 25%;text-align: center" (click)="forgetTabClick(ReviewformServiceService.showReviewMan)">
           <a id="forgetTab" data-toggle="tab" href="#forgetform" style="text-decoration: none;">
             <span id="forgetTabText">
-              <ng-container i18n>考勤異常簽認單</ng-container>
+              <ng-container i18n>忘刷單</ng-container>
             </span>
             <span class="badge">{{forgetCount}}</span>
           </a>
-        </li>
+        </li> -->
       </ul>
     </div>
 
@@ -629,6 +637,185 @@
         </div>
       </div>
       <!-- 調班單tab -->
+      <div id="AttendUnusualform" class="tab-pane">
+        <div class="panel-group">
+          <div class="row ReviewTitle_mobile">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
+            </div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>員工</ng-container>
+            </div>
+            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>申請時段</ng-container>
+            </div>
+            <div class="col-md-2" style="text-align: center">
+              <ng-container i18n>明細</ng-container>
+            </div>
+          </div>
+          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
+            <button class="AllCheckLeftButtonClass btn btn-primary"
+              (click)="Approved_All_Check(AttendUnusualFlowSigns,'AttendUnusualTab')">
+              <ng-container i18n>全部核准</ng-container>
+            </button>
+            <button class="btn btn-primary" (click)="Sendback_All_Check(AttendUnusualFlowSigns,'AttendUnusualTab')">
+              <ng-container i18n>全部退回</ng-container>
+            </button>
+          </div>
+          <div class="row ReviewTitle_desktop">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
+            </div>
+            <div class="col-md-9 col-xs-12 row" style="margin: 0;padding: 0">
+              <div class="col-md-10 col-xs-12 row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>單號</ng-container>
+                </div>
+                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>申請時段</ng-container>
+                </div>
+                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">異常狀態</div>
+              </div>
+              <div class="col-md-2 col-xs-12" style="margin: 0;padding: 0;text-align: center;">
+                <ng-container i18n>明細</ng-container>
+              </div>
+            </div>
+          </div>
+          <!-- <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
+          <!-- class="Atooltips" -->
+          <div *ngFor="let AttendUnusualFlowSign of AttendUnusualFlowSigns | 
+                    slice: AttendUnusual_pagechange.lowValue : AttendUnusual_pagechange.highValue">
+            <div class="row ReviewDiv">
+              <div class="col-md-9 col-md-push-3 col-xs-12 row" style="margin: 0px;padding: 0px 0px;border-left: 1px solid #c9c9c9;
+              padding-top: 0px;">
+                <div class="row col-md-10 col-xs-10" style="padding: 0px;margin:0px">
+                  <div class="col-md-2 col-xs-12 uiProssID">
+                    <div style="color:#028fcf;">
+                      {{AttendUnusualFlowSign.uiProcessFlowID}}
+                    </div>
+                  </div>
+                  <div class="col-md-7 col-xs-12 " style="margin-bottom: 5px;padding-top: 5px">
+                    <div>
+                      <div>
+                        {{AttendUnusualFlowSign.EmpCode}}
+                        <span *ngIf="AttendUnusualFlowSign.EmpNameC.length != 0">{{AttendUnusualFlowSign.EmpNameC}}</span>
+                        <span *ngIf="AttendUnusualFlowSign.EmpNameC.length == 0">{{AttendUnusualFlowSign.EmpNameE}}</span>
+                        <span style="color: blue" *ngIf="AttendUnusualFlowSign.checkProxy">
+                          (<ng-container i18n>代</ng-container>)
+                        </span>
+                      </div>
+                      <div>
+                        <!-- 2019年-1/02 -->
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>異常日期</ng-container>：
+                        </span> {{AttendUnusualFlowSign.Date}}
+                      </div>
+                      <!-- <div>
+                        <span style="font-weight: bold;color: #969696">異常狀態：</span>
+                        <div *ngIf="forgetFlowSign.isLateMins" class="tag_red" style="margin: 0px">遲到</div>
+                        <div *ngIf="forgetFlowSign.isEarlyMins" class="tag_red" style="margin: 0px">早退</div>
+                        <div *ngIf="forgetFlowSign.isForgetCard" class="tag_red" style="margin: 0px">未刷卡</div>
+                      </div> -->
+                      <div>
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>班型</ng-container>：
+                        </span>
+                        <span>{{AttendUnusualFlowSign.RoteCode}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="AttendUnusualTimeSum" class="col-md-3 col-xs-12 uiTimeSum">
+                    <span class="P_displayShow" style="font-weight: bold;color: #969696">
+                      <ng-container i18n>異常狀態</ng-container>：
+                    </span>
+                    <div *ngIf="AttendUnusualFlowSign.EliminateLate" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>遲到</ng-container>
+                    </div>
+                    <div *ngIf="AttendUnusualFlowSign.EliminateEarly" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>早退</ng-container>
+                    </div>
+                    <div *ngIf="AttendUnusualFlowSign.EliminateAbsent" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>未刷卡</ng-container>
+                    </div>
+                    <div *ngIf="AttendUnusualFlowSign.EliminateOnBefore" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>早來</ng-container>
+                    </div>
+                    <div *ngIf="AttendUnusualFlowSign.EliminateOffAfter" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>晚走</ng-container>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
+                  <a style="cursor: pointer;padding-left: 30px;"
+                    [routerLink]="['../ReviewformDetailAttendUnusualformComponent']"
+                    (click)="AttendUnusualDetail_click(AttendUnusualFlowSign,'AttendUnusualTab')">
+                    <span class="P_notVisable">
+                      <ng-container i18n>檢視</ng-container>
+                    </span>
+                    <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+                  </a>
+
+                </div>
+
+              </div>
+
+              <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
+
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="AttendUnusualFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
+                    style="padding: 5px 0px;text-align: center;width: 100%;" data-target="#Approveddialog" 
+                    (click)="AttendUnusualDetail_click(AttendUnusualFlowSign,'AttendUnusualTab')">
+                    <ng-container i18n>核准</ng-container>
+                  </button>
+                  <div *ngIf="!AttendUnusualFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-primary btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      <ng-container i18n>核准</ng-container>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="AttendUnusualFlowSign.isSendback">
+                  <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
+                    style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="AttendUnusualDetail_click(AttendUnusualFlowSign,'AttendUnusualTab')">
+                    <ng-container i18n>退回</ng-container>
+                  </button>
+                  <div *ngIf="!AttendUnusualFlowSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      <ng-container i18n>退回</ng-container>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="AttendUnusualFlowSign.isPutForward" class="btn btn-info btn-sm"
+                    style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
+                    (click)="checkAttendUnusualText_PutForward(AttendUnusualFlowSign,'AttendUnusualTab')">
+                    <ng-container i18n>呈核</ng-container>
+                  </button>
+                  <div *ngIf="!AttendUnusualFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      <ng-container i18n>呈核</ng-container>
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-paginator [length]="AttendUnusualFlowSigns.length" [pageSize]="AttendUnusual_pagechange.pageSize"
+            (page)="AttendUnusual_pagechange.pageEvent = AttendUnusual_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+          </mat-paginator>
+        </div>
+
+      </div>
+      <!-- 考勤異常簽認單tab -->
       <div id="forgetform" class="tab-pane">
         <div class="panel-group">
           <div class="row ReviewTitle_mobile">
@@ -801,7 +988,7 @@
         </div>
 
       </div>
-      <!-- 考勤異常簽認單tab -->
+      <!-- 忘刷單tab -->
     </div>
 
 

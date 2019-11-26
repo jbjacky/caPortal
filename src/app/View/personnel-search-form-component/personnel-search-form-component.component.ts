@@ -20,7 +20,9 @@ import { void_DateDiff, void_MonthDiff } from 'src/app/UseVoid/void_DateDiff';
 import { OutPutValClass } from '../shareComponent/choose-base-or-dept/choose-base-or-dept.component';
 import { GetFlowViewDeptClass } from 'src/app/Models/PostData_API_Class/GetFlowViewDeptClass';
 import { doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
-declare let $: any; //use jquery
+import { GetFlowSignAttendUnusualApiDataClass } from 'src/app/Models/GetFlowSignAttendUnusualApiDataClass';
+import { SearchAttendUnusualFormComponent } from '../shareComponent/search-attend-unusual-form/search-attend-unusual-form.component';
+declare let $: any; //use jquerysrc/app/View/shareComponent/search-attend-unusual-form/search-attend-unusual-form.component
 
 @Component({
   selector: 'app-personnel-search-form-component',
@@ -60,6 +62,7 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
   @ViewChild(SearchDelFormComponent) SearchDelFormComponent: SearchDelFormComponent;
   @ViewChild(SearchChangeFormComponent) SearchChangeFormComponent: SearchChangeFormComponent;
   @ViewChild(SearchForgetFormComponent) SearchForgetFormComponent: SearchForgetFormComponent;
+  @ViewChild(SearchAttendUnusualFormComponent) SearchAttendUnusualFormComponent: SearchAttendUnusualFormComponent;
   showTransSign: boolean = false
   showTake: boolean = false
   ngOnInit() {
@@ -318,9 +321,10 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
   getApiDelData: GetFlowViewAbscGetApiDataClass[] = []
   getApiForgetData: GetFlowViewCardGetApiDataClass[] = []
   getApiShiftRoteData: GetFlowViewShiftRoteGetApiDataClass[] = []
+  getFlowSignAttendUnusualApiData: GetFlowSignAttendUnusualApiDataClass[] = []
 
   getSearchFlowForm(GetFlowView: GetFlowViewClass) {
-    // console.log(GetFlowView)
+    console.log(GetFlowView)
 
     this.LoadingPage.show()
     this.isSearch = false
@@ -373,6 +377,19 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
         .subscribe(
           (GetFlowViewShiftRoteGetApiData: GetFlowViewShiftRoteGetApiDataClass[]) => {
             this.getApiShiftRoteData = GetFlowViewShiftRoteGetApiData
+            this.showForm(GetFlowView.FormCode)
+            this.LoadingPage.hide()
+          }, error => {
+            this.LoadingPage.hide()
+          }
+        )
+    } else if (GetFlowView.FormCode == 'AttendUnusual') {
+
+      this.GetApiDataServiceService.getWebApiData_GetFlowViewAttendUnusual(GetFlowView)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (GetFlowSignAttendUnusualApiData: GetFlowSignAttendUnusualApiDataClass[]) => {
+            this.getFlowSignAttendUnusualApiData =  JSON.parse(JSON.stringify(GetFlowSignAttendUnusualApiData)) 
             this.showForm(GetFlowView.FormCode)
             this.LoadingPage.hide()
           }, error => {
@@ -568,6 +585,8 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
       this.SearchDelFormComponent.onGoBackFunction();
     } else if (this.SearchChangeFormComponent) {
       this.SearchChangeFormComponent.onGoBackFunction();
+    } else if (this.SearchAttendUnusualFormComponent) {
+      this.SearchAttendUnusualFormComponent.onGoBackFunction();
     }
     this.TopresizeNav();
     this.windowSize()

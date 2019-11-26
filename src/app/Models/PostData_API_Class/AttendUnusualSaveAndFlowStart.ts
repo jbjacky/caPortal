@@ -35,6 +35,8 @@ export class FlowAppElement {
     UploadFile:        any[];
     ExceptionalCode:   string;
     ExceptionalName:   string;
+    ExceptionalCodeCancel:   string;
+    ExceptionalNameCancel:   string;
     RoteID:            number;
     RoteNameC:         string;
 }

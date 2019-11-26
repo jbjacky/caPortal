@@ -38,7 +38,7 @@ export class DetailNewVaSearchFlowSignClass {
   EmpCode: string
   EmpNameC: string
   AppDeptName: string
-  State: String
+  State: string
   ManageEmpName: string
   HoliDayID: number
   HoliDayNameC: number
@@ -62,8 +62,8 @@ export class DetailNewVaSearchFlowSignClass {
   hour: string
   minute: string
 
-  key: String
-  OldKey: String
-  ListHoliDayNameC:  Array<string>;
+  key: string
+  OldKey: string
+  ListHoliDayNameC:  Array<any>;
 }
 

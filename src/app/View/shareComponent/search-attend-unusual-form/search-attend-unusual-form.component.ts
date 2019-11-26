@@ -1,119 +1,84 @@
-import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { showFlowView } from '../../search-form/search-form.component';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
-import { takeWhile } from 'rxjs/operators';
-import { formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
-import { dateArrayClass, delFlowSign, YearAndDateClass } from 'src/app/Models/AllformReview';
-import { calYearindate } from 'src/app/UseVoid/void_calYearindate';
+import { GetAttendClass } from 'src/app/Models/PostData_API_Class/GetAttendClass';
+import { formatDateTime, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { GetAttendExceptionalClass } from 'src/app/Models/PostData_API_Class/GetAttendExceptionalClass';
 import { void_completionTenNum } from 'src/app/UseVoid/void_CompletionTenNum';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
-import { GetFlowViewAbscGetApiDataClass } from 'src/app/Models/GetFlowViewAbscGetApiDataClass';
+import { takeWhile, mergeMap, map, toArray } from 'rxjs/operators';
+import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
+import { from, BehaviorSubject, Observable } from 'rxjs';
+import { GetFlowViewCardGetApiDataClass } from 'src/app/Models/GetFlowViewCardGetApiDataClass';
 import { TransSignStateGetApiClass } from 'src/app/Models/PostData_API_Class/TransSignStateGetApiClass';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { GetFlowViewDeptClass } from 'src/app/Models/PostData_API_Class/GetFlowViewDeptClass';
+import { GetFlowSignAttendUnusualApiDataClass } from 'src/app/Models/GetFlowSignAttendUnusualApiDataClass';
 
 declare let $: any; //use jquery
 
 @Component({
-  selector: 'app-search-del-form',
-  templateUrl: './search-del-form.component.html',
-  styleUrls: ['./search-del-form.component.css']
+  selector: 'app-search-attend-unusual-form',
+  templateUrl: './search-attend-unusual-form.component.html',
+  styleUrls: ['./search-attend-unusual-form.component.css']
 })
-export class SearchDelFormComponent implements OnInit, OnDestroy {
+export class SearchAttendUnusualFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // throw new Error("Method not implemented.");
     this.api_subscribe = false;
   }
 
-  @Input() getDelData: GetFlowViewAbscGetApiDataClass[]
+  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
+
+  @Input() getFlowSignAttendUnusualApiData: GetFlowSignAttendUnusualApiDataClass[]
   @Input() getShowTransSign: boolean
   @Input() getShowTake: boolean
-  delSearchFlowSign: delSearchFlowSignClass[] = [];
-  showDelDataDetail: boolean = false  // 顯示明細
+
+  AttendUnusualSearchFlowSign: AttendUnusualSearchFlowSignClass[] = []
 
   MoreSearchPage = 1
   @Input() CanSerchMore: boolean = false
   @Input() getCatchMoreGetFlowViewDept: GetFlowViewDeptClass
 
-  api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
-
-  SearchMan = { EmpCode: '', EmpNameC: '' }
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
     private LoadingPage: NgxSpinnerService,
     private GetApiUserService: GetApiUserService) { }
+  SearchMan = { EmpCode: '', EmpNameC: '' }
 
   ngOnInit() {
     this.GetApiUserService.counter$
       .subscribe(
-        (x:any) => {
-          if(x!=0){
+        (x: any) => {
+          if (x != 0) {
             this.SearchMan.EmpCode = x.EmpID
             this.SearchMan.EmpNameC = x.EmpNameC
           }
         }
       )
-    this.GetFlowData_del(this.getDelData)
+    // console.log(this.getForgetData)
+    this.GetFlowData_AttendUnusual(this.getFlowSignAttendUnusualApiData)
   }
 
 
-  GetFlowData_del(GetFlowViewAbscGetApiData: GetFlowViewAbscGetApiDataClass[]) {
-    //銷假單
-    for (let data of GetFlowViewAbscGetApiData) {
-      var ischeckProxy: boolean = false
-      if (data.EmpID != data.AppEmpID) {
-        ischeckProxy = true
-      }
-      var allDay = 0
-      var allHour = 0
-      var allMinute = 0
-      //計算日時分
-      allDay = data.UseDayHourMinute.Day
-      allHour = data.UseDayHourMinute.Hour
-      allMinute = data.UseDayHourMinute.Minute
-      var YearAndDateArray = []
-      for (let OneDate of data.FlowViewAbscDate) {
-        YearAndDateArray.push(formatDateTime(OneDate.DateTimeB).getDate)
-      }
-      this.delSearchFlowSign.push({
-        ProcessFlowID: data.ProcessFlowID,
-        showProcessFlowID: void_completionTenNum(data.ProcessFlowID),
-        EmpCode: data.EmpID,//申請人工號
-        EmpNameC: data.EmpName,//申請人姓名
-        AppDeptName: data.DeptName,//申請人部門
-        State: data.State,
-        ManageEmpName: data.ManageEmpName,
-        Take: data.Take,
-        Note: '',
-        Handle: data.Handle,
-        TransSign: data.TransSign,
+  GetFlowData_AttendUnusual(GetFlowSignAttendUnusualApiData: GetFlowSignAttendUnusualApiDataClass[]) {
+    //考勤異常簽認單
 
-        checkProxy: ischeckProxy, //是否為代填表單
-        WriteEmpCode: data.AppEmpID, //填寫人
-        WriteEmpNameC: data.AppEmpName,//填寫人
-
-        YearAndDate: calYearindate(YearAndDateArray),
-        dateArray: YearAndDateArray,
-        day: allDay.toString(),
-        hour: allHour.toString(),
-        minute: allMinute.toString(),
-        numberOfVaData: data.AbscCount.toString()
-      })
-    }
   }
+
+  showAttendUnusualDataDetail: boolean = false  // 顯示明細
   @Output() gotoShowFormPlace: EventEmitter<number> = new EventEmitter<number>();
-  setToNextDelDataTitle: delSearchFlowSignClass //給明細用的title資料
-  nextShowDetail(setToNextDelDataTitle: delSearchFlowSignClass) {
+  nextShowDetail() {
+
     // console.log(setToNextVaDataTitle)
 
     this.gotoShowFormPlace.emit();
 
-    this.showDelDataDetail = true
-    this.setToNextDelDataTitle = setToNextDelDataTitle
+    this.showAttendUnusualDataDetail = true
   }
 
   onGoBackFunction() {
-    this.showDelDataDetail = false
+    this.showAttendUnusualDataDetail = false
     this.gotoShowFormPlace.emit();
     // window.scroll(0, 0);
     //回列表
@@ -159,7 +124,7 @@ export class SearchDelFormComponent implements OnInit, OnDestroy {
             (x: any) => {
               if (x.Finish) {
                 $('#TransSignformSussesdialog').modal('show')
-              }else{
+              } else {
                 alert(x.MessageContent)
               }
               this.LoadingPage.hide()
@@ -172,6 +137,7 @@ export class SearchDelFormComponent implements OnInit, OnDestroy {
       alert('請選擇簽核人員')
     }
   }
+
   /**
    * @todo 抽單
    */
@@ -186,11 +152,11 @@ export class SearchDelFormComponent implements OnInit, OnDestroy {
       .subscribe(
         (x: any) => {
           if (x.Finish) {
-            // this.delSearchFlowSign.splice(this.delSearchFlowSign.indexOf(this.takeForm), 1)
-            this.delSearchFlowSign[this.delSearchFlowSign.indexOf(this.takeForm)].State = '7'
-            this.delSearchFlowSign[this.delSearchFlowSign.indexOf(this.takeForm)].Take = false
+            // this.forgetSearchFlowSign.splice(this.forgetSearchFlowSign.indexOf(this.takeForm), 1)
+            // this.AttendUnusualSearchFlowSign[this.AttendUnusualSearchFlowSign.indexOf(this.takeForm)].State = '7'
+            // this.AttendUnusualSearchFlowSign[this.AttendUnusualSearchFlowSign.indexOf(this.takeForm)].Take = false
             $('#sussesdialog').modal('show')
-          }else{
+          } else {
             alert(x.MessageContent)
           }
           this.LoadingPage.hide()
@@ -203,11 +169,10 @@ export class SearchDelFormComponent implements OnInit, OnDestroy {
   }
 
 
-  
   MoreOnSearchForm() {
     if (this.CanSerchMore) {
       this.MoreSearchPage = this.MoreSearchPage + 1
-    }else{}
+    } else { }
     this.getCatchMoreGetFlowViewDept.PageCurrent = this.MoreSearchPage
     this.getMoreSearchFlowForm_Dept(this.getCatchMoreGetFlowViewDept)
   }
@@ -215,12 +180,12 @@ export class SearchDelFormComponent implements OnInit, OnDestroy {
 
     this.LoadingPage.show()
 
-    this.GetApiDataServiceService.getWebApiData_GetFlowViewAbscByDept(GetFlowViewDept)
+    this.GetApiDataServiceService.getWebApiData_GetFlowViewAttendUnusualByDept(GetFlowViewDept)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        (GetFlowViewAbscGetApiData: GetFlowViewAbscGetApiDataClass[]) => {
-          if (GetFlowViewAbscGetApiData.length > 0) {
-            this.GetFlowData_del(GetFlowViewAbscGetApiData)
+        (GetFlowSignAttendUnusualApiData: GetFlowSignAttendUnusualApiDataClass[]) => {
+          if (GetFlowSignAttendUnusualApiData.length > 0) {
+            this.GetFlowData_AttendUnusual(GetFlowSignAttendUnusualApiData)
             this.CanSerchMore = true
           } else {
             this.CanSerchMore = false
@@ -233,31 +198,32 @@ export class SearchDelFormComponent implements OnInit, OnDestroy {
       )
 
   }
-
 }
 
-export class delSearchFlowSignClass {
-  ProcessFlowID: number
-  showProcessFlowID: number
-  EmpCode: string
-  EmpNameC: string
-  AppDeptName: string
-  State: string
-  ManageEmpName: string
-  Take: boolean
-  TransSign: boolean
-  Note: string
-  Handle: boolean
-
-  checkProxy: boolean //是否為代填表單
-  WriteEmpCode: string //填寫人
-  WriteEmpNameC: string //填寫人
-
-  YearAndDate: YearAndDateClass[];
-  dateArray: dateArrayClass[];
-  day: string;
-  hour: string;
-  minute: string;
-  numberOfVaData: string;
+export class AttendUnusualSearchFlowSignClass {
+  ProcessFlowID: number;
+  FlowTreeID: string;
+  FlowNodeID: string;
+  ProcessApParmAuto: number;
+  EmpCode: string;
+  EmpNameC: string;
+  EmpNameE: string;
+  isApproved: boolean;
+  isSendback: boolean;
+  isPutForward: boolean;
+  WriteEmpCode: string;
+  WriteEmpNameC: string;
+  checkProxy: boolean;
+  ExceptionalCode: string;
+  ExceptionalName: string;
+  ExceptionalCancelCode: string;
+  ExceptionalCancelName: string;
+  Date: string;
+  RoteCode: string;
+  EliminateLate: boolean;
+  EliminateEarly: boolean;
+  EliminateOnBefore: boolean;
+  EliminateOffAfter: boolean;
+  EliminateAbsent: boolean;
 
 }

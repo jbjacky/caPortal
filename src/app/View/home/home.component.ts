@@ -198,9 +198,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     vaCount: 0,
     delCount: 0,
     changeCount: 0,
-    forgetCount: 0
+    forgetCount: 0,
+    AttendUnusualCount: 0
   }
-  DL_showReviewCount:boolean=false
+  DL_showReviewCount: boolean = false
   showReviewCount(EmpID: string) {
     this.LoadingPage.show()
     this.DL_showReviewCount = false
@@ -221,7 +222,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             vaCount: 0,
             delCount: 0,
             forgetCount: 0,
-            changeCount: 0
+            changeCount: 0,
+            AttendUnusualCount: 0
           }
           if (x.length > 0) {
             for (let data of x) {
@@ -242,6 +244,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
                 } else if (ApiFlowSignForm.FormCode == 'ShiftRote') {
                   //忘刷單
                   this.ReviewCount.changeCount += parseInt(ApiFlowSignForm.Count)
+                } else if (ApiFlowSignForm.FormCode == 'AttendUnusual') {
+                  //考勤異常確認單
+                  this.ReviewCount.AttendUnusualCount += parseInt(ApiFlowSignForm.Count)
                 }
               }
             }
@@ -256,10 +261,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       )
   }
 
-  DL_showallnews:boolean = false
+  DL_showallnews: boolean = false
   AllNewsList: GetNewsClass[] = []
   showallnews() {
-    this.DL_showallnews = false 
+    this.DL_showallnews = false
     var DateB = new Date()
     var GetNewsByDateNowGetApi: GetNewsByDateNowGetApiClass = {
       "DateNow": doFormatDate(DateB.toString()),
@@ -300,7 +305,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
             // console.log(this.AllNewsList)
           }
-          this.DL_showallnews = true 
+          this.DL_showallnews = true
           this.LoadingPage.hide()
         },
         error => {
@@ -335,7 +340,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     //   }
     // )
   }
-  DL_showAttendExceptionalByDept_Today:boolean = false
+  DL_showAttendExceptionalByDept_Today: boolean = false
   TodayAttend: Array<any> = []
   showAttendExceptionalByDept_Today(GetBaseInfoDetail: GetBaseInfoDetailClass) {
     this.DL_showAttendExceptionalByDept_Today = false
@@ -377,7 +382,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       )
   }
-  DL_showAbsDetailByDept:boolean = false
+  DL_showAbsDetailByDept: boolean = false
   AllAbsEmp: showAllAbsEmpClass[] = []
   showAbsDetailByDept(GetBaseInfoDetail: GetBaseInfoDetailClass) {
     this.DL_showAbsDetailByDept = false
@@ -446,7 +451,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       )
   }
-  DL_setWeekjobs:boolean = false
+  DL_setWeekjobs: boolean = false
   weekjobs: weekjobs[] = [];
 
   setWeekjobs(GetBaseInfoDetail: GetBaseInfoDetailClass) {
@@ -542,7 +547,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.router.navigate([`/nav/NewsShowDetailComponent/${oneNews.NewsID}`]);
     // [routerLink]="['/nav/NewsShowDetailComponent/'+oneNews.NewsID]"
   }
-  DL_showHoliDayBalance:boolean = false
+  DL_showHoliDayBalance: boolean = false
   showHoliDayBalance(EmpID: string) {
     this.LoadingPage.show()
     this.DL_showHoliDayBalance = false
@@ -782,12 +787,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       )
 
   }
-  DL_showAttendExceptionalCount:boolean  = false
-  showAttendExceptionalCount:boolean = true
+  DL_showAttendExceptionalCount: boolean = false
+  showAttendExceptionalCount: boolean = true
   AttendExceptionalCount: number = 0
   setGetAttendExceptionalCount(EmpID: string) {
     var today = new Date()
-    this.DL_showAttendExceptionalCount  = false
+    this.DL_showAttendExceptionalCount = false
     var GetAttendExceptionalCount: GetAttendExceptionalCountClass = {
       "DateB": "2019/08/01",
       "DateE": doFormatDate(today),
@@ -801,9 +806,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         (x: number) => {
           this.AttendExceptionalCount = x
           this.DL_showAttendExceptionalCount = true
-          if(x>0){
+          if (x > 0) {
             this.showAttendExceptionalCount = true
-          }else{
+          } else {
             this.showAttendExceptionalCount = false
           }
         }
@@ -905,6 +910,7 @@ class ReviewCountClass {
   delCount: number;
   changeCount: number;
   forgetCount: number;
+  AttendUnusualCount: number;
 }
 
 

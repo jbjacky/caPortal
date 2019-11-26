@@ -58,6 +58,7 @@ import { ErrorPutForwardSnackComponent } from '../View/shareComponent/snackbar/e
 import { SussesPutForwardSnackComponent } from '../View/shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
 import { SussesSendbackSnackComponent } from '../View/shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
 import { ErrorSendbackSnackComponent } from '../View/shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
+import { SearchAttendUnusualFormComponent } from '../View/shareComponent/search-attend-unusual-form/search-attend-unusual-form.component';
 
 @NgModule({
   imports: [
@@ -94,6 +95,7 @@ import { ErrorSendbackSnackComponent } from '../View/shareComponent/snackbar/err
     SearchDelFormComponent,
     SearchVaFormComponent,
     SearchChangeFormComponent,
+    SearchAttendUnusualFormComponent,
     SharecalendarComponent,
     SimulationClalenderComponent,
     SearchVaDetailComponent,
@@ -153,6 +155,7 @@ import { ErrorSendbackSnackComponent } from '../View/shareComponent/snackbar/err
     SearchDelFormComponent,
     SearchVaFormComponent,
     SearchChangeFormComponent,
+    SearchAttendUnusualFormComponent,
     SharecalendarComponent,
     SimulationClalenderComponent,
     SearchVaDetailComponent,
