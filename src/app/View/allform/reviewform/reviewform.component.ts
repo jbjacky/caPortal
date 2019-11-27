@@ -307,6 +307,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.delCount = '0';
     this.changeCount = '0';
     this.forgetCount = '0';
+    this.AttendUnusualCount = '0';
     // this.loading = true;
     // this.LoadingPage.show()
     this.getReviewData = []
@@ -314,6 +315,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.forgetFlowSigns = [];
     this.changeFlowSigns = [];
     this.delFlowSigns = [];
+    this.AttendUnusualFlowSigns = [];
     this.ReviewformServiceService.getReviewData = [];
 
     var GetFlowSignRole: GetFlowSignRoleClass = {
@@ -335,6 +337,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.delCount = '0';
     this.changeCount = '0';
     this.forgetCount = '0';
+    this.AttendUnusualCount = '0';
     // this.loading = true;
     this.LoadingPage.show()
     this.isFirstTab = true;
@@ -343,6 +346,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.forgetFlowSigns = [];
     this.changeFlowSigns = [];
     this.delFlowSigns = [];
+    this.AttendUnusualFlowSigns = [];
     this.ReviewformServiceService.getReviewData = [];
 
     var GetFlowSignRole: GetFlowSignRoleClass = {
