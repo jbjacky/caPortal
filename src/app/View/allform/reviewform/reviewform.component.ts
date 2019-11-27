@@ -879,8 +879,8 @@ export class ReviewformComponent implements OnInit, OnDestroy {
                 isPutForward: aa.isPutForward,
 
                 checkProxy: aa.checkProxy, //是否為代填表單
-                WriteEmpCode: aa.EmpCode, //填寫人
-                WriteEmpNameC: aa.EmpNameC, //填寫人
+                WriteEmpCode: aa.WriteEmpCode, //填寫人
+                WriteEmpNameC: aa.WriteEmpNameC, //填寫人
 
                 Appointment: aa.Appointment,//是否為預排假單
 
@@ -937,8 +937,8 @@ export class ReviewformComponent implements OnInit, OnDestroy {
                 isSendback: bb.isSendback,
                 isPutForward: bb.isPutForward,
 
-                WriteEmpCode: bb.EmpCode, //填寫人
-                WriteEmpNameC: bb.EmpNameC, //填寫人
+                WriteEmpCode: bb.WriteEmpCode, //填寫人
+                WriteEmpNameC: bb.WriteEmpNameC, //填寫人
 
                 checkProxy: bb.checkProxy,
                 YearAndDate: calYearindate(bb.dateArray),
