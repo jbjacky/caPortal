@@ -3,22 +3,22 @@
     <h3>
       <ng-container i18n>查詢結果</ng-container>
     </h3>
-    <div class="row P_div" *ngFor="let oneforgetData of getAttendUnusualSearchFlowSign">
+    <div class="row P_div" *ngFor="let oneAttendUnusualData of getAttendUnusualSearchFlowSign">
       <div class="row col-md-3 col-xs-12 P_borderBottom">
         <div class="col-md-6   col-xs-7  col-md-push-5" style="color: #326299;padding:3px 0px;">
           <div>
-            <!-- 0000020110 -->{{oneforgetData.showProcessFlowID}}
+            <!-- 0000020110 -->{{oneAttendUnusualData.showProcessFlowID}}
           </div>
           <div>
             <ng-container i18n>考勤異常簽認單</ng-container>
             <a style="cursor: pointer;" data-toggle="modal" data-target="#Cancelformdialog"
-              (click)="takeForm = oneforgetData">
-              <span *ngIf="oneforgetData.Take && getShowTake">
+              (click)="takeForm = oneAttendUnusualData">
+              <span *ngIf="oneAttendUnusualData.Take && getShowTake">
                 (<ng-container i18n>抽單</ng-container>)
               </span>
             </a>
-            <a style="cursor: pointer;" data-toggle="modal" (click)="checkTransSignForm(oneforgetData)">
-              <span *ngIf="oneforgetData.TransSign && getShowTransSign">
+            <a style="cursor: pointer;" data-toggle="modal" (click)="checkTransSignForm(oneAttendUnusualData)">
+              <span *ngIf="oneAttendUnusualData.TransSign && getShowTransSign">
                 (<ng-container i18n>轉呈</ng-container>)
               </span>
             </a>
@@ -27,19 +27,19 @@
         </div>
         <div class="col-md-4   col-xs-5  col-md-pull-5" style="padding: 0;text-align: center;
           padding-top: 10px;">
-          <div class="tag_blue" *ngIf="oneforgetData.State=='1'">
+          <div class="tag_blue" *ngIf="oneAttendUnusualData.State=='1'">
             <ng-container i18n>呈核中</ng-container>
           </div>
-          <div class="tag_skyblue" *ngIf="oneforgetData.State=='3'">
+          <div class="tag_skyblue" *ngIf="oneAttendUnusualData.State=='3'">
             <ng-container i18n>已核准</ng-container>
           </div>
-          <div class="tag_red" *ngIf="oneforgetData.State=='2'">
+          <div class="tag_red" *ngIf="oneAttendUnusualData.State=='2'">
             <ng-container i18n>重擬</ng-container>
           </div>
-          <div class="tag_gray" *ngIf="oneforgetData.State=='7'">
+          <div class="tag_gray" *ngIf="oneAttendUnusualData.State=='7'">
             <ng-container i18n>已抽單</ng-container>
           </div>
-          <div class="tag_gray" *ngIf="oneforgetData.Handle">
+          <div class="tag_gray" *ngIf="oneAttendUnusualData.Handle">
             <ng-container i18n>處理中</ng-container>
           </div>
         </div>
@@ -48,13 +48,13 @@
         <div class="col-md-9 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0">
           <div class="row" style="margin: 0;padding-bottom: 5px;">
             <div class="col-md-4 col-xs-12" style="padding: 0">
-              <!-- 643345 李大仁 --> {{oneforgetData.EmpID}} {{oneforgetData.EmpName}}<span
-                *ngIf="oneforgetData.checkProxy" style="color: blue">
+              <!-- 643345 李大仁 --> {{oneAttendUnusualData.EmpID}} {{oneAttendUnusualData.EmpName}}<span
+                *ngIf="oneAttendUnusualData.checkProxy" style="color: blue">
                 (<ng-container i18n>代</ng-container>)
               </span>
             </div>
             <div class="col-md-8 col-xs-12" style="padding: 0">
-              <!-- 計劃發展部 --> {{oneforgetData.AppDeptName}}
+              <!-- 計劃發展部 --> {{oneAttendUnusualData.DeptName}}
             </div>
           </div>
           <div class="row" style="margin: 0;padding-bottom: 5px;">
@@ -62,31 +62,31 @@
               <span style="color: #969696">
                 <ng-container i18n>日期</ng-container>：
               </span>
-              <!--2019/01/18-->{{oneforgetData.Date}}
+              <!--2019/01/18-->{{oneAttendUnusualData.Date}}
             </div>
             <div class="col-md-4 col-xs-12" style="padding: 0">
               <span style="color: #969696">
                 <ng-container i18n>班型</ng-container>：
               </span>
-              <!--040A_02-->{{oneforgetData.RoteNameC}}
+              <!--040A_02-->{{oneAttendUnusualData.RoteNameC}}
             </div>
             <div class="col-md-4 col-xs-12" style="padding: 0">
               <span style="color: #969696">
                 <ng-container i18n>異常狀態</ng-container>：
               </span>
-              <span *ngIf="oneforgetData.EliminateEarly" style="margin-right: 5px;">
+              <span *ngIf="oneAttendUnusualData.EliminateEarly" style="margin-right: 5px;">
                 <ng-container i18n>早退</ng-container>
               </span>
-              <span *ngIf="oneforgetData.EliminateLate" style="margin-right: 5px;">
+              <span *ngIf="oneAttendUnusualData.EliminateLate" style="margin-right: 5px;">
                 <ng-container i18n>遲到</ng-container>
               </span>
-              <span *ngIf="oneforgetData.EliminateAbsent" style="margin-right: 5px;">
+              <span *ngIf="oneAttendUnusualData.EliminateAbsent" style="margin-right: 5px;">
                 <ng-container i18n>未刷卡</ng-container>
               </span>
-              <span *ngIf="oneforgetData.EliminateOnBefore" style="margin-right: 5px;">
+              <span *ngIf="oneAttendUnusualData.EliminateOnBefore" style="margin-right: 5px;">
                 <ng-container i18n>早來</ng-container>
               </span>
-              <span *ngIf="oneforgetData.EliminateOffAfter" style="margin-right: 5px;">
+              <span *ngIf="oneAttendUnusualData.EliminateOffAfter" style="margin-right: 5px;">
                 <ng-container i18n>晚走</ng-container>
               </span>
             </div>
@@ -94,14 +94,14 @@
         </div>
         <div class="col-md-3 col-xs-12" style="padding: 0">
           <div class="P_height"></div>
-          <div *ngIf="oneforgetData.ManageEmpName && oneforgetData.State=='1'">
-            {{oneforgetData.ManageEmpName}}
+          <div *ngIf="oneAttendUnusualData.ManageEmpName && oneAttendUnusualData.State=='1'">
+            {{oneAttendUnusualData.ManageEmpName}}
             <ng-container i18n> 簽核中 </ng-container>
           </div>
         </div>
       </div>
       <div class="row col-md-1 col-xs-2 P_ptop">
-        <a style="cursor: pointer;text-decoration:underline" (click)="nextShowDetail(oneforgetData)">
+        <a style="cursor: pointer;text-decoration:underline" (click)="nextShowDetail(oneAttendUnusualData)">
           <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
         </a>
       </div>

@@ -165,8 +165,8 @@ export class SearchAttendUnusualFormComponent implements OnInit, OnDestroy {
         (x: any) => {
           if (x.Finish) {
             // this.forgetSearchFlowSign.splice(this.forgetSearchFlowSign.indexOf(this.takeForm), 1)
-            // this.AttendUnusualSearchFlowSign[this.AttendUnusualSearchFlowSign.indexOf(this.takeForm)].State = '7'
-            // this.AttendUnusualSearchFlowSign[this.AttendUnusualSearchFlowSign.indexOf(this.takeForm)].Take = false
+            this.getAttendUnusualSearchFlowSign[this.getAttendUnusualSearchFlowSign.indexOf(this.takeForm)].State = '7'
+            this.getAttendUnusualSearchFlowSign[this.getAttendUnusualSearchFlowSign.indexOf(this.takeForm)].Take = false
             $('#sussesdialog').modal('show')
           } else {
             alert(x.MessageContent)

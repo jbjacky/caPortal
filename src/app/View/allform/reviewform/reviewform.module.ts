@@ -19,6 +19,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from 'src/app/Service/http_interceptor';
 import { TimeoutInterceptor } from 'src/app/_guards/TimeoutInterceptor';
 import { ReviewformServiceService } from 'src/app/Service/reviewform-service.service';
+import { ReviewformDetailAttendUnusualformComponent } from '../../../View/allform/reviewform/reviewform-detail-attend-unusualform/reviewform-detail-attend-unusualform.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -36,7 +37,8 @@ import { ReviewformServiceService } from 'src/app/Service/reviewform-service.ser
     ReviewformDetailForgetformComponent,
     ReviewformDetailChangeformComponent,
     ReviewformDetailChangeformRRComponent,
-    ReviewformDetailChangeformRZComponent
+    ReviewformDetailChangeformRZComponent,
+    ReviewformDetailAttendUnusualformComponent
   ],
   providers: [
     ReviewformServiceService,

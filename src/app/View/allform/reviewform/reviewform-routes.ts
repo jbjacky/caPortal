@@ -8,6 +8,7 @@ import { ReviewformDetailForgetformComponent } from './reviewform-detail-forgetf
 import { ReviewformDetailChangeformComponent } from './reviewform-detail-changeform/reviewform-detail-changeform.component';
 import { ReviewformDetailChangeformRRComponent } from './reviewform-detail-changeform-rr/reviewform-detail-changeform-rr.component';
 import { ReviewformDetailChangeformRZComponent } from './reviewform-detail-changeform-rz/reviewform-detail-changeform-rz.component';
+import { ReviewformDetailAttendUnusualformComponent } from './reviewform-detail-attend-unusualform/reviewform-detail-attend-unusualform.component';
 
 const routes: Routes = [
     {
@@ -39,6 +40,10 @@ const routes: Routes = [
     {
         path: "ReviewformDetailChangeformRZComponent",
         component: ReviewformDetailChangeformRZComponent,
+    },
+    {
+        path: "ReviewformDetailAttendUnusualformComponent",
+        component: ReviewformDetailAttendUnusualformComponent,
     },
     
 ];
