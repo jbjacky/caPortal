@@ -1,12 +1,12 @@
 
 export class NewVaSearchFlowSignClass {
-  uiHolidayName:Array<string>;
+  uiHolidayName:Array<any>;
   ProcessFlowID: number
   showProcessFlowID: number
   EmpCode: string
   EmpNameC: string
   AppDeptName: string
-  State: String
+  State: string
   ManageEmpName: string
   HoliDayID: number
   HoliDayNameC: number
@@ -29,8 +29,8 @@ export class NewVaSearchFlowSignClass {
   hour: string
   minute: string
 
-  key: String
-  OldKey: String
+  key: string
+  OldKey: string
 }
 export class DetailNewVaSearchFlowSignClass {
   ProcessFlowID: number
