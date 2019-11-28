@@ -27,11 +27,11 @@ import { ErrorPutForwardSnackComponent } from 'src/app/View/shareComponent/snack
 declare let $: any; //use jquery
 
 @Component({
-  selector: 'app-reviewform-detail-forgetform',
-  templateUrl: './reviewform-detail-forgetform.component.html',
-  styleUrls: ['./reviewform-detail-forgetform.component.css']
+  selector: 'app-reviewform-detail-card-patchform',
+  templateUrl: './reviewform-detail-card-patchform.component.html',
+  styleUrls: ['./reviewform-detail-card-patchform.component.css']
 })
-export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
+export class ReviewformDetailCardPatchformComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // throw new Error("Method not implemented.");
     this.api_subscribe = false;
@@ -102,8 +102,8 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
         this.FirstEmpCode = x.EmpCode
       }
     )
-    // console.log(this.ReviewformServiceService.forgetDetail)
-    if (!this.ReviewformServiceService.forgetDetail) {
+    // console.log(this.ReviewformServiceService.CardPatchFlowSignDetail)
+    if (!this.ReviewformServiceService.CardPatchFlowSignDetail) {
       this.router.navigate(['../nav/reviewform']);
     } else {
 
@@ -144,8 +144,8 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
 
     this.LoadingPage.show()
 
-    this.GetApiDataServiceService.getWebApiData_GetCardFlowAppsByProcessFlowID(this.ReviewformServiceService.forgetDetail.ProcessFlowID, true)
-    .pipe(takeWhile(() => this.api_subscribe))       
+    this.GetApiDataServiceService.getWebApiData_GetCardPatchFlowAppsByProcessFlowID(this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID, true)
+    .pipe(takeWhile(() => this.api_subscribe))  
     .subscribe(
         (data: GetCardFlowAppsByProcessFlowIDDataClass[]) => {
           this.GetCardFlowAppsByProcessFlowIDData = data[0]
@@ -209,32 +209,38 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
   
   forgetShowCheckText = ''
   checkforgetCardText_Approved() {
+    $('#forgetApproveddialog').modal('show')
     this.LoadingPage.show()
-    this.GetApiDataServiceService.getWebApiData_CardCheckByProcessFlowID(this.ReviewformServiceService.forgetDetail.ProcessFlowID)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (x: string) => {
-          this.forgetShowCheckText = x.toString()
-          this.LoadingPage.hide()
-          $('#forgetApproveddialog').modal('show')
-        }
-      )
+    // this.GetApiDataServiceService.getWebApiData_CardCheckByProcessFlowID(this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID)
+    //   .pipe(takeWhile(() => this.api_subscribe))
+    //   .subscribe(
+    //     (x: string) => {
+    //       this.forgetShowCheckText = x.toString()
+    //       this.LoadingPage.hide()
+    //       $('#forgetApproveddialog').modal('show')
+    //     }
+    //   )
   }
   checkforgetCardText_PutForward() {
-    this.LoadingPage.show()
-    this.GetApiDataServiceService.getWebApiData_CardCheckByProcessFlowID(this.ReviewformServiceService.forgetDetail.ProcessFlowID)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (x: string) => {
-          this.forgetShowCheckText = x.toString()
-          this.LoadingPage.hide()
-          if (!this.FlowDynamic_Base) {
-            alert('請選擇呈核人員')
-          } else {
-            $('#forgetPutForwarddialog').modal('show');
-          }
-        }
-      )
+    if (!this.FlowDynamic_Base) {
+      alert('請選擇呈核人員')
+    } else {
+      $('#forgetPutForwarddialog').modal('show');
+    }
+    // this.LoadingPage.show()
+    // this.GetApiDataServiceService.getWebApiData_CardCheckByProcessFlowID(this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID)
+    //   .pipe(takeWhile(() => this.api_subscribe))
+    //   .subscribe(
+    //     (x: string) => {
+    //       this.forgetShowCheckText = x.toString()
+    //       this.LoadingPage.hide()
+    //       if (!this.FlowDynamic_Base) {
+    //         alert('請選擇呈核人員')
+    //       } else {
+    //         $('#forgetPutForwarddialog').modal('show');
+    //       }
+    //     }
+    //   )
   }
 
   Approved_Click() {
@@ -250,16 +256,16 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
             this.signText = ''
           }
           var FlowNodeFinish: FlowNodeFinishClass = {
-            ProcessFlowID: parseInt(this.ReviewformServiceService.forgetDetail.ProcessFlowID),
-            ProcessApParmAuto: parseInt(this.ReviewformServiceService.forgetDetail.ProcessApParmAuto),
+            ProcessFlowID: parseInt(this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID),
+            ProcessApParmAuto: parseInt(this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessApParmAuto),
             State: "3",
-            FlowTreeID: this.ReviewformServiceService.forgetDetail.FlowTreeID,
-            FlowNodeID: this.ReviewformServiceService.forgetDetail.FlowNodeID,
+            FlowTreeID: this.ReviewformServiceService.CardPatchFlowSignDetail.FlowTreeID,
+            FlowNodeID: this.ReviewformServiceService.CardPatchFlowSignDetail.FlowNodeID,
             Note: this.signText,
             NodeName: "核准",
             ManInfo: y[0],
             FlowDynamic: {
-              FlowNode: this.ReviewformServiceService.forgetDetail.FlowNodeID,
+              FlowNode: this.ReviewformServiceService.CardPatchFlowSignDetail.FlowNodeID,
               RoleID: this.ReviewformServiceService.showReviewMan.RoleID,
               EmpID: this.ReviewformServiceService.showReviewMan.EmpCode,
               DeptID: '',
@@ -317,16 +323,16 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
             this.signText = ''
           }
           var FlowNodeFinish: FlowNodeFinishClass = {
-            ProcessFlowID: parseInt(this.ReviewformServiceService.forgetDetail.ProcessFlowID),
-            ProcessApParmAuto: parseInt(this.ReviewformServiceService.forgetDetail.ProcessApParmAuto),
+            ProcessFlowID: parseInt(this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID),
+            ProcessApParmAuto: parseInt(this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessApParmAuto),
             State: "2",
-            FlowTreeID: this.ReviewformServiceService.forgetDetail.FlowTreeID,
-            FlowNodeID: this.ReviewformServiceService.forgetDetail.FlowNodeID,
+            FlowTreeID: this.ReviewformServiceService.CardPatchFlowSignDetail.FlowTreeID,
+            FlowNodeID: this.ReviewformServiceService.CardPatchFlowSignDetail.FlowNodeID,
             Note: this.signText,
             NodeName: "重擬",
             ManInfo: y[0],
             FlowDynamic: {
-              FlowNode: this.ReviewformServiceService.forgetDetail.FlowNodeID,
+              FlowNode: this.ReviewformServiceService.CardPatchFlowSignDetail.FlowNodeID,
               RoleID: this.ReviewformServiceService.showReviewMan.RoleID,
               EmpID: this.ReviewformServiceService.showReviewMan.EmpCode,
               DeptID: '',
@@ -384,16 +390,16 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
             this.signText = ''
           }
           var FlowNodeFinish: FlowNodeFinishClass = {
-            ProcessFlowID: parseInt(this.ReviewformServiceService.forgetDetail.ProcessFlowID),
-            ProcessApParmAuto: parseInt(this.ReviewformServiceService.forgetDetail.ProcessApParmAuto),
+            ProcessFlowID: parseInt(this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID),
+            ProcessApParmAuto: parseInt(this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessApParmAuto),
             State: "1",
-            FlowTreeID: this.ReviewformServiceService.forgetDetail.FlowTreeID,
-            FlowNodeID: this.ReviewformServiceService.forgetDetail.FlowNodeID,
+            FlowTreeID: this.ReviewformServiceService.CardPatchFlowSignDetail.FlowTreeID,
+            FlowNodeID: this.ReviewformServiceService.CardPatchFlowSignDetail.FlowNodeID,
             Note: this.signText,
             NodeName: "呈核",
             ManInfo: y[0],
             FlowDynamic: {
-              FlowNode: this.ReviewformServiceService.forgetDetail.FlowNodeID,
+              FlowNode: this.ReviewformServiceService.CardPatchFlowSignDetail.FlowNodeID,
               RoleID: '',
               EmpID: this.FlowDynamic_Base.EmpID.toString(),
               DeptID: this.FlowDynamic_Base.DeptaID.toString(),
@@ -452,7 +458,7 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
 
   color_CardOnTime() {
 
-    if (this.ReviewformServiceService.forgetDetail.isLateMins || this.ReviewformServiceService.forgetDetail.isForgetCard) {
+    if (this.ReviewformServiceService.CardPatchFlowSignDetail.isLateMins || this.ReviewformServiceService.CardPatchFlowSignDetail.isForgetCard) {
       return '#d0021b'
     } else {
       return '#4c4c4c'
@@ -460,7 +466,7 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
   }
   color_CardOffTime() {
 
-    if (this.ReviewformServiceService.forgetDetail.isEarlyMins || this.ReviewformServiceService.forgetDetail.isForgetCard) {
+    if (this.ReviewformServiceService.CardPatchFlowSignDetail.isEarlyMins || this.ReviewformServiceService.CardPatchFlowSignDetail.isForgetCard) {
       return '#d0021b'
     } else {
       return '#4c4c4c'
@@ -510,5 +516,6 @@ class showFormSign extends FormSign {
   SignDateday: string;
   SignDateTime: string;
 }
+
 
 

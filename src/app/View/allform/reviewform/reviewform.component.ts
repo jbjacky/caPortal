@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { pagechange } from 'src/app/Models/pagechange';
-import { AllformReview, FlowSign, vaFlowSign, forgetFlowSign, delFlowSign, dateArrayClass, changeFlowSign, AttendUnusualFlowSign } from 'src/app/Models/AllformReview';
+import { AllformReview, FlowSign, vaFlowSign, forgetFlowSign, delFlowSign, dateArrayClass, changeFlowSign, AttendUnusualFlowSign, CardPatchFlowSign } from 'src/app/Models/AllformReview';
 import { ReviewformServiceService } from 'src/app/Service/reviewform-service.service';
 import { GetFlowSignRoleClass } from 'src/app/Models/PostData_API_Class/GetFlowSignRoleClass';
 import { formatDateTime, getapi_formatTimetoString, doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
@@ -55,6 +55,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
   change_pagechange = new pagechange();
   forget_pagechange = new pagechange();
   AttendUnusual_pagechange = new pagechange();
+  CardPatch_pagechange = new pagechange();
   // jumpPage_forget(e) {
   //   this.forget_pagechange.lowValue = e
   //   this.forget_pagechange.highValue = e + 5
@@ -158,12 +159,14 @@ export class ReviewformComponent implements OnInit, OnDestroy {
   changeCount = '0';
   forgetCount = '0';
   AttendUnusualCount = '0';
+  CardPatchCount = '0';
 
   vaFlowSigns: vaFlowSign[] = [];
   forgetFlowSigns: forgetFlowSign[] = [];
   delFlowSigns: delFlowSign[] = [];
   changeFlowSigns: changeFlowSign[] = [];
   AttendUnusualFlowSigns: AttendUnusualFlowSign[] = [];
+  CardPatchFlowSigns: CardPatchFlowSign[] = []
 
   chooseEmpIDReviewForm(EmpID, RoleID, getReviewDatas: AllformReview[]) {
     //取得明細
@@ -191,6 +194,8 @@ export class ReviewformComponent implements OnInit, OnDestroy {
           } else if (FlowSignForm.FormCode == 'AttendUnusual') {
             //考勤異常確認
             this.AttendUnusualCount = FlowSignForm.Count
+          } else if (FlowSignForm.FormCode == 'CardPatch') {
+            this.CardPatchCount = FlowSignForm.Count
           }
 
         }
@@ -272,6 +277,12 @@ export class ReviewformComponent implements OnInit, OnDestroy {
       // this.AttendUnusualTabClick(this.ReviewformServiceService.showReviewMan)
       this.GetFlowData_AttendUnusual(EmpID, RoleID, getReviewDatas);
     }
+    else if (parseInt(this.CardPatchCount) > 0) {
+      this.ReviewformServiceService.changeReview('CardPatchTab', this.ReviewformServiceService.showReviewMan);
+      $('#' + this.ReviewformServiceService.showReviewTab).click();
+      // this.CardPatchTabClick(this.ReviewformServiceService.showReviewMan)
+      this.GetFlowData_CardPatch(EmpID, RoleID, getReviewDatas);
+    }
     else if (parseInt(this.forgetCount) > 0) {
       this.ReviewformServiceService.changeReview('forgetTab', this.ReviewformServiceService.showReviewMan);
       $('#' + this.ReviewformServiceService.showReviewTab).click();
@@ -308,6 +319,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.changeCount = '0';
     this.forgetCount = '0';
     this.AttendUnusualCount = '0';
+    this.CardPatchCount = '0';
     // this.loading = true;
     // this.LoadingPage.show()
     this.getReviewData = []
@@ -338,6 +350,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.changeCount = '0';
     this.forgetCount = '0';
     this.AttendUnusualCount = '0';
+    this.CardPatchCount = '0';
     // this.loading = true;
     this.LoadingPage.show()
     this.isFirstTab = true;
@@ -437,6 +450,23 @@ export class ReviewformComponent implements OnInit, OnDestroy {
         "SignDate": ""
       }
       this.void_GetFlowSignRole(GetFlowSignRole, 'changeTabClick')
+      window.scroll(0, 0)
+    }
+  }
+
+  CardPatchTabClick(selectReviewMan: AllformReview) {
+    if (this.FirstEmpCode.length != 0) {
+
+      this.LoadingPage.show()
+      var GetFlowSignRole: GetFlowSignRoleClass = {
+        "SignEmpID": this.FirstEmpCode,
+        "SignRoleID": "",
+        "RealSignEmpID": selectReviewMan.EmpCode,
+        "RealSignRoleID": selectReviewMan.RoleID,
+        "FlowTreeID": "82",
+        "SignDate": ""
+      }
+      this.void_GetFlowSignRole(GetFlowSignRole, 'CardPatchTabClick')
       window.scroll(0, 0)
     }
   }
@@ -555,6 +585,9 @@ export class ReviewformComponent implements OnInit, OnDestroy {
               } else if (ReloadOrChangeTabString == 'AttendUnusualTabClick') {
 
                 this.GetFlowData_AttendUnusual(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, this.getReviewData)
+              } else if (ReloadOrChangeTabString == 'CardPatchTabClick') {
+
+                this.GetFlowData_CardPatch(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, this.getReviewData)
               }
 
 
@@ -635,6 +668,23 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.showPutForwarddialog = true
     $('#PutForwarddialog').modal('show')
   }
+  CardPatchDetail_click(e_CardPatchFlowSign: CardPatchFlowSign, ReloadTabData) {
+    this.ReloadTabData = ReloadTabData;
+    this.signText = '';
+    this.ReviewformServiceService.CardPatchFlowSignDetail = e_CardPatchFlowSign
+    this.FinallyReviewForm.ProcessFlowID = this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID
+    this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessApParmAuto
+    this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.CardPatchFlowSignDetail.FlowTreeID
+    this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.CardPatchFlowSignDetail.FlowNodeID
+  }
+  checkCardPatch_Approved(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
+    this.CardPatchDetail_click(e_forgetFlowSign, ReloadTabData)
+    $('#Approveddialog').modal('show')
+  }
+  checkCardPatch_PutForward(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
+    this.CardPatchDetail_click(e_forgetFlowSign, ReloadTabData)
+    $('#PutForwarddialog').modal('show')
+  }
   forgetDetail_click(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
     this.ReloadTabData = ReloadTabData;
     this.signText = '';
@@ -711,7 +761,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.AttendUnusualDetail.FlowTreeID
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.AttendUnusualDetail.FlowNodeID
   }
-  checkAttendUnusualText_PutForward(e_AttendUnusualFlowSign: AttendUnusualFlowSign, ReloadTabData){
+  checkAttendUnusualText_PutForward(e_AttendUnusualFlowSign: AttendUnusualFlowSign, ReloadTabData) {
     this.AttendUnusualDetail_click(e_AttendUnusualFlowSign, ReloadTabData)
     this.showPutForwarddialog = true
     $('#PutForwarddialog').modal('show')
@@ -736,8 +786,11 @@ export class ReviewformComponent implements OnInit, OnDestroy {
       this.changeFlowSigns = []
       this.changeTabClick(this.ReviewformServiceService.showReviewMan);
     } else if (this.ReloadTabData == 'AttendUnusualTab') {
-      this.changeFlowSigns = []
+      this.AttendUnusualFlowSigns = []
       this.AttendUnusualTabClick(this.ReviewformServiceService.showReviewMan);
+    } else if (this.ReloadTabData == 'CardPatchTab') {
+      this.CardPatchFlowSigns = []
+      this.CardPatchTabClick(this.ReviewformServiceService.showReviewMan);
     } else {
       alert('取值錯誤')
     }
@@ -1060,6 +1113,92 @@ export class ReviewformComponent implements OnInit, OnDestroy {
           this.LoadingPage.hide()
         })
   }
+
+  GetFlowData_CardPatch(EmpID: string, RoleID, getReviewDatas: AllformReview[]) {
+    //補卡單
+
+    var today = new Date()
+    var GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass = {
+      RealSignEmpID: EmpID,
+      RealSignRoleID: RoleID,
+      SignDate: doFormatDate(today)
+    }
+    this.GetApiDataServiceService.getWebApiData_GetFlowSignCard(GetFlowSignAbsGetApi)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (GetFlowSignCardApiData: GetFlowSignCardApiDataClass[]) => {
+
+          this.CardPatchFlowSigns = []
+
+          if (GetFlowSignCardApiData) {
+
+            for (let cc of GetFlowSignCardApiData) {
+              var ExceptionalNameArray = []
+              ExceptionalNameArray = cc.ExceptionalName.split(',')
+              var _isForgetCard: boolean = false
+              var _isEarlyMins: boolean = false
+              var _isLateMins: boolean = false
+              for (let e of ExceptionalNameArray) {
+                if (e == '未刷卡') {
+                  _isForgetCard = true
+                } else if (e == '早退') {
+                  _isEarlyMins = true
+                } else if (e == '遲到') {
+                  _isLateMins = true
+                }
+              }
+              this.CardPatchFlowSigns.push({
+                uiProcessFlowID: void_completionTenNum(cc.ProcessFlowID),
+                ProcessFlowID: cc.ProcessFlowID.toString(),
+                FlowTreeID: cc.FlowTreeID,
+                FlowNodeID: cc.FlowNodeID,
+                ProcessApParmAuto: cc.ProcessApParmAuto.toString(),
+                EmpCode: cc.EmpCode,
+                EmpNameC: cc.EmpNameC,
+                EmpNameE: cc.EmpNameE,
+                isApproved: cc.isApproved,
+                isSendback: cc.isSendback,
+                isPutForward: cc.isPutForward,
+                isForgetCard: _isForgetCard,
+                isEarlyMins: _isEarlyMins,
+                isLateMins: _isLateMins,
+
+                checkProxy: cc.checkProxy,
+                WriteEmpCode: cc.EmpCode,
+                WriteEmpNameC: cc.EmpNameC,
+
+                Date: formatDateTime(cc.Date).getDate.toString(),
+                RoteCode: cc.RoteCode,
+                RoteTimeB: null,
+                RoteTimeE: null,
+
+                writeDateB: null,
+                writeTimeB: null,
+                writeDateE: null,
+                writeTimeE: null,
+                cardTimeB: null,
+                cardTimeE: null,
+                CauseID1: null,
+                CauseName1: null,
+                Note: null,
+
+                ActualRote_calCrossDay: null,
+                AttendCard_calCrossDay: null,
+                WriteRote_calCrossDay: null
+              })
+
+            }
+          }
+          this.CardPatchFlowSigns.sort((a: any, b: any) => {
+            return b.ProcessFlowID - a.ProcessFlowID;
+          });
+
+          this.CardPatchCount = this.CardPatchFlowSigns.length.toString()
+          this.LoadingPage.hide()
+
+        })
+
+  }
   GetFlowData_AttendUnusual(EmpID: string, RoleID, getReviewDatas: AllformReview[]) {
     //考勤異常簽認單
     var today = new Date()
@@ -1073,11 +1212,11 @@ export class ReviewformComponent implements OnInit, OnDestroy {
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: GetFlowSignAttendUnusualApiDataClass[]) => {
-          this.AttendUnusualFlowSigns =[]
+          this.AttendUnusualFlowSigns = []
           this.AttendUnusualFlowSigns = JSON.parse(JSON.stringify(x))
           // console.log(this.AttendUnusualFlowSigns)
-          for(let signs of  this.AttendUnusualFlowSigns){
-            signs.uiProcessFlowID = void_completionTenNum(signs.ProcessFlowID) 
+          for (let signs of this.AttendUnusualFlowSigns) {
+            signs.uiProcessFlowID = void_completionTenNum(signs.ProcessFlowID)
             signs.Date = formatDateTime(signs.Date).getDate
           }
           this.AttendUnusualFlowSigns.sort((a: any, b: any) => {

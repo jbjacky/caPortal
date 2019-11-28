@@ -491,6 +491,16 @@ export class GetApiDataServiceService {
     })
   }
 
+  /**
+   * @todo 補卡-儲存並起單
+   */
+  getWebApiData_CardPatchSaveAndFlowStart(ForgetSaveAndFlowStart: ForgetSaveAndFlowStartClass) {
+    return this.http.post(this.localUrl + 'Flow/CardPatchFlowHandler.svc/SaveAndFlowStart',
+      JSON.stringify(ForgetSaveAndFlowStart), {
+      headers: this.GetHeader()
+    })
+  }
+
 
   /**
    * @todo 取得意願備註表(個人)
@@ -610,6 +620,16 @@ export class GetApiDataServiceService {
    */
   getWebApiData_GetAttendUnusualFlowAppsByProcessFlowID(ProcessFlowID,Miniature) {
     return this.http.post(this.localUrl + 'Flow/AttendUnusualFlowHandler.svc/GetAttendUnusualFlowAppsByProcessFlowID',
+    JSON.stringify({ "ProcessFlowID": ProcessFlowID, "Miniature": Miniature }), {
+      headers: this.GetHeader()
+    })
+
+  }
+  /**
+   * @todo 取得註記單流程資料(審核頁面)
+   */
+  getWebApiData_GetCardPatchFlowAppsByProcessFlowID(ProcessFlowID,Miniature) {
+    return this.http.post(this.localUrl + 'Flow/CardFPatchlowHandler.svc/GetCardFlowAppsByProcessFlowID',
     JSON.stringify({ "ProcessFlowID": ProcessFlowID, "Miniature": Miniature }), {
       headers: this.GetHeader()
     })
@@ -1827,6 +1847,16 @@ export class GetApiDataServiceService {
     })
   }
   
+
+  /**
+   * @todo 取得班別資訊-補卡單
+   */
+  getWebApiData_GetAttendForCardPatch(GetAttendExceptional: GetAttendExceptionalClass) {
+    return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendForCardPatch',
+      JSON.stringify({ "DateB": GetAttendExceptional.DateB, "DateE": GetAttendExceptional.DateE, "ListEmpID": GetAttendExceptional.ListEmpID }), {
+      headers: this.GetHeader()
+    })
+  }
 
 }
 

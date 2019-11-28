@@ -189,6 +189,51 @@ export class dateArrayClass{
 }
 
 
+export class CardPatchFlowSign{
+
+  uiProcessFlowID:string;
+  ProcessFlowID: string;
+  FlowTreeID:string
+  FlowNodeID:string
+  ProcessApParmAuto:string
+  EmpCode:string;
+  EmpNameC:string;
+  EmpNameE:string;
+  isApproved: boolean
+  isSendback: boolean
+  isPutForward: boolean
+
+  ActualRote_calCrossDay:boolean
+  AttendCard_calCrossDay:boolean
+  WriteRote_calCrossDay:boolean
+  
+  checkProxy:boolean
+  WriteEmpCode:string;
+  WriteEmpNameC:string;
+  
+  // State:string;
+  isForgetCard:boolean
+  isEarlyMins:boolean
+  isLateMins:boolean
+
+  Date:string;
+  RoteCode:string;
+
+  RoteTimeB:string
+  RoteTimeE:string
+
+  writeDateB:string;
+  writeTimeB:string;
+  writeDateE:string;
+  writeTimeE:string;
+  cardTimeB:string;
+  cardTimeE:string;
+
+  CauseID1:string;
+  CauseName1:string;
+  Note:string;
+
+}
 export class AttendUnusualFlowSign {
   uiProcessFlowID:       number;
   ProcessFlowID:         string;

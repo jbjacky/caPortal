@@ -290,20 +290,20 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
         TimeE: sumbit_formatTimetoString($('#id_ipt_endtime').val()),
       }
       this.LoadingPage.show()
-      this.GetApiDataServiceService.getWebApiData_CardCheck(CardCheck)
-        .pipe(takeWhile(() => this.api_subscribe))
-        .subscribe(
-          y => {
-            this.forgetShowCheckText = y.toString()
-            this.GetApiDataServiceService.getWebApiData_FlowCardCheck(FlowCardCheck)
-              .pipe(takeWhile(() => this.api_subscribe))
-              .subscribe(
-                r => {
-                  this.forgetShowCheckFlowText = r.toString()
+      // this.GetApiDataServiceService.getWebApiData_CardCheck(CardCheck)
+      //   .pipe(takeWhile(() => this.api_subscribe))
+      //   .subscribe(
+      //     y => {
+      //       this.forgetShowCheckText = y.toString()
+      //       this.GetApiDataServiceService.getWebApiData_FlowCardCheck(FlowCardCheck)
+      //         .pipe(takeWhile(() => this.api_subscribe))
+      //         .subscribe(
+      //           r => {
+                  // this.forgetShowCheckFlowText = r.toString()
                   $('#checksenddialog').modal('show');
                   this.LoadingPage.hide()
-                })
-          })
+          //       })
+          // })
     }
   }
   onSubmit() {
@@ -416,7 +416,7 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
 
       // console.log(SaveAndFlowStart)
       this.LoadingPage.show()
-      this.GetApiDataServiceService.getWebApiData_SaveAndFlowStart(ForgetSaveAndFlowStart)
+      this.GetApiDataServiceService.getWebApiData_CardPatchSaveAndFlowStart(ForgetSaveAndFlowStart)
         .pipe(takeWhile(() => this.api_subscribe))
         .subscribe(x => {
           // console.log(SaveAndFlowStart)

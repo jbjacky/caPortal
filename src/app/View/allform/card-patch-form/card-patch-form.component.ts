@@ -253,7 +253,7 @@ export class CardPatchFormComponent implements OnInit, AfterViewInit, OnDestroy 
 
   searchAttendExceptional(GetAttendExceptional) {
     this.LoadingPage.show()
-    this.GetApiDataServiceService.getWebApiData_GetAttendExceptional(GetAttendExceptional)
+    this.GetApiDataServiceService.getWebApiData_GetAttendForCardPatch(GetAttendExceptional)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe((data: any) => {
         // console.log(data)
