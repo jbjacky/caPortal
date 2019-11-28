@@ -109,6 +109,8 @@ import { TimeoutInterceptor } from 'src/app/_guards/TimeoutInterceptor';
 import { PersonnelSearchVaComponent } from '../personnel-search-va/personnel-search-va.component';
 import { RmStateFormComponent } from '../allform/rm-state-form/rm-state-form.component';
 import { RmStateFormWriteComponent } from '../allform/rm-state-form/rm-state-form-write/rm-state-form-write.component';
+import { CardPatchFormComponent } from '../allform/card-patch-form/card-patch-form.component';
+import { CardPatchFormWriteComponent } from '../allform/card-patch-form/card-patch-form-write/card-patch-form-write.component';
 
 const MY_DATE_FORMATS = {
   parse: {
@@ -188,6 +190,8 @@ export class MyDateAdapter extends NativeDateAdapter {
     ChangeformComponent,
     ChangeRzNRComponent,
     ForgetformWriteComponent,
+    CardPatchFormComponent,
+    CardPatchFormWriteComponent,
     OwnSearchComponent,
     SearchAttendanceComponent,
     PersonnelSearchComponent,

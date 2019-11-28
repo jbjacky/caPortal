@@ -101,10 +101,10 @@ export class SearchAttendUnusualFormComponent implements OnInit, OnDestroy {
   private Sub_onChangeReviewMan$: BehaviorSubject<any> = new BehaviorSubject(0)
   onChangeReviewMan$: Observable<any> = this.Sub_onChangeReviewMan$; //切換換審核人員給選擇簽核人員使用
   FlowDynamic_Base: GetSelectBaseClass;
-  checkTransSignForm(oneforgetData) {
-    // console.log(oneforgetData)
-    this.transSignForm = oneforgetData
-    this.Sub_onChangeReviewMan$.next(oneforgetData.EmpCode)
+  checkTransSignForm(oneAttendUnusualData) {
+    // console.log(oneAttendUnusualData)
+    this.transSignForm = oneAttendUnusualData
+    this.Sub_onChangeReviewMan$.next(oneAttendUnusualData.EmpID)
 
     $('#TransSignformdialog').modal('show')
   }

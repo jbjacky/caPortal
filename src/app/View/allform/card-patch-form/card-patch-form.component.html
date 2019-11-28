@@ -1,0 +1,362 @@
+<div *ngIf="!isWriteforgetform">
+  <section class="a-block stateblock">
+    <div class="a-block-body  a-block-container">
+      <ol class="steps-indicator row">
+        <li class="col-sm-3  active">
+          <ng-container i18n>選擇欲填寫之簽認單</ng-container>
+        </li>
+        <li class="col-sm-3">
+          <ng-container i18n>填寫考勤異常簽認單</ng-container>
+        </li>
+        <li class="col-sm-3">
+          <ng-container i18n>送出申請單</ng-container>
+        </li>
+      </ol>
+    </div>
+    <!-- a-block-body End -->
+  </section>
+  <div class="a-block" *ngIf="showBlockIsAssistant">
+    <div class="a-block-body  a-block-container">
+
+      <div class="row" style="margin: 0px;margin-bottom: 15px;">
+        <h3 style="margin: 0;">
+          <ng-container i18n>行政區塊</ng-container>
+        </h3>
+        <div class="col-md-6 col-xs-12  P_dashed">
+          <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right;padding-top: 6px;">
+            <span class="form-must-fill">*</span>
+            <ng-container i18n>員工</ng-container>
+          </label>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6 col-xs-6" style="padding: 0;">
+                <input id="Assistant_ChooseEmpCode" type="text" class="form-control" placeholder="員工號"
+                  [(ngModel)]="EmpBase.EmpCode" maxlength="6" (blur)="chooseEmp()">
+                <div *ngIf="errorEmp.state" style="color: #e60012">{{errorEmp.errorString}}</div>
+              </div>
+              <div class="col-md-2 col-xs-3" style="height: 23px;padding: 0px;padding-left: 2px;text-align: center;">
+                <button data-toggle="modal" data-target="#chooseEmpdialog"
+                  style="cursor: pointer;border: 0;background: 0">
+                  <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+                </button>
+              </div>
+
+              <div class="col-md-4 col-xs-3"
+                style="height: 23px;padding: 0px;padding-left: 2px;text-align: center;padding-top: 6px;">
+                {{EmpBase.Name}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-xs-12  P_dashed">
+          <div class="col-md-3 col-xs-12  P_textLeft">
+            <label class="control-label">
+              <ng-container i18n>填寫人</ng-container>
+            </label>
+          </div>
+          <div class="col-md-9  col-xs-12 P_paddingLRZ">
+            <label class="control-label" style="font-weight: normal;padding-top: 6px;">{{User.write_man_code}}
+              {{User.write_man_name}}</label>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row" style="margin: 0px">
+        <div class="col-md-6 firstinone-form-group">
+          <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right;padding-top: 6px;">
+            <span class="form-must-fill">*</span>
+            <ng-container i18n>起始日期</ng-container>
+          </label>
+          <div class="col-md-8">
+            <div class="row writerow">
+              <div class="col-md-6 col-xs-10" style="padding: 0px">
+                <input [matDatepicker]="StartDatePicker" id="id_ipt_startday" [(ngModel)]="searchDateB" type="text"
+                  class="form-control" style="background-color: #ffffff;" placeholder="年/月/日"
+                  (blur)="SerchStartDateChange()" (dateChange)="SerchStartDateChange()" />
+                <div *ngIf="errorStartDate.state" style="color: #e60012">{{errorStartDate.errorString}}</div>
+
+                <mat-datepicker #StartDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+              </div>
+              <!--  -->
+              <div class="col-md-2 col-xs-2" style="padding: 0px">
+                <input (click)="StartDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                                  cursor: pointer;
+                                  color: transparent;
+                                  border: 1px solid transparent;
+                                  width: 50px;
+                                  height: 40px;
+                                  margin-left: 3px;">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 firstintwo-form-group">
+          <label class="col-md-3 control-label" style="padding: 0px;text-align: right;padding-top: 6px;">
+            <span class="form-must-fill">*</span>
+            <ng-container i18n>結束日期</ng-container>
+          </label>
+          <div class="col-md-8">
+            <div class="row ">
+              <div class="col-md-6 col-xs-10 P_paddingLRZ">
+                <input [matDatepicker]="EndDatePicker" id="id_ipt_endday" [(ngModel)]="searchDateE" type="text"
+                  class="form-control" style="background-color: #ffffff;" placeholder="年/月/日" (blur)="blurEndDate()"
+                  (dateChange)="blurEndDate()" />
+                <div *ngIf="errorEndDate.state" style="color: #e60012">{{errorEndDate.errorString}}</div>
+
+                <mat-datepicker #EndDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+              </div>
+              <!--  -->
+              <div class="col-md-2 col-xs-2" style="padding: 0px">
+                <input (click)="EndDatePicker.open()" data-modal="true" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                                    cursor: pointer;
+                                    color: transparent;
+                                    border: 1px solid transparent;
+                                    width: 50px;
+                                    height: 40px;
+                                    margin-left: 3px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin: 0px">
+        <div class="col-md-6">
+          <div class="col-md-4 col-md-offset-4" style="padding: 0">
+            <button class="btn btn-primary" (click)="onSearch()">
+              <ng-container i18n>查詢</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="a-block">
+    <div class="a-block-body  a-block-container">
+      <h3 style="margin:0px;margin-bottom: 10px">
+        <ng-container i18n>出勤異常日</ng-container>
+      </h3>
+      <div style="margin-bottom: 10px">
+        <label>
+          <ng-container i18n>員工</ng-container>
+        </label> {{showSearchEmp.EmpCode}} {{showSearchEmp.EmpNameC}}
+      </div>
+      <div *ngIf=" AttendCard.length == 0 && !errorEmpSendForm.state">
+        <ng-container i18n>目前無考勤異常資料</ng-container>
+      </div>
+      <div *ngIf="errorEmpSendForm.state">
+        {{errorEmpSendForm.errorEmpID}}
+        <ng-container i18n>此員工無申請表單權限，如需申請表單請洽單位行政設定</ng-container>
+      </div>
+      <div *ngFor="let Attend of AttendCard"
+        style="border:1px solid #028fcf;padding: 20px 20px;margin: 0px;margin-bottom: 10px" class="row">
+        <div class="col-md-11 col-xs-11 row" style="margin: 0px ;padding: 0px">
+
+          <div class="col-md-3 row P_paddingZ">
+            <div class="col-md-6  col-xs-6">
+              <span style="color: #028fcf">{{Attend.AttendDate}}</span>
+            </div>
+            <div class="col-md-6  col-xs-6">
+              <div *ngIf="Attend.LateMins" style="color: #23569D;
+                  background-color: #fff;
+                  border: 1px solid #23569D;
+                  border-radius: 15px;
+                  width: 70px;
+                  height: 23px;
+                  font-size: 15px;
+                  text-align: center;">
+                <ng-container i18n>遲到</ng-container>
+              </div>
+              <div *ngIf="Attend.EarlyMins" style="color: #23569D;
+                  background-color: #fff;
+                  border: 1px solid #23569D;
+                  border-radius: 15px;
+                  width: 70px;
+                  height: 23px;
+                  font-size: 15px;
+                  text-align: center;">
+                <ng-container i18n>早退</ng-container>
+              </div>
+              <div *ngIf="Attend.IsAbsent" style="color: #23569D;
+                  background-color: #fff;
+                  border: 1px solid #23569D;
+                  border-radius: 15px;
+                  width: 70px;
+                  height: 23px;
+                  font-size: 15px;
+                  text-align: center;">
+                <ng-container i18n>未刷卡</ng-container>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 row P_bottomLine">
+            <div class="col-md-4 col-xs-12 P_paddingBottom">
+              <div style="color: rgb(150, 149, 148);">
+                <ng-container i18n>班型</ng-container>
+              </div>
+              <div class="RoteLink" (click)="bt_Show_RoteInfo(Attend.RoteID)">{{Attend.RoteCode}}</div>
+            </div>
+            <div class="col-md-4 col-xs-6">
+              <div style="color: rgb(150, 149, 148);">
+                <ng-container i18n>應上班時間</ng-container>
+              </div>
+              <div>{{Attend.ActualRote_OnTime}}</div>
+            </div>
+            <div class="col-md-4 col-xs-6 P_paddingRZ" style="padding-right: 0px">
+              <div style="color: rgb(150, 149, 148);">
+                <ng-container i18n>應下班時間</ng-container>
+              </div>
+              <div style="display: inline-block;padding-right: 10px">{{Attend.ActualRote_OffTime}}</div>
+              <div *ngIf="Attend.ActualRote_calCrossDay" style="display: inline-block;
+                  height: 20px;
+                  font-size: 13px;
+                  width: 40px;
+                  text-align: center;
+                  color: #fff;
+                  background-color: #408cb6;
+                  border: 1px solid;
+                  border-radius: 15px;">+1<ng-container i18n>日</ng-container>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 row P_paddingTop">
+            <div class="col-md-6 col-xs-6">
+              <div style="color: rgb(150, 149, 148);"
+                [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.LateMins)">
+                <ng-container i18n>到勤時間</ng-container>
+              </div>
+              <div *ngIf="Attend.AttendCard_OnTime.length>0" style="display: inline-block;padding-right: 10px"
+                [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.LateMins)">{{Attend.AttendCard_OnTime}}
+              </div>
+              <div *ngIf="Attend.AttendCard_OnTime.length==0"
+                [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.LateMins)">
+                <ng-container i18n>無</ng-container>
+              </div>
+              <div *ngIf="Attend.AttendCard_OnTime_calCrossDay" style="display: inline-block;
+                    height: 20px;
+                    font-size: 13px;
+                    width: 40px;
+                    text-align: center;
+                    color: #fff;
+                    background-color: #408cb6;
+                    border: 1px solid;
+                    border-radius: 15px;">+1
+                <ng-container i18n>日</ng-container>
+              </div>
+            </div>
+            <div class="col-md-6 col-xs-6 P_paddingRZ">
+              <div style="color: rgb(150, 149, 148);"
+                [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.EarlyMins)">
+                <ng-container i18n>離勤時間</ng-container>
+              </div>
+              <div>
+                <div *ngIf="Attend.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px"
+                  [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.EarlyMins)">
+                  {{Attend.AttendCard_OffTime}}</div>
+                <div *ngIf="Attend.AttendCard_OffTime.length==0" style="display: inline-block;padding-right: 10px"
+                  [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.EarlyMins)">
+                  <ng-container i18n>無</ng-container>
+                </div>
+                <div *ngIf="Attend.AttendCard_OffTime_calCrossDay" style="display: inline-block;
+                    height: 20px;
+                    font-size: 13px;
+                    width: 40px;
+                    text-align: center;
+                    color: #fff;
+                    background-color: #408cb6;
+                    border: 1px solid;
+                    border-radius: 15px;">+1<ng-container i18n>日</ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1 col-xs-1 row" style="margin: 0px ;padding: 0px">
+          <div class="P_lineHeight">
+            <a style="cursor: pointer;text-decoration:underline" (click)="onGoWriteForm(Attend)">
+              <span class="P_textNotshow">
+                <ng-container i18n>填寫</ng-container>
+              </span>
+              <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div style="border-top: 1px dashed #dcdcdc;padding: 15px 0px;margin-top: 20px;margin-bottom: 20px">
+        <div style="border:1px solid #d9edf7;">
+          <div style="background-color: #d9edf7;padding-left: 10px;padding-top: 5px;">
+            <label style="color: 
+                #31708f">
+              <ng-container i18n>人力處提醒您</ng-container>
+            </label>
+          </div>
+          <div style="height: 50px;
+                overflow-y: auto;padding: 10px 10px;">
+            {{showNote}}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<app-forgetform-write *ngIf="isWriteforgetform" (outputWriteforgetformChange)="onisWriteforgetformChange()"
+  [getAttendCard]="selectAttendCard"></app-forgetform-write>
+
+
+
+<div class="modal" id="chooseEmpdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <app-choosebase-ma (saveEmptoView)="onSaveEmptoView($event)" [IsTop]="true"></app-choosebase-ma>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog選擇員工-->
+
+
+<div class="modal" id="RoteInf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <!-- <h4 class="modal-title" id="mySmallModalLabel">{{showSearchEmp.EmpCode}} 出勤班表</h4> -->
+          <h4 class="modal-title" id="mySmallModalLabel">
+            <ng-container i18n>班型資訊</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <app-rote-inf [GetRoteInfo$]="Ob_setGetRoteInfo$"></app-rote-inf>
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+              <ng-container i18n>確定</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog班表期間-->

@@ -75,6 +75,7 @@ import { DayRoteComponent } from '../shareComponent/day-rote/day-rote.component'
 import { PersonnelSearchVaComponent } from '../personnel-search-va/personnel-search-va.component';
 import { RmStateFormComponent } from '../allform/rm-state-form/rm-state-form.component';
 import { RmStateFormWriteComponent } from '../allform/rm-state-form/rm-state-form-write/rm-state-form-write.component';
+import { CardPatchFormComponent } from '../allform/card-patch-form/card-patch-form.component';
 
 const routes: Routes = [
   {
@@ -346,6 +347,10 @@ const routes: Routes = [
       },
       {
         path: 'RmStateFormComponent', component: RmStateFormComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'CardPatchFormComponent', component: CardPatchFormComponent,
         canActivate: [AuthGuard],
       }
     ]

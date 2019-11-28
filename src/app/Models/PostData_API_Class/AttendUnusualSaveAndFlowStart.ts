@@ -29,6 +29,7 @@ export class FlowAppElement {
     EliminateOffAfter: boolean;
     CauseID:           number;
     CauseName:         string;
+    Note:              string;
     Info:              string;
     MailBody:          string;
     State:             string;

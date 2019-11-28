@@ -233,6 +233,7 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
             "EliminateOffAfter": State.EliminateOffAfter ? State.EliminateOffAfter : false,
             "CauseID": parseInt(this.sendForgetForm.CauseID1),
             "CauseName": this.sendForgetForm.CauseName1,
+            "Note": this.sendForgetForm.Note,
             "Info": "",
             "MailBody": "",
             "State": "1",
