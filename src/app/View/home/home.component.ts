@@ -199,7 +199,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     delCount: 0,
     changeCount: 0,
     forgetCount: 0,
-    AttendUnusualCount: 0
+    AttendUnusualCount: 0,
+    CardPatchCount: 0
   }
   DL_showReviewCount: boolean = false
   showReviewCount(EmpID: string) {
@@ -223,7 +224,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             delCount: 0,
             forgetCount: 0,
             changeCount: 0,
-            AttendUnusualCount: 0
+            AttendUnusualCount: 0,
+            CardPatchCount: 0
           }
           if (x.length > 0) {
             for (let data of x) {
@@ -247,7 +249,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
                 } else if (ApiFlowSignForm.FormCode == 'AttendUnusual') {
                   //考勤異常確認單
                   this.ReviewCount.AttendUnusualCount += parseInt(ApiFlowSignForm.Count)
+                } else if (ApiFlowSignForm.FormCode == 'CardPatch') {
+                  //考勤異常確認單
+                  this.ReviewCount.CardPatchCount += parseInt(ApiFlowSignForm.Count)
                 }
+                
               }
             }
           }
@@ -911,6 +917,7 @@ class ReviewCountClass {
   changeCount: number;
   forgetCount: number;
   AttendUnusualCount: number;
+  CardPatchCount: number;
 }
 
 

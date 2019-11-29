@@ -78,13 +78,13 @@ export class CardPatchFormComponent implements OnInit, AfterViewInit, OnDestroy 
     var sendDate = new Date();
     var sendEndDate = doFormatDate(sendDate)
     // sendDate.setDate(sendDate.getDate() - 6)
-    sendDate.setFullYear(2019,7,1)
+    sendDate.setFullYear(2019, 7, 1)
     var sendStartDate = doFormatDate(sendDate)
 
     this.LoadingPage.show()
     var GetFormInfoGetApi: GetFormInfoGetApiClass = {
-      FormCode: "Card",
-      FlowTreeID: "60"
+      FormCode: "CardPatch",
+      FlowTreeID: "82"
     }
     this.GetApiDataServiceService.getWebApiData_GetFormInfo(GetFormInfoGetApi)
       .pipe(takeWhile(() => this.api_subscribe))
@@ -227,27 +227,27 @@ export class CardPatchFormComponent implements OnInit, AfterViewInit, OnDestroy 
 
   }
 
-  errorEmpSendForm ={state:false,errorEmpID:''}
-  CheckSendFormLimit(GetAttendExceptional: GetAttendExceptionalClass){
+  errorEmpSendForm = { state: false, errorEmpID: '' }
+  CheckSendFormLimit(GetAttendExceptional: GetAttendExceptionalClass) {
     //確認EmpID是否可以申請表單
     //此員工無申請表單權限，如需申請表單請洽單位行政設定
-    this.errorEmpSendForm = {state:false,errorEmpID:''}
+    this.errorEmpSendForm = { state: false, errorEmpID: '' }
     this.GetApiDataServiceService.getWebApiData_GetBaseParameter(GetAttendExceptional.ListEmpID[0])
-    .pipe(takeWhile(() => this.api_subscribe))
-    .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
-      if (GetBaseParameterData.length > 0) {
-        if (GetBaseParameterData[0].IsAllowLeave) {
-          this.LoadingPage.hide()
-          this.searchAttendExceptional(this.GetAttendExceptional)
-        }else{
-          this.errorEmpSendForm = {state:true,errorEmpID: GetAttendExceptional.ListEmpID[0].toString()}
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+        if (GetBaseParameterData.length > 0) {
+          if (GetBaseParameterData[0].IsAllowLeave) {
+            this.LoadingPage.hide()
+            this.searchAttendExceptional(this.GetAttendExceptional)
+          } else {
+            this.errorEmpSendForm = { state: true, errorEmpID: GetAttendExceptional.ListEmpID[0].toString() }
+            this.LoadingPage.hide()
+          }
+        } else {
+          this.errorEmpSendForm = { state: true, errorEmpID: GetAttendExceptional.ListEmpID[0].toString() }
           this.LoadingPage.hide()
         }
-      }else{
-        this.errorEmpSendForm = {state:true,errorEmpID: GetAttendExceptional.ListEmpID[0].toString()}
-        this.LoadingPage.hide()
-      }
-    })  
+      })
   }
 
 
@@ -281,24 +281,24 @@ export class CardPatchFormComponent implements OnInit, AfterViewInit, OnDestroy 
                 AttendData.EarlyMins = false
               }
 
-              if(x.OnBeforeMins>0){
+              if (x.OnBeforeMins > 0) {
                 AttendData.OnBeforeMins = true
-              }else{
+              } else {
                 AttendData.OnBeforeMins = false
               }
 
-              if(x.OffAfterMins>0){
+              if (x.OffAfterMins > 0) {
                 AttendData.OffAfterMins = true
-              }else{
+              } else {
                 AttendData.OffAfterMins = false
               }
 
               AttendData.IsAbsent = x.IsAbsent
-              AttendData.EliminateLate= x.EliminateLate
-              AttendData.EliminateEarly= x.EliminateEarly
-              AttendData.EliminateOnBefore= x.EliminateOnBefore
-              AttendData.EliminateOffAfter= x.EliminateOffAfter
-              AttendData.EliminateAbsent= x.EliminateAbsent
+              AttendData.EliminateLate = x.EliminateLate
+              AttendData.EliminateEarly = x.EliminateEarly
+              AttendData.EliminateOnBefore = x.EliminateOnBefore
+              AttendData.EliminateOffAfter = x.EliminateOffAfter
+              AttendData.EliminateAbsent = x.EliminateAbsent
 
               AttendData.RoteID = x.ActualRote.RoteID
               AttendData.RoteCode = x.ActualRote.RoteCode
@@ -350,9 +350,9 @@ export class CardPatchFormComponent implements OnInit, AfterViewInit, OnDestroy 
 
               // this.loading = false
             }
-            this.AttendCard.sort((a,b)=>{
-              var startDate:any = new Date(a.AttendDate)
-              var endDate:any = new Date(b.AttendDate)
+            this.AttendCard.sort((a, b) => {
+              var startDate: any = new Date(a.AttendDate)
+              var endDate: any = new Date(b.AttendDate)
               return endDate - startDate
             })
             this.LoadingPage.hide()
@@ -410,7 +410,7 @@ export class CardPatchFormComponent implements OnInit, AfterViewInit, OnDestroy 
               this.errorEmp = { state: false, errorString: '' }
               $("#Assistant_ChooseEmpCode").removeClass("errorInput");
             }
-          }else{
+          } else {
             this.errorEmp = { state: true, errorString: '無該部門的行政權限' }
             this.EmpBase.Name = ''
             $("#Assistant_ChooseEmpCode").addClass("errorInput");
@@ -441,13 +441,13 @@ export class CardPatchFormComponent implements OnInit, AfterViewInit, OnDestroy 
       return '#4c4c4c'
     }
   }
-  
+
   private Be_setGetRoteInfo$: BehaviorSubject<any> = new BehaviorSubject<Array<number>>(null);
   Ob_setGetRoteInfo$: Observable<any> = this.Be_setGetRoteInfo$;
-  
-  bt_Show_RoteInfo(oneSearchRoteID:number) {
+
+  bt_Show_RoteInfo(oneSearchRoteID: number) {
     var searchRoteID: Array<number> = []
-    if(oneSearchRoteID){
+    if (oneSearchRoteID) {
       searchRoteID.push(oneSearchRoteID)
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf').modal('show')

@@ -84,8 +84,8 @@ export class RmStateFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.LoadingPage.show()
     var GetFormInfoGetApi: GetFormInfoGetApiClass = {
-      FormCode: "Card",
-      FlowTreeID: "60"
+      FormCode: "AttendUnusual",
+      FlowTreeID: "83"
     }
     this.GetApiDataServiceService.getWebApiData_GetFormInfo(GetFormInfoGetApi)
       .pipe(takeWhile(() => this.api_subscribe))

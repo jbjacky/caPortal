@@ -1,18 +1,18 @@
 export class Attendance {
 
-    EmpID: String;
-    EmpCode: String;
-    EmpName: String;
-    DeptName: String;
-    AttendDate: String;
-    RoteNameC: String;
+    EmpID: string;
+    EmpCode: string;
+    EmpName: string;
+    DeptName: string;
+    AttendDate: string;
+    RoteNameC: string;
     OnTime: any;
     OffTime: any;
     OnTime_calCrossDay:boolean;
     OffTime_calCrossDay:boolean;
 
-    OnCardTime: String;
-    OffCardTime: String;
+    OnCardTime: string;
+    OffCardTime: string;
     OnCardTime_calCrossDay:boolean;
     OffCardTime_calCrossDay:boolean;
 
@@ -33,5 +33,5 @@ export class Attendance {
 
     ActualRote:any
     
-    DayOfweek: String;
+    DayOfweek: string;
   }
