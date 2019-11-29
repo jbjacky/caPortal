@@ -2,10 +2,10 @@
   <div class="a-block-body  a-block-container">
     <ol class="steps-indicator row">
       <li class="col-sm-3">
-        <ng-container i18n>選擇欲填寫之簽認單</ng-container>
+        <ng-container i18n>選擇欲填寫之補卡單</ng-container>
       </li>
       <li class="col-sm-3 active">
-        <ng-container i18n>填寫考勤異常簽認單</ng-container>
+        <ng-container i18n>填寫補卡單</ng-container>
       </li>
       <li class="col-sm-3">
         <ng-container i18n>送出申請單</ng-container>
@@ -28,35 +28,67 @@
             <span style="color: #028fcf">{{getAttendCard.AttendDate}}</span>
           </div>
           <div class="col-md-6  col-xs-6">
-            <div *ngIf="getAttendCard.LateMins" style="color: #23569D;
-                background-color: #fff;
-                border: 1px solid #23569D;
-                border-radius: 15px;
-                width: 70px;
-                height: 23px;
-                font-size: 15px;
-                text-align: center;">
-              <ng-container i18n>遲到</ng-container>
+            <div *ngIf="getAttendCard.LateMins">
+              <div *ngIf="getAttendCard.EliminateLate;else nonEliminateLate" class="tagBlueLineThrough">
+                <ng-container i18n>遲到</ng-container>
+              </div>
+              <ng-template #nonEliminateLate>
+                <div class="tagBlue">
+                  <ng-container i18n>遲到</ng-container>
+                </div>
+              </ng-template>
             </div>
-            <div *ngIf="getAttendCard.EarlyMins" style="color: #23569D;
-                background-color: #fff;
-                border: 1px solid #23569D;
-                border-radius: 15px;
-                width: 70px;
-                height: 23px;
-                font-size: 15px;
-                text-align: center;">
-              <ng-container i18n>早退</ng-container>
+            <div *ngIf="getAttendCard.EarlyMins">
+              <div *ngIf="getAttendCard.EliminateEarly;else nonEliminateEarly" class="tagBlueLineThrough">
+                <ng-container i18n>早退</ng-container>
+              </div>
+              <ng-template #nonEliminateEarly>
+                <div class="tagBlue">
+                  <ng-container i18n>早退</ng-container>
+                </div>
+              </ng-template>
             </div>
-            <div *ngIf="getAttendCard.IsAbsent" style="color: #23569D;
-                background-color: #fff;
-                border: 1px solid #23569D;
-                border-radius: 15px;
-                width: 70px;
-                height: 23px;
-                font-size: 15px;
-                text-align: center;">
-              <ng-container i18n>未刷卡</ng-container>
+            <div *ngIf="getAttendCard.IsAbsent">
+              <div *ngIf="getAttendCard.EliminateAbsent;else nonEliminateAbsent" class="tagBlueLineThrough">
+                <ng-container i18n>未刷卡</ng-container>
+              </div>
+              <ng-template #nonEliminateAbsent>
+                <div class="tagBlue">
+                  <ng-container i18n>未刷卡</ng-container>
+                </div>
+              </ng-template>
+            </div>
+            <div *ngIf="getAttendCard.OnBeforeMins">
+              <div *ngIf="getAttendCard.EliminateOnBefore;else nonEliminateOnBefore" class="tagBlueLineThrough">
+                <ng-container i18n>早來</ng-container>
+              </div>
+              <ng-template #nonEliminateOnBefore>
+                <div class="tagBlue">
+                  <ng-container i18n>早來</ng-container>
+                </div>
+              </ng-template>
+            </div>
+            <div *ngIf="getAttendCard.OffAfterMins">
+              <div *ngIf="getAttendCard.EliminateOffAfter;else nonEliminateOffAfter" class="tagBlueLineThrough">
+                <ng-container i18n>晚走</ng-container>
+              </div>
+              <ng-template #nonEliminateOffAfter>
+                <div class="tagBlue">
+                  <ng-container i18n>晚走</ng-container>
+                </div>
+              </ng-template>
+            </div>
+            <div class="tagBlue" *ngIf="!getAttendCard.LateMins &&
+                   !getAttendCard.EliminateLate &&
+                   !getAttendCard.EarlyMins &&
+                   !getAttendCard.EliminateEarly &&
+                   !getAttendCard.IsAbsent &&
+                   !getAttendCard.EliminateAbsent &&
+                   !getAttendCard.OnBeforeMins &&
+                   !getAttendCard.EliminateOnBefore &&
+                   !getAttendCard.OffAfterMins &&
+                   !getAttendCard.EliminateOffAfter">
+              <ng-container i18n>正常</ng-container>
             </div>
           </div>
         </div>
@@ -92,12 +124,18 @@
         </div>
         <div class="col-md-4 row P_paddingTop">
           <div class="col-md-6 col-xs-6">
-            <div style="color: rgb(150, 149, 148);"
+            <!-- <div style="color: rgb(150, 149, 148);"
               [style.color]="RedAttendString_Title(getAttendCard.IsAbsent,getAttendCard.LateMins)">
               <ng-container i18n>到勤時間</ng-container>
             </div>
             <div *ngIf="getAttendCard.AttendCard_OnTime.length>0" style="display: inline-block;padding-right: 10px"
               [style.color]="RedAttendString_Content(getAttendCard.IsAbsent,getAttendCard.LateMins)">
+              {{getAttendCard.AttendCard_OnTime}}
+            </div> -->
+            <div style="color: rgb(150, 149, 148);">
+              <ng-container i18n>到勤時間</ng-container>
+            </div>
+            <div *ngIf="getAttendCard.AttendCard_OnTime.length>0" style="display: inline-block;padding-right: 10px">
               {{getAttendCard.AttendCard_OnTime}}
             </div>
             <div *ngIf="getAttendCard.AttendCard_OnTime.length==0"
@@ -116,13 +154,19 @@
             </div>
           </div>
           <div class="col-md-6 col-xs-6 P_paddingRZ">
-            <div style="color: rgb(150, 149, 148);"
+            <!-- <div style="color: rgb(150, 149, 148);"
               [style.color]="RedAttendString_Title(getAttendCard.IsAbsent,getAttendCard.EarlyMins)">
+              <ng-container i18n>離勤時間</ng-container>
+            </div> -->
+            <div style="color: rgb(150, 149, 148);">
               <ng-container i18n>離勤時間</ng-container>
             </div>
             <div>
-              <div *ngIf="getAttendCard.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px"
+              <!-- <div *ngIf="getAttendCard.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px"
                 [style.color]="RedAttendString_Content(getAttendCard.IsAbsent,getAttendCard.EarlyMins)">
+                {{getAttendCard.AttendCard_OffTime}}
+              </div> -->
+              <div *ngIf="getAttendCard.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px">
                 {{getAttendCard.AttendCard_OffTime}}
               </div>
               <div *ngIf="getAttendCard.AttendCard_OffTime.length==0" style="display: inline-block;padding-right: 10px"
@@ -346,6 +390,7 @@
       <!-- 補充說明 -->
       <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
         <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 6px">
+          <span class="form-must-fill">*</span>
           <ng-container i18n>補充說明</ng-container>
         </label>
         <div class="col-md-8  col-xs-12">

@@ -14,6 +14,8 @@ import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { takeWhile } from 'rxjs/operators';
+import { CardPatchSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/CardPatchSaveAndFlowStartClass';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 
 declare let $: any; //use jquery
 
@@ -72,6 +74,7 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (data: any) => {
+          // console.log(this.getAttendCard)
           for (let x of data) {
             this.Cause.push({ CauseID: x.CauseID, CauseNameC: x.CauseNameC })
           }
@@ -260,8 +263,9 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
     for (let up of this.UploadFile) {
       all += (+up.Size)
     }
-
-    if (all > 10485760) {
+    if (!this.sendForgetForm.Note) {
+      alert('請填寫補充說明')
+    } else if (all > 10485760) {
       alert('檔案不能超過10MB')
     } else if (!this.FlowDynamic_Base) {
       alert('請選擇簽核人員')
@@ -299,11 +303,11 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
       //         .pipe(takeWhile(() => this.api_subscribe))
       //         .subscribe(
       //           r => {
-                  // this.forgetShowCheckFlowText = r.toString()
-                  $('#checksenddialog').modal('show');
-                  this.LoadingPage.hide()
-          //       })
-          // })
+      // this.forgetShowCheckFlowText = r.toString()
+      $('#checksenddialog').modal('show');
+      this.LoadingPage.hide()
+      //       })
+      // })
     }
   }
   onSubmit() {
@@ -333,19 +337,62 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
     }
     SaveAndFlowStart.UploadFile = this.UploadFile
 
-    SaveAndFlowStart.ExceptionalCode = ''
-    SaveAndFlowStart.ExceptionalName = ''
+    var ExceptionalCode = ''
+    var ExceptionalName = ''
     if (this.getAttendCard.EarlyMins) {
-      SaveAndFlowStart.ExceptionalCode += '1,'
-      SaveAndFlowStart.ExceptionalName += '早退,'
+      ExceptionalCode += '1,'
+      ExceptionalName += '早退,'
     }
     if (this.getAttendCard.LateMins) {
-      SaveAndFlowStart.ExceptionalCode += '2,'
-      SaveAndFlowStart.ExceptionalName += '遲到,'
+      ExceptionalCode += '2,'
+      ExceptionalName += '遲到,'
     }
     if (this.getAttendCard.IsAbsent) {
-      SaveAndFlowStart.ExceptionalCode += '3,'
-      SaveAndFlowStart.ExceptionalName += '未刷卡,'
+      ExceptionalCode += '3,'
+      ExceptionalName += '未刷卡,'
+    }
+    if (this.getAttendCard.OnBeforeMins) {
+      ExceptionalCode += '4,'
+      ExceptionalName += '早來,'
+    }
+    if (this.getAttendCard.OffAfterMins) {
+      ExceptionalCode += '5,'
+      ExceptionalName += '晚走,'
+    } else if (!this.getAttendCard.LateMins &&
+      !this.getAttendCard.EliminateLate &&
+      !this.getAttendCard.EarlyMins &&
+      !this.getAttendCard.EliminateEarly &&
+      !this.getAttendCard.IsAbsent &&
+      !this.getAttendCard.EliminateAbsent &&
+      !this.getAttendCard.OnBeforeMins &&
+      !this.getAttendCard.EliminateOnBefore &&
+      !this.getAttendCard.OffAfterMins &&
+      !this.getAttendCard.EliminateOffAfter) {
+      ExceptionalCode += '0,'
+      ExceptionalName += '正常,'
+    }
+
+    var ExceptionalCodeCancel = ''
+    var ExceptionalNameCancel = ''
+    if (this.getAttendCard.EarlyMins && this.getAttendCard.EliminateEarly) {
+      ExceptionalCodeCancel += '1,'
+      ExceptionalNameCancel += '早退,'
+    }
+    if (this.getAttendCard.LateMins && this.getAttendCard.EliminateLate) {
+      ExceptionalCodeCancel += '2,'
+      ExceptionalNameCancel += '遲到,'
+    }
+    if (this.getAttendCard.IsAbsent && this.getAttendCard.EliminateAbsent) {
+      ExceptionalCodeCancel += '3,'
+      ExceptionalNameCancel += '未刷卡,'
+    }
+    if (this.getAttendCard.OnBeforeMins && this.getAttendCard.EliminateOnBefore) {
+      ExceptionalCodeCancel += '4,'
+      ExceptionalNameCancel += '早來,'
+    }
+    if (this.getAttendCard.OffAfterMins && this.getAttendCard.EliminateOffAfter) {
+      ExceptionalCodeCancel += '5,'
+      ExceptionalNameCancel += '晚走,'
     }
 
     SaveAndFlowStart.CauseID1 = this.sendForgetForm.CauseID1
@@ -368,7 +415,7 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
         this.getAttendCard.AttendCard_OffDateTime = ''
       }
 
-      var ForgetSaveAndFlowStart: ForgetSaveAndFlowStartClass = {
+      var CardPatchSaveAndFlowStart: CardPatchSaveAndFlowStartClass = {
         "FlowApp": {
           "FlowApps": [
             {
@@ -395,8 +442,10 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
               "MailBody": "",
               "State": "1",
               "UploadFile": SaveAndFlowStart.UploadFile,
-              "ExceptionalCode": SaveAndFlowStart.ExceptionalCode,
-              "ExceptionalName": SaveAndFlowStart.ExceptionalName,
+              "ExceptionalCode": ExceptionalCode,
+              "ExceptionalName": ExceptionalName, //有異常但沒註記
+              "ExceptionalCodeCancel": ExceptionalCodeCancel,
+              "ExceptionalNameCancel": ExceptionalNameCancel, //有異常且已經註記
             }
           ],
           "EmpID": this.getAttendCard.write_man_code,
@@ -405,7 +454,7 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
           "State": "1"
         },
         "FlowDynamic": {
-          "FlowNode": "504",
+          "FlowNode": "519",
           "RoleID": "",
           "EmpID": this.FlowDynamic_Base.EmpID,
           "DeptID": this.FlowDynamic_Base.DeptaID.toString(),
@@ -416,14 +465,18 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
 
       // console.log(SaveAndFlowStart)
       this.LoadingPage.show()
-      this.GetApiDataServiceService.getWebApiData_CardPatchSaveAndFlowStart(ForgetSaveAndFlowStart)
+      this.GetApiDataServiceService.getWebApiData_CardPatchSaveAndFlowStart(CardPatchSaveAndFlowStart)
         .pipe(takeWhile(() => this.api_subscribe))
-        .subscribe(x => {
+        .subscribe((x: ResponeStateClass) => {
           // console.log(SaveAndFlowStart)
-          if (x == 1) {
+          if (x.isOK) {
             $('#sussesdialog').modal('show');
           } else {
-            alert('送出失敗');
+            var errMsg = ''
+            for (let e of x.ErrorMsg) {
+              errMsg += e + '。 '
+            }
+            alert(errMsg);
           }
           this.LoadingPage.hide()
         },

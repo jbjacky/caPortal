@@ -281,9 +281,28 @@ export class CardPatchFormComponent implements OnInit, AfterViewInit, OnDestroy 
                 AttendData.EarlyMins = false
               }
 
+              if(x.OnBeforeMins>0){
+                AttendData.OnBeforeMins = true
+              }else{
+                AttendData.OnBeforeMins = false
+              }
+
+              if(x.OffAfterMins>0){
+                AttendData.OffAfterMins = true
+              }else{
+                AttendData.OffAfterMins = false
+              }
+
               AttendData.IsAbsent = x.IsAbsent
+              AttendData.EliminateLate= x.EliminateLate
+              AttendData.EliminateEarly= x.EliminateEarly
+              AttendData.EliminateOnBefore= x.EliminateOnBefore
+              AttendData.EliminateOffAfter= x.EliminateOffAfter
+              AttendData.EliminateAbsent= x.EliminateAbsent
+
               AttendData.RoteID = x.ActualRote.RoteID
               AttendData.RoteCode = x.ActualRote.RoteCode
+              AttendData.RoteNameC = x.ActualRote.RoteNameC
 
               if (x.ActualRote.OnTime) {
                 AttendData.ActualRote_OnTime = getapi_formatTimetoString(x.ActualRote.OnTime)

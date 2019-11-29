@@ -6,6 +6,7 @@ import { ITreeOptions, ITreeState } from 'angular-tree-component';
 import { GetAllRoleDataClass } from 'src/app/Models/GetAllRoleDataClass';
 import { SetRolePageByEmpGetApiClass } from 'src/app/Models/PostData_API_Class/SetRolePageByEmpGetApiClass';
 import { nodeClass } from 'src/app/Models/nodeClass';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 
 @Component({
     selector: 'app-page-role-setting',
@@ -156,12 +157,16 @@ export class PageRoleSettingComponent implements OnInit {
         this.LoadingPage.show()
         this.GetApiDataServiceService.getWebApiData_SetRolePageByEmp(SetRolePageByEmpGetApi)
             .subscribe(
-                (x: any) => {
+                (x: ResponeStateClass) => {
                     if (x.isOK) {
                         this.searchRolePage()
                         alert('儲存成功')
                     } else {
-                        alert(x.ErrorMsg)
+                        var errMsg = ''
+                        for (let e of x.ErrorMsg) {
+                          errMsg += e + '。 '
+                        }
+                        alert(errMsg);
                     }
                     this.LoadingPage.hide()
                 }, error => {

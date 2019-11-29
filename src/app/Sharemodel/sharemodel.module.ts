@@ -60,6 +60,8 @@ import { SussesSendbackSnackComponent } from '../View/shareComponent/snackbar/su
 import { ErrorSendbackSnackComponent } from '../View/shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
 import { SearchAttendUnusualFormComponent } from '../View/shareComponent/search-attend-unusual-form/search-attend-unusual-form.component';
 import { SearchAttendUnusualFormDetailComponent } from '../View/shareComponent/search-attend-unusual-form-detail/search-attend-unusual-form-detail.component';
+import { SearchCardPatchFormComponent } from '../View/shareComponent/search-card-patch-form/search-card-patch-form.component';
+import { SearchCardPatchDetailComponent } from '../View/shareComponent/search-card-patch-detail/search-card-patch-detail.component';
 
 @NgModule({
   imports: [
@@ -105,6 +107,8 @@ import { SearchAttendUnusualFormDetailComponent } from '../View/shareComponent/s
     SearchChangeDetailRRComponent,
     SearchChangeDetailRZComponent,
     SearchChangeDetailDRComponent,
+    SearchCardPatchFormComponent,
+    SearchCardPatchDetailComponent,
     SearchAttendUnusualFormDetailComponent,
     SafeHtmlPipe,
     SpyChangeformNgifDirective,
@@ -158,6 +162,8 @@ import { SearchAttendUnusualFormDetailComponent } from '../View/shareComponent/s
     SearchVaFormComponent,
     SearchChangeFormComponent,
     SearchAttendUnusualFormComponent,
+    SearchCardPatchFormComponent,
+    SearchCardPatchDetailComponent,
     SharecalendarComponent,
     SimulationClalenderComponent,
     SearchVaDetailComponent,

@@ -11,6 +11,7 @@ import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { takeWhile } from 'rxjs/operators';
 import { FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import { AttendUnusualSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/AttendUnusualSaveAndFlowStart';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 
 declare let $: any; //use jquery
 
@@ -160,6 +161,8 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
       alert('檔案不能超過10MB')
     } else if (!this.FlowDynamic_Base) {
       alert('請選擇簽核人員')
+    } else if(!this.sendForgetForm.Note){
+      alert('請填寫補充說明')
     } else {
       $('#checksenddialog').modal('show');
     }
@@ -212,6 +215,20 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
       ExceptionalNameCancel += '晚走,'
     }
 
+
+    
+    if (this.getAttendCard.ActualRote_OnDateTime === null) {
+      this.getAttendCard.ActualRote_OnDateTime = ''
+    }
+    if (this.getAttendCard.ActualRote_OffDateTime === null) {
+      this.getAttendCard.ActualRote_OffDateTime = ''
+    }
+    if (this.getAttendCard.AttendCard_OnDateTime === null) {
+      this.getAttendCard.AttendCard_OnDateTime = ''
+    }
+    if (this.getAttendCard.AttendCard_OffDateTime === null) {
+      this.getAttendCard.AttendCard_OffDateTime = ''
+    }
     var State: StateClass = this.ErrorStateOptionGroup.value
     var AttendUnusualSaveAndFlowStart: AttendUnusualSaveAndFlowStartClass = new AttendUnusualSaveAndFlowStartClass()
     AttendUnusualSaveAndFlowStart = {
@@ -264,11 +281,15 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
     this.LoadingPage.show()
     this.GetApiDataServiceService.getWebApiData_AttendUnusualSaveAndFlowStart(AttendUnusualSaveAndFlowStart)
       .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe((x: any) => {
+      .subscribe((x: ResponeStateClass) => {
         if (x.isOK) {
           $('#sussesdialog').modal('show');
         } else {
-          alert(x.ErrorMsg);
+          var errMsg = ''
+          for (let e of x.ErrorMsg) {
+            errMsg += e + '。 '
+          }
+          alert(errMsg);
         }
         this.LoadingPage.hide()
       })

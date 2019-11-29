@@ -240,6 +240,11 @@ export class ReviewformComponent implements OnInit, OnDestroy {
         $('#' + this.ReviewformServiceService.showReviewTab).click();
         this.AttendUnusualTabClick(this.ReviewformServiceService.showReviewMan);
       }
+      else if (this.ReviewformServiceService.showReviewTab == 'CardPatchTab') {
+        this.ReviewformServiceService.changeReview('CardPatchTab', this.ReviewformServiceService.showReviewMan);
+        $('#' + this.ReviewformServiceService.showReviewTab).click();
+        this.CardPatchTabClick(this.ReviewformServiceService.showReviewMan);
+      }
       else {
         this.LoadingPage.hide();
       }
@@ -1123,7 +1128,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
       RealSignRoleID: RoleID,
       SignDate: doFormatDate(today)
     }
-    this.GetApiDataServiceService.getWebApiData_GetFlowSignCard(GetFlowSignAbsGetApi)
+    this.GetApiDataServiceService.getWebApiData_GetFlowSignCardPatch(GetFlowSignAbsGetApi)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (GetFlowSignCardApiData: GetFlowSignCardApiDataClass[]) => {

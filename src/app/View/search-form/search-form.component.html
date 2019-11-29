@@ -129,6 +129,10 @@
         [getShowTake]="showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
         *ngIf="isSearch && showSelectSearchForm == 'AttendUnusual'">
     </app-search-attend-unusual-form>
+    <app-search-card-patch-form [getForgetData]="getApiCardPatchData" [getShowTransSign]="showTransSign"
+      [getShowTake]="showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+      *ngIf="isSearch && showSelectSearchForm == 'CardPatch'">
+    </app-search-card-patch-form>
   </div>
 </div>
 

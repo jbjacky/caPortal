@@ -16,6 +16,7 @@ import { ITreeState, ITreeOptions } from 'angular-tree-component';
 import { nodeClass } from 'src/app/Models/nodeClass';
 import { GetBaseInfoDetailClass } from 'src/app/Models/GetBaseInfoDetailClass';
 import { doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 
 declare let $: any; //use jquery
 
@@ -354,11 +355,15 @@ export class PersonRoleSettingComponent implements OnInit, OnDestroy {
       this.LoadingPage.show()
       this.GetApiDataServiceService.getWebApiData_SetRole(SetRoleGetApi)
         .subscribe(
-          (x: any) => {
+          (x: ResponeStateClass) => {
             if (x.isOK) {
 
             } else {
-              alert(x.ErrorMsg)
+              var errMsg = ''
+              for (let e of x.ErrorMsg) {
+                errMsg += e + '。 '
+              }
+              alert(errMsg);
               for (let aa of this.showDeptManRoleData) {
                 if (aa.GetAssistantByDeptIDData == oneGetAllRoleData.GetAssistantByDeptIDData) {
                   for (let bb of aa.GetAllRoleData) {
@@ -385,12 +390,16 @@ export class PersonRoleSettingComponent implements OnInit, OnDestroy {
       this.LoadingPage.show()
       this.GetApiDataServiceService.getWebApiData_DelRole(DelRoleGetApi)
         .subscribe(
-          (x: any) => {
+          (x: ResponeStateClass) => {
 
             if (x.isOK) {
 
             } else {
-              alert(x.ErrorMsg)
+              var errMsg = ''
+              for (let e of x.ErrorMsg) {
+                errMsg += e + '。 '
+              }
+              alert(errMsg);
               for (let aa of this.showDeptManRoleData) {
                 if (aa.GetAssistantByDeptIDData == oneGetAllRoleData.GetAssistantByDeptIDData) {
                   for (let bb of aa.GetAllRoleData) {

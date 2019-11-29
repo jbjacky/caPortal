@@ -86,6 +86,7 @@ import { GetFlowViewDeptClass } from '../Models/PostData_API_Class/GetFlowViewDe
 import { GetFlowSignAbsGetApiClass } from '../Models/PostData_API_Class/GetFlowSignAbsGetApiClass';
 import { GetCheckAgentByTargetGetApiClass } from '../Models/PostData_API_Class/GetCheckAgentByTargetGetApiClass';
 import { AttendUnusualSaveAndFlowStartClass } from '../Models/PostData_API_Class/AttendUnusualSaveAndFlowStart';
+import { CardPatchSaveAndFlowStartClass } from '../Models/PostData_API_Class/CardPatchSaveAndFlowStartClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -494,9 +495,9 @@ export class GetApiDataServiceService {
   /**
    * @todo 補卡-儲存並起單
    */
-  getWebApiData_CardPatchSaveAndFlowStart(ForgetSaveAndFlowStart: ForgetSaveAndFlowStartClass) {
+  getWebApiData_CardPatchSaveAndFlowStart(CardPatchSaveAndFlowStart: CardPatchSaveAndFlowStartClass) {
     return this.http.post(this.localUrl + 'Flow/CardPatchFlowHandler.svc/SaveAndFlowStart',
-      JSON.stringify(ForgetSaveAndFlowStart), {
+      JSON.stringify(CardPatchSaveAndFlowStart), {
       headers: this.GetHeader()
     })
   }
@@ -626,10 +627,10 @@ export class GetApiDataServiceService {
 
   }
   /**
-   * @todo 取得註記單流程資料(審核頁面)
+   * @todo 取得補卡單流程資料(審核頁面)
    */
   getWebApiData_GetCardPatchFlowAppsByProcessFlowID(ProcessFlowID,Miniature) {
-    return this.http.post(this.localUrl + 'Flow/CardFPatchlowHandler.svc/GetCardFlowAppsByProcessFlowID',
+    return this.http.post(this.localUrl + 'Flow/CardPatchFlowHandler.svc/GetCardFlowAppsByProcessFlowID',
     JSON.stringify({ "ProcessFlowID": ProcessFlowID, "Miniature": Miniature }), {
       headers: this.GetHeader()
     })
@@ -1540,7 +1541,7 @@ export class GetApiDataServiceService {
   }
 
   /**
-   * @todo 流程檢視(考勤異常確認)-部門
+   * @todo 流程檢視(忘刷)-部門
    */
   getWebApiData_GetFlowViewCardByDept(GetFlowViewDept: GetFlowViewDeptClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewCardByDept',
@@ -1549,7 +1550,7 @@ export class GetApiDataServiceService {
     })
   }
   /**
-   * @todo 流程檢視(考勤異常確認)
+   * @todo 流程檢視(忘刷)
    */
   getWebApiData_GetFlowViewCard(GetFlowView: GetFlowViewClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewCard',
@@ -1806,6 +1807,15 @@ export class GetApiDataServiceService {
     })
   }
 
+  /**
+   * @todo 取得目前待審核的表單-補卡
+   */
+  getWebApiData_GetFlowSignCardPatch(GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignCardPatch',
+      JSON.stringify(GetFlowSignAbsGetApi), {
+      headers: this.GetHeader()
+    })
+  }
 
 
   /**
@@ -1819,7 +1829,7 @@ export class GetApiDataServiceService {
   }
 
   /**
-   * @todo 儲存並起單-註記單
+   * @todo 註記單_儲存並起單
    */
   getWebApiData_AttendUnusualSaveAndFlowStart(AttendUnusualSaveAndFlowStart: AttendUnusualSaveAndFlowStartClass) {
     return this.http.post(this.localUrl + 'Flow/AttendUnusualFlowHandler.svc/SaveAndFlowStart',
@@ -1854,6 +1864,25 @@ export class GetApiDataServiceService {
   getWebApiData_GetAttendForCardPatch(GetAttendExceptional: GetAttendExceptionalClass) {
     return this.http.post(this.localUrl + 'AttHandler.svc/GetAttendForCardPatch',
       JSON.stringify({ "DateB": GetAttendExceptional.DateB, "DateE": GetAttendExceptional.DateE, "ListEmpID": GetAttendExceptional.ListEmpID }), {
+      headers: this.GetHeader()
+    })
+  }
+
+  /**
+   * @todo 流程檢視(補卡)-部門
+   */
+  getWebApiData_GetFlowViewCardPatchByDept(GetFlowViewDept: GetFlowViewDeptClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewCardPatchByDept',
+      JSON.stringify(GetFlowViewDept), {
+      headers: this.GetHeader()
+    })
+  }
+  /**
+   * @todo 流程檢視(補卡)
+   */
+  getWebApiData_GetFlowViewCardPatch(GetFlowView: GetFlowViewClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewCardPatch',
+      JSON.stringify(GetFlowView), {
       headers: this.GetHeader()
     })
   }

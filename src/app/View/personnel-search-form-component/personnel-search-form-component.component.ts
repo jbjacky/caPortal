@@ -23,6 +23,8 @@ import { doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
 import { GetFlowSignAttendUnusualApiDataClass } from 'src/app/Models/GetFlowSignAttendUnusualApiDataClass';
 import { SearchAttendUnusualFormComponent } from '../shareComponent/search-attend-unusual-form/search-attend-unusual-form.component';
 import { GetFlowViewAttendUnusualDataClass } from 'src/app/Models/GetFlowViewAttendUnusualDataClass';
+import { SearchCardPatchDetailComponent } from '../shareComponent/search-card-patch-detail/search-card-patch-detail.component';
+import { SearchCardPatchFormComponent } from '../shareComponent/search-card-patch-form/search-card-patch-form.component';
 declare let $: any; //use jquerysrc/app/View/shareComponent/search-attend-unusual-form/search-attend-unusual-form.component
 
 @Component({
@@ -64,6 +66,7 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
   @ViewChild(SearchChangeFormComponent) SearchChangeFormComponent: SearchChangeFormComponent;
   @ViewChild(SearchForgetFormComponent) SearchForgetFormComponent: SearchForgetFormComponent;
   @ViewChild(SearchAttendUnusualFormComponent) SearchAttendUnusualFormComponent: SearchAttendUnusualFormComponent;
+  @ViewChild(SearchCardPatchFormComponent) SearchCardPatchFormComponent: SearchCardPatchFormComponent;
   showTransSign: boolean = false
   showTake: boolean = false
   ngOnInit() {
@@ -323,6 +326,7 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
   getApiForgetData: GetFlowViewCardGetApiDataClass[] = []
   getApiShiftRoteData: GetFlowViewShiftRoteGetApiDataClass[] = []
   getFlowSignAttendUnusualApiData: GetFlowViewAttendUnusualDataClass[] = []
+  getApiCardPatchData: GetFlowViewCardGetApiDataClass[] = []
 
   getSearchFlowForm(GetFlowView: GetFlowViewClass) {
     // console.log(GetFlowView)
@@ -391,6 +395,19 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
         .subscribe(
           (GetFlowSignAttendUnusualApiData: GetFlowViewAttendUnusualDataClass[]) => {
             this.getFlowSignAttendUnusualApiData =  JSON.parse(JSON.stringify(GetFlowSignAttendUnusualApiData)) 
+            this.showForm(GetFlowView.FormCode)
+            this.LoadingPage.hide()
+          }, error => {
+            this.LoadingPage.hide()
+          }
+        )
+    } else if (GetFlowView.FormCode == 'CardPatch') {
+
+      this.GetApiDataServiceService.getWebApiData_GetFlowViewCardPatch(GetFlowView)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (GetFlowViewCardGetApiData: GetFlowViewCardGetApiDataClass[]) => {
+            this.getApiCardPatchData = GetFlowViewCardGetApiData
             this.showForm(GetFlowView.FormCode)
             this.LoadingPage.hide()
           }, error => {
@@ -489,7 +506,23 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
             this.LoadingPage.hide()
           }
         )
-    }
+    } else if (GetFlowViewDept.FormCode == 'CardPatch') {
+
+      this.GetApiDataServiceService.getWebApiData_GetFlowViewCardPatchByDept(GetFlowViewDept)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (GetFlowViewCardGetApiData: GetFlowViewCardGetApiDataClass[]) => {
+            this.getApiCardPatchData = GetFlowViewCardGetApiData
+            this.showForm(GetFlowViewDept.FormCode)
+            if (GetFlowViewCardGetApiData.length > 0) {
+              this.CanSerchMore = true
+            } else {
+              this.CanSerchMore = false
+            }
+            this.LoadingPage.hide()
+          }
+        )
+    } 
   }
 
 
@@ -604,6 +637,8 @@ export class PersonnelSearchFormComponentComponent implements OnInit, AfterViewI
       this.SearchChangeFormComponent.onGoBackFunction();
     } else if (this.SearchAttendUnusualFormComponent) {
       this.SearchAttendUnusualFormComponent.onGoBackFunction();
+    } else if (this.SearchCardPatchFormComponent) {
+      this.SearchCardPatchFormComponent.onGoBackFunction();
     }
     this.TopresizeNav();
     this.windowSize()

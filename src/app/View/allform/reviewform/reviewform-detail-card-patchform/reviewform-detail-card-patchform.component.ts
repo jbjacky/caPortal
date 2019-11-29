@@ -179,7 +179,7 @@ export class ReviewformDetailCardPatchformComponent implements OnInit, OnDestroy
     //tag=id連結位置
   }
   backReview() {
-    this.ReviewformServiceService.changeReview('forgetTab', this.ReviewformServiceService.showReviewMan)
+    this.ReviewformServiceService.changeReview('CardPatchTab', this.ReviewformServiceService.showReviewMan)
   }
 
 

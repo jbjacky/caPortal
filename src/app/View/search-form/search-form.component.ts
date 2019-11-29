@@ -18,6 +18,7 @@ import { SearchChangeFormComponent } from '../shareComponent/search-change-form/
 import { void_MonthDiff } from 'src/app/UseVoid/void_DateDiff';
 import { GetFlowSignAttendUnusualApiDataClass } from 'src/app/Models/GetFlowSignAttendUnusualApiDataClass';
 import { GetFlowViewAttendUnusualDataClass } from 'src/app/Models/GetFlowViewAttendUnusualDataClass';
+import { SearchCardPatchFormComponent } from '../shareComponent/search-card-patch-form/search-card-patch-form.component';
 declare let $: any; //use jquery
 
 @Component({
@@ -75,6 +76,7 @@ export class SearchFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(SearchDelFormComponent) SearchDelFormComponent: SearchDelFormComponent;
   @ViewChild(SearchChangeFormComponent) SearchChangeFormComponent: SearchChangeFormComponent;
   @ViewChild(SearchForgetFormComponent) SearchForgetFormComponent: SearchForgetFormComponent;
+  @ViewChild(SearchCardPatchFormComponent) SearchCardPatchFormComponent: SearchCardPatchFormComponent;
   showVaDataDetails: boolean // 每點一次搜尋Detil
   onSearchForm() {
     this.showSelectSearchForm = ''//勿刪!! 讓搜尋後的結果重新載入一遍
@@ -112,6 +114,7 @@ export class SearchFormComponent implements OnInit, AfterViewInit, OnDestroy {
   getApiForgetData: GetFlowViewCardGetApiDataClass[] = []
   getApiShiftRoteData: GetFlowViewShiftRoteGetApiDataClass[] = []
   getFlowSignAttendUnusualApiData: GetFlowViewAttendUnusualDataClass[] = []
+  getApiCardPatchData: GetFlowViewCardGetApiDataClass[] = []
 
   getSearchFlowForm(GetFlowView: GetFlowViewClass) {
     // console.log(GetFlowView)
@@ -183,7 +186,20 @@ export class SearchFormComponent implements OnInit, AfterViewInit, OnDestroy {
             this.LoadingPage.hide()
           }
         )
-    }
+    } else if (GetFlowView.FormCode == 'CardPatch') {
+
+      this.GetApiDataServiceService.getWebApiData_GetFlowViewCardPatch(GetFlowView)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (GetFlowViewCardGetApiData: GetFlowViewCardGetApiDataClass[]) => {
+            this.getApiCardPatchData = GetFlowViewCardGetApiData
+            this.showForm(GetFlowView)
+            this.LoadingPage.hide()
+          }, error => {
+            this.LoadingPage.hide()
+          }
+        )
+    } 
   }
 
   showForm(GetFlowView: GetFlowViewClass) {
@@ -199,7 +215,9 @@ export class SearchFormComponent implements OnInit, AfterViewInit, OnDestroy {
       this.SearchDelFormComponent.onGoBackFunction();
     } else if (this.SearchChangeFormComponent) {
       this.SearchChangeFormComponent.onGoBackFunction();
-    }
+    } else if (this.SearchCardPatchFormComponent) {
+      this.SearchCardPatchFormComponent.onGoBackFunction();
+    } 
 
     this.TopresizeNav();
     this.windowSize()
