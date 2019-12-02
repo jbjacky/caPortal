@@ -130,7 +130,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
     //     (x: CaUserClass) => {
     //       if (x) {
     // console.log('nav')
-    var x = { EmpID: localStorage.getItem('API_Token') }
+    var x = { EmpID: '0004420' }
     this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(x.EmpID)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
@@ -363,7 +363,10 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
       this.secondtitle = null
     }
   }
-
+  signOutCheck(){
+    
+    $("#LogoutDialog").modal('show')
+  }
   signOut() {
     this.router.navigateByUrl('/LoginComponent')
     localStorage.removeItem('API_Token')

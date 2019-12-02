@@ -98,25 +98,13 @@ declare let apiGetFileURL: any
   providedIn: 'root'
 })
 export class GetApiDataServiceService {
-  settingData: SettingClass
-  // localUrl = settingJson.apiPostURL
-  constructor(private http: HttpClient) {
-    // console.log(settingJson)
-  }
-  // localUrl = 'https://publish.jbjob.com.tw/ChinaAirlines/eepWebService/'
+  constructor(private http: HttpClient) {}
   localUrl = apiPostURL
   getFileURL = apiGetFileURL
-  // localUrl = 'http://60.250.52.108/eepWebService/'
-
-  // localUrl = 'https://192.168.1.24/ChinaAirlines/eepWebService/'
-  // localUrl = 'https://localhost/eepWebService/'
-
-  //華航的 localUrl = http://hdqhr05t/eepWebService/
-
 
   GetHeader_Admin() {
     var _credentials = 'q' + ":" + 'q';
-    var _basic = "Basic " + btoa(_credentials);
+    var _basic = "Bearer " +_credentials;
     var _header = new HttpHeaders({
       // 'Access-Control-Allow-Origin': '*',
       // 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -130,8 +118,8 @@ export class GetApiDataServiceService {
   }
 
   GetHeader() {
-    var _credentials = localStorage.getItem('API_Token') + ":" + localStorage.getItem('API_Code');
-    var _basic = "Basic " + btoa(_credentials);
+    var _credentials = localStorage.getItem('API_Token');
+    var _basic = "Bearer " + _credentials;
     var _header = new HttpHeaders({
       // 'Access-Control-Allow-Origin': '*',
       // 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -147,7 +135,9 @@ export class GetApiDataServiceService {
   getWebApiData_jbLoggin(jbUserLogin:jbUserLoginClass) {
     return this.http.post(this.localUrl + 'BaseHandler/Accountloggin',
       JSON.stringify(jbUserLogin), {
-        headers: this.GetHeader(),
+        headers:  new HttpHeaders({
+          'Content-Type': 'application/json',
+        })
       })
   }
 
@@ -183,9 +173,7 @@ export class GetApiDataServiceService {
    * @todo 拿人員資料
    */
   getWebApiData_Token(urlCode) {
-    return this.http.post(this.localUrl + 'AuthHandler/GetToken', `'${urlCode}'`, {
-      headers: this.GetHeader_Admin()
-    })
+    return this.http.post(this.localUrl + 'AuthHandler/GetToken', `'${urlCode}'`)
   }
 
 

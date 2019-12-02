@@ -70,16 +70,15 @@ export class LoginComponent implements OnInit, OnDestroy {
         "Password": loginFromGroup.password.toString()
       }
       this.GetApiDataServiceService.getWebApiData_jbLoggin(userLogin)
-
         .pipe(takeWhile(() => this.api_subscribe))
         .subscribe(
           (jbLoginData: jbLoginDataClass) => {
 
             if (jbLoginData.Pass) {
-              localStorage.setItem('API_Token', jbLoginData.EmpID)
+              localStorage.setItem('API_Token', jbLoginData.Token)
               this.route.navigateByUrl('/nav')
             } else {
-              alert('密碼輸入錯誤')
+              alert(jbLoginData.message)
               this.LoadingPage.hide()
             }
           },errors=>{

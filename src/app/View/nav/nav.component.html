@@ -72,7 +72,7 @@
                         </li> -->
                     </ul>
                     <!--header-subfunctions End-->
-                    <a class="btn-log-out" style="cursor: pointer;" (click)="signOut()">
+                    <a class="btn-log-out" style="cursor: pointer;" data-toggle="modal" (click)="signOutCheck()">
                         <ng-container i18n>登出</ng-container>
                     </a>
                 </div>
@@ -351,3 +351,44 @@
     </div>
 </div>
 <!--dialog選擇系統操作腳色-->
+
+
+
+<div class="modal" id="LogoutDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog modal-dialog-centered vertical-align-center">
+            <div class="modal-content" style="border-radius: 12.5px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="font-size: 25px;">×</span>
+                    </button>
+                    <div style="text-align: center;">
+                            <img src="./assets/jbIcon/icon-logout-siren.png" />
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align: center;font-size: 18px;color: #0091da;margin-bottom: 20px;">
+                        登出系統提醒
+                    </div>
+                    <div style="text-align: center;margin-bottom: 20px;">
+                        <div>
+                            您即將登出差勤系統，
+                        </div>
+                        <div>
+                            確定要登出系統嗎？
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button type="button" style="margin: 0px 10px;" class="btn btn-default" data-dismiss="modal">
+                            <ng-container i18n>回系統</ng-container>
+                        </button>
+                        <button type="button" style="margin: 0px 10px;" class="btn btn-primary" data-dismiss="modal" (click)="signOut()">
+                            <ng-container i18n>登出</ng-container>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--dialog登出-->

@@ -8,4 +8,5 @@ export class jbLoginDataClass {
     Code: string;
     Token: string;
     EmpID: string;
+    message: string;
 }

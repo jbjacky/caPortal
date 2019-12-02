@@ -28,9 +28,9 @@ export class ErrorPageComponent implements OnInit ,AfterViewInit{
   ngOnInit() {
     this.errorState = this.ErrorStateService.errorState
     this.LoadingPage.hide()
-    if (this.errorState == 0) {
-      this.relogin()
-    }
+    // if (this.errorState == 0) {
+    //   this.relogin()
+    // }
   }
   relogin() {
     localStorage.removeItem('API_Token')

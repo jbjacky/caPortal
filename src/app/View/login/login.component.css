@@ -1,10 +1,12 @@
-.smallstar{
-    color:red;
+.smallstar {
+    color: red;
 }
-.smallstar::before{
-    content:"*";
-    color:red;
+
+.smallstar::before {
+    content: "*";
+    color: red;
 }
+
 /* CSS Document */
 /*
   為了能以中文註解，一定要宣告為UTF-8
@@ -23,45 +25,47 @@ _屬性:值;  for IE6
 -*------------------------------------------------------------------------*/
 /*所有元素採用border-box呈現，意思是:寬高的尺吋將包含內距與邊框尺吋*/
 * {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
-::ng-deep 
-body {
-  width: 100%;
-  margin: 0px;
-  padding: 0px;
-  background: #fff url(../../../assets/images-template/img-temp-login/bg_extend.jpg) 0 0 repeat-x;
+
+::ng-deep body {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    background: #fff url(../../../assets/images-template/img-temp-login/bg_extend.jpg) 0 0 repeat-x;
 }
+
 *:before,
 *:after {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
+
 /*------------------------------------------------------------------------*-
   $Globle > $clearfix 
   視覺化小組:使用float元素的父元素高度正常展開的方法
 -*------------------------------------------------------------------------*/
 /*方法一:clearfix*/
-  /*使用方法 於父元素的class增加一名稱為clearfix，
+/*使用方法 於父元素的class增加一名稱為clearfix，
     如果父元素的class已有名稱，請空格再加上clearfix
       <div class="thereIsAlreadyAClass clearfix">
     裡面的元素有用到float喔
       </div>
   */
 .clearfix:after {
-  content: " ";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
+    content: " ";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
 }
 
 .clearfix {
-  zoom: 1;
+    zoom: 1;
 }
 
 /*方法二:清除文繞圖 (dirty easy way) */
@@ -71,36 +75,40 @@ body {
   <div class="clearboth"></div>
 */
 .clearboth {
-  clear: both;
+    clear: both;
 }
+
 /*------------------------------------------------------------------------*-
     $Bootstrap Adjust and Extend / Bootstrap調整與擴充
 -*------------------------------------------------------------------------*/
-.btn{
-	padding-top: 9px;
-	padding-bottom: 9px;
-	font-size: 16px;
-	border-radius:2px;
+.btn {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    font-size: 16px;
+    border-radius: 2px;
 }
-.btn-primary{
-	background-color: #017dc3;
-	border: none;
+
+.btn-primary {
+    background-color: #017dc3;
+    border: none;
 }
-.btn-primary:hover{
-	background-color: #004064;	
+
+.btn-primary:hover {
+    background-color: #004064;
 }
 
 
-.btn-default{
-	background-color: #e1e1e1;	
+.btn-default {
+    background-color: #e1e1e1;
 }
-.btn-default:hover{
-	background-color: #d7d7d7;	
+
+.btn-default:hover {
+    background-color: #d7d7d7;
 }
 
 
-.text-danger{
-	color:#e60012;
+.text-danger {
+    color: #e60012;
 }
 
 
@@ -109,44 +117,49 @@ body {
     $元件 可共用部份
 -*------------------------------------------------------------------------*/
 /*輸入欄位*/
-.input-style001{
-	padding: 2px 10px;
-	border: none;
-	_border: 1px solid #fff;
-	background-color: transparent;
-	line-height: 1.42857143;
+.input-style001 {
+    padding: 2px 10px;
+    border: none;
+    _border: 1px solid #fff;
+    background-color: transparent;
+    line-height: 1.42857143;
 }
-.input-style001:focus{
-	outline: none;
+
+.input-style001:focus {
+    outline: none;
 }
 
 
 
 
 /*表單樣式 style01*/
-.form-group-civd-style001{
-	padding-bottom: 9px;
-	margin-bottom: 25px;
-	border-bottom: 1px solid #9babb7;	
+.form-group-civd-style001 {
+    padding-bottom: 9px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #9babb7;
 }
-.form-group-civd-style001  .prop{
-	width: 90px;
-	padding-left: 3px;
-	float: left;
-	border-right: 1px solid #9babb7;
-	line-height: 1;
+
+.form-group-civd-style001 .prop {
+    width: 90px;
+    padding-left: 3px;
+    float: left;
+    border-right: 1px solid #9babb7;
+    line-height: 1;
 }
-.form-group-civd-style001  .value{
-	margin-left: 90px;
-	padding-left: 3px;
+
+.form-group-civd-style001 .value {
+    margin-left: 90px;
+    padding-left: 3px;
 }
-.form-group-civd-style001  label{
-	font-size: 13px;
-	padding-top: 5px;
-	font-weight: normal;
+
+.form-group-civd-style001 label {
+    font-size: 13px;
+    padding-top: 5px;
+    font-weight: normal;
 }
-.form-group-civd-style001  label.label-tw{
-	font-size: 15px;
+
+.form-group-civd-style001 label.label-tw {
+    font-size: 15px;
 }
 
 
@@ -157,211 +170,239 @@ body {
     做為這個樣版網頁基礎字型、文字顏色的基礎設定
 -*------------------------------------------------------------------------*/
 body {
-  color: #4c4c4c;
-  font-family: Helvetica, Arial, "微軟正黑體","Microsoft JhengHei","蘋果儷中黑", "Lucida Sans Unicode","Microsoft Yahei", sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
+    color: #4c4c4c;
+    font-family: Helvetica, Arial, "微軟正黑體", "Microsoft JhengHei", "蘋果儷中黑", "Lucida Sans Unicode", "Microsoft Yahei", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
 }
+
 /*------------------------------------------------------------------------*-
     $Structure
     頁面Layout基礎結構
 -*------------------------------------------------------------------------*/
 /*頁面高度100% start*/
-html, body {
-  height: 100%;
+html,
+body {
+    height: 100%;
 }
+
 /*頁面高度100% end*/
 
 
 #wrapper {
-  margin: 0 auto;
+    margin: 0 auto;
 }
-#header{
+
+#header {
     position: relative;
     background: 0;
     border: 0;
     margin: 0;
     padding: 0;
-  }
-#main{
-  position: relative;
-  width: 600px;
-  margin: 0 auto;
-  margin-bottom: 10px;
-  background-color: #fff;
-  box-shadow:0 2px 10px #ddd;
-  letter-spacing: 0.35px;
-}
-@media (max-width: 620px){
-	#main{
-	  position: relative;
-	  width: 100%;
-	  margin: 0 auto;
-	  margin-bottom: 10px;
-	  background-color: #fff;
-	  box-shadow:0 0px 0px #ddd;
-	}
 }
 
-#htmlversion{
-  display: none;
+#main {
+    position: relative;
+    width: 600px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px #ddd;
+    letter-spacing: 0.35px;
 }
+
+@media (max-width: 620px) {
+    #main {
+        position: relative;
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 10px;
+        background-color: #fff;
+        box-shadow: 0 0px 0px #ddd;
+    }
+}
+
+#htmlversion {
+    display: none;
+}
+
 /*------------------------------------------------------------------------*-
     $Header
 -*------------------------------------------------------------------------*/
-#header-inner{
-  width: 600px;
-  margin: 0 auto;
-  padding-top: 35px;
-  min-height: 120px;
-  _height:85px;
+#header-inner {
+    width: 600px;
+    margin: 0 auto;
+    padding-top: 35px;
+    min-height: 120px;
+    _height: 85px;
 }
-.lt-ie9  #header-inner{
-  min-height: 85px;
+
+.lt-ie9 #header-inner {
+    min-height: 85px;
 }
-#website-title-group{
-	position: relative;	
+
+#website-title-group {
+    position: relative;
 }
-#ci-logo{
-	position: absolute;
-	top: 4px;
-	left: 15px;
-	width: 142px;
-	height: 28px;		
+
+#ci-logo {
+    position: absolute;
+    top: 4px;
+    left: 15px;
+    width: 142px;
+    height: 28px;
 }
-#website-title{
-	margin: 0;
-	padding-left: 180px;
-	font-weight: normal;
-	font-size: 30px;
-	color:#081346;	
+
+#website-title {
+    margin: 0;
+    padding-left: 180px;
+    font-weight: normal;
+    font-size: 30px;
+    color: #081346;
 }
-#website-title.website-title-en{
-	padding-top: 5px;
-	font-size: 26px;
+
+#website-title.website-title-en {
+    padding-top: 5px;
+    font-size: 26px;
 }
-@media (max-width: 620px){
-	#header-inner{
-		width: 100%;
-		padding-top: 0;
-		padding-bottom: 20px;
-  		background-color: #fff;
-	}
-	#ci-logo{
-		position: static;	
-		top: auto;	
-		left: auto;
-		width: 100%;
-		height: auto;
-		margin: 0 auto 50px;
-		padding-top: 10px;
-		padding-bottom: 10px;
-		background-color: #fafafa;
-		border-bottom: 3px solid #83bede;
-		text-align: center;
-	}
-	#website-title{
-		padding-left: 0;
-		text-align: center;	
-	}
+
+@media (max-width: 620px) {
+    #header-inner {
+        width: 100%;
+        padding-top: 0;
+        padding-bottom: 20px;
+        background-color: #fff;
+    }
+
+    #ci-logo {
+        position: static;
+        top: auto;
+        left: auto;
+        width: 100%;
+        height: auto;
+        margin: 0 auto 50px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-color: #fafafa;
+        border-bottom: 3px solid #83bede;
+        text-align: center;
+    }
+
+    #website-title {
+        padding-left: 0;
+        text-align: center;
+    }
 }
+
 /*------------------------------------------------------------------------*-
     $main
 -*------------------------------------------------------------------------*/
-#main-inner{
-	border-bottom: 15px solid #0b1a5d;
+#main-inner {
+    border-bottom: 15px solid #0b1a5d;
 }
-@media (max-width: 620px){
-	#main-inner{
-		border-bottom: none;
-	}
+
+@media (max-width: 620px) {
+    #main-inner {
+        border-bottom: none;
+    }
 }
-#block01-head{
-	padding: 15px 20px 0;
-	color:#0b1a5d;
-	font-size: 15px;
+
+#block01-head {
+    padding: 15px 20px 0;
+    color: #0b1a5d;
+    font-size: 15px;
 }
-#block01-body{
-	position: relative;
-	margin-bottom: 10px;
-	padding-top: 55px;
-	padding-bottom: 45px;
-	background:  url(../../../assets/images-template/img-temp-login/bg_icon_lock.png) right 140px no-repeat;
+
+#block01-body {
+    position: relative;
+    margin-bottom: 10px;
+    padding-top: 55px;
+    padding-bottom: 45px;
+    background: url(../../../assets/images-template/img-temp-login/bg_icon_lock.png) right 140px no-repeat;
 }
-.hr-style01{
-	position: absolute;
-	left: 50%;
-	bottom: 0;
-	width: 380px;
-	margin: 0;
-	margin-left: -190px;
+
+.hr-style01 {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 380px;
+    margin: 0;
+    margin-left: -190px;
 }
 
 
-#login_area{
-	width: 380px;
-	margin: 0 auto;	
-}
-#login_form{
-	width: 300px;
-	margin: 0 auto;
-	margin-bottom: 50px;		
-}
-@media (max-width: 620px){
-	#block01-head{
-		text-align: center;
-	}
-	#block01-body{
-		background-image: none;
-	}
-
-
-	#login_area{
-		width: 94%;	
-	}
-	#login_form{
-		width: 100%;
-		padding: 0 20px;
-	}
-
-	.hr-style01{
-		position: absolute;
-		left: 5%;
-		bottom: 0;
-		width: 90%;
-		margin: 0 auto;
-	}
-
-	.form-group-civd-style001{
-		width: 100%;
-	}
-	.form-group-civd-style001 > .prop{
-		width: 25%;
-	}
-	.form-group-civd-style001 > .value{
-		margin-left: 25%;
-		width: 75%;
-	}
+#login_area {
+    width: 380px;
+    margin: 0 auto;
 }
 
-
-
-#btn-login-style001{
-	width: 260px;
-	line-height: 1.42857143;
+#login_form {
+    width: 300px;
+    margin: 0 auto;
+    margin-bottom: 50px;
 }
 
-.pg-login-links{
-	font-size: 13px;
-	color:#4c4c4c;
-	text-decoration: none;
-	border-bottom: none;
+@media (max-width: 620px) {
+    #block01-head {
+        text-align: center;
+    }
+
+    #block01-body {
+        background-image: none;
+    }
+
+
+    #login_area {
+        width: 94%;
+    }
+
+    #login_form {
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .hr-style01 {
+        position: absolute;
+        left: 5%;
+        bottom: 0;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .form-group-civd-style001 {
+        width: 100%;
+    }
+
+    .form-group-civd-style001>.prop {
+        width: 25%;
+    }
+
+    .form-group-civd-style001>.value {
+        margin-left: 25%;
+        width: 75%;
+    }
 }
-.pg-login-links:hover{
-	color:#ff6600;
-	text-decoration: none;	
-	border-bottom: none;
+
+
+
+#btn-login-style001 {
+    width: 260px;
+    line-height: 1.42857143;
 }
+
+.pg-login-links {
+    font-size: 13px;
+    color: #4c4c4c;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.pg-login-links:hover {
+    color: #ff6600;
+    text-decoration: none;
+    border-bottom: none;
+}
+
 /*------------------------------------------------------------------------*-
     $footer
 -*------------------------------------------------------------------------*/
@@ -371,14 +412,362 @@ html, body {
     $Other
     $其他
 -*------------------------------------------------------------------------*/
-.bg-warning{
-  background-color: #fff799;
+.bg-warning {
+    background-color: #fff799;
 }
 
 
 
 
 
+/* ＝＝＝＝＝＝＝＝＝＝＝globel-背景＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    height: 100%;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+a div {
+    margin: 0px;
+    padding: 0px;
+}
+
+/* ＝＝＝＝＝＝＝＝＝＝＝Body-定位框架＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
+
+.login-wapper {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+/* ＝＝＝＝＝＝＝＝＝＝＝白色框架上方的字＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
+
+.title-type {
+    font-family: 'Noto Sans TC', sans-serif, 'Arimo', 微軟正黑體;
+    font-size: 2em;
+    color: #2C61AA;
+    width: 100%;
+    text-align: center;
+    margin: 10px;
+    margin-top: 20px;
+}
+
+/* ＝＝＝＝＝＝＝＝＝＝＝登入白色框架＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
+
+.login-min-box-wapper {
+    background-color: rgb(255, 255, 255);
+    width: 600px;
+    padding: 16px;
+    border-radius: 10px;
+
+    box-shadow: 4px 4px 30px rgba(27, 27, 31, 0.2);
+    z-index: 2;
+
+}
+
+.icon-Login-min {
+    border-bottom: 1px solid #bfc0c3;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.hr-type {
+    border-bottom: 1px solid #bfc0c3;
+    padding-bottom: 32px;
+}
+
+/* ＝＝＝＝輸入內容外框位置＝＝＝＝ */
+
+.input-box {
+    text-align: center;
+    margin: 0 auto;
+    width: 250px;
+}
+
+/* ＝＝＝＝輸入內容的副標題＝＝＝＝ */
+
+.input-BoxText-type {
+    font-family: 'Noto Sans TC', sans-serif, 'Arimo', 微軟正黑體;
+    font-size: 1.2em;
+    line-height: 4em;
+    margin-bottom: 32px;
+    color: rgb(111, 192, 233);
+}
+
+/* ＝＝＝＝記住密碼的勾勾＝＝＝＝ */
+
+.remeber-Password {
+    font-family: 'Noto Sans TC', sans-serif, 'Arimo', 微軟正黑體;
+    font-size: 0.3em;
+    color: #9B9B9B;
+}
+
+/* ＝＝＝＝輸入內容欄位＝＝＝＝ */
+
+.wrap-input100 {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input100 {
+    font-family: 'Noto Sans TC', sans-serif, 'Arimo', 微軟正黑體;
+    line-height: 2em;
+    display: block;
+    width: 100%;
+    background: #fff;
+    height: 50px;
+    border-radius: 10px;
+    padding: 0 10px 0 80px;
+}
+
+/* ＝＝＝＝記住密碼＝＝＝＝ */
+
+
+.remeber-Password-wapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.checkbox-remeber-Password {
+    border-style: solid;
+    border-color: #9B9B9B;
+    border-width: 1.5px;
+    width: 12px;
+    height: 12px;
+    margin-right: 6px;
+}
+
+/* ＝＝＝＝登入按鈕＝＝＝＝ */
+
+.btn-login {
+    background: #4087CE;
+    border-radius: 10px;
+    width: 100%;
+    color: #fff;
+    padding: 5px;
+    border: 0;
+}
+
+.btn-login-text {
+    font-family: 'Noto Sans TC', sans-serif, 'Arimo', 微軟正黑體;
+    font-size: 0.3em;
+    color: rgb(255, 255, 255);
+}
+
+.btn-login:focus {
+    outline: none !important;
+}
+.btn-login:hover {
+    background: #2C61AA;
+}
+
+/* ＝＝＝＝輸入內容欄位 Focus＝＝＝＝ */
+
+.focus-input100 {
+    display: block;
+    position: absolute;
+    border-radius: 25px;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 0px 0px 0px;
+    color: rgb(37, 158, 219);
+}
+
+.input100:focus+.focus-input100 {
+    -webkit-animation: anim-shadow 0.5s ease-in-out forwards;
+    animation: anim-shadow 0.5s ease-in-out forwards;
+}
+
+@-webkit-keyframes anim-shadow {
+    to {
+        box-shadow: 0px 0px 70px 25px;
+        opacity: 0;
+    }
+}
+
+@keyframes anim-shadow {
+    to {
+        box-shadow: 0px 0px 70px 25px;
+        opacity: 0;
+    }
+}
+
+.symbol-input100 {
+    font-size: 15px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    border-radius: 10px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-left: 35px;
+    pointer-events: none;
+    color: #c6c6c6;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+
+/* ＝＝＝＝＝＝＝＝＝＝＝轉換語言＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
+
+.translate-EN {
+    font-family: 'Arimo', 'Noto Sans TC', sans-serif, 微軟正黑體;
+    font-size: 0.2em;
+    letter-spacing: 1.5px;
+    color: #14B2F6;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 8%;
+    right: 8%;
+    z-index: 4;
+}
+
+.translate-EN img {
+    width: 29px;
+    height: 21px;
+    margin-top: 2px;
+    margin-right: 8px;
+}
+
+/* ＝＝＝＝＝＝＝＝＝＝＝版本宣告＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
+
+.edition-v2-20 {
+    font-family: 'Noto Sans TC', sans-serif, 'Arimo', 微軟正黑體;
+    font-size: 0.5em;
+    color: #c6c6c6;
+    position: absolute;
+    bottom: 4%;
+    left: 5%;
+    z-index: 3;
+}
+
+/* ＝＝＝＝＝＝＝＝＝＝＝忘記密碼跟修改密碼＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
+
+div .footer-text {
+    margin-top: 32px;
+}
+
+.footer-text {
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.Forgot,
+.Change {
+    display: flex;
+    justify-content: center;
+}
+
+.Forgot img {
+    width: 16px;
+    /* margin-right:8px; */
+}
+
+
+.text-Password {
+    font-family: 'Noto Sans TC', sans-serif, 'Arimo', 微軟正黑體;
+    font-size: 1em;
+    color: #14B2F6;
+    letter-spacing: 2px;
+    /* margin-right:30px;   */
+}
+
+a .Forgot,
+a .Change {
+    padding: 0px;
+    margin: 0px;
+
+}
+
+/* ＝＝＝＝＝＝＝＝＝＝＝Responsive (RWD)＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝*/
 
 
 
+@media (max-width: 768px) {
+    .login-min-box-wapper {
+        width: 500px;
+    }
+}
+
+
+@media (max-width: 576px) {
+    .login-min-box-wapper {
+        width: 400px;
+    }
+
+    .translate-EN span {
+        display: none;
+    }
+}
+
+@media (max-width: 414px) {
+    .login-min-box-wapper {
+        width: 90%;
+    }
+}
+
+@media (max-width: 375px) {
+    .login-min-box-wapper {
+        width: 90%;
+    }
+
+    .translate-EN span {
+        display: none;
+    }
+
+    div .footer-text {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 320px) {
+    .login-min-box-wapper {}
+
+    .input-box {
+        width: 200px;
+    }
+
+    .title-type {
+        font-size: 1em;
+    }
+
+    .input-BoxText-type {
+        font-size: 0.8em;
+        line-height: 2em;
+        margin-bottom: 20px;
+    }
+
+    div .footer-text {
+        margin-top: 18px;
+    }
+}

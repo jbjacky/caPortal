@@ -1,97 +1,43 @@
-<div id="wrapper">
-    <div id="header">
-        <div id="header-inner">
-            <div id="website-title-group">
-                <div id="ci-logo" class="">
-                    <img src="./assets/images-template/img-temp-login/logo-ci-tw.png" alt="China Airlines Logo">
+
+<div class="login-wapper">
+    <div class="title-type">員工差勤系統</div>
+    <div class="login-min-box-wapper">
+        <div class="icon-Login-min">
+            <img src="./assets/jbIcon/icon-Login-min.png" alt="">
+        </div>
+        <div class="input-box">
+            <form [formGroup]="loginFromGroup" (ngSubmit)="login()">
+
+                <span class="input-BoxText-type">請登入您的帳號密碼</span>
+                <div class="wrap-input100">
+                    <input id="user_id" class="input100" type="text" formControlName="account" autocomplete="off"
+                        placeholder="輸入工號" />
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <!-- <i class="fa fa-user-circle-o" aria-hidden="true"></i> -->
+                        <img src="./assets/jbIcon/icon_user-circle.png" alt="" width="20px" height="20px">
+                    </span>
                 </div>
-                <h1 id="website-title" class="">差勤系統</h1>
-            </div>
+                <div class="wrap-input100">
+                    <input #user_password id="user_password" class="input100" type="password"
+                        formControlName="password" placeholder="輸入密碼"/>
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <!-- <i class="fa fa-lock" aria-hidden="true"></i> -->
+                        <img src="./assets/jbIcon/icon_user-password.png" alt="" width="20px" height="20px">
+                    </span>
+                </div>
+                <div>
+                    <input class="btn-login" type="submit" value="登入" />
+                </div>
+                <div class="footer-text">
+                    <a class="Forgot" href="#"><img src="./assets/jbIcon/icon-information-guize.png" alt=""></a>
+                    <span>&nbsp;</span>
+                    <a class="Forgot text-Password" href=""><span class="text-Password">忘記密碼</span></a>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <a class="Change text-Password" href="#"><span class="Change text-Password">修改密碼</span></a>
+                </div>
+            </form>
         </div>
     </div>
-
-    <div id="main">
-        <div id="main-inner">
-
-            <div id="block01">
-                <div id="block01-head">
-                    <!-- <p>* 請登入您的EIP帳號密碼.</p> -->
-                </div>
-
-                <div id="block01-body">
-                    <section id="login_area">
-                        <form  [formGroup]="loginFromGroup" (ngSubmit)="login()">
-
-                            <div id="login_form" class="">
-                                <dl class="form-group-civd-style001">
-                                    <dt class="prop">
-                                        <label for="user_id" class="label-tw">帳 號</label>
-                                    </dt>
-                                    <dd class="value">
-                                        <input id="user_id" class="input-style001" type="text" formControlName="account"
-                                            autocomplete="off" />
-                                    </dd>
-                                </dl>
-
-                                <dl class="form-group-civd-style001">
-                                    <dt class="prop">
-                                        <label for="user_password" class="label-tw">密 碼</label>
-                                    </dt>
-                                    <dd class="value">
-                                        <input #user_password id="user_password" class="input-style001" type="password"
-                                            formControlName="password" />
-                                    </dd>
-                                </dl>
-
-                            </div>
-                            <!-- <div class="text-center   text-danger">
-                                    <div  *ngIf="account.invalid && (account.dirty || account.touched)">
-                                            <div *ngIf="accountError_required">
-                                                <span class="smallstar">
-                                                        <ng-container i18n>請輸入帳號</ng-container>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div  *ngIf="password.invalid && (password.dirty || password.touched)">
-                                            <div *ngIf="passwordError_required">
-                                                <span class="smallstar">
-                                                        <ng-container i18n>請輸入密碼</ng-container>
-                                                </span>
-                                            </div>
-                                        </div>
-                            </div> -->
-                            <div class="text-center   text-danger   hide">
-                                錯誤訊息錯誤訊息錯誤訊息錯誤訊息
-                            </div>
-
-
-                            <p class="text-center">
-                                <input id="btn-login-style001" type="submit" class="btn btn-primary" value="登入" />
-                            </p>
-                        </form>
-                        <!-- <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
-                        <p class="text-center  m-b-xs">
-                            <a class="pg-login-links" href="">忘記密碼?</a>
-                        </p>
-                        <p class="text-center  m-b-xs">
-                            <a class="pg-login-links" href="login_thm01sty01_登入基礎頁_英文.html">English Version</a>
-                        </p>
-
-
-                    </section>
-                </div>
-
-                <div id="block01-foot">
-                </div>
-
-
-            </div>
-        </div>
-    </div>
-
-    <div id="footer">
-    </div>
-
 </div>
-
-<!-- <div id="htmlversion">CIVD2015-temp-login</div> -->

@@ -1,3 +1,10 @@
+@media (min-width: 768px) {
+  #LogoutDialog .modal-dialog {
+    width: 350px;
+    margin: 30px auto;
+  }
+}
+
 #header {
   border-top: 0;
   border-bottom: 0;
@@ -94,9 +101,11 @@
 #btn-log-out-inMainNav {
   margin: 10px auto;
 }
-.uesrInfo{
+
+.uesrInfo {
   padding: 0px 20px 10px 20px;
 }
+
 .website-title-pc-ellipsis {
   width: calc(100vw - 550px);
   white-space: nowrap;
@@ -179,7 +188,16 @@ a.bt_switch:hover {
     float: left;
     background-color: #2c61aa;
   }
-  .uesrInfo{
+
+  .uesrInfo {
     padding: 20px;
+  }
+}
+
+
+@media screen and (max-width: 500px) {
+  #LogoutDialog .modal-dialog {
+    width: 350px;
+    margin: 30px auto;
   }
 }
