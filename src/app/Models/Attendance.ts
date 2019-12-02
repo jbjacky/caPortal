@@ -34,4 +34,10 @@ export class Attendance {
     ActualRote:any
     
     DayOfweek: string;
+    
+    EliminateLate:         boolean;
+    EliminateEarly:        boolean;
+    EliminateOnBefore:     boolean;
+    EliminateOffAfter:     boolean;
+    EliminateAbsent:       boolean;
   }

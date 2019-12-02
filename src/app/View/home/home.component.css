@@ -49,6 +49,7 @@
     cursor: pointer
 }
 .checkformdesktoptext{
+    display: inline-block;
     color: #fff;font-size: 17px;
 }
 .managerblock{

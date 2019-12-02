@@ -103,7 +103,64 @@
           <p style="color: #969696">
             <ng-container i18n>考勤狀態</ng-container>
           </p>
-          <div class="tag_red" *ngIf="OneAttendance.LateMins">
+          <div class="tag_blue" *ngIf="!OneAttendance.LateMins &&
+                 !OneAttendance.EarlyMins &&
+                 !OneAttendance.IsAbsent &&
+                 !OneAttendance.EarlyarriveMins &&
+                 !OneAttendance.LateleaveMins">
+            <ng-container i18n>正常</ng-container>
+          </div>
+          <div *ngIf="OneAttendance.LateMins">
+            <div *ngIf="OneAttendance.EliminateLate;else nonEliminateLate" class="tagBlueLineThrough">
+              <ng-container i18n>遲到</ng-container>
+            </div>
+            <ng-template #nonEliminateLate>
+              <div class="tag_red">
+                <ng-container i18n>遲到</ng-container>
+              </div>
+            </ng-template>
+          </div>
+          <div *ngIf="OneAttendance.EarlyMins">
+            <div *ngIf="OneAttendance.EliminateEarly;else nonEliminateEarly" class="tagBlueLineThrough">
+              <ng-container i18n>早退</ng-container>
+            </div>
+            <ng-template #nonEliminateEarly>
+              <div class="tag_red">
+                <ng-container i18n>早退</ng-container>
+              </div>
+            </ng-template>
+          </div>
+          <div *ngIf="OneAttendance.IsAbsent">
+            <div *ngIf="OneAttendance.EliminateAbsent;else nonEliminateAbsent" class="tagBlueLineThrough">
+              <ng-container i18n>未刷卡</ng-container>
+            </div>
+            <ng-template #nonEliminateAbsent>
+              <div class="tag_red">
+                <ng-container i18n>未刷卡</ng-container>
+              </div>
+            </ng-template>
+          </div>
+          <div *ngIf="OneAttendance.EarlyarriveMins">
+            <div *ngIf="OneAttendance.EliminateOnBefore;else nonEliminateOnBefore" class="tagBlueLineThrough">
+              <ng-container i18n>早來</ng-container>
+            </div>
+            <ng-template #nonEliminateOnBefore>
+              <div class="tag_red">
+                <ng-container i18n>早來</ng-container>
+              </div>
+            </ng-template>
+          </div>
+          <div *ngIf="OneAttendance.LateleaveMins">
+            <div *ngIf="OneAttendance.EliminateOffAfter;else nonEliminateOffAfter" class="tagBlueLineThrough">
+              <ng-container i18n>晚走</ng-container>
+            </div>
+            <ng-template #nonEliminateOffAfter>
+              <div class="tag_red">
+                <ng-container i18n>晚走</ng-container>
+              </div>
+            </ng-template>
+          </div>
+          <!-- <div class="tag_red" *ngIf="OneAttendance.LateMins">
             <ng-container i18n>遲到</ng-container>
           </div>
           <div class="tag_blue" *ngIf="!OneAttendance.LateMins && !OneAttendance.IsAbsent && !OneAttendance.EarlyMins && !OneAttendance.EarlyarriveMins && !OneAttendance.LateleaveMins">
@@ -120,7 +177,7 @@
           </div>
           <div class="tag_red" *ngIf="OneAttendance.LateleaveMins">
             <ng-container i18n>晚走</ng-container>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

@@ -57,6 +57,18 @@
     color: #9b9b9b;
 }
 
+.tagBlueLineThrough {
+  color: #23569D;
+  background-color: #fff;
+  border: 1px solid #23569D;
+  border-radius: 15px;
+  width: 70px;
+  height: 23px;
+  font-size: 15px;
+  text-align: center;
+  text-decoration:line-through;
+}
+
 .P_left{
     text-align: right
   }

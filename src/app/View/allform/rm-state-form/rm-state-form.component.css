@@ -61,6 +61,17 @@
     padding-bottom: 0px;
 }
 
+.tag_red {
+    color: #d0021b;
+    background-color: #fff;
+    border: 1px solid #d0021b;
+    border-radius: 15px;
+    width: 70px;
+    height: 23px;
+    font-size: 15px;
+    text-align: center;
+}
+
 .tagBlue {
     color: #23569D;
     background-color: #fff;
