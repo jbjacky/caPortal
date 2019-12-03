@@ -4,3 +4,35 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
+.fixClass{
+    position: fixed;
+    top: 20%;
+    left: 15%;
+    background-color: #fff;
+    width: 350px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 12.5px 0 rgba(0, 0, 0, 0.15);
+    padding: 30px 30px;
+}
+.bt_red{
+    border: 0;
+    color: #fff;
+    border-radius: 7.5px;
+    box-shadow: 2px 0 7.5px 0 rgba(0, 0, 0, 0.15);
+    background-color: #e8587e;
+    padding: 5px 20px;
+}
+.bt_red:hover{
+    background-color: #c13b5e;
+}
+.bt_Features{
+    margin-top: 25px;
+    text-align: center;
+}
+
+@media screen and (max-width:576px) {
+    .fixClass{
+        left: 5%;
+        width: 250px;
+    }
+}
