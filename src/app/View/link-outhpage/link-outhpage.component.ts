@@ -38,8 +38,15 @@ export class LinkOuthpageComponent implements OnInit, OnDestroy {
     this.LoadingPage.show()
     if (urlQuery.token) {
       // console.log(urlQuery.token)
-      localStorage.setItem('API_Token', '0004420')
-      this.route.navigateByUrl('/nav')
+
+      localStorage.setItem('API_Token', urlQuery.token)
+      this.GetApiDataServiceService.getWebApiData_GetAuthToken()
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (x: CaUserClass) => {
+            this.route.navigateByUrl('/nav')
+          }
+        )
     } else {
       this.LoadingPage.hide()
       this.ErrorStateService.errorState = 5

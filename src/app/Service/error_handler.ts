@@ -30,9 +30,14 @@ export class ErrorHandler implements OnDestroy {
     checkEverRequestError: boolean = false
 
     public handleError(request: HttpRequest<any>, error: HttpErrorResponse) {
-        if(localStorage.getItem('API_Token')){
-            
-        }else{
+        // console.log(error)
+        if (error.status == 401) {
+            this.ErrorStateService.errorState = 5
+            this.router.navigateByUrl('/ErrorPageComponent')
+            this.LoadingPage.hide()
+        } else if (localStorage.getItem('API_Token')) {
+
+        } else {
             this.router.navigateByUrl('/LoginComponent')
         }
         return
@@ -71,9 +76,9 @@ export class ErrorHandler implements OnDestroy {
                     if (x) {
                         this.KeyMan = x.EmpID;
                         var errorString = ''
-                        if(ifTimeOut){
+                        if (ifTimeOut) {
                             errorString = 'TimeOut'
-                        }else{
+                        } else {
                             errorString = error.error.toString()
                         }
                         var LogApiMsgGetApi: LogApiMsgGetApiClass = {

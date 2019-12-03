@@ -51,12 +51,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     // });
     
     // this.LoadingPage.show()
-    // if (localStorage.getItem('API_Token') &&
-    //   localStorage.getItem('API_Code')) {
-    //   this.route.navigate(['/CheckLoginPageComponent']);
-    // } else {
-    //   this.login()
-    // }
+    if (localStorage.getItem('API_Token')) {
+      // this.route.navigate(['/CheckLoginPageComponent']);
+      this.route.navigate(['/nav']);
+    }
   }
 
   login() {

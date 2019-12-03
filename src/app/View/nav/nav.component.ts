@@ -124,75 +124,78 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       )
     this.LoadingPage.show()
-    // this.GetApiDataServiceService.getWebApiData_GetAuthToken()
-    //   .pipe(takeWhile(() => this.api_subscribe))
-    //   .subscribe(
-    //     (x: CaUserClass) => {
-    //       if (x) {
-    // console.log('nav')
-    var x = { EmpID: '0004420' }
-    this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(x.EmpID)
+    this.GetApiDataServiceService.getWebApiData_GetAuthToken()
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
+        (x: CaUserClass) => {
+          //       if (x) {
+          // console.log('nav')
+          // var x = { EmpID: '0004420' }
+          this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(x.EmpID)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
 
-        (GetBaseInfoDetail: GetBaseInfoDetailClass[]) => {
-          // this.LoadingPage.show()
-          // console.log(GetBaseInfoDetail)
-          this.GetApiUserService.onAllChange(GetBaseInfoDetail)
+              (GetBaseInfoDetail: GetBaseInfoDetailClass[]) => {
+                // this.LoadingPage.show()
+                // console.log(GetBaseInfoDetail)
+                this.GetApiUserService.onAllChange(GetBaseInfoDetail)
 
-          for (let BaseInfoDetail of GetBaseInfoDetail) {
-            if (BaseInfoDetail.PosType == 'M') {
-              this.GetApiUserService.onChange(BaseInfoDetail)
-              this.selectUserData = BaseInfoDetail
-            }
-          }
+                for (let BaseInfoDetail of GetBaseInfoDetail) {
+                  if (BaseInfoDetail.PosType == 'M') {
+                    this.GetApiUserService.onChange(BaseInfoDetail)
+                    this.selectUserData = BaseInfoDetail
+                  }
+                }
 
 
-          // this.LoadingPage.hide()
-          // console.log(this.selectUserData)
-          this.setMenu(this.selectUserData.EmpID)
-          if (GetBaseInfoDetail) {
-            if (GetBaseInfoDetail.length > 0) {
+                // this.LoadingPage.hide()
+                // console.log(this.selectUserData)
+                this.setMenu(this.selectUserData.EmpID)
+                if (GetBaseInfoDetail) {
+                  if (GetBaseInfoDetail.length > 0) {
 
-              var GetBaseByAuthByEmpIDgetDeptInfoGetApi: GetBaseByAuthByEmpIDgetDeptInfoGetApiClass =
-              {
-                "EmpID": x.EmpID,
-                "EffectDate": _NowToday
-              }
-              this.GetApiDataServiceService.getWebApiData_GetBaseByAuthByEmpIDgetDeptInfo(GetBaseByAuthByEmpIDgetDeptInfoGetApi)
-                .pipe(takeWhile(() => this.api_subscribe))
-                .subscribe(
-                  (GetBaseByAuthByEmpIDData: GetBaseByAuthByEmpIDDataClass) => {
-
-                    if (GetBaseByAuthByEmpIDData.IsAdmin) {
-                      this.IsAdmin = true
-                    } else {
-                      this.IsAdmin = false
+                    var GetBaseByAuthByEmpIDgetDeptInfoGetApi: GetBaseByAuthByEmpIDgetDeptInfoGetApiClass =
+                    {
+                      "EmpID": x.EmpID,
+                      "EffectDate": _NowToday
                     }
+                    this.GetApiDataServiceService.getWebApiData_GetBaseByAuthByEmpIDgetDeptInfo(GetBaseByAuthByEmpIDgetDeptInfoGetApi)
+                      .pipe(takeWhile(() => this.api_subscribe))
+                      .subscribe(
+                        (GetBaseByAuthByEmpIDData: GetBaseByAuthByEmpIDDataClass) => {
+
+                          if (GetBaseByAuthByEmpIDData.IsAdmin) {
+                            this.IsAdmin = true
+                          } else {
+                            this.IsAdmin = false
+                          }
+                          this.LoadingPage.hide()
+
+                        }
+                      )
+                  } else {
                     this.LoadingPage.hide()
+                    this.ErrorStateService.errorState = 1
+                    this.router.navigateByUrl('/ErrorPageComponent')
 
                   }
-                )
-            } else {
-              this.LoadingPage.hide()
-              this.ErrorStateService.errorState = 1
-              this.router.navigateByUrl('/ErrorPageComponent')
+                } else {
 
-            }
-          } else {
+                  this.LoadingPage.hide()
+                  this.ErrorStateService.errorState = 1
+                  this.router.navigateByUrl('/ErrorPageComponent')
 
-            this.LoadingPage.hide()
-            this.ErrorStateService.errorState = 1
-            this.router.navigateByUrl('/ErrorPageComponent')
+                }
+              },
+              error => {
+                // alert('與api連線異常，getWebApiData_GetBaseInfoDetail')
+                // this.router.navigate(['ErrorPageComponent']);
+                this.LoadingPage.hide()
+              }
+            )
+        })
 
-          }
-        },
-        error => {
-          // alert('與api連線異常，getWebApiData_GetBaseInfoDetail')
-          // this.router.navigate(['ErrorPageComponent']);
-          this.LoadingPage.hide()
-        }
-      )
+
     this.changeSencondTitle(this.router.url);
 
     // console.log(this.router)
@@ -363,8 +366,8 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
       this.secondtitle = null
     }
   }
-  signOutCheck(){
-    
+  signOutCheck() {
+
     $("#LogoutDialog").modal('show')
   }
   signOut() {

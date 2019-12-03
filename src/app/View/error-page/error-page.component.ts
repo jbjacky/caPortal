@@ -26,11 +26,11 @@ export class ErrorPageComponent implements OnInit ,AfterViewInit{
 
   errorState: number = 0 //1-沒權限，2-連線逾時
   ngOnInit() {
-    // this.errorState = this.ErrorStateService.errorState
+    this.errorState = this.ErrorStateService.errorState
     // this.LoadingPage.hide()
-    // if (this.errorState == 0) {
-    //   this.relogin()
-    // }
+    if (this.errorState == 0) {
+      this.relogin()
+    }
   }
   relogin() {
     localStorage.removeItem('API_Token')
@@ -41,6 +41,7 @@ export class ErrorPageComponent implements OnInit ,AfterViewInit{
 
 
   logout() {
+    localStorage.removeItem('API_Token')
     this.router.navigateByUrl('/LoginComponent')
     // void_LogoutPage()
   }

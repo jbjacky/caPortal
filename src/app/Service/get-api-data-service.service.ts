@@ -153,7 +153,7 @@ export class GetApiDataServiceService {
    * @todo 重新驗証Token 並延長時間(需要傳入AuthorizationHeader)
    */
   getWebApiData_GetAuthToken() {
-    return this.http.post(this.localUrl + 'AuthHandler/GetAuthToken', '', {
+    return this.http.get(this.localUrl + 'AuthHandler/GetToken',{
       headers: this.GetHeader()
     })
   }
