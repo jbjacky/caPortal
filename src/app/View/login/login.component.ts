@@ -41,6 +41,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   get accountError_required() { return this.loginFromGroup.get('account').hasError('required'); }
   get password() { return this.loginFromGroup.get('password') }
   get passwordError_required() { return this.loginFromGroup.get('password').hasError('required'); }
+
+  showLogin:boolean = false
   ngOnInit() {
     // this.user_password.nativeElement.addEventListener('keyup', function(event) {
     //   if (event.getModifierState("CapsLock")) {
@@ -50,10 +52,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     //   }
     // });
     
-    // this.LoadingPage.show()
+    this.LoadingPage.show()
     if (localStorage.getItem('API_Token')) {
       // this.route.navigate(['/CheckLoginPageComponent']);
       this.route.navigate(['/nav']);
+    }else{
+      this.LoadingPage.hide()
+      this.showLogin = true
     }
   }
 
