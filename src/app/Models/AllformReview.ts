@@ -42,7 +42,7 @@ export class FlowSign{
 }
 
 export class vaFlowSign{
-  uiHolidayName:Array<string>;
+  uiHolidayName:Array<any>;
   uiProcessFlowID:string;
   ProcessFlowID: string;
   FlowTreeID:string
@@ -121,7 +121,7 @@ export class forgetFlowSign{
 }
 export class delFlowSign{
   
-  uiHolidayName:Array<string>;
+  uiHolidayName:Array<any>;
   uiProcessFlowID:string;
   ProcessFlowID: string;
   FlowTreeID:string;
@@ -179,7 +179,7 @@ export class changeFlowSign{
 }
 export class YearAndDateClass{
   OneYear:string
-  YearofDate:Array<string>
+  YearofDate:Array<any>
 }
 
 
