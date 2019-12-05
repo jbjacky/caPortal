@@ -283,7 +283,7 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
                     verticalPosition: SnackSetting.verticalPosition,
                     horizontalPosition: SnackSetting.horizontalPosition
                   });
-                  this.router.navigateByUrl('/nav/reviewform')
+                  this.sendFinish();
                 } else {
                   // alert(x.MessageContent)
                   this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
@@ -350,7 +350,7 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
                     verticalPosition: SnackSetting.verticalPosition,
                     horizontalPosition: SnackSetting.horizontalPosition
                   });
-                  this.router.navigateByUrl('/nav/reviewform')
+                  this.sendFinish();
                 } else {
                   alert(x.MessageContent)
                   this.SnackBar.openFromComponent(ErrorSendbackSnackComponent, {
@@ -417,7 +417,7 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
                     verticalPosition: SnackSetting.verticalPosition,
                     horizontalPosition: SnackSetting.horizontalPosition
                   });
-                  this.router.navigateByUrl('/nav/reviewform')
+                  this.sendFinish();
                 } else {
                   // alert(x.MessageContent)
                   this.SnackBar.openFromComponent(ErrorPutForwardSnackComponent, {

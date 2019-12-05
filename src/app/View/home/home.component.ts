@@ -106,7 +106,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
               this.showMangerBlock = true
               this.showAbsDetailByDept(x)
               this.showAttendExceptionalByDept_Today(x)
-              this.showAttendExceptionalByDept_Lastday(x)
+              // this.showAttendExceptionalByDept_Lastday(x)
             }
 
             this.showReviewCount(x.EmpID)
@@ -348,10 +348,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   DL_showAttendExceptionalByDept_Today: boolean = false
   TodayAttend: Array<any> = []
+  LastdayAttend: Array<any> = []
   showAttendExceptionalByDept_Today(GetBaseInfoDetail: GetBaseInfoDetailClass) {
     this.DL_showAttendExceptionalByDept_Today = false
+    var today = new Date()
+    today.setDate(today.getDate() - 1)
+    var lastday = doFormatDate(today.toJSON().toString())
+
     var GetAttendExceptionalByDept: GetAttendExceptionalByDeptClass = {
-      DateB: this.showTodayString,
+      DateB: lastday,
       DateE: this.showTodayString,
       DeptaID: GetBaseInfoDetail.DeptaID.toString()
     }
@@ -359,7 +364,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: any) => {
-          this.TodayAttend = x
+          this.TodayAttend =[]
+          this.LastdayAttend =[]
+          for(let aa of x){
+            if(formatDateTime(aa.AttendDate).getDate == this.showTodayString){
+              this.TodayAttend.push(aa)
+            }else if(formatDateTime(aa.AttendDate).getDate == lastday){
+              this.LastdayAttend.push(aa)
+            }
+          }
+          // console.log(this.TodayAttend)
+          // console.log(this.LastdayAttend)
           this.DL_showAttendExceptionalByDept_Today = true
         }, error => {
           // alert('與api連線異常,getWebApiData_GetAttendExceptionalByDept')
@@ -367,27 +382,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       )
   }
 
-  LastdayAttend: Array<any> = []
-  showAttendExceptionalByDept_Lastday(GetBaseInfoDetail: GetBaseInfoDetailClass) {
-    var today = new Date()
-    today.setDate(today.getDate() - 1)
-    var lastday = doFormatDate(today.toJSON().toString())
-
-    var GetAttendExceptionalByDept: GetAttendExceptionalByDeptClass = {
-      DateB: lastday,
-      DateE: lastday,
-      DeptaID: GetBaseInfoDetail.DeptaID.toString()
-    }
-    this.GetApiDataServiceService.getWebApiData_GetAttendExceptionalByDept(GetAttendExceptionalByDept)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (x: any) => {
-          this.LastdayAttend = x
-        }, error => {
-          // alert('與api連線異常,getWebApiData_GetAttendExceptionalByDept')
-        }
-      )
-  }
   DL_showAbsDetailByDept: boolean = false
   AllAbsEmp: showAllAbsEmpClass[] = []
   showAbsDetailByDept(GetBaseInfoDetail: GetBaseInfoDetailClass) {
@@ -835,70 +829,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       return '#4c4c4c'
     }
   }
-
-
-  // bt_ApproveSusses() {
-  //   this.SnackBar.openFromComponent(SussesApproveSnackComponent, {
-  //     data: null,
-  //     panelClass: 'SussesSnackClass',
-  //     duration: SnackSetting.duration,
-  //     verticalPosition: SnackSetting.verticalPosition,
-  //     horizontalPosition: SnackSetting.horizontalPosition
-  //   });
-  //   this.router.navigateByUrl('/nav/reviewform')
-  // }
-  // bt_ApproveError() {
-
-  //   this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
-  //     data: '資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常',
-  //     panelClass: 'ErrorSnackClass',
-  //     duration: SnackSetting.duration,
-  //     verticalPosition: SnackSetting.verticalPosition,
-  //     horizontalPosition: SnackSetting.horizontalPosition
-  //   });
-  // }
-
-  // bt_SendbackSusses() {
-  //   this.SnackBar.openFromComponent(SussesSendbackSnackComponent, {
-  //     data: null,
-  //     panelClass: 'SussesSnackClass',
-  //     duration: SnackSetting.duration,
-  //     verticalPosition: SnackSetting.verticalPosition,
-  //     horizontalPosition: SnackSetting.horizontalPosition
-  //   });
-  //   this.router.navigateByUrl('/nav/reviewform')
-  // }
-  // bt_SendbackError() {
-
-  //   this.SnackBar.openFromComponent(ErrorSendbackSnackComponent, {
-  //     data: '資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常',
-  //     panelClass: 'ErrorSnackClass',
-  //     duration: SnackSetting.duration,
-  //     verticalPosition: SnackSetting.verticalPosition,
-  //     horizontalPosition: SnackSetting.horizontalPosition
-  //   });
-  // }
-
-  // bt_PutForwardSusses() {
-  //   this.SnackBar.openFromComponent(SussesPutForwardSnackComponent, {
-  //     data: null,
-  //     panelClass: 'SussesSnackClass',
-  //     duration: SnackSetting.duration,
-  //     verticalPosition: SnackSetting.verticalPosition,
-  //     horizontalPosition: SnackSetting.horizontalPosition
-  //   });
-  //   this.router.navigateByUrl('/nav/reviewform')
-  // }
-  // bt_PutForwardError() {
-
-  //   this.SnackBar.openFromComponent(ErrorPutForwardSnackComponent, {
-  //     data: '資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常',
-  //     panelClass: 'ErrorSnackClass',
-  //     duration: SnackSetting.duration,
-  //     verticalPosition: SnackSetting.verticalPosition,
-  //     horizontalPosition: SnackSetting.horizontalPosition
-  //   });
-  // }
+  ShowErrorAttend:Array<any> = []
+  ShowAttendDate = ''
+  ShowErrorAttendDialog (ShowErrorAttend:Array<any>){
+    if(ShowErrorAttend.length>0){
+      this.ShowAttendDate = formatDateTime(ShowErrorAttend[0].AttendDate).getDate
+      this.ShowErrorAttend = JSON.parse(JSON.stringify(ShowErrorAttend))
+      $('#DeptAtErrDialog').modal('show')
+    }
+  }
 }
 class weekjobs {
   realdate: string;

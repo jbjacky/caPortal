@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { pagechange } from 'src/app/Models/pagechange';
 import { AllformReview, FlowSign, vaFlowSign, forgetFlowSign, delFlowSign, dateArrayClass, changeFlowSign, AttendUnusualFlowSign, CardPatchFlowSign } from 'src/app/Models/AllformReview';
@@ -22,7 +22,7 @@ import { GetFlowSignAbsApiDataClass } from 'src/app/Models/GetFlowSignAbsApiData
 import { GetFlowSignAbscApiDataClass } from 'src/app/Models/GetFlowSignAbscApiDataClass';
 import { GetFlowSignCardApiDataClass } from 'src/app/Models/GetFlowSignCardApiDataClass';
 import { GetFlowSignShiftRoteApiDataClass } from 'src/app/Models/GetFlowSignShiftRoteApiDataClass';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatPaginator } from '@angular/material';
 import { SussesApproveSnackComponent } from '../../shareComponent/snackbar/susses-approve-snack/susses-approve-snack.component';
 import { SnackSetting } from '../../shareComponent/snackbar/SnackSetting';
 import { ErrorApproveSnackComponent } from '../../shareComponent/snackbar/error-approve-snack/error-approve-snack.component';
@@ -39,7 +39,16 @@ declare let $: any; //use jquery
   styleUrls: ['./reviewform.component.css']
 })
 
-export class ReviewformComponent implements OnInit, OnDestroy {
+export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild("vaPaginator") vaPaginator: MatPaginator;
+  @ViewChild("delPaginator") delPaginator: MatPaginator;
+  @ViewChild("changePaginator") changePaginator: MatPaginator;
+  @ViewChild("forgetPaginator") forgetPaginator: MatPaginator;
+  @ViewChild("AttendUnusualPaginator") AttendUnusualPaginator: MatPaginator;
+  @ViewChild("CardPatchPaginator") CardPatchPaginator: MatPaginator;
+
+  ngAfterViewInit(): void {
+  }
   ngOnDestroy(): void {
     // throw new Error("Method not implemented.");
     this.api_subscribe = false;
@@ -218,32 +227,32 @@ export class ReviewformComponent implements OnInit, OnDestroy {
       if (this.ReviewformServiceService.showReviewTab == 'vaTab') {
         this.ReviewformServiceService.changeReview('vaTab', this.ReviewformServiceService.showReviewMan);
         $('#' + this.ReviewformServiceService.showReviewTab).click();
-        this.vaTabClick(this.ReviewformServiceService.showReviewMan);
+        this.vaTabClick(this.ReviewformServiceService.showReviewMan, false);
       }
       else if (this.ReviewformServiceService.showReviewTab == 'delTab') {
         this.ReviewformServiceService.changeReview('delTab', this.ReviewformServiceService.showReviewMan);
         $('#' + this.ReviewformServiceService.showReviewTab).click();
-        this.delTabClick(this.ReviewformServiceService.showReviewMan);
+        this.delTabClick(this.ReviewformServiceService.showReviewMan, false);
       }
       else if (this.ReviewformServiceService.showReviewTab == 'changeTab') {
         this.ReviewformServiceService.changeReview('changeTab', this.ReviewformServiceService.showReviewMan);
         $('#' + this.ReviewformServiceService.showReviewTab).click();
-        this.changeTabClick(this.ReviewformServiceService.showReviewMan);
+        this.changeTabClick(this.ReviewformServiceService.showReviewMan, false);
       }
       else if (this.ReviewformServiceService.showReviewTab == 'forgetTab') {
         this.ReviewformServiceService.changeReview('forgetTab', this.ReviewformServiceService.showReviewMan);
         $('#' + this.ReviewformServiceService.showReviewTab).click();
-        this.forgetTabClick(this.ReviewformServiceService.showReviewMan);
+        this.forgetTabClick(this.ReviewformServiceService.showReviewMan, false);
       }
       else if (this.ReviewformServiceService.showReviewTab == 'AttendUnusualTab') {
         this.ReviewformServiceService.changeReview('AttendUnusualTab', this.ReviewformServiceService.showReviewMan);
         $('#' + this.ReviewformServiceService.showReviewTab).click();
-        this.AttendUnusualTabClick(this.ReviewformServiceService.showReviewMan);
+        this.AttendUnusualTabClick(this.ReviewformServiceService.showReviewMan, false);
       }
       else if (this.ReviewformServiceService.showReviewTab == 'CardPatchTab') {
         this.ReviewformServiceService.changeReview('CardPatchTab', this.ReviewformServiceService.showReviewMan);
         $('#' + this.ReviewformServiceService.showReviewTab).click();
-        this.CardPatchTabClick(this.ReviewformServiceService.showReviewMan);
+        this.CardPatchTabClick(this.ReviewformServiceService.showReviewMan, false);
       }
       else {
         this.LoadingPage.hide();
@@ -378,7 +387,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.void_GetFlowSignRole(GetFlowSignRole, 'Reload')
   }
 
-  vaTabClick(selectReviewMan: AllformReview) {
+  vaTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
     if (this.FirstEmpCode.length != 0) {
 
       this.LoadingPage.show()
@@ -390,11 +399,14 @@ export class ReviewformComponent implements OnInit, OnDestroy {
         "FlowTreeID": "81",
         "SignDate": ""
       }
+      if (uiClick) {
+        this.ReviewformServiceService.va_pagechange = new pagechange();
+      }
       this.void_GetFlowSignRole(GetFlowSignRole, 'vaTabClick')
       window.scroll(0, 0)
     }
   }
-  forgetTabClick(selectReviewMan: AllformReview) {
+  forgetTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
     if (this.FirstEmpCode.length != 0) {
 
       this.LoadingPage.show()
@@ -406,11 +418,14 @@ export class ReviewformComponent implements OnInit, OnDestroy {
         "FlowTreeID": "60",
         "SignDate": ""
       }
+      if (uiClick) {
+        this.ReviewformServiceService.forget_pagechange = new pagechange();
+      }
       this.void_GetFlowSignRole(GetFlowSignRole, 'forgetTabClick')
       window.scroll(0, 0)
     }
   }
-  AttendUnusualTabClick(selectReviewMan: AllformReview) {
+  AttendUnusualTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
     if (this.FirstEmpCode.length != 0) {
 
       this.LoadingPage.show()
@@ -422,11 +437,14 @@ export class ReviewformComponent implements OnInit, OnDestroy {
         "FlowTreeID": "83",
         "SignDate": ""
       }
+      if (uiClick) {
+        this.ReviewformServiceService.AttendUnusual_pagechange = new pagechange();
+      }
       this.void_GetFlowSignRole(GetFlowSignRole, 'AttendUnusualTabClick')
       window.scroll(0, 0)
     }
   }
-  delTabClick(selectReviewMan: AllformReview) {
+  delTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
     if (this.FirstEmpCode.length != 0) {
 
       this.LoadingPage.show()
@@ -438,11 +456,14 @@ export class ReviewformComponent implements OnInit, OnDestroy {
         "FlowTreeID": "17",
         "SignDate": ""
       }
+      if (uiClick) {
+        this.ReviewformServiceService.del_pagechange = new pagechange();
+      }
       this.void_GetFlowSignRole(GetFlowSignRole, 'delTabClick')
       window.scroll(0, 0)
     }
   }
-  changeTabClick(selectReviewMan: AllformReview) {
+  changeTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
     if (this.FirstEmpCode.length != 0) {
 
       this.LoadingPage.show()
@@ -454,12 +475,15 @@ export class ReviewformComponent implements OnInit, OnDestroy {
         "FlowTreeID": "66",
         "SignDate": ""
       }
+      if (uiClick) {
+        this.ReviewformServiceService.change_pagechange = new pagechange();
+      }
       this.void_GetFlowSignRole(GetFlowSignRole, 'changeTabClick')
       window.scroll(0, 0)
     }
   }
 
-  CardPatchTabClick(selectReviewMan: AllformReview) {
+  CardPatchTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
     if (this.FirstEmpCode.length != 0) {
 
       this.LoadingPage.show()
@@ -470,6 +494,9 @@ export class ReviewformComponent implements OnInit, OnDestroy {
         "RealSignRoleID": selectReviewMan.RoleID,
         "FlowTreeID": "82",
         "SignDate": ""
+      }
+      if (uiClick) {
+        this.ReviewformServiceService.CardPatch_pagechange = new pagechange();
       }
       this.void_GetFlowSignRole(GetFlowSignRole, 'CardPatchTabClick')
       window.scroll(0, 0)
@@ -626,6 +653,8 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.vaDetail.FlowTreeID
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.vaDetail.FlowNodeID
 
+    this.ReviewformServiceService.va_pagechange = JSON.parse(JSON.stringify(this.va_pagechange))
+
   }
   vaShowLimitText = ''
   checkAbsLimit_Approved(e_vaFlowSign: vaFlowSign, ReloadTabData) {
@@ -667,6 +696,9 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.delDetail.ProcessApParmAuto
     this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.delDetail.FlowTreeID
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.delDetail.FlowNodeID
+
+
+    this.ReviewformServiceService.del_pagechange = JSON.parse(JSON.stringify(this.del_pagechange))
   }
   del_PutForward(e_delFlowSign: delFlowSign, ReloadTabData) {
     this.delDetail_click(e_delFlowSign, ReloadTabData)
@@ -681,6 +713,8 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessApParmAuto
     this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.CardPatchFlowSignDetail.FlowTreeID
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.CardPatchFlowSignDetail.FlowNodeID
+
+    this.ReviewformServiceService.CardPatch_pagechange = JSON.parse(JSON.stringify(this.CardPatch_pagechange))
   }
   checkCardPatch_Approved(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
     this.CardPatchDetail_click(e_forgetFlowSign, ReloadTabData)
@@ -698,6 +732,8 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.forgetDetail.ProcessApParmAuto
     this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.forgetDetail.FlowTreeID
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.forgetDetail.FlowNodeID
+
+    this.ReviewformServiceService.forget_pagechange = JSON.parse(JSON.stringify(this.forget_pagechange))
   }
   forgetShowCheckText = ''
   showforgetPutForwarddialog = false
@@ -748,6 +784,8 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.changeDetail.ProcessApParmAuto
     this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.changeDetail.FlowTreeID
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.changeDetail.FlowNodeID
+
+    this.ReviewformServiceService.change_pagechange = JSON.parse(JSON.stringify(this.change_pagechange))
   }
 
   change_PutForward(e_changeFlowSign: changeFlowSign, ReloadTabData) {
@@ -765,6 +803,8 @@ export class ReviewformComponent implements OnInit, OnDestroy {
     this.FinallyReviewForm.ProcessApParmAuto = this.ReviewformServiceService.AttendUnusualDetail.ProcessApParmAuto
     this.FinallyReviewForm.FlowTreeID = this.ReviewformServiceService.AttendUnusualDetail.FlowTreeID
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.AttendUnusualDetail.FlowNodeID
+
+    this.ReviewformServiceService.AttendUnusual_pagechange = JSON.parse(JSON.stringify(this.AttendUnusual_pagechange))
   }
   checkAttendUnusualText_PutForward(e_AttendUnusualFlowSign: AttendUnusualFlowSign, ReloadTabData) {
     this.AttendUnusualDetail_click(e_AttendUnusualFlowSign, ReloadTabData)
@@ -780,22 +820,22 @@ export class ReviewformComponent implements OnInit, OnDestroy {
   ReloadData() {
     if (this.ReloadTabData == 'vaTab') {
       this.vaFlowSigns = []
-      this.vaTabClick(this.ReviewformServiceService.showReviewMan);
+      this.vaTabClick(this.ReviewformServiceService.showReviewMan, false);
     } else if (this.ReloadTabData == 'forgetTab') {
       this.forgetFlowSigns = []
-      this.forgetTabClick(this.ReviewformServiceService.showReviewMan);
+      this.forgetTabClick(this.ReviewformServiceService.showReviewMan, false);
     } else if (this.ReloadTabData == 'delTab') {
       this.delFlowSigns = []
-      this.delTabClick(this.ReviewformServiceService.showReviewMan);
+      this.delTabClick(this.ReviewformServiceService.showReviewMan, false);
     } else if (this.ReloadTabData == 'changeTab') {
       this.changeFlowSigns = []
-      this.changeTabClick(this.ReviewformServiceService.showReviewMan);
+      this.changeTabClick(this.ReviewformServiceService.showReviewMan, false);
     } else if (this.ReloadTabData == 'AttendUnusualTab') {
       this.AttendUnusualFlowSigns = []
-      this.AttendUnusualTabClick(this.ReviewformServiceService.showReviewMan);
+      this.AttendUnusualTabClick(this.ReviewformServiceService.showReviewMan, false);
     } else if (this.ReloadTabData == 'CardPatchTab') {
       this.CardPatchFlowSigns = []
-      this.CardPatchTabClick(this.ReviewformServiceService.showReviewMan);
+      this.CardPatchTabClick(this.ReviewformServiceService.showReviewMan, false);
     } else {
       alert('取值錯誤')
     }
@@ -1062,7 +1102,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
           });
 
           this.vaCount = this.vaFlowSigns.length.toString()
-
+          this.goBackPage(this.vaPaginator, this.va_pagechange, this.ReviewformServiceService.va_pagechange, this.vaFlowSigns.length)
           this.LoadingPage.hide()
         })
   }
@@ -1115,6 +1155,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
           });
 
           this.delCount = this.delFlowSigns.length.toString()
+          this.goBackPage(this.delPaginator, this.del_pagechange, this.ReviewformServiceService.del_pagechange, this.delFlowSigns.length)
           this.LoadingPage.hide()
         })
   }
@@ -1199,6 +1240,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
           });
 
           this.CardPatchCount = this.CardPatchFlowSigns.length.toString()
+          this.goBackPage(this.CardPatchPaginator, this.CardPatch_pagechange, this.ReviewformServiceService.CardPatch_pagechange, this.CardPatchFlowSigns.length)
           this.LoadingPage.hide()
 
         })
@@ -1229,6 +1271,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
           });
 
           this.AttendUnusualCount = this.AttendUnusualFlowSigns.length.toString()
+          this.goBackPage(this.AttendUnusualPaginator, this.AttendUnusual_pagechange, this.ReviewformServiceService.AttendUnusual_pagechange, this.AttendUnusualFlowSigns.length)
           this.LoadingPage.hide()
         }
       )
@@ -1313,6 +1356,7 @@ export class ReviewformComponent implements OnInit, OnDestroy {
           });
 
           this.forgetCount = this.forgetFlowSigns.length.toString()
+          this.goBackPage(this.forgetPaginator, this.forget_pagechange, this.ReviewformServiceService.forget_pagechange, this.forgetFlowSigns.length)
           this.LoadingPage.hide()
 
         })
@@ -1372,504 +1416,10 @@ export class ReviewformComponent implements OnInit, OnDestroy {
           });
 
           this.changeCount = this.changeFlowSigns.length.toString()
+          this.goBackPage(this.changePaginator, this.change_pagechange, this.ReviewformServiceService.change_pagechange, this.changeFlowSigns.length)
           this.LoadingPage.hide()
         })
   }
-  // GetFlowData_va(EmpID: string, RoleID, getReviewDatas: AllformReview[]) {
-  //   // 請假單
-  //   if (this.getReviewData.length > 0) {
-  //     this.LoadingPage.show()
-
-  //     from(getReviewDatas).pipe(
-  //       map(
-  //         (x: any) => {
-  //           var searchFlowSignForm = []
-  //           if (x.EmpCode == EmpID && x.RoleID == RoleID) {
-  //             for (let FlowSignForm of x.FlowSignForm) {
-  //               if (FlowSignForm.FormCode == 'Abs' && FlowSignForm.FlowSign.length > 0) {
-  //                 this.vaCount = FlowSignForm.Count
-  //                 // this.ReviewformServiceService.changeReview('vaTab', this.ReviewformServiceService.showReviewMan)
-  //                 for (let FlowSign of FlowSignForm.FlowSign) {
-  //                   searchFlowSignForm.push(FlowSign)
-  //                 }
-  //               }
-  //             }
-
-  //           }
-  //           return searchFlowSignForm
-  //         }
-  //       ),
-  //       mergeMap((o: any) => from(o)),
-  //       mergeMap(
-  //         (y: any) => this.GetApiDataServiceService.getWebApiData_GetAbsFlowAppsByProcessFlowID(y.ProcessFlowID, true)
-  //           .pipe(
-  //             map((t: any) => {
-  //               return { FlowSignData: y, FlowDetail: t }
-  //             })
-  //           )
-  //       ),
-  //       // mergeMap((q: any) => this.GetApiDataServiceService.getWebApiData_GetHoliDayByForm().pipe(
-  //       //   map((u: any) => {
-  //       //     return { FlowSignData: q.FlowSignData, FlowDetail: q.FlowDetail, HolidayData: u }
-  //       //   })
-  //       // )),
-  //       toArray()
-
-  //     ).subscribe(
-  //       (data: any) => {
-  //         // console.log(data)
-  //         this.vaFlowSigns = []
-
-  //         // var foundGetBaseInfoDetail = GetBaseInfoDetail.find(function (element) {
-  //         //   return element.PosType == 'M'
-  //         // });
-  //         for (let vaSignData of data) {
-  //           var allDay = 0
-  //           var allHour = 0
-  //           var allMinute = 0
-  //           var ischeckProxy: boolean = false
-  //           if (vaSignData.FlowSignData.EmpCode != vaSignData.FlowDetail.FlowApps[0].EmpCode) {
-  //             ischeckProxy = true
-  //           }
-
-  //           //計算日時分
-  //           allDay = vaSignData.FlowDetail.UseDayHourMinute.Day
-  //           allHour = vaSignData.FlowDetail.UseDayHourMinute.Hour
-  //           allMinute = vaSignData.FlowDetail.UseDayHourMinute.Minute
-
-  //           vaSignData.FlowDetail.FlowApps.sort((a: any, b: any) => {
-  //             let left = Number(new Date(a));
-  //             let right = Number(new Date(b));
-  //             return left - right;
-  //           });
-
-  //           var mapHolidayName: Map<any, any> = new Map()
-  //           for (let aa of vaSignData.FlowDetail.FlowApps) {
-  //             mapHolidayName.set(aa.HoliDayNameC, aa.HoliDayNameC)
-  //           }
-  //           var showHolidayName = []
-  //           mapHolidayName.forEach((qq: any) => {
-  //             showHolidayName.push(qq)
-  //           })
-
-  //           this.vaFlowSigns.push({
-  //             uiProcessFlowID: void_completionTenNum(vaSignData.FlowSignData.ProcessFlowID),
-  //             uiHolidayName: showHolidayName,
-  //             ProcessFlowID: vaSignData.FlowSignData.ProcessFlowID,
-  //             FlowTreeID: vaSignData.FlowSignData.FlowTreeID,
-  //             FlowNodeID: vaSignData.FlowSignData.FlowNodeID,
-  //             ProcessApParmAuto: vaSignData.FlowSignData.ProcessApParmAuto,
-  //             EmpCode: vaSignData.FlowDetail.FlowApps[0].EmpCode, //申請人
-  //             EmpNameC: vaSignData.FlowDetail.FlowApps[0].EmpNameC,
-  //             EmpNameE: vaSignData.FlowDetail.FlowApps[0].EmpNameC,
-  //             isApproved: vaSignData.FlowSignData.isApproved,
-  //             isSendback: vaSignData.FlowSignData.isSendback,
-  //             isPutForward: vaSignData.FlowSignData.isPutForward,
-
-  //             checkProxy: ischeckProxy, //是否為代填表單
-  //             WriteEmpCode: vaSignData.FlowSignData.EmpCode, //填寫人
-  //             WriteEmpNameC: vaSignData.FlowSignData.EmpNameC, //填寫人
-
-  //             Appointment: vaSignData.FlowDetail.FlowApps[0].Appointment,//是否為預排假單
-
-  //             DateB: formatDateTime(vaSignData.FlowDetail.FlowApps[0].DateTimeB).getDate,
-  //             DateE: formatDateTime(vaSignData.FlowDetail.FlowApps[vaSignData.FlowDetail.FlowApps.length - 1].DateTimeE).getDate,
-  //             TimeB: getapi_formatTimetoString(formatDateTime(vaSignData.FlowDetail.FlowApps[0].DateTimeB).getTime),
-  //             TimeE: getapi_formatTimetoString(formatDateTime(vaSignData.FlowDetail.FlowApps[vaSignData.FlowDetail.FlowApps.length - 1].DateTimeE).getTime),
-  //             numberOfVaData: vaSignData.FlowDetail.FlowApps.length,
-
-  //             day: allDay.toString(),
-  //             hour: allHour.toString(),
-  //             minute: allMinute.toString()
-  //           })
-  //         }
-
-  //         this.vaFlowSigns.sort((small: any, large: any) => {
-  //           var small_DateTimeB = Number(new Date(small.DateB + ' ' + small.TimeB))
-  //           var large_DateTimeB = Number(new Date(large.DateB + ' ' + large.TimeB))
-  //           return small_DateTimeB - large_DateTimeB;
-  //         });
-
-  //         this.vaCount = this.vaFlowSigns.length.toString()
-
-  //         this.LoadingPage.hide()
-
-  //       }, error => {
-  //         this.LoadingPage.hide()
-  //       }
-  //     )
-  //   } else {
-  //   }
-
-  // }
-  // GetFlowData_del(EmpID: string, RoleID, getReviewDatas: AllformReview[]) {
-  //   //銷假單
-  //   if (this.getReviewData.length > 0) {
-  //     this.LoadingPage.show()
-
-  //     from(getReviewDatas).pipe(
-  //       map(
-  //         (x: any) => {
-  //           var searchFlowSignForm = []
-  //           if (x.EmpCode == EmpID && x.RoleID == RoleID) {
-  //             for (let FlowSignForm of x.FlowSignForm) {
-  //               if (FlowSignForm.FormCode == 'Absc' && FlowSignForm.FlowSign.length > 0) {
-  //                 this.delCount = FlowSignForm.Count
-  //                 // this.ReviewformServiceService.changeReview('delTab', this.ReviewformServiceService.showReviewMan)
-  //                 for (let FlowSign of FlowSignForm.FlowSign) {
-  //                   searchFlowSignForm.push(FlowSign)
-  //                 }
-  //               }
-  //             }
-
-  //           }
-  //           return searchFlowSignForm
-  //         }
-  //       ),
-  //       mergeMap((o: any) => from(o)),
-  //       mergeMap(
-  //         (y: any) => this.GetApiDataServiceService.getWebApiData_GetAbscFlowAppsByProcessFlowID(y.ProcessFlowID)
-  //           .pipe(
-  //             map((t: any) => {
-  //               return { FlowSignData: y, FlowDetail: t }
-  //             })
-  //           )
-  //       ),
-  //       toArray()
-
-  //     ).subscribe(
-  //       (data: any) => {
-  //         // console.log(data)
-  //         this.delFlowSigns = []
-
-
-  //         for (let delSignData of data) {
-
-  //           var allDay = 0
-  //           var allHour = 0
-  //           var allMinute = 0
-  //           var ischeckProxy: boolean = false
-
-  //           var dateArray: dateArrayClass[] = []
-  //           var YearAndDateArray = []
-
-  //           if (delSignData.FlowSignData.EmpCode != delSignData.FlowDetail.FlowAppsExtend[0].EmpCode) {
-  //             ischeckProxy = true
-  //           }
-
-  //           for (let delFlowDetail of delSignData.FlowDetail.FlowAppsExtend) {
-  //             var oneDate = { DateB: delFlowDetail.DateTimeB, DateE: delFlowDetail.DateTimeE }
-  //             var oneYearAndDate = formatDateTime(delFlowDetail.DateB).getDate
-  //             dateArray.push(oneDate)
-  //             YearAndDateArray.push(oneYearAndDate)
-  //           }
-  //           //計算日時分
-
-  //           allDay = delSignData.FlowDetail.UseDayHourMinute.Day
-  //           allHour = delSignData.FlowDetail.UseDayHourMinute.Hour
-  //           allMinute = delSignData.FlowDetail.UseDayHourMinute.Minute
-
-  //           // delSignData.FlowDetail.sort((a: any, b: any) => {
-  //           //   let left = Number(new Date(a));
-  //           //   let right = Number(new Date(b));
-  //           //   return left - right;
-  //           // });
-
-  //           var mapHolidayName: Map<any, any> = new Map()
-  //           for (let aa of delSignData.FlowDetail.FlowAppsExtend) {
-  //             mapHolidayName.set(aa.HoliDayNameC, aa.HoliDayNameC)
-  //           }
-  //           var showHolidayName = []
-  //           mapHolidayName.forEach((qq: any) => {
-  //             showHolidayName.push(qq)
-  //           })
-
-  //           this.delFlowSigns.push({
-  //             uiProcessFlowID: void_completionTenNum(delSignData.FlowSignData.ProcessFlowID),
-  //             uiHolidayName: showHolidayName,
-  //             ProcessFlowID: delSignData.FlowSignData.ProcessFlowID,
-  //             FlowTreeID: delSignData.FlowSignData.FlowTreeID,
-  //             FlowNodeID: delSignData.FlowSignData.FlowNodeID,
-  //             ProcessApParmAuto: delSignData.FlowSignData.ProcessApParmAuto,
-  //             EmpCode: delSignData.FlowDetail.FlowAppsExtend[0].EmpCode,//申請人
-  //             EmpNameC: delSignData.FlowDetail.FlowAppsExtend[0].EmpNameC,//申請人
-  //             EmpNameE: delSignData.FlowDetail.FlowAppsExtend[0].EmpNameC,//申請人
-  //             isApproved: delSignData.FlowSignData.isApproved,
-  //             isSendback: delSignData.FlowSignData.isSendback,
-  //             isPutForward: delSignData.FlowSignData.isPutForward,
-
-  //             WriteEmpCode: delSignData.FlowSignData.EmpCode, //填寫人
-  //             WriteEmpNameC: delSignData.FlowSignData.EmpNameC, //填寫人
-
-  //             checkProxy: ischeckProxy,
-  //             YearAndDate: calYearindate(YearAndDateArray),
-  //             dateArray: dateArray,
-  //             Note: delSignData.FlowDetail.FlowAppsExtend[0].Note,
-  //             day: allDay.toString(),
-  //             hour: allHour.toString(),
-  //             minute: allMinute.toString(),
-  //             numberOfVaData: delSignData.FlowDetail.FlowAppsExtend.length
-  //           })
-  //         }
-
-  //         this.delFlowSigns.sort((a: any, b: any) => {
-  //           return b.ProcessFlowID - a.ProcessFlowID;
-  //         });
-
-  //         this.delCount = this.delFlowSigns.length.toString()
-  //         this.LoadingPage.hide()
-  //       }, error => {
-  //         this.LoadingPage.hide()
-  //       }
-  //     )
-  //   } else {
-
-  //   }
-  // }
-  // GetFlowData_forget(EmpID: string, RoleID, getReviewDatas: AllformReview[]) {
-  //   //考勤異常簽認單
-
-  //   if (this.getReviewData.length > 0) {
-  //     this.LoadingPage.show()
-  //     from(getReviewDatas).pipe(
-  //       map(
-  //         (x: any) => {
-  //           var searchFlowSignForm = []
-  //           if (x.EmpCode == EmpID && x.RoleID == RoleID) {
-  //             for (let FlowSignForm of x.FlowSignForm) {
-  //               if (FlowSignForm.FormCode == 'Card' && FlowSignForm.FlowSign.length > 0) {
-  //                 this.forgetCount = FlowSignForm.Count
-  //                 // this.ReviewformServiceService.changeReview('forgetTab', this.ReviewformServiceService.showReviewMan)
-  //                 for (let FlowSign of FlowSignForm.FlowSign) {
-  //                   searchFlowSignForm.push(FlowSign)
-  //                 }
-  //               }
-  //             }
-
-  //           }
-  //           return searchFlowSignForm
-  //         }
-  //       ),
-  //       mergeMap((o: any) => from(o)),
-  //       mergeMap(
-  //         (y: any) => this.GetApiDataServiceService.getWebApiData_GetCardFlowAppsByProcessFlowID(y.ProcessFlowID, true)
-  //           .pipe(
-  //             map((t: any) => {
-  //               var GetAttend: GetAttendClass = {
-
-  //                 DateB: formatDateTime(t[0].Date).getDate.toString(),
-  //                 DateE: formatDateTime(t[0].Date).getDate.toString(),
-  //                 ListEmpID: [t[0].EmpCode],
-  //                 ListRoteID: null
-  //               }
-  //               return { FlowSignData: y, FlowDetail: t, GetAttendApi: GetAttend }
-  //             })
-  //           )
-  //       ), mergeMap((q: any) => this.GetApiDataServiceService.getWebApiData_GetAttend(q.GetAttendApi).pipe(
-  //         map((u: any) => {
-  //           return { FlowSignData: q.FlowSignData, FlowDetail: q.FlowDetail, GetAttend: u[0] }
-  //         })
-  //       ))
-  //       , toArray()
-
-  //     ).subscribe(
-  //       (data: any) => {
-  //         // console.log(data)
-  //         this.forgetFlowSigns = []
-  //         for (let forgetSignData of data) {
-
-  //           var _ActualRote_calCrossDay: boolean = false
-  //           var _AttendCard_calCrossDay: boolean = false
-  //           var _WriteRote_calCrossDay: boolean = false
-  //           if (forgetSignData.GetAttend) {
-  //             _ActualRote_calCrossDay = void_crossDay(forgetSignData.GetAttend.ActualRote.OffTime).isCrossDay
-  //             _AttendCard_calCrossDay = void_crossDay(forgetSignData.FlowDetail[0].TimeE).isCrossDay
-  //             _WriteRote_calCrossDay = void_crossDay(formatDateTime(forgetSignData.FlowDetail[0].DateTimeE).getTime).isCrossDay
-
-  //             var _RoteTimeE = void_crossDay(forgetSignData.GetAttend.ActualRote.OffTime).EndTime
-  //             var _writeTimeE = void_crossDay(formatDateTime(forgetSignData.FlowDetail[0].DateTimeE).getTime).EndTime
-  //             var _cardTimeE = void_crossDay(forgetSignData.FlowDetail[0].TimeE).EndTime
-  //             var _RoteCode = forgetSignData.GetAttend.ActualRote.RoteNameC
-  //             var _RoteTimeB = forgetSignData.GetAttend.ActualRote.OnTime ? getapi_formatTimetoString(forgetSignData.GetAttend.ActualRote.OnTime) : null
-  //           }
-
-  //           var checkProxy = false //是否為代填表單
-  //           if (forgetSignData.FlowDetail[0].EmpID != forgetSignData.FlowSignData.EmpCode) {
-  //             checkProxy = true
-  //           }
-  //           var ExceptionalNameArray = []
-  //           ExceptionalNameArray = forgetSignData.FlowDetail[0].ExceptionalName.split(',')
-  //           var _isForgetCard: boolean = false
-  //           var _isEarlyMins: boolean = false
-  //           var _isLateMins: boolean = false
-  //           for (let e of ExceptionalNameArray) {
-  //             if (e == '未刷卡') {
-  //               _isForgetCard = true
-  //             } else if (e == '早退') {
-  //               _isEarlyMins = true
-  //             } else if (e == '遲到') {
-  //               _isLateMins = true
-  //             }
-  //           }
-  //           this.forgetFlowSigns.push({
-  //             uiProcessFlowID: void_completionTenNum(forgetSignData.FlowSignData.ProcessFlowID),
-  //             ProcessFlowID: forgetSignData.FlowSignData.ProcessFlowID,
-  //             FlowTreeID: forgetSignData.FlowSignData.FlowTreeID,
-  //             FlowNodeID: forgetSignData.FlowSignData.FlowNodeID,
-  //             ProcessApParmAuto: forgetSignData.FlowSignData.ProcessApParmAuto,
-  //             EmpCode: forgetSignData.FlowDetail[0].EmpCode,
-  //             EmpNameC: forgetSignData.FlowDetail[0].EmpNameC,
-  //             EmpNameE: forgetSignData.FlowDetail[0].EmpNameE,
-  //             isApproved: forgetSignData.FlowSignData.isApproved,
-  //             isSendback: forgetSignData.FlowSignData.isSendback,
-  //             isPutForward: forgetSignData.FlowSignData.isPutForward,
-  //             isForgetCard: _isForgetCard,
-  //             isEarlyMins: _isEarlyMins,
-  //             isLateMins: _isLateMins,
-
-  //             checkProxy: checkProxy,
-  //             WriteEmpCode: forgetSignData.FlowSignData.EmpCode,
-  //             WriteEmpNameC: forgetSignData.FlowSignData.EmpNameC,
-
-  //             Date: forgetSignData.FlowDetail[0].Date ? formatDateTime(forgetSignData.FlowDetail[0].Date).getDate.toString() : null,
-  //             RoteCode: _RoteCode,
-  //             RoteTimeB: _RoteTimeB,
-  //             RoteTimeE: getapi_formatTimetoString(_RoteTimeE),
-
-  //             writeDateB: forgetSignData.FlowDetail[0].DateTimeB ? formatDateTime(forgetSignData.FlowDetail[0].DateTimeB).getDate.toString() : null,
-  //             writeTimeB: forgetSignData.FlowDetail[0].DateTimeB ? getapi_formatTimetoString(formatDateTime(forgetSignData.FlowDetail[0].DateTimeB).getTime.toString()) : null,
-  //             writeDateE: forgetSignData.FlowDetail[0].DateTimeE ? formatDateTime(forgetSignData.FlowDetail[0].DateTimeE).getDate.toString() : null,
-  //             writeTimeE: getapi_formatTimetoString(_writeTimeE),
-  //             cardTimeB: forgetSignData.FlowDetail[0].TimeB ? getapi_formatTimetoString(forgetSignData.FlowDetail[0].TimeB) : null,
-  //             cardTimeE: getapi_formatTimetoString(_cardTimeE),
-  //             CauseID1: forgetSignData.FlowDetail[0].CauseID1,
-  //             CauseName1: forgetSignData.FlowDetail[0].CauseName1,
-  //             Note: forgetSignData.FlowDetail[0].Note,
-
-  //             ActualRote_calCrossDay: _ActualRote_calCrossDay,
-  //             AttendCard_calCrossDay: _AttendCard_calCrossDay,
-  //             WriteRote_calCrossDay: _WriteRote_calCrossDay
-  //           })
-  //         }
-
-  //         this.forgetFlowSigns.sort((a: any, b: any) => {
-  //           return b.ProcessFlowID - a.ProcessFlowID;
-  //         });
-
-  //         this.forgetCount = this.forgetFlowSigns.length.toString()
-  //         this.LoadingPage.hide()
-  //       }, error => {
-  //         this.LoadingPage.hide()
-  //       }
-  //     )
-  //   } else {
-  //   }
-  // }
-  // GetFlowData_change(EmpID: string, RoleID, getReviewDatas: AllformReview[]) {
-  //   //調班單
-  //   if (this.getReviewData.length > 0) {
-  //     this.LoadingPage.show()
-  //     from(getReviewDatas).pipe(
-  //       map(
-  //         (x: any) => {
-  //           var searchFlowSignForm = []
-  //           if (x.EmpCode == EmpID && x.RoleID == RoleID) {
-  //             for (let FlowSignForm of x.FlowSignForm) {
-  //               if (FlowSignForm.FormCode == 'ShiftRote' && FlowSignForm.FlowSign.length > 0) {
-  //                 this.changeCount = FlowSignForm.Count
-  //                 // this.ReviewformServiceService.changeReview('changeTab', this.ReviewformServiceService.showReviewMan)
-  //                 for (let FlowSign of FlowSignForm.FlowSign) {
-  //                   searchFlowSignForm.push(FlowSign)
-  //                 }
-  //               }
-  //             }
-
-  //           }
-  //           return searchFlowSignForm
-  //         }
-  //       ),
-  //       mergeMap((o: any) => from(o)),
-  //       mergeMap(
-  //         (y: any) => this.GetApiDataServiceService.getWebApiData_GetShiftFlowAppsByProcessFlowID(y.ProcessFlowID)
-  //           .pipe(
-  //             map((t: any) => {
-  //               return { FlowSignData: y, FlowDetail: t }
-  //             })
-  //           )
-  //       )
-  //       , toArray()
-
-  //     ).subscribe(
-  //       (data: any) => {
-  //         // console.log(data)
-  //         this.changeFlowSigns = []
-  //         for (let changeSignData of data) {
-
-  //           var YearAndDateArray = []
-  //           var RR: boolean = false
-  //           var DR: boolean = false
-  //           var RZ: boolean = false
-  //           for (let changeFlowDetail of changeSignData.FlowDetail) {
-  //             for (let ShiftRoteFlowAppsDetail of changeFlowDetail.ShiftRoteFlowAppsDetail) {
-  //               var ShiftRoteDate = formatDateTime(ShiftRoteFlowAppsDetail.ShiftRoteDate).getDate.toString()
-  //               YearAndDateArray.push(ShiftRoteDate)
-  //             }
-  //           }
-
-  //           if (changeSignData.FlowDetail[0].ShiftRoteType == 'RR') {
-  //             RR = true
-  //           } else if (changeSignData.FlowDetail[0].ShiftRoteType == 'DR') {
-  //             DR = true
-  //           } else if (changeSignData.FlowDetail[0].ShiftRoteType == 'RZ') {
-  //             RZ = true
-  //           }
-  //           var checkProxy = false //是否為代填表單
-  //           if (changeSignData.FlowDetail[0].EmpID1 != changeSignData.FlowSignData.EmpCode) {
-  //             checkProxy = true
-  //           }
-
-  //           this.changeFlowSigns.push({
-  //             uiProcessFlowID: void_completionTenNum(changeSignData.FlowSignData.ProcessFlowID),
-  //             ProcessFlowID: changeSignData.FlowSignData.ProcessFlowID,
-  //             FlowTreeID: changeSignData.FlowSignData.FlowTreeID,
-  //             FlowNodeID: changeSignData.FlowSignData.FlowNodeID,
-  //             ProcessApParmAuto: changeSignData.FlowSignData.ProcessApParmAuto,
-  //             EmpID1: changeSignData.FlowDetail[0].EmpID1,
-  //             EmpCode1: changeSignData.FlowDetail[0].EmpCode1,
-  //             EmpNameC1: changeSignData.FlowDetail[0].EmpNameC1,
-  //             EmpID2: changeSignData.FlowDetail[0].EmpID2,
-  //             EmpCode2: changeSignData.FlowDetail[0].EmpCode2,
-  //             EmpNameC2: changeSignData.FlowDetail[0].EmpNameC2,
-  //             isApproved: changeSignData.FlowSignData.isApproved,
-  //             isSendback: changeSignData.FlowSignData.isSendback,
-  //             isPutForward: changeSignData.FlowSignData.isPutForward,
-  //             Note: changeSignData.FlowDetail[0].Note,
-
-  //             YearAndDate: calYearindate(YearAndDateArray),
-  //             dateArray: YearAndDateArray,
-  //             isDR: DR,
-  //             isRR: RR,
-  //             isRZ: RZ,
-  //             numberOfVaData: YearAndDateArray.length.toString(),
-
-  //             WriteEmpCode: changeSignData.FlowSignData.EmpCode,
-  //             WriteEmpNameC: changeSignData.FlowSignData.EmpNameC,
-  //             checkProxy: checkProxy
-  //           })
-  //         }
-  //         this.changeFlowSigns.sort((a: any, b: any) => {
-  //           return b.ProcessFlowID - a.ProcessFlowID;
-  //         });
-
-  //         this.changeCount = this.changeFlowSigns.length.toString()
-  //         this.LoadingPage.hide()
-  //       }, error => {
-  //         this.LoadingPage.hide()
-  //       }
-  //     )
-  //   } else {
-  //   }
-  // }
 
   AllReview = []
   AllCanReviewFlow = []
@@ -2010,6 +1560,22 @@ export class ReviewformComponent implements OnInit, OnDestroy {
             )
         }
       )
+  }
+
+  goBackPage(Paginator, Pagechange, ServicePagechange, AllDataLegth) {
+    //回去紀錄的那頁
+
+    Paginator.pageIndex = ServicePagechange.pageIndex.valueOf();
+    Pagechange.pageIndex = ServicePagechange.pageIndex.valueOf();
+    Pagechange.lowValue = ServicePagechange.lowValue.valueOf();
+    Pagechange.highValue = ServicePagechange.highValue.valueOf();
+
+    if (Pagechange.lowValue == AllDataLegth && AllDataLegth != 0) {
+      Paginator.pageIndex = Paginator.pageIndex - 1
+      Pagechange.pageIndex = Pagechange.pageIndex - 1
+      Pagechange.lowValue = Pagechange.lowValue - Pagechange.pageSize
+      Pagechange.highValue = Pagechange.highValue - Pagechange.pageSize
+    }
   }
 
 }

@@ -287,7 +287,7 @@ export class ReviewformDetailAttendUnusualformComponent implements OnInit, OnDes
                     verticalPosition: SnackSetting.verticalPosition,
                     horizontalPosition: SnackSetting.horizontalPosition
                   });
-                  this.router.navigateByUrl('/nav/reviewform')
+                  this.sendFinish();
                 } else {
                   // alert(x.MessageContent)
                   this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
@@ -354,7 +354,7 @@ export class ReviewformDetailAttendUnusualformComponent implements OnInit, OnDes
                     verticalPosition: SnackSetting.verticalPosition,
                     horizontalPosition: SnackSetting.horizontalPosition
                   });
-                  this.router.navigateByUrl('/nav/reviewform')
+                  this.sendFinish();
                 } else {
                   alert(x.MessageContent)
                   this.SnackBar.openFromComponent(ErrorSendbackSnackComponent, {
@@ -421,7 +421,7 @@ export class ReviewformDetailAttendUnusualformComponent implements OnInit, OnDes
                     verticalPosition: SnackSetting.verticalPosition,
                     horizontalPosition: SnackSetting.horizontalPosition
                   });
-                  this.router.navigateByUrl('/nav/reviewform')
+                  this.sendFinish();
                 } else {
                   // alert(x.MessageContent)
                   this.SnackBar.openFromComponent(ErrorPutForwardSnackComponent, {

@@ -57,9 +57,8 @@
                             <img
                                 src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                         </div>
-                        <div *ngIf="DL_showAttendExceptionalByDept_Today" class="row blockhover"
-                            [routerLink]="['/nav/PersonnelSearchComponent']">
-                            <div class="col-md-6 col-xs-6 ">
+                        <div *ngIf="DL_showAttendExceptionalByDept_Today" class="row blockhover">
+                            <div class="col-md-6 col-xs-6" style="cursor: pointer"  data-toggle="modal" (click)="ShowErrorAttendDialog(TodayAttend)">
                                 <div style="font-size: 14px;color: #fff;box-shadow: none;">
                                     <ng-container i18n>今日</ng-container>
                                     {{showTodayDateString}}
@@ -73,7 +72,7 @@
                                     <ng-container i18n>人異常</ng-container>
                                 </span>
                             </div>
-                            <div class="col-md-6 col-xs-6 ">
+                            <div class="col-md-6 col-xs-6" style="cursor: pointer" data-toggle="modal"  (click)="ShowErrorAttendDialog(LastdayAttend)">
                                 <div style="font-size: 14px;color: #fff;box-shadow: none;">
                                     <ng-container i18n>昨日</ng-container>
                                     {{showLastdayDateString}}
@@ -102,7 +101,7 @@
                             <img
                                 src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                         </div>
-                        <div *ngIf="DL_showAbsDetailByDept" style="padding-top: 22px;" data-toggle="modal"
+                        <div *ngIf="DL_showAbsDetailByDept" style="padding-top: 22px;cursor: pointer;" data-toggle="modal"
                             data-target="#Abs_Today">
                             <span
                                 style="padding-bottom: 3px;border-bottom: 4px #37fffd solid;text-align: center;box-shadow: none">
@@ -120,7 +119,8 @@
         </div>
         <!-- <div class="dottedline">
         </div> -->
-        <div *ngIf="showAttendExceptionalCount" style="margin:0;margin-bottom: 15px; padding: 3px 40px;background-color: #fff;">
+        <div *ngIf="showAttendExceptionalCount"
+            style="margin:0;margin-bottom: 15px; padding: 3px 40px;background-color: #fff;">
 
             <span *ngIf="!DL_showAttendExceptionalCount">
                 <img
@@ -270,6 +270,48 @@
 </div>
 
 
+
+<div class="modal" id="DeptAtErrDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="mySmallModalLabel">
+                        <ng-container i18n>單位考勤異常</ng-container>
+                        ({{ShowAttendDate}})
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+                        <thead>
+                            <tr>
+                                <th style="background-image: unset;cursor: unset">
+                                    <ng-container i18n>工號</ng-container>
+                                </th>
+                                <th>
+                                    <ng-container i18n>姓名</ng-container>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let errAttend of ShowErrorAttend">
+                                <td>{{errAttend.EmpID}}</td>
+                                <td>{{errAttend.EmpNameC}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <ng-container i18n>關閉</ng-container>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--dialog單位考勤異常今日-->
 
 <div class="modal" id="Abs_Today" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="vertical-alignment-helper">

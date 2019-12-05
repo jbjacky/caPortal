@@ -33,7 +33,7 @@
       </div>
       <ul class="nav nav-tabs P_nav">
         <li class="active" style="width: 20%;text-align: center"
-          (click)="vaTabClick(ReviewformServiceService.showReviewMan)">
+          (click)="vaTabClick(ReviewformServiceService.showReviewMan,true)">
           <a id="vaTab" data-toggle="tab" href="#vaform" style="text-decoration: none;">
             <ng-container i18n>請假單</ng-container>
             <span class="badge">{{vaCount}}</span>
@@ -42,19 +42,19 @@
         </li>
         <li style="width: 20%;text-align: center">
           <a id="delTab" data-toggle="tab" href="#delform" style="text-decoration: none;"
-            (click)="delTabClick(ReviewformServiceService.showReviewMan)">
+            (click)="delTabClick(ReviewformServiceService.showReviewMan,true)">
             <ng-container i18n>銷假單</ng-container>
             <span class="badge">{{delCount}}</span>
           </a>
         </li>
         <li style="width: 20%;text-align: center">
           <a id="changeTab" data-toggle="tab" href="#changeform" style="text-decoration: none;"
-            (click)="changeTabClick(ReviewformServiceService.showReviewMan)">
+            (click)="changeTabClick(ReviewformServiceService.showReviewMan,true)">
             <ng-container i18n>調班單</ng-container>
             <span class="badge">{{changeCount}}</span>
           </a>
         </li>
-        <li style="width: 20%;text-align: center" (click)="AttendUnusualTabClick(ReviewformServiceService.showReviewMan)">
+        <li style="width: 20%;text-align: center" (click)="AttendUnusualTabClick(ReviewformServiceService.showReviewMan,true)">
           <a id="AttendUnusualTab" data-toggle="tab" href="#AttendUnusualform" style="text-decoration: none;">
             <span id="AttendUnusualTabText">
               <ng-container i18n>考勤異常簽認單</ng-container>
@@ -62,7 +62,7 @@
             <span class="badge">{{AttendUnusualCount}}</span>
           </a>
         </li>
-        <li style="width: 20%;text-align: center" (click)="CardPatchTabClick(ReviewformServiceService.showReviewMan)">
+        <li style="width: 20%;text-align: center" (click)="CardPatchTabClick(ReviewformServiceService.showReviewMan,true)">
           <a id="CardPatchTab" data-toggle="tab" href="#CardPatchform" style="text-decoration: none;">
             <span id="CardPatchTabText">
               <ng-container i18n>補卡單</ng-container>
@@ -70,7 +70,7 @@
             <span class="badge">{{CardPatchCount}}</span>
           </a>
         </li>
-        <!-- <li style="width: 20%;text-align: center" (click)="forgetTabClick(ReviewformServiceService.showReviewMan)">
+        <!-- <li style="width: 20%;text-align: center" (click)="forgetTabClick(ReviewformServiceService.showReviewMan,true)">
           <a id="forgetTab" data-toggle="tab" href="#forgetform" style="text-decoration: none;">
             <span id="forgetTabText">
               <ng-container i18n>忘刷單</ng-container>
@@ -272,7 +272,7 @@
               </div>
             </div>
           </div>
-          <mat-paginator [length]="vaFlowSigns.length" [pageSize]="va_pagechange.pageSize"
+          <mat-paginator #vaPaginator [length]="vaFlowSigns.length" [pageSize]="va_pagechange.pageSize"
             (page)="va_pagechange.pageEvent = va_pagechange.getPaginatorData($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
@@ -455,7 +455,7 @@
               </div>
             </div>
           </div>
-          <mat-paginator [length]="delFlowSigns.length" [pageSize]="del_pagechange.pageSize"
+          <mat-paginator #delPaginator [length]="delFlowSigns.length" [pageSize]="del_pagechange.pageSize"
             (page)="del_pagechange.pageEvent = del_pagechange.getPaginatorData($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
@@ -639,7 +639,7 @@
               </div>
             </div>
           </div>
-          <mat-paginator [length]="changeFlowSigns.length" [pageSize]="change_pagechange.pageSize"
+          <mat-paginator #changePaginator [length]="changeFlowSigns.length" [pageSize]="change_pagechange.pageSize"
             (page)="change_pagechange.pageEvent = change_pagechange.getPaginatorData($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
@@ -817,7 +817,7 @@
               </div>
             </div>
           </div>
-          <mat-paginator [length]="AttendUnusualFlowSigns.length" [pageSize]="AttendUnusual_pagechange.pageSize"
+          <mat-paginator #AttendUnusualPaginator [length]="AttendUnusualFlowSigns.length" [pageSize]="AttendUnusual_pagechange.pageSize"
             (page)="AttendUnusual_pagechange.pageEvent = AttendUnusual_pagechange.getPaginatorData($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
@@ -990,7 +990,7 @@
               </div>
             </div>
           </div>
-          <mat-paginator [length]="CardPatchFlowSigns.length" [pageSize]="CardPatch_pagechange.pageSize"
+          <mat-paginator #CardPatchPaginator [length]="CardPatchFlowSigns.length" [pageSize]="CardPatch_pagechange.pageSize"
             (page)="CardPatch_pagechange.pageEvent = CardPatch_pagechange.getPaginatorData($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
@@ -1163,7 +1163,7 @@
               </div>
             </div>
           </div>
-          <mat-paginator [length]="forgetFlowSigns.length" [pageSize]="forget_pagechange.pageSize"
+          <mat-paginator #forgetPaginator [length]="forgetFlowSigns.length" [pageSize]="forget_pagechange.pageSize"
             (page)="forget_pagechange.pageEvent = forget_pagechange.getPaginatorData($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
