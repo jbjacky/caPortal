@@ -353,11 +353,11 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
     }
     if (this.getAttendCard.OnBeforeMins) {
       ExceptionalCode += '4,'
-      ExceptionalName += '早來,'
+      ExceptionalName += '早到,'
     }
     if (this.getAttendCard.OffAfterMins) {
       ExceptionalCode += '5,'
-      ExceptionalName += '晚走,'
+      ExceptionalName += '晚退,'
     } else if (!this.getAttendCard.LateMins &&
       !this.getAttendCard.EliminateLate &&
       !this.getAttendCard.EarlyMins &&
@@ -388,11 +388,11 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
     }
     if (this.getAttendCard.OnBeforeMins && this.getAttendCard.EliminateOnBefore) {
       ExceptionalCodeCancel += '4,'
-      ExceptionalNameCancel += '早來,'
+      ExceptionalNameCancel += '早到,'
     }
     if (this.getAttendCard.OffAfterMins && this.getAttendCard.EliminateOffAfter) {
       ExceptionalCodeCancel += '5,'
-      ExceptionalNameCancel += '晚走,'
+      ExceptionalNameCancel += '晚退,'
     }
 
     SaveAndFlowStart.CauseID1 = this.sendForgetForm.CauseID1

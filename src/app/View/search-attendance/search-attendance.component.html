@@ -142,21 +142,21 @@
           </div>
           <div *ngIf="OneAttendance.EarlyarriveMins">
             <div *ngIf="OneAttendance.EliminateOnBefore;else nonEliminateOnBefore" class="tagBlueLineThrough">
-              <ng-container i18n>早來</ng-container>
+              <ng-container i18n>早到</ng-container>
             </div>
             <ng-template #nonEliminateOnBefore>
               <div class="tag_red">
-                <ng-container i18n>早來</ng-container>
+                <ng-container i18n>早到</ng-container>
               </div>
             </ng-template>
           </div>
           <div *ngIf="OneAttendance.LateleaveMins">
             <div *ngIf="OneAttendance.EliminateOffAfter;else nonEliminateOffAfter" class="tagBlueLineThrough">
-              <ng-container i18n>晚走</ng-container>
+              <ng-container i18n>晚退</ng-container>
             </div>
             <ng-template #nonEliminateOffAfter>
               <div class="tag_red">
-                <ng-container i18n>晚走</ng-container>
+                <ng-container i18n>晚退</ng-container>
               </div>
             </ng-template>
           </div>
@@ -173,10 +173,10 @@
             <ng-container i18n>早退</ng-container>
           </div>
           <div class="tag_red" *ngIf="OneAttendance.EarlyarriveMins">
-            <ng-container i18n>早來</ng-container>
+            <ng-container i18n>早到</ng-container>
           </div>
           <div class="tag_red" *ngIf="OneAttendance.LateleaveMins">
-            <ng-container i18n>晚走</ng-container>
+            <ng-container i18n>晚退</ng-container>
           </div> -->
         </div>
       </div>

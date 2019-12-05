@@ -60,21 +60,21 @@
             </div>
             <div *ngIf="getAttendCard.OnBeforeMins">
               <div *ngIf="getAttendCard.EliminateOnBefore;else nonEliminateOnBefore" class="tagBlueLineThrough">
-                <ng-container i18n>早來</ng-container>
+                <ng-container i18n>早到</ng-container>
               </div>
               <ng-template #nonEliminateOnBefore>
                 <div class="tag_red">
-                  <ng-container i18n>早來</ng-container>
+                  <ng-container i18n>早到</ng-container>
                 </div>
               </ng-template>
             </div>
             <div *ngIf="getAttendCard.OffAfterMins">
               <div *ngIf="getAttendCard.EliminateOffAfter;else nonEliminateOffAfter" class="tagBlueLineThrough">
-                <ng-container i18n>晚走</ng-container>
+                <ng-container i18n>晚退</ng-container>
               </div>
               <ng-template #nonEliminateOffAfter>
                 <div class="tag_red">
-                  <ng-container i18n>晚走</ng-container>
+                  <ng-container i18n>晚退</ng-container>
                 </div>
               </ng-template>
             </div>
@@ -218,12 +218,12 @@
             </div>
             <div class="checkboxBlock">
               <mat-checkbox formControlName="EliminateOnBefore">
-                <ng-container i18n>早來</ng-container>
+                <ng-container i18n>早到</ng-container>
               </mat-checkbox>
             </div>
             <div class="checkboxBlock">
               <mat-checkbox formControlName="EliminateOffAfter">
-                <ng-container i18n>晚走</ng-container>
+                <ng-container i18n>晚退</ng-container>
               </mat-checkbox>
             </div>
           </form>

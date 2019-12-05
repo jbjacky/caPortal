@@ -49,8 +49,8 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
   LateMins: boolean = true; //遲到
   EarlyMins: boolean = true; //早退
   IsAbsent: boolean = true; //未刷卡
-  IsEarlyCome: boolean = true; //早來
-  IsLateBack: boolean = true; //晚走
+  IsEarlyCome: boolean = true; //早到
+  IsLateBack: boolean = true; //晚退
 
   chooseRadio: number = 1;
 
@@ -331,10 +331,10 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
         if (this.IsAbsent) {//未刷卡
           checkListState.push('3')
         }
-        if (this.IsEarlyCome) {//早來
+        if (this.IsEarlyCome) {//早到
           checkListState.push('4')
         }
-        if (this.IsLateBack) {//晚走
+        if (this.IsLateBack) {//晚退
           checkListState.push('5')
         }
 
@@ -433,10 +433,10 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
         if (this.IsAbsent) {//未刷卡
           checkListState.push('3')
         }
-        if (this.IsEarlyCome) {//早來
+        if (this.IsEarlyCome) {//早到
           checkListState.push('4')
         }
-        if (this.IsLateBack) {//晚走
+        if (this.IsLateBack) {//晚退
           checkListState.push('5')
         }
       }
@@ -664,10 +664,10 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
           if (this.IsAbsent) {//未刷卡
             checkListState.push('3')
           }
-          if (this.IsEarlyCome) {//早來
+          if (this.IsEarlyCome) {//早到
             checkListState.push('4')
           }
-          if (this.IsLateBack) {//晚走
+          if (this.IsLateBack) {//晚退
             checkListState.push('5')
           }
         }

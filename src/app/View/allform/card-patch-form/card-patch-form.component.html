@@ -190,21 +190,21 @@
               </div>
               <div *ngIf="Attend.OnBeforeMins">
                 <div *ngIf="Attend.EliminateOnBefore;else nonEliminateOnBefore" class="tagBlueLineThrough">
-                  <ng-container i18n>早來</ng-container>
+                  <ng-container i18n>早到</ng-container>
                 </div>
                 <ng-template #nonEliminateOnBefore>
                   <div class="tagBlue">
-                    <ng-container i18n>早來</ng-container>
+                    <ng-container i18n>早到</ng-container>
                   </div>
                 </ng-template>
               </div>
               <div *ngIf="Attend.OffAfterMins">
                 <div *ngIf="Attend.EliminateOffAfter;else nonEliminateOffAfter" class="tagBlueLineThrough">
-                  <ng-container i18n>晚走</ng-container>
+                  <ng-container i18n>晚退</ng-container>
                 </div>
                 <ng-template #nonEliminateOffAfter>
                   <div class="tagBlue">
-                    <ng-container i18n>晚走</ng-container>
+                    <ng-container i18n>晚退</ng-container>
                   </div>
                 </ng-template>
               </div>

@@ -34,8 +34,8 @@ export class OwnSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   LateMins = true; //遲到
   EarlyMins = true; //早退
   IsAbsent = true; //未刷卡
-  IsEarlyCome = true; //早來
-  IsLateBack = true; //晚走
+  IsEarlyCome = true; //早到
+  IsLateBack = true; //晚退
 
   errorStartDateState = { state: false, errorString: '' }
   errorEndtDateState = { state: false, errorString: '' }
@@ -229,10 +229,10 @@ export class OwnSearchComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.IsAbsent) {//未刷卡
           checkListState.push('3')
         }
-        if (this.IsEarlyCome) {//早來
+        if (this.IsEarlyCome) {//早到
           checkListState.push('4')
         }
-        if (this.IsLateBack) {//晚走
+        if (this.IsLateBack) {//晚退
           checkListState.push('5')
         }
       }

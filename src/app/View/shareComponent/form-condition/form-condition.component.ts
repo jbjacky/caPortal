@@ -62,7 +62,7 @@ export class FormConditionComponent implements OnInit, OnDestroy {
   }, {
     select: '考勤異常簽認單',
     value: 'AttendUnusual',
-    filter: [{ value: 'All', name: '全部' }, { value: 'lateState', name: '遲到' }, { value: 'earlyState', name: '早退' }, { value: 'forgetCard', name: '未刷卡' }, { value: 'OnBefore', name: '早來' }, { value: 'OffAfter', name: '晚走' }]
+    filter: [{ value: 'All', name: '全部' }, { value: 'lateState', name: '遲到' }, { value: 'earlyState', name: '早退' }, { value: 'forgetCard', name: '未刷卡' }, { value: 'OnBefore', name: '早到' }, { value: 'OffAfter', name: '晚退' }]
   }, {
     select: '補卡單',
     value: 'CardPatch',
