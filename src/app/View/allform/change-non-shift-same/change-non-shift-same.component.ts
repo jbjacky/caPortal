@@ -750,9 +750,9 @@ export class ChangeNonShiftSameComponent implements OnInit, AfterViewInit, OnDes
             "ShiftRoteFlowAppsDetail": this.showCheckDetailDateArray
           }
         ],
-        "EmpID": this.SearchMan.EmpCode,
-        "EmpCode": this.SearchMan.EmpCode,
-        "EmpNameC": this.SearchMan.EmpName,
+        "EmpID": this.WriteMan.EmpCode,
+        "EmpCode": this.WriteMan.EmpCode,
+        "EmpNameC": this.WriteMan.EmpName,
         "State": "1" //1是要簽核
       },
       "FlowDynamic": {
