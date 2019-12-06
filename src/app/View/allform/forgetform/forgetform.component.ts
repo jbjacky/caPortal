@@ -16,6 +16,7 @@ import { GetFormInfoGetApiClass } from 'src/app/Models/PostData_API_Class/GetFor
 import { GetFormInfoDataClass } from 'src/app/Models/GetFormInfoDataClass';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
+import { void_MonthDiff } from 'src/app/UseVoid/void_DateDiff';
 declare let $: any; //use jquery
 
 @Component({
@@ -209,9 +210,11 @@ export class ForgetformComponent implements OnInit, AfterViewInit, OnDestroy {
 
     } else if (this.blurEndDate()) {
 
+    } else if (void_MonthDiff(this.searchDateB, this.searchDateE) > 3) {
+      alert('查詢起訖區間"月份"不得超過三個月')
     } else {
-      var startDate = $('#id_ipt_startday').val()
-      var endDate = $('#id_ipt_endday').val()
+      var startDate = doFormatDate(this.searchDateB)
+      var endDate = doFormatDate(this.searchDateE)
       this.GetAttendExceptional = { DateB: startDate, DateE: endDate, ListEmpID: [this.EmpBase.EmpCode] }
 
       // this.loading = true
