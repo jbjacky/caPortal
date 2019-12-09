@@ -32,36 +32,52 @@
 
       </div>
       <ul class="nav nav-tabs P_nav">
-        <li class="active" style="width: 25%;text-align: center"
-          (click)="vaTabClick(ReviewformServiceService.showReviewMan)">
+        <li class="active" style="width: 20%;text-align: center"
+          (click)="vaTabClick(ReviewformServiceService.showReviewMan,true)">
           <a id="vaTab" data-toggle="tab" href="#vaform" style="text-decoration: none;">
             <ng-container i18n>請假單</ng-container>
             <span class="badge">{{vaCount}}</span>
           </a>
 
         </li>
-        <li style="width: 25%;text-align: center">
+        <li style="width: 20%;text-align: center">
           <a id="delTab" data-toggle="tab" href="#delform" style="text-decoration: none;"
-            (click)="delTabClick(ReviewformServiceService.showReviewMan)">
+            (click)="delTabClick(ReviewformServiceService.showReviewMan,true)">
             <ng-container i18n>銷假單</ng-container>
             <span class="badge">{{delCount}}</span>
           </a>
         </li>
-        <li style="width: 25%;text-align: center">
+        <li style="width: 20%;text-align: center">
           <a id="changeTab" data-toggle="tab" href="#changeform" style="text-decoration: none;"
-            (click)="changeTabClick(ReviewformServiceService.showReviewMan)">
+            (click)="changeTabClick(ReviewformServiceService.showReviewMan,true)">
             <ng-container i18n>調班單</ng-container>
             <span class="badge">{{changeCount}}</span>
           </a>
         </li>
-        <li style="width: 25%;text-align: center" (click)="forgetTabClick(ReviewformServiceService.showReviewMan)">
+        <li style="width: 20%;text-align: center" (click)="AttendUnusualTabClick(ReviewformServiceService.showReviewMan,true)">
+          <a id="AttendUnusualTab" data-toggle="tab" href="#AttendUnusualform" style="text-decoration: none;">
+            <span id="AttendUnusualTabText">
+              <ng-container i18n>考勤異常簽認單</ng-container>
+            </span>
+            <span class="badge">{{AttendUnusualCount}}</span>
+          </a>
+        </li>
+        <li style="width: 20%;text-align: center" (click)="CardPatchTabClick(ReviewformServiceService.showReviewMan,true)">
+          <a id="CardPatchTab" data-toggle="tab" href="#CardPatchform" style="text-decoration: none;">
+            <span id="CardPatchTabText">
+              <ng-container i18n>補卡單</ng-container>
+            </span>
+            <span class="badge">{{CardPatchCount}}</span>
+          </a>
+        </li>
+        <!-- <li style="width: 20%;text-align: center" (click)="forgetTabClick(ReviewformServiceService.showReviewMan,true)">
           <a id="forgetTab" data-toggle="tab" href="#forgetform" style="text-decoration: none;">
             <span id="forgetTabText">
-              <ng-container i18n>考勤異常簽認單</ng-container>
+              <ng-container i18n>忘刷單</ng-container>
             </span>
             <span class="badge">{{forgetCount}}</span>
           </a>
-        </li>
+        </li> -->
       </ul>
     </div>
 
@@ -151,7 +167,9 @@
                         {{vaFlowSign.EmpCode}}
                         <span *ngIf="vaFlowSign.EmpNameC.length != 0">{{vaFlowSign.EmpNameC}}</span>
                         <span *ngIf="vaFlowSign.EmpNameC.length == 0">{{vaFlowSign.EmpNameE}}</span>
-                        <span style="color: blue" *ngIf="vaFlowSign.checkProxy">(代)</span>
+                        <span style="color: blue" *ngIf="vaFlowSign.checkProxy">
+                            (<ng-container i18n>代</ng-container>)
+                        </span>
                       </div>
                       <div style="display: inline-block;margin-right: 10px">
                         <span style="font-weight: bold;color: #969696">
@@ -240,7 +258,7 @@
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
                   <button *ngIf="vaFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
-                     (click)="checkAbsLimit_PutForward(vaFlowSign,'vaTab')">
+                    (click)="checkAbsLimit_PutForward(vaFlowSign,'vaTab')">
                     <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!vaFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
@@ -254,7 +272,7 @@
               </div>
             </div>
           </div>
-          <mat-paginator [length]="vaFlowSigns.length" [pageSize]="va_pagechange.pageSize"
+          <mat-paginator #vaPaginator [length]="vaFlowSigns.length" [pageSize]="va_pagechange.pageSize"
             (page)="va_pagechange.pageEvent = va_pagechange.getPaginatorData($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
@@ -329,7 +347,8 @@
                         <span *ngIf="delFlowSign.EmpNameC.length != 0">{{delFlowSign.EmpNameC}}</span>
                         <span *ngIf="delFlowSign.EmpNameC.length == 0">{{delFlowSign.EmpNameE}}</span>
                         <span style="color: blue" *ngIf="delFlowSign.checkProxy">
-                          (<ng-container i18n>代</ng-container>)</span>
+                          (<ng-container i18n>代</ng-container>)
+                        </span>
                       </div>
                       <div>
                         <span style="font-weight: bold;color: #969696">
@@ -422,7 +441,7 @@
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
                   <button *ngIf="delFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
-                    data-target="#PutForwarddialog" (click)="delDetail_click(delFlowSign,'delTab')">
+                    (click)="del_PutForward(delFlowSign,'delTab')">
                     <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!delFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
@@ -436,7 +455,7 @@
               </div>
             </div>
           </div>
-          <mat-paginator [length]="delFlowSigns.length" [pageSize]="del_pagechange.pageSize"
+          <mat-paginator #delPaginator [length]="delFlowSigns.length" [pageSize]="del_pagechange.pageSize"
             (page)="del_pagechange.pageEvent = del_pagechange.getPaginatorData($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
@@ -511,8 +530,9 @@
                         <div style="display: inline-block;margin-right: 15px;">
                           {{changeFlowSign.EmpID1}}
                           <span>{{changeFlowSign.EmpNameC1}}</span>
-                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">(<ng-container i18n>代
-                            </ng-container>)</span>
+                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">
+                            (<ng-container i18n>代</ng-container>)
+                          </span>
                         </div>
                         <div style="display: inline-block;">
                           {{changeFlowSign.EmpID2}}
@@ -524,8 +544,9 @@
                         <div>
                           {{changeFlowSign.EmpID1}}
                           <span>{{changeFlowSign.EmpNameC1}}</span>
-                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">(<ng-container i18n>代
-                            </ng-container>)</span>
+                          <span style="color: blue" *ngIf="changeFlowSign.checkProxy">
+                            (<ng-container i18n>代</ng-container>)
+                          </span>
                         </div>
                       </div>
                       <!-- 不是雙人調班顯示一個申請人 -->
@@ -603,9 +624,8 @@
                   </div>
                 </div>
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
-                  <button *ngIf="changeFlowSign.isPutForward" (click)="changeDetail_click(changeFlowSign,'changeTab')"
-                    class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
-                    data-toggle="modal" data-target="#PutForwarddialog">
+                  <button *ngIf="changeFlowSign.isPutForward" class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                    data-toggle="modal" (click)="change_PutForward(changeFlowSign,'changeTab')">
                     <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!changeFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
@@ -619,12 +639,364 @@
               </div>
             </div>
           </div>
-          <mat-paginator [length]="changeFlowSigns.length" [pageSize]="change_pagechange.pageSize"
+          <mat-paginator #changePaginator [length]="changeFlowSigns.length" [pageSize]="change_pagechange.pageSize"
             (page)="change_pagechange.pageEvent = change_pagechange.getPaginatorData($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
       </div>
       <!-- 調班單tab -->
+      <div id="AttendUnusualform" class="tab-pane">
+        <div class="panel-group">
+          <div class="row ReviewTitle_mobile">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
+            </div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>員工</ng-container>
+            </div>
+            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>申請時段</ng-container>
+            </div>
+            <div class="col-md-2" style="text-align: center">
+              <ng-container i18n>明細</ng-container>
+            </div>
+          </div>
+          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
+            <button class="AllCheckLeftButtonClass btn btn-primary"
+              (click)="Approved_All_Check(AttendUnusualFlowSigns,'AttendUnusualTab')">
+              <ng-container i18n>全部核准</ng-container>
+            </button>
+            <button class="btn btn-primary" (click)="Sendback_All_Check(AttendUnusualFlowSigns,'AttendUnusualTab')">
+              <ng-container i18n>全部退回</ng-container>
+            </button>
+          </div>
+          <div class="row ReviewTitle_desktop">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
+            </div>
+            <div class="col-md-9 col-xs-12 row" style="margin: 0;padding: 0">
+              <div class="col-md-10 col-xs-12 row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>單號</ng-container>
+                </div>
+                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>申請時段</ng-container>
+                </div>
+                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">異常狀態</div>
+              </div>
+              <div class="col-md-2 col-xs-12" style="margin: 0;padding: 0;text-align: center;">
+                <ng-container i18n>明細</ng-container>
+              </div>
+            </div>
+          </div>
+          <!-- <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
+          <!-- class="Atooltips" -->
+          <div *ngFor="let AttendUnusualFlowSign of AttendUnusualFlowSigns | 
+                    slice: AttendUnusual_pagechange.lowValue : AttendUnusual_pagechange.highValue">
+            <div class="row ReviewDiv">
+              <div class="col-md-9 col-md-push-3 col-xs-12 row" style="margin: 0px;padding: 0px 0px;border-left: 1px solid #c9c9c9;
+              padding-top: 0px;">
+                <div class="row col-md-10 col-xs-10" style="padding: 0px;margin:0px">
+                  <div class="col-md-2 col-xs-12 uiProssID">
+                    <div style="color:#028fcf;">
+                      {{AttendUnusualFlowSign.uiProcessFlowID}}
+                    </div>
+                  </div>
+                  <div class="col-md-7 col-xs-12 " style="margin-bottom: 5px;padding-top: 5px">
+                    <div>
+                      <div>
+                        {{AttendUnusualFlowSign.EmpCode}}
+                        <span *ngIf="AttendUnusualFlowSign.EmpNameC.length != 0">{{AttendUnusualFlowSign.EmpNameC}}</span>
+                        <span *ngIf="AttendUnusualFlowSign.EmpNameC.length == 0">{{AttendUnusualFlowSign.EmpNameE}}</span>
+                        <span style="color: blue" *ngIf="AttendUnusualFlowSign.checkProxy">
+                          (<ng-container i18n>代</ng-container>)
+                        </span>
+                      </div>
+                      <div>
+                        <!-- 2019年-1/02 -->
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>異常日期</ng-container>：
+                        </span> {{AttendUnusualFlowSign.Date}}
+                      </div>
+                      <!-- <div>
+                        <span style="font-weight: bold;color: #969696">異常狀態：</span>
+                        <div *ngIf="forgetFlowSign.isLateMins" class="tag_red" style="margin: 0px">遲到</div>
+                        <div *ngIf="forgetFlowSign.isEarlyMins" class="tag_red" style="margin: 0px">早退</div>
+                        <div *ngIf="forgetFlowSign.isForgetCard" class="tag_red" style="margin: 0px">未刷卡</div>
+                      </div> -->
+                      <div>
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>班型</ng-container>：
+                        </span>
+                        <span>{{AttendUnusualFlowSign.RoteCode}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="AttendUnusualTimeSum" class="col-md-3 col-xs-12 uiTimeSum">
+                    <span class="P_displayShow" style="font-weight: bold;color: #969696">
+                      <ng-container i18n>異常狀態</ng-container>：
+                    </span>
+                    <div *ngIf="AttendUnusualFlowSign.EliminateLate" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>遲到</ng-container>
+                    </div>
+                    <div *ngIf="AttendUnusualFlowSign.EliminateEarly" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>早退</ng-container>
+                    </div>
+                    <div *ngIf="AttendUnusualFlowSign.EliminateAbsent" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>未刷卡</ng-container>
+                    </div>
+                    <div *ngIf="AttendUnusualFlowSign.EliminateOnBefore" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>早到</ng-container>
+                    </div>
+                    <div *ngIf="AttendUnusualFlowSign.EliminateOffAfter" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>晚退</ng-container>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
+                  <a style="cursor: pointer;padding-left: 30px;"
+                    [routerLink]="['../ReviewformDetailAttendUnusualformComponent']"
+                    (click)="AttendUnusualDetail_click(AttendUnusualFlowSign,'AttendUnusualTab')">
+                    <span class="P_notVisable">
+                      <ng-container i18n>檢視</ng-container>
+                    </span>
+                    <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+                  </a>
+
+                </div>
+
+              </div>
+
+              <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
+
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="AttendUnusualFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
+                    style="padding: 5px 0px;text-align: center;width: 100%;" data-target="#Approveddialog" 
+                    (click)="AttendUnusualDetail_click(AttendUnusualFlowSign,'AttendUnusualTab')">
+                    <ng-container i18n>核准</ng-container>
+                  </button>
+                  <div *ngIf="!AttendUnusualFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-primary btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      <ng-container i18n>核准</ng-container>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="AttendUnusualFlowSign.isSendback">
+                  <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
+                    style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="AttendUnusualDetail_click(AttendUnusualFlowSign,'AttendUnusualTab')">
+                    <ng-container i18n>退回</ng-container>
+                  </button>
+                  <div *ngIf="!AttendUnusualFlowSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      <ng-container i18n>退回</ng-container>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="AttendUnusualFlowSign.isPutForward" class="btn btn-info btn-sm"
+                    style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
+                    (click)="checkAttendUnusualText_PutForward(AttendUnusualFlowSign,'AttendUnusualTab')">
+                    <ng-container i18n>呈核</ng-container>
+                  </button>
+                  <div *ngIf="!AttendUnusualFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      <ng-container i18n>呈核</ng-container>
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-paginator #AttendUnusualPaginator [length]="AttendUnusualFlowSigns.length" [pageSize]="AttendUnusual_pagechange.pageSize"
+            (page)="AttendUnusual_pagechange.pageEvent = AttendUnusual_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+          </mat-paginator>
+        </div>
+
+      </div>
+      <!-- 考勤異常簽認單tab -->
+      <div id="CardPatchform" class="tab-pane">
+        <div class="panel-group">
+          <div class="row ReviewTitle_mobile">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
+            </div>
+            <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>員工</ng-container>
+            </div>
+            <div class="col-md-5" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <ng-container i18n>申請時段</ng-container>
+            </div>
+            <div class="col-md-2" style="text-align: center">
+              <ng-container i18n>明細</ng-container>
+            </div>
+          </div>
+          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
+            <button class="AllCheckLeftButtonClass btn btn-primary"
+              (click)="Approved_All_Check(CardPatchFlowSigns,'CardPatchTab')">
+              <ng-container i18n>全部核准</ng-container>
+            </button>
+            <button class="btn btn-primary" (click)="Sendback_All_Check(CardPatchFlowSigns,'CardPatchTab')">
+              <ng-container i18n>全部退回</ng-container>
+            </button>
+          </div>
+          <div class="row ReviewTitle_desktop">
+            <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
+              <span>
+                <ng-container i18n>審核</ng-container>
+              </span>
+            </div>
+            <div class="col-md-9 col-xs-12 row" style="margin: 0;padding: 0">
+              <div class="col-md-10 col-xs-12 row" style="margin: 0;padding: 0">
+                <div class="col-md-2" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>單號</ng-container>
+                </div>
+                <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">
+                  <ng-container i18n>申請時段</ng-container>
+                </div>
+                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">異常狀態</div>
+              </div>
+              <div class="col-md-2 col-xs-12" style="margin: 0;padding: 0;text-align: center;">
+                <ng-container i18n>明細</ng-container>
+              </div>
+            </div>
+          </div>
+          <!-- <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
+          <!-- class="Atooltips" -->
+          <div *ngFor="let CardPatchSign of CardPatchFlowSigns | 
+                    slice: CardPatch_pagechange.lowValue : CardPatch_pagechange.highValue">
+            <div class="row ReviewDiv">
+              <div class="col-md-9 col-md-push-3 col-xs-12 row" style="margin: 0px;padding: 0px 0px;border-left: 1px solid #c9c9c9;
+              padding-top: 0px;">
+                <div class="row col-md-10 col-xs-10" style="padding: 0px;margin:0px">
+                  <div class="col-md-2 col-xs-12 uiProssID">
+                    <div style="color:#028fcf;">
+                      {{CardPatchSign.uiProcessFlowID}}
+                    </div>
+                  </div>
+                  <div class="col-md-7 col-xs-12 " style="margin-bottom: 5px;padding-top: 5px">
+                    <div>
+                      <div>
+                        {{CardPatchSign.EmpCode}}
+                        <span *ngIf="CardPatchSign.EmpNameC.length != 0">{{CardPatchSign.EmpNameC}}</span>
+                        <span *ngIf="CardPatchSign.EmpNameC.length == 0">{{CardPatchSign.EmpNameE}}</span>
+                        <span style="color: blue" *ngIf="CardPatchSign.checkProxy">
+                          (<ng-container i18n>代</ng-container>)
+                        </span>
+                      </div>
+                      <div>
+                        <!-- 2019年-1/02 -->
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>異常日期</ng-container>：
+                        </span> {{CardPatchSign.Date}}
+                      </div>
+                      <!-- <div>
+                        <span style="font-weight: bold;color: #969696">異常狀態：</span>
+                        <div *ngIf="forgetFlowSign.isLateMins" class="tag_red" style="margin: 0px">遲到</div>
+                        <div *ngIf="forgetFlowSign.isEarlyMins" class="tag_red" style="margin: 0px">早退</div>
+                        <div *ngIf="forgetFlowSign.isForgetCard" class="tag_red" style="margin: 0px">未刷卡</div>
+                      </div> -->
+                      <div>
+                        <span style="font-weight: bold;color: #969696">
+                          <ng-container i18n>班型</ng-container>：
+                        </span>
+                        <span>{{CardPatchSign.RoteCode}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="forgetTimeSum" class="col-md-3 col-xs-12 uiTimeSum">
+                    <span class="P_displayShow" style="font-weight: bold;color: #969696">
+                      <ng-container i18n>異常狀態</ng-container>：
+                    </span>
+                    <div *ngIf="CardPatchSign.isLateMins" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>遲到</ng-container>
+                    </div>
+                    <div *ngIf="CardPatchSign.isEarlyMins" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>早退</ng-container>
+                    </div>
+                    <div *ngIf="CardPatchSign.isForgetCard" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>未刷卡</ng-container>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
+                  <a style="cursor: pointer;padding-left: 30px;"
+                    [routerLink]="['../ReviewformDetailCardPatchformComponent']"
+                    (click)="CardPatchDetail_click(CardPatchSign,'CardPatchTab')">
+                    <span class="P_notVisable">
+                      <ng-container i18n>檢視</ng-container>
+                    </span>
+                    <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
+                  </a>
+
+                </div>
+
+              </div>
+
+              <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
+
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="CardPatchSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
+                    style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="checkCardPatch_Approved(CardPatchSign,'CardPatchTab')">
+                    <ng-container i18n>核准</ng-container>
+                  </button>
+                  <div *ngIf="!CardPatchSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-primary btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      <ng-container i18n>核准</ng-container>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="CardPatchSign.isSendback">
+                  <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
+                    style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="CardPatchDetail_click(CardPatchSign,'CardPatchTab')">
+                    <ng-container i18n>退回</ng-container>
+                  </button>
+                  <div *ngIf="!CardPatchSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      <ng-container i18n>退回</ng-container>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                  <button *ngIf="CardPatchSign.isPutForward" class="btn btn-info btn-sm"
+                    style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
+                    (click)="checkCardPatch_PutForward(CardPatchSign,'CardPatchTab')">
+                    <ng-container i18n>呈核</ng-container>
+                  </button>
+                  <div *ngIf="!CardPatchSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
+                    <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
+                      disabled>
+                      <ng-container i18n>呈核</ng-container>
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-paginator #CardPatchPaginator [length]="CardPatchFlowSigns.length" [pageSize]="CardPatch_pagechange.pageSize"
+            (page)="CardPatch_pagechange.pageEvent = CardPatch_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+          </mat-paginator>
+        </div>
+
+      </div>
+      <!-- 補卡單tab -->
       <div id="forgetform" class="tab-pane">
         <div class="panel-group">
           <div class="row ReviewTitle_mobile">
@@ -692,8 +1064,9 @@
                         {{forgetFlowSign.EmpCode}}
                         <span *ngIf="forgetFlowSign.EmpNameC.length != 0">{{forgetFlowSign.EmpNameC}}</span>
                         <span *ngIf="forgetFlowSign.EmpNameC.length == 0">{{forgetFlowSign.EmpNameE}}</span>
-                        <span style="color: blue" *ngIf="forgetFlowSign.checkProxy">(<ng-container i18n>代</ng-container>
-                          )</span>
+                        <span style="color: blue" *ngIf="forgetFlowSign.checkProxy">
+                          (<ng-container i18n>代</ng-container>)
+                        </span>
                       </div>
                       <div>
                         <!-- 2019年-1/02 -->
@@ -749,8 +1122,8 @@
 
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
                   <button *ngIf="forgetFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
-                    data-target="#Approveddialog" style="padding: 5px 0px;text-align: center;width: 100%;"
-                    (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
+                    style="padding: 5px 0px;text-align: center;width: 100%;"
+                    (click)="checkforgetCardText_Approved(forgetFlowSign,'forgetTab')">
                     <ng-container i18n>核准</ng-container>
                   </button>
                   <div *ngIf="!forgetFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
@@ -776,7 +1149,7 @@
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
                   <button *ngIf="forgetFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
-                    data-target="#PutForwarddialog" (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
+                    (click)="checkforgetCardText_PutForward(forgetFlowSign,'forgetTab')">
                     <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!forgetFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
@@ -790,13 +1163,13 @@
               </div>
             </div>
           </div>
-          <mat-paginator [length]="forgetFlowSigns.length" [pageSize]="forget_pagechange.pageSize"
+          <mat-paginator #forgetPaginator [length]="forgetFlowSigns.length" [pageSize]="forget_pagechange.pageSize"
             (page)="forget_pagechange.pageEvent = forget_pagechange.getPaginatorData($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
 
       </div>
-      <!-- 考勤異常簽認單tab -->
+      <!-- 忘刷單tab -->
     </div>
 
 
@@ -951,6 +1324,38 @@
   </div>
 </div>
 <!--dialog請假單核准確認送出 -->
+<div class="modal" id="forgetApproveddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認核准?</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body" *ngIf="forgetShowCheckText.length>0">
+          {{forgetShowCheckText}}
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="Approved_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog考勤異常確認單核准確認送出 -->
 <div class="modal" id="Approveddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog  modal-sm vertical-align-center">
@@ -1028,7 +1433,7 @@
               (click)="Sendback_Click()">
               <ng-container i18n>送出</ng-container>
             </button>
-            <button  type="button" class="btn btn-default" data-dismiss="modal">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
               <ng-container i18n>取消</ng-container>
             </button>
           </div>
@@ -1069,7 +1474,7 @@
   </div>
 </div>
 <!--dialog退回送出成功 -->
-<div class="modal" id="vaPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+<div  class="modal" id="vaPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
   style="padding-right:0px;padding: 17px">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog  modal-md vertical-align-center">
@@ -1096,7 +1501,7 @@
             <p>
               <ng-container i18n>簽核人員</ng-container>
             </p>
-            <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            <app-select-signer *ngIf="showvaPutForwarddialog" (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
             </app-select-signer>
           </div>
         </div>
@@ -1116,7 +1521,54 @@
   </div>
 </div>
 <!--dialog請假單呈核確認送出 -->
-<div class="modal" id="PutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+<div  class="modal" id="forgetPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" style="padding-right:0px;padding: 17px">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-md vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>填寫呈核資訊</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="forgetShowCheckText.length>0" style="margin-bottom:10px">
+            {{forgetShowCheckText}}
+          </div>
+          <div style="margin-bottom:10px">
+            <p>
+              <ng-container i18n>簽核意見</ng-container>
+            </p>
+            <textarea class="inputTextarea" [(ngModel)]="signText" style="overflow-y: auto"></textarea>
+          </div>
+          <div>
+            <p>
+              <ng-container i18n>簽核人員</ng-container>
+            </p>
+            <app-select-signer *ngIf="showforgetPutForwarddialog" (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            </app-select-signer>
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="PutForward_Click()" [disabled]="checkHaveFlowDynamic_EmpID()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog考勤異常確認單呈核確認送出 -->
+<div  class="modal" id="PutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
   style="padding-right:0px;padding: 17px">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog  modal-md vertical-align-center">
@@ -1140,7 +1592,7 @@
             <p>
               <ng-container i18n>簽核人員</ng-container>
             </p>
-            <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            <app-select-signer *ngIf="showPutForwarddialog" (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
             </app-select-signer>
           </div>
         </div>
@@ -1170,8 +1622,8 @@
             <!-- <span aria-hidden="true">×</span> -->
           </button>
           <h4 class="modal-title" style="text-align: center">
-              <ng-container i18n>呈核完成</ng-container>
-            </h4>
+            <ng-container i18n>呈核完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
@@ -1183,8 +1635,8 @@
         </div>
         <div class="modal-footer" style="text-align: center">
           <button id="bt_Sus_Put" type="button" class="btn btn-primary" data-dismiss="modal">
-              <ng-container i18n>確定</ng-container>
-            </button>
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -1206,18 +1658,18 @@
             <!-- <span aria-hidden="true">×</span> -->
           </button>
           <h4 class="modal-title" style="text-align: center">
-              <ng-container i18n>核准完成</ng-container>
-            </h4>
+            <ng-container i18n>核准完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
             <img src="./assets/images-template/icon-success.png" />
           </div>
           <div>
-              <ng-container i18n>送出筆數</ng-container>:{{sendReviewLength}}
+            <ng-container i18n>送出筆數</ng-container>:{{sendReviewLength}}
           </div>
           <div>
-              <ng-container i18n>批核筆數</ng-container>:{{realReviewLength}}
+            <ng-container i18n>批核筆數</ng-container>:{{realReviewLength}}
           </div>
           <div style="text-align: center">
             <ng-container i18n>核准送出完成</ng-container>!
@@ -1225,8 +1677,8 @@
         </div>
         <div class="modal-footer" style="text-align: center">
           <button id="bt_Sus_AllApr" type="button" class="btn btn-primary" data-dismiss="modal">
-              <ng-container i18n>確定</ng-container>
-            </button>
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>
@@ -1244,8 +1696,8 @@
             <!-- <span aria-hidden="true">×</span> -->
           </button>
           <h4 class="modal-title" style="text-align: center">
-              <ng-container i18n>退回完成</ng-container>
-            </h4>
+            <ng-container i18n>退回完成</ng-container>
+          </h4>
         </div>
         <div class="modal-body">
           <div style="text-align: center;margin-bottom: 10px">
@@ -1258,13 +1710,13 @@
             <ng-container i18n>批核筆數</ng-container>:{{realReviewLength}}
           </div>
           <div style="text-align: center">
-              <ng-container i18n>退回送出完成</ng-container>!
+            <ng-container i18n>退回送出完成</ng-container>!
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
           <button id="bt_Sus_AllSbk" type="button" class="btn btn-primary" data-dismiss="modal">
-              <ng-container i18n>確定</ng-container>
-            </button>
+            <ng-container i18n>確定</ng-container>
+          </button>
         </div>
       </div>
     </div>

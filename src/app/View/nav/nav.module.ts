@@ -110,6 +110,10 @@ import { PersonnelSearchVaComponent } from '../personnel-search-va/personnel-sea
 import { OtformComponent } from '../allform/otform/writeotform/otform.component';
 import { SalarySearchComponent } from '../salary-search/salary-search.component';
 import { OtformdetailComponent } from '../allform/otform/otformdetail/otformdetail.component';
+import { RmStateFormComponent } from '../allform/rm-state-form/rm-state-form.component';
+import { RmStateFormWriteComponent } from '../allform/rm-state-form/rm-state-form-write/rm-state-form-write.component';
+import { CardPatchFormComponent } from '../allform/card-patch-form/card-patch-form.component';
+import { CardPatchFormWriteComponent } from '../allform/card-patch-form/card-patch-form-write/card-patch-form-write.component';
 
 const MY_DATE_FORMATS = {
   parse: {
@@ -190,6 +194,8 @@ export class MyDateAdapter extends NativeDateAdapter {
     ChangeRzNRComponent,
     ForgetformWriteComponent,
     OtformComponent,
+    CardPatchFormComponent,
+    CardPatchFormWriteComponent,
     OwnSearchComponent,
     SearchAttendanceComponent,
     PersonnelSearchComponent,
@@ -252,6 +258,8 @@ export class MyDateAdapter extends NativeDateAdapter {
     SalarySearchComponent,
     PersonnelSearchVaComponent,
     OtformdetailComponent,
+    RmStateFormComponent,
+    RmStateFormWriteComponent,
 
   ],
   providers: [

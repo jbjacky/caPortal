@@ -434,8 +434,8 @@ a.btn-log-out{
 
 
 #main-nav-inner{
-  padding-bottom: 30px;
-  *padding-bottom: 70px;
+  /* padding-bottom: 30px;
+  *padding-bottom: 70px; */
 }
 
 .main-nav-hr{

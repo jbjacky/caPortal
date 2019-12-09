@@ -30,7 +30,7 @@ import { MatSnackBarModule, MAT_SNACK_BAR_DATA } from '@angular/material';
     LoginComponent,
     ErrorPageComponent,
     LinkOuthpageComponent,
-    CheckLoginPageComponent,
+    CheckLoginPageComponent
   ],
   imports: [
     CommonModule,

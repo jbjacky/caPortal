@@ -49,6 +49,8 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
   LateMins: boolean = true; //遲到
   EarlyMins: boolean = true; //早退
   IsAbsent: boolean = true; //未刷卡
+  IsEarlyCome: boolean = true; //早到
+  IsLateBack: boolean = true; //晚退
 
   chooseRadio: number = 1;
 
@@ -329,6 +331,13 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
         if (this.IsAbsent) {//未刷卡
           checkListState.push('3')
         }
+        if (this.IsEarlyCome) {//早到
+          checkListState.push('4')
+        }
+        if (this.IsLateBack) {//晚退
+          checkListState.push('5')
+        }
+
       }
 
       // this.GetAttendInfoClass = { DateB: "2018/8/1", DateE: "2018/8/10", ListEmpID: ["051005"], EffectDate: "", Display: "1", ListState: ["1", "2", "3"] }
@@ -424,6 +433,12 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
         if (this.IsAbsent) {//未刷卡
           checkListState.push('3')
         }
+        if (this.IsEarlyCome) {//早到
+          checkListState.push('4')
+        }
+        if (this.IsLateBack) {//晚退
+          checkListState.push('5')
+        }
       }
 
       var _NowDate = new Date();
@@ -439,9 +454,22 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
       // }
 
       this.searchPageCurrent = 1
-      if (this.chooseDeptaID == null) {
+      if(this.chooseDeptaID == null){
         alert('請選擇查詢部門')
-      } else {
+      }else{
+        
+      var GetAttendInfoByDeptGetApi: GetAttendInfoByDeptGetApiClass =
+      {
+        "DateB": ipt_DateB,
+        "DateE": ipt_DateE,
+        "DeptaID": this.chooseDeptaID,
+        "ChildDept": this.downDept,
+        "PageCurrent": this.searchPageCurrent,
+        "PageRows": this.searchPageRows,
+        "EffectDate": _NowToday,
+        "Display": setDisplay,
+        "ListState": checkListState
+      }
 
         var GetAttendInfoByDeptGetApi: GetAttendInfoByDeptGetApiClass =
         {
@@ -486,9 +514,9 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
             },
             err => {
 
-              this.LoadingPage.hide()
-            }
-          )
+            this.LoadingPage.hide()
+          }
+        )
       }
     }
   }
@@ -647,6 +675,12 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
           }
           if (this.IsAbsent) {//未刷卡
             checkListState.push('3')
+          }
+          if (this.IsEarlyCome) {//早到
+            checkListState.push('4')
+          }
+          if (this.IsLateBack) {//晚退
+            checkListState.push('5')
           }
         }
 

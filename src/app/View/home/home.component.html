@@ -45,7 +45,8 @@
                     padding-bottom: 15px;
                     margin-bottom: 15px;
                     border-bottom: 1px solid;">
-                        <span style="cursor: pointer;"  data-toggle="collapse" href="#collapseOne" (click)="onCheckCollapseIn()">
+                        <span style="cursor: pointer;" data-toggle="collapse" href="#collapseOne"
+                            (click)="onCheckCollapseIn()">
                             <span id="_text" style="padding-right: 5px;">
                                 <ng-container i18n>收合</ng-container>
                             </span>
@@ -106,7 +107,8 @@
 
                     </div>
                     <div style="text-align: right;cursor: pointer;" [routerLink]="['/nav/reviewform']">
-                        <img src="./assets/jbIcon/icon_more.png" width="40px" height="15px" style="margin-right: 7px;" />
+                        <img src="./assets/jbIcon/icon_more.png" width="40px" height="15px"
+                            style="margin-right: 7px;" />
                     </div>
                 </div>
             </div>
@@ -174,7 +176,8 @@
                         margin-bottom: 10px;">
                         <span i18n class="mangerblocklefthourtitle">每小時更新</span>
                     </div>
-                    <div style="text-align: center;cursor: pointer;" class="row" [routerLink]="['/nav/PersonnelSearchComponent']">
+                    <div style="text-align: center;cursor: pointer;" class="row"
+                        [routerLink]="['/nav/PersonnelSearchComponent']">
                         <div class="col-md-6 col-xs-6 ">
                             <div style="font-size: 14px;box-shadow: none;color: #969696">
                                 <ng-container i18n>今日</ng-container>
@@ -220,7 +223,8 @@
                             <ng-container i18n>今日請假人數</ng-container>
                         </div>
 
-                        <div style="padding-top: 22px;text-align: center;cursor: pointer;" data-toggle="modal" data-target="#Abs_Today">
+                        <div style="padding-top: 22px;text-align: center;cursor: pointer;" data-toggle="modal"
+                            data-target="#Abs_Today">
                             <span style="padding-bottom: 3px;">
                                 <span style="font-size: 50px;color: #4087ce;">{{AllAbsEmp.length}}</span>
                             </span>
@@ -268,12 +272,12 @@
                                 <!-- <ng-container i18n>{weekjob.jobtime, select, 06:00-14:00 {qwe} other {{{weekjob.jobtime}}}}</ng-container> -->
                                 <div style="height: 22px;">
                                     <div *ngIf="weekjob.isAttend" style="color: 
-                                                    #d0021b;text-decoration:underline;cursor: pointer;"
+                                                            #d0021b;text-decoration:underline;cursor: pointer;"
                                         (click)="AtterrorClick(weekjob.realdate)">
                                         <ng-container i18n>考勤異常</ng-container>
                                     </div>
                                     <div *ngIf="weekjob.isVa" style="color:
-                                                    #4a90e2;text-decoration:underline;cursor: pointer;"
+                                                            #4a90e2;text-decoration:underline;cursor: pointer;"
                                         (click)="vaClick(weekjob.realdate,EmpCode)">
                                         <ng-container i18n>查閱請假單</ng-container>
                                     </div>
@@ -283,9 +287,9 @@
                     </div>
                 </ngx-slick-carousel>
             </div>
-            <div *ngIf="weekjobs.length==0">
-                <ng-container i18n>無出勤資料</ng-container>
-            </div>
+        </div>
+        <div *ngIf="weekjobs.length==0">
+            <ng-container i18n>無出勤資料</ng-container>
         </div>
     </div>
 </div>
@@ -540,6 +544,12 @@ padding: 0px 17px;">
                             <div *ngIf="Attend.IsAbsent" class="tag_red">
                                 <ng-container i18n>未刷卡</ng-container>
                             </div>
+                            <div *ngIf="Attend.OnBeforeMins" class="tag_red">
+                                <ng-container i18n>早到</ng-container>
+                            </div>
+                            <div *ngIf="Attend.OffAfterMins" class="tag_red">
+                                <ng-container i18n>晚退</ng-container>
+                            </div>
                         </div>
                         <div class="col-md-8 col-md-pull-2 col-xs-12" style="padding: 0px">
                             <div class="row col-md-6 col-xs-12 P_line" style="margin:0px;padding: 0px">
@@ -656,11 +666,11 @@ padding: 0px 17px;">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title">
+                    <h4 class="modal-title" style="text-align: center;">
                         <ng-container i18n>考勤異常數量說明</ng-container>
                     </h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="text-align: center;">
                     <p>
                         <ng-container i18n>由2019/08/01後開始計算。</ng-container>
                     </p>

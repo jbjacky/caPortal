@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { takeWhile } from 'rxjs/operators';
 import { CreateRoleGetApiClass } from 'src/app/Models/PostData_API_Class/CreateRoleGetApiClass';
 import { UpdateRoleGetApiClass } from 'src/app/Models/PostData_API_Class/UpdateRoleGetApiClass';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 
 declare let $: any; //use jquery
 
@@ -72,11 +73,15 @@ export class RoleSettingComponent implements OnInit, OnDestroy {
     this.LoadingPage.show()
     this.GetApiDataServiceService.getWebApiData_CreateRole(this.insertData)
     .subscribe(
-      (x:any)=>{
+      (x:ResponeStateClass)=>{
         if(x.isOK){
           this.LoadData()
         }else{
-          alert(x.ErrorMsg)
+          var errMsg = ''
+          for (let e of x.ErrorMsg) {
+            errMsg += e + '。 '
+          }
+          alert(errMsg);
         }
         this.LoadingPage.hide()
         $('#insertRoleDialog').modal('hide')
@@ -97,11 +102,15 @@ export class RoleSettingComponent implements OnInit, OnDestroy {
     }
     this.GetApiDataServiceService.getWebApiData_UpdateRole(UpdateRoleGetApi)
     .subscribe(
-      (x:any)=>{
+      (x:ResponeStateClass)=>{
         if(x.isOK){
           
         }else{
-          alert(x.ErrorMsg)
+          var errMsg = ''
+          for (let e of x.ErrorMsg) {
+            errMsg += e + '。 '
+          }
+          alert(errMsg);
         }
       },error=>{
         
@@ -118,11 +127,15 @@ export class RoleSettingComponent implements OnInit, OnDestroy {
     }
     this.GetApiDataServiceService.getWebApiData_UpdateRole(UpdateRoleGetApi)
     .subscribe(
-      (x:any)=>{
+      (x:ResponeStateClass)=>{
         if(x.isOK){
           
         }else{
-          alert(x.ErrorMsg)
+          var errMsg = ''
+          for (let e of x.ErrorMsg) {
+            errMsg += e + '。 '
+          }
+          alert(errMsg);
         }
       },error=>{
         

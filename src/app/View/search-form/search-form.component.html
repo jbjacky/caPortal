@@ -123,7 +123,16 @@
     </app-search-forget-form>
     <app-search-change-form [getChangeData]="getApiShiftRoteData" [getShowTransSign]="showTransSign"
       [getShowTake]="showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
-      *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'"></app-search-change-form>
+      *ngIf="isSearch && showSelectSearchForm == 'ShiftRote'">
+    </app-search-change-form>
+    <app-search-attend-unusual-form [getFlowSignAttendUnusualApiData]="getFlowSignAttendUnusualApiData" [getShowTransSign]="showTransSign"
+        [getShowTake]="showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+        *ngIf="isSearch && showSelectSearchForm == 'AttendUnusual'">
+    </app-search-attend-unusual-form>
+    <app-search-card-patch-form [getForgetData]="getApiCardPatchData" [getShowTransSign]="showTransSign"
+      [getShowTake]="showTake" (gotoShowFormPlace)="scrollTo('showFormPalce')"
+      *ngIf="isSearch && showSelectSearchForm == 'CardPatch'">
+    </app-search-card-patch-form>
   </div>
 </div>
 

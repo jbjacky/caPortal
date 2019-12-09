@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AllformReview, FlowSignForm, forgetFlowSign, vaFlowSign, delFlowSign, changeFlowSign } from '../Models/AllformReview';
+import { AllformReview, FlowSignForm, forgetFlowSign, vaFlowSign, delFlowSign, changeFlowSign, AttendUnusualFlowSign, CardPatchFlowSign } from '../Models/AllformReview';
 import { showVaDetail } from '../Models/showVaDetail';
 import { GetApiDataServiceService } from './get-api-data-service.service';
 import { GetFlowSignRoleClass } from '../Models/PostData_API_Class/GetFlowSignRoleClass';
+import { pagechange } from '../Models/pagechange';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,16 @@ export class ReviewformServiceService {
   vaDetail: vaFlowSign
   delDetail: delFlowSign
   changeDetail: changeFlowSign
-
+  AttendUnusualDetail:AttendUnusualFlowSign
+  CardPatchFlowSignDetail:CardPatchFlowSign
+  
+  va_pagechange = new pagechange();
+  del_pagechange = new pagechange();
+  change_pagechange = new pagechange();
+  forget_pagechange = new pagechange();
+  AttendUnusual_pagechange = new pagechange();
+  CardPatch_pagechange = new pagechange();
+  
   FlowSign = [];
 
   constructor(private GetApiDataServiceService: GetApiDataServiceService) {
@@ -34,6 +44,7 @@ export class ReviewformServiceService {
     this.vaDetail = new vaFlowSign()
     this.delDetail = new delFlowSign()
     this.changeDetail = new changeFlowSign()
+    this.AttendUnusualDetail = new AttendUnusualFlowSign()
 
     this.FlowSign = [];
   }

@@ -33,7 +33,7 @@ export class SearchDelFormComponent implements OnInit, OnDestroy {
   showDelDataDetail: boolean = false  // 顯示明細
 
   MoreSearchPage = 1
-  @Input() CanSerchMore: boolean = true
+  @Input() CanSerchMore: boolean = false
   @Input() getCatchMoreGetFlowViewDept: GetFlowViewDeptClass
 
   api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
@@ -242,7 +242,7 @@ export class delSearchFlowSignClass {
   EmpCode: string
   EmpNameC: string
   AppDeptName: string
-  State: String
+  State: string
   ManageEmpName: string
   Take: boolean
   TransSign: boolean

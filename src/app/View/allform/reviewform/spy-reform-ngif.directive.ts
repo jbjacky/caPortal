@@ -34,12 +34,12 @@ export class SpyReformNgifDirective  implements OnInit, OnDestroy {
       document.getElementById("showSelectBox_desktop").style.display = 'block';
       document.getElementById("showSelectBox_phone").style.display = 'none';
       
-      document.getElementById('forgetTabText').textContent = '考勤異常簽認單'
+      document.getElementById('AttendUnusualTabText').textContent = '考勤異常簽認單'
     } else {
       document.getElementById("phonetopdiv").style.position = 'fixed';
       document.getElementById("showSelectBox_desktop").style.display = 'none';
       document.getElementById("showSelectBox_phone").style.display = 'block';
-      document.getElementById('forgetTabText').textContent = '考勤異常'
+      document.getElementById('AttendUnusualTabText').textContent = '考勤異常'
     }
   }
   formEvent_WindowResize = fromEvent(window, 'resize')

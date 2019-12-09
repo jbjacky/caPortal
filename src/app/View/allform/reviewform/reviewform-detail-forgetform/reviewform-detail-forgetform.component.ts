@@ -145,7 +145,8 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
     this.LoadingPage.show()
 
     this.GetApiDataServiceService.getWebApiData_GetCardFlowAppsByProcessFlowID(this.ReviewformServiceService.forgetDetail.ProcessFlowID, true)
-      .subscribe(
+    .pipe(takeWhile(() => this.api_subscribe))       
+    .subscribe(
         (data: GetCardFlowAppsByProcessFlowIDDataClass[]) => {
           this.GetCardFlowAppsByProcessFlowIDData = data[0]
           this.GetCardFlowAppsByProcessFlowIDData.Date = formatDateTime(data[0].Date).getDate
@@ -204,6 +205,38 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
     // )
     // this.FileDownloadService.base64(upload);
   }
+
+  
+  forgetShowCheckText = ''
+  checkforgetCardText_Approved() {
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_CardCheckByProcessFlowID(this.ReviewformServiceService.forgetDetail.ProcessFlowID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: string) => {
+          this.forgetShowCheckText = x.toString()
+          this.LoadingPage.hide()
+          $('#forgetApproveddialog').modal('show')
+        }
+      )
+  }
+  checkforgetCardText_PutForward() {
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_CardCheckByProcessFlowID(this.ReviewformServiceService.forgetDetail.ProcessFlowID)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: string) => {
+          this.forgetShowCheckText = x.toString()
+          this.LoadingPage.hide()
+          if (!this.FlowDynamic_Base) {
+            alert('請選擇呈核人員')
+          } else {
+            $('#forgetPutForwarddialog').modal('show');
+          }
+        }
+      )
+  }
+
   Approved_Click() {
     this.LoadingPage.show()
     this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FirstEmpCode)
@@ -250,7 +283,7 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
                     verticalPosition: SnackSetting.verticalPosition,
                     horizontalPosition: SnackSetting.horizontalPosition
                   });
-                  this.router.navigateByUrl('/nav/reviewform')
+                  this.sendFinish();
                 } else {
                   // alert(x.MessageContent)
                   this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
@@ -317,7 +350,7 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
                     verticalPosition: SnackSetting.verticalPosition,
                     horizontalPosition: SnackSetting.horizontalPosition
                   });
-                  this.router.navigateByUrl('/nav/reviewform')
+                  this.sendFinish();
                 } else {
                   alert(x.MessageContent)
                   this.SnackBar.openFromComponent(ErrorSendbackSnackComponent, {
@@ -384,7 +417,7 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
                     verticalPosition: SnackSetting.verticalPosition,
                     horizontalPosition: SnackSetting.horizontalPosition
                   });
-                  this.router.navigateByUrl('/nav/reviewform')
+                  this.sendFinish();
                 } else {
                   // alert(x.MessageContent)
                   this.SnackBar.openFromComponent(ErrorPutForwardSnackComponent, {
@@ -408,13 +441,6 @@ export class ReviewformDetailForgetformComponent implements OnInit, OnDestroy {
       )
   }
 
-  checkCanSendPutForward() {
-    if (!this.FlowDynamic_Base) {
-      alert('請選擇呈核人員')
-    } else {
-      $('#PutForwarddialog').modal('show');
-    }
-  }
   sendFinish() {
     this.backReview()
     this.router.navigate(['../nav/reviewform']);

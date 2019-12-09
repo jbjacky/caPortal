@@ -708,7 +708,7 @@ class delvaformClass {
   _id: string;
   _idherf: string;
   checkedstate: boolean;
-  selectDetailSeveral: String;
+  selectDetailSeveral: string;
 }
 
 class detail {

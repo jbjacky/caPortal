@@ -119,7 +119,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
               this.showMangerBlock = true
               this.showAbsDetailByDept(x)
               this.showAttendExceptionalByDept_Today(x)
-              this.showAttendExceptionalByDept_Lastday(x)
+              // this.showAttendExceptionalByDept_Lastday(x)
             }
 
             this.showReviewCount(x.EmpID)
@@ -223,10 +223,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     vaCount: 0,
     delCount: 0,
     changeCount: 0,
-    forgetCount: 0
+    forgetCount: 0,
+    AttendUnusualCount: 0,
+    CardPatchCount: 0
   }
+  DL_showReviewCount: boolean = false
   showReviewCount(EmpID: string) {
     this.LoadingPage.show()
+    this.DL_showReviewCount = false
     var GetFlowSignRole: GetFlowSignRoleClass = {
       "SignEmpID": EmpID,
       "SignRoleID": "",
@@ -244,7 +248,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             vaCount: 0,
             delCount: 0,
             forgetCount: 0,
-            changeCount: 0
+            changeCount: 0,
+            AttendUnusualCount: 0,
+            CardPatchCount: 0
           }
           if (x.length > 0) {
             for (let data of x) {
@@ -265,11 +271,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
                 } else if (ApiFlowSignForm.FormCode == 'ShiftRote') {
                   //忘刷單
                   this.ReviewCount.changeCount += parseInt(ApiFlowSignForm.Count)
+                } else if (ApiFlowSignForm.FormCode == 'AttendUnusual') {
+                  //考勤異常確認單
+                  this.ReviewCount.AttendUnusualCount += parseInt(ApiFlowSignForm.Count)
+                } else if (ApiFlowSignForm.FormCode == 'CardPatch') {
+                  //考勤異常確認單
+                  this.ReviewCount.CardPatchCount += parseInt(ApiFlowSignForm.Count)
                 }
+                
               }
             }
           }
-
+          this.DL_showReviewCount = true
           this.LoadingPage.hide()
         },
         error => {
@@ -279,10 +292,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       )
   }
 
-
+  DL_showallnews: boolean = false
   AllNewsList: GetNewsClass[] = []
   showallnews() {
-
+    this.DL_showallnews = false
     var DateB = new Date()
     var GetNewsByDateNowGetApi: GetNewsByDateNowGetApiClass = {
       "DateNow": doFormatDate(DateB.toString()),
@@ -322,6 +335,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             // console.log(this.AllNewsList)
           }
+          this.DL_showallnews = true
           this.LoadingPage.hide()
         },
         error => {
@@ -356,11 +370,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     //   }
     // )
   }
-
+  DL_showAttendExceptionalByDept_Today: boolean = false
   TodayAttend: Array<any> = []
+  LastdayAttend: Array<any> = []
   showAttendExceptionalByDept_Today(GetBaseInfoDetail: GetBaseInfoDetailClass) {
+    this.DL_showAttendExceptionalByDept_Today = false
+    var today = new Date()
+    today.setDate(today.getDate() - 1)
+    var lastday = doFormatDate(today.toJSON().toString())
+
     var GetAttendExceptionalByDept: GetAttendExceptionalByDeptClass = {
-      DateB: this.showTodayString,
+      DateB: lastday,
       DateE: this.showTodayString,
       DeptaID: GetBaseInfoDetail.DeptaID.toString()
     }
@@ -368,38 +388,28 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: any) => {
-          this.TodayAttend = x
+          this.TodayAttend =[]
+          this.LastdayAttend =[]
+          for(let aa of x){
+            if(formatDateTime(aa.AttendDate).getDate == this.showTodayString){
+              this.TodayAttend.push(aa)
+            }else if(formatDateTime(aa.AttendDate).getDate == lastday){
+              this.LastdayAttend.push(aa)
+            }
+          }
+          // console.log(this.TodayAttend)
+          // console.log(this.LastdayAttend)
+          this.DL_showAttendExceptionalByDept_Today = true
         }, error => {
           // alert('與api連線異常,getWebApiData_GetAttendExceptionalByDept')
         }
       )
   }
 
-  LastdayAttend: Array<any> = []
-  showAttendExceptionalByDept_Lastday(GetBaseInfoDetail: GetBaseInfoDetailClass) {
-    var today = new Date()
-    today.setDate(today.getDate() - 1)
-    var lastday = doFormatDate(today.toJSON().toString())
-
-    var GetAttendExceptionalByDept: GetAttendExceptionalByDeptClass = {
-      DateB: lastday,
-      DateE: lastday,
-      DeptaID: GetBaseInfoDetail.DeptaID.toString()
-    }
-    this.GetApiDataServiceService.getWebApiData_GetAttendExceptionalByDept(GetAttendExceptionalByDept)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (x: any) => {
-          this.LastdayAttend = x
-        }, error => {
-          // alert('與api連線異常,getWebApiData_GetAttendExceptionalByDept')
-        }
-      )
-  }
-
+  DL_showAbsDetailByDept: boolean = false
   AllAbsEmp: showAllAbsEmpClass[] = []
   showAbsDetailByDept(GetBaseInfoDetail: GetBaseInfoDetailClass) {
-
+    this.DL_showAbsDetailByDept = false
     var GetAbsDetailByDept: GetAbsDetailByDeptGetApiClass = {
       DateB: this.showTodayString,
       DateE: this.showTodayString,
@@ -456,6 +466,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
           // console.log(showAllAbsEmp)
           this.AllAbsEmp = showAllAbsEmp
 
+          this.DL_showAbsDetailByDept = true
           this.LoadingPage.hide()
         },
         error => {
@@ -464,10 +475,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       )
   }
-
+  DL_setWeekjobs: boolean = false
   weekjobs: weekjobs[] = [];
 
   setWeekjobs(GetBaseInfoDetail: GetBaseInfoDetailClass) {
+    this.DL_setWeekjobs = false
     this.LoadingPage.show()
     var today = new Date()
     today.setDate(today.getDate() - 3)
@@ -544,6 +556,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
           this.slideConfig.initialSlide = showNum
 
+          this.DL_setWeekjobs = true
           this.LoadingPage.hide()
         },
         error => {
@@ -558,9 +571,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.router.navigate([`/nav/NewsShowDetailComponent/${oneNews.NewsID}`]);
     // [routerLink]="['/nav/NewsShowDetailComponent/'+oneNews.NewsID]"
   }
-
+  DL_showHoliDayBalance: boolean = false
   showHoliDayBalance(EmpID: string) {
     this.LoadingPage.show()
+    this.DL_showHoliDayBalance = false
     var GetHoliDayBalanceFlow: GetHoliDayBalanceFlow = {
       EmpID: EmpID,
       DateB: doFormatDate(new Date()),
@@ -663,7 +677,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
               })
             }
         }
-
+        this.DL_showHoliDayBalance = true
         this.LoadingPage.hide()
       }, error => {
         this.LoadingPage.hide()
@@ -816,6 +830,33 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   //       }
   //     )
   // }
+  DL_showAttendExceptionalCount: boolean = false
+  showAttendExceptionalCount: boolean = true
+  AttendExceptionalCount: number = 0
+  setGetAttendExceptionalCount(EmpID: string) {
+    var today = new Date()
+    this.DL_showAttendExceptionalCount = false
+    var GetAttendExceptionalCount: GetAttendExceptionalCountClass = {
+      "DateB": "2019/08/01",
+      "DateE": doFormatDate(today),
+      "ListEmpID": [
+        EmpID
+      ]
+    }
+    this.GetApiDataServiceService.getWebApiData_GetAttendExceptionalCount(GetAttendExceptionalCount)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: number) => {
+          this.AttendExceptionalCount = x
+          this.DL_showAttendExceptionalCount = true
+          if (x > 0) {
+            this.showAttendExceptionalCount = true
+          } else {
+            this.showAttendExceptionalCount = false
+          }
+        }
+      )
+  }
 
   RedAttendString_Title(e: boolean, b: boolean) {
     if (e || b) {
@@ -831,70 +872,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       return '#4c4c4c'
     }
   }
-
-
-  // bt_ApproveSusses() {
-  //   this.SnackBar.openFromComponent(SussesApproveSnackComponent, {
-  //     data: null,
-  //     panelClass: 'SussesSnackClass',
-  //     duration: SnackSetting.duration,
-  //     verticalPosition: SnackSetting.verticalPosition,
-  //     horizontalPosition: SnackSetting.horizontalPosition
-  //   });
-  //   this.router.navigateByUrl('/nav/reviewform')
-  // }
-  // bt_ApproveError() {
-
-  //   this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
-  //     data: '資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常',
-  //     panelClass: 'ErrorSnackClass',
-  //     duration: SnackSetting.duration,
-  //     verticalPosition: SnackSetting.verticalPosition,
-  //     horizontalPosition: SnackSetting.horizontalPosition
-  //   });
-  // }
-
-  // bt_SendbackSusses() {
-  //   this.SnackBar.openFromComponent(SussesSendbackSnackComponent, {
-  //     data: null,
-  //     panelClass: 'SussesSnackClass',
-  //     duration: SnackSetting.duration,
-  //     verticalPosition: SnackSetting.verticalPosition,
-  //     horizontalPosition: SnackSetting.horizontalPosition
-  //   });
-  //   this.router.navigateByUrl('/nav/reviewform')
-  // }
-  // bt_SendbackError() {
-
-  //   this.SnackBar.openFromComponent(ErrorSendbackSnackComponent, {
-  //     data: '資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常',
-  //     panelClass: 'ErrorSnackClass',
-  //     duration: SnackSetting.duration,
-  //     verticalPosition: SnackSetting.verticalPosition,
-  //     horizontalPosition: SnackSetting.horizontalPosition
-  //   });
-  // }
-
-  // bt_PutForwardSusses() {
-  //   this.SnackBar.openFromComponent(SussesPutForwardSnackComponent, {
-  //     data: null,
-  //     panelClass: 'SussesSnackClass',
-  //     duration: SnackSetting.duration,
-  //     verticalPosition: SnackSetting.verticalPosition,
-  //     horizontalPosition: SnackSetting.horizontalPosition
-  //   });
-  //   this.router.navigateByUrl('/nav/reviewform')
-  // }
-  // bt_PutForwardError() {
-
-  //   this.SnackBar.openFromComponent(ErrorPutForwardSnackComponent, {
-  //     data: '資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常資料出現異常',
-  //     panelClass: 'ErrorSnackClass',
-  //     duration: SnackSetting.duration,
-  //     verticalPosition: SnackSetting.verticalPosition,
-  //     horizontalPosition: SnackSetting.horizontalPosition
-  //   });
-  // }
+  ShowErrorAttend:Array<any> = []
+  ShowAttendDate = ''
+  ShowErrorAttendDialog (ShowErrorAttend:Array<any>){
+    if(ShowErrorAttend.length>0){
+      this.ShowAttendDate = formatDateTime(ShowErrorAttend[0].AttendDate).getDate
+      this.ShowErrorAttend = JSON.parse(JSON.stringify(ShowErrorAttend))
+      $('#DeptAtErrDialog').modal('show')
+    }
+  }
 }
 class weekjobs {
   realdate: string;
@@ -912,6 +898,8 @@ class ReviewCountClass {
   delCount: number;
   changeCount: number;
   forgetCount: number;
+  AttendUnusualCount: number;
+  CardPatchCount: number;
 }
 
 

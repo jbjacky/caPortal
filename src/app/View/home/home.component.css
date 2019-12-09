@@ -32,7 +32,6 @@
     /* -webkit-box-shadow: inset 1px 0 0 #4664a0, inset -1px 0 0 #4664a0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15); */
     /* box-shadow: inset 1px 0 0 #4664a0, inset -1px 0 0 #4664a0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15); */
     z-index: 1; 
-    cursor: pointer
 }
 .onenewsblock {
     border: 1px solid #e0e0e0;
@@ -49,6 +48,7 @@
     cursor: pointer
 }
 .checkformdesktoptext{
+    display: inline-block;
     color: #fff;font-size: 17px;
 }
 .managerblock{
@@ -260,9 +260,11 @@
     padding: 0px;
 }
 .P_zero_DRZ{
+    padding-left: 5px;
     padding-right: 0px;
 }
 .P_zero_DLZ{
+    padding-right: 5px;
     padding-left: 0px;
 }
 .RightBlock{

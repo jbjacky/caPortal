@@ -58,6 +58,10 @@ import { ErrorPutForwardSnackComponent } from '../View/shareComponent/snackbar/e
 import { SussesPutForwardSnackComponent } from '../View/shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
 import { SussesSendbackSnackComponent } from '../View/shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
 import { ErrorSendbackSnackComponent } from '../View/shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
+import { SearchAttendUnusualFormComponent } from '../View/shareComponent/search-attend-unusual-form/search-attend-unusual-form.component';
+import { SearchAttendUnusualFormDetailComponent } from '../View/shareComponent/search-attend-unusual-form-detail/search-attend-unusual-form-detail.component';
+import { SearchCardPatchFormComponent } from '../View/shareComponent/search-card-patch-form/search-card-patch-form.component';
+import { SearchCardPatchDetailComponent } from '../View/shareComponent/search-card-patch-detail/search-card-patch-detail.component';
 
 @NgModule({
   imports: [
@@ -94,6 +98,7 @@ import { ErrorSendbackSnackComponent } from '../View/shareComponent/snackbar/err
     SearchDelFormComponent,
     SearchVaFormComponent,
     SearchChangeFormComponent,
+    SearchAttendUnusualFormComponent,
     SharecalendarComponent,
     SimulationClalenderComponent,
     SearchVaDetailComponent,
@@ -102,6 +107,9 @@ import { ErrorSendbackSnackComponent } from '../View/shareComponent/snackbar/err
     SearchChangeDetailRRComponent,
     SearchChangeDetailRZComponent,
     SearchChangeDetailDRComponent,
+    SearchCardPatchFormComponent,
+    SearchCardPatchDetailComponent,
+    SearchAttendUnusualFormDetailComponent,
     SafeHtmlPipe,
     SpyChangeformNgifDirective,
     NgxSpinnerModule,
@@ -153,6 +161,9 @@ import { ErrorSendbackSnackComponent } from '../View/shareComponent/snackbar/err
     SearchDelFormComponent,
     SearchVaFormComponent,
     SearchChangeFormComponent,
+    SearchAttendUnusualFormComponent,
+    SearchCardPatchFormComponent,
+    SearchCardPatchDetailComponent,
     SharecalendarComponent,
     SimulationClalenderComponent,
     SearchVaDetailComponent,
@@ -161,7 +172,7 @@ import { ErrorSendbackSnackComponent } from '../View/shareComponent/snackbar/err
     SearchChangeDetailRRComponent,
     SearchChangeDetailRZComponent,
     SearchChangeDetailDRComponent,
-
+    SearchAttendUnusualFormDetailComponent,
     SpyChangeformNgifDirective,
     SafeHtmlPipe,
     FormConditionComponent,

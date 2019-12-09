@@ -254,10 +254,10 @@ export class ChangeTwoRComponent implements OnInit, AfterViewInit, OnDestroy {
   RRoneZ_Disable() {
     for (let ui of this.uiShow) {
       var uiDate = new Date()
+      uiDate.setFullYear( (parseInt(ui.reallydate.split('/')[0])) )
       uiDate.setMonth((parseInt(ui.date.split('/')[0]) - 1))
       uiDate.setDate(parseInt(ui.date.split('/')[1]))
       uiDate.setHours(0, 0, 0)
-
       if (ui.oneP == this.R_Route && ui.twoP == this.R_Route) {
         ui.disable = true
       } else {
@@ -713,7 +713,10 @@ export class ChangeTwoRComponent implements OnInit, AfterViewInit, OnDestroy {
                   (y: boolean) => {
                     var canNext_ChangeEmp: boolean = false
                     if (y) {
-                      if (this.val_TT(this.selectDay).State) {
+                      if(this.search_IsAssistant){
+                        //行政不限制
+                        canNext_ChangeEmp = true
+                      }else if (this.val_TT(this.selectDay).State) {
                         //如果通過地服處內規
                         canNext_ChangeEmp = true
                       } else {

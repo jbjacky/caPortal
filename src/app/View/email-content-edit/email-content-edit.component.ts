@@ -11,6 +11,8 @@ import { GetFormMailDataClass } from 'src/app/Models/GetFormMailDataClass';
 import { FormColumnsClass } from 'src/app/Models/FormColumnsClass';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
 import { GetBaseInfoDetailClass } from 'src/app/Models/GetBaseInfoDetailClass';
+import { GetFormInfoGetApiClass } from 'src/app/Models/PostData_API_Class/GetFormInfoGetApiClass';
+import { GetFormInfoDataClass } from 'src/app/Models/GetFormInfoDataClass';
 
 
 declare var $;
@@ -38,14 +40,26 @@ export class EmailContentEditComponent implements OnInit, AfterContentInit, OnDe
 
 
   FirstMan: GetBaseInfoDetailClass = new GetBaseInfoDetailClass() ///左上角操作人員
+  GetFormInfos: GetFormInfoDataClass[]=[]
+  loading = false
   ngOnInit() {
     this.GetApiUserService.counter$.subscribe(
       (x: any) => {
         if (x == 0) {
         } else {
           this.FirstMan = x
-          this.onGetFormMailData()
-          this.onGetFormColumns()
+
+          var GetFormInfoGetApi: GetFormInfoGetApiClass = { "FormCode": "", "FlowTreeID": "" }
+          this.GetApiDataServiceService.getWebApiData_GetFormInfo(GetFormInfoGetApi)
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (GetFormInfoData: GetFormInfoDataClass) => {
+                this.GetFormInfos = JSON.parse(JSON.stringify(GetFormInfoData))
+                this.loading = true 
+                this.onGetFormMailData()
+                this.onGetFormColumns()
+              }
+            )
         }
       }
     )
@@ -55,6 +69,7 @@ export class EmailContentEditComponent implements OnInit, AfterContentInit, OnDe
     this.LoadingPage.show()
     var GetFormMail: GetFormMailClass = { "FormCode": this.chooseFormCode, "Code": "" }
     this.GetApiDataServiceService.getWebApiData_GetFormMail(GetFormMail)
+      .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: GetFormMailDataClass[]) => {
           this.GetFormMailDataArray = x
@@ -62,7 +77,7 @@ export class EmailContentEditComponent implements OnInit, AfterContentInit, OnDe
             one.KeyDate = formatDateTime(one.KeyDate).getDate
           }
           this.LoadingPage.hide()
-        },error=>{
+        }, error => {
           this.LoadingPage.hide()
         }
       )
@@ -122,20 +137,20 @@ export class EmailContentEditComponent implements OnInit, AfterContentInit, OnDe
   }
 
   delEmail: GetFormMailDataClass
-  chechDelEmail(GetFormMailData: GetFormMailDataClass){
+  chechDelEmail(GetFormMailData: GetFormMailDataClass) {
     this.delEmail = GetFormMailData
     $('#delEmail_checksenddialog').modal('show')
   }
 
-  bt_delEmail(){
+  bt_delEmail() {
     this.GetApiDataServiceService.getWebApiData_DeleteFormMail(this.delEmail.AutoKey)
-    .subscribe(
-      (x:any)=>{
-        this.onGetFormMailData()
-      },error=>{
+      .subscribe(
+        (x: any) => {
+          this.onGetFormMailData()
+        }, error => {
 
-      }
-    )
+        }
+      )
   }
 
   showFormColumns: FormColumnsClass[] = []

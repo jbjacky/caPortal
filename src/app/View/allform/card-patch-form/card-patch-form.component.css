@@ -1,0 +1,129 @@
+@media (min-width: 800px){
+    #RoteInf .modal-dialog {
+      width: 800px;
+      margin: 30px auto;
+    }
+}
+.Rote{
+  color: #028fcf
+}
+.RoteLink:hover, .RoteLink:focus {
+  color: #ff6600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.P_textLeft{
+    padding: 0px;
+    text-align: right;
+    padding-top: 6px;
+}
+.P_paddingLRZ{
+    padding-left: 15px;
+    padding-right: 0px;
+}
+.P_paddingZ{
+    margin: 0px;
+    padding-top:10px
+}
+.P_bottomLine{
+    border:0px;
+    border-right:2px solid #D0D3D4;
+    margin: 0px;
+    padding: 0px
+}
+.P_textNotshow{
+    display: inline;
+}
+.P_lineHeight{
+    color: #028fcf;
+    line-height: 40px;
+}
+.P_paddingRZ{
+    padding-right: 15px
+}
+.P_paddingTop{
+    margin: 0px;
+    padding: 0px
+}
+.P_paddingBottom{
+    padding-bottom:0px;
+}
+
+.tagBlue {
+    color: #23569D;
+    background-color: #fff;
+    border: 1px solid #23569D;
+    border-radius: 15px;
+    width: 70px;
+    height: 23px;
+    font-size: 15px;
+    text-align: center;
+}
+.tagBlueLineThrough {
+    color: #23569D;
+    background-color: #fff;
+    border: 1px solid #23569D;
+    border-radius: 15px;
+    width: 70px;
+    height: 23px;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: line-through;
+}
+.cardBlock {
+    border: 1px solid #028fcf;
+    padding: 20px 0px;
+    margin: 0px;
+    margin-bottom: 10px
+}
+@media screen and (max-width:992px) {
+    .stateblock{
+        /* 流程區塊 */
+        display: none;
+    }
+    .P_textLeft{
+        text-align: left;
+    }
+    .P_paddingLRZ{
+        padding-left:  0px;
+        padding-right: 0px;
+        
+    }
+    .P_paddingZ{
+        padding: 0px;
+        padding-bottom:10px;
+    }
+    .P_bottomLine{
+        border:0px;
+        border-bottom:2px solid #D0D3D4;
+        padding-bottom: 10px;
+    }
+    .P_textNotshow{
+        display: none;
+    }
+    .P_lineHeight{
+        line-height: 200px;
+    }
+    .P_paddingRZ{
+        padding-right: 0px
+    }
+    .P_paddingTop{
+        margin: 0px;
+        padding: 0px;
+        padding-top:15px ;
+    }
+    .P_paddingBottom{
+        padding-bottom:10px;
+    }
+    
+    .P_dashed{
+        border-bottom: 1px dashed #dcdcdc;
+        padding-bottom: 15px;
+        padding-top:10px
+        
+    }
+    .cardBlock {
+        padding: 20px 20px;
+    }
+    
+}

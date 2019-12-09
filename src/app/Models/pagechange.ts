@@ -14,5 +14,8 @@ export class pagechange{
         this.highValue = this.highValue - this.pageSize;
       }
       this.pageIndex = event.pageIndex;
+      // console.log(this.pageIndex)
+      // console.log(this.lowValue)
+      // console.log(this.highValue)
     }
 }

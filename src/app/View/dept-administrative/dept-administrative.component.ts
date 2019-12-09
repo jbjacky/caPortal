@@ -14,6 +14,7 @@ import { nodeClass } from 'src/app/Models/nodeClass';
 import { DelDeptByEmpGetApiClass } from 'src/app/Models/PostData_API_Class/DelDeptByEmpGetApiClass';
 import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByFormClass';
 import { doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 
 declare let $: any; //use jquery
 
@@ -145,12 +146,16 @@ export class DeptAdministrativeComponent implements OnInit, OnDestroy {
       this.GetApiDataServiceService.getWebApiData_SetDeptByEmp(insert)
         .pipe(takeWhile(() => this.api_subscribe))
         .subscribe(
-          (x: any) => {
+          (x: ResponeStateClass) => {
             if (x.isOK) {
               this.LoadGetAssistantByDeptID()
               $('#insertDeptmanDialog').modal('hide')
             } else {
-              alert(x.ErrorMsg)
+              var errMsg = ''
+              for (let e of x.ErrorMsg) {
+                errMsg += e + '。 '
+              }
+              alert(errMsg);
             }
           }
         )

@@ -1,0 +1,585 @@
+<div class="a-block" *ngIf="ReviewformServiceService.AttendUnusualDetail">
+  <div class="a-block-body  a-block-container">
+    <div
+      style="background-color: #fafafa;width: 100%;border: 1px solid #cccccc;padding: 2px 15px;padding-bottom: 5px;margin-bottom: 30px;">
+      <div style="display: inline-block;padding-top: 5px;">
+        <ng-container i18n>目前審核身份</ng-container>：
+        <span style="color:#028fcf;font-size: 18px">{{ReviewformServiceService.showReviewMan.EmpNameC}}
+          {{ReviewformServiceService.showReviewMan.DeptName}} {{ReviewformServiceService.showReviewMan.PosName}}</span>
+      </div>
+
+    </div>
+
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;">
+      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 col-xs-12 control-label P_left">
+          <ng-container i18n>表單編號</ng-container>
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span
+                style="color: #028fcf">{{completionTenNum(ReviewformServiceService.AttendUnusualDetail.ProcessFlowID)}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label ">
+            <ng-container i18n>表單狀態</ng-container>
+          </label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <label style="color: #d0021b">
+            <ng-container i18n>簽核中</ng-container>
+          </label>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 col-xs-12 control-label P_left">
+          <ng-container i18n>員工</ng-container>
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span>{{ReviewformServiceService.AttendUnusualDetail.EmpCode}}
+                {{ReviewformServiceService.AttendUnusualDetail.EmpNameC}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label ">
+            <ng-container i18n>異常狀態</ng-container>
+          </label>
+        </div>
+        <div *ngIf="ReviewformServiceService.AttendUnusualDetail" class="col-md-7  col-xs-12 P_leftZero"
+          style="padding-right: 0px">
+          <div *ngIf="ReviewformServiceService.AttendUnusualDetail.EliminateLate" class="tag_red" style="margin: 0px">
+            <ng-container i18n>遲到</ng-container>
+          </div>
+          <div *ngIf="ReviewformServiceService.AttendUnusualDetail.EliminateEarly" class="tag_red" style="margin: 0px">
+            <ng-container i18n>早退</ng-container>
+          </div>
+          <div *ngIf="ReviewformServiceService.AttendUnusualDetail.EliminateAbsent" class="tag_red" style="margin: 0px">
+            <ng-container i18n>未刷卡</ng-container>
+          </div>
+          <div *ngIf="ReviewformServiceService.AttendUnusualDetail.EliminateOnBefore" class="tag_red"
+            style="margin: 0px">
+            <ng-container i18n>早到</ng-container>
+          </div>
+          <div *ngIf="ReviewformServiceService.AttendUnusualDetail.EliminateOffAfter" class="tag_red"
+            style="margin: 0px">
+            <ng-container i18n>晚退</ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          <ng-container i18n>工作日</ng-container>
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span>{{GetAttendUnusualFlowAppsByProcessFlowIDData.Date}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label ">
+            <ng-container i18n>班型</ng-container>
+          </label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <span>{{ReviewformServiceService.AttendUnusualDetail.RoteCode}}</span>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          <ng-container i18n>應到勤時間</ng-container>
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span>{{RoteDateB}} {{RoteTimeB}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label ">
+            <ng-container i18n>應離勤時間</ng-container>
+          </label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <div>
+            <span>{{RoteDateE}} {{RoteTimeE}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px" [style.color]="color_CardOnTime()">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          <ng-container i18n>原始到勤時間</ng-container>
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span>{{CardDateB}} {{CardTimeB}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;" [style.color]="color_CardOffTime()">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label ">
+            <ng-container i18n>原始離勤時間</ng-container>
+          </label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <span>{{CardDateE}} {{CardTimeE}}</span>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+          <ng-container i18n>異常原因</ng-container>
+        </label>
+        <div class="col-md-8 col-xs-12">
+          <div class="row ">
+            <div>
+              <span>
+                {{GetAttendUnusualFlowAppsByProcessFlowIDData.CauseName}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label ">
+            <ng-container i18n>填寫人</ng-container>
+          </label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <span>{{ReviewformServiceService.AttendUnusualDetail.WriteEmpCode}}
+            {{ReviewformServiceService.AttendUnusualDetail.WriteEmpNameC}}</span>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row"
+      style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;margin-bottom: 10px">
+      <div class="col-md-12  col-xs-12 row uploadLine">
+        <label class="col-md-2 control-label" style="padding-left: 0px;text-align: right">
+          <ng-container i18n>上傳附件</ng-container>
+        </label>
+        <div class="col-md-3 col-xs-12">
+          <div class="row ">
+            <ng-container *ngIf="GetAttendUnusualFlowAppsByProcessFlowIDData.UploadFile">
+              <div class="col-md-12 col-xs-12" style="padding: 0px;word-break: break-all;"
+                *ngFor="let upload of GetAttendUnusualFlowAppsByProcessFlowIDData.UploadFile">
+                <img src="./assets/images-template/attach@2x.png" height='16px' width="12px"
+                  style="margin-right: 5px" />
+                <a (click)="base64(upload)" style="cursor:pointer">{{upload.UploadName}}</a>
+              </div>
+              <span *ngIf="GetAttendUnusualFlowAppsByProcessFlowIDData.UploadFile.length ==0">
+                <ng-container i18n>無</ng-container>
+              </span>
+            </ng-container>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;margin: 0;padding:20px 0px;
+    margin-bottom: 10px;">
+      <div class="col-md-12 col-xs-12">
+        <label class="col-md-2 control-label" style="padding-left: 0px;
+        padding-right: 20px;text-align: right">
+          <ng-container i18n>補充說明</ng-container>
+        </label>
+        <div class="col-md-8 col-xs-12" style="padding: 0px 0px;">
+          <span>
+            {{GetAttendUnusualFlowAppsByProcessFlowIDData.Note}}</span>
+        </div>
+      </div>
+    </div>
+    <!-- form-group end -->
+    <app-from-sign [getProcessFlowID]="ReviewformServiceService.AttendUnusualDetail.ProcessFlowID"></app-from-sign>
+    <!--歷程主管意見-->
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding: 20px 0px;">
+      <div class="row" style="margin: 0;padding: 0">
+        <div class="col-md-2 P_left">
+          <ng-container i18n>簽核意見</ng-container>
+        </div>
+        <div class="col-md-10">
+          <textarea [(ngModel)]="signText" class="inputTextarea" style="overflow-y: auto"></textarea>
+        </div>
+
+      </div>
+    </div>
+    <!--簽核意見-->
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 20px">
+      <div class="row" style="margin: 0;padding: 0">
+        <div class="col-md-2 col-xs-12 P_left">
+          <ng-container i18n>簽核人員</ng-container>
+        </div>
+        <div class="col-md-8 col-xs-12">
+          <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeSingMan$"></app-select-signer>
+        </div>
+
+      </div>
+    </div>
+    <!--簽核人員-->
+    <!-- <div [style.display]='inbodybuttomdiv' class="row" style="margin: 0;padding: 0">
+      <div class="col-md-2"></div>
+      <div class="col-md-10">
+        <button *ngIf="ReviewformServiceService.AttendUnusualDetail.isApproved" class="btn btn-primary" style="margin-right: 15px;padding: 6px 25px;" data-toggle="modal" data-target="#Approveddialog">核准</button>
+        <button *ngIf="!ReviewformServiceService.AttendUnusualDetail.isApproved" class="btn btn-primary" style="margin-right: 15px;padding: 6px 25px;" disabled>核准</button>
+        <button *ngIf="ReviewformServiceService.AttendUnusualDetail.isSendback" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;" data-toggle="modal" data-target="#Sendbackdialog">退回</button>
+        <button *ngIf="!ReviewformServiceService.AttendUnusualDetail.isSendback" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;" disabled>退回</button>
+        <button *ngIf="ReviewformServiceService.AttendUnusualDetail.isPutForward" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;"  data-toggle="modal" (click)="checkCanSendPutForward()">呈核</button>
+        <button *ngIf="!ReviewformServiceService.AttendUnusualDetail.isPutForward" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;" disabled>呈核</button>
+    
+        <a style="margin-right: 15px;cursor: pointer;" (click)="backReview()" [routerLink]="['..']">回列表</a>
+      </div>
+    </div> -->
+
+    <div [style.display]='inbodybuttomdiv_phone' class="row" style="margin: 0;padding: 0">
+      <div class="col-md-12">
+        <div class="col-xs-5" style="padding: 0px;text-align: center">
+          <!-- <a>查詢請假規定</a> -->
+        </div>
+        <div class="col-xs-4" style="padding: 0px;text-align: center">
+          <a style="cursor: pointer;" data-toggle="modal" (click)="show_signRecord()">
+            <ng-container i18n>流程查詢</ng-container>
+          </a>
+        </div>
+        <div class="col-xs-3" style="padding: 0px;text-align: center" (click)="backReview()" [routerLink]="['..']">
+          <a style="cursor: pointer;">
+            <ng-container i18n>回列表</ng-container>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div [style.display]='buttomdiv' class="row" style="position: fixed;
+bottom: 20px;width: 100%;
+background-color: #fff;
+padding: 20px;
+">
+  <div class="a-block-buttom" *ngIf="ReviewformServiceService.AttendUnusualDetail">
+
+    <button *ngIf="ReviewformServiceService.AttendUnusualDetail.isApproved" class="btn btn-primary"
+      style="margin-right: 15px" data-toggle="modal" (click)="checkforgetCardText_Approved()">
+      <ng-container i18n>核准</ng-container>
+    </button>
+    <button *ngIf="!ReviewformServiceService.AttendUnusualDetail.isApproved" class="btn btn-primary"
+      style="margin-right: 15px" disabled>
+      <ng-container i18n>核准</ng-container>
+    </button>
+    <button *ngIf="ReviewformServiceService.AttendUnusualDetail.isSendback" class="btn btn-info"
+      style="margin-right: 15px" data-toggle="modal" data-target="#Sendbackdialog">
+      <ng-container i18n>退回</ng-container>
+    </button>
+    <button *ngIf="!ReviewformServiceService.AttendUnusualDetail.isSendback" class="btn btn-info"
+      style="margin-right: 15px" disabled>
+      <ng-container i18n>退回</ng-container>
+    </button>
+    <button *ngIf="ReviewformServiceService.AttendUnusualDetail.isPutForward" class="btn btn-info"
+      style="margin-right: 15px" data-toggle="modal" (click)="checkforgetCardText_PutForward()">
+      <ng-container i18n>呈核</ng-container>
+    </button>
+    <button *ngIf="!ReviewformServiceService.AttendUnusualDetail.isPutForward" class="btn btn-info"
+      style="margin-right: 15px" disabled>
+      <ng-container i18n>呈核</ng-container>
+    </button>
+    <!-- <a style="margin-right: 15px">查詢請假規定</a> -->
+    <a style="margin-right: 15px;cursor: pointer;" data-toggle="modal" (click)="show_signRecord()">
+      <ng-container i18n>流程查詢</ng-container>
+    </a>
+    <a style="margin-right: 15px;cursor: pointer;" (click)="backReview()" [routerLink]="['..']">
+      <ng-container i18n>回列表</ng-container>
+    </a>
+  </div>
+
+</div>
+<div *ngIf="ReviewformServiceService.AttendUnusualDetail" [style.display]='buttomdiv_phone' class="row" style="position: fixed;
+bottom: 0px;width: 100%;
+background-color: #fff;padding: 20px 5px;
+">
+  <div class="col-xs-4" style="padding: 0px;text-align: center;">
+    <button *ngIf="ReviewformServiceService.AttendUnusualDetail.isApproved" class="btn btn-primary btm-sm"
+      style="padding: 6px 40px;" data-toggle="modal" (click)="checkforgetCardText_Approved()">
+      <ng-container i18n>核准</ng-container>
+    </button>
+    <button *ngIf="!ReviewformServiceService.AttendUnusualDetail.isApproved" class="btn btn-primary btm-sm"
+      style="padding: 6px 40px;" disabled>
+      <ng-container i18n>核准</ng-container>
+    </button>
+  </div>
+  <div class="col-xs-4" style="padding: 0px;text-align: center;">
+    <button *ngIf="ReviewformServiceService.AttendUnusualDetail.isSendback" class="btn btn-info"
+      style="padding: 6px 40px;" data-toggle="modal" data-target="#Sendbackdialog">
+      <ng-container i18n>退回</ng-container>
+    </button>
+    <button *ngIf="!ReviewformServiceService.AttendUnusualDetail.isSendback" class="btn btn-info"
+      style="padding: 6px 40px;" disabled>
+      <ng-container i18n>退回</ng-container>
+    </button>
+  </div>
+  <div class="col-xs-4" style="padding: 0px;text-align: center;">
+    <button *ngIf="ReviewformServiceService.AttendUnusualDetail.isPutForward" class="btn btn-info"
+      style="padding: 6px 40px;" data-toggle="modal" (click)="checkforgetCardText_PutForward()">
+      <ng-container i18n>呈核</ng-container>
+    </button>
+    <button *ngIf="!ReviewformServiceService.AttendUnusualDetail.isPutForward" class="btn btn-info"
+      style="padding: 6px 40px;" disabled>
+      <ng-container i18n>呈核</ng-container>
+    </button>
+  </div>
+
+</div>
+
+<div class="modal" id="forgetApproveddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認核准?</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body" *ngIf="forgetShowCheckText.length>0">
+          {{forgetShowCheckText}}
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="Approved_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog考勤異常確認單核准確認送出 -->
+<div class="modal" id="Approveddialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>核准完成</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            <ng-container i18n>核准送出完成</ng-container>!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">
+            <ng-container i18n>確定</ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog核准送出成功 -->
+<div class="modal" id="Sendbackdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認退回?</ng-container>
+          </h4>
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="Sendback_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog退回送出 -->
+<div class="modal" id="Sendbackdialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>退回完成</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            <ng-container i18n>退回送出完成</ng-container>!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">
+            <ng-container i18n>確定</ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog退回送出成功 -->
+<div class="modal" id="forgetPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認呈核?</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body" *ngIf="FlowDynamic_Base">
+          <div *ngIf="forgetShowCheckText.length>0" style="margin-bottom:10px">
+            {{forgetShowCheckText}}
+          </div>
+          <ng-container i18n>送呈</ng-container>: {{FlowDynamic_Base.DeptaName}} {{FlowDynamic_Base.EmpID}}
+          {{FlowDynamic_Base.EmpNameC}}
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+              (click)="PutForward_Click()">
+              <ng-container i18n>送出</ng-container>
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>取消</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog呈核確認送出 -->
+<div class="modal" id="PutForwarddialog_sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>呈核完成</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            <ng-container i18n>呈核送出完成</ng-container>!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendFinish()">
+            <ng-container i18n>確定</ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog呈核送出成功 -->
+<div class="modal" id="signRecord" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel">
+            <ng-container i18n>簽核流程紀錄</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <app-from-sign-table *ngIf="signRecordDialog"
+            [getProcessFlowID]="ReviewformServiceService.AttendUnusualDetail.ProcessFlowID">
+          </app-from-sign-table>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>關閉</ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog簽核流程紀錄-->

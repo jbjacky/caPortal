@@ -36,7 +36,7 @@ export class SearchVaFormComponent implements OnInit, OnDestroy {
 
   
   MoreSearchPage = 1
-  @Input() CanSerchMore: boolean = true
+  @Input() CanSerchMore: boolean =  false
   @Input() getCatchMoreGetFlowViewDept: GetFlowViewDeptClass
 
   vaSearchFlowSign: DetailNewVaSearchFlowSignClass[] = [];

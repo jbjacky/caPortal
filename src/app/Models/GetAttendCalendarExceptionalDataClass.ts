@@ -11,6 +11,8 @@ export class GetAttendCalendarExceptionalDataClass {
     OffCardTime:    string;
     LateMins:       number;
     EarlyMins:      number;
+    OnBeforeMins:   number;
+    OffAfterMins:   number;
     IsAbsent:       boolean;
     ForgetCard:     number;
     
