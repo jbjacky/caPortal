@@ -91,9 +91,6 @@ export class SearchVaDetailComponent implements OnInit, OnDestroy {
             this.getVaDataTitle.EmpNameC =data.EmpNameC
             this.getVaDataTitle.WriteEmpCode =data.AppEmpCode
             this.getVaDataTitle.WriteEmpNameC =data.AppEmpNameC
-            this.getVaDataTitle.day =data.UseDayHourMinute.Day
-            this.getVaDataTitle.hour =data.UseDayHourMinute.Hour
-            this.getVaDataTitle.minute =data.UseDayHourMinute.Minute
 
             i++
             var getSetAbsFlowAppsDetail: showAbsFlowAppsDetailClass[] = []
