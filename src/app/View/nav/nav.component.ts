@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { twonav, threenav } from './navmore';
 import { fromEvent } from 'rxjs';
-import { debounceTime, takeWhile } from 'rxjs/operators';
+import { debounceTime, takeWhile, windowCount } from 'rxjs/operators';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service'
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { GetBaseInfoDetailClass } from 'src/app/Models/GetBaseInfoDetailClass';
@@ -48,6 +48,8 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
   IsAdmin: boolean = false //最大管理員
 
   NowURL = ''
+
+  windowHeight: any
   ngAfterViewInit(): void {
     this.NowURL = this.router.url.toString()
     this.router.events.subscribe((event) => {
@@ -63,11 +65,13 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
         this.NowURL = this.router.url.toString()
       }
     });//route位址改變時
+    this.winR_toggleactive()
     fromEvent(window, 'resize')
       //視窗大小改變時，修正width:800~1024的phonediv寬度及位置
       .pipe(debounceTime(0))
       .subscribe((event) => {
         // alert('改變視窗大小了')
+        // console.log(event)
         this.winR_toggleactive()
       })
   }
@@ -225,7 +229,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //$('body').css("position", "unset");
     // $('body').css("overflow-y", "auto");
-    if (window.innerWidth > 1023) {
+    if (window.outerWidth > 1023) {
       // $('body').addClass("offcanvas-active");
       //civd2015-systemMain.js修正
       $('.top').addClass('conTopDis')
@@ -252,7 +256,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // }
   phone_bt_toggleactive() {
-    if (window.innerWidth > 800) {
+    if (window.outerWidth > 800) {
 
     } else {
       this.bt_toggleactive()
@@ -260,36 +264,59 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   winR_toggleactive() {
     //左上角收合導覽列按鈕
-    if (window.innerWidth > 800) {
-      if ($('body').hasClass("offcanvas-active")) {
-        $('body').removeClass('offcanvas-active');
-
-        $('.con').removeClass('conMoveLeft')
-        $('.top').addClass('conTopDis')
-        $('.middle').addClass('conMiddleDis')
-        $('.bottom').addClass('conBottomDis')
-
-      } else {
-        $('body').addClass('offcanvas-active');
-
-        $('.con').addClass('conMoveLeft')
-        $('.top').removeClass('conTopDis')
-        $('.middle').removeClass('conMiddleDis')
-        $('.bottom').removeClass('conBottomDis')
-
-      }
-    } else {
-      if ($('.con').hasClass("conMoveLeft")) { $('.con').removeClass('conMoveLeft') } else { }
+    if ($('body').hasClass("body-small")) {
       this.state = false;
       $('body').removeClass('offcanvas-active');
       $('.top').removeClass('conTopDis')
       $('.middle').removeClass('conMiddleDis')
       $('.bottom').removeClass('conBottomDis')
+    } else {
+      if ($('body').hasClass("offcanvas-active")) {
+        $('.con').addClass('conMoveLeft')
+        $('body').removeClass('offcanvas-active');
+        $('.top').removeClass('conTopDis')
+        $('.middle').removeClass('conMiddleDis')
+        $('.bottom').removeClass('conBottomDis')
+      } else {
+        $('.con').removeClass('conMoveLeft')
+        $('.top').addClass('conTopDis')
+        $('.middle').addClass('conMiddleDis')
+        $('.bottom').addClass('conBottomDis')
+      }
     }
+    // if (!$('body').hasClass("body-small")) {
+    //   if ($('body').hasClass("offcanvas-active")) {
+    //     $('body').removeClass('offcanvas-active');
+
+    //     $('.con').removeClass('conMoveLeft')
+    //     $('.top').addClass('conTopDis')
+    //     $('.middle').addClass('conMiddleDis')
+    //     $('.bottom').addClass('conBottomDis')
+
+    //   } else {
+    //     // if (this.windowHeight != window.outerHeight) {
+    //     //   this.windowHeight = window.outerHeight.valueOf()
+    //       // $('body').addClass('offcanvas-active');
+
+    //       $('.con').addClass('conMoveLeft')
+    //       $('.top').removeClass('conTopDis')
+    //       $('.middle').removeClass('conMiddleDis')
+    //       $('.bottom').removeClass('conBottomDis')
+    //     // }
+
+    //   }
+    // } else {
+    //   if ($('.con').hasClass("conMoveLeft")) { $('.con').removeClass('conMoveLeft') } else { }
+    //   this.state = false;
+    //   $('body').removeClass('offcanvas-active');
+    //   $('.top').removeClass('conTopDis')
+    //   $('.middle').removeClass('conMiddleDis')
+    //   $('.bottom').removeClass('conBottomDis')
+    // }
   }
   bt_toggleactive() {
     //左上角收合導覽列按鈕
-    if (window.innerWidth > 800) {
+    if (window.outerWidth > 800) {
       if ($('body').hasClass("offcanvas-active")) {
         $('body').removeClass('offcanvas-active');
 

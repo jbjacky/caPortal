@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { interval } from 'rxjs';
 import { map, takeWhile, takeUntil } from 'rxjs/operators';
+import * as jsPDF from 'jspdf';
+import * as html2canvas from 'html2canvas';
+import { ViewportScroller } from '@angular/common';
 
+declare let $: any; //use jquery
 @Component({
   selector: 'app-salary-search',
   templateUrl: './salary-search.component.html',
@@ -10,7 +14,9 @@ import { map, takeWhile, takeUntil } from 'rxjs/operators';
 })
 export class SalarySearchComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild('contentPDF') contentPDF: ElementRef;
+  constructor(
+    private viewScroller: ViewportScroller) { }
 
   time = 180
   get getTime() { return this.time }
@@ -20,16 +26,16 @@ export class SalarySearchComponent implements OnInit {
   time_subscribe = true;
   ngOnInit() {
     interval(1000)
-    .pipe(
-      map((x) => {
-        if(this.time>1){
-          this.time = this.time - 1
-        }else if(this.time == 1){
-          this.time = this.time - 1
-          console.log('執行')
-        }
-      })
-    ).toPromise();
+      .pipe(
+        map((x) => {
+          if (this.time > 1) {
+            this.time = this.time - 1
+          } else if (this.time == 1) {
+            this.time = this.time - 1
+            // console.log('執行')
+          }
+        })
+      ).toPromise();
   }
 
   firstPwFromGroup: FormGroup = new FormGroup({
@@ -38,6 +44,35 @@ export class SalarySearchComponent implements OnInit {
     checkPassword: new FormControl('', Validators.required)
   })
   submit() {
-    console.log()
+  }
+
+  scrollTo() {
+    // $("body").addClass("offcanvas-active")
+    if ($("body").hasClass("body-small")) {
+
+    } else {
+      if (!$("body").hasClass("offcanvas-active")) {
+        $(".col").click();
+      }
+    }
+    this.viewScroller.scrollToAnchor('goPageChange');
+    //tag=id連結位置
+  }
+  downPdf() {
+    // console.log(this.contentPDF.nativeElement.innerHTML)
+    // console.log(document.getElementById('contentPDF'))
+    html2canvas(document.querySelector("#contentPDF"), { scrollY: (window.pageYOffset * -1) }).then(canvas => {
+
+      var img = canvas.toDataURL("image/PNG");
+      var doc = new jsPDF('', 'pt', 'a4', 1);
+
+      const bufferX = 5;
+      const bufferY = 20;
+      const imgProps = (<any>doc).getImageProperties(img);
+      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+      doc.save('薪資單.pdf');
+    });
   }
 }

@@ -107,7 +107,7 @@
 }
 
 .website-title-pc-ellipsis {
-  width: calc(100vw - 550px);
+  /* width: calc(100vw - 550px); */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
