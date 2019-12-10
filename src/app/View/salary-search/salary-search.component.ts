@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { interval } from 'rxjs';
 import { map, takeWhile, takeUntil } from 'rxjs/operators';
-import * as jsPDF from 'jspdf';
-import * as html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import { ViewportScroller } from '@angular/common';
 
 declare let $: any; //use jquery
@@ -62,17 +62,37 @@ export class SalarySearchComponent implements OnInit {
     // console.log(this.contentPDF.nativeElement.innerHTML)
     // console.log(document.getElementById('contentPDF'))
     html2canvas(document.querySelector("#contentPDF"), { scrollY: (window.pageYOffset * -1) }).then(canvas => {
+      if (window.outerWidth > 800) {
+        var img = canvas.toDataURL("image/PNG");
+        var doc = new jsPDF('', 'pt', 'a4', 1);
 
-      var img = canvas.toDataURL("image/PNG");
-      var doc = new jsPDF('', 'pt', 'a4', 1);
+        const bufferX = 5;
+        const bufferY = 20;
+        const imgProps = (<any>doc).getImageProperties(img);
+        const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+        doc.save('薪資單.pdf');
+      } else {
+        var imgDataRWD = canvas.toDataURL('image/png');
+        var imgWidthRWD = 210;
+        var pageHeightRWD = 295;
+        var imgHeightRWD = canvas.height * imgWidthRWD / canvas.width;
+        var heightLeftRWD = imgHeightRWD;
+        var docRWD = new jsPDF('p', 'mm');
+        var positionRWD = 0;
 
-      const bufferX = 5;
-      const bufferY = 20;
-      const imgProps = (<any>doc).getImageProperties(img);
-      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
-      doc.save('薪資單.pdf');
+        docRWD.addImage(imgDataRWD, 'PNG', 0, positionRWD, imgWidthRWD, imgHeightRWD);
+        heightLeftRWD -= pageHeightRWD;
+
+        while (heightLeftRWD >= 0) {
+          positionRWD = heightLeftRWD - imgHeightRWD;
+          docRWD.addPage();
+          docRWD.addImage(imgDataRWD, 'PNG', 0, positionRWD, imgWidthRWD, imgHeightRWD);
+          heightLeftRWD -= pageHeightRWD;
+        }
+        docRWD.save('薪資單.pdf');
+      }
     });
   }
 }

@@ -266,6 +266,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
     //左上角收合導覽列按鈕
     if ($('body').hasClass("body-small")) {
       this.state = false;
+      $('.con').removeClass('conMoveLeft')
       $('body').removeClass('offcanvas-active');
       $('.top').removeClass('conTopDis')
       $('.middle').removeClass('conMiddleDis')
@@ -273,7 +274,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       if ($('body').hasClass("offcanvas-active")) {
         $('.con').addClass('conMoveLeft')
-        $('body').removeClass('offcanvas-active');
+        // $('body').removeClass('offcanvas-active');
         $('.top').removeClass('conTopDis')
         $('.middle').removeClass('conMiddleDis')
         $('.bottom').removeClass('conBottomDis')
