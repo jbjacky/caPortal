@@ -79,8 +79,8 @@ export class RmStateFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isWriteforgetform = false; //Angular顯示用，選擇異常簽認單時為false，填寫時為true
     var sendDate = new Date();
     var sendEndDate = doFormatDate(sendDate)
-    // sendDate.setDate(sendDate.getDate() - 6)
-    sendDate.setFullYear(2019,7,1)
+    sendDate.setDate(sendDate.getDate() - 6)
+    // sendDate.setFullYear(2019,7,1)
     var sendStartDate = doFormatDate(sendDate)
 
     this.LoadingPage.show()
