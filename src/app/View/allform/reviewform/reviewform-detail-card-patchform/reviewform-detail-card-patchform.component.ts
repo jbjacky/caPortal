@@ -210,7 +210,7 @@ export class ReviewformDetailCardPatchformComponent implements OnInit, OnDestroy
   forgetShowCheckText = ''
   checkforgetCardText_Approved() {
     $('#forgetApproveddialog').modal('show')
-    this.LoadingPage.show()
+    // this.LoadingPage.show()
     // this.GetApiDataServiceService.getWebApiData_CardCheckByProcessFlowID(this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID)
     //   .pipe(takeWhile(() => this.api_subscribe))
     //   .subscribe(

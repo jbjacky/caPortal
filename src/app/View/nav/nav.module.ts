@@ -114,6 +114,7 @@ import { RmStateFormComponent } from '../allform/rm-state-form/rm-state-form.com
 import { RmStateFormWriteComponent } from '../allform/rm-state-form/rm-state-form-write/rm-state-form-write.component';
 import { CardPatchFormComponent } from '../allform/card-patch-form/card-patch-form.component';
 import { CardPatchFormWriteComponent } from '../allform/card-patch-form/card-patch-form-write/card-patch-form-write.component';
+import {NgxPrintModule} from 'ngx-print';
 
 const MY_DATE_FORMATS = {
   parse: {
@@ -183,6 +184,7 @@ export class MyDateAdapter extends NativeDateAdapter {
     TreeviewModule.forRoot(),
 
     NgxFullCalendarModule,
+    NgxPrintModule
 
   ],
   declarations: [
