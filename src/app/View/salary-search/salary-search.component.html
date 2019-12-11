@@ -83,7 +83,9 @@
          <button  style="background:0;border:0">
             <img src="./assets/jbIcon/icon_down.png" width="25px" height="23px" />
           </button> -->
-          <button style="background:0;border:0" [useExistingCss]="true" [printSectionId]="printSectionId" ngxPrint>
+          <button style="background:0;border:0"
+          [styleSheetFile]="styleFileHref"
+           [useExistingCss]="true" [printSectionId]="printSectionId" ngxPrint>
             <img src="./assets/jbIcon/icon_print.png" width="25px" height="23px" />
           </button>
         </div>
@@ -120,7 +122,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       應稅薪資
                     </div>
@@ -128,7 +130,7 @@
                       23,100
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       應發薪資
                     </div>
@@ -136,7 +138,7 @@
                       24,519
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       實發薪資
                     </div>
@@ -154,7 +156,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       公司提撥
                     </div>
@@ -162,7 +164,7 @@
                       1,386
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       勞工自提
                     </div>
@@ -180,7 +182,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       特休剩餘
                     </div>
@@ -188,7 +190,7 @@
                       4.00小時
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       補休剩餘
                     </div>
@@ -207,7 +209,7 @@
                 </div>
               </div>
               <div style="padding:5px 20px;padding-bottom:20px;border-bottom: 1px solid #028fcf;">
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     本俸
                   </div>
@@ -215,7 +217,7 @@
                     23,100
                   </div>
                 </div>
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     職務加給
                   </div>
@@ -223,7 +225,7 @@
                     1000
                   </div>
                 </div>
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     夜點費
                   </div>
@@ -231,7 +233,7 @@
                     1000
                   </div>
                 </div>
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     全勤獎金
                   </div>
@@ -239,7 +241,7 @@
                     0
                   </div>
                 </div>
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     免稅加班
                   </div>
@@ -247,7 +249,7 @@
                     382
                   </div>
                 </div>
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     應稅加班
                   </div>
@@ -257,7 +259,7 @@
                 </div>
               </div>
               <div style="padding:5px 20px;">
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     小計(B)
                   </div>
@@ -275,7 +277,7 @@
                 </div>
               </div>
               <div style="padding:5px 20px;padding-bottom:20px;border-bottom: 1px solid #028fcf;">
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     勞保費
                   </div>
@@ -283,7 +285,7 @@
                     508
                   </div>
                 </div>
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     健保費
                   </div>
@@ -291,7 +293,7 @@
                     325
                   </div>
                 </div>
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     福利金
                   </div>
@@ -299,7 +301,7 @@
                     133
                   </div>
                 </div>
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     事假
                   </div>
@@ -307,7 +309,7 @@
                     0
                   </div>
                 </div>
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     病假
                   </div>
@@ -315,7 +317,7 @@
                     0
                   </div>
                 </div>
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     伙食費
                   </div>
@@ -325,7 +327,7 @@
                 </div>
               </div>
               <div style="padding:5px 20px;">
-                <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                <div class="row" style="padding: 5px;margin: 0;">
                   <div class="col-md-6 col-xs-6" style="padding:0">
                     小計(C)
                   </div>
@@ -344,7 +346,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       調休
                     </div>
@@ -362,7 +364,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       平日加班費
                     </div>
@@ -380,7 +382,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       1倍
                     </div>
@@ -421,7 +423,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       應稅薪資
                     </div>
@@ -429,7 +431,7 @@
                       23,100
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       應發薪資
                     </div>
@@ -437,7 +439,7 @@
                       24,519
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       實發薪資
                     </div>
@@ -457,7 +459,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px;padding-bottom:20px;border-bottom: 1px solid #028fcf;">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       本俸
                     </div>
@@ -465,7 +467,7 @@
                       23,100
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       職務加給
                     </div>
@@ -473,7 +475,7 @@
                       1000
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       夜點費
                     </div>
@@ -481,7 +483,7 @@
                       1000
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       全勤獎金
                     </div>
@@ -489,7 +491,7 @@
                       0
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       免稅加班
                     </div>
@@ -497,7 +499,7 @@
                       382
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       應稅加班
                     </div>
@@ -507,7 +509,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px;">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       小計(B)
                     </div>
@@ -527,7 +529,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px;padding-bottom:20px;border-bottom: 1px solid #028fcf;">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       勞保費
                     </div>
@@ -535,7 +537,7 @@
                       508
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       健保費
                     </div>
@@ -543,7 +545,7 @@
                       325
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       福利金
                     </div>
@@ -551,7 +553,7 @@
                       133
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       事假
                     </div>
@@ -559,7 +561,7 @@
                       0
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       病假
                     </div>
@@ -567,7 +569,7 @@
                       0
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       伙食費
                     </div>
@@ -577,7 +579,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px;">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       小計(C)
                     </div>
@@ -597,7 +599,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       調休
                     </div>
@@ -640,7 +642,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       應稅薪資
                     </div>
@@ -648,7 +650,7 @@
                       23,100
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       應發薪資
                     </div>
@@ -656,7 +658,7 @@
                       24,519
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       實發薪資
                     </div>
@@ -676,7 +678,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px;padding-bottom:20px;border-bottom: 1px solid #028fcf;">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       勞保費
                     </div>
@@ -684,7 +686,7 @@
                       508
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       健保費
                     </div>
@@ -692,7 +694,7 @@
                       325
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       福利金
                     </div>
@@ -700,7 +702,7 @@
                       133
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       事假
                     </div>
@@ -708,7 +710,7 @@
                       0
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       病假
                     </div>
@@ -716,7 +718,7 @@
                       0
                     </div>
                   </div>
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       伙食費
                     </div>
@@ -726,7 +728,7 @@
                   </div>
                 </div>
                 <div style="padding:5px 20px;">
-                  <div class="row" style="padding: 5px;margin: 0;text-align: center;">
+                  <div class="row" style="padding: 5px;margin: 0;">
                     <div class="col-md-6 col-xs-6" style="padding:0">
                       小計(C)
                     </div>

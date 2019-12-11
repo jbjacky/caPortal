@@ -211,7 +211,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
     // }
 
 
-    this.checkdesktop();
+    // this.checkdesktop();
     this.GetApiUserService.AllOneBaseDetailcounter$
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(x => {
@@ -222,27 +222,6 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   // <!--透明黑色區塊處理開始-->
   state: boolean = false; //透明黑色區塊顯示狀態
-  checkdesktop() {
-    //判斷是否為桌機
-    //ngOnInit、點透明黑色區塊執行
-    //civd2015-systemMain.js修正，手機畫面，就收合導覽列
-
-    //$('body').css("position", "unset");
-    // $('body').css("overflow-y", "auto");
-    if (window.outerWidth > 1023) {
-      // $('body').addClass("offcanvas-active");
-      //civd2015-systemMain.js修正
-      $('.top').addClass('conTopDis')
-      $('.middle').addClass('conMiddleDis')
-      $('.bottom').addClass('conBottomDis')
-    } else {
-      $('body').removeClass("offcanvas-active");//如果是手機畫面，就收合導覽列
-      $('.top').removeClass('conTopDis')
-      $('.middle').removeClass('conMiddleDis')
-      $('.bottom').removeClass('conBottomDis')
-      this.state = false;
-    }
-  }
 
   // clickNav(routeurl: string) {
   //   console.log(routeurl)
@@ -256,7 +235,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // }
   phone_bt_toggleactive() {
-    if (window.outerWidth > 800) {
+    if (window.innerWidth > 800) {
 
     } else {
       this.bt_toggleactive()
@@ -264,27 +243,26 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   winR_toggleactive() {
     //左上角收合導覽列按鈕
-    if ($('body').hasClass("body-small")) {
+    if ($('body').hasClass("body-small") || window.innerWidth <= 800) {
       this.state = false;
       $('.con').removeClass('conMoveLeft')
       $('body').removeClass('offcanvas-active');
       $('.top').removeClass('conTopDis')
       $('.middle').removeClass('conMiddleDis')
       $('.bottom').removeClass('conBottomDis')
+    } else if ($('body').hasClass("offcanvas-active")) {
+      $('.con').addClass('conMoveLeft')
+      // $('body').removeClass('offcanvas-active');
+      $('.top').removeClass('conTopDis')
+      $('.middle').removeClass('conMiddleDis')
+      $('.bottom').removeClass('conBottomDis')
     } else {
-      if ($('body').hasClass("offcanvas-active")) {
-        $('.con').addClass('conMoveLeft')
-        // $('body').removeClass('offcanvas-active');
-        $('.top').removeClass('conTopDis')
-        $('.middle').removeClass('conMiddleDis')
-        $('.bottom').removeClass('conBottomDis')
-      } else {
-        $('.con').removeClass('conMoveLeft')
-        $('.top').addClass('conTopDis')
-        $('.middle').addClass('conMiddleDis')
-        $('.bottom').addClass('conBottomDis')
-      }
+      $('.con').removeClass('conMoveLeft')
+      $('.top').addClass('conTopDis')
+      $('.middle').addClass('conMiddleDis')
+      $('.bottom').addClass('conBottomDis')
     }
+
     // if (!$('body').hasClass("body-small")) {
     //   if ($('body').hasClass("offcanvas-active")) {
     //     $('body').removeClass('offcanvas-active');
@@ -317,7 +295,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   bt_toggleactive() {
     //左上角收合導覽列按鈕
-    if (window.outerWidth > 800) {
+    if (window.innerWidth > 800) {
       if ($('body').hasClass("offcanvas-active")) {
         $('body').removeClass('offcanvas-active');
 

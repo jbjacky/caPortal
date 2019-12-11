@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { interval } from 'rxjs';
 import { map, takeWhile, takeUntil } from 'rxjs/operators';
 import { ViewportScroller } from '@angular/common';
+import { Router } from '@angular/router';
 
 declare let $: any; //use jquery
 @Component({
@@ -13,7 +14,8 @@ declare let $: any; //use jquery
 export class SalarySearchComponent implements OnInit {
   printSectionId = 'contentPDF8'
   constructor(
-    private viewScroller: ViewportScroller) { }
+    private viewScroller: ViewportScroller,
+    private router: Router ) { }
 
   time = 180
   get getTime() { return this.time }
@@ -21,7 +23,10 @@ export class SalarySearchComponent implements OnInit {
     this.time = 180
   }
   time_subscribe = true;
+  styleFileHref  = window.location.href.split(this.router.url)[0] + '/assets/css/bootstrap.css'
   ngOnInit() {
+    
+    // console.log(this.styleFileHref)
     interval(1000)
       .pipe(
         map((x) => {
