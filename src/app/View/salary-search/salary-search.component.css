@@ -19,7 +19,7 @@
     margin: 0;
     border-bottom: 1px solid #c7c7c7;
     padding-bottom: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     font-weight: 600;
 }
 
@@ -43,11 +43,31 @@
     margin-bottom: 150px;
 }
 
-.info>.salaryInfoBlock>.salaryDetailBlock .groupTitle {
+.noteText {
+    color: #8b8484
+}
+
+.salaryDetailBlock>.DetailTitleBlock {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.DetailTitleText {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 0px;
+}
+
+.DetailSiteTitleText {
+    padding-top: 10px;
+    font-size: 10px;
+}
+
+.groupInfo>.groupTitleInfo {
     border-bottom: 1px solid #028fcf;
 }
 
-.info>.salaryInfoBlock>.salaryDetailBlock .groupTitle>.groupTitleText {
+.groupInfo>.groupTitleInfo>.groupTitleText {
     font-size: 20px;
     background-color: #e7f8ff;
     padding: 5px 20px;
@@ -55,22 +75,25 @@
     margin: 2px 10px;
 }
 
-.info>.salaryInfoBlock>.salaryDetailBlock .groupDetail {
+.groupInfo>.groupDetailInfo {
     padding: 5px 20px;
 }
 
-.info>.salaryInfoBlock>.salaryDetailBlock .groupDetail>.groupDetailBlock {
+.groupInfo>.groupDetailInfo.groupDetailSumBlock {
+    border-top: 1px solid #adaaaa;
+}
+
+.groupInfo>.groupDetailInfo>.groupDetailBlock {
     padding: 5px;
     margin: 0;
     /* border-bottom: 1px solid #c7c7c7; */
-    text-align: center;
 }
 
-.info>.salaryInfoBlock>.salaryDetailBlock .groupDetail>.groupDetailBlock>.groupDetailBlockTitle {
+.groupInfo>.groupDetailInfo>.groupDetailBlock>.groupDetailBlockTitle {
     padding: 0
 }
 
-.info>.salaryInfoBlock>.salaryDetailBlock .groupDetail>.groupDetailBlock>.groupDetailBlockDetail {
+.groupInfo>.groupDetailInfo>.groupDetailBlock>.groupDetailBlockDetail {
     padding: 0;
     text-align: right;
 }
@@ -109,6 +132,14 @@
     color: #8b8484;
 }
 
+@media (min-width:576px) and (max-width:991px) {
+    .info>.selectSearchBlock .btnSelectSearch {
+        padding: 0;
+        text-align: right;
+        padding-top: 10px;
+    }
+}
+
 @media screen and (max-width:576px) {
     .info>.empInfoBlock {
         border-bottom: 0;
@@ -130,6 +161,9 @@
 
     .info>.salaryInfoBlock {
         padding: 5px 0px;
+        margin: 0;
+        display: flex;
+        flex-flow: column;
     }
 
     .info>.salaryInfoBlock>.iconBlock {

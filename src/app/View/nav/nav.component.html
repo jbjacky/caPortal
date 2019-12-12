@@ -115,12 +115,12 @@
         <!--#main End -->
 
 
-        <footer id="footer">
+        <footer id="footer" *ngIf="FooterBlockString.length>0">
             <div id="footer-inner">
                 <p class="text-center">
                     <small>
                         <!-- copyright: China Airlines 2019 -->
-                        <span *ngIf="FooterBlockString.length>0">{{FooterBlockString}}</span>
+                        <span>{{FooterBlockString}}</span>
                     </small>
                 </p>
             </div>
@@ -363,7 +363,7 @@
                         <span aria-hidden="true" style="font-size: 25px;">×</span>
                     </button>
                     <div style="text-align: center;">
-                            <img src="./assets/jbIcon/icon-logout-siren.png" />
+                        <img src="./assets/jbIcon/icon-logout-siren.png" />
                     </div>
                 </div>
                 <div class="modal-body">
@@ -382,7 +382,8 @@
                         <button type="button" style="margin: 0px 10px;" class="btn btn-default" data-dismiss="modal">
                             <ng-container i18n>回系統</ng-container>
                         </button>
-                        <button type="button" style="margin: 0px 10px;" class="btn btn-primary" data-dismiss="modal" (click)="signOut()">
+                        <button type="button" style="margin: 0px 10px;" class="btn btn-primary" data-dismiss="modal"
+                            (click)="signOut()">
                             <ng-container i18n>登出</ng-container>
                         </button>
                     </div>

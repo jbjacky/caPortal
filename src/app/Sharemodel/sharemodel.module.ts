@@ -62,6 +62,7 @@ import { SearchAttendUnusualFormComponent } from '../View/shareComponent/search-
 import { SearchAttendUnusualFormDetailComponent } from '../View/shareComponent/search-attend-unusual-form-detail/search-attend-unusual-form-detail.component';
 import { SearchCardPatchFormComponent } from '../View/shareComponent/search-card-patch-form/search-card-patch-form.component';
 import { SearchCardPatchDetailComponent } from '../View/shareComponent/search-card-patch-detail/search-card-patch-detail.component';
+import { ShowSearchSalaryDirective } from '../show-search-salary.directive';
 
 @NgModule({
   imports: [
@@ -124,6 +125,7 @@ import { SearchCardPatchDetailComponent } from '../View/shareComponent/search-ca
     SearchkeydeptMAComponent,
     SerchkeybaseMAComponent,
     ShowAttendDirective,
+    ShowSearchSalaryDirective,
     MatCheckboxModule,
     HolidayblockDirective,
     DayRoteComponent,
@@ -181,6 +183,7 @@ import { SearchCardPatchDetailComponent } from '../View/shareComponent/search-ca
     SearchkeydeptMAComponent,
     SerchkeybaseMAComponent,
     ShowAttendDirective,
+    ShowSearchSalaryDirective,
     HolidayblockDirective,
     DayRoteComponent,
     FromSignComponent,

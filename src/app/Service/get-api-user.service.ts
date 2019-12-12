@@ -10,7 +10,9 @@ import { GetBaseInfoDetailClass } from '../Models/GetBaseInfoDetailClass';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CaUserClass } from '../Models/CaUserClass';
+import { ViewportScroller } from '@angular/common';
 
+declare let $: any; //use jquery
 @Injectable({
   providedIn: 'root'
 })
@@ -28,7 +30,8 @@ export class GetApiUserService {
   // ReallyEmpID = ''//第一次登入系統的id
   secondTitle  = null
   constructor(private GetApiDataServiceService: GetApiDataServiceService, private router: Router,
-    private LoadingPage: NgxSpinnerService) {
+    private LoadingPage: NgxSpinnerService,
+    private viewScroller: ViewportScroller) {
     // console.log(this.ReallyEmpID)
     // this.store$.next({ EmpCode: '051005', Name: '王O懿', Dept: '會計行政部', RoteNameC: '常日班', WorkHours: 8 })
     
@@ -66,6 +69,18 @@ export class GetApiUserService {
   }
 
 
+  scrollTo() {
+    // $("body").addClass("offcanvas-active")
+    if ($("body").hasClass("body-small")) {
+
+    } else {
+      if (!$("body").hasClass("offcanvas-active")) {
+        $(".col").click();
+      }
+    }
+    this.viewScroller.scrollToAnchor('goPageChange');
+    //tag=id連結位置
+  }
 
 
 }

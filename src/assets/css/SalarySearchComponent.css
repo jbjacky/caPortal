@@ -1,0 +1,57 @@
+/* print列印用，勿刪。 */
+.btPrint{
+    display: none;
+}
+.noteText{
+    color:#8b8484
+}
+
+.salaryDetailBlock>.DetailTitleBlock {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.DetailTitleText {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 0px;
+}
+
+.DetailSiteTitleText {
+    padding-top: 10px;
+    font-size: 10px;
+}
+
+.groupInfo>.groupTitleInfo {
+    border-bottom: 1px solid #028fcf;
+}
+
+.groupInfo>.groupTitleInfo>.groupTitleText {
+    font-size: 20px;
+    background-color: #e7f8ff;
+    padding: 5px 20px;
+    text-align: center;
+    margin: 2px 10px;
+}
+
+.groupInfo>.groupDetailInfo {
+    padding: 5px 20px;
+}
+
+.groupInfo>.groupDetailInfo.groupDetailSumBlock {
+    border-top: 1px solid #adaaaa;
+}
+.groupInfo>.groupDetailInfo>.groupDetailBlock {
+    padding: 5px;
+    margin: 0;
+    /* border-bottom: 1px solid #c7c7c7; */
+}
+
+.groupInfo>.groupDetailInfo>.groupDetailBlock>.groupDetailBlockTitle {
+    padding: 0
+}
+
+.groupInfo>.groupDetailInfo>.groupDetailBlock>.groupDetailBlockDetail {
+    padding: 0;
+    text-align: right;
+}

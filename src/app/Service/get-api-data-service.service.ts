@@ -1883,6 +1883,15 @@ export class GetApiDataServiceService {
     })
   }
 
+  /**
+   * @todo 薪資單明細
+   */
+  getWebApiData_GetblockDetailDetail(year,Month,period) {
+    return this.http.get(this.localUrl +`Payslip/GetblockDetailDetail?year=${year}&Month=${Month}&period=${period}`, {
+      headers: this.GetHeader()
+    })
+  }
+
 }
 
 
