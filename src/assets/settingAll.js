@@ -11,6 +11,8 @@ var FileUploadType = [
         ".xls",
         ".xlsx",
         ".jpg",
+        ".jpeg",
+        ".png",
         ".txt",
         ".odt",
         ".odp",
@@ -18,6 +20,5 @@ var FileUploadType = [
         ".htm",
         ".html",
         ".mht",
-        ".pdf",
-        ".jpeg"
+        ".pdf"
       ]
