@@ -96,7 +96,7 @@ export class SalarySearchComponent implements OnInit, OnDestroy {
             }
           }
           
-          console.log(this.showSarly)
+          // console.log(this.showSarly)
           this.GetApiUserService.scrollTo();
           this.LoadingPage.hide()
         }, error => {

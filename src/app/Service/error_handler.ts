@@ -36,7 +36,7 @@ export class ErrorHandler implements OnDestroy {
             this.router.navigateByUrl('/ErrorPageComponent')
             this.LoadingPage.hide()
         } else if (localStorage.getItem('API_Token')) {
-
+            this.LoadingPage.hide()
         } else {
             this.router.navigateByUrl('/LoginComponent')
         }
