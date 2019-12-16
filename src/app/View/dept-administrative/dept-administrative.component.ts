@@ -283,7 +283,7 @@ export class DeptAdministrativeComponent implements OnInit, OnDestroy {
     //部門、行政權限
     if (this.insertSetDeptByEmpGetApi.EmpID) {
 
-      if (this.insertSetDeptByEmpGetApi.EmpID.length == 6) {
+      if (this.insertSetDeptByEmpGetApi.EmpID.length == 7) {
 
         this.LoadingPage.show()
         var _NowDate = new Date();
@@ -355,7 +355,7 @@ export class DeptAdministrativeComponent implements OnInit, OnDestroy {
     //部門、行政權限
     if (this.SearchEmp.EmpID) {
 
-      if (this.SearchEmp.EmpID.length == 6) {
+      if (this.SearchEmp.EmpID.length == 7) {
 
         this.LoadingPage.show()
         var _NowDate = new Date();

@@ -311,7 +311,7 @@ export class DeptVaSearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
   Dept_blurChangeEmpCode() {
     if (this.Dept_ChangeEmp.EmpCode) {
-      if (this.Dept_ChangeEmp.EmpCode.length == 6) {
+      if (this.Dept_ChangeEmp.EmpCode.length == 7) {
         if (this.Dept_ChangeEmp.EmpCode == this.SearchMan.EmpCode) {
           this.Dept_ChangeEmp.EmpName = this.SearchMan.EmpNameC.toString()
           this.Dept_errorChangeEmpState = { state: false, errorString: '' }

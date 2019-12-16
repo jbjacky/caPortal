@@ -552,7 +552,7 @@ export class DelformComponent implements OnInit, AfterViewInit, OnDestroy {
   searchDateB
   searchDateE
   chooseEmp() {
-    if (this.EmpBase.EmpCode.length == 6) {
+    if (this.EmpBase.EmpCode.length == 7) {
       var _NowDate = new Date();
       var _NowToday = doFormatDate(_NowDate);
       var GetBaseByFormClass: GetBaseByFormClass = {

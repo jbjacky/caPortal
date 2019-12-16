@@ -13,7 +13,7 @@
       </div>
       <div style="display: inline-block;margin-right: 10px">
 
-        <input id="leaveSearchEmpCode" type="text" class="form-control" [(ngModel)]="SearchEmp.EmpID" maxlength="6"
+        <input id="leaveSearchEmpCode" type="text" class="form-control" [(ngModel)]="SearchEmp.EmpID" maxlength="7"
           (blur)="blurSearchEmpCode()">
         <div *ngIf="errorSearchEmpCodeState.state" style="color: #e60012">{{errorSearchEmpCodeState.errorString}}
         </div>
@@ -131,7 +131,7 @@
             <div class="col-md-9  col-xs-12 row" style="padding:0px;margin: 0px">
               <div class="col-md-4 col-xs-6" style="padding:0px">
                 <input id="leavejobid" type="text" class="form-control" [(ngModel)]="insertSetDeptByEmpGetApi.EmpID"
-                  maxlength="6" (blur)="blurEmpCode()">
+                  maxlength="7" (blur)="blurEmpCode()">
                 <div *ngIf="errorEmpCodeState.state" style="color: #e60012">{{errorEmpCodeState.errorString}}</div>
               </div>
               <div class="col-md-2 col-xs-2" style="padding: 0px">

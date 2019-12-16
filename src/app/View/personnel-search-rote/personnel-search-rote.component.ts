@@ -131,7 +131,7 @@ export class PersonnelSearchRoteComponent implements OnInit, AfterViewInit, OnDe
     this.outPutChoose.emit(EmpArray)
   }
   blurEmpCode() {
-    if (this.SearchMan.EmpCode.length == 6) {
+    if (this.SearchMan.EmpCode.length == 7) {
       var _NowDate = new Date();
       var _NowToday = doFormatDate(_NowDate);
       var GetBaseByFormClass: GetBaseByFormClass = {

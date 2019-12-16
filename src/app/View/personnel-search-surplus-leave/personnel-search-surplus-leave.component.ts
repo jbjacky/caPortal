@@ -277,7 +277,7 @@ export class PersonnelSearchSurplusLeaveComponent implements OnInit, OnDestroy {
     this.blurEmpCode()
   }
   blurEmpCode() {
-    if (this.SearchMan.EmpCode.length == 6) {
+    if (this.SearchMan.EmpCode.length == 7) {
       var _NowDate = new Date();
       var _NowToday = doFormatDate(_NowDate);
       var GetBaseByFormClass: GetBaseByFormClass = {

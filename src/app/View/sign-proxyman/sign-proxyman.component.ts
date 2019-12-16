@@ -93,7 +93,7 @@ export class SignProxymanComponent implements OnInit, AfterContentInit, OnDestro
       )
   }
   blurBeProxyManEmpCode() {
-    if (this.BeProxyMan.EmpCode.length == 6) {
+    if (this.BeProxyMan.EmpCode.length == 7) {
       this.LoadingPage.show()
       if (this.BeProxyMan.EmpCode == this.FirstMan.EmpCode) {
         this.GetManInfo(this.BeProxyMan.EmpCode)
@@ -379,7 +379,7 @@ export class SignProxymanComponent implements OnInit, AfterContentInit, OnDestro
 
   errorProxyManCodeState = { state: false, errorString: "" }
   blurProxyManCode() {
-    if (this.ProxyMan.EmpCode.length == 6) {
+    if (this.ProxyMan.EmpCode.length == 7) {
 
       this.LoadingPage.show()
       this.GetApiDataServiceService.getWebApiData_GetBase([this.ProxyMan.EmpCode], '')

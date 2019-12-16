@@ -334,7 +334,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
 
   blurEmpCode() {
     if (this.writevaform.leaveman_jobid) {
-      if (this.writevaform.leaveman_jobid.length == 6) {
+      if (this.writevaform.leaveman_jobid.length == 7) {
         var _NowDate = new Date();
         var _NowToday = doFormatDate(_NowDate);
         var GetBaseByFormClass: GetBaseByFormClass = {
@@ -454,7 +454,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
 
   blurProxyEmpCode() {
     if (this.writevaform.proxyman_jobid) {
-      if (this.writevaform.proxyman_jobid.length == 6) {
+      if (this.writevaform.proxyman_jobid.length == 7) {
 
         if (this.writevaform.proxyman_jobid == this.writevaform.leaveman_jobid) {
           this.errorProxymanState = { state: true, errorString: '代理人不能與請假人相同' }

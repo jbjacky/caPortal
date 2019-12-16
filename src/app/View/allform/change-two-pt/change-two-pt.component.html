@@ -70,7 +70,7 @@
               </label>
             </div>
             <div class="col-md-3 col-xs-4" style="padding:0px">
-              <input type="text" class="form-control" placeholder="員工號" [(ngModel)]="My_ChangeEmp.EmpCode" maxlength="6"
+              <input type="text" class="form-control" placeholder="員工號" [(ngModel)]="My_ChangeEmp.EmpCode" maxlength="7"
                 (blur)="My_blurChangeEmpCode()">
               <div *ngIf="My_errorChangeEmpState.state" style="color: #e60012">{{My_errorChangeEmpState.errorString}}
               </div>
@@ -149,7 +149,7 @@
             </div>
             <div class="col-md-3 col-xs-4" style="padding:0px">
               <input type="text" class="form-control" placeholder="員工號" [(ngModel)]="Assistant_Emp.EmpCode"
-                maxlength="6" (blur)="Assistant_blurEmpCode()" />
+                maxlength="7" (blur)="Assistant_blurEmpCode()" />
               <div *ngIf="Assistant_errorEmpState.state" style="color: #e60012">{{Assistant_errorEmpState.errorString}}
               </div>
             </div>
@@ -173,7 +173,7 @@
             </div>
             <div class="col-md-3 col-xs-4" style="padding:0px">
               <input type="text" class="form-control" placeholder="員工號" [(ngModel)]="Assistant_ChangeEmp.EmpCode"
-                maxlength="6" (blur)="Assistant_blurChangeEmpCode()" />
+                maxlength="7" (blur)="Assistant_blurChangeEmpCode()" />
               <div *ngIf="Assistant_errorChangeEmpState.state" style="color: #e60012">
                 {{Assistant_errorChangeEmpState.errorString}}</div>
             </div>

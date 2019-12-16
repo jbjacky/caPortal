@@ -820,7 +820,7 @@ export class ChangeNonShiftSameComponent implements OnInit, AfterViewInit, OnDes
 
   errorEmp = { state: false, errorString: '' };
   chooseEmp() {
-    if (this.Assistant_SearchMan.EmpCode.length == 6) {
+    if (this.Assistant_SearchMan.EmpCode.length == 7) {
       this.LoadingPage.show()
 
       var _NowDate = new Date();

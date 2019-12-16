@@ -1249,7 +1249,7 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
 
   Assistant_blurEmpCode() {
     if (this.Assistant_Emp.EmpCode) {
-      if (this.Assistant_Emp.EmpCode.length == 6) {
+      if (this.Assistant_Emp.EmpCode.length == 7) {
 
         if (this.Assistant_ChangeEmp.EmpCode == this.Assistant_Emp.EmpCode) {
           this.Assistant_Emp.EmpName = ''
@@ -1315,7 +1315,7 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
 
   Assistant_blurChangeEmpCode() {
     if (this.Assistant_ChangeEmp.EmpCode) {
-      if (this.Assistant_ChangeEmp.EmpCode.length == 6) {
+      if (this.Assistant_ChangeEmp.EmpCode.length == 7) {
 
         if (this.Assistant_ChangeEmp.EmpCode == this.Assistant_Emp.EmpCode) {
           this.Assistant_Emp.EmpName = ''
@@ -1381,7 +1381,7 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
 
   My_blurChangeEmpCode() {
     if (this.My_ChangeEmp.EmpCode) {
-      if (this.My_ChangeEmp.EmpCode.length == 6) {
+      if (this.My_ChangeEmp.EmpCode.length == 7) {
 
         if (this.My_ChangeEmp.EmpCode == this.My_Emp.EmpCode) {
           this.My_ChangeEmp.EmpName = ''

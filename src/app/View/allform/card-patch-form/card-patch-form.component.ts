@@ -385,7 +385,7 @@ export class CardPatchFormComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   chooseEmp() {
-    if (this.EmpBase.EmpCode.length == 6) {
+    if (this.EmpBase.EmpCode.length == 7) {
       var _NowDate = new Date();
       var _NowToday = doFormatDate(_NowDate);
       var GetBaseByFormClass: GetBaseByFormClass = {

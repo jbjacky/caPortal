@@ -838,7 +838,7 @@ export class ChangeNonShiftComponent implements OnInit, AfterViewInit, OnDestroy
 
   errorEmp = { state: false, errorString: '' };
   chooseEmp() {
-    if (this.Assistant_SearchMan.EmpCode.length == 6) {
+    if (this.Assistant_SearchMan.EmpCode.length == 7) {
       this.LoadingPage.show()
       var _NowDate = new Date();
       var _NowToday = doFormatDate(_NowDate);

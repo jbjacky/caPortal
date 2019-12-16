@@ -33,7 +33,7 @@
         <div class="col-md-10  col-xs-12 row" style="margin: 0px">
           <div class="col-md-2 col-xs-6" style="padding:0px">
             <input id="Dept_ChangeEmpCode" type="text" class="form-control" placeholder="員工號"
-              [(ngModel)]="Dept_ChangeEmp.EmpCode" maxlength="6" (blur)="Dept_blurChangeEmpCode()">
+              [(ngModel)]="Dept_ChangeEmp.EmpCode" maxlength="7" (blur)="Dept_blurChangeEmpCode()">
             <div *ngIf="Dept_errorChangeEmpState.state" style="color: #e60012">{{Dept_errorChangeEmpState.errorString}}
             </div>
           </div>

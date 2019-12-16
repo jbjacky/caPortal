@@ -467,57 +467,57 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
 
           this.changeSencondTitle(this.router.url);
 
-          if (!this.IsHasSwitchUser) {
-            //如果切換到的人員沒有切換頁面權限，就再從第一次進入的人員看有沒有切換的權限
-            this.GetApiDataServiceService.getWebApiData_GetAuthToken()
-              .pipe(takeWhile(() => this.api_subscribe))
-              .subscribe(
-                (x: CaUserClass) => {
-                  if (x) {
-                    this.GetApiDataServiceService.getWebApiData_GetPageByEmp(x.EmpID.toString())
-                      .pipe(takeWhile(() => this.api_subscribe))
-                      .subscribe(
-                        (GetPageByEmp_FirstEmpCode: GetPageByEmpClass[]) => {
+          // if (!this.IsHasSwitchUser) {
+          //   //如果切換到的人員沒有切換頁面權限，就再從第一次進入的人員看有沒有切換的權限
+          //   this.GetApiDataServiceService.getWebApiData_GetAuthToken()
+          //     .pipe(takeWhile(() => this.api_subscribe))
+          //     .subscribe(
+          //       (x: CaUserClass) => {
+          //         if (x) {
+          //           this.GetApiDataServiceService.getWebApiData_GetPageByEmp(x.EmpID.toString())
+          //             .pipe(takeWhile(() => this.api_subscribe))
+          //             .subscribe(
+          //               (GetPageByEmp_FirstEmpCode: GetPageByEmpClass[]) => {
 
-                          var hasSwitchUser_FirstEmpCode: boolean = false
+          //                 var hasSwitchUser_FirstEmpCode: boolean = false
 
-                          for (let i = 0; i < GetPageByEmp_FirstEmpCode.length; i++) {
-                            for (let oneSite of GetPageByEmp_FirstEmpCode[i].site) {
-                              if (oneSite.Url == 'SwitchUserComponent') {
-                                hasSwitchUser_FirstEmpCode = true
-                              }
-                            }
-                          }
+          //                 for (let i = 0; i < GetPageByEmp_FirstEmpCode.length; i++) {
+          //                   for (let oneSite of GetPageByEmp_FirstEmpCode[i].site) {
+          //                     if (oneSite.Url == 'SwitchUserComponent') {
+          //                       hasSwitchUser_FirstEmpCode = true
+          //                     }
+          //                   }
+          //                 }
 
-                          if (hasSwitchUser_FirstEmpCode) {
+          //                 if (hasSwitchUser_FirstEmpCode) {
 
-                            var findIndexCode = GetPageByEmp.findIndex((_Page: GetPageByEmpClass) => {
-                              return _Page.Code == 'System'
-                            })
+          //                   var findIndexCode = GetPageByEmp.findIndex((_Page: GetPageByEmpClass) => {
+          //                     return _Page.Code == 'System'
+          //                   })
 
-                            if (findIndexCode < 0) {
-                              this.two_nav.push({
-                                largetitle: '系統管理', routeurl: null, site: [
-                                  {
-                                    routeurl: "SwitchUserComponent",
-                                    title: "切換使用者"
-                                  }]
-                              })
-                            } else {
-                              var findSystemIndex = this.two_nav.findIndex((t: twonav) => {
-                                return t.largetitle == '系統管理'
-                              })
-                              this.two_nav[findSystemIndex].site.push({
-                                routeurl: "SwitchUserComponent",
-                                title: "切換使用者"
-                              })
-                            }
-                            this.IsHasSwitchUser = hasSwitchUser_FirstEmpCode
-                          }
-                        })
-                  }
-                })
-          }
+          //                   if (findIndexCode < 0) {
+          //                     this.two_nav.push({
+          //                       largetitle: '系統管理', routeurl: null, site: [
+          //                         {
+          //                           routeurl: "SwitchUserComponent",
+          //                           title: "切換使用者"
+          //                         }]
+          //                     })
+          //                   } else {
+          //                     var findSystemIndex = this.two_nav.findIndex((t: twonav) => {
+          //                       return t.largetitle == '系統管理'
+          //                     })
+          //                     this.two_nav[findSystemIndex].site.push({
+          //                       routeurl: "SwitchUserComponent",
+          //                       title: "切換使用者"
+          //                     })
+          //                   }
+          //                   this.IsHasSwitchUser = hasSwitchUser_FirstEmpCode
+          //                 }
+          //               })
+          //         }
+          //       })
+          // }
         }
       )
   }

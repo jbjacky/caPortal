@@ -10,7 +10,7 @@
       <div class="col-md-10  col-xs-12" style="padding:0px">
         <div class="col-md-2 col-xs-4" style="padding:0px">
           <input id="leavejobid" type="text" class="form-control" placeholder="員工號" [(ngModel)]="SearchMan.EmpCode"
-            (blur)="blurEmpCode()" maxlength="6">
+            (blur)="blurEmpCode()" maxlength="7">
           <div *ngIf="errorLeavemanState.state" style="color: #e60012">{{errorLeavemanState.errorString}}</div>
         </div>
         <div class="col-md-1 col-xs-2 P_zero">

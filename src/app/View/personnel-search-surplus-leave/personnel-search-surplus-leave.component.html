@@ -9,7 +9,7 @@
       <div class="col-md-8  col-xs-12 row" style="padding:0px;margin: 0px">
         <div class="col-md-2 col-xs-6" style="padding:0px">
           <input id="leavejobid" type="text" class="form-control" placeholder="員工號" [(ngModel)]="SearchMan.EmpCode"
-            (blur)="blurEmpCode()" maxlength="6">
+            (blur)="blurEmpCode()" maxlength="7">
         </div>
         <div class="col-md-1 col-xs-2">
           <button data-toggle="modal" data-target="#chooseEmpdialog" style="cursor: pointer;border: 0;background: 0">
@@ -43,7 +43,7 @@
           <div class="col-md-10  col-xs-12 row" style="padding:0px;margin: 0px">
             <div class="col-md-4 col-xs-4" style="padding:0px">
               <input id="leavejobid" type="text" class="form-control" placeholder="員工號" [(ngModel)]="SearchMan.EmpCode"
-                (blur)="blurEmpCode()" maxlength="6">
+                (blur)="blurEmpCode()" maxlength="7">
               <div *ngIf="errorLeavemanState.state" style="color: #e60012">{{errorLeavemanState.errorString}}</div>
             </div>
             <div class="col-md-2 col-xs-2" style="padding: 0px;text-align: center">
