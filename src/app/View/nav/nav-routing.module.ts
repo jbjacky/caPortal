@@ -78,6 +78,8 @@ import { OtformComponent } from '../allform/otform/writeotform/otform.component'
 import { RmStateFormComponent } from '../allform/rm-state-form/rm-state-form.component';
 import { RmStateFormWriteComponent } from '../allform/rm-state-form/rm-state-form-write/rm-state-form-write.component';
 import { CardPatchFormComponent } from '../allform/card-patch-form/card-patch-form.component';
+import { OwnSearchCardTimeComponent } from '../own-search-card-time/own-search-card-time.component';
+import { PersonnelSearchCardTimeComponent } from '../personnel-search-card-time/personnel-search-card-time.component';
 
 const routes: Routes = [
   {
@@ -361,6 +363,14 @@ const routes: Routes = [
       },
       {
         path: 'CardPatchFormComponent', component: CardPatchFormComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'OwnSearchCardTimeComponent', component: OwnSearchCardTimeComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'PersonnelSearchCardTimeComponent', component: PersonnelSearchCardTimeComponent,
         canActivate: [AuthGuard],
       }
     ]

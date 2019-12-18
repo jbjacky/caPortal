@@ -67,7 +67,7 @@ export class SurplusLeaveComponent implements OnInit, OnDestroy {
       "EmpID": EmpID,
       "DateB": doFormatDate(today),
       "DateE": "9999/12/31",
-      "HoliDayID": 0,
+      "HoliDayID": "",
       "KeyName": "",
       "EventDate": "",
       "ListAbsFlow": null

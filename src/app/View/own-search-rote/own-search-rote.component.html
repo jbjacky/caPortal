@@ -36,11 +36,11 @@
         </div>
       </div>
     </div>
-    <div>
+    <!-- <div>
       <a data-toggle="modal" style="cursor: pointer;" (click)="bt_showroteSumDialog()">
         <ng-container i18n>班別統計表</ng-container>
       </a>
-    </div>
+    </div> -->
   </div>
 </div>
 <div *ngIf="nonRote" class="a-block">
@@ -52,7 +52,7 @@
 </div>
 <app-sharecalendar *ngIf="!nonRote" [searchCalendarData]="Ob_RoteApiData$"></app-sharecalendar>
 
-<div class="modal" id="roteSumDialog" tabindex="-1" role="dialog">
+<!-- <div class="modal" id="roteSumDialog" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -74,5 +74,5 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!--dialog班別統計表-->

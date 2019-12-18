@@ -1,0 +1,23 @@
+
+#NewsTable th{
+    text-align: center;
+  }
+  ::ng-deep #NewsTable .mat-sort-header-container{
+    display: unset;
+  }
+  
+  ::ng-deep #NewsTable .mat-sort-header-button{
+    padding-left: 12px;
+    display: unset;
+  }
+  ::ng-deep #NewsTable .mat-sort-header-arrow{ 
+    display: inline-block;
+    color: white
+  }
+  #NewsTable .mat-sort-header-arrow{ 
+    display: inline-block;
+    color: white
+  }
+  #NewsTable tr{
+    height: auto;
+  }

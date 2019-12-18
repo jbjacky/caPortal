@@ -4,7 +4,7 @@ export interface GetHoliDayBalanceFlow {
     EmpID:       string;
     DateB:       string;
     DateE:       string;
-    HoliDayID:   number;
+    HoliDayID:   any;
     KeyName:     string;
     EventDate:   string;
     ListAbsFlow: null;

@@ -29,7 +29,7 @@ import { SearchChangeDetailRZComponent } from '../View/shareComponent/search-cha
 import { SearchChangeDetailDRComponent } from '../View/shareComponent/search-change-detail-dr/search-change-detail-dr.component';
 import { QuillModule } from 'ngx-quill'
 import { SafeHtmlPipe } from '../UseVoid/safeHtmlPipe';
-import { MatPaginatorModule, MatSnackBarModule, MatIconModule, MatButtonModule } from '@angular/material';
+import { MatPaginatorModule, MatSnackBarModule, MatIconModule, MatButtonModule, MatSortModule, MatTableModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FormConditionComponent } from '../View/shareComponent/form-condition/form-condition.component';
@@ -63,6 +63,7 @@ import { SearchAttendUnusualFormDetailComponent } from '../View/shareComponent/s
 import { SearchCardPatchFormComponent } from '../View/shareComponent/search-card-patch-form/search-card-patch-form.component';
 import { SearchCardPatchDetailComponent } from '../View/shareComponent/search-card-patch-detail/search-card-patch-detail.component';
 import { ShowSearchSalaryDirective } from '../show-search-salary.directive';
+import { CardTimeTableComponent } from '../View/shareComponent/card-time-table/card-time-table.component';
 
 @NgModule({
   imports: [
@@ -79,7 +80,9 @@ import { ShowSearchSalaryDirective } from '../show-search-salary.directive';
     MatIconModule,
     MatButtonModule,
     MatSnackBarModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSortModule,
+    MatTableModule
   ],
   exports:[
     AdminkeybaseComponent,
@@ -133,6 +136,7 @@ import { ShowSearchSalaryDirective } from '../show-search-salary.directive';
     FromSignTableComponent,
     SearchRoteSumComponent,
     RoteInfComponent,
+    CardTimeTableComponent,
     SussesSnackComponent,
     ErrorSnackComponent,
     SussesApproveSnackComponent,
@@ -190,6 +194,7 @@ import { ShowSearchSalaryDirective } from '../show-search-salary.directive';
     FromSignTableComponent,
     SearchRoteSumComponent,
     RoteInfComponent,
+    CardTimeTableComponent,
     
     SussesSnackComponent,
     ErrorSnackComponent,

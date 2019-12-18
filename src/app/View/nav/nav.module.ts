@@ -115,6 +115,8 @@ import { RmStateFormWriteComponent } from '../allform/rm-state-form/rm-state-for
 import { CardPatchFormComponent } from '../allform/card-patch-form/card-patch-form.component';
 import { CardPatchFormWriteComponent } from '../allform/card-patch-form/card-patch-form-write/card-patch-form-write.component';
 import {NgxPrintModule} from 'ngx-print';
+import { OwnSearchCardTimeComponent } from '../own-search-card-time/own-search-card-time.component';
+import { PersonnelSearchCardTimeComponent } from '../personnel-search-card-time/personnel-search-card-time.component';
 
 const MY_DATE_FORMATS = {
   parse: {
@@ -212,7 +214,7 @@ export class MyDateAdapter extends NativeDateAdapter {
     ChangeNonShiftSameComponent,
     ChangeTwoRComponent,
     OwnSearchRoteComponent,
-
+    OwnSearchCardTimeComponent,
 
     OrderByPipe,
 
@@ -221,7 +223,7 @@ export class MyDateAdapter extends NativeDateAdapter {
     PersonnelSearchRoteComponent,
     PersonnelSearchTreeviewComponent,
     PersonnelSearchSupervisorlVaRecordComponent,
-
+    PersonnelSearchCardTimeComponent,
 
     TestWriteComponent,
 
