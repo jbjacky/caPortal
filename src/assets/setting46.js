@@ -14,6 +14,6 @@ var _client_id = ''
 
 var _redirect_uri_LinkOuthpage = ''
 
-var apiPostURL = 'https://192.168.1.46/HRWebService/api/'
+var apiPostURL = 'http://192.168.1.46/HRWebService/api/'
 
 var apiGetFileURL = ''
