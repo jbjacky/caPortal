@@ -579,7 +579,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       EmpID: EmpID,
       DateB: doFormatDate(new Date()),
       DateE: "9999/12/31",
-      HoliDayID: 0,
+      HoliDayID: "",
       KeyName: "",
       EventDate: "",
       ListAbsFlow: null

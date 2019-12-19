@@ -87,8 +87,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           },errors=>{
             this.LoadingPage.hide()
             alert('api連線錯誤')
-            alert(JSON.parse(JSON.stringify(userLogin)).toString())
-            alert(JSON.parse(JSON.stringify(errors)).toString())
+            // alert(JSON.parse(JSON.stringify(userLogin)).toString())
+            // alert(JSON.parse(JSON.stringify(errors)).toString())
           }
         )
     }
