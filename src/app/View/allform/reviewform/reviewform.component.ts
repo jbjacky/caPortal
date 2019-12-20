@@ -389,7 +389,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
   vaTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
     if (this.FirstEmpCode.length != 0) {
-
+      this.vaSignPageCheckBox = false
       this.LoadingPage.show()
       var GetFlowSignRole: GetFlowSignRoleClass = {
         "SignEmpID": this.FirstEmpCode,
@@ -1040,7 +1040,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   // checkAll(this.vaPaginator,this.vaSignPageCheckBox,this.vaFlowSigns)
   checkAll(Paginator: MatPaginator, SignPageCheckBox: boolean, FlowSigns: any) {
     var idArray = []
-    console.log(Paginator)
+    // console.log(Paginator)
     var startIndex = Paginator.pageIndex * Paginator.pageSize
     for (let i = 0; i < Paginator.pageSize; i++) {
       if (startIndex < Paginator.length) {
@@ -1048,7 +1048,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
         startIndex = startIndex + 1
       }
     }
-    console.log(idArray);
+    // console.log(idArray);
     if (SignPageCheckBox) {
       for (let FlowSign of FlowSigns) {
         FlowSign.uiCheckBox = false;
@@ -1078,15 +1078,15 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
         sendFlowSignArray.push(FlowSign)
       }
     }
-    console.log(sendFlowSignArray)
+    // console.log(sendFlowSignArray)
   }
   disSignCheckBox(uiCheckBox: boolean, Paginator: MatPaginator, SignPageCheckBox: boolean, FlowSigns: any) {
     if (uiCheckBox) {
       this.vaSignPageCheckBox = false
     } else {
-      console.log(uiCheckBox)
+      // console.log(uiCheckBox)
       var idArray = []
-      console.log(Paginator)
+      // console.log(Paginator)
       var startIndex = Paginator.pageIndex * Paginator.pageSize
       for (let i = 0; i < Paginator.pageSize; i++) {
         if (startIndex < Paginator.length) {
@@ -1094,17 +1094,19 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
           startIndex = startIndex + 1
         }
       }
-      console.log(idArray);
-      var canTrue: boolean = true
+      // console.log(idArray);
+      var FlowSignPageCheckBoxArray = []
       for (let FlowSign of FlowSigns) {
         for (let id of idArray) {
-          if (FlowSign.uiCheckBox && FlowSign.uiCheckBoxID == id) {
-            canTrue =false
+          if (FlowSign.uiCheckBoxID == id && FlowSign.uiCheckBox) {
+            FlowSignPageCheckBoxArray.push(FlowSign)
           }
         }
       }
-      if (canTrue) {
+      if(FlowSignPageCheckBoxArray.length  == (idArray.length-1) ){
         this.vaSignPageCheckBox = true
+      }else {
+        this.vaSignPageCheckBox = false
       }
     }
 

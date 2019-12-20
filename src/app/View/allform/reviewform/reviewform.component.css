@@ -195,6 +195,9 @@ color: #4a90e2;
   .P_displayShow{
       display: none;
   }
+.P_pageCheckBox{
+    padding:0px 28px;
+}
 @media screen and (max-width:992px) {
    
 .P_base{
@@ -337,5 +340,11 @@ color: #4a90e2;
     }
     .modal-footer{
       text-align: center
+    }
+    .P_pageCheckBox{
+        padding:0px;
+    }
+    .P_margin{
+       margin-bottom: 10px; 
     }
   }
