@@ -2,8 +2,14 @@
 .P_left{
     text-align: right;
 }
+.P_padding{
+    padding: 0px 10px;
+}
 @media screen and (max-width:1000px) {
     .P_left{
         text-align: left;
+    }
+    .P_padding{
+        padding: 0px 15px;
     }
 }

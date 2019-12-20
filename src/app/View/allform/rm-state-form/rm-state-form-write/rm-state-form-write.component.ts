@@ -161,8 +161,8 @@ export class RmStateFormWriteComponent implements OnInit, AfterViewInit, OnDestr
       alert('檔案不能超過10MB')
     } else if (!this.FlowDynamic_Base) {
       alert('請選擇簽核人員')
-    } else if(!this.sendForgetForm.Note){
-      alert('請填寫補充說明')
+    // } else if(!this.sendForgetForm.Note){
+    //   alert('請填寫補充說明')
     } else {
       $('#checksenddialog').modal('show');
     }
