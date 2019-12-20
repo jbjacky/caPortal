@@ -1036,7 +1036,79 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
         )
     }
   }
+  vaSignPageCheckBox: boolean = false
+  // checkAll(this.vaPaginator,this.vaSignPageCheckBox,this.vaFlowSigns)
+  checkAll(Paginator: MatPaginator, SignPageCheckBox: boolean, FlowSigns: any) {
+    var idArray = []
+    console.log(Paginator)
+    var startIndex = Paginator.pageIndex * Paginator.pageSize
+    for (let i = 0; i < Paginator.pageSize; i++) {
+      if (startIndex < Paginator.length) {
+        idArray.push(startIndex)
+        startIndex = startIndex + 1
+      }
+    }
+    console.log(idArray);
+    if (SignPageCheckBox) {
+      for (let FlowSign of FlowSigns) {
+        FlowSign.uiCheckBox = false;
+      }
+    } else {
 
+      for (let FlowSign of FlowSigns) {
+        for (let id of idArray) {
+          if (FlowSign.uiCheckBoxID == id) {
+            FlowSign.uiCheckBox = true;
+          }
+        }
+      }
+    }
+  }
+  vaPage(event) {
+    this.va_pagechange.pageEvent = this.va_pagechange.getPaginatorData(event)
+    this.vaSignPageCheckBox = false
+    for (let aa of this.vaFlowSigns) {
+      aa.uiCheckBox = false;
+    }
+  }
+  ApprovedPage(FlowSigns) {
+    var sendFlowSignArray = []
+    for (let FlowSign of FlowSigns) {
+      if (FlowSign.uiCheckBox) {
+        sendFlowSignArray.push(FlowSign)
+      }
+    }
+    console.log(sendFlowSignArray)
+  }
+  disSignCheckBox(uiCheckBox: boolean, Paginator: MatPaginator, SignPageCheckBox: boolean, FlowSigns: any) {
+    if (uiCheckBox) {
+      this.vaSignPageCheckBox = false
+    } else {
+      console.log(uiCheckBox)
+      var idArray = []
+      console.log(Paginator)
+      var startIndex = Paginator.pageIndex * Paginator.pageSize
+      for (let i = 0; i < Paginator.pageSize; i++) {
+        if (startIndex < Paginator.length) {
+          idArray.push(startIndex)
+          startIndex = startIndex + 1
+        }
+      }
+      console.log(idArray);
+      var canTrue: boolean = true
+      for (let FlowSign of FlowSigns) {
+        for (let id of idArray) {
+          if (FlowSign.uiCheckBox && FlowSign.uiCheckBoxID == id) {
+            canTrue =false
+          }
+        }
+      }
+      if (canTrue) {
+        this.vaSignPageCheckBox = true
+      }
+    }
+
+  }
   checkHaveFlowDynamic_EmpID() {
 
     if (!this.FlowDynamic_Base) {
@@ -1064,6 +1136,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
             for (let aa of GetFlowSignAbsApiData) {
 
               this.vaFlowSigns.push({
+                uiCheckBoxID: 0,
+                uiCheckBox: false,
                 uiProcessFlowID: void_completionTenNum(aa.ProcessFlowID),
                 uiHolidayName: aa.HolidayName,
                 ProcessFlowID: aa.ProcessFlowID.toString(),
@@ -1100,6 +1174,9 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
             var large_DateTimeB = Number(new Date(large.DateB + ' ' + large.TimeB))
             return small_DateTimeB - large_DateTimeB;
           });
+          for (let i = 0; i < this.vaFlowSigns.length; i++) {
+            this.vaFlowSigns[i].uiCheckBoxID = i.valueOf();
+          }
 
           this.vaCount = this.vaFlowSigns.length.toString()
           this.goBackPage(this.vaPaginator, this.va_pagechange, this.ReviewformServiceService.va_pagechange, this.vaFlowSigns.length)

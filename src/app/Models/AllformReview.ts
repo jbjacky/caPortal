@@ -42,6 +42,8 @@ export class FlowSign{
 }
 
 export class vaFlowSign{
+  uiCheckBoxID:number;
+  uiCheckBox:boolean;
   uiHolidayName:Array<any>;
   uiProcessFlowID:string;
   ProcessFlowID: string;

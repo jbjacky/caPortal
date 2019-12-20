@@ -54,7 +54,8 @@
             <span class="badge">{{changeCount}}</span>
           </a>
         </li>
-        <li style="width: 20%;text-align: center" (click)="AttendUnusualTabClick(ReviewformServiceService.showReviewMan,true)">
+        <li style="width: 20%;text-align: center"
+          (click)="AttendUnusualTabClick(ReviewformServiceService.showReviewMan,true)">
           <a id="AttendUnusualTab" data-toggle="tab" href="#AttendUnusualform" style="text-decoration: none;">
             <span id="AttendUnusualTabText">
               <ng-container i18n>考勤異常簽認單</ng-container>
@@ -62,7 +63,8 @@
             <span class="badge">{{AttendUnusualCount}}</span>
           </a>
         </li>
-        <li style="width: 20%;text-align: center" (click)="CardPatchTabClick(ReviewformServiceService.showReviewMan,true)">
+        <li style="width: 20%;text-align: center"
+          (click)="CardPatchTabClick(ReviewformServiceService.showReviewMan,true)">
           <a id="CardPatchTab" data-toggle="tab" href="#CardPatchform" style="text-decoration: none;">
             <span id="CardPatchTabText">
               <ng-container i18n>補卡單</ng-container>
@@ -102,6 +104,14 @@
             </div>
           </div>
           <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
+            <mat-checkbox [(ngModel)]="vaSignPageCheckBox"
+              (click)="checkAll(vaPaginator,vaSignPageCheckBox,vaFlowSigns)">
+              單頁全選
+            </mat-checkbox>
+            <button class="AllCheckLeftButtonClass btn btn-primary"
+              (click)="ApprovedPage(vaFlowSigns)">
+              <ng-container i18n>批次核准</ng-container>
+            </button>
             <button class="AllCheckLeftButtonClass btn btn-primary" (click)="Approved_All_Check(vaFlowSigns,'vaTab')">
               <ng-container i18n>全部核准</ng-container>
             </button>
@@ -168,7 +178,7 @@
                         <span *ngIf="vaFlowSign.EmpNameC.length != 0">{{vaFlowSign.EmpNameC}}</span>
                         <span *ngIf="vaFlowSign.EmpNameC.length == 0">{{vaFlowSign.EmpNameE}}</span>
                         <span style="color: blue" *ngIf="vaFlowSign.checkProxy">
-                            (<ng-container i18n>代</ng-container>)
+                          (<ng-container i18n>代</ng-container>)
                         </span>
                       </div>
                       <div style="display: inline-block;margin-right: 10px">
@@ -229,7 +239,12 @@
 
               <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
 
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
+                  <mat-checkbox [id]="vaFlowSign.uiCheckBoxID" (click)="disSignCheckBox(vaFlowSign.uiCheckBox,vaPaginator,vaSignPageCheckBox,vaFlowSigns)" [(ngModel)]="vaFlowSign.uiCheckBox">
+                    {{vaFlowSign.uiCheckBoxID}}
+                  </mat-checkbox>
+                </div>
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
                   <button *ngIf="vaFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
                     style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="checkAbsLimit_Approved(vaFlowSign,'vaTab')">
@@ -242,7 +257,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="vaFlowSign.isSendback">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv" *ngIf="vaFlowSign.isSendback">
                   <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
                     style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="vaDetail_click(vaFlowSign,'vaTab')">
@@ -255,7 +270,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
                   <button *ngIf="vaFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
                     (click)="checkAbsLimit_PutForward(vaFlowSign,'vaTab')">
@@ -273,7 +288,7 @@
             </div>
           </div>
           <mat-paginator #vaPaginator [length]="vaFlowSigns.length" [pageSize]="va_pagechange.pageSize"
-            (page)="va_pagechange.pageEvent = va_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+            (page)="vaPage($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
       </div>
@@ -624,8 +639,9 @@
                   </div>
                 </div>
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
-                  <button *ngIf="changeFlowSign.isPutForward" class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
-                    data-toggle="modal" (click)="change_PutForward(changeFlowSign,'changeTab')">
+                  <button *ngIf="changeFlowSign.isPutForward" class="btn btn-info btn-sm"
+                    style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
+                    (click)="change_PutForward(changeFlowSign,'changeTab')">
                     <ng-container i18n>呈核</ng-container>
                   </button>
                   <div *ngIf="!changeFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
@@ -710,8 +726,10 @@
                     <div>
                       <div>
                         {{AttendUnusualFlowSign.EmpCode}}
-                        <span *ngIf="AttendUnusualFlowSign.EmpNameC.length != 0">{{AttendUnusualFlowSign.EmpNameC}}</span>
-                        <span *ngIf="AttendUnusualFlowSign.EmpNameC.length == 0">{{AttendUnusualFlowSign.EmpNameE}}</span>
+                        <span
+                          *ngIf="AttendUnusualFlowSign.EmpNameC.length != 0">{{AttendUnusualFlowSign.EmpNameC}}</span>
+                        <span
+                          *ngIf="AttendUnusualFlowSign.EmpNameC.length == 0">{{AttendUnusualFlowSign.EmpNameE}}</span>
                         <span style="color: blue" *ngIf="AttendUnusualFlowSign.checkProxy">
                           (<ng-container i18n>代</ng-container>)
                         </span>
@@ -776,7 +794,7 @@
 
                 <div class="col-md-4 col-xs-4 ReviewButtonDiv">
                   <button *ngIf="AttendUnusualFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
-                    style="padding: 5px 0px;text-align: center;width: 100%;" data-target="#Approveddialog" 
+                    style="padding: 5px 0px;text-align: center;width: 100%;" data-target="#Approveddialog"
                     (click)="AttendUnusualDetail_click(AttendUnusualFlowSign,'AttendUnusualTab')">
                     <ng-container i18n>核准</ng-container>
                   </button>
@@ -817,8 +835,10 @@
               </div>
             </div>
           </div>
-          <mat-paginator #AttendUnusualPaginator [length]="AttendUnusualFlowSigns.length" [pageSize]="AttendUnusual_pagechange.pageSize"
-            (page)="AttendUnusual_pagechange.pageEvent = AttendUnusual_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+          <mat-paginator #AttendUnusualPaginator [length]="AttendUnusualFlowSigns.length"
+            [pageSize]="AttendUnusual_pagechange.pageSize"
+            (page)="AttendUnusual_pagechange.pageEvent = AttendUnusual_pagechange.getPaginatorData($event)"
+            [hidePageSize]="true">
           </mat-paginator>
         </div>
 
@@ -990,8 +1010,10 @@
               </div>
             </div>
           </div>
-          <mat-paginator #CardPatchPaginator [length]="CardPatchFlowSigns.length" [pageSize]="CardPatch_pagechange.pageSize"
-            (page)="CardPatch_pagechange.pageEvent = CardPatch_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+          <mat-paginator #CardPatchPaginator [length]="CardPatchFlowSigns.length"
+            [pageSize]="CardPatch_pagechange.pageSize"
+            (page)="CardPatch_pagechange.pageEvent = CardPatch_pagechange.getPaginatorData($event)"
+            [hidePageSize]="true">
           </mat-paginator>
         </div>
 
@@ -1474,7 +1496,7 @@
   </div>
 </div>
 <!--dialog退回送出成功 -->
-<div  class="modal" id="vaPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+<div class="modal" id="vaPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
   style="padding-right:0px;padding: 17px">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog  modal-md vertical-align-center">
@@ -1501,7 +1523,8 @@
             <p>
               <ng-container i18n>簽核人員</ng-container>
             </p>
-            <app-select-signer *ngIf="showvaPutForwarddialog" (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            <app-select-signer *ngIf="showvaPutForwarddialog" (selectBaseChange)="chooseBase($event)"
+              [sysEmp$]="onChangeReviewMan$">
             </app-select-signer>
           </div>
         </div>
@@ -1521,7 +1544,7 @@
   </div>
 </div>
 <!--dialog請假單呈核確認送出 -->
-<div  class="modal" id="forgetPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal" id="forgetPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true" style="padding-right:0px;padding: 17px">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog  modal-md vertical-align-center">
@@ -1548,7 +1571,8 @@
             <p>
               <ng-container i18n>簽核人員</ng-container>
             </p>
-            <app-select-signer *ngIf="showforgetPutForwarddialog" (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            <app-select-signer *ngIf="showforgetPutForwarddialog" (selectBaseChange)="chooseBase($event)"
+              [sysEmp$]="onChangeReviewMan$">
             </app-select-signer>
           </div>
         </div>
@@ -1568,7 +1592,7 @@
   </div>
 </div>
 <!--dialog考勤異常確認單呈核確認送出 -->
-<div  class="modal" id="PutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+<div class="modal" id="PutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
   style="padding-right:0px;padding: 17px">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog  modal-md vertical-align-center">
@@ -1592,7 +1616,8 @@
             <p>
               <ng-container i18n>簽核人員</ng-container>
             </p>
-            <app-select-signer *ngIf="showPutForwarddialog" (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeReviewMan$">
+            <app-select-signer *ngIf="showPutForwarddialog" (selectBaseChange)="chooseBase($event)"
+              [sysEmp$]="onChangeReviewMan$">
             </app-select-signer>
           </div>
         </div>
