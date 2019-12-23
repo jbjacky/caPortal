@@ -78,6 +78,8 @@ export class vaFlowSign{
 
 export class forgetFlowSign{
 
+  uiCheckBoxID:number;
+  uiCheckBox:boolean;
   uiProcessFlowID:string;
   ProcessFlowID: string;
   FlowTreeID:string
@@ -122,7 +124,8 @@ export class forgetFlowSign{
 
 }
 export class delFlowSign{
-  
+  uiCheckBoxID:number;
+  uiCheckBox:boolean;
   uiHolidayName:Array<any>;
   uiProcessFlowID:string;
   ProcessFlowID: string;
@@ -151,6 +154,8 @@ export class delFlowSign{
 }
 export class changeFlowSign{
   
+  uiCheckBoxID:number;
+  uiCheckBox:boolean;
   uiProcessFlowID:string;
   ProcessFlowID: string;
   FlowTreeID:string;
@@ -193,6 +198,8 @@ export class dateArrayClass{
 
 export class CardPatchFlowSign{
 
+  uiCheckBoxID:number;
+  uiCheckBox:boolean;
   uiProcessFlowID:string;
   ProcessFlowID: string;
   FlowTreeID:string
@@ -237,6 +244,8 @@ export class CardPatchFlowSign{
 
 }
 export class AttendUnusualFlowSign {
+  uiCheckBoxID:number;
+  uiCheckBox:boolean;
   uiProcessFlowID:       number;
   ProcessFlowID:         string;
   FlowTreeID:            string;

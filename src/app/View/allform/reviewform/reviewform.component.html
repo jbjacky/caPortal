@@ -107,7 +107,7 @@
             <div class="row" style="margin:0;padding:0">
               <div class="col-md-4 col-xs-4 P_pageCheckBox">
                 <mat-checkbox [(ngModel)]="vaSignPageCheckBox"
-                  (click)="checkAll(vaPaginator,vaSignPageCheckBox,vaFlowSigns)">
+                  (click)="checkOnePageAll(vaPaginator,vaSignPageCheckBox,vaFlowSigns)">
                   單頁全選
                 </mat-checkbox>
               </div>
@@ -116,7 +116,7 @@
                   <button class="AllCheckLeftButtonClass btn btn-primary" (click)="ApprovedPage(vaFlowSigns)">
                     <ng-container i18n>批次核准</ng-container>
                   </button>
-                  <button class="AllCheckLeftButtonClass btn btn-primary" (click)="ApprovedPage(vaFlowSigns)">
+                  <button class="AllCheckLeftButtonClass btn btn-primary" (click)="SendBackPage(vaFlowSigns)">
                     <ng-container i18n>批次退回</ng-container>
                   </button>
                 </div>
@@ -326,13 +326,34 @@
               <ng-container i18n>明細</ng-container>
             </div>
           </div>
-          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
-            <button class="AllCheckLeftButtonClass btn btn-primary" (click)="Approved_All_Check(delFlowSigns,'delTab')">
-              <ng-container i18n>全部核准</ng-container>
-            </button>
-            <button class="btn btn-primary" (click)="Sendback_All_Check(delFlowSigns,'delTab')">
-              <ng-container i18n>全部退回</ng-container>
-            </button>
+          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign">
+            <div class="row" style="margin:0;padding:0">
+              <div class="col-md-4 col-xs-4 P_pageCheckBox">
+                <mat-checkbox [(ngModel)]="delSignPageCheckBox"
+                  (click)="checkOnePageAll(delPaginator,delSignPageCheckBox,delFlowSigns)">
+                  單頁全選
+                </mat-checkbox>
+              </div>
+              <div class="col-md-8 col-xs-8" class="AllCheckClass">
+                <div class="P_margin" style="display:inline-block">
+                  <button class="AllCheckLeftButtonClass btn btn-primary" (click)="ApprovedPage(delFlowSigns)">
+                    <ng-container i18n>批次核准</ng-container>
+                  </button>
+                  <button class="AllCheckLeftButtonClass btn btn-primary" (click)="SendBackPage(delFlowSigns)">
+                    <ng-container i18n>批次退回</ng-container>
+                  </button>
+                </div>
+                <div style="display:inline-block">
+                  <button class="AllCheckLeftButtonClass btn btn-primary"
+                    (click)="Approved_All_Check(delFlowSigns,'delTab')">
+                    <ng-container i18n>全部核准</ng-container>
+                  </button>
+                  <button class="btn btn-primary" (click)="Sendback_All_Check(delFlowSigns,'delTab')">
+                    <ng-container i18n>全部退回</ng-container>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="row ReviewTitle_desktop">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
@@ -442,7 +463,14 @@
 
               <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
 
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
+                  <mat-checkbox [id]="delFlowSign.uiCheckBoxID"
+                    (click)="disSignCheckBox(delFlowSign.uiCheckBox,delPaginator,delSignPageCheckBox,delFlowSigns)"
+                    [(ngModel)]="delFlowSign.uiCheckBox">
+                    <!-- {{delFlowSign.uiCheckBoxID}} -->
+                  </mat-checkbox>
+                </div>
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
                   <button *ngIf="delFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
                     data-target="#Approveddialog" style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="delDetail_click(delFlowSign,'delTab')">
@@ -455,7 +483,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="delFlowSign.isSendback">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv" *ngIf="delFlowSign.isSendback">
                   <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
                     style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="delDetail_click(delFlowSign,'delTab')">
@@ -468,7 +496,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
                   <button *ngIf="delFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
                     (click)="del_PutForward(delFlowSign,'delTab')">
@@ -486,7 +514,7 @@
             </div>
           </div>
           <mat-paginator #delPaginator [length]="delFlowSigns.length" [pageSize]="del_pagechange.pageSize"
-            (page)="del_pagechange.pageEvent = del_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+            (page)="delPage($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
       </div>
@@ -509,14 +537,35 @@
               <ng-container i18n>明細</ng-container>
             </div>
           </div>
-          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
-            <button class="AllCheckLeftButtonClass btn btn-primary"
-              (click)="Approved_All_Check(changeFlowSigns,'changeTab')">
-              <ng-container i18n>全部核准</ng-container>
-            </button>
-            <button class="btn btn-primary" (click)="Sendback_All_Check(changeFlowSigns,'changeTab')">
-              <ng-container i18n>全部退回</ng-container>
-            </button>
+          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign">
+
+            <div class="row" style="margin:0;padding:0">
+              <div class="col-md-4 col-xs-4 P_pageCheckBox">
+                <mat-checkbox [(ngModel)]="changeSignPageCheckBox"
+                  (click)="checkOnePageAll(changePaginator,changeSignPageCheckBox,changeFlowSigns)">
+                  單頁全選
+                </mat-checkbox>
+              </div>
+              <div class="col-md-8 col-xs-8" class="AllCheckClass">
+                <div class="P_margin" style="display:inline-block">
+                  <button class="AllCheckLeftButtonClass btn btn-primary" (click)="ApprovedPage(changeFlowSigns)">
+                    <ng-container i18n>批次核准</ng-container>
+                  </button>
+                  <button class="AllCheckLeftButtonClass btn btn-primary" (click)="SendBackPage(changeFlowSigns)">
+                    <ng-container i18n>批次退回</ng-container>
+                  </button>
+                </div>
+                <div style="display:inline-block">
+                  <button class="AllCheckLeftButtonClass btn btn-primary"
+                    (click)="Approved_All_Check(changeFlowSigns,'changeTab')">
+                    <ng-container i18n>全部核准</ng-container>
+                  </button>
+                  <button class="btn btn-primary" (click)="Sendback_All_Check(changeFlowSigns,'changeTab')">
+                    <ng-container i18n>全部退回</ng-container>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="row ReviewTitle_desktop">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
@@ -627,7 +676,14 @@
 
               <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
 
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
+                  <mat-checkbox [id]="changeFlowSign.uiCheckBoxID"
+                    (click)="disSignCheckBox(changeFlowSign.uiCheckBox,changePaginator,changeSignPageCheckBox,changeFlowSigns)"
+                    [(ngModel)]="changeFlowSign.uiCheckBox">
+                    <!-- {{changeFlowSign.uiCheckBoxID}} -->
+                  </mat-checkbox>
+                </div>
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
                   <button *ngIf="changeFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
                     data-target="#Approveddialog" style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="changeDetail_click(changeFlowSign,'changeTab')">
@@ -640,7 +696,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="changeFlowSign.isSendback">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv" *ngIf="changeFlowSign.isSendback">
                   <button (click)="changeDetail_click(changeFlowSign,'changeTab')" class="btn btn-info btn-sm"
                     data-toggle="modal" data-target="#Sendbackdialog"
                     style="padding: 5px 0px;text-align: center;width: 100%;">
@@ -653,7 +709,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
                   <button *ngIf="changeFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
                     (click)="change_PutForward(changeFlowSign,'changeTab')">
@@ -671,7 +727,7 @@
             </div>
           </div>
           <mat-paginator #changePaginator [length]="changeFlowSigns.length" [pageSize]="change_pagechange.pageSize"
-            (page)="change_pagechange.pageEvent = change_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+            (page)="changePage($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
       </div>
@@ -694,14 +750,37 @@
               <ng-container i18n>明細</ng-container>
             </div>
           </div>
-          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
-            <button class="AllCheckLeftButtonClass btn btn-primary"
-              (click)="Approved_All_Check(AttendUnusualFlowSigns,'AttendUnusualTab')">
-              <ng-container i18n>全部核准</ng-container>
-            </button>
-            <button class="btn btn-primary" (click)="Sendback_All_Check(AttendUnusualFlowSigns,'AttendUnusualTab')">
-              <ng-container i18n>全部退回</ng-container>
-            </button>
+          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign">
+            <div class="row" style="margin:0;padding:0">
+              <div class="col-md-4 col-xs-4 P_pageCheckBox">
+                <mat-checkbox [(ngModel)]="AttendUnusualSignPageCheckBox"
+                  (click)="checkOnePageAll(AttendUnusualPaginator,AttendUnusualSignPageCheckBox,AttendUnusualFlowSigns)">
+                  單頁全選
+                </mat-checkbox>
+              </div>
+              <div class="col-md-8 col-xs-8" class="AllCheckClass">
+                <div class="P_margin" style="display:inline-block">
+                  <button class="AllCheckLeftButtonClass btn btn-primary"
+                    (click)="ApprovedPage(AttendUnusualFlowSigns)">
+                    <ng-container i18n>批次核准</ng-container>
+                  </button>
+                  <button class="AllCheckLeftButtonClass btn btn-primary"
+                    (click)="SendBackPage(AttendUnusualFlowSigns)">
+                    <ng-container i18n>批次退回</ng-container>
+                  </button>
+                </div>
+                <div style="display:inline-block">
+                  <button class="AllCheckLeftButtonClass btn btn-primary"
+                    (click)="Approved_All_Check(AttendUnusualFlowSigns,'AttendUnusualTab')">
+                    <ng-container i18n>全部核准</ng-container>
+                  </button>
+                  <button class="btn btn-primary"
+                    (click)="Sendback_All_Check(AttendUnusualFlowSigns,'AttendUnusualTab')">
+                    <ng-container i18n>全部退回</ng-container>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="row ReviewTitle_desktop">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
@@ -807,7 +886,14 @@
 
               <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
 
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
+                  <mat-checkbox [id]="AttendUnusualFlowSign.uiCheckBoxID"
+                    (click)="disSignCheckBox(AttendUnusualFlowSign.uiCheckBox,AttendUnusualPaginator,AttendUnusualSignPageCheckBox,AttendUnusualFlowSigns)"
+                    [(ngModel)]="AttendUnusualFlowSign.uiCheckBox">
+                    <!-- {{AttendUnusualFlowSign.uiCheckBoxID}} -->
+                  </mat-checkbox>
+                </div>
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
                   <button *ngIf="AttendUnusualFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-target="#Approveddialog"
                     (click)="AttendUnusualDetail_click(AttendUnusualFlowSign,'AttendUnusualTab')">
@@ -820,7 +906,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="AttendUnusualFlowSign.isSendback">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv" *ngIf="AttendUnusualFlowSign.isSendback">
                   <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
                     style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="AttendUnusualDetail_click(AttendUnusualFlowSign,'AttendUnusualTab')">
@@ -833,7 +919,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
                   <button *ngIf="AttendUnusualFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
                     (click)="checkAttendUnusualText_PutForward(AttendUnusualFlowSign,'AttendUnusualTab')">
@@ -851,9 +937,7 @@
             </div>
           </div>
           <mat-paginator #AttendUnusualPaginator [length]="AttendUnusualFlowSigns.length"
-            [pageSize]="AttendUnusual_pagechange.pageSize"
-            (page)="AttendUnusual_pagechange.pageEvent = AttendUnusual_pagechange.getPaginatorData($event)"
-            [hidePageSize]="true">
+            [pageSize]="AttendUnusual_pagechange.pageSize" (page)="AttendUnusualPage($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
 
@@ -877,14 +961,34 @@
               <ng-container i18n>明細</ng-container>
             </div>
           </div>
-          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
-            <button class="AllCheckLeftButtonClass btn btn-primary"
-              (click)="Approved_All_Check(CardPatchFlowSigns,'CardPatchTab')">
-              <ng-container i18n>全部核准</ng-container>
-            </button>
-            <button class="btn btn-primary" (click)="Sendback_All_Check(CardPatchFlowSigns,'CardPatchTab')">
-              <ng-container i18n>全部退回</ng-container>
-            </button>
+          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign">
+            <div class="row" style="margin:0;padding:0">
+              <div class="col-md-4 col-xs-4 P_pageCheckBox">
+                <mat-checkbox [(ngModel)]="CardPatchFlowSignPageCheckBox"
+                  (click)="checkOnePageAll(CardPatchFlowPaginator,CardPatchFlowSignPageCheckBox,CardPatchFlowSigns)">
+                  單頁全選
+                </mat-checkbox>
+              </div>
+              <div class="col-md-8 col-xs-8" class="AllCheckClass">
+                <div class="P_margin" style="display:inline-block">
+                  <button class="AllCheckLeftButtonClass btn btn-primary" (click)="ApprovedPage(CardPatchFlowSigns)">
+                    <ng-container i18n>批次核准</ng-container>
+                  </button>
+                  <button class="AllCheckLeftButtonClass btn btn-primary" (click)="SendBackPage(CardPatchFlowSigns)">
+                    <ng-container i18n>批次退回</ng-container>
+                  </button>
+                </div>
+                <div style="display:inline-block">
+                  <button class="AllCheckLeftButtonClass btn btn-primary"
+                    (click)="Approved_All_Check(CardPatchFlowSigns,'CardPatchTab')">
+                    <ng-container i18n>全部核准</ng-container>
+                  </button>
+                  <button class="btn btn-primary" (click)="Sendback_All_Check(CardPatchFlowSigns,'CardPatchTab')">
+                    <ng-container i18n>全部退回</ng-container>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="row ReviewTitle_desktop">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
@@ -909,7 +1013,7 @@
           </div>
           <!-- <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
           <!-- class="Atooltips" -->
-          <div *ngFor="let CardPatchSign of CardPatchFlowSigns | 
+          <div *ngFor="let CardPatchFlowSign of CardPatchFlowSigns | 
                     slice: CardPatch_pagechange.lowValue : CardPatch_pagechange.highValue">
             <div class="row ReviewDiv">
               <div class="col-md-9 col-md-push-3 col-xs-12 row" style="margin: 0px;padding: 0px 0px;border-left: 1px solid #c9c9c9;
@@ -917,16 +1021,16 @@
                 <div class="row col-md-10 col-xs-10" style="padding: 0px;margin:0px">
                   <div class="col-md-2 col-xs-12 uiProssID">
                     <div style="color:#028fcf;">
-                      {{CardPatchSign.uiProcessFlowID}}
+                      {{CardPatchFlowSign.uiProcessFlowID}}
                     </div>
                   </div>
                   <div class="col-md-7 col-xs-12 " style="margin-bottom: 5px;padding-top: 5px">
                     <div>
                       <div>
-                        {{CardPatchSign.EmpCode}}
-                        <span *ngIf="CardPatchSign.EmpNameC.length != 0">{{CardPatchSign.EmpNameC}}</span>
-                        <span *ngIf="CardPatchSign.EmpNameC.length == 0">{{CardPatchSign.EmpNameE}}</span>
-                        <span style="color: blue" *ngIf="CardPatchSign.checkProxy">
+                        {{CardPatchFlowSign.EmpCode}}
+                        <span *ngIf="CardPatchFlowSign.EmpNameC.length != 0">{{CardPatchFlowSign.EmpNameC}}</span>
+                        <span *ngIf="CardPatchFlowSign.EmpNameC.length == 0">{{CardPatchFlowSign.EmpNameE}}</span>
+                        <span style="color: blue" *ngIf="CardPatchFlowSign.checkProxy">
                           (<ng-container i18n>代</ng-container>)
                         </span>
                       </div>
@@ -934,7 +1038,7 @@
                         <!-- 2019年-1/02 -->
                         <span style="font-weight: bold;color: #969696">
                           <ng-container i18n>異常日期</ng-container>：
-                        </span> {{CardPatchSign.Date}}
+                        </span> {{CardPatchFlowSign.Date}}
                       </div>
                       <!-- <div>
                         <span style="font-weight: bold;color: #969696">異常狀態：</span>
@@ -946,7 +1050,7 @@
                         <span style="font-weight: bold;color: #969696">
                           <ng-container i18n>班型</ng-container>：
                         </span>
-                        <span>{{CardPatchSign.RoteCode}}</span>
+                        <span>{{CardPatchFlowSign.RoteCode}}</span>
                       </div>
                     </div>
                   </div>
@@ -954,13 +1058,13 @@
                     <span class="P_displayShow" style="font-weight: bold;color: #969696">
                       <ng-container i18n>異常狀態</ng-container>：
                     </span>
-                    <div *ngIf="CardPatchSign.isLateMins" class="tag_red" style="margin: 0px">
+                    <div *ngIf="CardPatchFlowSign.isLateMins" class="tag_red" style="margin: 0px">
                       <ng-container i18n>遲到</ng-container>
                     </div>
-                    <div *ngIf="CardPatchSign.isEarlyMins" class="tag_red" style="margin: 0px">
+                    <div *ngIf="CardPatchFlowSign.isEarlyMins" class="tag_red" style="margin: 0px">
                       <ng-container i18n>早退</ng-container>
                     </div>
-                    <div *ngIf="CardPatchSign.isForgetCard" class="tag_red" style="margin: 0px">
+                    <div *ngIf="CardPatchFlowSign.isForgetCard" class="tag_red" style="margin: 0px">
                       <ng-container i18n>未刷卡</ng-container>
                     </div>
                   </div>
@@ -969,7 +1073,7 @@
                 <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
                   <a style="cursor: pointer;padding-left: 30px;"
                     [routerLink]="['../ReviewformDetailCardPatchformComponent']"
-                    (click)="CardPatchDetail_click(CardPatchSign,'CardPatchTab')">
+                    (click)="CardPatchDetail_click(CardPatchFlowSign,'CardPatchTab')">
                     <span class="P_notVisable">
                       <ng-container i18n>檢視</ng-container>
                     </span>
@@ -982,39 +1086,46 @@
 
               <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
 
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
-                  <button *ngIf="CardPatchSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
+                  <mat-checkbox [id]="CardPatchFlowSign.uiCheckBoxID"
+                    (click)="disSignCheckBox(CardPatchFlowSign.uiCheckBox,CardPatchFlowPaginator,CardPatchFlowSignPageCheckBox,CardPatchFlowSigns)"
+                    [(ngModel)]="CardPatchFlowSign.uiCheckBox">
+                    <!-- {{CardPatchFlowSign.uiCheckBoxID}} -->
+                  </mat-checkbox>
+                </div>
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
+                  <button *ngIf="CardPatchFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
                     style="padding: 5px 0px;text-align: center;width: 100%;"
-                    (click)="checkCardPatch_Approved(CardPatchSign,'CardPatchTab')">
+                    (click)="checkCardPatch_Approved(CardPatchFlowSign,'CardPatchTab')">
                     <ng-container i18n>核准</ng-container>
                   </button>
-                  <div *ngIf="!CardPatchSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
+                  <div *ngIf="!CardPatchFlowSign.isApproved" matTooltip="沒有核准權限" matTooltipPosition="below">
                     <button class="btn btn-primary btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
                       <ng-container i18n>核准</ng-container>
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="CardPatchSign.isSendback">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv" *ngIf="CardPatchFlowSign.isSendback">
                   <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
                     style="padding: 5px 0px;text-align: center;width: 100%;"
-                    (click)="CardPatchDetail_click(CardPatchSign,'CardPatchTab')">
+                    (click)="CardPatchDetail_click(CardPatchFlowSign,'CardPatchTab')">
                     <ng-container i18n>退回</ng-container>
                   </button>
-                  <div *ngIf="!CardPatchSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
+                  <div *ngIf="!CardPatchFlowSign.isSendback" matTooltip="沒有核准權限" matTooltipPosition="below">
                     <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
                       <ng-container i18n>退回</ng-container>
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
-                  <button *ngIf="CardPatchSign.isPutForward" class="btn btn-info btn-sm"
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
+                  <button *ngIf="CardPatchFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
-                    (click)="checkCardPatch_PutForward(CardPatchSign,'CardPatchTab')">
+                    (click)="checkCardPatch_PutForward(CardPatchFlowSign,'CardPatchTab')">
                     <ng-container i18n>呈核</ng-container>
                   </button>
-                  <div *ngIf="!CardPatchSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
+                  <div *ngIf="!CardPatchFlowSign.isPutForward" matTooltip="沒有呈核權限" matTooltipPosition="below">
                     <button class="btn btn-info btn-sm" style="padding: 5px 0px;text-align: center;width: 100%;"
                       disabled>
                       <ng-container i18n>呈核</ng-container>
@@ -1025,10 +1136,8 @@
               </div>
             </div>
           </div>
-          <mat-paginator #CardPatchPaginator [length]="CardPatchFlowSigns.length"
-            [pageSize]="CardPatch_pagechange.pageSize"
-            (page)="CardPatch_pagechange.pageEvent = CardPatch_pagechange.getPaginatorData($event)"
-            [hidePageSize]="true">
+          <mat-paginator #CardPatchFlowPaginator [length]="CardPatchFlowSigns.length"
+            [pageSize]="CardPatch_pagechange.pageSize" (page)="CardPatchPage($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
 
@@ -1052,14 +1161,35 @@
               <ng-container i18n>明細</ng-container>
             </div>
           </div>
-          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign" class="AllCheckClass">
-            <button class="AllCheckLeftButtonClass btn btn-primary"
-              (click)="Approved_All_Check(forgetFlowSigns,'forgetTab')">
-              <ng-container i18n>全部核准</ng-container>
-            </button>
-            <button class="btn btn-primary" (click)="Sendback_All_Check(forgetFlowSigns,'forgetTab')">
-              <ng-container i18n>全部退回</ng-container>
-            </button>
+          <div *ngIf="ReviewformServiceService.showReviewMan.BatchSign">
+
+            <div class="row" style="margin:0;padding:0">
+              <div class="col-md-4 col-xs-4 P_pageCheckBox">
+                <mat-checkbox [(ngModel)]="forgetSignPageCheckBox"
+                  (click)="checkOnePageAll(forgetPaginator,forgetSignPageCheckBox,forgetFlowSigns)">
+                  單頁全選
+                </mat-checkbox>
+              </div>
+              <div class="col-md-8 col-xs-8" class="AllCheckClass">
+                <div class="P_margin" style="display:inline-block">
+                  <button class="AllCheckLeftButtonClass btn btn-primary" (click)="ApprovedPage(forgetFlowSigns)">
+                    <ng-container i18n>批次核准</ng-container>
+                  </button>
+                  <button class="AllCheckLeftButtonClass btn btn-primary" (click)="SendBackPage(forgetFlowSigns)">
+                    <ng-container i18n>批次退回</ng-container>
+                  </button>
+                </div>
+                <div style="display:inline-block">
+                  <button class="AllCheckLeftButtonClass btn btn-primary"
+                    (click)="Approved_All_Check(forgetFlowSigns,'forgetTab')">
+                    <ng-container i18n>全部核准</ng-container>
+                  </button>
+                  <button class="btn btn-primary" (click)="Sendback_All_Check(forgetFlowSigns,'forgetTab')">
+                    <ng-container i18n>全部退回</ng-container>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="row ReviewTitle_desktop">
             <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">
@@ -1157,7 +1287,14 @@
 
               <div class="row col-md-3 col-md-pull-9 col-xs-12 BtAll_Review">
 
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
+                  <mat-checkbox [id]="forgetFlowSign.uiCheckBoxID"
+                    (click)="disSignCheckBox(forgetFlowSign.uiCheckBox,forgetPaginator,forgetSignPageCheckBox,forgetFlowSigns)"
+                    [(ngModel)]="forgetFlowSign.uiCheckBox">
+                    <!-- {{forgetFlowSign.uiCheckBoxID}} -->
+                  </mat-checkbox>
+                </div>
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
                   <button *ngIf="forgetFlowSign.isApproved" class="btn btn-primary btn-sm" data-toggle="modal"
                     style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="checkforgetCardText_Approved(forgetFlowSign,'forgetTab')">
@@ -1170,7 +1307,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv" *ngIf="forgetFlowSign.isSendback">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv" *ngIf="forgetFlowSign.isSendback">
                   <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Sendbackdialog"
                     style="padding: 5px 0px;text-align: center;width: 100%;"
                     (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
@@ -1183,7 +1320,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-4 ReviewButtonDiv">
+                <div class="col-md-3 col-xs-3 ReviewButtonDiv">
                   <button *ngIf="forgetFlowSign.isPutForward" class="btn btn-info btn-sm"
                     style="padding: 5px 0px;text-align: center;width: 100%;" data-toggle="modal"
                     (click)="checkforgetCardText_PutForward(forgetFlowSign,'forgetTab')">
@@ -1201,7 +1338,7 @@
             </div>
           </div>
           <mat-paginator #forgetPaginator [length]="forgetFlowSigns.length" [pageSize]="forget_pagechange.pageSize"
-            (page)="forget_pagechange.pageEvent = forget_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+            (page)="forgetPage($event)" [hidePageSize]="true">
           </mat-paginator>
         </div>
 

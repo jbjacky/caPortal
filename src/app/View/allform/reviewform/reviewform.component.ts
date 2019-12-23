@@ -45,7 +45,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("changePaginator") changePaginator: MatPaginator;
   @ViewChild("forgetPaginator") forgetPaginator: MatPaginator;
   @ViewChild("AttendUnusualPaginator") AttendUnusualPaginator: MatPaginator;
-  @ViewChild("CardPatchPaginator") CardPatchPaginator: MatPaginator;
+  @ViewChild("CardPatchFlowPaginator") CardPatchFlowPaginator: MatPaginator;
 
   ngAfterViewInit(): void {
   }
@@ -408,7 +408,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   forgetTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
     if (this.FirstEmpCode.length != 0) {
-
+      this.forgetSignPageCheckBox = false
       this.LoadingPage.show()
       var GetFlowSignRole: GetFlowSignRoleClass = {
         "SignEmpID": this.FirstEmpCode,
@@ -427,7 +427,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   AttendUnusualTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
     if (this.FirstEmpCode.length != 0) {
-
+      this.AttendUnusualSignPageCheckBox = false
       this.LoadingPage.show()
       var GetFlowSignRole: GetFlowSignRoleClass = {
         "SignEmpID": this.FirstEmpCode,
@@ -446,7 +446,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   delTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
     if (this.FirstEmpCode.length != 0) {
-
+      this.delSignPageCheckBox = false
       this.LoadingPage.show()
       var GetFlowSignRole: GetFlowSignRoleClass = {
         "SignEmpID": this.FirstEmpCode,
@@ -465,7 +465,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   changeTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
     if (this.FirstEmpCode.length != 0) {
-
+      this.changeSignPageCheckBox = false
       this.LoadingPage.show()
       var GetFlowSignRole: GetFlowSignRoleClass = {
         "SignEmpID": this.FirstEmpCode,
@@ -485,7 +485,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
   CardPatchTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
     if (this.FirstEmpCode.length != 0) {
-
+      this.CardPatchFlowSignPageCheckBox = false
       this.LoadingPage.show()
       var GetFlowSignRole: GetFlowSignRoleClass = {
         "SignEmpID": this.FirstEmpCode,
@@ -1037,8 +1037,13 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   vaSignPageCheckBox: boolean = false
-  // checkAll(this.vaPaginator,this.vaSignPageCheckBox,this.vaFlowSigns)
-  checkAll(Paginator: MatPaginator, SignPageCheckBox: boolean, FlowSigns: any) {
+  delSignPageCheckBox: boolean = false
+  changeSignPageCheckBox: boolean = false
+  AttendUnusualSignPageCheckBox: boolean = false
+  CardPatchFlowSignPageCheckBox: boolean = false
+  forgetSignPageCheckBox: boolean = false
+  // checkOnePageAll(this.vaPaginator,this.vaSignPageCheckBox,this.vaFlowSigns)
+  checkOnePageAll(Paginator: MatPaginator, SignPageCheckBox: boolean, FlowSigns: any) {
     var idArray = []
     // console.log(Paginator)
     var startIndex = Paginator.pageIndex * Paginator.pageSize
@@ -1078,11 +1083,20 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
         sendFlowSignArray.push(FlowSign)
       }
     }
-    // console.log(sendFlowSignArray)
+    console.log(sendFlowSignArray)
+  }
+  SendBackPage(FlowSigns) {
+    var sendFlowSignArray = []
+    for (let FlowSign of FlowSigns) {
+      if (FlowSign.uiCheckBox) {
+        sendFlowSignArray.push(FlowSign)
+      }
+    }
+    console.log(sendFlowSignArray)
   }
   disSignCheckBox(uiCheckBox: boolean, Paginator: MatPaginator, SignPageCheckBox: boolean, FlowSigns: any) {
     if (uiCheckBox) {
-      this.vaSignPageCheckBox = false
+      SignPageCheckBox = false
     } else {
       // console.log(uiCheckBox)
       var idArray = []
@@ -1103,13 +1117,18 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       }
-      if(FlowSignPageCheckBoxArray.length  == (idArray.length-1) ){
-        this.vaSignPageCheckBox = true
-      }else {
-        this.vaSignPageCheckBox = false
+      if (FlowSignPageCheckBoxArray.length == (idArray.length - 1)) {
+        SignPageCheckBox = true
+      } else {
+        SignPageCheckBox = false
       }
     }
-
+    this.vaSignPageCheckBox = SignPageCheckBox
+    this.changeSignPageCheckBox = SignPageCheckBox
+    this.delSignPageCheckBox = SignPageCheckBox
+    this.AttendUnusualSignPageCheckBox = SignPageCheckBox
+    this.CardPatchFlowSignPageCheckBox = SignPageCheckBox
+    this.forgetSignPageCheckBox = SignPageCheckBox
   }
   checkHaveFlowDynamic_EmpID() {
 
@@ -1117,6 +1136,43 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       return true
     } else {
       return false
+    }
+  }
+
+
+  changePage(event) {
+    this.change_pagechange.pageEvent = this.change_pagechange.getPaginatorData(event)
+    this.changeSignPageCheckBox = false
+    for (let aa of this.changeFlowSigns) {
+      aa.uiCheckBox = false;
+    }
+  }
+  delPage(event) {
+    this.del_pagechange.pageEvent = this.del_pagechange.getPaginatorData(event)
+    this.delSignPageCheckBox = false
+    for (let aa of this.delFlowSigns) {
+      aa.uiCheckBox = false;
+    }
+  }
+  AttendUnusualPage(event) {
+    this.AttendUnusual_pagechange.pageEvent = this.AttendUnusual_pagechange.getPaginatorData(event)
+    this.AttendUnusualSignPageCheckBox = false
+    for (let aa of this.AttendUnusualFlowSigns) {
+      aa.uiCheckBox = false;
+    }
+  }
+  CardPatchPage(event) {
+    this.CardPatch_pagechange.pageEvent = this.CardPatch_pagechange.getPaginatorData(event)
+    this.CardPatchFlowSignPageCheckBox = false
+    for (let aa of this.CardPatchFlowSigns) {
+      aa.uiCheckBox = false;
+    }
+  }
+  forgetPage(event) {
+    this.forget_pagechange.pageEvent = this.forget_pagechange.getPaginatorData(event)
+    this.forgetSignPageCheckBox = false
+    for (let aa of this.forgetFlowSigns) {
+      aa.uiCheckBox = false;
     }
   }
 
@@ -1202,6 +1258,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
             for (let bb of GetFlowSignAbscApiData) {
               this.delFlowSigns.push({
+                uiCheckBoxID: 0,
+                uiCheckBox: false,
                 uiProcessFlowID: void_completionTenNum(bb.ProcessFlowID),
                 uiHolidayName: bb.HolidayName,
                 ProcessFlowID: bb.ProcessFlowID.toString(),
@@ -1233,6 +1291,9 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
             return b.ProcessFlowID - a.ProcessFlowID;
           });
 
+          for (let i = 0; i < this.delFlowSigns.length; i++) {
+            this.delFlowSigns[i].uiCheckBoxID = i.valueOf();
+          }
           this.delCount = this.delFlowSigns.length.toString()
           this.goBackPage(this.delPaginator, this.del_pagechange, this.ReviewformServiceService.del_pagechange, this.delFlowSigns.length)
           this.LoadingPage.hide()
@@ -1273,6 +1334,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
               }
               this.CardPatchFlowSigns.push({
+                uiCheckBoxID:0,
+                uiCheckBox:false,
                 uiProcessFlowID: void_completionTenNum(cc.ProcessFlowID),
                 ProcessFlowID: cc.ProcessFlowID.toString(),
                 FlowTreeID: cc.FlowTreeID,
@@ -1318,8 +1381,11 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
             return b.ProcessFlowID - a.ProcessFlowID;
           });
 
+          for (let i = 0; i < this.CardPatchFlowSigns.length; i++) {
+            this.CardPatchFlowSigns[i].uiCheckBoxID = i.valueOf();
+          }
           this.CardPatchCount = this.CardPatchFlowSigns.length.toString()
-          this.goBackPage(this.CardPatchPaginator, this.CardPatch_pagechange, this.ReviewformServiceService.CardPatch_pagechange, this.CardPatchFlowSigns.length)
+          this.goBackPage(this.CardPatchFlowPaginator, this.CardPatch_pagechange, this.ReviewformServiceService.CardPatch_pagechange, this.CardPatchFlowSigns.length)
           this.LoadingPage.hide()
 
         })
@@ -1342,6 +1408,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
           this.AttendUnusualFlowSigns = JSON.parse(JSON.stringify(x))
           // console.log(this.AttendUnusualFlowSigns)
           for (let signs of this.AttendUnusualFlowSigns) {
+            signs.uiCheckBoxID = 0
+            signs.uiCheckBox = false
             signs.uiProcessFlowID = void_completionTenNum(signs.ProcessFlowID)
             signs.Date = formatDateTime(signs.Date).getDate
           }
@@ -1349,6 +1417,9 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
             return b.ProcessFlowID - a.ProcessFlowID;
           });
 
+          for (let i = 0; i < this.AttendUnusualFlowSigns.length; i++) {
+            this.AttendUnusualFlowSigns[i].uiCheckBoxID = i.valueOf();
+          }
           this.AttendUnusualCount = this.AttendUnusualFlowSigns.length.toString()
           this.goBackPage(this.AttendUnusualPaginator, this.AttendUnusual_pagechange, this.ReviewformServiceService.AttendUnusual_pagechange, this.AttendUnusualFlowSigns.length)
           this.LoadingPage.hide()
@@ -1389,6 +1460,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
               }
               this.forgetFlowSigns.push({
+                uiCheckBoxID:0,
+                uiCheckBox:false,
                 uiProcessFlowID: void_completionTenNum(cc.ProcessFlowID),
                 ProcessFlowID: cc.ProcessFlowID.toString(),
                 FlowTreeID: cc.FlowTreeID,
@@ -1434,6 +1507,9 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
             return b.ProcessFlowID - a.ProcessFlowID;
           });
 
+          for (let i = 0; i < this.forgetFlowSigns.length; i++) {
+            this.forgetFlowSigns[i].uiCheckBoxID = i.valueOf();
+          }
           this.forgetCount = this.forgetFlowSigns.length.toString()
           this.goBackPage(this.forgetPaginator, this.forget_pagechange, this.ReviewformServiceService.forget_pagechange, this.forgetFlowSigns.length)
           this.LoadingPage.hide()
@@ -1461,6 +1537,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
             for (let dd of GetFlowSignShiftRoteApiData) {
 
               this.changeFlowSigns.push({
+                uiCheckBoxID: 0,
+                uiCheckBox: false,
                 uiProcessFlowID: void_completionTenNum(dd.ProcessFlowID),
                 ProcessFlowID: dd.ProcessFlowID.toString(),
                 FlowTreeID: dd.FlowTreeID,
@@ -1494,6 +1572,9 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
             return b.ProcessFlowID - a.ProcessFlowID;
           });
 
+          for (let i = 0; i < this.changeFlowSigns.length; i++) {
+            this.changeFlowSigns[i].uiCheckBoxID = i.valueOf();
+          }
           this.changeCount = this.changeFlowSigns.length.toString()
           this.goBackPage(this.changePaginator, this.change_pagechange, this.ReviewformServiceService.change_pagechange, this.changeFlowSigns.length)
           this.LoadingPage.hide()
