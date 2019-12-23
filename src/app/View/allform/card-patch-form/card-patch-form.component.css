@@ -70,6 +70,16 @@
     text-align: center;
     text-decoration: line-through;
 }
+.tag_red {
+    color: #d0021b;
+    background-color: #fff;
+    border: 1px solid #d0021b;
+    border-radius: 15px;
+    width: 70px;
+    height: 23px;
+    font-size: 15px;
+    text-align: center;
+}
 .cardBlock {
     border: 1px solid #028fcf;
     padding: 20px 0px;
