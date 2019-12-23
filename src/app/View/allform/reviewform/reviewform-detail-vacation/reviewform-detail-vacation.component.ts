@@ -229,7 +229,7 @@ export class ReviewformDetailVacationComponent implements OnInit, OnDestroy, Aft
                 data.EventDate = formatDateTime(data.EventDate).getDate
               }
               this.uishowVaDetail.push({
-                uitext: '差假時段' + chinesenum(i),
+                uitext: chinesenum(i),
                 startDate: formatDateTime(data.DateTimeB).getDate,
                 startTime: getapi_formatTimetoString(formatDateTime(data.DateTimeB).getTime),
                 endDate: formatDateTime(data.DateTimeE).getDate,

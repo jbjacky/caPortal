@@ -138,7 +138,9 @@
       <div class="form-group" style="border:1px solid #028fcf;margin-top: 20px;padding-top: 15px;">
         <div *ngIf="!showDelDetail.everyday" class="row" style="padding: 0px;margin: 0px">
           <div class="col-md-2 col-xs-12 P_left" style="padding-top: 7px">
-            <label style="color: #028fcf">{{showDelDetail.titletext}}</label>
+            <label style="color: #028fcf">
+              <ng-container i18n>銷假時段</ng-container>{{showDelDetail.titletext}}
+            </label>
           </div>
           <div class="col-md-10 col-xs-12">
             <div class="col-md-3 col-xs-12 D_leftP_toppadding">
@@ -155,7 +157,9 @@
         </div>
         <div *ngIf="showDelDetail.everyday" class="row" style="padding: 0px;margin: 0px">
           <div class="col-md-2 col-xs-12 P_left" style="padding-top: 7px">
-            <label style="color: #028fcf">{{showDelDetail.titletext}}</label>
+            <label style="color: #028fcf">
+              <ng-container i18n>銷假時段</ng-container>{{showDelDetail.titletext}}
+            </label>
           </div>
           <div class="col-md-10 col-xs-12">
             <div class="col-md-3 col-xs-12 D_leftP_toppadding">

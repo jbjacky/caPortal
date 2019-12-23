@@ -114,7 +114,9 @@
         <div *ngFor="let uisendvaform of sendvaform" class="form-group"
           style="border:1px solid #028fcf;border-left-width: 10px;margin-top: 20px">
           <div class="col-md-2 D_right col-xs-10">
-            <label style="color: #028fcf;margin-bottom: 10px">{{uisendvaform.ui_title}}</label>
+            <label style="color: #028fcf;margin-bottom: 10px">
+              <ng-container i18n>差假時段</ng-container>{{uisendvaform.ui_title}}
+            </label>
             <div *ngIf="uisendvaform.beforholiday" style="display: inline-block;padding-left: 10px;">
               <span style="color: #028fcf;border:#028fcf 1px solid;
               border-radius: 5px;padding: 6px">
@@ -217,7 +219,9 @@
           <div class="form-group" style="border: 0px">
             <!-- 手機顯示 -->
             <div *ngIf="firstnotshow" class="col-md-2 D_right" style="margin-top: 10px;padding-right: 5px;">
-              <label style="color: #028fcf;border-left: 3px solid #028fcf;padding-left: 5px;">{{newtitle}}</label>
+              <label style="color: #028fcf;border-left: 3px solid #028fcf;padding-left: 5px;">
+                <ng-container i18n>差假時段</ng-container>{{newtitle}}
+              </label>
               <a class="P_button" style="padding-top: 2px;cursor: pointer;" (click)="hideWriteform()">刪除</a>
             </div>
           </div>

@@ -75,7 +75,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
   WriteformPage: boolean = true;
   firstnotshow: boolean = false;//差假時段文字
   titlechinesenum = 0; //差假時段中文數字計算
-  newtitle = '差假時段' + chinesenum(this.titlechinesenum + 1);//差假時段文字
+  newtitle = chinesenum(this.titlechinesenum + 1);//差假時段文字
   writevaform: vaform = new vaform();
   sendvaform: vaform[] = []
   NowIsWirteForm: boolean = true;
@@ -185,7 +185,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     this.WriteformPage = true;
     this.firstnotshow = false;//差假時段文字
     this.titlechinesenum = 0; //差假時段中文數字計算
-    this.newtitle = '差假時段' + chinesenum(this.titlechinesenum + 1);//差假時段文字
+    this.newtitle = chinesenum(this.titlechinesenum + 1);//差假時段文字
     this.writevaform = new vaform();
     this.sendvaform = []
     this.NowIsWirteForm = true;
@@ -924,13 +924,13 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     this.titlechinesenum = this.sendvaform.length;
     if (this.sendvaform.length > 0) {
       for (let i = 0; i < this.sendvaform.length; i++) {
-        this.sendvaform[i].ui_title = '差假時段' + chinesenum(i + 1)
+        this.sendvaform[i].ui_title = chinesenum(i + 1)
       }
-      this.newtitle = '差假時段' + chinesenum(this.titlechinesenum + 1);
+      this.newtitle = chinesenum(this.titlechinesenum + 1);
     } else {
       this.NowIsWirteForm = true;
       this.firstnotshow = false;
-      this.newtitle = '差假時段' + chinesenum(this.titlechinesenum + 1);
+      this.newtitle = chinesenum(this.titlechinesenum + 1);
       this.errorDateAndTime = { state: false, errorString: '' }
       $("#id_ipt_startday").removeClass("errorInput");
       $("#id_ipt_starttime").removeClass("errorInput");
@@ -992,7 +992,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dateE.setSeconds(0, 0)
 
     this.NowIsWirteForm = true;
-    this.newtitle = '差假時段' + chinesenum(this.titlechinesenum + 1)
+    this.newtitle = chinesenum(this.titlechinesenum + 1)
     this.writevaform.everydayloop = false;
     this.writevaform.todayCheck = false
     this.writevaform.proxyman_jobid = '';

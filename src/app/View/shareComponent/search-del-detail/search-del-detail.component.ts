@@ -95,7 +95,7 @@ export class SearchDelDetailComponent implements OnInit, OnDestroy {
                   // console.log(x)
                   for (let i = 0; i < x.length; i++) {
                     this.uishowDelDetail.push({
-                      titletext: '銷假時段' + chinesenum((i + 1)),
+                      titletext: chinesenum((i + 1)),
                       startdate: formatDateTime(x[i].DateB).getDate,
                       starttime: getapi_formatTimetoString(x[i].TimeB),
                       enddate: formatDateTime(x[i].DateE).getDate,
