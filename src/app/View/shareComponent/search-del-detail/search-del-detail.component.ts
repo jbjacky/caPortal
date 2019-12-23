@@ -11,6 +11,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { TransSignStateGetApiClass } from 'src/app/Models/PostData_API_Class/TransSignStateGetApiClass';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { GetAbscFlowAppsByProcessFlowIDGetApiDataClass } from 'src/app/Models/GetAbscFlowAppsByProcessFlowIDGetApiDataClass';
 
 declare let $: any; //use jquery
 
@@ -52,7 +53,6 @@ export class SearchDelDetailComponent implements OnInit, OnDestroy {
     var caldateArray = []
     for (let onedatetime of this.getDelDataTitle.dateArray) {
       caldateArray.push(formatDateTime(onedatetime).getDate)
-      caldateArray.push(formatDateTime(onedatetime).getDate)
     }
     var sortdateArray = caldateArray.sort((a: any, b: any) => {
       let left = Number(new Date(a));
@@ -75,9 +75,9 @@ export class SearchDelDetailComponent implements OnInit, OnDestroy {
     this.GetApiDataServiceService.getWebApiData_GetAbscFlowAppsByProcessFlowID(this.getDelDataTitle.ProcessFlowID)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        (d: any) => {
-          if (d) {
-            this.getDelDataTitle.Note = d.FlowAppsExtend[0].Note
+        (GetAbscFlowAppsByProcessFlowIDGetApiData: GetAbscFlowAppsByProcessFlowIDGetApiDataClass) => {
+          if (GetAbscFlowAppsByProcessFlowIDGetApiData) {
+            this.getDelDataTitle.Note = GetAbscFlowAppsByProcessFlowIDGetApiData.FlowAppsExtend[0].Note
           }
           this.GetApiDataServiceService.getWebApiData_AbscIntegrationHandlerGetAbsFlowApps(AbscIntegrationHandlerGetAbsFlowApps)
             .pipe(takeWhile(() => this.api_subscribe))
@@ -117,8 +117,9 @@ export class SearchDelDetailComponent implements OnInit, OnDestroy {
                       var real = false
                       // console.log(this.ReviewformServiceService.delDetail.dateArray)
                       // console.log(detail)
-                      for (let onedateArray of this.getDelDataTitle.dateArray) {
-                        if (detail.DateTimeB == onedateArray.DateB && detail.DateTimeE == onedateArray.DateE) {
+                      for (let FlowAppsExtend of GetAbscFlowAppsByProcessFlowIDGetApiData.FlowAppsExtend) {
+    
+                        if (detail.DateTimeB == FlowAppsExtend.DateTimeB && detail.DateTimeE == FlowAppsExtend.DateTimeE) {
                           real = true
                         }
                       }

@@ -29,6 +29,7 @@ import { SussesSendbackSnackComponent } from 'src/app/View/shareComponent/snackb
 import { ErrorSendbackSnackComponent } from 'src/app/View/shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
 import { SussesPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
 import { ErrorPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/error-put-forward-snack/error-put-forward-snack.component';
+import { GetAbscFlowAppsByProcessFlowIDGetApiDataClass } from 'src/app/Models/GetAbscFlowAppsByProcessFlowIDGetApiDataClass';
 
 declare let $: any; //use jquery
 @Component({
@@ -117,11 +118,11 @@ export class ReviewformDetailDelformComponent implements OnInit, OnDestroy {
       this.router.navigate(['../nav/reviewform']);
     } else {
       // console.log(this.ReviewformServiceService.delDetail)
-      var calSearchDateB = new Date(this.ReviewformServiceService.delDetail.dateArray[0].DateB)
+      var calSearchDateB = new Date(this.ReviewformServiceService.delDetail.dateArray[0])
       calSearchDateB.setDate(calSearchDateB.getDate() - 30)
       this.SearchDateB = new Date(calSearchDateB)
 
-      var calSearchDateE = new Date(this.ReviewformServiceService.delDetail.dateArray[0].DateB)
+      var calSearchDateE = new Date(this.ReviewformServiceService.delDetail.dateArray[0])
       calSearchDateE.setDate(calSearchDateE.getDate() + 30)
       this.SearchDateE = new Date(calSearchDateE)
 
@@ -166,106 +167,112 @@ export class ReviewformDetailDelformComponent implements OnInit, OnDestroy {
       //   })
 
       // console.log(this.ReviewformServiceService.delDetail)
-      var caldateArray = []
-      for (let onedatetime of this.ReviewformServiceService.delDetail.dateArray) {
-        caldateArray.push(formatDateTime(onedatetime.DateB).getDate)
-        caldateArray.push(formatDateTime(onedatetime.DateE).getDate)
-      }
-      var sortdateArray = caldateArray.sort((a: any, b: any) => {
-        let left = Number(new Date(a));
-        let right = Number(new Date(b));
-        return left - right;
-      });
-      var firstDate = sortdateArray[0]
-      var lastDate = sortdateArray[sortdateArray.length - 1]
-      var AbscIntegrationHandlerGetAbsFlowApps: AbscIntegrationHandlerGetAbsFlowAppsClass = {
-        DateB: firstDate, //firstDate
-        DateE: lastDate, //lastDate
-        EmpID: this.ReviewformServiceService.delDetail.EmpCode //this.ReviewformServiceService.delDetail.EmpCode
-      }
       this.LoadingPage.show()
-      this.GetApiDataServiceService.getWebApiData_AbscIntegrationHandlerGetAbsFlowApps(AbscIntegrationHandlerGetAbsFlowApps)
+      this.GetApiDataServiceService.getWebApiData_GetAbscFlowAppsByProcessFlowID(this.ReviewformServiceService.delDetail.ProcessFlowID)
         .pipe(takeWhile(() => this.api_subscribe))
         .subscribe(
-          (x: any) => {
-            if (x.length == 0) {
-              this.LoadingPage.hide()
-              // this.loading = false
-              // this.showdataIsEmpty = true 
-            } else {
-              // console.log(x)
+          (GetAbscFlowAppsByProcessFlowIDGetApiData: GetAbscFlowAppsByProcessFlowIDGetApiDataClass) => {
 
-              var getSearchDate = new Date(x[0].DateB)
-              this.SearchCalendarSimulationDate = new Date(formatDateTime(getSearchDate).getDate)
-              // console.log(this.ReviewformServiceService.delDetail.dateArray)
-              for (let i = 0; i < x.length; i++) {
-                this.uishowDelDetail.push({
-                  titletext: '銷假時段' + chinesenum((i + 1)),
-                  startdate: formatDateTime(x[i].DateB).getDate,
-                  starttime: getapi_formatTimetoString(x[i].TimeB),
-                  enddate: formatDateTime(x[i].DateE).getDate,
-                  endtime: getapi_formatTimetoString(x[i].TimeE),
-                  everyday: x[i].Circulate,
-                  holiday: { id: x[i].HoliDayID, name: x[i].HoliDayNameC },
-                  calday: 0,
-                  calhour: 0,
-                  calminute: 0,
-                  eventDate: formatDateTime(x[i].EventDate).getDate,
-                  keyName: x[i].KeyName,
-
-                  detail_delform: []
-                })
-                for (let detail of x[i].AbsFlowAppsDetail) {
-                  var real = false
-                  for (let onedateArray of this.ReviewformServiceService.delDetail.dateArray) {
-
-                    if (detail.DateTimeB == onedateArray.DateB && detail.DateTimeE == onedateArray.DateE) {
-                      real = true
-                    }
-                  }
-
-                  var setDay = 0
-                  var setHour = 0
-                  var setMin = 0
-                  //計算日時分
-                  setDay = detail.UseDayHourMinute.Day
-                  setHour = detail.UseDayHourMinute.Hour
-                  setMin = detail.UseDayHourMinute.Minute
-                  // if (real) {
-                  //   detail.State = '0'
-                  // }
-                  this.uishowDelDetail[i].detail_delform.push({
-                    disable: 1,
-                    state: detail.State,
-                    checkState: false,
-                    reallyDelShowState: real,
-                    startdate: formatDateTime(detail.DateTimeB).getDate,
-                    starttime: getapi_formatTimetoString(formatDateTime(detail.DateTimeB).getTime),
-                    endtime: getapi_formatTimetoString(formatDateTime(detail.DateTimeE).getTime),
-                    calday: setDay.toString(),
-                    calhour: setHour.toString(),
-                    calminute: setMin.toString()
-                  })
-
-                  if (real) {
-                    this.uishowDelDetail[i].calday = this.uishowDelDetail[i].calday + setDay
-                    this.uishowDelDetail[i].calhour = this.uishowDelDetail[i].calhour + setHour
-                    this.uishowDelDetail[i].calminute = this.uishowDelDetail[i].calminute + setMin
-                  }
-                  // console.log(this.uishowDelDetail[i].detail_delform)
-
-
-                }
-
-              }
-              this.LoadingPage.hide()
+            var caldateArray = []
+            for (let onedatetime of GetAbscFlowAppsByProcessFlowIDGetApiData.FlowAppsExtend) {
+              caldateArray.push(formatDateTime(onedatetime.DateTimeB).getDate)
+              caldateArray.push(formatDateTime(onedatetime.DateTimeE).getDate)
             }
-          },
-          (error: any) => {
-            // alert('api連線錯誤，AbscIntegrationHandlerGetAbsFlowApps')
-            this.LoadingPage.hide()
-          }
-        )
+            var sortdateArray = caldateArray.sort((a: any, b: any) => {
+              let left = Number(new Date(a));
+              let right = Number(new Date(b));
+              return left - right;
+            });
+            var firstDate = sortdateArray[0]
+            var lastDate = sortdateArray[sortdateArray.length - 1]
+            var AbscIntegrationHandlerGetAbsFlowApps: AbscIntegrationHandlerGetAbsFlowAppsClass = {
+              DateB: firstDate, //firstDate
+              DateE: lastDate, //lastDate
+              EmpID: this.ReviewformServiceService.delDetail.EmpCode //this.ReviewformServiceService.delDetail.EmpCode
+            }
+            this.GetApiDataServiceService.getWebApiData_AbscIntegrationHandlerGetAbsFlowApps(AbscIntegrationHandlerGetAbsFlowApps)
+              .pipe(takeWhile(() => this.api_subscribe))
+              .subscribe(
+                (x: any) => {
+                  if (x.length == 0) {
+                    this.LoadingPage.hide()
+                    // this.loading = false
+                    // this.showdataIsEmpty = true 
+                  } else {
+                    // console.log(x)
+
+                    var getSearchDate = new Date(x[0].DateB)
+                    this.SearchCalendarSimulationDate = new Date(formatDateTime(getSearchDate).getDate)
+                    // console.log(this.ReviewformServiceService.delDetail.dateArray)
+                    for (let i = 0; i < x.length; i++) {
+                      this.uishowDelDetail.push({
+                        titletext: '銷假時段' + chinesenum((i + 1)),
+                        startdate: formatDateTime(x[i].DateB).getDate,
+                        starttime: getapi_formatTimetoString(x[i].TimeB),
+                        enddate: formatDateTime(x[i].DateE).getDate,
+                        endtime: getapi_formatTimetoString(x[i].TimeE),
+                        everyday: x[i].Circulate,
+                        holiday: { id: x[i].HoliDayID, name: x[i].HoliDayNameC },
+                        calday: 0,
+                        calhour: 0,
+                        calminute: 0,
+                        eventDate: formatDateTime(x[i].EventDate).getDate,
+                        keyName: x[i].KeyName,
+
+                        detail_delform: []
+                      })
+                      for (let detail of x[i].AbsFlowAppsDetail) {
+                        var real = false
+                        for (let FlowAppsExtend of GetAbscFlowAppsByProcessFlowIDGetApiData.FlowAppsExtend) {
+      
+                          if (detail.DateTimeB == FlowAppsExtend.DateTimeB && detail.DateTimeE == FlowAppsExtend.DateTimeE) {
+                            real = true
+                          }
+                        }
+
+                        var setDay = 0
+                        var setHour = 0
+                        var setMin = 0
+                        //計算日時分
+                        setDay = detail.UseDayHourMinute.Day
+                        setHour = detail.UseDayHourMinute.Hour
+                        setMin = detail.UseDayHourMinute.Minute
+                        // if (real) {
+                        //   detail.State = '0'
+                        // }
+                        this.uishowDelDetail[i].detail_delform.push({
+                          disable: 1,
+                          state: detail.State,
+                          checkState: false,
+                          reallyDelShowState: real,
+                          startdate: formatDateTime(detail.DateTimeB).getDate,
+                          starttime: getapi_formatTimetoString(formatDateTime(detail.DateTimeB).getTime),
+                          endtime: getapi_formatTimetoString(formatDateTime(detail.DateTimeE).getTime),
+                          calday: setDay.toString(),
+                          calhour: setHour.toString(),
+                          calminute: setMin.toString()
+                        })
+
+                        if (real) {
+                          this.uishowDelDetail[i].calday = this.uishowDelDetail[i].calday + setDay
+                          this.uishowDelDetail[i].calhour = this.uishowDelDetail[i].calhour + setHour
+                          this.uishowDelDetail[i].calminute = this.uishowDelDetail[i].calminute + setMin
+                        }
+                        // console.log(this.uishowDelDetail[i].detail_delform)
+
+
+                      }
+
+                    }
+                    this.LoadingPage.hide()
+                  }
+                },
+                (error: any) => {
+                  // alert('api連線錯誤，AbscIntegrationHandlerGetAbsFlowApps')
+                  this.LoadingPage.hide()
+                }
+              )
+          })
       this.uishowProcessFlowID = void_completionTenNum(this.ReviewformServiceService.delDetail.ProcessFlowID)
 
     }
@@ -541,7 +548,7 @@ export class ReviewformDetailDelformComponent implements OnInit, OnDestroy {
   errorEndtDateState = { state: false, errorString: '' }
   getRecentHoliday(EmpCode) {
     ///近期假單一覽
-
+    // console.log(this.SearchDateB)
     var GetFlowView: GetFlowViewClass = {
       "ListEmpID": [
         EmpCode

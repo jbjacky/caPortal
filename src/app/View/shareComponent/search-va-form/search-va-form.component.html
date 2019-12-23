@@ -34,17 +34,21 @@
             </ng-container>
           </div>
           <div>
-            <a style="cursor: pointer;" data-toggle="modal" data-target="#Cancelformdialog"
-              (click)="takeForm = oneVaData">
-              <span *ngIf="oneVaData.Take && getShowTake">
-                (<ng-container i18n>抽單</ng-container>)
-              </span>
-            </a>
-            <a style="cursor: pointer;" data-toggle="modal" (click)="checkTransSignForm(oneVaData)">
-              <span *ngIf="oneVaData.TransSign && getShowTransSign">
-                (<ng-container i18n>轉呈</ng-container>)
-              </span>
-            </a>
+            <div style="display: inline-block;">
+              <a style="cursor: pointer;" data-toggle="modal" data-target="#Cancelformdialog"
+                (click)="takeForm = oneVaData">
+                <span *ngIf="oneVaData.Take && getShowTake">
+                  (<ng-container i18n>抽單</ng-container>)
+                </span>
+              </a>
+            </div>
+            <div style="display: inline-block;">
+              <a style="cursor: pointer;" data-toggle="modal" (click)="checkTransSignForm(oneVaData)">
+                <span *ngIf="oneVaData.TransSign && getShowTransSign">
+                  (<ng-container i18n>轉呈</ng-container>)
+                </span>
+              </a>
+            </div>
           </div>
           <!-- <div *ngIf="oneVaData.key > 0" style="color: #969696">
             (後台新增)
@@ -127,13 +131,21 @@
         <div class="col-md-4 col-xs-12" style="padding: 0">
           <div class="P_height"></div>
           <div style="padding-bottom: 5px;">
-            <ng-container i18n>共計 </ng-container>
-            {{oneVaData.day}}
-            <ng-container i18n> 日 </ng-container>
-            {{oneVaData.hour}}
-            <ng-container i18n> 時 </ng-container>
-            {{oneVaData.minute}}
-            <ng-container i18n> 分 </ng-container>
+            <span style="padding: 0px 5px;padding-left: 0;">
+              <ng-container i18n>共計</ng-container>
+            </span>
+            <span>{{oneVaData.day}}</span>
+            <span style="padding: 0px 5px;">
+              <ng-container i18n>日</ng-container>
+            </span>
+            <span>{{oneVaData.hour}}</span>
+            <span style="padding: 0px 5px;">
+              <ng-container i18n>時</ng-container>
+            </span>
+            <span>{{oneVaData.minute}}</span>
+            <span style="padding: 0px 5px;">
+              <ng-container i18n>分</ng-container>
+            </span>
           </div>
           <div *ngIf="oneVaData.ManageEmpName && oneVaData.State=='1'">
             {{oneVaData.ManageEmpName}}
