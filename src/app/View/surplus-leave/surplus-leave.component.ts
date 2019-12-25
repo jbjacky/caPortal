@@ -233,6 +233,21 @@ export class SurplusLeaveComponent implements OnInit, OnDestroy {
               this.showDomestic.AbsAddition.push(cc)
             }
           }
+          this.showSpecialLeave.AbsAddition.sort((a, b) => {
+            let left = Number(new Date(a.DateE));
+            let right = Number(new Date(b.DateE));
+            return right - left;
+          })
+          this.showWelfare.AbsAddition.sort((a, b) => {
+            let left = Number(new Date(a.DateE));
+            let right = Number(new Date(b.DateE));
+            return right - left;
+          })
+          this.showDomestic.AbsAddition.sort((a, b) => {
+            let left = Number(new Date(a.DateE));
+            let right = Number(new Date(b.DateE));
+            return right - left;
+          })
           // console.log(this.showSurplusLeave)
           // console.log(this.showSpecialLeave)
           // console.log(this.showWelfare)
