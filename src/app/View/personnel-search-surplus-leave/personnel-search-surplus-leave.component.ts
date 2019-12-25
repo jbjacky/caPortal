@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { GetHoliDayBalanceFlow } from 'src/app/Models/PostData_API_Class/GetHoliDayBalanceFlow';
 import { takeWhile } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByFormClass';
 import { GetBaseInfoDetailClass } from 'src/app/Models/GetBaseInfoDetailClass';
 import { DayHourMinuteClass } from 'src/app/Models/DayHourMinuteClass';
+import { MatTableDataSource, MatSort } from '@angular/material';
 
 declare let $: any; //use jquery
 @Component({
@@ -43,6 +44,25 @@ export class PersonnelSearchSurplusLeaveComponent implements OnInit, OnDestroy {
 
 
   setMan = { EmpCode: '', EmpName: '', DeptaID: '', DeptaName: '' }
+
+  displayedColumns_ShowSurplusLeaveAbsDeduction: string[] = ['HoliDayKindNameC', 'BalanceDayHourMin', 'FlowUseDayHourMin', 'UseDayHourMin'];
+  dataSource_ShowSurplusLeaveAbsDeduction = new MatTableDataSource<any>();
+
+  displayedColumns_ShowSpecialLeave: string[] = ['Year', 'RestAmountDayHourMin', 'DateB', 'DateE'];
+  dataSource_ShowSpecialLeave = new MatTableDataSource<any>();
+
+  displayedColumns_ShowWelfare: string[] = ['Year', 'RestAmountDayHourMin', 'DateB', 'DateE'];
+  dataSource_ShowWelfare = new MatTableDataSource<any>();
+
+  displayedColumns_ShowDomestic: string[] = ['Year', 'RestAmountDayHourMin', 'DateB', 'DateE'];
+  dataSource_ShowDomestic = new MatTableDataSource<any>();
+
+
+  @ViewChild('sortTable_ShowSurplusLeaveAbsDeduction') sortTable_ShowSurplusLeaveAbsDeduction: MatSort;
+  @ViewChild('sortTable_ShowSpecialLeave') sortTable_ShowSpecialLeave: MatSort;
+  @ViewChild('sortTable_ShowWelfare') sortTable_ShowWelfare: MatSort;
+  @ViewChild('sortTable_ShowDomestic') sortTable_ShowDomestic: MatSort;
+
   ngOnInit() {
     this.showSpecialLeave.AbsAddition = []
     this.showWelfare.AbsAddition = []
@@ -267,6 +287,19 @@ export class PersonnelSearchSurplusLeaveComponent implements OnInit, OnDestroy {
                   let right = Number(new Date(b.DateE));
                   return right - left;
                 })
+
+                this.dataSource_ShowSurplusLeaveAbsDeduction.data = this.showSurplusLeaveAbsDeduction
+                this.dataSource_ShowSurplusLeaveAbsDeduction.sort = this.sortTable_ShowSurplusLeaveAbsDeduction
+
+
+                this.dataSource_ShowSpecialLeave.data = this.showSpecialLeave.AbsAddition;
+                this.dataSource_ShowSpecialLeave.sort = this.sortTable_ShowSpecialLeave;
+
+                this.dataSource_ShowWelfare.data = this.showWelfare.AbsAddition;
+                this.dataSource_ShowWelfare.sort = this.sortTable_ShowWelfare;
+
+                this.dataSource_ShowDomestic.data = this.showDomestic.AbsAddition;
+                this.dataSource_ShowDomestic.sort = this.sortTable_ShowDomestic;
                 // console.log(this.showSurplusLeave)
                 // console.log(this.showSpecialLeave)
                 // console.log(this.showWelfare)
@@ -301,8 +334,8 @@ export class PersonnelSearchSurplusLeaveComponent implements OnInit, OnDestroy {
       }
       this.LoadingPage.show()
       this.GetApiDataServiceService.getWebApiData_GetBaseByFormDeptDown(GetBaseByFormClass)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe((x: any) => {
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe((x: any) => {
           if (x == null) {
             // alert('工號輸入錯誤')
             this.Assistant(GetBaseByFormClass)
@@ -377,6 +410,256 @@ export class PersonnelSearchSurplusLeaveComponent implements OnInit, OnDestroy {
   bt_ShowDialog_chooseEmpdialog() {
     this.chooseEmpdialog_ShowDialog = true
     $('#chooseEmpdialog').modal('show')
+  }
+  calcDayHourMin(Day: number, Hour: number, Minute: number) {
+    var num = Day * 10000 + Hour * 100 + Minute * 1
+    return num
+  }
+  sortChange_ShowSurplusLeaveAbsDeduction(sortInfo) {
+    if (sortInfo.active == 'BalanceDayHourMin') {
+      if (sortInfo.direction == 'asc') {
+        this.showSurplusLeaveAbsDeduction.sort((a, b) => {
+          var small = 0
+          var large = 0
+          if (a.BalanceDayHourMin) {
+            small = this.calcDayHourMin(a.BalanceDayHourMin.Day,a.BalanceDayHourMin.Hour,a.BalanceDayHourMin.Minute)
+          } else {
+            small = 0
+          }
+          if (b.BalanceDayHourMin) {
+            large = this.calcDayHourMin(b.BalanceDayHourMin.Day,b.BalanceDayHourMin.Hour,b.BalanceDayHourMin.Minute)
+          } else {
+            large = 0
+          }
+          return small - large
+        })
+      } else if (sortInfo.direction == 'desc') {
+        this.showSurplusLeaveAbsDeduction.sort((a, b) => {
+          var small = 0
+          var large = 0
+          if (a.BalanceDayHourMin) {
+            small = this.calcDayHourMin(a.BalanceDayHourMin.Day,a.BalanceDayHourMin.Hour,a.BalanceDayHourMin.Minute)
+          } else {
+            small = 0
+          }
+          if (b.BalanceDayHourMin) {
+            large = this.calcDayHourMin(b.BalanceDayHourMin.Day,b.BalanceDayHourMin.Hour,b.BalanceDayHourMin.Minute)
+          } else {
+            large = 0
+          }
+          return large - small
+        })
+
+      } else if (sortInfo.direction == '') {
+
+      }
+      this.dataSource_ShowSurplusLeaveAbsDeduction.data = this.showSurplusLeaveAbsDeduction;
+    } else if (sortInfo.active == 'FlowUseDayHourMin') {
+      if (sortInfo.direction == 'asc') {
+        this.showSurplusLeaveAbsDeduction.sort((a, b) => {
+          var small = 0
+          var large = 0
+          if (a.FlowUseDayHourMin) {
+            small = this.calcDayHourMin(a.FlowUseDayHourMin.Day,a.FlowUseDayHourMin.Hour,a.FlowUseDayHourMin.Minute)
+          } else {
+            small = 0
+          }
+          if (b.FlowUseDayHourMin) {
+            large = this.calcDayHourMin(b.FlowUseDayHourMin.Day,b.FlowUseDayHourMin.Hour,b.FlowUseDayHourMin.Minute)
+          } else {
+            large = 0
+          }
+          return small - large
+        })
+      } else if (sortInfo.direction == 'desc') {
+        this.showSurplusLeaveAbsDeduction.sort((a, b) => {
+          var small = 0
+          var large = 0
+          if (a.FlowUseDayHourMin) {
+            small = this.calcDayHourMin(a.FlowUseDayHourMin.Day,a.FlowUseDayHourMin.Hour,a.FlowUseDayHourMin.Minute)
+          } else {
+            small = 0
+          }
+          if (b.FlowUseDayHourMin) {
+            large = this.calcDayHourMin(b.FlowUseDayHourMin.Day,b.FlowUseDayHourMin.Hour,b.FlowUseDayHourMin.Minute)
+          } else {
+            large = 0
+          }
+          return large - small
+        })
+
+      } else if (sortInfo.direction == '') {
+
+      }
+      this.dataSource_ShowSurplusLeaveAbsDeduction.data = this.showSurplusLeaveAbsDeduction;
+    } else if (sortInfo.active == 'UseDayHourMin') {
+      if (sortInfo.direction == 'asc') {
+        this.showSurplusLeaveAbsDeduction.sort((a, b) => {
+          var small = 0
+          var large = 0
+          if (a.UseDayHourMin) {
+            small = this.calcDayHourMin(a.UseDayHourMin.Day,a.UseDayHourMin.Hour,a.UseDayHourMin.Minute)
+          } else {
+            small = 0
+          }
+          if (b.UseDayHourMin) {
+            large = this.calcDayHourMin(b.UseDayHourMin.Day,b.UseDayHourMin.Hour,b.UseDayHourMin.Minute)
+          } else {
+            large = 0
+          }
+          return small - large
+        })
+      } else if (sortInfo.direction == 'desc') {
+        this.showSurplusLeaveAbsDeduction.sort((a, b) => {
+          var small = 0
+          var large = 0
+          if (a.UseDayHourMin) {
+            small = this.calcDayHourMin(a.UseDayHourMin.Day,a.UseDayHourMin.Hour,a.UseDayHourMin.Minute)
+          } else {
+            small = 0
+          }
+          if (b.UseDayHourMin) {
+            large = this.calcDayHourMin(b.UseDayHourMin.Day,b.UseDayHourMin.Hour,b.UseDayHourMin.Minute)
+          } else {
+            large = 0
+          }
+          return large - small
+        })
+
+      } else if (sortInfo.direction == '') {
+
+      }
+      this.dataSource_ShowSurplusLeaveAbsDeduction.data = this.showSurplusLeaveAbsDeduction;
+    }
+  }
+  sortChange_ShowSpecialLeave(sortInfo) {
+    if (sortInfo.active == 'RestAmountDayHourMin') {
+      if (sortInfo.direction == 'asc') {
+        this.showSpecialLeave.AbsAddition.sort((a, b) => {
+          var small = 0
+          var large = 0
+          if (a.RestAmountDayHourMin) {
+            small = this.calcDayHourMin(a.RestAmountDayHourMin.Day,a.RestAmountDayHourMin.Hour,a.RestAmountDayHourMin.Minute)
+          } else {
+            small = 0
+          }
+
+          if (b.RestAmountDayHourMin) {
+            large = this.calcDayHourMin(b.RestAmountDayHourMin.Day,b.RestAmountDayHourMin.Hour,b.RestAmountDayHourMin.Minute)
+          } else {
+            large = 0
+          }
+          return small - large
+        })
+      } else if (sortInfo.direction == 'desc') {
+        this.showSpecialLeave.AbsAddition.sort((a, b) => {
+          var small = 0
+          var large = 0
+          if (a.RestAmountDayHourMin) {
+            small = this.calcDayHourMin(a.RestAmountDayHourMin.Day,a.RestAmountDayHourMin.Hour,a.RestAmountDayHourMin.Minute)
+          } else {
+            small = 0
+          }
+
+          if (b.RestAmountDayHourMin) {
+            large = this.calcDayHourMin(b.RestAmountDayHourMin.Day,b.RestAmountDayHourMin.Hour,b.RestAmountDayHourMin.Minute)
+          } else {
+            large = 0
+          }
+          return large - small
+        })
+
+      } else if (sortInfo.direction == '') {
+
+      }
+      this.dataSource_ShowSpecialLeave.data = this.showSpecialLeave.AbsAddition;
+    }
+  }
+  sortChange_ShowWelfare(sortInfo) {
+    if (sortInfo.active == 'RestAmountDayHourMin') {
+      if (sortInfo.direction == 'asc') {
+        this.showWelfare.AbsAddition.sort((a, b) => {
+          var small = 0
+          var large = 0
+          if (a.RestAmountDayHourMin) {
+            small = this.calcDayHourMin(a.RestAmountDayHourMin.Day,a.RestAmountDayHourMin.Hour,a.RestAmountDayHourMin.Minute)
+          } else {
+            small = 0
+          }
+
+          if (b.RestAmountDayHourMin) {
+            large = this.calcDayHourMin(b.RestAmountDayHourMin.Day,b.RestAmountDayHourMin.Hour,b.RestAmountDayHourMin.Minute)
+          } else {
+            large = 0
+          }
+          return small - large
+        })
+      } else if (sortInfo.direction == 'desc') {
+        this.showWelfare.AbsAddition.sort((a, b) => {
+          var small = 0
+          var large = 0
+          if (a.RestAmountDayHourMin) {
+            small = this.calcDayHourMin(a.RestAmountDayHourMin.Day,a.RestAmountDayHourMin.Hour,a.RestAmountDayHourMin.Minute)
+          } else {
+            small = 0
+          }
+
+          if (b.RestAmountDayHourMin) {
+            large = this.calcDayHourMin(b.RestAmountDayHourMin.Day,b.RestAmountDayHourMin.Hour,b.RestAmountDayHourMin.Minute)
+          } else {
+            large = 0
+          }
+          return large - small
+        })
+
+      } else if (sortInfo.direction == '') {
+
+      }
+      this.dataSource_ShowWelfare.data = this.showWelfare.AbsAddition;
+    }
+  }
+  sortChange_ShowDomestic(sortInfo) {
+    if (sortInfo.active == 'RestAmountDayHourMin') {
+      if (sortInfo.direction == 'asc') {
+        this.showDomestic.AbsAddition.sort((a, b) => {
+          var small = 0
+          var large = 0
+          if (a.RestAmountDayHourMin) {
+            small = this.calcDayHourMin(a.RestAmountDayHourMin.Day,a.RestAmountDayHourMin.Hour,a.RestAmountDayHourMin.Minute)
+          } else {
+            small = 0
+          }
+
+          if (b.RestAmountDayHourMin) {
+            large = this.calcDayHourMin(b.RestAmountDayHourMin.Day,b.RestAmountDayHourMin.Hour,b.RestAmountDayHourMin.Minute)
+          } else {
+            large = 0
+          }
+          return small - large
+        })
+      } else if (sortInfo.direction == 'desc') {
+        this.showDomestic.AbsAddition.sort((a, b) => {
+          var small = 0
+          var large = 0
+          if (a.RestAmountDayHourMin) {
+            small = this.calcDayHourMin(a.RestAmountDayHourMin.Day,a.RestAmountDayHourMin.Hour,a.RestAmountDayHourMin.Minute)
+          } else {
+            small = 0
+          }
+
+          if (b.RestAmountDayHourMin) {
+            large = this.calcDayHourMin(b.RestAmountDayHourMin.Day,b.RestAmountDayHourMin.Hour,b.RestAmountDayHourMin.Minute)
+          } else {
+            large = 0
+          }
+          return large - small
+        })
+
+      } else if (sortInfo.direction == '') {
+
+      }
+      this.dataSource_ShowDomestic.data = this.showDomestic.AbsAddition;
+    }
   }
 }
 

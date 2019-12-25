@@ -82,218 +82,213 @@
     <div *ngIf="showSurplusLeaveAbsDeduction.length > 0" class="tableTitle">
       <ng-container i18n>⌾餘假資訊</ng-container>
     </div>
-    <div *ngIf="showSurplusLeaveAbsDeduction.length > 0" class="table-responsive">
-      <table class="table table-bordered  table-striped table-hover table-content-center table-style01" style="
-      white-space: nowrap;">
-        <thead>
-          <tr>
-            <th style="background-image: unset;cursor: unset;width: 45%">
-              <ng-container i18n>假別</ng-container>
-            </th>
+    <div [hidden]="showSurplusLeaveAbsDeduction.length == 0" class="table-responsive">
+      <table id="NewsTable_ShowSurplusLeaveAbsDeduction" mat-table matSort
+        #sortTable_ShowSurplusLeaveAbsDeduction="matSort" [dataSource]="dataSource_ShowSurplusLeaveAbsDeduction"
+        (matSortChange)="sortChange_ShowSurplusLeaveAbsDeduction($event)"
+        class="table table-bordered table-striped table-hover table-content-center table-style01">
 
-            <th>
-              <ng-container i18n>結餘</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>呈核中</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>已請</ng-container>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let surplusLeave of showSurplusLeaveAbsDeduction">
-            <td>
-              {{surplusLeave.HoliDayKindNameC}}
-            </td>
-            <td>
-              <!-- 結餘 -->
-              <div *ngIf="surplusLeave.BalanceDayHourMin != null">
-                <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Day}}</div>
-                <ng-container i18n> 日 </ng-container>
-                <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Hour}}</div>
-                <ng-container i18n> 時 </ng-container>
-                <div class="showDayHourMin">{{surplusLeave.BalanceDayHourMin.Minute}}</div>
-                <ng-container i18n> 分 </ng-container>
-              </div>
-            </td>
-            <td>
-              <!-- 呈核中 -->
-              <div *ngIf="surplusLeave.FlowUseDayHourMin != null">
-                <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Day}}</div>
-                <ng-container i18n> 日 </ng-container>
-                <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Hour}}</div>
-                <ng-container i18n> 時 </ng-container>
-                <div class="showDayHourMin">{{surplusLeave.FlowUseDayHourMin.Minute}}</div>
-                <ng-container i18n> 分 </ng-container>
-              </div>
-            </td>
-            <td>
-              <!-- 已請 -->
-              <div *ngIf="surplusLeave.UseDayHourMin != null">
-                <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Day}}</div>
-                <ng-container i18n> 日 </ng-container>
-                <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Hour}}</div>
-                <ng-container i18n> 時 </ng-container>
-                <div class="showDayHourMin">{{surplusLeave.UseDayHourMin.Minute}}</div>
-                <ng-container i18n> 分 </ng-container>
-              </div>
-            </td>
-          </tr>
-        </tbody>
+        <ng-container matColumnDef="HoliDayKindNameC">
+          <th mat-header-cell *matHeaderCellDef style="width: 45%">
+            <ng-container i18n>假別</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.HoliDayKindNameC}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="BalanceDayHourMin">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>結餘</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngIf="element.BalanceDayHourMin != null">
+              <div class="showDayHourMin">{{element.BalanceDayHourMin.Day}}</div>
+              <ng-container i18n> 日 </ng-container>
+              <div class="showDayHourMin">{{element.BalanceDayHourMin.Hour}}</div>
+              <ng-container i18n> 時 </ng-container>
+              <div class="showDayHourMin">{{element.BalanceDayHourMin.Minute}}</div>
+              <ng-container i18n> 分 </ng-container>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="FlowUseDayHourMin">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>呈核中</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngIf="element.FlowUseDayHourMin != null">
+              <div class="showDayHourMin">{{element.FlowUseDayHourMin.Day}}</div>
+              <ng-container i18n> 日 </ng-container>
+              <div class="showDayHourMin">{{element.FlowUseDayHourMin.Hour}}</div>
+              <ng-container i18n> 時 </ng-container>
+              <div class="showDayHourMin">{{element.FlowUseDayHourMin.Minute}}</div>
+              <ng-container i18n> 分 </ng-container>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="UseDayHourMin">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>已請</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngIf="element.UseDayHourMin != null">
+              <div class="showDayHourMin">{{element.UseDayHourMin.Day}}</div>
+              <ng-container i18n> 日 </ng-container>
+              <div class="showDayHourMin">{{element.UseDayHourMin.Hour}}</div>
+              <ng-container i18n> 時 </ng-container>
+              <div class="showDayHourMin">{{element.UseDayHourMin.Minute}}</div>
+              <ng-container i18n> 分 </ng-container>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns_ShowSurplusLeaveAbsDeduction"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns_ShowSurplusLeaveAbsDeduction;"></tr>
       </table>
-      <!--table day 1 end -->
     </div>
 
     <div *ngIf="showSpecialLeave.AbsAddition.length > 0" class="tableTitle">
       <ng-container i18n>⌾特別休假結餘明細</ng-container>
     </div>
+    <div [hidden]="showSpecialLeave.AbsAddition.length == 0" class="table-responsive">
+      <table id="NewsTable_ShowSpecialLeave" mat-table matSort #sortTable_ShowSpecialLeave="matSort"
+        [dataSource]="dataSource_ShowSpecialLeave" (matSortChange)="sortChange_ShowSpecialLeave($event)"
+        class="table table-bordered table-striped table-hover table-content-center table-style01">
 
-    <div *ngIf="showSpecialLeave.AbsAddition.length > 0" class="table-responsive">
-      <table class="table table-bordered table-striped table-hover table-content-center table-style01">
-        <thead>
-          <tr>
-            <th style="background-image: unset;cursor: unset">
-              <ng-container i18n>特別休假年份</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>差假結餘</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>生效日</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>到期日</ng-container>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let specialLeave_AbsAddition of showSpecialLeave.AbsAddition">
-            <td>
-              <!-- 特別休假年份 -->
-              {{specialLeave_AbsAddition.Year}}
-            </td>
-            <td>
-              <!-- 差假結餘 -->
-              <div class="showDayHourMin">{{specialLeave_AbsAddition.RestAmountDayHourMin.Day}}</div>
-              <ng-container i18n> 日 </ng-container>
-              <div class="showDayHourMin">{{specialLeave_AbsAddition.RestAmountDayHourMin.Hour}}</div>
-              <ng-container i18n> 時 </ng-container>
-              <div class="showDayHourMin">{{specialLeave_AbsAddition.RestAmountDayHourMin.Minute}}</div>
-              <ng-container i18n> 分 </ng-container>
+        <ng-container matColumnDef="Year">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>特別休假年份</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.Year}} </td>
+        </ng-container>
 
-            </td>
-            <td>
-              <!-- 生效日 -->
-              {{specialLeave_AbsAddition.DateB}}
-            </td>
-            <td>
-              <!-- 到期日 -->
-              {{specialLeave_AbsAddition.DateE}}
-            </td>
-          </tr>
-        </tbody>
+        <ng-container matColumnDef="RestAmountDayHourMin">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>差假結餘</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="showDayHourMin">{{element.RestAmountDayHourMin.Day}}</div>
+            <ng-container i18n> 日 </ng-container>
+            <div class="showDayHourMin">{{element.RestAmountDayHourMin.Hour}}</div>
+            <ng-container i18n> 時 </ng-container>
+            <div class="showDayHourMin">{{element.RestAmountDayHourMin.Minute}}</div>
+            <ng-container i18n> 分 </ng-container>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DateB">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>生效日</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.DateB}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DateE">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>到期日</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.DateE}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns_ShowSpecialLeave"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns_ShowSpecialLeave;"></tr>
       </table>
     </div>
+
     <div *ngIf="showWelfare.AbsAddition.length > 0" class="tableTitle">
       <ng-container i18n>⌾福利補休結餘明細</ng-container>
     </div>
+    <div [hidden]="showWelfare.AbsAddition.length == 0" class="table-responsive">
+      <table id="NewsTable_ShowWelfare" mat-table matSort #sortTable_ShowWelfare="matSort"
+        [dataSource]="dataSource_ShowWelfare" (matSortChange)="sortChange_ShowWelfare($event)"
+        class="table table-bordered table-striped table-hover table-content-center table-style01">
 
-    <div *ngIf="showWelfare.AbsAddition.length > 0" class="table-responsive">
-      <table class="table table-bordered table-striped table-hover table-content-center table-style01">
-        <thead>
-          <tr>
-            <th style="background-image: unset;cursor: unset">
-              <ng-container i18n>福利補休年份</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>差假結餘</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>生效日</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>到期日</ng-container>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let showWelfare_AbsAddition of showWelfare.AbsAddition">
-            <td>
-              <!-- 特別休假年份 -->
-              {{showWelfare_AbsAddition.Year}}
-            </td>
-            <td>
-              <!-- 差假結餘 -->
-              <div class="showDayHourMin">{{showWelfare_AbsAddition.RestAmountDayHourMin.Day}}</div>
-              <ng-container i18n> 日 </ng-container>
-              <div class="showDayHourMin">{{showWelfare_AbsAddition.RestAmountDayHourMin.Hour}}</div>
-              <ng-container i18n> 時 </ng-container>
-              <div class="showDayHourMin">{{showWelfare_AbsAddition.RestAmountDayHourMin.Minute}}</div>
-              <ng-container i18n> 分 </ng-container>
-            </td>
-            <td>
-              <!-- 生效日 -->
-              {{showWelfare_AbsAddition.DateB}}
-            </td>
-            <td>
-              <!-- 到期日 -->
-              {{showWelfare_AbsAddition.DateE}}
-            </td>
-          </tr>
-        </tbody>
+        <ng-container matColumnDef="Year">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>福利補休年份 </ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.Year}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="RestAmountDayHourMin">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>差假結餘</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="showDayHourMin">{{element.RestAmountDayHourMin.Day}}</div>
+            <ng-container i18n> 日 </ng-container>
+            <div class="showDayHourMin">{{element.RestAmountDayHourMin.Hour}}</div>
+            <ng-container i18n> 時 </ng-container>
+            <div class="showDayHourMin">{{element.RestAmountDayHourMin.Minute}}</div>
+            <ng-container i18n> 分 </ng-container>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DateB">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>生效日</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.DateB}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DateE">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>到期日</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.DateE}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns_ShowWelfare"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns_ShowWelfare;"></tr>
       </table>
     </div>
-
 
     <div *ngIf="showDomestic.AbsAddition.length > 0" class="tableTitle">
       <ng-container i18n>⌾國內補休結餘明細</ng-container>
     </div>
+    <div [hidden]="showDomestic.AbsAddition.length == 0" class="table-responsive">
+      <table id="NewsTable_ShowDomestic" mat-table matSort #sortTable_ShowDomestic="matSort"
+        [dataSource]="dataSource_ShowDomestic" (matSortChange)="sortChange_ShowDomestic($event)"
+        class="table table-bordered table-striped table-hover table-content-center table-style01">
 
-    <div *ngIf="showDomestic.AbsAddition.length > 0" class="table-responsive">
-      <table class="table table-bordered table-striped table-hover table-content-center table-style01">
-        <thead>
-          <tr>
-            <th style="background-image: unset;cursor: unset">
-              <ng-container i18n>國內補休年份</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>差假結餘</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>生效日</ng-container>
-            </th>
-            <th>
-              <ng-container i18n>到期日</ng-container>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let showDomestic_AbsAddition of showDomestic.AbsAddition">
-            <td>
-              <!-- 特別休假年份 -->
-              {{showDomestic_AbsAddition.Year}}
-            </td>
-            <td>
-              <!-- 差假結餘 -->
-              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Day}}</div>
-              <ng-container i18n> 日 </ng-container>
-              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Hour}}</div>
-              <ng-container i18n>時 </ng-container>
-              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Minute}} </div>
-              <ng-container i18n> 分 </ng-container>
-            </td>
-            <td>
-              <!-- 生效日 -->
-              {{showDomestic_AbsAddition.DateB}}
-            </td>
-            <td>
-              <!-- 到期日 -->
-              {{showDomestic_AbsAddition.DateE}}
-            </td>
-          </tr>
-        </tbody>
+        <ng-container matColumnDef="Year">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>國內補休年份</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.Year}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="RestAmountDayHourMin">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>差假結餘</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="showDayHourMin">{{element.RestAmountDayHourMin.Day}}</div>
+            <ng-container i18n> 日 </ng-container>
+            <div class="showDayHourMin">{{element.RestAmountDayHourMin.Hour}}</div>
+            <ng-container i18n> 時 </ng-container>
+            <div class="showDayHourMin">{{element.RestAmountDayHourMin.Minute}}</div>
+            <ng-container i18n> 分 </ng-container>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DateB">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>生效日</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.DateB}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DateE">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <ng-container i18n>到期日</ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.DateE}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns_ShowDomestic"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns_ShowDomestic;"></tr>
       </table>
     </div>
   </div>
