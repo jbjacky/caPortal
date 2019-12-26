@@ -190,7 +190,7 @@
               </label>
               <div class="col-md-8 writerow" style="padding: 0">
                 <textarea id="remarkstring" (blur)="blurRemarkString()" class="inputTextarea" style="overflow-y: auto"
-                  placeholder="請填入備註"></textarea>
+                  placeholder="請填入備註" maxlength="1000"></textarea>
                 <div *ngIf="errorRemarkString.state" style="color: #e60012">{{errorRemarkString.errorString}}</div>
               </div>
             </div>
