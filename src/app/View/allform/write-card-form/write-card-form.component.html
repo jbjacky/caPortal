@@ -12,7 +12,10 @@
         </label>
         <div class="col-md-4  col-xs-12  P_dashed ">
           <span>
-            xxx
+            {{ApplicantEmp.EmpID}}
+          </span>
+          <span>
+            {{ApplicantEmp.EmpName}}
           </span>
         </div>
         <label class="col-md-2  col-xs-12  control-label P_textTopLeft">
@@ -20,7 +23,10 @@
         </label>
         <div class="col-md-4  col-xs-12 ">
           <span>
-            ooo
+            {{WriteEmp.EmpID}}
+          </span>
+          <span>
+            {{WriteEmp.EmpName}}
           </span>
         </div>
       </div>
@@ -32,7 +38,7 @@
           <ng-container i18n>日期</ng-container>
         </label>
         <div class="col-md-4 row" style="margin:0;padding:0">
-          <div class="col-md-10 col-xs-10 P_paddingZ">
+          <div class="col-md-10 col-xs-10">
             <div style="padding: 0px;  padding-top: 3px">
               <input [matDatepicker]="EndDatePicker" id="id_ipt_endday" (blur)="blurEndDate()" type="text"
                 class="form-control" placeholder="年/月/日" (dateChange)="blurEndDate()" />
@@ -56,7 +62,7 @@
           <ng-container i18n>時間</ng-container>
         </label>
         <div class="col-md-4 col-xs-12 row" style="margin:0;padding:0">
-          <div class="col-md-10 col-xs-10 P_paddingZ">
+          <div class="col-md-10 col-xs-10">
             <input id="id_ipt_endtime" (blur)="blurEndTime()" type="text" class="form-control" placeholder="範例:08:00"
               [textMask]="EndTimeMask()">
           </div>

@@ -7,6 +7,8 @@ import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { takeWhile } from 'rxjs/operators';
 
 declare let $: any; //use jquery
 
@@ -36,14 +38,6 @@ export class WriteCardFormComponent implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
-  WriteCardFromGroup: FormGroup = new FormGroup({
-    EmpCode:new FormControl(''),
-    WriteEmpCode:new FormControl(''),
-    WriteCardDate:new FormControl(''),
-    WriteCardTime:new FormControl(''),
-    WriteCause:new FormControl(''),
-    WriteNote:new FormControl('')
-  })
 
   sendForgetForm: sendForgetForm = new sendForgetForm();
 
@@ -61,6 +55,7 @@ export class WriteCardFormComponent implements OnInit, AfterViewInit, OnDestroy 
   onChangeSingMan$: Observable<any> = this.Sub_onChangeSignMan$; //切換選擇簽核人員使用
 
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private GetApiUserService: GetApiUserService,
     private router: Router,
     private LoadingPage: NgxSpinnerService) { }
 
@@ -69,10 +64,18 @@ export class WriteCardFormComponent implements OnInit, AfterViewInit, OnDestroy 
   OnWorkDate: string
   OffWorkDate: string
 
-
+  ApplicantEmp = { EmpID: '', EmpName: '' }
+  WriteEmp = { EmpID: '', EmpName: '' }
   ngOnInit() {
     this.Sub_onChangeSignMan$.next("0004420");
-
+    this.GetApiUserService.counter$
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          this.ApplicantEmp = { EmpID: x.EmpID, EmpName: x.EmpNameC }
+          this.WriteEmp = { EmpID: x.EmpID, EmpName: x.EmpNameC }
+        }
+      )
     // this.GetApiDataServiceService.getWebApiData_GetCauseByForm()
     //   .pipe(takeWhile(() => this.api_subscribe))
     //   .subscribe(
