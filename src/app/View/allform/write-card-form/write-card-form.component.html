@@ -1,0 +1,209 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container ">
+    <h3>
+      <ng-container i18n>填寫忘刷單</ng-container>
+    </h3>
+    <div class="P_smallpadding row">
+
+      <!-- 考勤異常人 -->
+      <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+        <label class="col-md-2 col-xs-12 control-label P_textLeft">
+          <ng-container i18n>員工</ng-container>
+        </label>
+        <div class="col-md-4  col-xs-12  P_dashed ">
+          <span>
+            xxx
+          </span>
+        </div>
+        <label class="col-md-2  col-xs-12  control-label P_textTopLeft">
+          <ng-container i18n>填寫人</ng-container>
+        </label>
+        <div class="col-md-4  col-xs-12 ">
+          <span>
+            ooo
+          </span>
+        </div>
+      </div>
+      <!-- 考勤異常人 -->
+
+      <!-- 實際離勤日期 -->
+      <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+        <label class="col-md-2 control-label" style="text-align: right;padding-top: 7px">
+          <ng-container i18n>日期</ng-container>
+        </label>
+        <div class="col-md-4 row" style="margin:0;padding:0">
+          <div class="col-md-10 col-xs-10 P_paddingZ">
+            <div style="padding: 0px;  padding-top: 3px">
+              <input [matDatepicker]="EndDatePicker" id="id_ipt_endday" (blur)="blurEndDate()" type="text"
+                class="form-control" placeholder="年/月/日" (dateChange)="blurEndDate()" />
+            </div>
+          </div>
+          <div class="col-md-2 col-xs-2" style="padding: 0px">
+            <mat-datepicker #EndDatePicker touchUi [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+            <div class="col-md-2  col-xs-2" style="padding: 0px">
+              <input (click)="EndDatePicker.open()" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
+                                            cursor: pointer;
+                                            color: transparent;
+                                            border: 1px solid transparent;
+                                            width: 50px;
+                                            height: 40px;
+                                            " class="bt_disable">
+            </div>
+          </div>
+          <span *ngIf="errorEndDate.state" style="color: #e60012">{{errorEndDate.errorString}}</span>
+        </div>
+        <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 7px">
+          <ng-container i18n>時間</ng-container>
+        </label>
+        <div class="col-md-4 col-xs-12 row" style="margin:0;padding:0">
+          <div class="col-md-10 col-xs-10 P_paddingZ">
+            <input id="id_ipt_endtime" (blur)="blurEndTime()" type="text" class="form-control" placeholder="範例:08:00"
+              [textMask]="EndTimeMask()">
+          </div>
+          <div class="col-md-2 col-xs-2" style="padding: 0px">
+            <input #EndTimeView id="id_bt_endtime" (click)="changeEndTimeView()" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                                        cursor: pointer;
+                                        color: transparent;
+                                        border: 1px solid transparent;
+                                        width: 50px;
+                                        height: 40px;
+                                        padding: 0px;
+                                        " class="bt_disable">
+          </div>
+          <span *ngIf="errorEndTime.state" style="color: #e60012">{{errorEndTime.errorString}}</span>
+
+        </div>
+      </div>
+      <!-- 實際離勤日期 -->
+      <!-- 異常原因 -->
+      <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+        <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 6px">
+          <span class="form-must-fill">*</span>
+          <ng-container i18n>異常原因</ng-container>
+        </label>
+        <div class="col-md-4 col-xs-12">
+          <select class="form-control" (change)="chooseCause($event)" [(ngModel)]="sendForgetForm.CauseID1">
+            <option *ngFor="let Cause of Cause" [value]="Cause.CauseID">{{Cause.CauseNameC}}</option>
+          </select>
+          <span *ngIf="errorCause.state" style="color: #e60012">{{errorCause.errorString}}</span>
+
+        </div>
+      </div>
+      <!-- 異常原因 -->
+
+      <!-- 補充說明 -->
+      <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+        <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 6px">
+          <span class="form-must-fill">*</span>
+          <ng-container i18n>補充說明</ng-container>
+        </label>
+        <div class="col-md-8  col-xs-12">
+          <textarea class="inputTextarea" style="overflow-y: auto" placeholder="請輸入說明"
+            [(ngModel)]="sendForgetForm.Note"></textarea>
+
+        </div>
+      </div>
+      <!-- 補充說明 -->
+    </div>
+
+    <!-- 簽核人員 -->
+
+    <div class="P_smallpadding row" style="border:0px">
+      <label class="col-md-2 col-xs-12 control-label P_textLeft">
+        <span class="form-must-fill">*</span>
+        <ng-container i18n>簽核人員</ng-container>
+      </label>
+      <div class="col-md-10 col-xs-12">
+        <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeSingMan$"></app-select-signer>
+        <span *ngIf="errorSigner.state" style="color: #e60012">{{errorSigner.errorString}}</span>
+      </div>
+
+    </div>
+    <!-- 簽核人員 -->
+
+    <!-- 返回，呈核按鈕 -->
+    <div class="P_smallpadding row" style="border:0px">
+      <div class="col-md-2 col-xs-12">
+      </div>
+      <div class="col-md-10 col-xs-12">
+        <div class="featuresBlock">
+          <div class="btSend">
+            <button class="btn btn-primary" type="submit">
+              <ng-container i18n>送出表單</ng-container>
+            </button>
+            <!-- 送出申請單 -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 返回，呈核按鈕 -->
+
+  </div>
+</div>
+
+
+
+
+<div class="modal" id="checksenddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認送出?</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body" *ngIf="forgetShowCheckText.length>0 || forgetShowCheckFlowText.length>0">
+          <div *ngIf="forgetShowCheckText.length>0" style="margin-bottom: 10px;">
+            {{forgetShowCheckText}}
+          </div>
+          <div *ngIf="forgetShowCheckFlowText.length>0">
+            {{forgetShowCheckFlowText}}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">
+            <ng-container i18n>送出</ng-container>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog確認送出 -->
+<div class="modal" id="sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>申請完成</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            <ng-container i18n>表單送出完成</ng-container>!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='["../home"]'>
+            <ng-container i18n>確定</ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog送出成功 -->

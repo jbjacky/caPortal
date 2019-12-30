@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FileSaverService } from "ngx-filesaver";
-import { LZStringService } from "ng-lz-string";
 import { uploadFileClass } from '../Models/uploadFileClass';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -11,7 +10,6 @@ import { Router } from '@angular/router';
 export class FileDownloadService {
   constructor(private router: Router,
     private _FileSaverService: FileSaverService,
-    private lz: LZStringService,
     private location: Location) { }
 
   base64(apiFile: uploadFileClass) {

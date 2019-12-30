@@ -23,7 +23,6 @@ import { MatInputModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
 import { FileSaverModule } from 'ngx-filesaver';
 import { NgxSelectModule } from 'ngx-select-ex';
-import { LZStringModule, LZStringService } from 'ng-lz-string';
 
 import { NavComponent } from 'src/app/View/nav/nav.component';
 import { HomeComponent } from 'src/app/View/home/home.component';
@@ -117,6 +116,7 @@ import { CardPatchFormWriteComponent } from '../allform/card-patch-form/card-pat
 import {NgxPrintModule} from 'ngx-print';
 import { OwnSearchCardTimeComponent } from '../own-search-card-time/own-search-card-time.component';
 import { PersonnelSearchCardTimeComponent } from '../personnel-search-card-time/personnel-search-card-time.component';
+import { WriteCardFormComponent } from '../allform/write-card-form/write-card-form.component';
 
 const MY_DATE_FORMATS = {
   parse: {
@@ -175,7 +175,6 @@ export class MyDateAdapter extends NativeDateAdapter {
     chcekdialogModule,
     FileSaverModule,
     NgxSelectModule,
-    LZStringModule,
     SharemodelModule,
     QuillModule,
     TreeModule.forRoot(),
@@ -264,6 +263,7 @@ export class MyDateAdapter extends NativeDateAdapter {
     OtformdetailComponent,
     RmStateFormComponent,
     RmStateFormWriteComponent,
+    WriteCardFormComponent
 
   ],
   providers: [
@@ -271,7 +271,6 @@ export class MyDateAdapter extends NativeDateAdapter {
     TestGuard,
     GetApiDataServiceService,
     GetApiUserService,
-    LZStringService,
     ExportExcelService,
     // ReviewformServiceService,
     MatDatepickerModule,

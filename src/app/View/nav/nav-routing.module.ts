@@ -80,6 +80,7 @@ import { RmStateFormWriteComponent } from '../allform/rm-state-form/rm-state-for
 import { CardPatchFormComponent } from '../allform/card-patch-form/card-patch-form.component';
 import { OwnSearchCardTimeComponent } from '../own-search-card-time/own-search-card-time.component';
 import { PersonnelSearchCardTimeComponent } from '../personnel-search-card-time/personnel-search-card-time.component';
+import { WriteCardFormComponent } from '../allform/write-card-form/write-card-form.component';
 
 const routes: Routes = [
   {
@@ -371,6 +372,10 @@ const routes: Routes = [
       },
       {
         path: 'PersonnelSearchCardTimeComponent', component: PersonnelSearchCardTimeComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'WriteCardFormComponent', component: WriteCardFormComponent,
         canActivate: [AuthGuard],
       }
     ]

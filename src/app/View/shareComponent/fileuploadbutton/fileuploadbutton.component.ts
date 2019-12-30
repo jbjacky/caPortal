@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy, AfterContentInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FileSaverService } from 'ngx-filesaver';
-import { LZStringService } from 'ng-lz-string';
 import { uploadFileClass } from 'src/app/Models/uploadFileClass';
 import { Router, NavigationEnd } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
@@ -39,7 +38,6 @@ export class FileuploadbuttonComponent implements OnInit, AfterContentInit, OnDe
   constructor(private router: Router,
     private _httpClient: HttpClient,
     private _FileSaverService: FileSaverService,
-    private lz: LZStringService,
     private GetApiDataServiceService: GetApiDataServiceService,
   ) {
   }

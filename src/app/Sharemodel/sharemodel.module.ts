@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule,ReactiveFormsModule }   from '@angular/forms';
 
 import { NgxSelectModule } from 'ngx-select-ex';
-import { LZStringModule, LZStringService } from 'ng-lz-string';
 import { SelectSignerComponent } from 'src/app/View/select-signer/select-signer.component';
 import { ChoosebaseComponent } from '../View/shareComponent/choosebase/choosebase.component';
 import { FileuploadbuttonComponent } from '../View/shareComponent/fileuploadbutton/fileuploadbutton.component';
@@ -71,7 +70,6 @@ import { CardTimeTableComponent } from '../View/shareComponent/card-time-table/c
     FormsModule,
     ReactiveFormsModule,
     NgxSelectModule,
-    LZStringModule,
     TextMaskModule,
     MatPaginatorModule,
     MatDatepickerModule,
@@ -144,10 +142,9 @@ import { CardTimeTableComponent } from '../View/shareComponent/card-time-table/c
     ErrorPutForwardSnackComponent,
     SussesPutForwardSnackComponent,
     SussesSendbackSnackComponent,
-    ErrorSendbackSnackComponent,
+    ErrorSendbackSnackComponent
   ],
   providers: [
-    LZStringService,
     FileDownloadService
   ],
   declarations: [
