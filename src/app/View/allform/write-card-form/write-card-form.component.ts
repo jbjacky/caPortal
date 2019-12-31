@@ -9,6 +9,8 @@ import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
 import { takeWhile } from 'rxjs/operators';
+import { CardPatchSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/CardPatchSaveAndFlowStartClass';
+import { doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
 
 declare let $: any; //use jquery
 
@@ -66,6 +68,7 @@ export class WriteCardFormComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ApplicantEmp = { EmpID: '', EmpName: '' }
   WriteEmp = { EmpID: '', EmpName: '' }
+  selectDay: Date
   ngOnInit() {
     this.Sub_onChangeSignMan$.next("0004420");
     this.GetApiUserService.counter$
@@ -185,6 +188,52 @@ export class WriteCardFormComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
   onSubmit() {
+    var CardPatchSaveAndFlowStart: CardPatchSaveAndFlowStartClass = {
+      "FlowApp": {
+        "FlowApps": [
+          {
+            "EmpID": this.ApplicantEmp.EmpID,
+            "EmpCode": this.ApplicantEmp.EmpID,
+            "EmpNameC": this.ApplicantEmp.EmpName,
+            "Date": doFormatDate(this.selectDay),
+            "RoteDateTimeB": "",
+            "RoteDateTimeE": "",
+            "CardDateTimeB": "",
+            "CardDateTimeE": "",
+            "DateB": "",
+            "DateE": "",
+            "TimeB": "",
+            "TimeE": "",
+            "DateTimeB": "",
+            "DateTimeE": "",
+            "CauseID1": this.sendForgetForm.CauseID1,
+            "CauseName1": this.sendForgetForm.CauseName1,
+            "CauseID2": "",
+            "CauseName2": "",
+            "Note": this.sendForgetForm.Note,
+            "Info": "",
+            "MailBody": "",
+            "State": "1",
+            "UploadFile": null,
+            "ExceptionalCode": "",
+            "ExceptionalName": "", //有異常但沒註記
+            "ExceptionalCodeCancel": "",
+            "ExceptionalNameCancel": "" //有異常且已經註記
+          }
+        ],
+        "EmpID": this.WriteEmp.EmpID,
+        "EmpCode": this.WriteEmp.EmpID,
+        "EmpNameC": this.WriteEmp.EmpName,
+        "State": "1"
+      },
+      "FlowDynamic": {
+        "FlowNode": "519",
+        "RoleID": "",
+        "EmpID": this.FlowDynamic_Base.EmpID,
+        "DeptID": this.FlowDynamic_Base.DeptaID.toString(),
+        "PosID": this.FlowDynamic_Base.JobID.toString()
+      }
+    }
     // this.checkError();
   }
   // onSubmit() {

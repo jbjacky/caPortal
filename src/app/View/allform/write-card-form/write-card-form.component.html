@@ -40,7 +40,7 @@
         <div class="col-md-4 row" style="margin:0;padding:0">
           <div class="col-md-10 col-xs-10">
             <div style="padding: 0px;  padding-top: 3px">
-              <input [matDatepicker]="EndDatePicker" id="id_ipt_endday" (blur)="blurEndDate()" type="text"
+              <input [matDatepicker]="EndDatePicker" [(ngModel)]="selectDay" id="id_ipt_endday" (blur)="blurEndDate()" type="text"
                 class="form-control" placeholder="年/月/日" (dateChange)="blurEndDate()" />
             </div>
           </div>
@@ -134,7 +134,7 @@
       <div class="col-md-10 col-xs-12">
         <div class="featuresBlock">
           <div class="btSend">
-            <button class="btn btn-primary" type="submit">
+            <button class="btn btn-primary" type="button" (click)="onSubmit()">
               <ng-container i18n>送出表單</ng-container>
             </button>
             <!-- 送出申請單 -->
