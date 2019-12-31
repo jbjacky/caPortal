@@ -43,6 +43,7 @@ export class PersonnelSearchSurplusLeaveComponent implements OnInit, OnDestroy {
 
 
   setMan = { EmpCode: '', EmpName: '', DeptaID: '', DeptaName: '' }
+  BaseHour = ''
   ngOnInit() {
     this.showSpecialLeave.AbsAddition = []
     this.showWelfare.AbsAddition = []
@@ -90,9 +91,14 @@ export class PersonnelSearchSurplusLeaveComponent implements OnInit, OnDestroy {
       .subscribe(
         (GetBaseInfoDetail: GetBaseInfoDetailClass[]) => {
           if (GetBaseInfoDetail) {
-            this.showBnftDate = formatDateTime(GetBaseInfoDetail[0].BnftDate).getDate
-            this.showSearchMan.EmpCode = GetBaseInfoDetail[0].EmpCode
-            this.showSearchMan.EmpNameC = GetBaseInfoDetail[0].EmpNameC
+            for (let BaseInfo of GetBaseInfoDetail) {
+              if (BaseInfo.PosType == "M") {
+                this.showBnftDate = formatDateTime(BaseInfo.BnftDate).getDate
+                this.showSearchMan.EmpCode = BaseInfo.EmpCode
+                this.showSearchMan.EmpNameC = BaseInfo.EmpNameC
+                this.BaseHour = BaseInfo.BaseHour.toString()
+              }
+            }
           }
 
           this.GetApiDataServiceService.getWebApiData_GetHoliDayBalanceFlow(GetHoliDayBalanceFlow)
@@ -301,8 +307,8 @@ export class PersonnelSearchSurplusLeaveComponent implements OnInit, OnDestroy {
       }
       this.LoadingPage.show()
       this.GetApiDataServiceService.getWebApiData_GetBaseByFormDeptDown(GetBaseByFormClass)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe((x: any) => {
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe((x: any) => {
           if (x == null) {
             // alert('工號輸入錯誤')
             this.Assistant(GetBaseByFormClass)

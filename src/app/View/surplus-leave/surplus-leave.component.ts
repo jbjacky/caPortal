@@ -36,6 +36,8 @@ export class SurplusLeaveComponent implements OnInit, OnDestroy {
 
 
   SearchMan = { EmpCode: '', EmpNameC: '' }
+
+  BaseHour = ''
   ngOnInit() {
     this.showSpecialLeave.AbsAddition = []
     this.showWelfare.AbsAddition = []
@@ -52,6 +54,7 @@ export class SurplusLeaveComponent implements OnInit, OnDestroy {
           this.showBnftDate = formatDateTime(x.BnftDate).getDate
 
           this.SearchBalanceFlow(x.EmpCode)
+          this.BaseHour = x.BaseHour.toString()
         }
 
       })

@@ -25,6 +25,9 @@
         </div>
       </div>
     </div>
+    <div *ngIf="BaseHour.length > 0" style="text-align: right;">
+      1 <ng-container i18n>日</ng-container> = {{BaseHour}} <ng-container i18n>小時</ng-container>
+    </div>
     <div *ngIf="showSurplusLeaveAbsDeduction.length == 0 &&
       showSpecialLeave.AbsAddition.length == 0 &&
       showWelfare.AbsAddition.length == 0 &&
@@ -224,11 +227,11 @@
             </td>
             <td>
               <!-- 差假結餘 -->
-              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Day}}</div> 
+              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Day}}</div>
               <ng-container i18n> 日 </ng-container>
-              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Hour}}</div> 
+              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Hour}}</div>
               <ng-container i18n> 時 </ng-container>
-              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Minute}}</div> 
+              <div class="showDayHourMin">{{showDomestic_AbsAddition.RestAmountDayHourMin.Minute}}</div>
               <ng-container i18n> 分 </ng-container>
             </td>
             <td>
