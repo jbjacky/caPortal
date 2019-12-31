@@ -55,18 +55,18 @@
         </div>
         <div class="col-md-8 col-xs-12" style="padding:0;">
           <div class="col-md-4 col-xs-4" style="padding: 0px 2px;">
-            <select class="form-control" style="text-align-last: center;padding:0">
-              <option>2019年</option>
+            <select class="form-control" style="text-align-last: center;padding:0" [(ngModel)]="searchSalary.year">
+              <option *ngFor="let year of yearSelectArray" [value]="year">{{year}}年</option>
             </select>
           </div>
           <div class="col-md-4 col-xs-3" style="padding: 0px 2px;">
-            <select class="form-control" style="text-align-last: center;padding:0">
-              <option>11月</option>
+            <select class="form-control" style="text-align-last: center;padding:0" [(ngModel)]="searchSalary.Month">
+              <option *ngFor="let month of monthSelectArray" [value]="month">{{month}}月</option>
             </select>
           </div>
           <div class="col-md-4 col-xs-5" style="padding: 0px 2px;">
-            <select class="form-control" style="text-align-last: center;padding:0">
-              <option>本期(第二期)</option>
+            <select class="form-control" style="text-align-last: center;padding:0" [(ngModel)]="searchSalary.period">
+              <option *ngFor="let period of periodSelectArray" [value]="period">第 {{period}} 期</option>
             </select>
           </div>
         </div>

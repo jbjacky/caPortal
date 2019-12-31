@@ -70,27 +70,31 @@ export class WriteCardFormComponent implements OnInit, AfterViewInit, OnDestroy 
   WriteEmp = { EmpID: '', EmpName: '' }
   selectDay: Date
   ngOnInit() {
-    this.Sub_onChangeSignMan$.next("0004420");
+    this.LoadingPage.show();
     this.GetApiUserService.counter$
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: any) => {
           this.ApplicantEmp = { EmpID: x.EmpID, EmpName: x.EmpNameC }
           this.WriteEmp = { EmpID: x.EmpID, EmpName: x.EmpNameC }
+          this.Sub_onChangeSignMan$.next(x.EmpID);
+          this.GetApiDataServiceService.getWebApiData_GetCauseByForm()
+            .pipe(takeWhile(() => this.api_subscribe))
+            .subscribe(
+              (data: any) => {
+                // console.log(this.getAttendCard)
+                for (let x of data) {
+                  this.Cause.push({ CauseID: x.CauseID, CauseNameC: x.CauseNameC })
+                }
+
+                this.sendForgetForm.CauseID1 = data[0].CauseID
+                this.sendForgetForm.CauseName1 = data[0].CauseNameC
+                this.LoadingPage.hide();
+
+              }
+            )
         }
       )
-    // this.GetApiDataServiceService.getWebApiData_GetCauseByForm()
-    //   .pipe(takeWhile(() => this.api_subscribe))
-    //   .subscribe(
-    //     (data: any) => {
-    //       // console.log(this.getAttendCard)
-    //       for (let x of data) {
-    //         this.Cause.push({ CauseID: x.CauseID, CauseNameC: x.CauseNameC })
-    //       }
-
-
-    //     }
-    //   )
   }
 
   FlowDynamic_Base: GetSelectBaseClass;
@@ -179,8 +183,10 @@ export class WriteCardFormComponent implements OnInit, AfterViewInit, OnDestroy 
       alert('請填寫補充說明')
     } else if (!this.FlowDynamic_Base) {
       alert('請選擇簽核人員')
+    } else if (!this.selectDay) {
+      this.errorEndDate = { state: true, errorString: '請填寫日期' };
     } else if ($('#id_ipt_endtime').val().length == 0) {
-      this.errorEndTime = { state: true, errorString: '請輸入實際離勤時間' };
+      this.errorEndTime = { state: true, errorString: '請填寫時間' };
     } else if (!this.sendForgetForm.CauseID1) {
       this.errorCause = { state: true, errorString: '請選擇異常原因' };
     } else {
