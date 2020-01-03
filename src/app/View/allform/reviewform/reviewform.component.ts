@@ -892,7 +892,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                   // alert(x.MessageContent)
                   this.SnackBar.openFromComponent(ErrorApproveSnackComponent, {
                     data: x.MessageContent.toString(),
-                    panelClass: x.MessageContent,
+                    panelClass: 'ErrorSnackClass',
                     duration: SnackSetting.duration,
                     verticalPosition: SnackSetting.verticalPosition,
                     horizontalPosition: SnackSetting.horizontalPosition
