@@ -21,6 +21,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 declare let $: any; //use jquery
 
 @Component({
@@ -101,44 +102,44 @@ export class ChangeTwoRComponent implements OnInit, AfterViewInit, OnDestroy {
 
   RouteReload() {
     this.chooseRadio = 1;
-  
-  
+
+
     this.api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
-  
-  
+
+
     this.ShowDetail = []
-  
+
     this.uiShow = []
     this.selectDay = []
-  
-  
+
+
     this.Emp = { EmpCode: '', EmpName: '' }
     this.ChangeEmp = { EmpCode: '', EmpName: '' }
-  
+
     this.My_Emp = { EmpCode: '', EmpName: '' }
     this.My_ChangeEmp = { EmpCode: '', EmpName: '' }
     this.Assistant_Emp = { EmpCode: '', EmpName: '' }
     this.Assistant_ChangeEmp = { EmpCode: '', EmpName: '' }
-    this.My_searchDate= null
-    this.Assistant_searchDate= null
-  
+    this.My_searchDate = null
+    this.Assistant_searchDate = null
+
     this.ReallyWriteMan = { EmpCode: '', EmpName: '' }
-  
+
     this.oneP = new reallyData_P()
     this.twoP = new reallyData_P()
-  
+
     this.writeState = 1; //步驟一
-  
-  
+
+
     this.agreeCheckbox = false
-  
-  
+
+
     this.searchDate = null
     this.today = new Date()
     this.My_errorChangeEmpState = { state: false, errorString: '' }
     this.Assistant_errorEmpState = { state: false, errorString: '' }
     this.Assistant_errorChangeEmpState = { state: false, errorString: '' }
-    this.NoteText=null
+    this.NoteText = null
   }
   ngOnInit() {
     // this.RouteReload()
@@ -254,7 +255,7 @@ export class ChangeTwoRComponent implements OnInit, AfterViewInit, OnDestroy {
   RRoneZ_Disable() {
     for (let ui of this.uiShow) {
       var uiDate = new Date()
-      uiDate.setFullYear( (parseInt(ui.reallydate.split('/')[0])) )
+      uiDate.setFullYear((parseInt(ui.reallydate.split('/')[0])))
       uiDate.setMonth((parseInt(ui.date.split('/')[0]) - 1))
       uiDate.setDate(parseInt(ui.date.split('/')[1]))
       uiDate.setHours(0, 0, 0)
@@ -437,14 +438,14 @@ export class ChangeTwoRComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  CheckSendFormLimit(){
+  CheckSendFormLimit() {
     this.LoadingPage.show()
     this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.Emp.EmpCode)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
         if (GetBaseParameterData.length > 0) {
           if (GetBaseParameterData[0].IsAllowLeave) {
-  
+
             this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.ChangeEmp.EmpCode)
               .pipe(takeWhile(() => this.api_subscribe))
               .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
@@ -682,10 +683,10 @@ export class ChangeTwoRComponent implements OnInit, AfterViewInit, OnDestroy {
           (d: boolean) => {
             var canNext: boolean = false
             if (d) {
-              if(this.search_IsAssistant){
+              if (this.search_IsAssistant) {
                 //行政不限制
                 canNext = true
-              }else if (this.val_TT(this.selectDay).State) {
+              } else if (this.val_TT(this.selectDay).State) {
                 //如果通過地服處內規
                 canNext = true
               } else {
@@ -713,10 +714,10 @@ export class ChangeTwoRComponent implements OnInit, AfterViewInit, OnDestroy {
                   (y: boolean) => {
                     var canNext_ChangeEmp: boolean = false
                     if (y) {
-                      if(this.search_IsAssistant){
+                      if (this.search_IsAssistant) {
                         //行政不限制
                         canNext_ChangeEmp = true
-                      }else if (this.val_TT(this.selectDay).State) {
+                      } else if (this.val_TT(this.selectDay).State) {
                         //如果通過地服處內規
                         canNext_ChangeEmp = true
                       } else {
@@ -962,7 +963,7 @@ export class ChangeTwoRComponent implements OnInit, AfterViewInit, OnDestroy {
   //   this.FlowDynamic_EmpID = id
 
   // }
-  disableSend(){
+  disableSend() {
     if (!this.NoteText) {
       return true
     } else if (!this.agreeCheckbox) {
@@ -1079,8 +1080,17 @@ export class ChangeTwoRComponent implements OnInit, AfterViewInit, OnDestroy {
     this.GetApiDataServiceService.getWebApiData_ShiftRoteSaveAndFlowStart(ShiftRoteSaveAndFlowStart)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        (x: any) => {
-          $('#sussesdialog').modal('show');
+        (x: ResponeStateClass) => {
+          // console.log(SaveAndFlowStart)
+          if (x.isOK) {
+            $('#sussesdialog').modal('show');
+          } else {
+            var errMsg = ''
+            for (let e of x.ErrorMsg) {
+              errMsg += e + '。 '
+            }
+            alert(errMsg);
+          }
           this.LoadingPage.hide()
         }, error => {
           this.LoadingPage.hide()
@@ -1339,13 +1349,13 @@ export class ChangeTwoRComponent implements OnInit, AfterViewInit, OnDestroy {
     $('#bt_TimeShow').addClass('onShowButton')
     $('#bt_TimeShow').removeClass('offShowButton')
   }
-  
+
   private Be_setGetRoteInfo$: BehaviorSubject<any> = new BehaviorSubject<Array<number>>(null);
   Ob_setGetRoteInfo$: Observable<any> = this.Be_setGetRoteInfo$;
-  
-  bt_Show_RoteInfo(oneSearchRoteID:number) {
+
+  bt_Show_RoteInfo(oneSearchRoteID: number) {
     var searchRoteID: Array<number> = []
-    if(oneSearchRoteID){
+    if (oneSearchRoteID) {
       searchRoteID.push(oneSearchRoteID)
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf').modal('show')

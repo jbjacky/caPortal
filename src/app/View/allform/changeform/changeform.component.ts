@@ -19,6 +19,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 declare let $: any; //use jquery
 
 @Component({
@@ -974,8 +975,17 @@ export class ChangeformComponent implements OnInit, AfterViewInit, OnDestroy {
     this.GetApiDataServiceService.getWebApiData_ShiftRoteSaveAndFlowStart(ShiftRoteSaveAndFlowStart)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        (x: any) => {
-          $('#sussesdialog').modal('show');
+        (x: ResponeStateClass) => {
+          // console.log(SaveAndFlowStart)
+          if (x.isOK) {
+            $('#sussesdialog').modal('show');
+          } else {
+            var errMsg = ''
+            for (let e of x.ErrorMsg) {
+              errMsg += e + '。 '
+            }
+            alert(errMsg);
+          }
           this.LoadingPage.hide()
         }, error => {
           this.LoadingPage.hide()

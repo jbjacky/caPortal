@@ -20,6 +20,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { uiShowClass } from 'src/app/Models/uiShowClass';
 import { valTT_Class, TT_errorDataClass } from 'src/app/Models/valTT_Class';
 import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 
 declare let $: any; //use jquery
 
@@ -767,13 +768,17 @@ export class ChangeNonShiftSameComponent implements OnInit, AfterViewInit, OnDes
     this.GetApiDataServiceService.getWebApiData_ShiftRoteSaveAndFlowStart(ShiftRoteSaveAndFlowStart)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        x => {
-          if (x) {
+        (x: ResponeStateClass) => {
+          if (x.isOK) {
             $('#sussesdialog').modal('show')
-            this.LoadingPage.hide()
           } else {
-
+            var errMsg = ''
+            for (let e of x.ErrorMsg) {
+              errMsg += e + '。 '
+            }
+            alert(errMsg);
           }
+          this.LoadingPage.hide()
         },
         error => {
           this.LoadingPage.hide()

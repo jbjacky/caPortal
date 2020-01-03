@@ -16,6 +16,7 @@ import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByF
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { Router, NavigationEnd } from '@angular/router';
 import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 
 declare let $: any; //use jquery
 
@@ -650,8 +651,17 @@ export class ChangeRzComponent implements OnInit, AfterViewInit, OnDestroy {
     this.GetApiDataServiceService.getWebApiData_ShiftRoteSaveAndFlowStart(ShiftRoteSaveAndFlowStart)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        (x: any) => {
-          $('#sussesdialog').modal('show');
+        (x: ResponeStateClass) => {
+          // console.log(SaveAndFlowStart)
+          if (x.isOK) {
+            $('#sussesdialog').modal('show');
+          } else {
+            var errMsg = ''
+            for (let e of x.ErrorMsg) {
+              errMsg += e + '。 '
+            }
+            alert(errMsg);
+          }
           this.LoadingPage.hide()
         }, error => {
           // alert('與api連線異常，getWebApiData_ShiftRoteSaveAndFlowStart')

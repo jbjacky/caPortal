@@ -24,6 +24,7 @@ import { reallyData_P } from 'src/app/Models/reallyData_P';
 import { Router, NavigationEnd } from '@angular/router';
 import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
 import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 declare let $: any; //use jquery
 
 @Component({
@@ -248,7 +249,7 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
   RRoneZ_Disable() {
     for (let ui of this.uiShow) {
       var uiDate = new Date()
-      uiDate.setFullYear( (parseInt(ui.reallydate.split('/')[0])) )
+      uiDate.setFullYear((parseInt(ui.reallydate.split('/')[0])))
       uiDate.setMonth((parseInt(ui.date.split('/')[0]) - 1))
       uiDate.setDate(parseInt(ui.date.split('/')[1]))
       uiDate.setHours(0, 0, 0)
@@ -432,14 +433,14 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  CheckSendFormLimit(){
+  CheckSendFormLimit() {
     this.LoadingPage.show()
     this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.Emp.EmpCode)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
         if (GetBaseParameterData.length > 0) {
           if (GetBaseParameterData[0].IsAllowLeave) {
-  
+
             this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.ChangeEmp.EmpCode)
               .pipe(takeWhile(() => this.api_subscribe))
               .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
@@ -465,7 +466,7 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       })
   }
-  
+
   onSearch() {
 
     if (this.R_Route.length == 0 || this.Z_Route.length == 0 || this.uiDisableArray.length == 0) {
@@ -967,10 +968,10 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
                 } else {
                   canNext = false
                   if (!data.RoteCode2) {
-                    alert(this.Emp.EmpCode + '  ' + oneSimulation.onePRoteName + '  ' + '班型不符合A或D的班型\n' + '或是沒有調換後的班型，'+'請確認調換後的班型是否允許調班')
+                    alert(this.Emp.EmpCode + '  ' + oneSimulation.onePRoteName + '  ' + '班型不符合A或D的班型\n' + '或是沒有調換後的班型，' + '請確認調換後的班型是否允許調班')
                   }
                   if (!data.RoteCode1) {
-                    alert(this.ChangeEmp.EmpCode + '  ' + oneSimulation.twoPRoteName + '  ' + '班型不符合A或D的班型\n' + '或是沒有調換後的班型，'+'請確認調換後的班型是否允許調班')
+                    alert(this.ChangeEmp.EmpCode + '  ' + oneSimulation.twoPRoteName + '  ' + '班型不符合A或D的班型\n' + '或是沒有調換後的班型，' + '請確認調換後的班型是否允許調班')
                   }
                 }
               }
@@ -1231,8 +1232,17 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
     this.GetApiDataServiceService.getWebApiData_ShiftRoteSaveAndFlowStart(ShiftRoteSaveAndFlowStart)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        (x: any) => {
-          $('#sussesdialog').modal('show');
+        (x: ResponeStateClass) => {
+          // console.log(SaveAndFlowStart)
+          if (x.isOK) {
+            $('#sussesdialog').modal('show');
+          } else {
+            var errMsg = ''
+            for (let e of x.ErrorMsg) {
+              errMsg += e + '。 '
+            }
+            alert(errMsg);
+          }
           this.LoadingPage.hide()
         }, error => {
           this.LoadingPage.hide()
@@ -1474,13 +1484,13 @@ export class ChangeTwoPTComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
   }
-  
+
   private Be_setGetRoteInfo$: BehaviorSubject<any> = new BehaviorSubject<Array<number>>(null);
   Ob_setGetRoteInfo$: Observable<any> = this.Be_setGetRoteInfo$;
-  
-  bt_Show_RoteInfo(oneSearchRoteID:number) {
+
+  bt_Show_RoteInfo(oneSearchRoteID: number) {
     var searchRoteID: Array<number> = []
-    if(oneSearchRoteID){
+    if (oneSearchRoteID) {
       searchRoteID.push(oneSearchRoteID)
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf').modal('show')

@@ -63,12 +63,13 @@ export class ErrorHandler implements OnDestroy {
                 .pipe(takeWhile(() => this.api_subscribe))
                 .subscribe((x: any) => {
                     if (x) {
+                        var NowUrl = window.location.href.toString()
                         this.KeyMan = x.EmpID;
-                        var errorString = ''
+                        var errorString = ''+NowUrl
                         if(ifTimeOut){
-                            errorString = 'TimeOut'
+                            errorString += 'TimeOut'
                         }else{
-                            errorString = error.error.toString()
+                            errorString += error.error.toString()
                         }
                         var LogApiMsgGetApi: LogApiMsgGetApiClass = {
                             userAgent: this.deviceService.userAgent,

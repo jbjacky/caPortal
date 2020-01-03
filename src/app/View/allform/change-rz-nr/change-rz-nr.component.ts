@@ -17,6 +17,7 @@ import { uiShowClass } from 'src/app/Models/uiShowClass';
 import { valTT_Class, TT_errorDataClass } from 'src/app/Models/valTT_Class';
 import { NavigationEnd, Router } from '@angular/router';
 import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 
 declare let $: any; //use jquery
 
@@ -720,9 +721,16 @@ export class ChangeRzNRComponent implements OnInit, AfterViewInit, OnDestroy {
     this.GetApiDataServiceService.getWebApiData_ShiftRoteSaveAndFlowStart(ShiftRoteSaveAndFlowStart)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        (x: any) => {
-          if (x == 1) {
+        (x: ResponeStateClass) => {
+          // console.log(SaveAndFlowStart)
+          if (x.isOK) {
             $('#sussesdialog').modal('show');
+          } else {
+            var errMsg = ''
+            for (let e of x.ErrorMsg) {
+              errMsg += e + '。 '
+            }
+            alert(errMsg);
           }
           this.LoadingPage.hide()
         }, error => {

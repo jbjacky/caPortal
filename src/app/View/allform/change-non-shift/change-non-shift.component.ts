@@ -21,6 +21,7 @@ import { CountReturnClass } from 'src/app/Models/CountReturnClass';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { NavigationEnd, Router } from '@angular/router';
 import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 
 declare let $: any; //use jquery
 
@@ -799,13 +800,18 @@ export class ChangeNonShiftComponent implements OnInit, AfterViewInit, OnDestroy
     this.GetApiDataServiceService.getWebApiData_ShiftRoteSaveAndFlowStart(ShiftRoteSaveAndFlowStart)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        x => {
-          if (x) {
-            $('#sussesdialog').modal('show')
-            this.LoadingPage.hide()
+        (x: ResponeStateClass) => {
+          // console.log(SaveAndFlowStart)
+          if (x.isOK) {
+            $('#sussesdialog').modal('show');
           } else {
-
+            var errMsg = ''
+            for (let e of x.ErrorMsg) {
+              errMsg += e + '。 '
+            }
+            alert(errMsg);
           }
+          this.LoadingPage.hide()
         },
         error => {
           this.LoadingPage.hide()
