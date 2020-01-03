@@ -81,6 +81,7 @@ import { CardPatchFormComponent } from '../allform/card-patch-form/card-patch-fo
 import { OwnSearchCardTimeComponent } from '../own-search-card-time/own-search-card-time.component';
 import { PersonnelSearchCardTimeComponent } from '../personnel-search-card-time/personnel-search-card-time.component';
 import { WriteCardFormComponent } from '../allform/write-card-form/write-card-form.component';
+import { SetSalaryTemplateComponent } from '../set-salary-template/set-salary-template.component';
 
 const routes: Routes = [
   {
@@ -377,7 +378,12 @@ const routes: Routes = [
       {
         path: 'WriteCardFormComponent', component: WriteCardFormComponent,
         canActivate: [AuthGuard],
+      },
+      {
+        path: 'SetSalaryTemplateComponent', component: SetSalaryTemplateComponent,
+        canActivate: [AuthGuard],
       }
+      
     ]
   },
 

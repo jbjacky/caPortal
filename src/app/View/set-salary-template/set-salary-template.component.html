@@ -1,0 +1,86 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container ">
+    <div>
+      <h3 style="margin: 0;">設定薪資樣板</h3>
+    </div>
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px">
+      <div>
+        <label>
+          <ng-container i18n>員工</ng-container>
+        </label>
+      </div>
+      <div style="display: inline-block;">
+        <div class="row" style="margin:0;padding:0">
+          <div class="col-md-6 col-xs-6" style="padding: 0;">
+            <input id="Assistant_ChooseEmpCode" type="text" class="form-control" placeholder="員工號" maxlength="7">
+          </div>
+          <div class="col-md-2 col-xs-3" style="height: 23px;padding: 0px;padding-left: 2px;text-align: center;">
+            <button data-toggle="modal" data-target="#chooseEmpdialog" style="cursor: pointer;border: 0;background: 0">
+              <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+            </button>
+          </div>
+
+          <div class="col-md-4 col-xs-3"
+            style="height: 23px;padding: 0px;padding-left: 2px;text-align: center;padding-top: 6px;">
+            曹博睿
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+      <div>
+        <label>選擇樣板</label>
+      </div>
+      <div style="padding: 0px 20px;">
+        <div style="display: inline-block;margin-right:15px ">
+          <input type="radio" [(ngModel)]="chooseRadio" value="A" (change)="changeRadio()">
+          <ng-container i18n>樣板A</ng-container>
+          <div style="padding: 0px 10px;">
+            <img src="./assets/jbIcon/icon_ pay_sheet-type01-8.png" width="100px" heigh="100px" />
+          </div>
+        </div>
+        <div style="display: inline-block;margin-right:15px ">
+          <input type="radio" [(ngModel)]="chooseRadio" value="B" (change)="changeRadio()">
+          <ng-container i18n>樣板B</ng-container>
+          <div style="padding: 0px 10px;">
+            <img src="./assets/jbIcon/icon_ pay_sheet-type01-4.png" width="100px" heigh="100px" />
+          </div>
+        </div>
+        <div style="display: inline-block;margin-right:15px ">
+          <input type="radio" [(ngModel)]="chooseRadio" value="C" (change)="changeRadio()">
+          <ng-container i18n>樣板C</ng-container>
+          <div style="padding: 0px 10px;">
+            <img src="./assets/jbIcon/icon_ pay_sheet-type01-2.png" width="100px" heigh="100px" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px;margin-bottom: 10px;" class="row">
+      <div>
+        <label>
+          <ng-container i18n>設定薪資代碼位置</ng-container>
+        </label>
+      </div>
+      <div class="row" style="padding:0;margin:0">
+        <div *ngFor="let templateBlock of setTemplate.blockDetail" class="col-md-3 col-xs-3"
+          style="margin-bottom: 10px;">
+          <div>
+            位置{{templateBlock.order}}：
+          </div>
+          <select class="form-control" [(ngModel)]="templateBlock.code">
+            <option value="實發薪資">實發薪資</option>
+            <option value="勞退新制">勞退新制</option>
+            <option value="剩餘時數">剩餘時數</option>
+            <option value="本月所得">本月所得</option>
+            <option value="本月扣款">本月扣款</option>
+            <option value="本月出勤">本月出勤</option>
+            <option value="加班時數">加班時數</option>
+            <option value="加班倍率">加班倍率</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <button  class="btn btn-primary">完成</button>
+    </div>
+  </div>
