@@ -65,11 +65,12 @@ export class ErrorHandler implements OnDestroy {
                     if (x) {
                         var NowUrl = window.location.href.toString()
                         this.KeyMan = x.EmpID;
-                        var errorString = ''+NowUrl
-                        if(ifTimeOut){
+                        var errorString = '' + NowUrl
+                        if (ifTimeOut) {
                             errorString += 'TimeOut'
-                        }else{
+                        } else {
                             errorString += error.error.toString()
+                            errorString += error.message
                         }
                         var LogApiMsgGetApi: LogApiMsgGetApiClass = {
                             userAgent: this.deviceService.userAgent,
