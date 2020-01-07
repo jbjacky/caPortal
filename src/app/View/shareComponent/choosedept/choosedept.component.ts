@@ -64,7 +64,7 @@ export class ChoosedeptComponent implements OnInit {
 
     var GetDeptaByEmpClass: GetDeptaByEmpTTClass = {
       EmpCode: this.api_sendEmpCode,
-      DeptID: 0,
+      DeptID: "",
       Level: 2,
       DeptNameKey: '',
       EmpCodeOrNameKey: '',
@@ -116,7 +116,7 @@ export class ChoosedeptComponent implements OnInit {
       
       var GetDeptaByEmpClass: GetDeptaByEmpTTClass = {
         EmpCode: this.api_sendEmpCode,
-        DeptID: DeptID,
+        DeptID: DeptID.toString(),
         Level: 2,
         DeptNameKey: '',
         EmpCodeOrNameKey: '',

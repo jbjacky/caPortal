@@ -298,7 +298,7 @@ export class GetApiDataServiceService {
     var date = new Date();
     var today = doFormatDate(date);
     return this.http.post(this.localUrl + 'BaseHandler/GetDeptaBySign',
-      JSON.stringify({ "EmpID": _EmpID, "DeptID": 0, "EffectDate": today }), {
+      JSON.stringify({ "EmpID": _EmpID, "DeptID": "", "EffectDate": today }), {
       headers: this.GetHeader()
     })
   }

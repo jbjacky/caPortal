@@ -126,7 +126,7 @@ export class ChoosebaseComponent implements OnInit, AfterViewInit, OnDestroy {
     var _NowToday = doFormatDate(_NowDate);
     var GetDeptaByEmpClass: GetDeptaByEmpTTClass = {
       EmpCode: this.api_sendEmpCode,
-      DeptID: 0,
+      DeptID: "",
       Level: 2,
       DeptNameKey: '',
       EmpCodeOrNameKey: '',
@@ -169,7 +169,7 @@ export class ChoosebaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
       var GetDeptaByEmpClass: GetDeptaByEmpTTClass = {
         EmpCode: this.api_sendEmpCode,
-        DeptID: DeptID,
+        DeptID: DeptID.toString(),
         Level: 2,
         DeptNameKey: '',
         EmpCodeOrNameKey: '',

@@ -84,7 +84,7 @@ export class AdminkeybaseComponent implements OnInit, OnDestroy {
 
           var GetDeptaByEmp: GetDeptaByEmpTTClass = {
             EmpCode: this.api_sendEmpCode,
-            DeptID: 0,
+            DeptID: "",
             Level: 9,
             DeptNameKey: '',
             EmpCodeOrNameKey: searchVal,
@@ -105,7 +105,7 @@ export class AdminkeybaseComponent implements OnInit, OnDestroy {
 
                   var GetDeptaByEmpC: GetDeptaByEmpTTClass = {
                     EmpCode: this.api_sendEmpCode,
-                    DeptID: 0,
+                    DeptID: "",
                     Level: 9,
                     DeptNameKey: searchVal,
                     EmpCodeOrNameKey: '',

@@ -147,7 +147,7 @@ export class ChoosebaseMAComponent implements OnInit, AfterViewInit, OnDestroy {
 
           var GetDeptaByEmp: GetDeptaByEmpTTClass = {
             EmpCode: this.api_sendEmpCode,
-            DeptID: 0,
+            DeptID: "",
             Level: 2,
             DeptNameKey: '',
             EmpCodeOrNameKey: '',
@@ -194,7 +194,7 @@ export class ChoosebaseMAComponent implements OnInit, AfterViewInit, OnDestroy {
       
       var GetDeptaByEmpClass: GetDeptaByEmpTTClass = {
         EmpCode: this.api_sendEmpCode,
-        DeptID: DeptID,
+        DeptID: DeptID.toString(),
         Level: 2,
         DeptNameKey: '',
         EmpCodeOrNameKey: '',

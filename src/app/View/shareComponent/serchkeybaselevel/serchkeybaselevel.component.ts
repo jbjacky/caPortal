@@ -58,7 +58,7 @@ export class SerchkeybaselevelComponent implements OnInit, OnDestroy {
 
           var GetDeptaByEmpClass: GetDeptaByEmpClass = {
             EmpCode: this.api_sendEmpCode,
-            DeptID: 0,
+            DeptID: "",
             Level: 9,
             DeptNameKey: '',
             EmpCodeOrNameKey: searchVal,
@@ -78,7 +78,7 @@ export class SerchkeybaselevelComponent implements OnInit, OnDestroy {
 
                   var GetDeptaByEmpClass: GetDeptaByEmpClass = {
                     EmpCode: this.api_sendEmpCode,
-                    DeptID: 0,
+                    DeptID: "",
                     Level: 9,
                     DeptNameKey: searchVal,
                     EmpCodeOrNameKey: '',

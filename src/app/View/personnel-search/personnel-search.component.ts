@@ -537,7 +537,7 @@ export class PersonnelSearchComponent implements OnInit, OnDestroy {
 
     var GetDeptaByEmpClass: GetDeptaByEmpTTClass = {
       EmpCode: searchEmpCode,
-      DeptID: 0,
+      DeptID: "",
       Level: 2,
       DeptNameKey: '',
       EmpCodeOrNameKey: '',

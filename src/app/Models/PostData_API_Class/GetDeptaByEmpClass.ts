@@ -1,6 +1,6 @@
 export class GetDeptaByEmpClass {
     EmpCode:string
-    DeptID:number
+    DeptID:string
     Level:number
     DeptNameKey:string
     EmpCodeOrNameKey:string
@@ -9,7 +9,7 @@ export class GetDeptaByEmpClass {
 }
 export class GetDeptaByEmpTTClass {
     EmpCode:string
-    DeptID:number
+    DeptID:string
     Level:number
     DeptNameKey:string
     EmpCodeOrNameKey:string

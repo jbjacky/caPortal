@@ -125,7 +125,7 @@ export class ChoosebaselevelComponent implements OnInit,AfterViewInit, OnDestroy
 
           var GetDeptaByEmp: GetDeptaByEmpTTClass = {
             EmpCode: this.api_sendEmpCode,
-            DeptID: 0,
+            DeptID: "",
             Level: 2,
             DeptNameKey: '',
             EmpCodeOrNameKey: '',
@@ -173,7 +173,7 @@ export class ChoosebaselevelComponent implements OnInit,AfterViewInit, OnDestroy
 
       var GetDeptaByEmpClass: GetDeptaByEmpTTClass = {
         EmpCode: this.api_sendEmpCode_Assistant,
-        DeptID: DeptID,
+        DeptID: DeptID.toString(),
         Level: 2,
         DeptNameKey: '',
         EmpCodeOrNameKey: '',
@@ -297,7 +297,7 @@ export class ChoosebaselevelComponent implements OnInit,AfterViewInit, OnDestroy
 
     var GetDeptaByEmpClass: GetDeptaByEmpClass = {
       EmpCode: this.api_sendEmpCode_Level,
-      DeptID: 0,
+      DeptID: "",
       Level: 2,
       DeptNameKey: '',
       EmpCodeOrNameKey: '',
@@ -339,7 +339,7 @@ export class ChoosebaselevelComponent implements OnInit,AfterViewInit, OnDestroy
 
       var GetDeptaByEmpClass: GetDeptaByEmpClass = {
         EmpCode: this.api_sendEmpCode_Level,
-        DeptID: DeptID,
+        DeptID: DeptID.toString(),
         Level: 2,
         DeptNameKey: '',
         EmpCodeOrNameKey: '',
@@ -448,7 +448,7 @@ export class ChoosebaselevelComponent implements OnInit,AfterViewInit, OnDestroy
 
     var GetDeptaByEmpClass: GetDeptaByEmpTTClass = {
       EmpCode: this.api_sendEmpCode,
-      DeptID: 0,
+      DeptID: "",
       Level: 2,
       DeptNameKey: '',
       EmpCodeOrNameKey: '',
@@ -491,7 +491,7 @@ export class ChoosebaselevelComponent implements OnInit,AfterViewInit, OnDestroy
 
       var GetDeptaByEmpClass: GetDeptaByEmpTTClass = {
         EmpCode: this.api_sendEmpCode,
-        DeptID: DeptID,
+        DeptID: DeptID.toString(),
         Level: 2,
         DeptNameKey: '',
         EmpCodeOrNameKey: '',

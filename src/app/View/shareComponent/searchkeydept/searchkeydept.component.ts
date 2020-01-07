@@ -46,7 +46,7 @@ export class SearchkeydeptComponent implements OnInit {
       
         var GetDeptaByEmpClass: GetDeptaByEmpTTClass = {
           EmpCode: this.api_sendEmpCode,
-          DeptID: 0,
+          DeptID: "",
           Level: 9,
           DeptNameKey: searchVal,
           EmpCodeOrNameKey: '',
