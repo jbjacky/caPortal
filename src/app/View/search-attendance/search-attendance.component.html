@@ -110,6 +110,9 @@
                  !OneAttendance.LateleaveMins">
             <ng-container i18n>正常</ng-container>
           </div>
+          <div class="tag_blue" *ngIf="OneAttendance.IsAbnormal">
+            <ng-container i18n>不判斷</ng-container>
+          </div>
           <div *ngIf="OneAttendance.LateMins">
             <div *ngIf="OneAttendance.EliminateLate;else nonEliminateLate" class="tagBlueLineThrough">
               <ng-container i18n>遲到</ng-container>

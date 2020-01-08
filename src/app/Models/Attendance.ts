@@ -16,6 +16,8 @@ export class Attendance {
     OnCardTime_calCrossDay:boolean;
     OffCardTime_calCrossDay:boolean;
 
+    IsAbnormal:boolean;
+
     AttendAbsInfo: null;
   
     Ride: boolean;//搭車

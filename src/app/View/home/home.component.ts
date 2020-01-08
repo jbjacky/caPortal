@@ -253,7 +253,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
                   //考勤異常確認單
                   this.ReviewCount.CardPatchCount += parseInt(ApiFlowSignForm.Count)
                 }
-                
+
               }
             }
           }
@@ -364,12 +364,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (x: any) => {
-          this.TodayAttend =[]
-          this.LastdayAttend =[]
-          for(let aa of x){
-            if(formatDateTime(aa.AttendDate).getDate == this.showTodayString){
+          this.TodayAttend = []
+          this.LastdayAttend = []
+          for (let aa of x) {
+            if (formatDateTime(aa.AttendDate).getDate == this.showTodayString) {
               this.TodayAttend.push(aa)
-            }else if(formatDateTime(aa.AttendDate).getDate == lastday){
+            } else if (formatDateTime(aa.AttendDate).getDate == lastday) {
               this.LastdayAttend.push(aa)
             }
           }
@@ -755,7 +755,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       ListEmpID: [this.EmpCode],
       EffectDate: doFormatDate(today),
       Display: "1",
-      ListState: ["1", "2", "3"]
+      ListState: ["1", "2", "3", "4", "5"]
     }
     this.LoadingPage.show()
     this.GetApiDataServiceService.getWebApiData_GetAttendInfo(GetAttendInfoClass)
@@ -829,10 +829,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       return '#4c4c4c'
     }
   }
-  ShowErrorAttend:Array<any> = []
+  ShowErrorAttend: Array<any> = []
   ShowAttendDate = ''
-  ShowErrorAttendDialog (ShowErrorAttend:Array<any>){
-    if(ShowErrorAttend.length>0){
+  ShowErrorAttendDialog(ShowErrorAttend: Array<any>) {
+    if (ShowErrorAttend.length > 0) {
       this.ShowAttendDate = formatDateTime(ShowErrorAttend[0].AttendDate).getDate
       this.ShowErrorAttend = JSON.parse(JSON.stringify(ShowErrorAttend))
       $('#DeptAtErrDialog').modal('show')

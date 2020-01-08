@@ -370,6 +370,10 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
       !this.getAttendCard.EliminateOffAfter) {
       ExceptionalCode += '0,'
       ExceptionalName += '正常,'
+      if (this.getAttendCard.IsAbnormal) {
+        ExceptionalCode += '-1,'
+        ExceptionalName += '不判斷,'
+      }
     }
 
     var ExceptionalCodeCancel = ''

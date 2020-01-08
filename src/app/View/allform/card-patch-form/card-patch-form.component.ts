@@ -271,6 +271,7 @@ export class CardPatchFormComponent implements OnInit, AfterViewInit, OnDestroy 
               AttendData.write_man_name = this.User.write_man_name
 
               AttendData.AttendDate = formatDateTime(x.AttendDate).getDate
+              AttendData.IsAbnormal = x.IsAbnormal
 
               if (x.LateMins > 0) {
                 AttendData.LateMins = true

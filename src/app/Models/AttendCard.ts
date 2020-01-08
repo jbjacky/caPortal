@@ -15,6 +15,7 @@ export class AttendCard {
   EliminateOnBefore: boolean;
   EliminateOffAfter: boolean;
   EliminateAbsent: boolean;
+  IsAbnormal:boolean;
   RoteID: number;
   RoteCode: string;
   RoteNameC: string;

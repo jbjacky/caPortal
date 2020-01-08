@@ -221,6 +221,9 @@
                        !Attend.EliminateOffAfter">
                   <ng-container i18n>正常</ng-container>
                 </div>
+                <div class="tagBlue" *ngIf="Attend.IsAbnormal">
+                  <ng-container i18n>不判斷</ng-container>
+                </div>
               </div>
             </div>
           </div>
@@ -330,7 +333,7 @@
       </div>
 
 
-      <div style="border-top: 1px dashed #dcdcdc;padding: 15px 0px;margin-top: 20px;margin-bottom: 20px">
+      <div *ngIf="showNote.length>0" style="border-top: 1px dashed #dcdcdc;padding: 15px 0px;margin-top: 20px;margin-bottom: 20px">
         <div style="border:1px solid #d9edf7;">
           <div style="background-color: #d9edf7;padding-left: 10px;padding-top: 5px;">
             <label style="color: 
