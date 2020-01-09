@@ -118,6 +118,7 @@ import { OwnSearchCardTimeComponent } from '../own-search-card-time/own-search-c
 import { PersonnelSearchCardTimeComponent } from '../personnel-search-card-time/personnel-search-card-time.component';
 import { WriteCardFormComponent } from '../allform/write-card-form/write-card-form.component';
 import { SetSalaryTemplateComponent } from '../set-salary-template/set-salary-template.component';
+import { SearchEmpInfoComponent } from '../search-emp-info/search-emp-info.component';
 
 const MY_DATE_FORMATS = {
   parse: {
@@ -265,7 +266,8 @@ export class MyDateAdapter extends NativeDateAdapter {
     RmStateFormComponent,
     RmStateFormWriteComponent,
     WriteCardFormComponent,
-    SetSalaryTemplateComponent
+    SetSalaryTemplateComponent,
+    SearchEmpInfoComponent
 
   ],
   providers: [

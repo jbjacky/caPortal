@@ -1892,6 +1892,15 @@ export class GetApiDataServiceService {
     })
   }
 
+  /**
+   * @todo 人事基本資料
+   */
+  getWebApiData_GetEmpInfo(EmpID,iptDate) {
+    return this.http.get(this.localUrl +`BaseHandler/GetEmpInfo?EmpID=${EmpID}&iptDate=${iptDate}`, {
+      headers: this.GetHeader()
+    })
+  }
+
 }
 
 

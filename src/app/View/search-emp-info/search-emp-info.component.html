@@ -1,0 +1,151 @@
+<div class="a-block">
+  <div class="a-block-body  a-block-container">
+    <div class="row" style="margin:0;padding:0">
+      <div class="col-md-6 col-xs-12" style="padding:0">
+          <label>基本資料</label>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+              <tr>
+                <td>員工工號</td>
+                <td>{{GetEmpInfoData.Base.Nobr}}</td>
+              </tr>
+              <tr>
+                <td>中文姓名</td>
+                <td>{{GetEmpInfoData.Base.NameC}}</td>
+              </tr>
+              <tr>
+                <td>英文姓名</td>
+                <td>{{GetEmpInfoData.Base.NameE}}</td>
+              </tr>
+              <tr>
+                <td>性別</td>
+                <td>{{GetEmpInfoData.Base.Sex}}</td>
+              </tr>
+              <tr>
+                <td>生日</td>
+                <td>{{GetEmpInfoData.Base.Birdt}}</td>
+              </tr>
+              <tr>
+                <td>血型</td>
+                <td>{{GetEmpInfoData.Base.Blood}}</td>
+              </tr>
+              <tr>
+                <td>婚姻狀況</td>
+                <td>{{GetEmpInfoData.Base.Marry}}</td>
+              </tr>
+            </table>
+          </div>
+      </div>
+      <div class="col-md-6 col-xs-12" style="padding:0">
+          <label>人事資料</label>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+              <tr>
+                <td>編制部門</td>
+                <td>{{GetEmpInfoData.DeptView.DeptName}}</td>
+              </tr>
+              <tr>
+                <td>成本部門</td>
+                <td>{{GetEmpInfoData.DeptView.DeptsName}}</td>
+              </tr>
+              <tr>
+                <td>職稱</td>
+                <td>{{GetEmpInfoData.DeptView.JobName}}</td>
+              </tr>
+            </table>
+          </div>
+      </div>
+    </div>
+    <div>
+      <label>通訊資料</label>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+          <tr>
+            <td>手機</td>
+            <td>{{GetEmpInfoData.Base.Gsm}}</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>{{GetEmpInfoData.Base.Email}}</td>
+          </tr>
+          <tr>
+            <td>戶籍電話</td>
+            <td>{{GetEmpInfoData.Base.Tel1}}</td>
+          </tr>
+          <tr>
+            <td>通訊電話</td>
+            <td>{{GetEmpInfoData.Base.Tel2}}</td>
+          </tr>
+          <tr>
+            <td>戶籍地址</td>
+            <td>{{GetEmpInfoData.Base.Addr1}}</td>
+          </tr>
+          <tr>
+            <td>通訊地址</td>
+            <td>{{GetEmpInfoData.Base.Addr2}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div>
+      <label>學歷資料</label>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+          <thead>
+            <tr>
+              <!-- <th style="background-image: unset;cursor: unset"><input id="chkAll" type="checkbox"></th> -->
+              <th style="background-image: unset;cursor: unset">
+                <ng-container i18n>教育程度</ng-container>
+              </th>
+              <th>
+                <ng-container i18n>生效日期</ng-container>
+              </th>
+              <th>
+                <ng-container i18n>學校名稱</ng-container>
+              </th>
+              <th>
+                <ng-container i18n>科系</ng-container>
+              </th>
+              <th>
+                <ng-container i18n>入學日</ng-container>
+              </th>
+              <th>
+                <ng-container i18n>畢業日</ng-container>
+              </th>
+              <th>
+                <ng-container i18n>畢業</ng-container>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let SchlView of GetEmpInfoData.SchlView">
+              <tr>
+                <td>
+                  {{SchlView.Name}}
+                </td>
+                <td>
+                  {{SchlView.Adate}}
+                </td>
+                <td>
+                  {{SchlView.Schl1}}
+                </td>
+                <td>
+                  {{SchlView.Subj}}
+                </td>
+                <td>
+                  {{SchlView.DateB}}
+                </td>
+                <td>
+                  {{SchlView.DateE}}
+                </td>
+                <td>
+                  {{SchlView.Ok}}
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
