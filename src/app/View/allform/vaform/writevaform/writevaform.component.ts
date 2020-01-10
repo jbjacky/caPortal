@@ -171,7 +171,6 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
               this.writevaform.leaveman_name = x.EmpNameE;
               this.writevaform.wirteman_name = x.EmpNameE;
             }
-            // this.showHoliDayBalance(this.writevaform.leaveman_jobid)
             this.blurEmpCode()
             this.firstGetHolday()
           }
@@ -233,104 +232,6 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   nonHoliDayBalance: boolean = false
-  showHoliDayBalance(EmpID: string) {
-    // console.log('xxx')
-
-    this.LoadingPage.show()
-
-    this.showSurplusLeaveAbsDeduction = []
-    var GetHoliDayBalanceFlow: GetHoliDayBalanceFlow = {
-      EmpID: EmpID,
-      DateB: doFormatDate(new Date()),
-      DateE: "9999/12/31",
-      HoliDayID: "",
-      KeyName: "",
-      EventDate: "",
-      ListAbsFlow: null
-    }
-
-    // this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(EmpID)
-    //   .pipe(takeWhile(() => this.api_subscribe))
-    //   .subscribe(
-    //     (GetBaseInfoDetail: GetBaseInfoDetailClass[]) => {
-    this.GetApiDataServiceService.getWebApiData_GetHoliDayBalanceFlow(GetHoliDayBalanceFlow)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (x: HoliDayBalanceFlow[]) => {
-          // console.log(x)
-          var SortShowData: HoliDayBalanceFlow[] = []
-          for (let data of x) {
-            SortShowData.push(data)
-          }
-          //計算日時分
-
-          this.showSurplusLeaveAbsDeduction = []
-          for (let showData of SortShowData) {
-            if (showData.AbsDeduction.length > 0) {
-              for (let AbsDeduction of showData.AbsDeduction) {
-
-                if (AbsDeduction.Balance) {
-                  var showBalanceDayHourMin_AbsDeduction: DayHourMinuteClass = {
-                    Day: AbsDeduction.Balance.Day,
-                    Hour: AbsDeduction.Balance.Hour,
-                    Minute: AbsDeduction.Balance.Minute
-                  }
-                } else {
-                  showBalanceDayHourMin_AbsDeduction = null
-                }
-
-                if (AbsDeduction.Use) {
-                  var showUseDayHourMin_AbsDeduction: DayHourMinuteClass = {
-                    Day: AbsDeduction.Use.Day,
-                    Hour: AbsDeduction.Use.Hour,
-                    Minute: AbsDeduction.Use.Minute
-                  }
-                } else {
-                  showUseDayHourMin_AbsDeduction = null
-                }
-                if (AbsDeduction.FlowUse) {
-
-                  var showFlowUseDayHourMin_AbsDeduction: DayHourMinuteClass = {
-                    Day: AbsDeduction.FlowUse.Day,
-                    Hour: AbsDeduction.FlowUse.Hour,
-                    Minute: AbsDeduction.FlowUse.Minute
-                  }
-                } else {
-                  showFlowUseDayHourMin_AbsDeduction = null
-                }
-
-                if (!CheckDayHourMinuteNotZero(showBalanceDayHourMin_AbsDeduction) &&
-                  !CheckDayHourMinuteNotZero(showUseDayHourMin_AbsDeduction) &&
-                  !CheckDayHourMinuteNotZero(showFlowUseDayHourMin_AbsDeduction)) {
-                } else {
-                  this.showSurplusLeaveAbsDeduction.push(
-                    {
-                      Sort: showData.Sort,
-                      HoliDayKindNameC: AbsDeduction.HoliDayNameC,
-
-                      AbsAddition: [],
-                      BalanceDayHourMin: showBalanceDayHourMin_AbsDeduction,//結餘
-                      UseDayHourMin: showUseDayHourMin_AbsDeduction,//已請
-                      FlowUseDayHourMin: showFlowUseDayHourMin_AbsDeduction//待扣
-                    }
-                  )
-                }
-              }
-            }
-          }
-
-          this.nonHoliDayBalance = true
-          $('#holidayInfo').modal('show')
-          this.LoadingPage.hide()
-        }, error => {
-          this.LoadingPage.hide()
-          // alert('與api連線異常，getWebApiData_GetHoliDayBalance')
-        })
-    // }, error => {
-    //   this.LoadingPage.hide()
-    // });
-
-  }
 
   blurEmpCode() {
     if (this.writevaform.leaveman_jobid) {
@@ -365,7 +266,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
               this.errorLeavemanState = { state: false, errorString: '' }
               $("#leavejobid").removeClass("errorInput");
 
-              this.valCanSend();
+              // this.valCanSend();
             }
           }
             , error => {
@@ -432,7 +333,6 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
         if (GetBaseParameterData.length > 0) {
           if (GetBaseParameterData[0].IsAllowLeave) {
             this.changeStartDateView()
-            this.showEventData();
           }
           else {
             this.errorLeavemanState = { state: true, errorString: '後台設定為不可請假，如有問題請洽單位行政，謝謝' };
@@ -936,41 +836,9 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
       $("#id_ipt_starttime").removeClass("errorInput");
       $("#id_ipt_endday").removeClass("errorInput");
       $("#id_ipt_endtime").removeClass("errorInput");
-      // this.changeStartDateView()
-      // this.onChange_vacategrory()
-      // this.showWriteform()
 
     }
 
-    // var startDateTime = new Date(this.writevaform.startday + ' ' + this.writevaform.starttime);
-    // var endDateTime = new Date(this.writevaform.endday + ' ' + this.writevaform.endtime);
-    // this.checkinArray(startDateTime, endDateTime)//檢查重複
-    // this.writevaform.upload = []
-
-    // var GetAttend: GetAttendClass = {
-    //   DateB: doFormatDate(this.dateS),
-    //   DateE: doFormatDate(this.dateE),
-    //   ListEmpID: [this.writevaform.leaveman_jobid],
-    //   ListRoteID: null
-    // }
-    // console.log(GetAttend)
-    // this.GetApiDataServiceService.getWebApiData_GetAttend(GetAttend)
-    //   .pipe(takeWhile(() => this.api_subscribe))
-    //   .subscribe(
-    //     (Attends: any[]) => {
-    //       console.log(Attends)
-    //       for (let Attend of Attends) {
-    //         $("#id_ipt_starttime").val(getapi_formatTimetoString(Attend.ActualRote.OnTime));
-    //         $("#id_ipt_endtime").val(getapi_formatTimetoString(Attend.ActualRote.OffTime));
-    //         this.blurDateAndTime()
-    //       }
-    //       this.LoadingPage.hide()
-    //     }
-    //     , error => {
-    //       this.LoadingPage.hide()
-    //       alert('與api連線異常，getWebApiData_GetAttend')
-    //     }
-    //   )
   }
   hideWriteform() {
     //刪除本時段按鈕
@@ -1456,19 +1324,6 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
    * @todo  select請假類別切換
    */
   onChange_vacategrory() {
-    // var selectHoliDayCode = '';
-    // var HoliDayKindID = ''
-    // for (let holiday of this.showHoliDay) {
-    //   if (holiday.HoliDayID == this.writeHoliday) {
-    //     selectHoliDayCode = holiday.HoliDayCode
-    //     HoliDayKindID = holiday.HoliDayKindID
-    //     this.writevaform.vacategrory = {
-    //       HoliDayID:holiday.HoliDayID,
-    //       HoliDayKindID:holiday.HoliDayKindID,
-    //       HoliDayNameC:holiday.HoliDayNameC
-    //     }
-    //   }
-    // }
     this.showKeyNameState = false;
     this.showEventDate = false;
     this.errorKeyNameState = { state: false, errorString: '' }
@@ -1486,32 +1341,12 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
       this.promptVaStirng = { state: false, promptString: '' }
     }
 
-    // if (this.writeHoliday.IsEventDate || this.writeHoliday.IsKeyName) {
-    //   // console.log(this.writeHoliday)
-    //   this.LoadingPage.show()
-    //   this.GetApiDataServiceService()
-    //     .pipe(takeWhile(() => this.api_subscribe))
-    //     .subscribe(
-    //       (x: any[]) => {
-
-    //         if (this.writeHoliday.IsEventDate) {
-    //           this.showEventDate = true;
-    //         } else {
-    //           this.showEventDate = false;
-    //         }
 
     if (this.writeHoliday.IsKeyName) {
       this.showKeyNameState = true;
     } else {
       this.showKeyNameState = false;
     }
-    //         this.LoadingPage.hide()
-    //       }, error => {
-
-    //         this.LoadingPage.hide()
-    //       }
-    //     )
-    // }
 
     if (this.writeHoliday.IsEventDate) {
       this.showEventDate = true;
@@ -1524,89 +1359,12 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.showKeyNameState = false;
     }
-    // if (this.writeHoliday.HoliDayKindID == 35 || this.writeHoliday.HoliDayKindID == 36 || this.writeHoliday.HoliDayKindID == 37) {
-
-    //   // console.log('喪假')
-    //   // if (this.writeHoliday.HoliDayCode == '010-1')
-    //   //   this.promptVaStirng = { state: true, promptString: this.writeHoliday.Memo }
-    //   // if (this.writeHoliday.HoliDayCode == '010-2')
-    //   //   this.promptVaStirng = { state: true, promptString: this.writeHoliday.Memo }
-    //   // if (this.writeHoliday.HoliDayCode == '010-3')
-    //   //   this.promptVaStirng = { state: true, promptString: this.writeHoliday.Memo }
-
-    // this.showKeyNameState = true;
-    //   this.showEventDate = true;
-    // } else if (this.writeHoliday.HoliDayKindID == 7) {
-    //   // console.log('婚假')
-    //   this.showEventDate = true;
-    // } else if (this.writeHoliday.HoliDayKindID == 8) {
-    //   // console.log('產假')
-    //   this.showEventDate = true;
-    // } else if (this.writeHoliday.HoliDayKindID == 10) {
-    //   // console.log('陪產假')
-    //   this.showEventDate = true;
-    // } else if (this.writeHoliday.HoliDayKindID == 38 || this.writeHoliday.HoliDayKindID == 39 || this.writeHoliday.HoliDayKindID == 40) {
-    //   // console.log('流產假')
-    //   this.showEventDate = true;
-    // }
 
     this.writevaform.keyname = ''
     this.writevaform.eventdate = ''
 
-    this.showEventData();
   }
   disableEventData: boolean = false
-  private showEventData() {
-    //顯示剩餘事件發生日
-    if (this.showEventDate) {
-      this.disableEventData = false
-      var GetEventDateGetApi: GetEventDateGetApiClass = {
-        "EmpID": this.writevaform.leaveman_jobid,
-        "HolidayID": this.writeHoliday.HoliDayID,
-        "TakeNum": 3
-      };
-      this.LoadingPage.show();
-      this.GetApiDataServiceService.getWebApiData_GetEventDate(GetEventDateGetApi)
-        .pipe(takeWhile(() => this.api_subscribe))
-        .subscribe((x: GetEventDateDataClass[]) => {
-          // console.log(x)
-          for (let data of x) {
-            data.EventDate = formatDateTime(data.EventDate).getDate;
-          }
-          this.GetEventDateData = JSON.parse(JSON.stringify(x));
-          this.selectEventDate = this.GetEventDateData[0]
-          if (this.GetEventDateData) {
-
-            if (this.GetEventDateData.length > 0) {
-              for (let r of this.radiogroup) {
-                if (r.id == 1) {
-                  r.disabled = false
-                  this.chooseRadio = 1
-                }
-              }
-              this.disableEventData = false
-            } else {
-              for (let r of this.radiogroup) {
-                if (r.id == 1) {
-                  r.disabled = true
-                  this.chooseRadio = 2
-                }
-              }
-              this.disableEventData = true
-            }
-          } else {
-            for (let r of this.radiogroup) {
-              if (r.id == 1) {
-                r.disabled = true
-                this.chooseRadio = 2
-              }
-            }
-            this.disableEventData = true
-          }
-          this.LoadingPage.hide();
-        });
-    }
-  }
 
   /**
    * @todo 跳到tag的位置 
@@ -1640,11 +1398,8 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
             getShowHoliday.push(data)
           }
         }
-        // this.showHoliDay = getShowHoliday
-        // this.writeHoliday = getShowHoliday[0]
-
         this.HoliDay = JSON.parse(JSON.stringify(getShowHoliday))
-        this.beforholiday()
+        this.showHoliDay = JSON.parse(JSON.stringify(getShowHoliday))
 
         this.new_writevaform(this.writevaform)
 
@@ -1654,33 +1409,6 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       )
 
-  }
-  beforholiday() {
-    //勾預排假
-    this.showHoliDay = []
-    this.errorKeyNameState = { state: false, errorString: '' }
-    this.errorEventDateState = { state: false, errorString: '' }
-    this.showKeyNameState = false;
-    this.showEventDate = false;
-    if (this.checkbox_beforholiday == true) {
-      for (let holiday of this.HoliDay) {
-        if (holiday.AutoFlowStart == true) {
-          this.showHoliDay.push(holiday);
-        }
-      }
-      this.writeHoliday = this.showHoliDay[0]
-      this.onChange_vacategrory()
-
-    } else {
-
-      for (let holiday of this.HoliDay) {
-        // if (holiday.AutoFlowStart == false) {
-        this.showHoliDay.push(holiday);
-        // }
-      }
-      this.writeHoliday = this.showHoliDay[0]
-      this.onChange_vacategrory()
-    }
   }
   new_writevaform(writevaform) {
     var leaveman_jobid = writevaform.leaveman_jobid
@@ -1695,7 +1423,6 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     this.writevaform.wirteman_jobid = wirteman_jobid
     this.writevaform.wirteman_name = wirteman_name
     this.writevaform.writeman_worktime = writeman_worktime
-    // this.writevaform.upload = writevaform.upload
 
     if (this.checkbox_beforholiday) {
       this.writevaform.beforholiday = true
@@ -1704,9 +1431,6 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.writeHoliday = this.showHoliDay[0]
     this.writevaform.vacategrory = new GetHoliDayByFormData()
-
-    // this.promptVaStirng = { state: false, promptString: '' }
-    // console.log(this.checkbox_beforholiday)
 
     this.changeStartDateView()
     this.onChange_vacategrory()
@@ -1720,19 +1444,6 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       return false
     }
-  }
-  disable_beforholiday() {
-
-    if (this.disable_leavejobid()) {
-      return true
-    } else {
-      if (this.writevaform.todayCheck) {
-        return true
-      } else {
-        return false
-      }
-    }
-
   }
   base64(apiFile: uploadFileClass) {
     // console.log(apiFile)

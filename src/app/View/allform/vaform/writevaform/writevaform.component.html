@@ -15,28 +15,6 @@
     </div>
     <!-- a-block-body End -->
   </section>
-
-
-  <!-- <div class="a-block">
-    <div class="a-block-body  a-block-container">
-      <h3>個人餘假資訊</h3>
-      <div class="P_inf">
-        <div class="row" style="margin: 0px">
-          <div *ngFor="let HoliDayBalance of showSurplusLeaveAbsDeduction" class="col-md-5ths" appHolidayblock>
-            <div class="col-md-5ths-title">{{HoliDayBalance.HoliDayKindNameC}}</div>
-            <div class="col-md-5ths-content">{{HoliDayBalance.BalanceDayHourMin.Day}} 日
-              {{HoliDayBalance.BalanceDayHourMin.Hour}} 時
-              {{HoliDayBalance.BalanceDayHourMin.Minute}} 分</div>
-          </div>
-
-        </div>
-        <div *ngIf="showSurplusLeaveAbsDeduction.length == 0 && nonHoliDayBalance">
-          無剩餘時數
-        </div>
-      </div>
-    </div>
-  </div> -->
-
   <div class="a-block">
     <div class="a-block-body  a-block-container">
       <div>
@@ -44,30 +22,6 @@
           <h3 style="display: inline-block;margin-top:0px;margin-right: 10px;">
             <ng-container i18n>填寫假單資訊</ng-container>
           </h3>
-        </div>
-        <div style="display: inline-block">
-          <div style="display: inline-block">
-            <input type="checkbox" [(ngModel)]='checkbox_beforholiday' (change)="beforholiday()"
-              [disabled]="disable_beforholiday()" />
-            <span>
-              <ng-container i18n>地勤正班預排休假</ng-container>
-            </span>
-            <a data-toggle="modal" data-target="#beforholidayDialog" style="cursor: pointer;">
-              <img src="./assets/images-template/icon-question.png" />
-            </a>
-          </div>
-          <div style="display: inline-block">
-            <a data-toggle="modal" data-target="#signDay" (click)="bt_Show_signDay()"
-              style="cursor: pointer;padding-left: 15px">
-              <ng-container i18n>請假簽核權限表</ng-container>
-            </a>
-          </div>
-          <div style="display: inline-block">
-            <a data-toggle="modal" (click)="showHoliDayBalance(SearchMan.EmpCode)"
-              style="cursor: pointer;padding-left: 15px">
-              <ng-container i18n>餘假資訊</ng-container>
-            </a>
-          </div>
         </div>
       </div>
       <section class="form-horizontal  form-style01">
@@ -115,12 +69,6 @@
           style="border:1px solid #028fcf;border-left-width: 10px;margin-top: 20px">
           <div class="col-md-2 D_right col-xs-10">
             <label style="color: #028fcf;margin-bottom: 10px">{{uisendvaform.ui_title}}</label>
-            <div *ngIf="uisendvaform.beforholiday" style="display: inline-block;padding-left: 10px;">
-              <span style="color: #028fcf;border:#028fcf 1px solid;
-              border-radius: 5px;padding: 6px">
-                <ng-container i18n>預排休假</ng-container>
-              </span>
-            </div>
             <div *ngIf="uisendvaform.todayCheck" style="display: inline-block;padding-left: 10px;">
               <span style="color: #028fcf;border:#028fcf 1px solid;
                 border-radius: 5px;padding: 6px">
@@ -468,47 +416,6 @@
             </div>
           </div>
           <!-- form-group end -->
-          <!-- <div *ngIf="showEventDate" class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
-            <div class="col-md-6 col-xs-12">
-              <label class="col-md-4 control-label" style="padding-left: 0px">
-                上次事件發生日
-              </label>
-              <div class="col-md-8">
-                <div class="row writerow">
-                  <div>2019/08/08</div>
-                  <div>2019/08/09</div>
-                  <div>2019/08/10</div>
-                  <div>2019/08/11</div>
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <!-- form-group end -->
-          <div class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
-            <div class="col-md-6 ">
-              <div class="col-md-4">
-              </div>
-              <div class="col-md-8 writerow">
-                <input type="checkbox" [(ngModel)]='writevaform.todayCheck' [disabled]="todayDisable()" />
-                <span style="margin-right: 10px">
-                  <ng-container i18n>當日請假</ng-container>
-                </span>
-                <span *ngIf="writeHoliday.IsCycle">
-                  <input type="checkbox" [(ngModel)]='writevaform.everydayloop' (change)="checkBoxEveryDay()" />
-                  <span>
-                    <ng-container i18n>每日循環請假</ng-container>
-                  </span>
-                  <a data-toggle="modal" data-target="#informationdialog" style="cursor: pointer;">
-                    <img src="./assets/images-template/icon-question.png" />
-                  </a>
-                </span>
-              </div>
-            </div>
-            <div class="col-md-6 ">
-
-            </div>
-          </div>
-          <!-- form-group end -->
           <div class="form-group" style="border: 0px;padding: 0;padding-top: 10px;">
             <div class="row" style="margin: 0px">
               <label class="col-md-2 control-label" style="padding-right: 10px">
@@ -603,70 +510,6 @@
 </div>
 
 
-<div class="modal" id="beforholidayDialog" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="vertical-alignment-helper">
-    <div class="modal-dialog modal-lg ">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-          <h4 class="modal-title">
-            <ng-container i18n>地勤正班預排休假說明</ng-container>
-          </h4>
-        </div>
-        <div class="modal-body">
-          <p>
-            <ng-container i18n>預排休假可讓員工提前管理特休運用，鼓勵員工安排假期，適度休假，相關規範說明如下</ng-container>:
-          </p>
-          <ul type="circle" style="margin: 0;padding-left: 20px;margin-bottom: 20px">
-            <li style="padding: 5px;">
-              <ng-container i18n>預排假單之假別僅限</ng-container>
-              <span style="font-weight: bold;">
-                <ng-container i18n>特別休假</ng-container>
-              </span>
-            </li>
-            <li style="padding: 5px;">
-              <ng-container i18n>每月</ng-container>
-              <span style="font-weight: bold;">
-                <ng-container i18n>15號以前</ng-container>
-              </span>
-              <ng-container i18n>可填寫</ng-container>
-              <span style="font-weight: bold;">
-                <ng-container i18n>次月開始三個月內</ng-container>
-              </span>
-              <ng-container i18n>的預排假單</ng-container>，
-              <span style="font-weight: bold;">
-                <ng-container i18n>16號以後</ng-container>
-              </span>
-              <ng-container i18n>可填寫</ng-container>
-              <span style="font-weight: bold;">
-                <ng-container i18n>下下個月開始三個月</ng-container>
-              </span>
-              <ng-container i18n>內的預排假單</ng-container>
-              <br>
-              <ng-container i18n>例如:1/14可填寫2-4月份的預排假單，1/18可填寫3-5月份的預排假單</ng-container>
-            </li>
-            <li style="padding: 5px;">
-              <ng-container i18n>每月16號系統會自動送初</ng-container>
-              <span style="font-weight: bold;">
-                <ng-container i18n>次月</ng-container>
-              </span>
-              <ng-container i18n>之預排假單，若欲 提前呈核或取消預排，請至表單查詢點選操作</ng-container>
-            </li>
-            <li style="padding: 5px;">
-              <ng-container i18n>若選取預排休假，則整張表單之每個差假時段皆會是預排休假，若有其他非預排之差假需求，請另填新單</ng-container>
-            </li>
-          </ul>
-          <button type="button" class="btn btn-default" data-dismiss="modal">
-            <ng-container i18n>關閉</ng-container>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!--dialog循環假單提示 -->
 
 
 <div class="modal" id="informationdialog" tabindex="-1" role="dialog" aria-hidden="true">
