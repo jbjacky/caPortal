@@ -100,13 +100,13 @@ declare let apiGetFileURL: any
   providedIn: 'root'
 })
 export class GetApiDataServiceService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   localUrl = apiPostURL
   getFileURL = apiGetFileURL
 
   GetHeader_Admin() {
     var _credentials = 'q' + ":" + 'q';
-    var _basic = "Bearer " +_credentials;
+    var _basic = "Bearer " + _credentials;
     var _header = new HttpHeaders({
       // 'Access-Control-Allow-Origin': '*',
       // 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -134,13 +134,13 @@ export class GetApiDataServiceService {
     return _header
   }
 
-  getWebApiData_jbLoggin(jbUserLogin:jbUserLoginClass) {
+  getWebApiData_jbLoggin(jbUserLogin: jbUserLoginClass) {
     return this.http.post(this.localUrl + 'BaseHandler/Accountloggin',
       JSON.stringify(jbUserLogin), {
-        headers:  new HttpHeaders({
-          'Content-Type': 'application/json',
-        })
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
       })
+    })
   }
 
   /**
@@ -155,7 +155,7 @@ export class GetApiDataServiceService {
    * @todo 重新驗証Token 並延長時間(需要傳入AuthorizationHeader)
    */
   getWebApiData_GetAuthToken() {
-    return this.http.get(this.localUrl + 'AuthHandler/GetToken',{
+    return this.http.get(this.localUrl + 'AuthHandler/GetToken', {
       headers: this.GetHeader()
     })
   }
@@ -615,9 +615,9 @@ export class GetApiDataServiceService {
   /**
    * @todo 取得註記單流程資料(審核頁面)
    */
-  getWebApiData_GetAttendUnusualFlowAppsByProcessFlowID(ProcessFlowID,Miniature) {
+  getWebApiData_GetAttendUnusualFlowAppsByProcessFlowID(ProcessFlowID, Miniature) {
     return this.http.post(this.localUrl + 'Flow/AttendUnusualFlowHandler.svc/GetAttendUnusualFlowAppsByProcessFlowID',
-    JSON.stringify({ "ProcessFlowID": ProcessFlowID, "Miniature": Miniature }), {
+      JSON.stringify({ "ProcessFlowID": ProcessFlowID, "Miniature": Miniature }), {
       headers: this.GetHeader()
     })
 
@@ -625,9 +625,9 @@ export class GetApiDataServiceService {
   /**
    * @todo 取得補卡單流程資料(審核頁面)
    */
-  getWebApiData_GetCardPatchFlowAppsByProcessFlowID(ProcessFlowID,Miniature) {
+  getWebApiData_GetCardPatchFlowAppsByProcessFlowID(ProcessFlowID, Miniature) {
     return this.http.post(this.localUrl + 'Flow/CardPatchFlowHandler.svc/GetCardFlowAppsByProcessFlowID',
-    JSON.stringify({ "ProcessFlowID": ProcessFlowID, "Miniature": Miniature }), {
+      JSON.stringify({ "ProcessFlowID": ProcessFlowID, "Miniature": Miniature }), {
       headers: this.GetHeader()
     })
 
@@ -1378,9 +1378,9 @@ export class GetApiDataServiceService {
   getWebApiData_GetDeptByEmpCode(EmpID: string) {
     var today = new Date()
     return this.http.post(this.localUrl + 'BaseHandler/GetDeptByEmpCode',
-      JSON.stringify({"EmpCode":EmpID,"EffectDate":doFormatDate(today)}), {
-        headers: this.GetHeader()
-      })
+      JSON.stringify({ "EmpCode": EmpID, "EffectDate": doFormatDate(today) }), {
+      headers: this.GetHeader()
+    })
   }
   /**
   * @todo 刪除單位管理員
@@ -1852,7 +1852,7 @@ export class GetApiDataServiceService {
       headers: this.GetHeader()
     })
   }
-  
+
 
   /**
    * @todo 取得班別資訊-補卡單
@@ -1886,8 +1886,8 @@ export class GetApiDataServiceService {
   /**
    * @todo 薪資單明細
    */
-  getWebApiData_GetblockDetailDetail(year,Month,period) {
-    return this.http.get(this.localUrl +`Payslip/GetblockDetailDetail?year=${year}&Month=${Month}&period=${period}`, {
+  getWebApiData_GetblockDetailDetail(year, Month, period) {
+    return this.http.get(this.localUrl + `Payslip/GetblockDetailDetail?year=${year}&Month=${Month}&period=${period}`, {
       headers: this.GetHeader()
     })
   }
@@ -1895,8 +1895,31 @@ export class GetApiDataServiceService {
   /**
    * @todo 人事基本資料
    */
-  getWebApiData_GetEmpInfo(EmpID,iptDate) {
-    return this.http.get(this.localUrl +`BaseHandler/GetEmpInfo?EmpID=${EmpID}&iptDate=${iptDate}`, {
+  getWebApiData_GetEmpInfo(EmpID, iptDate) {
+    return this.http.get(this.localUrl + `BaseHandler/GetEmpInfo?EmpID=${EmpID}&iptDate=${iptDate}`, {
+      headers: this.GetHeader()
+    })
+  }
+
+  /**
+   * @todo 加班原因代碼(表單專用)
+   */
+  getWebApiData_GetOtCauseByForm() {
+    // var url = this.localUrl
+    var url = 'https://localhost:44393/api/'
+    return this.http.post(url + 'OTHandler/GetCauseByForm',
+      null, {
+      headers: this.GetHeader()
+    })
+  }
+
+  /**
+   * @todo 加班原因代碼(表單專用)
+   */
+  getWebApiData_GetDepts() {
+    // var url = this.localUrl
+    var url = 'https://localhost:44393/api/'
+    return this.http.get(url + 'BaseHandler/GetDepts', {
       headers: this.GetHeader()
     })
   }
