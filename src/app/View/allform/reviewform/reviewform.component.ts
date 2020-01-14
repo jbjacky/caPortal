@@ -92,7 +92,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
           this.ReviewformServiceService.clearReview()
           // console.log(this.ReviewformServiceService.showReviewTab)
           // console.log(this.ReviewformServiceService.showReviewMan)
-          this.FirstEmpCode = x.EmpCode
+          this.FirstEmpCode = x.EmpCode.toString()
           this.firstInTab(x.EmpCode)
         }
       }
@@ -377,7 +377,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     this.ReviewformServiceService.getReviewData = [];
 
     var GetFlowSignRole: GetFlowSignRoleClass = {
-      "SignEmpID": this.FirstEmpCode,
+      "SignEmpID": this.FirstEmpCode.toString(),
       "SignRoleID": "",
       "RealSignEmpID": selectReviewMan.EmpCode,
       "RealSignRoleID": selectReviewMan.RoleID,
@@ -392,7 +392,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.LoadingPage.show()
       var GetFlowSignRole: GetFlowSignRoleClass = {
-        "SignEmpID": this.FirstEmpCode,
+        "SignEmpID": this.FirstEmpCode.toString(),
         "SignRoleID": "",
         "RealSignEmpID": selectReviewMan.EmpCode,
         "RealSignRoleID": selectReviewMan.RoleID,
@@ -411,7 +411,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.LoadingPage.show()
       var GetFlowSignRole: GetFlowSignRoleClass = {
-        "SignEmpID": this.FirstEmpCode,
+        "SignEmpID": this.FirstEmpCode.toString(),
         "SignRoleID": "",
         "RealSignEmpID": selectReviewMan.EmpCode,
         "RealSignRoleID": selectReviewMan.RoleID,
@@ -430,7 +430,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.LoadingPage.show()
       var GetFlowSignRole: GetFlowSignRoleClass = {
-        "SignEmpID": this.FirstEmpCode,
+        "SignEmpID": this.FirstEmpCode.toString(),
         "SignRoleID": "",
         "RealSignEmpID": selectReviewMan.EmpCode,
         "RealSignRoleID": selectReviewMan.RoleID,
@@ -449,7 +449,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.LoadingPage.show()
       var GetFlowSignRole: GetFlowSignRoleClass = {
-        "SignEmpID": this.FirstEmpCode,
+        "SignEmpID": this.FirstEmpCode.toString(),
         "SignRoleID": "",
         "RealSignEmpID": selectReviewMan.EmpCode,
         "RealSignRoleID": selectReviewMan.RoleID,
@@ -468,7 +468,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.LoadingPage.show()
       var GetFlowSignRole: GetFlowSignRoleClass = {
-        "SignEmpID": this.FirstEmpCode,
+        "SignEmpID": this.FirstEmpCode.toString(),
         "SignRoleID": "",
         "RealSignEmpID": selectReviewMan.EmpCode,
         "RealSignRoleID": selectReviewMan.RoleID,
@@ -488,7 +488,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.LoadingPage.show()
       var GetFlowSignRole: GetFlowSignRoleClass = {
-        "SignEmpID": this.FirstEmpCode,
+        "SignEmpID": this.FirstEmpCode.toString(),
         "SignRoleID": "",
         "RealSignEmpID": selectReviewMan.EmpCode,
         "RealSignRoleID": selectReviewMan.RoleID,
@@ -841,11 +841,11 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   Approved_Click() {
-    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FirstEmpCode)
+    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FirstEmpCode.toString())
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         y => {
-          if (this.FirstEmpCode != this.ReviewformServiceService.showReviewMan.EmpCode) {
+          if (this.FirstEmpCode.toString() != this.ReviewformServiceService.showReviewMan.EmpCode) {
             y[0].EmpName += '(代)'
           }
 
@@ -905,11 +905,11 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   Sendback_Click() {
 
-    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FirstEmpCode)
+    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FirstEmpCode.toString())
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         y => {
-          if (this.FirstEmpCode != this.ReviewformServiceService.showReviewMan.EmpCode) {
+          if (this.FirstEmpCode.toString() != this.ReviewformServiceService.showReviewMan.EmpCode) {
             y[0].EmpName += '(代)'
           }
 
@@ -972,12 +972,12 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.FlowDynamic_Base) {
       alert('請選擇呈核人員')
     } else {
-      this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FirstEmpCode)
+      this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FirstEmpCode.toString())
         .pipe(takeWhile(() => this.api_subscribe))
         .subscribe(
           y => {
 
-            if (this.FirstEmpCode != this.ReviewformServiceService.showReviewMan.EmpCode) {
+            if (this.FirstEmpCode.toString() != this.ReviewformServiceService.showReviewMan.EmpCode) {
               y[0].EmpName += '(代)'
             }
             if (!this.signText) {
@@ -1050,6 +1050,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     //請假單
     var today = new Date()
     var GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass = {
+      SignEmpID: this.FirstEmpCode.toString(),
+      SignRoleID: "",
       RealSignEmpID: EmpID,
       RealSignRoleID: RoleID,
       SignDate: doFormatDate(today)
@@ -1110,6 +1112,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     //銷假單
     var today = new Date()
     var GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass = {
+      SignEmpID: this.FirstEmpCode.toString(),
+      SignRoleID: "",
       RealSignEmpID: EmpID,
       RealSignRoleID: RoleID,
       SignDate: doFormatDate(today)
@@ -1165,6 +1169,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
     var today = new Date()
     var GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass = {
+      SignEmpID: this.FirstEmpCode.toString(),
+      SignRoleID: "",
       RealSignEmpID: EmpID,
       RealSignRoleID: RoleID,
       SignDate: doFormatDate(today)
@@ -1250,6 +1256,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     //考勤異常簽認單
     var today = new Date()
     var GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass = {
+      SignEmpID: this.FirstEmpCode.toString(),
+      SignRoleID: "",
       RealSignEmpID: EmpID,
       RealSignRoleID: RoleID,
       SignDate: doFormatDate(today)
@@ -1281,6 +1289,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
     var today = new Date()
     var GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass = {
+      SignEmpID: this.FirstEmpCode.toString(),
+      SignRoleID: "",
       RealSignEmpID: EmpID,
       RealSignRoleID: RoleID,
       SignDate: doFormatDate(today)
@@ -1368,6 +1378,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
     var today = new Date()
     var GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass = {
+      SignEmpID: this.FirstEmpCode.toString(),
+      SignRoleID: "",
       RealSignEmpID: EmpID,
       RealSignRoleID: RoleID,
       SignDate: doFormatDate(today)
@@ -1460,11 +1472,11 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   realReviewLength: string = ''
 
   Approved_All_Click() {
-    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FirstEmpCode)
+    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FirstEmpCode.toString())
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         y => {
-          if (this.FirstEmpCode != this.ReviewformServiceService.showReviewMan.EmpCode) {
+          if (this.FirstEmpCode.toString() != this.ReviewformServiceService.showReviewMan.EmpCode) {
             y[0].EmpName += '(代)'
           }
 
@@ -1511,11 +1523,11 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   Sendback_All_Click() {
 
-    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FirstEmpCode)
+    this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FirstEmpCode.toString())
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         y => {
-          if (this.FirstEmpCode != this.ReviewformServiceService.showReviewMan.EmpCode) {
+          if (this.FirstEmpCode.toString() != this.ReviewformServiceService.showReviewMan.EmpCode) {
             y[0].EmpName += '(代)'
           }
 
