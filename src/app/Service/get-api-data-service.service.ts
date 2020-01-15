@@ -88,6 +88,7 @@ import { GetCheckAgentByTargetGetApiClass } from '../Models/PostData_API_Class/G
 import { jbUserLoginClass } from '../Models/PostData_API_Class/jbUserLoginClass';
 import { AttendUnusualSaveAndFlowStartClass } from '../Models/PostData_API_Class/AttendUnusualSaveAndFlowStart';
 import { CardPatchSaveAndFlowStartClass } from '../Models/PostData_API_Class/CardPatchSaveAndFlowStartClass';
+import { GetOtCalculateGetApiClass } from '../Models/PostData_API_Class/GetOtCalculateGetApiClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -1905,24 +1906,30 @@ export class GetApiDataServiceService {
    * @todo 加班原因代碼(表單專用)
    */
   getWebApiData_GetOtCauseByForm() {
-    // var url = this.localUrl
-    var url = 'https://localhost:44393/api/'
-    return this.http.post(url + 'OTHandler/GetCauseByForm',
+    return this.http.post(this.localUrl + 'OTHandler/GetCauseByForm',
       null, {
       headers: this.GetHeader()
     })
   }
 
   /**
-   * @todo 加班原因代碼(表單專用)
+   * @todo 取得成本部門
    */
   getWebApiData_GetDepts() {
-    // var url = this.localUrl
-    var url = 'https://localhost:44393/api/'
-    return this.http.get(url + 'BaseHandler/GetDepts', {
+    return this.http.get(this.localUrl  + 'BaseHandler/GetDepts', {
       headers: this.GetHeader()
     })
   }
+  /**
+   * @todo 加班計算
+   */
+  getWebApiData_GetOtCalculate(GetOtCalculateGetApi:GetOtCalculateGetApiClass) {
+    return this.http.post(this.localUrl  + 'OtHandler/GetCalculate',
+    JSON.stringify(GetOtCalculateGetApi), {
+      headers: this.GetHeader()
+    })
+  }
+
 
 }
 

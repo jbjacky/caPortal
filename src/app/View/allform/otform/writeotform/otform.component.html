@@ -17,7 +17,7 @@
 
 <div class="a-block">
   <div class="a-block-body  a-block-container">
-    <form [formGroup]="otForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="otFormGroup" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-md-7 control-label" style="display: inline-block;color:#8b8484">
           <label>本月累計加班時數：2小時</label>
@@ -49,7 +49,7 @@
             </label>
             <div class="col-md-3">
               <div class="row writerow">
-                <select class="form-control">
+                <select class="form-control"  formControlName="OtType">
                   <option value="1">預估加班單</option>
                   <option value="2">實際加班單</option>
                 </select>
@@ -70,7 +70,7 @@
                 <div class="row writerow">
                   <div class="col-md-6 col-xs-6" style="padding: 0;">
                     <input id="leavejobid" type="text" class="form-control" placeholder="員工號" formControlName="EmpID">
-                    <div *ngIf="otForm.get('EmpID').status != 'VALID'" style="color: #e60012">請輸入正確員工號</div>
+                    <div *ngIf="EmpID.status != 'VALID'" style="color: #e60012">請輸入正確員工號</div>
 
                   </div>
                   <div class="col-md-2 col-xs-3"
@@ -120,11 +120,11 @@
                         <input [matDatepicker]="StartDatePicker" id="id_ipt_startday" type="text" class="form-control"
                           style="background-color: #ffffff;" placeholder="年/月/日" formControlName="StartDate" />
                         <mat-datepicker #StartDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
-                        <div *ngIf="otForm.get('StartDate').getError('forbiddenName') == 'dateNull'"
+                        <div *ngIf="StartDate.getError('forbiddenName') == 'dateNull'"
                           style="color: #e60012">請輸入日期</div>
-                        <div *ngIf="otForm.get('StartDate').getError('forbiddenName') == 'dateFail'"
+                        <div *ngIf="StartDate.getError('forbiddenName') == 'dateFail'"
                           style="color: #e60012">日期格式錯誤</div>
-                        <div *ngIf="otForm.get('StartDate').getError('forbiddenName') == 'dateTimeFail'"
+                        <div *ngIf="StartDate.getError('forbiddenName') == 'dateTimeFail'"
                           style="color: #e60012">起始日時大於結束日時</div>
                       </div>
                       <!--  -->
@@ -151,11 +151,11 @@
                     <div class="col-md-6 col-xs-10" style="padding: 0px">
                       <input id="id_ipt_starttime" type="text" class="form-control" style="background-color: #ffffff"
                         formControlName="StartTime" [textMask]="starttimeMask()">
-                      <div *ngIf="otForm.get('StartTime').getError('forbiddenName') == 'timeNull'"
+                      <div *ngIf="StartTime.getError('forbiddenName') == 'timeNull'"
                         style="color: #e60012">請輸入時間</div>
-                      <div *ngIf="otForm.get('StartTime').getError('forbiddenName') == 'timeFail'"
+                      <div *ngIf="StartTime.getError('forbiddenName') == 'timeFail'"
                         style="color: #e60012">時間格式錯誤</div>
-                      <div *ngIf="otForm.get('StartTime').getError('forbiddenName') == 'dateTimeFail'"
+                      <div *ngIf="StartTime.getError('forbiddenName') == 'dateTimeFail'"
                         style="color: #e60012">起始日時大於結束日時</div>
                     </div>
                     <!--  -->
@@ -185,11 +185,11 @@
                         <input [matDatepicker]="EndDatePicker" id="id_ipt_endday" type="text" class="form-control"
                           style="background-color: #ffffff" placeholder="年/月/日" formControlName="EndDate">
                         <mat-datepicker #EndDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
-                        <div *ngIf="otForm.get('EndDate').getError('forbiddenName') == 'dateNull'"
+                        <div *ngIf="EndDate.getError('forbiddenName') == 'dateNull'"
                           style="color: #e60012">請輸入日期</div>
-                        <div *ngIf="otForm.get('EndDate').getError('forbiddenName') == 'dateFail'"
+                        <div *ngIf="EndDate.getError('forbiddenName') == 'dateFail'"
                           style="color: #e60012">日期格式錯誤</div>
-                        <div *ngIf="otForm.get('EndDate').getError('forbiddenName') == 'dateTimeFail'"
+                        <div *ngIf="EndDate.getError('forbiddenName') == 'dateTimeFail'"
                           style="color: #e60012">起始日時大於結束日時</div>
                       </div>
                       <div class="col-md-2 col-xs-2" style="padding: 0px">
@@ -216,11 +216,11 @@
                     <div class="col-md-6 col-xs-10" style="padding: 0px">
                       <input type="text" id="id_ipt_endtime" class="form-control" style="background-color: #ffffff"
                         formControlName="EndTime" [textMask]="endtimeMask()">
-                      <div *ngIf="otForm.get('EndTime').getError('forbiddenName') == 'timeNull'" style="color: #e60012">
+                      <div *ngIf="EndTime.getError('forbiddenName') == 'timeNull'" style="color: #e60012">
                         請輸入時間</div>
-                      <div *ngIf="otForm.get('EndTime').getError('forbiddenName') == 'timeFail'" style="color: #e60012">
+                      <div *ngIf="EndTime.getError('forbiddenName') == 'timeFail'" style="color: #e60012">
                         時間格式錯誤</div>
-                      <div *ngIf="otForm.get('EndTime').getError('forbiddenName') == 'dateTimeFail'"
+                      <div *ngIf="EndTime.getError('forbiddenName') == 'dateTimeFail'"
                         style="color: #e60012">起始日時大於結束日時</div>
                     </div>
                     <!--  -->
@@ -246,7 +246,7 @@
                   </label>
                   <div class="col-md-8">
                     <div class="row writerow">
-                      <select class="form-control" style="width:70%">
+                      <select class="form-control" style="width:70%" formControlName="OtCat">
                         <option value="1">加班費</option>
                         <option value="2">補休假</option>
                       </select>
@@ -338,7 +338,7 @@
             <!-- form-group end -->
             <div class="form-group" style="text-align:center">
               <button type="submit" class="btn btn-primary" style="padding: 5px 15px;" data-toggle="modal"
-                [disabled]="!otForm.valid">送出</button>
+                [disabled]="!otFormGroup.valid">送出</button>
             </div>
           </section>
         </div>

@@ -10,8 +10,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
 import { GetBaseInfoDetailClass } from 'src/app/Models/GetBaseInfoDetailClass';
 import { isValidTime, isValidDate } from 'src/app/UseVoid/void_isVaildDatetime';
-import { doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
+import { doFormatDate, sumbit_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
+import { GetOtCalculateGetApiClass } from 'src/app/Models/PostData_API_Class/GetOtCalculateGetApiClass';
 
 
 declare let $: any; //use jquery
@@ -28,37 +29,53 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
 
   WriteEmp = { EmpID: null, EmpName: null }
   password
-  otForm: FormGroup = new FormGroup({
-    EmpID: new FormControl('0004420', Validators.required, [this.getValidatorFn()]),
-    StartDate: new FormControl('', this.checkDate()),
-    EndDate: new FormControl('', this.checkDate()),
-    StartTime: new FormControl('', this.checkTime()),
-    EndTime: new FormControl('', this.checkTime()),
-    CauseID: new FormControl('', Validators.required),
-    DeptsID: new FormControl('', Validators.required),
-    Note: new FormControl(),
-    FileUpload: new FormControl()
-  });
+  otFormGroup: FormGroup
+  //  = new FormGroup({
+  //   EmpID: new FormControl('0004420', Validators.required, [this.getValidatorFn()]),
+  //   StartDate: new FormControl('', this.checkDate()),
+  //   EndDate: new FormControl('', this.checkDate()),
+  //   StartTime: new FormControl('', this.checkTime()),
+  //   EndTime: new FormControl('', this.checkTime()),
+  //   CauseID: new FormControl('', Validators.required),
+  //   DeptsID: new FormControl('', Validators.required),
+  //   Note: new FormControl(),
+  //   FileUpload: new FormControl()
+  // });
   otFormArray: Array<otFormClass>;
 
-  get EmpID() { return this.otForm.get('EmpID'); }
-  get StartDate() { return this.otForm.get('StartDate'); }
-  get EndDate() { return this.otForm.get('EndDate'); }
-  get StartTime() { return this.otForm.get('StartTime'); }
-  get EndTime() { return this.otForm.get('EndTime'); }
-  get CauseID() { return this.otForm.get('CauseID'); }
-  get DeptsID() { return this.otForm.get('DeptsID'); }
-
-  constructor(private GetApiDataServiceService: GetApiDataServiceService,
-    private GetApiUserService: GetApiUserService,
-    private LoadingPage: NgxSpinnerService,
-    private formBuilder: FormBuilder) {
+  get EmpID() { return this.otFormGroup.get('EmpID'); }
+  get StartDate() { return this.otFormGroup.get('StartDate'); }
+  get EndDate() { return this.otFormGroup.get('EndDate'); }
+  get StartTime() { return this.otFormGroup.get('StartTime'); }
+  get EndTime() { return this.otFormGroup.get('EndTime'); }
+  get CauseID() { return this.otFormGroup.get('CauseID'); }
+  get DeptsID() { return this.otFormGroup.get('DeptsID'); }
+  createForm() {
+    var _otform: otFormClass = {
+      OtType:['1', Validators.required],
+      EmpID: ['0004420', Validators.required, [this.getValidatorFn()]],
+      StartDate: ['', this.checkDate()],
+      EndDate: ['', this.checkDate()],
+      StartTime: ['', this.checkTime()],
+      EndTime: ['', this.checkTime()],
+      OtCat:['1', Validators.required],
+      CauseID: ['', Validators.required],
+      DeptsID: ['', Validators.required],
+      Note: '',
+      FileUpload: ''
+    }
+    this.otFormGroup  = this.fb.group(_otform)
     this.EmpID.setValue('0004420')
     this.StartDate.setValue(new Date())
     this.EndDate.setValue(new Date())
     this.StartTime.setValue('00:00')
     this.EndTime.setValue('00:00')
-
+  }
+  constructor(private GetApiDataServiceService: GetApiDataServiceService,
+    private GetApiUserService: GetApiUserService,
+    private LoadingPage: NgxSpinnerService,
+    private fb: FormBuilder) {
+      this.createForm()
   }
   dateTimeS = ''
   dateTimeE = ''
@@ -139,25 +156,48 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.CauseOption = GetOtCauseByForm
                 this.CauseID.setValue(GetOtCauseByForm[0].CauseID)
                 this.GetApiDataServiceService.getWebApiData_GetDepts()
-                .pipe(takeWhile(() => this.api_subscribe))
-                .subscribe(
-                  (y: any[]) => {
-                    this.NgxDeptsSelectBox = JSON.parse(JSON.stringify(y))
-                    this.DeptsID.setValue(x.DeptcID)
-                  })
+                  .pipe(takeWhile(() => this.api_subscribe))
+                  .subscribe(
+                    (y: any[]) => {
+                      this.NgxDeptsSelectBox = JSON.parse(JSON.stringify(y))
+                      this.DeptsID.setValue(x.DeptcID)
+                    })
               }
             )
         }
       })
   }
   onSubmit() {
-    console.log(this.otForm.value)
+    console.log(this.otFormGroup.value)
+    var getData:otFormClass = this.otFormGroup.value
+    var GetOtCalculateGetApi: GetOtCalculateGetApiClass = {
+      "EmpID": getData.EmpID,
+      "OtCat": getData.OtCat,
+      "DateB": doFormatDate(getData.StartDate),
+      "DateE": doFormatDate(getData.EndDate),
+      "TimeB": sumbit_formatTimetoString(getData.StartTime),
+      "TimeE": sumbit_formatTimetoString(getData.EndTime),
+      "CauseID": getData.CauseID,
+      "RoteID": "",
+      "CalculateRes": true,
+      "CalculateAtt": true,
+      "Time24": false
+    }
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetOtCalculate(GetOtCalculateGetApi)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          alert(x)
+          this.LoadingPage.hide()
+        })
+
   }
   resetFormGroup() {
-    this.otForm.reset()
+    this.otFormGroup.reset()
   }
   login() {
-    var checkData = this.otForm.value
+    var checkData = this.otFormGroup.value
     var jbUserLogin: jbUserLoginClass = {
       Account: checkData.EmpID,
       Password: checkData.address
@@ -187,19 +227,20 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
             .pipe(
               map(
                 (serviceResponse: GetBaseInfoDetailClass[]) => {
-                  console.log(serviceResponse)
+                  // console.log(serviceResponse)
                   this.LoadingPage.hide()
                   if (serviceResponse.length > 0) {
                     this.leaveman_name = serviceResponse[0].EmpNameC
                     this.DeptsID.setValue(serviceResponse[0].DeptcID)
                     return null
                   } else {
+                    this.leaveman_name = '';
                     return { errorEmpID: 'errorEmpIDS' }
                   }
                 })
             )
-          console.log(req)
-          console.log(this.EmpID.status)
+          // console.log(req)
+          // console.log(this.EmpID.status)
           return req
         })
       )
@@ -270,16 +311,12 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   onSaveFile(event) {
-    this.otForm.get('FileUpload').setValue(event);
+    this.otFormGroup.get('FileUpload').setValue(event);
     // console.log(event)
   }
 
 }
 
-interface otFormClass {
-  EmpID: string
-  Note: string
-}
 export function forbiddenNameValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     console.log(control.value)
@@ -291,3 +328,17 @@ export function forbiddenNameValidator(): ValidatorFn {
   };
 }
 
+
+class otFormClass {
+  OtType:any
+  EmpID: any
+  StartDate: any
+  EndDate: any
+  StartTime: any
+  EndTime: any
+  OtCat:any
+  CauseID: any
+  DeptsID: any
+  Note: any
+  FileUpload: any
+}

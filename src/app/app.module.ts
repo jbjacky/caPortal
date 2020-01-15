@@ -24,6 +24,12 @@ import { AppRoutingCache } from './_guards/AppRoutingCache';
 import { TimeoutInterceptor } from './_guards/TimeoutInterceptor';
 import { ErrorStateService } from './Service/error-state.service';
 import { MatSnackBarModule, MAT_SNACK_BAR_DATA } from '@angular/material';
+import { ChartsModule } from '@progress/kendo-angular-charts';
+import 'hammerjs';
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +47,8 @@ import { MatSnackBarModule, MAT_SNACK_BAR_DATA } from '@angular/material';
     ReactiveFormsModule,
     NgxSpinnerModule,
     HttpClientModule,
-    DeviceDetectorModule.forRoot()
+    DeviceDetectorModule.forRoot(),
+    ChartsModule
 
   ],
   providers: [

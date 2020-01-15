@@ -11,6 +11,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { jbLoginDataClass, jbUserLoginClass } from 'src/app/Models/PostData_API_Class/jbUserLoginClass';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { VALID } from '@angular/forms/src/model';
+import { Path, Group, Text } from '@progress/kendo-drawing';
 // declare var OAuthPath
 // declare var _client_id
 // declare var _redirect_uri_LinkOuthpage
@@ -22,6 +23,91 @@ import { VALID } from '@angular/forms/src/model';
 })
 
 export class LoginComponent implements OnInit, OnDestroy {
+  public seriesData: number[] = [8.7, 1.4, 3.0, 2.5, 2.1,8.7, 1.4, 3.0, 2.5, 2.1, 2.1];
+    public categories: string[] = ['生產部', '設備部', '品質部', '銷售部', '行政部','工藝部', '技術部', '人力資源部', '財務部', '採購部','總經辦'];
+  public labels = {
+    visible: true
+  };
+  public line = {
+    width: 0
+  };
+
+  public majorGridLines = {
+    visible: false
+  }
+  changeType:string = "column"
+  show = false;
+  saqe(){
+    var average  = 0
+    this.seriesData.forEach((x)=>{
+      average += x
+    })
+    average  = average / this.seriesData.length
+    console.log(average)
+    this.plotValue = this.formatFloat(average,2)
+    this.show  = true
+  }
+   formatFloat(num, pos)
+  {
+    var size = Math.pow(10, pos);
+    return Math.round(num * size) / size;
+  }
+  
+  public crosshair: any = {
+      visible: true,
+      tooltip: {
+          visible: true,
+          format: '#.##'
+      }
+  };
+  private plotValue: number = 3;
+
+  public onRender = (args: any): void => {
+      const chart = args.sender;
+
+      // get the axes
+      const valueAxis = chart.findAxisByName("valueAxis");
+      const categoryAxis = chart.findAxisByName("categoryAxis");
+
+      // get the coordinates of the value at which the plot band will be rendered
+      const valueSlot = valueAxis.slot(this.plotValue);
+
+      // get the coordinates of the entire category axis range
+      const range = categoryAxis.range();
+      const categorySlot = categoryAxis.slot(range.min, range.max);
+
+      // draw the plot band based on the found coordinates
+      const line = new Path({
+        stroke: {
+          color: "red",
+          width: 1,
+          dashType:"dash"
+        }
+      }).moveTo(valueSlot.origin)
+      .lineTo(categorySlot.topRight().x, valueSlot.origin.y);
+
+      const label = new Text(`平均值${this.plotValue.toString()}`, [0, 0], {
+        fill: {
+          color: "red"
+        },
+        font: "14px sans"
+      });
+      const bbox = label.bbox();
+      label.position([ categorySlot.topRight().x - bbox.size.width, valueSlot.origin.y - bbox.size.height ]);
+
+      const group = new Group();
+      group.append(line, label);
+
+      // Draw on the Chart surface to overlay the series
+      chart.surface.draw(group);
+      
+      // Or as a first element in the pane to appear behind the series
+      // chart.findPaneByIndex(0).visual.insert(0, group);
+  }
+
+
+
+
   ngOnDestroy(): void {
     this.api_subscribe = false;
   }
@@ -34,7 +120,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private LoadingPage: NgxSpinnerService,
     private http: HttpClient,
     private GetApiDataServiceService: GetApiDataServiceService
-  ) { 
+  ) {
   }
   @ViewChild('user_password') user_password: ElementRef;
   get account() { return this.loginFromGroup.get('account') }
@@ -42,7 +128,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   get password() { return this.loginFromGroup.get('password') }
   get passwordError_required() { return this.loginFromGroup.get('password').hasError('required'); }
 
-  showLogin:boolean = false
+  showLogin: boolean = false
   ngOnInit() {
     // this.user_password.nativeElement.addEventListener('keyup', function(event) {
     //   if (event.getModifierState("CapsLock")) {
@@ -51,12 +137,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     //     console.log('小寫')
     //   }
     // });
-    
+
     this.LoadingPage.show()
     if (localStorage.getItem('API_Token')) {
       // this.route.navigate(['/CheckLoginPageComponent']);
       this.route.navigate(['/nav']);
-    }else{
+    } else {
       this.LoadingPage.hide()
       this.showLogin = true
     }
@@ -84,7 +170,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               alert(jbLoginData.message)
               this.LoadingPage.hide()
             }
-          },errors=>{
+          }, errors => {
             this.LoadingPage.hide()
             alert('api連線錯誤')
             // alert(JSON.parse(JSON.stringify(userLogin)).toString())

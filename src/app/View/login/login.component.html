@@ -42,3 +42,39 @@
         </div>
     </div>
 </div>
+<div class="a-block" style="
+padding: 0px 200px;">
+    <div class="a-block-body  a-block-container">
+        <div style="display: inline-block;margin-right:15px ">
+            <input type="radio" [(ngModel)]="changeType" value="line">折線圖
+            <input type="radio" [(ngModel)]="changeType" value="column">柱狀圖
+            <button (click)="saqe()">click</button>
+        </div>
+        <kendo-chart *ngIf="show" (render)="onRender($event)" [seriesColors]="['#4F81BD']">
+            <kendo-chart-axis-defaults [labels]="labels" [line]="line" [majorGridLines]="majorGridLines">
+            </kendo-chart-axis-defaults>
+            <kendo-chart-category-axis>
+                <kendo-chart-category-axis-item [categories]=categories name="categoryAxis">
+                    <kendo-chart-category-axis-item-crosshair>
+                        <kendo-chart-category-axis-item-crosshair-tooltip>
+                        </kendo-chart-category-axis-item-crosshair-tooltip>
+                    </kendo-chart-category-axis-item-crosshair>
+                </kendo-chart-category-axis-item>
+            </kendo-chart-category-axis>
+
+            <kendo-chart-value-axis>
+                <kendo-chart-value-axis-item name="valueAxis" [crosshair]="crosshair">
+                </kendo-chart-value-axis-item>
+            </kendo-chart-value-axis>
+
+            <kendo-chart-title text="人數占比" color="blue" font="bold  20px sans-serif">
+            </kendo-chart-title>
+            <kendo-chart-series>
+                <kendo-chart-series-item [data]="seriesData" [type]="changeType" >
+                    <kendo-chart-series-item-labels format="{0}%">
+                    </kendo-chart-series-item-labels>
+                </kendo-chart-series-item>
+            </kendo-chart-series>
+        </kendo-chart>
+    </div>
+</div>
