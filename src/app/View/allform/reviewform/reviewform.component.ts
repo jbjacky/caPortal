@@ -79,6 +79,9 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   // loading: boolean;
 
   FirstEmpCode: string = ''
+  FirstEmpName: string = ''
+  FirstEmpDeptName: string = ''
+  FirstEmpJobName: string = ''
   ngOnInit() {
 
     this.GetApiUserService.counter$.subscribe(
@@ -93,6 +96,9 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
           // console.log(this.ReviewformServiceService.showReviewTab)
           // console.log(this.ReviewformServiceService.showReviewMan)
           this.FirstEmpCode = x.EmpCode
+          this.FirstEmpName = x.EmpNameC
+          this.FirstEmpDeptName = x.DeptName
+          this.FirstEmpJobName = x.JobName
           this.firstInTab(x.EmpCode)
         }
       }
@@ -506,11 +512,124 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   isGetFlowSignRole: boolean = true;
 
   void_GetFlowSignRole(GetFlowSignRole: GetFlowSignRoleClass, ReloadOrChangeTabString: string) {
-    this.LoadingPage.show()
-    this.GetApiDataServiceService.getWebApiData_GetFlowSignRole(GetFlowSignRole)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (x: any) => {
+    // this.LoadingPage.show()
+    // this.GetApiDataServiceService.getWebApiData_GetFlowSignRole(GetFlowSignRole)
+    //   .pipe(takeWhile(() => this.api_subscribe))
+    //   .subscribe(
+    //     (x: any) => {
+      var x  = [
+        {
+          "Count": 0,
+          "BatchSign": true,
+          "FlowSignForm": [
+            {
+              "Count": 0,
+              "FlowSign": null,
+              "AutoKey": 0,
+              "FormCode": "Abs",
+              "FormName": "請假單",
+              "FlowTreeID": "81",
+              "StdNote": null,
+              "CheckNote": null,
+              "ViewNote": null,
+              "EtcNote": null,
+              "DynamicNode": null,
+              "CustomNode": null,
+              "TableName": null
+            },
+            {
+              "Count": 0,
+              "FlowSign": null,
+              "AutoKey": 0,
+              "FormCode": "Absc",
+              "FormName": "銷假單",
+              "FlowTreeID": "17",
+              "StdNote": null,
+              "CheckNote": null,
+              "ViewNote": null,
+              "EtcNote": null,
+              "DynamicNode": null,
+              "CustomNode": null,
+              "TableName": null
+            },
+            {
+              "Count": 0,
+              "FlowSign": null,
+              "AutoKey": 0,
+              "FormCode": "AttendUnusual",
+              "FormName": "考勤異常簽認單",
+              "FlowTreeID": "83",
+              "StdNote": null,
+              "CheckNote": null,
+              "ViewNote": null,
+              "EtcNote": null,
+              "DynamicNode": null,
+              "CustomNode": null,
+              "TableName": null
+            },
+            {
+              "Count": 0,
+              "FlowSign": null,
+              "AutoKey": 0,
+              "FormCode": "Card",
+              "FormName": "忘刷單",
+              "FlowTreeID": "60",
+              "StdNote": null,
+              "CheckNote": null,
+              "ViewNote": null,
+              "EtcNote": null,
+              "DynamicNode": null,
+              "CustomNode": null,
+              "TableName": null
+            },
+            {
+              "Count": 0,
+              "FlowSign": null,
+              "AutoKey": 0,
+              "FormCode": "CardPatch",
+              "FormName": "補卡單",
+              "FlowTreeID": "82",
+              "StdNote": null,
+              "CheckNote": null,
+              "ViewNote": null,
+              "EtcNote": null,
+              "DynamicNode": null,
+              "CustomNode": null,
+              "TableName": null
+            },
+            {
+              "Count": 0,
+              "FlowSign": null,
+              "AutoKey": 0,
+              "FormCode": "ShiftRote",
+              "FormName": "調班單",
+              "FlowTreeID": "66",
+              "StdNote": null,
+              "CheckNote": null,
+              "ViewNote": null,
+              "EtcNote": null,
+              "DynamicNode": null,
+              "CustomNode": null,
+              "TableName": null
+            }
+          ],
+          "EmpName": this.FirstEmpName,
+          "DeptID": null,
+          "DeptName": this.FirstEmpDeptName,
+          "DeptPath": null,
+          "PosID": null,
+          "PosName": this.FirstEmpJobName,
+          "Auth": false,
+          "Email": null,
+          "MainMan": false,
+          "ChiefCode": null,
+          "Sort": 1,
+          "RoleEmp": null,
+          "RoleID": "",
+          "RoleName": null,
+          "EmpID": this.FirstEmpCode
+        }
+      ]
           if (x) {
             if (x.length > 0) {
 
@@ -521,7 +640,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                   EmpCode: FlowSign.EmpID,
                   EmpNameC: FlowSign.EmpName,
                   EmpNameE: FlowSign.EmpName,
-                  Count: FlowSign.Count,
+                  Count: FlowSign.Count.toString(),
                   FlowSignForm: [],
 
                   PosID: FlowSign.PosID,
@@ -531,50 +650,20 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                   DeptName: FlowSign.DeptName,
                   BatchSign: FlowSign.BatchSign
                 })
-                // var FlowSignForm_index = 0
+
                 for (let FlowSignForm of FlowSign.FlowSignForm) {
                   getAPI_ReviewData[FlowSign_index].FlowSignForm.push(
                     {
-                      Count: FlowSignForm.Count,
+                      Count: FlowSignForm.Count.toString(),
                       FormCode: FlowSignForm.FormCode,
                       FormName: FlowSignForm.FormName,
                       FlowTreeID: FlowSignForm.FlowTreeID,
                       FlowSign: []
                     }
                   )
-                  // for (let FlowSign of FlowSignForm.FlowSign) {
-                  //   getAPI_ReviewData[FlowSign_index].FlowSignForm[FlowSignForm_index].FlowSign.push(
-                  //     {
-                  //       ProcessFlowID: FlowSign.ProcessFlowID,
-                  //       FlowTreeID: FlowSign.FlowTreeID,
-                  //       FlowNodeID: FlowSign.FlowNodeID,
-                  //       ProcessApParmAuto: FlowSign.ProcessApParmAuto,
-                  //       EmpCode: FlowSign.AppEmpID,
-                  //       EmpNameC: FlowSign.AppEmpName,
-                  //       EmpNameE: FlowSign.AppEmpName,
-                  //       Note: FlowSign.Note,
-                  //       isApproved: FlowSign.SignCondition.SignComplete,
-                  //       isSendback: FlowSign.SignCondition.Reject,
-                  //       isPutForward: FlowSign.SignCondition.Sign
-                  //     }
-                  //   )
-                  // }
-                  // FlowSignForm_index = FlowSignForm_index + 1
                 }
                 FlowSign_index = FlowSign_index + 1;
               }
-
-              // console.log(getAPI_ReviewData)
-              // this.ReviewformServiceService.getReviewData = getAPI_ReviewData
-              // this.getReviewData = this.ReviewformServiceService.getReviewData
-              // if (this.ReviewformServiceService.showReviewManCode.length == 0) {
-              //   this.ReviewformServiceService.changeReviewMan(this.getReviewData[0].EmpCode)
-              //   this.selectReviewMan = this.ReviewformServiceService.showReviewManCode;
-              //   this.showReviewName = this.ReviewformServiceService.showReviewName
-              // } else {
-              //   this.selectReviewMan = this.ReviewformServiceService.showReviewManCode;
-              //   this.showReviewName = this.ReviewformServiceService.showReviewName
-              // }
               this.getReviewData = getAPI_ReviewData
               if (this.ReviewformServiceService.showReviewMan.EmpCode) {
                 var hasReviewMan: boolean = false
@@ -622,24 +711,20 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.GetFlowData_CardPatch(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, this.getReviewData)
               }
 
-
-              // this.LoadingPage.hide()
             } else {
-              // this.loading = false;
               this.LoadingPage.hide()
               this.isGetFlowSignRole = false;
-              // console.log('沒有審核資料')
             }
           } else {
             this.LoadingPage.hide()
           }
 
-        },
-        (error) => {
-          // alert('取不到資料，與api連線異常，void_GetFlowSignRole')
-          this.LoadingPage.hide()
-        }
-      )
+        // }
+      //   ,
+      //   (error) => {
+      //     this.LoadingPage.hide()
+      //   }
+      // )
   }
 
   FinallyReviewForm: FlowSign = new FlowSign();
