@@ -50,22 +50,8 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
   get EndTime() { return this.otFormGroup.get('EndTime'); }
   get CauseID() { return this.otFormGroup.get('CauseID'); }
   get DeptsID() { return this.otFormGroup.get('DeptsID'); }
-  createForm() {
-    var _otform: otFormClass = {
-      OtType:['1', Validators.required],
-      EmpID: ['0004420', Validators.required, [this.getValidatorFn()]],
-      StartDate: ['', this.checkDate()],
-      EndDate: ['', this.checkDate()],
-      StartTime: ['', this.checkTime()],
-      EndTime: ['', this.checkTime()],
-      OtCat:['1', Validators.required],
-      CauseID: ['', Validators.required],
-      DeptsID: ['', Validators.required],
-      Note: '',
-      FileUpload: ''
-    }
-    this.otFormGroup  = this.fb.group(_otform)
-    this.EmpID.setValue('0004420')
+  createForm(EmpID: string) {
+    this.EmpID.setValue(EmpID)
     this.StartDate.setValue(new Date())
     this.EndDate.setValue(new Date())
     this.StartTime.setValue('00:00')
@@ -75,7 +61,20 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
     private GetApiUserService: GetApiUserService,
     private LoadingPage: NgxSpinnerService,
     private fb: FormBuilder) {
-      this.createForm()
+    var _otform: otFormClass = {
+      OtType: ['1', Validators.required],
+      EmpID: ['', Validators.required, [this.getValidatorFn()]],
+      StartDate: ['', this.checkDate()],
+      EndDate: ['', this.checkDate()],
+      StartTime: ['', this.checkTime()],
+      EndTime: ['', this.checkTime()],
+      OtCat: ['1', Validators.required],
+      CauseID: ['', Validators.required],
+      DeptsID: ['', Validators.required],
+      Note: '',
+      FileUpload: ''
+    }
+    this.otFormGroup = this.fb.group(_otform)
   }
   dateTimeS = ''
   dateTimeE = ''
@@ -147,7 +146,7 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
         if (x == 0) {
         } else {
           this.WriteEmp = { EmpID: x.EmpID, EmpName: x.EmpNameC }
-
+          this.createForm(x.EmpID)
           this.GetApiDataServiceService.getWebApiData_GetOtCauseByForm()
             .pipe(takeWhile(() => this.api_subscribe))
             .subscribe(
@@ -169,7 +168,7 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   onSubmit() {
     console.log(this.otFormGroup.value)
-    var getData:otFormClass = this.otFormGroup.value
+    var getData: otFormClass = this.otFormGroup.value
     var GetOtCalculateGetApi: GetOtCalculateGetApiClass = {
       "EmpID": getData.EmpID,
       "OtCat": getData.OtCat,
@@ -330,13 +329,13 @@ export function forbiddenNameValidator(): ValidatorFn {
 
 
 class otFormClass {
-  OtType:any
+  OtType: any
   EmpID: any
   StartDate: any
   EndDate: any
   StartTime: any
   EndTime: any
-  OtCat:any
+  OtCat: any
   CauseID: any
   DeptsID: any
   Note: any

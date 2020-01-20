@@ -14,6 +14,6 @@ var _client_id = ''
 
 var _redirect_uri_LinkOuthpage = ''
 
-var apiPostURL = 'http://publish.jbjob.com.tw/HRWebService/api/'
+var apiPostURL = 'https://publish.jbjob.com.tw/HRWebService/api/'
 
 var apiGetFileURL = ''
