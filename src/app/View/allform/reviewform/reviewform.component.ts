@@ -654,6 +654,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.vaDetail.FlowNodeID
 
     this.ReviewformServiceService.va_pagechange = JSON.parse(JSON.stringify(this.va_pagechange))
+    
+    this.router.navigate(["../nav/reviewform/ReviewformDetailVacationComponent"]);
 
   }
   vaShowLimitText = ''
@@ -699,6 +701,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     this.ReviewformServiceService.del_pagechange = JSON.parse(JSON.stringify(this.del_pagechange))
+
+    this.router.navigate(["../nav/reviewform/ReviewformDetailDelformComponent"]);
   }
   del_PutForward(e_delFlowSign: delFlowSign, ReloadTabData) {
     this.delDetail_click(e_delFlowSign, ReloadTabData)
@@ -715,6 +719,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.CardPatchFlowSignDetail.FlowNodeID
 
     this.ReviewformServiceService.CardPatch_pagechange = JSON.parse(JSON.stringify(this.CardPatch_pagechange))
+
+    this.router.navigate(['../nav/reviewform/ReviewformDetailCardPatchformComponent']);
   }
   checkCardPatch_Approved(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
     this.CardPatchDetail_click(e_forgetFlowSign, ReloadTabData)
@@ -734,6 +740,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.forgetDetail.FlowNodeID
 
     this.ReviewformServiceService.forget_pagechange = JSON.parse(JSON.stringify(this.forget_pagechange))
+
+    this.router.navigate(['../nav/reviewform/ReviewformDetailForgetformComponent']);
   }
   forgetShowCheckText = ''
   showforgetPutForwarddialog = false
@@ -805,6 +813,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.AttendUnusualDetail.FlowNodeID
 
     this.ReviewformServiceService.AttendUnusual_pagechange = JSON.parse(JSON.stringify(this.AttendUnusual_pagechange))
+
+    this.router.navigate(['../nav/reviewform/ReviewformDetailAttendUnusualformComponent']);
   }
   checkAttendUnusualText_PutForward(e_AttendUnusualFlowSign: AttendUnusualFlowSign, ReloadTabData) {
     this.AttendUnusualDetail_click(e_AttendUnusualFlowSign, ReloadTabData)

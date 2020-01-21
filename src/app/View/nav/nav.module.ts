@@ -258,7 +258,6 @@ export class MyDateAdapter extends NativeDateAdapter {
   ],
   providers: [
     AuthGuard,
-    TestGuard,
     GetApiDataServiceService,
     GetApiUserService,
     LZStringService,
