@@ -103,7 +103,7 @@
           <!-- form-group end -->
 
 
-          <section class="form-horizontal  form-style01">
+          <section *ngIf="NowIsWriteOtForm" class="form-horizontal  form-style01" appOtSpyNgIf>
             <div id="NowIsWirteFormTop"></div>
 
             <div>
@@ -160,7 +160,7 @@
                     </div>
                     <!--  -->
                     <div class="col-md-4 col-xs-2" style="padding: 0px">
-                      <input #StartTimeView id="id_bt_starttime" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                      <input #StartTimeView id="id_bt_starttime" type="button" (click)="changeStartTimeView()" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
                                 cursor: pointer;
                                 color: transparent;
                                 border: 1px solid transparent;
@@ -225,7 +225,7 @@
                     </div>
                     <!--  -->
                     <div class="col-md-4 col-xs-2" style="padding: 0px">
-                      <input #EndTimeView type="button" id="id_bt_endtime" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                      <input #EndTimeView type="button" id="id_bt_endtime" (click)="changeEndTimeView()" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
                                   cursor: pointer;
                                   color: transparent;
                                   border: 1px solid transparent;
@@ -341,6 +341,30 @@
                 [disabled]="!otFormGroup.valid">送出</button>
             </div>
           </section>
+          <div *ngIf="!NowIsWriteOtForm">
+            <div class="form-group" style="border: 0px;padding: 0;padding-top: 20px;">
+              <div class="col-md-12 col-xs-12">
+                <div class="col-md-2 control-label" style="padding-left: 0px">
+                </div>
+                <div class="col-md-8 writerow">
+                  <div style="margin-bottom: 10px">
+                    <div (click)="showOtform()" style="display: inline-block;vertical-align: bottom;cursor: pointer">
+                      <img src="./assets/images-template/icon-add.png" />
+                      <a style="padding-top: 5px;padding-left: 10px;">
+                        <ng-container i18n>新增更多請假時段</ng-container>
+                      </a>
+                    </div>
+                  </div>
+                  <div style="margin-bottom: 10px">
+                    <button type="button" class="btn btn-primary  m-r-xs   m-b-s--screen-xs" >
+                      <ng-container i18n>下一步</ng-container>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- form-group end -->
+          </div>
         </div>
       </div>
     </form>

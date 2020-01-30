@@ -63,6 +63,7 @@ import { SearchCardPatchFormComponent } from '../View/shareComponent/search-card
 import { SearchCardPatchDetailComponent } from '../View/shareComponent/search-card-patch-detail/search-card-patch-detail.component';
 import { ShowSearchSalaryDirective } from '../show-search-salary.directive';
 import { CardTimeTableComponent } from '../View/shareComponent/card-time-table/card-time-table.component';
+import { OtSpyNgIfDirective } from '../View/allform/otform/ot-spy-ng-if.directive';
 
 @NgModule({
   imports: [
@@ -94,6 +95,7 @@ import { CardTimeTableComponent } from '../View/shareComponent/card-time-table/c
     CanapproviddayComponent,
     TextMaskModule,
     SpyngifDirective,
+    OtSpyNgIfDirective,
     SpyReformNgifDirective,
     SearchForgetFormComponent,
     SearchFormComponent,
@@ -158,6 +160,7 @@ import { CardTimeTableComponent } from '../View/shareComponent/card-time-table/c
     ChoosedatetimeSeComponent,
     CanapproviddayComponent,
     SpyngifDirective,
+    OtSpyNgIfDirective,
     SpyReformNgifDirective,
     SearchForgetFormComponent,
     SearchFormComponent,

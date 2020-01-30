@@ -24,7 +24,11 @@ declare let $: any; //use jquery
 })
 export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
   exampleHeader = ExampleHeader //日期套件header
-
+  NowIsWriteOtForm:boolean = true
+  showOtform(){
+    this.NowIsWriteOtForm = true
+    this.resetFormGroup(this.EmpID.value.toString());
+  }
   @ViewChild('Tname') Tnam: FormControl
 
   WriteEmp = { EmpID: null, EmpName: null }
@@ -102,32 +106,43 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngAfterViewInit(): void {
     var a = this;
-    $("#id_bt_starttime").timeDropper({
-      format: 'HH:mm',
-      autoswitch: false,
-      mousewheel: true,
-      setCurrentTime: false
-    });
-    $("#id_bt_endtime").timeDropper({
-      format: 'HH:mm',
-      autoswitch: false,
-      mousewheel: true,
-      setCurrentTime: false
-    });
-    $("#id_bt_starttime").change(() => {
-      this.dateTimeS = $("#id_bt_starttime").val()
-      this.StartTime.setValue($("#id_bt_starttime").val());
-    });
-    $("#id_bt_endtime").change(() => {
-      this.dateTimeE = $("#id_bt_starttime").val()
-      this.EndTime.setValue($("#id_bt_endtime").val());
-    });
+    // $("#id_bt_starttime").change(() => {
+    //   this.dateTimeS = $("#id_bt_starttime").val()
+    //   this.StartTime.setValue($("#id_bt_starttime").val());
+    // });
+    // $("#id_bt_endtime").change(() => {
+    //   this.dateTimeE = $("#id_bt_starttime").val()
+    //   this.EndTime.setValue($("#id_bt_endtime").val());
+    // });
 
+  }
+
+  @ViewChild('StartTimeView') StartTimeView: ElementRef;
+  changeStartTimeView() {
+    this.dateTimeS = $("#id_bt_starttime").val()
+
+    $(this.StartTimeView.nativeElement)
+      .on('change', (e, args) => {
+        this.dateTimeS = $("#id_bt_starttime").val()
+        this.StartTime.setValue($("#id_bt_starttime").val());
+      });
+  }
+  @ViewChild('EndTimeView') EndTimeView: ElementRef;
+  changeEndTimeView() {
+    this.dateTimeE = $("#id_bt_endtime").val()
+    $(this.EndTimeView.nativeElement)
+      .on('change', (e, args) => {
+        this.dateTimeE = $("#id_bt_endtime").val()
+        this.EndTime.setValue($("#id_bt_endtime").val());
+      });
   }
 
   ngOnDestroy(): void {
     // throw new Error("Method not implemented.");
     this.api_subscribe = false;
+    
+    $(this.StartTimeView.nativeElement).unbind()
+    $(this.EndTimeView.nativeElement).unbind()
   }
   api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
   ngOnInit(): void {
@@ -188,12 +203,28 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(
         (x: any) => {
           alert(x)
+          this.NowIsWriteOtForm = false
           this.LoadingPage.hide()
         })
 
   }
-  resetFormGroup() {
-    this.otFormGroup.reset()
+  resetFormGroup(EmpID:string) {
+    var _otform: otFormClass = {
+      OtType: ['1', Validators.required],
+      EmpID: [EmpID, Validators.required, [this.getValidatorFn()]],
+      StartDate: ['', this.checkDate()],
+      EndDate: ['', this.checkDate()],
+      StartTime: ['', this.checkTime()],
+      EndTime: ['', this.checkTime()],
+      OtCat: ['1', Validators.required],
+      CauseID: ['', Validators.required],
+      DeptsID: ['', Validators.required],
+      Note: '',
+      FileUpload: ''
+    }
+    this.otFormGroup = this.fb.group(_otform)
+    this.createForm(EmpID)
+    this.CauseID.setValue(this.CauseOption[0].CauseID)
   }
   login() {
     var checkData = this.otFormGroup.value
