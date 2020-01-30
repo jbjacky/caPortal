@@ -1,0 +1,134 @@
+#wrapper {
+  width: 940px;
+  margin: 0 auto;
+}
+#header {
+  position: relative;
+  margin: 0 auto 25px;
+  background: 0;
+  border: 0;
+}
+#header-inner {
+  height: 105px;
+  padding-top: 80px;
+}
+#ci-logo {
+  width: 158px;
+  height: 23px;
+}
+#main {
+  position: relative;
+  margin: 0 auto;
+  letter-spacing: 0.35px;
+}
+.clearfix:after {
+  content: " ";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.clearfix {
+  zoom: 1;
+}
+#error-image-block {
+  width: 290px;
+  height: 220px;
+  float: left;
+}
+#img-error-pc {
+  width: 290px;
+  height: 220px;
+}
+#img-error-m {
+  display: none;
+}
+#website-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+  line-height: 1.1;
+  font-weight: normal;
+  font-size: 60px;
+  color: #0075a9;
+  text-align: center;
+}
+#website-title .website-title-en {
+  display: block;
+  font-size: 30px;
+  color: #0075a9;
+  text-align: center;
+}
+#intro-pc {
+  text-align: center;
+}
+#intro-m {
+  display: none;
+}
+#content{
+	width: 640px;
+	margin-top: 46px;
+	float: right;
+}
+.btn {
+  padding:  6px 15px;
+} 
+.errorText{
+  text-align: center;
+  color: #e41c1c;
+  font-size: 20px;
+}
+@media (max-width: 939px) {
+  #error-image-block {
+    width: 120px;
+    height: 110px;
+    float: none;
+    margin: 0 auto;
+  }
+  #img-error-pc {
+    display: none;
+  }
+  #img-error-m {
+    display: block;
+    width: 120px;
+    height: 110px;
+  }
+  #wrapper {
+    width: 100%;
+  }
+  #header {
+    position: relative;
+    margin-bottom: 40px;
+  }
+  #header-inner {
+    height: 65px;
+    padding-top: 40px;
+  }
+  #ci-logo {
+    width: 158px;
+    height: 23px;
+    margin: 0 auto;
+  }
+  #website-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    font-size: 30px;
+  }
+  #website-title .website-title-en {
+    font-size: 18px;
+  }
+  #intro-pc {
+    display: none;
+  }
+  #intro-m {
+    display: block;
+    font-size: 15px;
+  }
+  #content{
+      width: 270px;
+      margin: 35px auto;
+      float: none;
+  }
+}
