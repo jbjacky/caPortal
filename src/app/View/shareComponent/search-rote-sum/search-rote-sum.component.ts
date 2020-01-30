@@ -168,11 +168,11 @@ export class SearchRoteSumComponent implements OnInit, OnDestroy {
     }
     if (this.blurStartDate()) {
     } else if (this.blurEndDate()) {
-    } else if (void_DateDiff(this.searchDateB, this.searchDateE) > 365) {
+    } else if (void_DateDiff(this.searchDateB, this.searchDateE) > 366) {
       $("#id_ipt_startday_RoteSum").addClass("errorInput");
       $("#id_ipt_endday_RoteSum").addClass("errorInput");
-      this.errorEndDate = { state: true, errorString: '起訖不得超過365天' };
-      this.errorStartDate = { state: true, errorString: '起訖不得超過365天' };
+      this.errorEndDate = { state: true, errorString: '起訖不得超過366天' };
+      this.errorStartDate = { state: true, errorString: '起訖不得超過366天' };
     }
     else {
 
@@ -218,11 +218,11 @@ export class SearchRoteSumComponent implements OnInit, OnDestroy {
         this.errorStartDate = { state: true, errorString: '起始日不得大於結束日' };
         $("#id_ipt_startday_RoteSum").addClass("errorInput");
         return true
-      } else if (void_DateDiff(this.searchDateB, this.searchDateE) > 365) {
+      } else if (void_DateDiff(this.searchDateB, this.searchDateE) > 366) {
         $("#id_ipt_startday_RoteSum").addClass("errorInput");
         $("#id_ipt_endday_RoteSum").addClass("errorInput");
-        this.errorEndDate = { state: true, errorString: '起訖不得超過365天' };
-        this.errorStartDate = { state: true, errorString: '起訖不得超過365天' };
+        this.errorEndDate = { state: true, errorString: '起訖不得超過366天' };
+        this.errorStartDate = { state: true, errorString: '起訖不得超過366天' };
       } else {
         this.errorEndDate = { state: false, errorString: '' };
         this.errorStartDate = { state: false, errorString: '' };
@@ -250,11 +250,11 @@ export class SearchRoteSumComponent implements OnInit, OnDestroy {
         this.errorEndDate = { state: true, errorString: '起始日不得大於結束日' };
         $("#id_ipt_endday_RoteSum").addClass("errorInput");
         return true
-      } else if (void_DateDiff(this.searchDateB, this.searchDateE) > 365) {
+      } else if (void_DateDiff(this.searchDateB, this.searchDateE) > 366) {
         $("#id_ipt_startday_RoteSum").addClass("errorInput");
         $("#id_ipt_endday_RoteSum").addClass("errorInput");
-        this.errorEndDate = { state: true, errorString: '起訖不得超過365天' };
-        this.errorStartDate = { state: true, errorString: '起訖不得超過365天' };
+        this.errorEndDate = { state: true, errorString: '起訖不得超過366天' };
+        this.errorStartDate = { state: true, errorString: '起訖不得超過366天' };
       } else {
         this.errorEndDate = { state: false, errorString: '' };
         this.errorStartDate = { state: false, errorString: '' };

@@ -17,6 +17,7 @@ import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { NewVaSearchFlowSignClass } from 'src/app/Models/NewVaSearchFlowSignClass';
 import { GetFlowViewAbsGetApiDataClass } from 'src/app/Models/GetFlowViewAbsGetApiDataClass';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
+import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 declare let $: any; //use jquery
 
 @Component({
@@ -260,14 +261,16 @@ export class VaformdetailComponent implements OnInit, OnDestroy {
     this.GetApiDataServiceService.getWebApiData_AbsSaveAndFlowStart(send_AbsSaveAndFlowStartClass)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        x => {
-          // console.log(x)
-          if (x == 1) {
+        (x: ResponeStateClass) => {
+          if (x.isOK) {
             $('#sussesdialog').modal('show');
           } else {
-            // alert('起單失敗，請洽相關人員修復')
+            var errMsg = ''
+            for (let e of x.ErrorMsg) {
+              errMsg += e + '。 '
+            }
+            alert(errMsg);
           }
-          // this.sendLoading = false;
           this.LoadingPage.hide()
         },
         error => {
