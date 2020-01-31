@@ -1,150 +1,159 @@
-
-.writerow{
-    padding-left: 20px;
-    padding-right: 0px
+.subTitle {
+  color: #969696;
+}
+.tRPl {
+  text-align: right;
+}
+.writerow {
+  padding-left: 20px;
+  padding-right: 0px;
 }
 
+.inputTextarea {
+  width: 100%;
+  resize: none;
+  height: 83px;
+  margin-top: 5px;
+  display: block;
+  padding: 6px 12px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #555555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+.oneintwotitle {
+  text-align: right;
+}
+.D_button {
+  cursor: pointer;
+  display: inline;
+}
+.P_button {
+  display: none;
+}
+.D_right {
+  text-align: right;
+}
+.br_phone {
+  display: none;
+}
 
-.inputTextarea{
-    width: 100%;
-    resize: none;
-    height:83px;
-    margin-top: 5px;
-    display: block;
-    padding: 6px 12px;
-    font-size: 15px;
-    line-height: 1.5;
-    color: #555555;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+.noteWrite {
+  padding: 0px 20px;
 }
-.oneintwotitle{
-    text-align: right
-}
-.D_button{
-    cursor: pointer;
-    display: inline;
-}
-.P_button{
-    display: none;
-}
-.D_right{
-    text-align:right;
-}
-.br_phone{
-    display: none;
-}
-
-.noteWrite{
-    padding:0px 20px;
-}
-@media screen and (max-width:850px) {
-    #holidayInfo .modal-dialog {    
-        position: relative;
-        width: auto;
-        margin: 10px;
-      }
+@media screen and (max-width: 850px) {
+  #holidayInfo .modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 10px;
+  }
 }
 @media (max-width: 991px) {
-.P_textLeft{
+  .P_textLeft {
     text-align: left;
-}
+  }
 }
 
 @media screen and (min-width: 1120px) and (max-width: 1280px) {
-    .col-md-5ths {
-        width: 25%;
-        display: inline-block;
-    }
+  .col-md-5ths {
+    width: 25%;
+    display: inline-block;
+  }
 }
 
 @media screen and (min-width: 992px) and (max-width: 1120px) {
-    .col-md-5ths {
-        width: 33%;
-        display: inline-block;
-    }
+  .col-md-5ths {
+    width: 33%;
+    display: inline-block;
+  }
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
-    .col-md-5ths {
-        width: 100%;
-        display: inline-block;
-    }
+  .col-md-5ths {
+    width: 100%;
+    display: inline-block;
+  }
 }
 
+@media screen and (max-width: 991px) {
+  .stateblock {
+    display: none;
+  }
+  .first-form-group {
+    padding-bottom: 5px;
+  }
+  .firstinone-form-group {
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #dcdcdc;
+  }
+  .firstintwo-form-group {
+    padding-top: 10px;
+  }
+  .oneintwotitle {
+    text-align: left;
+    padding: 0px;
+  }
+  .oneintwocontent {
+    padding: 0px;
+  }
+  .writerow {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 
-@media screen and (max-width:992px) {
-    .stateblock{
-        display: none;
-    }
-    .first-form-group{
-        padding-bottom: 5px
-    }
-    .firstinone-form-group{
-        padding-bottom: 10px;
-     border-bottom: 1px dashed #dcdcdc;
-     } 
-     .firstintwo-form-group{
-         padding-top:10px
-     }
-     .oneintwotitle{
-        text-align: left;
-        padding: 0px
-    }
-     .oneintwocontent{
-         padding: 0px
-     }
-     .writerow{
-        padding-left: 0px;
-        padding-right: 0px
-    }
-    
-    .D_button{
-        display: none;
-    }
-    .P_button{
-        display: inherit;
-        float: right
-    }
-    .D_img{
-        display: none;
-    }
-    .P_img{
-        display: inherit;
-    }
-    .D_center{
-        text-align: left;
-    }
-    
-    .P_show{
-        display: inherit;
-    }
-    .D_right{
-        text-align:left;
-    }
-    .br_phone{
-        display: inherit;
-    }
-    
-    .P_inf{
-        overflow-y: auto;
-        height:200px
-    }
-    .radiobt{
-        padding:0;
-        padding-top: 0px
-    }
+  .D_button {
+    display: none;
+  }
+  .P_button {
+    display: inherit;
+    float: right;
+  }
+  .D_img {
+    display: none;
+  }
+  .P_img {
+    display: inherit;
+  }
+  .D_center {
+    text-align: left;
+  }
 
-    .noteText{
-        padding: 0px;
-    }
-    .noteWrite{
-        padding: 0px;
+  .P_show {
+    display: inherit;
+  }
+  .D_right {
+    text-align: left;
+  }
+  .br_phone {
+    display: inherit;
+  }
 
-    }
+  .P_inf {
+    overflow-y: auto;
+    height: 200px;
+  }
+  .radiobt {
+    padding: 0;
+    padding-top: 0px;
+  }
+
+  .noteText {
+    padding: 0px;
+  }
+  .noteWrite {
+    padding: 0px;
+  }
+  .tRPl {
+    text-align: left;
+  }
+  .Pborder {
+    margin-bottom: 5px;
+    border-bottom: 1px solid #9a9c9c;
+    padding-bottom: 10px;
+  }
 }
-    

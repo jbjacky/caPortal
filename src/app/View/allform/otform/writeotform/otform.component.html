@@ -49,7 +49,7 @@
             </label>
             <div class="col-md-3">
               <div class="row writerow">
-                <select class="form-control"  formControlName="OtType">
+                <select class="form-control" formControlName="OtType">
                   <option value="1">預估加班單</option>
                   <option value="2">實際加班單</option>
                 </select>
@@ -57,8 +57,6 @@
               </div>
             </div>
           </div>
-
-
 
           <div class="form-group first-form-group" style="margin:0px ;margin-bottom: 30px;padding-bottom:30px">
             <div class="col-md-6 firstinone-form-group" style="border: 0px;padding: 0;padding-top: 10px;">
@@ -103,6 +101,76 @@
           <!-- form-group end -->
 
 
+          <div class="row" style="
+          margin: 0;
+          padding: 10px 0px;
+          border: 1px solid #028fcf;
+          border-left-width: 10px;
+          margin-top: 20px;">
+            <div class="col-md-2 col-xs-6 tRPl Pborder" style="color: #028fcf;">
+              加班時段一
+            </div>
+            <div class="col-md-2 col-md-push-8 col-xs-6 Pborder" style="text-align: right;">
+              <a style="margin-right:10px;cursor: pointer;">修改</a>
+              <a style="cursor: pointer;">刪除</a>
+            </div>
+            <div class="col-md-8  col-md-pull-2 col-xs-12 row" style="margin:0;">
+              <div class="row" style="margin:0;padding:0">
+                <div class="col-md-9 col-xs-12" style="padding: 0;">
+                  <div class="row" style="margin:0;padding:0">
+                    <div class="col-md-6 col-xs-12" style="padding: 0;">
+                      <span class="subTitle">
+                        起始：
+                      </span>
+                      2020/01/31 08:00
+                    </div>
+                    <div class="col-md-6 col-xs-12" style="padding: 0;">
+                      <span class="subTitle">
+                        結束：
+                      </span>
+                      2020/01/31 17:00
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-xs-12" style="padding: 0;">
+                  <span class="subTitle">
+                    加班時數：
+                  </span>
+                  480分鐘
+                </div>
+              </div>
+              <div>
+                <span class="subTitle">
+                  申請類型：
+                </span>
+                加班費
+              </div>
+              <div>
+                <span class="subTitle">
+                  加班原因：
+                </span>
+                機台生產
+              </div>
+              <div>
+                <span class="subTitle">
+                  加班部門：
+                </span>
+                總經理室
+              </div>
+              <div>
+                <span class="subTitle">
+                  附件：
+                </span>
+                我是附件.png 我是附件2.png
+              </div>
+              <div>
+                <span class="subTitle">
+                  備註：
+                </span>
+              </div>
+            </div>
+          </div>
+
           <section *ngIf="NowIsWriteOtForm" class="form-horizontal  form-style01" appOtSpyNgIf>
             <div id="NowIsWirteFormTop"></div>
 
@@ -120,12 +188,12 @@
                         <input [matDatepicker]="StartDatePicker" id="id_ipt_startday" type="text" class="form-control"
                           style="background-color: #ffffff;" placeholder="年/月/日" formControlName="StartDate" />
                         <mat-datepicker #StartDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
-                        <div *ngIf="StartDate.getError('forbiddenName') == 'dateNull'"
-                          style="color: #e60012">請輸入日期</div>
-                        <div *ngIf="StartDate.getError('forbiddenName') == 'dateFail'"
-                          style="color: #e60012">日期格式錯誤</div>
-                        <div *ngIf="StartDate.getError('forbiddenName') == 'dateTimeFail'"
-                          style="color: #e60012">起始日時大於結束日時</div>
+                        <div *ngIf="StartDate.getError('forbiddenName') == 'dateNull'" style="color: #e60012">請輸入日期
+                        </div>
+                        <div *ngIf="StartDate.getError('forbiddenName') == 'dateFail'" style="color: #e60012">日期格式錯誤
+                        </div>
+                        <div *ngIf="StartDate.getError('forbiddenName') == 'dateTimeFail'" style="color: #e60012">
+                          起始日時大於結束日時</div>
                       </div>
                       <!--  -->
                       <div class="col-md-2 col-xs-2" style="padding: 0px">
@@ -151,12 +219,10 @@
                     <div class="col-md-6 col-xs-10" style="padding: 0px">
                       <input id="id_ipt_starttime" type="text" class="form-control" style="background-color: #ffffff"
                         formControlName="StartTime" [textMask]="starttimeMask()">
-                      <div *ngIf="StartTime.getError('forbiddenName') == 'timeNull'"
-                        style="color: #e60012">請輸入時間</div>
-                      <div *ngIf="StartTime.getError('forbiddenName') == 'timeFail'"
-                        style="color: #e60012">時間格式錯誤</div>
-                      <div *ngIf="StartTime.getError('forbiddenName') == 'dateTimeFail'"
-                        style="color: #e60012">起始日時大於結束日時</div>
+                      <div *ngIf="StartTime.getError('forbiddenName') == 'timeNull'" style="color: #e60012">請輸入時間</div>
+                      <div *ngIf="StartTime.getError('forbiddenName') == 'timeFail'" style="color: #e60012">時間格式錯誤</div>
+                      <div *ngIf="StartTime.getError('forbiddenName') == 'dateTimeFail'" style="color: #e60012">
+                        起始日時大於結束日時</div>
                     </div>
                     <!--  -->
                     <div class="col-md-4 col-xs-2" style="padding: 0px">
@@ -185,12 +251,10 @@
                         <input [matDatepicker]="EndDatePicker" id="id_ipt_endday" type="text" class="form-control"
                           style="background-color: #ffffff" placeholder="年/月/日" formControlName="EndDate">
                         <mat-datepicker #EndDatePicker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
-                        <div *ngIf="EndDate.getError('forbiddenName') == 'dateNull'"
-                          style="color: #e60012">請輸入日期</div>
-                        <div *ngIf="EndDate.getError('forbiddenName') == 'dateFail'"
-                          style="color: #e60012">日期格式錯誤</div>
-                        <div *ngIf="EndDate.getError('forbiddenName') == 'dateTimeFail'"
-                          style="color: #e60012">起始日時大於結束日時</div>
+                        <div *ngIf="EndDate.getError('forbiddenName') == 'dateNull'" style="color: #e60012">請輸入日期</div>
+                        <div *ngIf="EndDate.getError('forbiddenName') == 'dateFail'" style="color: #e60012">日期格式錯誤</div>
+                        <div *ngIf="EndDate.getError('forbiddenName') == 'dateTimeFail'" style="color: #e60012">
+                          起始日時大於結束日時</div>
                       </div>
                       <div class="col-md-2 col-xs-2" style="padding: 0px">
                         <input (click)="EndDatePicker.open()" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
@@ -220,12 +284,13 @@
                         請輸入時間</div>
                       <div *ngIf="EndTime.getError('forbiddenName') == 'timeFail'" style="color: #e60012">
                         時間格式錯誤</div>
-                      <div *ngIf="EndTime.getError('forbiddenName') == 'dateTimeFail'"
-                        style="color: #e60012">起始日時大於結束日時</div>
+                      <div *ngIf="EndTime.getError('forbiddenName') == 'dateTimeFail'" style="color: #e60012">起始日時大於結束日時
+                      </div>
                     </div>
                     <!--  -->
                     <div class="col-md-4 col-xs-2" style="padding: 0px">
-                      <input #EndTimeView type="button" id="id_bt_endtime" (click)="changeEndTimeView()" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                      <input #EndTimeView type="button" id="id_bt_endtime" (click)="changeEndTimeView()" type="button"
+                        style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
                                   cursor: pointer;
                                   color: transparent;
                                   border: 1px solid transparent;
@@ -356,7 +421,7 @@
                     </div>
                   </div>
                   <div style="margin-bottom: 10px">
-                    <button type="button" class="btn btn-primary  m-r-xs   m-b-s--screen-xs" >
+                    <button type="button" class="btn btn-primary  m-r-xs   m-b-s--screen-xs">
                       <ng-container i18n>下一步</ng-container>
                     </button>
                   </div>
