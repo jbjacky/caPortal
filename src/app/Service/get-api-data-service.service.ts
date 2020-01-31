@@ -83,7 +83,7 @@ import { GetAttendInfoByDeptGetApiClass } from '../Models/PostData_API_Class/Get
 import { GetEventDateGetApiClass } from '../Models/PostData_API_Class/GetEventDateGetApiClass';
 import { GetAttendWishByDeptaGetApiClass } from '../Models/PostData_API_Class/GetAttendWishByDeptaGetApiClass';
 import { GetFlowViewDeptClass } from '../Models/PostData_API_Class/GetFlowViewDeptClass';
-import { GetFlowSignAbsGetApiClass } from '../Models/PostData_API_Class/GetFlowSignAbsGetApiClass';
+import { GetFlowSignAbsGetApiClass, GetFlowSignAbsDataGetApiClass } from '../Models/PostData_API_Class/GetFlowSignAbsGetApiClass';
 import { GetCheckAgentByTargetGetApiClass } from '../Models/PostData_API_Class/GetCheckAgentByTargetGetApiClass';
 import { AttendUnusualSaveAndFlowStartClass } from '../Models/PostData_API_Class/AttendUnusualSaveAndFlowStart';
 import { CardPatchSaveAndFlowStartClass } from '../Models/PostData_API_Class/CardPatchSaveAndFlowStartClass';
@@ -1764,6 +1764,15 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowSignAbs(GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignAbs',
       JSON.stringify(GetFlowSignAbsGetApi), {
+      headers: this.GetHeader()
+    })
+  }
+  /**
+   * @todo 取得目前待審核的表單-請假(外框是總筆數)
+   */
+  getWebApiData_GetFlowSignAbsData(GetFlowSignAbsDataGetApi: GetFlowSignAbsDataGetApiClass) {
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowSignAbsData',
+      JSON.stringify(GetFlowSignAbsDataGetApi), {
       headers: this.GetHeader()
     })
   }

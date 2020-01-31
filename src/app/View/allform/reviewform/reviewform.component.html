@@ -225,7 +225,7 @@
                 </div>
 
                 <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
-                  <a style="cursor: pointer;padding-left: 30px;" (click)="vaDetail_click(vaFlowSign,'vaTab')">
+                  <a style="cursor: pointer;padding-left: 30px;" (click)="vaDetailView(vaFlowSign,'vaTab')">
                     <span class="P_notVisable">
                       <ng-container i18n>檢視</ng-container>
                     </span>
@@ -281,9 +281,28 @@
               </div>
             </div>
           </div>
-          <mat-paginator #vaPaginator [length]="vaFlowSigns.length" [pageSize]="va_pagechange.pageSize"
-            (page)="va_pagechange.pageEvent = va_pagechange.getPaginatorData($event)" [hidePageSize]="true">
+          <div style="text-align:right">
+            <div>
+              <span>
+                第
+                <span *ngIf="vaCount=='0'">
+                  {{(vaPageIndex)}}頁
+                </span>
+                <span *ngIf="vaCount!='0'">
+                  {{(vaPageIndex+1)}}頁
+                </span>,共{{vaAllPageIndex}}頁
+              </span>
+            </div>
+            <div>
+              跳轉至 <input [(ngModel)]="iptNumPage" type="number" style="width: 80px;
+              display: inline-block;" class="form-control" min=0 [max]="vaAllPageIndex"/>頁
+              <button (click)="iptVaGoPage(iptNumPage)">跳轉</button>
+            </div>
+          </div>
+          <mat-paginator #vaPaginator [length]="vaCount" [pageIndex]="vaPageIndex" [pageSize]="5"
+            (page)="va_pagechange.pageEvent = vaPaginatorChange($event)" [hidePageSize]="true">
           </mat-paginator>
+          <div></div>
         </div>
       </div>
       <!-- 請假單tab -->
@@ -415,7 +434,7 @@
                 </div>
 
                 <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
-                  <a style="cursor: pointer;padding-left: 30px;" (click)="delDetail_click(delFlowSign,'delTab')">
+                  <a style="cursor: pointer;padding-left: 30px;" (click)="delDetailView(delFlowSign,'delTab')">
                     <span class="P_notVisable">
                       <ng-container i18n>檢視</ng-container>
                     </span>
@@ -779,7 +798,7 @@
 
                 <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
                   <a style="cursor: pointer;padding-left: 30px;"
-                    (click)="AttendUnusualDetail_click(AttendUnusualFlowSign,'AttendUnusualTab')">
+                    (click)="AttendUnusualDetailView(AttendUnusualFlowSign,'AttendUnusualTab')">
                     <span class="P_notVisable">
                       <ng-container i18n>檢視</ng-container>
                     </span>
@@ -953,7 +972,7 @@
 
                 <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
                   <a style="cursor: pointer;padding-left: 30px;"
-                    (click)="CardPatchDetail_click(CardPatchSign,'CardPatchTab')">
+                    (click)="CardPatchDetailView(CardPatchSign,'CardPatchTab')">
                     <span class="P_notVisable">
                       <ng-container i18n>檢視</ng-container>
                     </span>
@@ -1127,7 +1146,7 @@
 
                 <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
                   <a style="cursor: pointer;padding-left: 30px;"
-                    (click)="forgetDetail_click(forgetFlowSign,'forgetTab')">
+                    (click)="forgetDetailView(forgetFlowSign,'forgetTab')">
                     <span class="P_notVisable">
                       <ng-container i18n>檢視</ng-container>
                     </span>

@@ -9,6 +9,7 @@ import { pagechange } from '../Models/pagechange';
   providedIn: 'root'
 })
 export class ReviewformServiceService {
+  showPageIndex = 0 ;
   showReviewTab = '';
   showReviewMan: AllformReview = new AllformReview()
 

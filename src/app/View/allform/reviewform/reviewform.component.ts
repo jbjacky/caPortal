@@ -17,7 +17,7 @@ import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { FlowNodeFinishGetDataClass } from 'src/app/Models/FlowNodeFinishGetDataClass';
 import { void_completionTenNum } from 'src/app/UseVoid/void_CompletionTenNum';
-import { GetFlowSignAbsGetApiClass } from 'src/app/Models/PostData_API_Class/GetFlowSignAbsGetApiClass';
+import { GetFlowSignAbsGetApiClass, GetFlowSignAbsDataGetApiClass } from 'src/app/Models/PostData_API_Class/GetFlowSignAbsGetApiClass';
 import { GetFlowSignAbsApiDataClass } from 'src/app/Models/GetFlowSignAbsApiDataClass';
 import { GetFlowSignAbscApiDataClass } from 'src/app/Models/GetFlowSignAbscApiDataClass';
 import { GetFlowSignCardApiDataClass } from 'src/app/Models/GetFlowSignCardApiDataClass';
@@ -31,6 +31,7 @@ import { ErrorPutForwardSnackComponent } from '../../shareComponent/snackbar/err
 import { SussesSendbackSnackComponent } from '../../shareComponent/snackbar/susses-sendback-snack/susses-sendback-snack.component';
 import { ErrorSendbackSnackComponent } from '../../shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
 import { GetFlowSignAttendUnusualApiDataClass } from 'src/app/Models/GetFlowSignAttendUnusualApiDataClass';
+import { GetFlowSignAbsDataApiDataClass } from 'src/app/Models/GetFlowSignAbsDataApiDataClass';
 declare let $: any; //use jquery
 
 @Component({
@@ -271,7 +272,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       this.ReviewformServiceService.changeReview('vaTab', this.ReviewformServiceService.showReviewMan);
       $('#' + this.ReviewformServiceService.showReviewTab).click();
       // this.vaTabClick(this.ReviewformServiceService.showReviewMan)
-      this.GetFlowData_va(EmpID, RoleID, getReviewDatas);
+      this.GetFlowData_va(EmpID, RoleID, 1);
     }
     else if (parseInt(this.delCount) > 0) {
       this.ReviewformServiceService.changeReview('delTab', this.ReviewformServiceService.showReviewMan);
@@ -352,7 +353,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       "FlowTreeID": "",
       "SignDate": ""
     }
-    this.void_GetFlowSignRole(GetFlowSignRole, 'Reload')
+    this.void_GetFlowSignRole(GetFlowSignRole, 'Reload', true)
   }
 
   changeMan_firstInTab(selectReviewMan: AllformReview) {
@@ -384,7 +385,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       "FlowTreeID": "",
       "SignDate": ""
     }
-    this.void_GetFlowSignRole(GetFlowSignRole, 'Reload')
+    this.void_GetFlowSignRole(GetFlowSignRole, 'Reload', true)
   }
 
   vaTabClick(selectReviewMan: AllformReview, uiClick: boolean) {
@@ -402,7 +403,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       if (uiClick) {
         this.ReviewformServiceService.va_pagechange = new pagechange();
       }
-      this.void_GetFlowSignRole(GetFlowSignRole, 'vaTabClick')
+      this.void_GetFlowSignRole(GetFlowSignRole, 'vaTabClick', uiClick)
       window.scroll(0, 0)
     }
   }
@@ -421,7 +422,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       if (uiClick) {
         this.ReviewformServiceService.forget_pagechange = new pagechange();
       }
-      this.void_GetFlowSignRole(GetFlowSignRole, 'forgetTabClick')
+      this.void_GetFlowSignRole(GetFlowSignRole, 'forgetTabClick', uiClick)
       window.scroll(0, 0)
     }
   }
@@ -440,7 +441,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       if (uiClick) {
         this.ReviewformServiceService.AttendUnusual_pagechange = new pagechange();
       }
-      this.void_GetFlowSignRole(GetFlowSignRole, 'AttendUnusualTabClick')
+      this.void_GetFlowSignRole(GetFlowSignRole, 'AttendUnusualTabClick', uiClick)
       window.scroll(0, 0)
     }
   }
@@ -459,7 +460,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       if (uiClick) {
         this.ReviewformServiceService.del_pagechange = new pagechange();
       }
-      this.void_GetFlowSignRole(GetFlowSignRole, 'delTabClick')
+      this.void_GetFlowSignRole(GetFlowSignRole, 'delTabClick', uiClick)
       window.scroll(0, 0)
     }
   }
@@ -478,7 +479,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       if (uiClick) {
         this.ReviewformServiceService.change_pagechange = new pagechange();
       }
-      this.void_GetFlowSignRole(GetFlowSignRole, 'changeTabClick')
+      this.void_GetFlowSignRole(GetFlowSignRole, 'changeTabClick', uiClick)
       window.scroll(0, 0)
     }
   }
@@ -498,14 +499,14 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       if (uiClick) {
         this.ReviewformServiceService.CardPatch_pagechange = new pagechange();
       }
-      this.void_GetFlowSignRole(GetFlowSignRole, 'CardPatchTabClick')
+      this.void_GetFlowSignRole(GetFlowSignRole, 'CardPatchTabClick', uiClick)
       window.scroll(0, 0)
     }
   }
 
   isGetFlowSignRole: boolean = true;
 
-  void_GetFlowSignRole(GetFlowSignRole: GetFlowSignRoleClass, ReloadOrChangeTabString: string) {
+  void_GetFlowSignRole(GetFlowSignRole: GetFlowSignRoleClass, ReloadOrChangeTabString: string, uiClick: boolean) {
     this.LoadingPage.show()
     this.GetApiDataServiceService.getWebApiData_GetFlowSignRole(GetFlowSignRole)
       .pipe(takeWhile(() => this.api_subscribe))
@@ -601,7 +602,10 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
               } else if (ReloadOrChangeTabString == 'vaTabClick') {
 
-                this.GetFlowData_va(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, this.getReviewData)
+                if (uiClick) {
+                  this.ReviewformServiceService.showPageIndex = 0
+                }
+                this.GetFlowData_va(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, this.ReviewformServiceService.showPageIndex)
 
               } else if (ReloadOrChangeTabString == 'delTabClick') {
 
@@ -654,9 +658,18 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.vaDetail.FlowNodeID
 
     this.ReviewformServiceService.va_pagechange = JSON.parse(JSON.stringify(this.va_pagechange))
-    
-    this.router.navigate(["../nav/reviewform/ReviewformDetailVacationComponent"]);
+    if (this.vaCount == '0') {
+      this.ReviewformServiceService.showPageIndex = this.vaPageIndex
+    } else {
 
+      this.ReviewformServiceService.showPageIndex = this.vaPageIndex + 1
+    }
+
+  }
+  vaDetailView(e_vaFlowSign: vaFlowSign, ReloadTabData){
+    
+    this.vaDetail_click(e_vaFlowSign, ReloadTabData)
+    this.router.navigate(["../nav/reviewform/ReviewformDetailVacationComponent"]);
   }
   vaShowLimitText = ''
   checkAbsLimit_Approved(e_vaFlowSign: vaFlowSign, ReloadTabData) {
@@ -702,12 +715,20 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.ReviewformServiceService.del_pagechange = JSON.parse(JSON.stringify(this.del_pagechange))
 
+  }
+  delDetailView(e_delFlowSign: delFlowSign, ReloadTabData) {
+    
+    this.delDetail_click(e_delFlowSign, ReloadTabData)
     this.router.navigate(["../nav/reviewform/ReviewformDetailDelformComponent"]);
   }
   del_PutForward(e_delFlowSign: delFlowSign, ReloadTabData) {
     this.delDetail_click(e_delFlowSign, ReloadTabData)
     this.showPutForwarddialog = true
     $('#PutForwarddialog').modal('show')
+  }
+  CardPatchDetailView(e_CardPatchFlowSign: CardPatchFlowSign, ReloadTabData){
+    this.CardPatchDetail_click(e_CardPatchFlowSign,ReloadTabData)
+    this.router.navigate(['../nav/reviewform/ReviewformDetailCardPatchformComponent']);
   }
   CardPatchDetail_click(e_CardPatchFlowSign: CardPatchFlowSign, ReloadTabData) {
     this.ReloadTabData = ReloadTabData;
@@ -720,7 +741,6 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.ReviewformServiceService.CardPatch_pagechange = JSON.parse(JSON.stringify(this.CardPatch_pagechange))
 
-    this.router.navigate(['../nav/reviewform/ReviewformDetailCardPatchformComponent']);
   }
   checkCardPatch_Approved(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
     this.CardPatchDetail_click(e_forgetFlowSign, ReloadTabData)
@@ -729,6 +749,10 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   checkCardPatch_PutForward(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
     this.CardPatchDetail_click(e_forgetFlowSign, ReloadTabData)
     $('#PutForwarddialog').modal('show')
+  }
+  forgetDetailView(e_forgetFlowSign: forgetFlowSign, ReloadTabData){
+    this.forgetDetail_click(e_forgetFlowSign,ReloadTabData)
+    this.router.navigate(['../nav/reviewform/ReviewformDetailForgetformComponent']);
   }
   forgetDetail_click(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
     this.ReloadTabData = ReloadTabData;
@@ -741,7 +765,6 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.ReviewformServiceService.forget_pagechange = JSON.parse(JSON.stringify(this.forget_pagechange))
 
-    this.router.navigate(['../nav/reviewform/ReviewformDetailForgetformComponent']);
   }
   forgetShowCheckText = ''
   showforgetPutForwarddialog = false
@@ -802,7 +825,10 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     $('#PutForwarddialog').modal('show')
   }
 
-
+  AttendUnusualDetailView(e_AttendUnusualFlowSign: AttendUnusualFlowSign, ReloadTabData){
+    this.AttendUnusualDetail_click(e_AttendUnusualFlowSign, ReloadTabData)
+    this.router.navigate(['../nav/reviewform/ReviewformDetailAttendUnusualformComponent']);
+  }
   AttendUnusualDetail_click(e_AttendUnusualFlowSign: AttendUnusualFlowSign, ReloadTabData) {
     this.ReloadTabData = ReloadTabData;
     this.signText = '';
@@ -814,7 +840,6 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.ReviewformServiceService.AttendUnusual_pagechange = JSON.parse(JSON.stringify(this.AttendUnusual_pagechange))
 
-    this.router.navigate(['../nav/reviewform/ReviewformDetailAttendUnusualformComponent']);
   }
   checkAttendUnusualText_PutForward(e_AttendUnusualFlowSign: AttendUnusualFlowSign, ReloadTabData) {
     this.AttendUnusualDetail_click(e_AttendUnusualFlowSign, ReloadTabData)
@@ -1055,25 +1080,49 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       return false
     }
   }
-
-  GetFlowData_va(EmpID: string, RoleID, getReviewDatas: AllformReview[]) {
+  vaAllPageIndex: number = 0
+  iptNumPage: number = 1
+  iptVaGoPage(page: number) {
+    if (page > 0) {
+      if (page > this.vaAllPageIndex) {
+        alert('查無此頁')
+      } else {
+        this.GetFlowData_va(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, page)
+      }
+    } else {
+      alert('請輸入1以上的數字')
+    }
+  }
+  vaPaginatorChange(event) {
+    var goPage = event.pageIndex + 1
+    this.GetFlowData_va(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, goPage)
+    return event
+  }
+  vaPageIndex = 0
+  GetFlowData_va(EmpID: string, RoleID, PageCurrent: number) {
     //請假單
     var today = new Date()
-    var GetFlowSignAbsGetApi: GetFlowSignAbsGetApiClass = {
+    var GetFlowSignAbsDataGetApi: GetFlowSignAbsDataGetApiClass = {
       SignEmpID: this.FirstEmpCode.toString(),
       SignRoleID: "",
       RealSignEmpID: EmpID,
       RealSignRoleID: RoleID,
+      PageCurrent: PageCurrent.toString(),
+      PageRows: "5",
       SignDate: doFormatDate(today)
     }
-    this.GetApiDataServiceService.getWebApiData_GetFlowSignAbs(GetFlowSignAbsGetApi)
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetFlowSignAbsData(GetFlowSignAbsDataGetApi)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
-        (GetFlowSignAbsApiData: GetFlowSignAbsApiDataClass[]) => {
-
+        (GetFlowSignAbsApiData: GetFlowSignAbsDataApiDataClass) => {
+          this.vaCount = GetFlowSignAbsApiData.Count.toString()
+          if (GetFlowSignAbsApiData.Count > 0) {
+            this.vaAllPageIndex = Math.ceil((GetFlowSignAbsApiData.Count / 5))
+          }
           this.vaFlowSigns = []
-          if (GetFlowSignAbsApiData) {
-            for (let aa of GetFlowSignAbsApiData) {
+          if (GetFlowSignAbsApiData.ListFlowSignAbs) {
+            for (let aa of GetFlowSignAbsApiData.ListFlowSignAbs) {
 
               this.vaFlowSigns.push({
                 uiProcessFlowID: void_completionTenNum(aa.ProcessFlowID),
@@ -1107,14 +1156,18 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
               })
             }
           }
-          this.vaFlowSigns.sort((small: any, large: any) => {
-            var small_DateTimeB = Number(new Date(small.DateB + ' ' + small.TimeB))
-            var large_DateTimeB = Number(new Date(large.DateB + ' ' + large.TimeB))
-            return small_DateTimeB - large_DateTimeB;
-          });
+          // this.vaFlowSigns.sort((small: any, large: any) => {
+          //   var small_DateTimeB = Number(new Date(small.DateB + ' ' + small.TimeB))
+          //   var large_DateTimeB = Number(new Date(large.DateB + ' ' + large.TimeB))
+          //   return small_DateTimeB - large_DateTimeB;
+          // });
 
-          this.vaCount = this.vaFlowSigns.length.toString()
           this.goBackPage(this.vaPaginator, this.va_pagechange, this.ReviewformServiceService.va_pagechange, this.vaFlowSigns.length)
+          if (PageCurrent > 0) {
+            this.vaPageIndex = PageCurrent - 1
+          }else{
+            this.vaPageIndex = PageCurrent
+          }
           this.LoadingPage.hide()
         })
   }
