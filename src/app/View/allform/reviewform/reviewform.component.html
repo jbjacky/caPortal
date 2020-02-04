@@ -146,8 +146,7 @@
 
           <!-- <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
           <!-- class="Atooltips" -->
-          <div *ngFor="let vaFlowSign of vaFlowSigns | 
-                      slice: va_pagechange.lowValue : va_pagechange.highValue">
+          <div *ngFor="let vaFlowSign of vaFlowSigns">
             <div class="row ReviewDiv">
               <div class="col-md-9 col-md-push-3 col-xs-12 row" style="margin: 0px;padding: 0px 0px;border-left: 1px solid #c9c9c9;
                 padding-top: 0px;">
@@ -282,27 +281,26 @@
             </div>
           </div>
           <div style="text-align:right">
-            <div>
-              <span>
-                第
-                <span *ngIf="vaCount=='0'">
-                  {{(vaPageIndex)}}頁
-                </span>
-                <span *ngIf="vaCount!='0'">
-                  {{(vaPageIndex+1)}}頁
-                </span>,共{{vaAllPageIndex}}頁
-              </span>
+            <div style="font-size: 20px;">
+              <a (click)="vaPrePage(vaPageUiIndex)" style="cursor: pointer;">
+                < </a> <span>
+                  第{{(vaPageUiIndex)}}頁
+                  </span>
+                  <a (click)="vaNextPage(vaPageUiIndex)"  style="cursor: pointer;">
+                    >
+                  </a>
+                  <span>,共{{vaAllPageIndex}}頁
+                  </span>
             </div>
             <div>
               跳轉至 <input [(ngModel)]="iptNumPage" type="number" style="width: 80px;
-              display: inline-block;" class="form-control" min=0 [max]="vaAllPageIndex"/>頁
+              display: inline-block;" class="form-control" min=1 [max]="vaAllPageIndex" />頁
               <button (click)="iptVaGoPage(iptNumPage)">跳轉</button>
             </div>
           </div>
-          <mat-paginator #vaPaginator [length]="vaCount" [pageIndex]="vaPageIndex" [pageSize]="5"
+          <!-- <mat-paginator #vaPaginator [length]="vaCount" [pageIndex]="vaPageIndex" [pageSize]="vaPageRows"
             (page)="va_pagechange.pageEvent = vaPaginatorChange($event)" [hidePageSize]="true">
-          </mat-paginator>
-          <div></div>
+          </mat-paginator> -->
         </div>
       </div>
       <!-- 請假單tab -->
@@ -1145,8 +1143,7 @@
                 </div>
 
                 <div class="col-md-2 col-xs-2" style="text-align: center;padding-top: 25px;margin: 0px">
-                  <a style="cursor: pointer;padding-left: 30px;"
-                    (click)="forgetDetailView(forgetFlowSign,'forgetTab')">
+                  <a style="cursor: pointer;padding-left: 30px;" (click)="forgetDetailView(forgetFlowSign,'forgetTab')">
                     <span class="P_notVisable">
                       <ng-container i18n>檢視</ng-container>
                     </span>

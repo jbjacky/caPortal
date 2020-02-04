@@ -603,7 +603,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
               } else if (ReloadOrChangeTabString == 'vaTabClick') {
 
                 if (uiClick) {
-                  this.ReviewformServiceService.showPageIndex = 0
+                  this.ReviewformServiceService.showPageIndex = 1
                 }
                 this.GetFlowData_va(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, this.ReviewformServiceService.showPageIndex)
 
@@ -658,16 +658,11 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     this.FinallyReviewForm.FlowNodeID = this.ReviewformServiceService.vaDetail.FlowNodeID
 
     this.ReviewformServiceService.va_pagechange = JSON.parse(JSON.stringify(this.va_pagechange))
-    if (this.vaCount == '0') {
-      this.ReviewformServiceService.showPageIndex = this.vaPageIndex
-    } else {
 
-      this.ReviewformServiceService.showPageIndex = this.vaPageIndex + 1
-    }
+    this.ReviewformServiceService.showPageIndex = this.vaPageUiIndex
 
   }
   vaDetailView(e_vaFlowSign: vaFlowSign, ReloadTabData){
-    
     this.vaDetail_click(e_vaFlowSign, ReloadTabData)
     this.router.navigate(["../nav/reviewform/ReviewformDetailVacationComponent"]);
   }
@@ -717,7 +712,6 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   delDetailView(e_delFlowSign: delFlowSign, ReloadTabData) {
-    
     this.delDetail_click(e_delFlowSign, ReloadTabData)
     this.router.navigate(["../nav/reviewform/ReviewformDetailDelformComponent"]);
   }
@@ -1090,15 +1084,30 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
         this.GetFlowData_va(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, page)
       }
     } else {
-      alert('請輸入1以上的數字')
+      alert('查無此頁')
     }
   }
-  vaPaginatorChange(event) {
-    var goPage = event.pageIndex + 1
-    this.GetFlowData_va(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, goPage)
-    return event
+  // vaPaginatorChange(event) {
+  //   var goPage = event.pageIndex + 1
+  //   this.GetFlowData_va(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, goPage)
+  //   return event
+  // }
+  vaPrePage(vaPageUiIndex) {
+    var goPage = vaPageUiIndex - 1
+    if(goPage > 0){
+      this.GetFlowData_va(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, goPage)
+    }
   }
-  vaPageIndex = 0
+  vaNextPage(vaPageUiIndex) {
+    var goPage = vaPageUiIndex + 1
+    if (goPage > this.vaAllPageIndex) {
+    } else {
+      this.GetFlowData_va(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, goPage)
+    }
+  }
+  // vaPageIndex = 0
+  vaPageUiIndex = 0
+  vaPageRows = 5
   GetFlowData_va(EmpID: string, RoleID, PageCurrent: number) {
     //請假單
     var today = new Date()
@@ -1108,7 +1117,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       RealSignEmpID: EmpID,
       RealSignRoleID: RoleID,
       PageCurrent: PageCurrent.toString(),
-      PageRows: "5",
+      PageRows: this.vaPageRows.toString(),
       SignDate: doFormatDate(today)
     }
     this.LoadingPage.show()
@@ -1116,59 +1125,73 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (GetFlowSignAbsApiData: GetFlowSignAbsDataApiDataClass) => {
+          // if (PageCurrent > 0) {
+          //   this.vaPageIndex = PageCurrent - 1
+          // } else {
+          //   this.vaPageIndex = PageCurrent
+          // }
+          this.vaPageUiIndex = PageCurrent
+
           this.vaCount = GetFlowSignAbsApiData.Count.toString()
           if (GetFlowSignAbsApiData.Count > 0) {
-            this.vaAllPageIndex = Math.ceil((GetFlowSignAbsApiData.Count / 5))
+            this.vaAllPageIndex = Math.ceil((GetFlowSignAbsApiData.Count / this.vaPageRows))
+          } else if (GetFlowSignAbsApiData.Count == 0) {
+            this.vaPageUiIndex = 0
+            this.vaAllPageIndex = 0
           }
           this.vaFlowSigns = []
-          if (GetFlowSignAbsApiData.ListFlowSignAbs) {
-            for (let aa of GetFlowSignAbsApiData.ListFlowSignAbs) {
 
-              this.vaFlowSigns.push({
-                uiProcessFlowID: void_completionTenNum(aa.ProcessFlowID),
-                uiHolidayName: aa.HolidayName,
-                ProcessFlowID: aa.ProcessFlowID.toString(),
-                FlowTreeID: aa.FlowTreeID,
-                FlowNodeID: aa.FlowNodeID,
-                ProcessApParmAuto: aa.ProcessApParmAuto.toString(),
-                EmpCode: aa.EmpCode, //申請人
-                EmpNameC: aa.EmpNameC,
-                EmpNameE: aa.EmpNameC,
-                isApproved: aa.isApproved,
-                isSendback: aa.isSendback,
-                isPutForward: aa.isPutForward,
+          if (GetFlowSignAbsApiData.ListFlowSignAbs.length == 0 && GetFlowSignAbsApiData.Count > this.vaPageRows) {
+            this.GetFlowData_va(EmpID, RoleID, (PageCurrent - 1))
+          } else if (GetFlowSignAbsApiData.ListFlowSignAbs.length == 0 && GetFlowSignAbsApiData.Count == this.vaPageRows && (this.vaPageUiIndex == 2)) {
+            this.GetFlowData_va(EmpID, RoleID, (PageCurrent - 1))
+          } else {
 
-                checkProxy: aa.checkProxy, //是否為代填表單
-                WriteEmpCode: aa.WriteEmpCode, //填寫人
-                WriteEmpNameC: aa.WriteEmpNameC, //填寫人
+            if (GetFlowSignAbsApiData.ListFlowSignAbs) {
+              for (let aa of GetFlowSignAbsApiData.ListFlowSignAbs) {
 
-                Appointment: aa.Appointment,//是否為預排假單
+                this.vaFlowSigns.push({
+                  uiProcessFlowID: void_completionTenNum(aa.ProcessFlowID),
+                  uiHolidayName: aa.HolidayName,
+                  ProcessFlowID: aa.ProcessFlowID.toString(),
+                  FlowTreeID: aa.FlowTreeID,
+                  FlowNodeID: aa.FlowNodeID,
+                  ProcessApParmAuto: aa.ProcessApParmAuto.toString(),
+                  EmpCode: aa.EmpCode, //申請人
+                  EmpNameC: aa.EmpNameC,
+                  EmpNameE: aa.EmpNameC,
+                  isApproved: aa.isApproved,
+                  isSendback: aa.isSendback,
+                  isPutForward: aa.isPutForward,
 
-                DateB: formatDateTime(aa.DateB).getDate,
-                DateE: formatDateTime(aa.DateE).getDate,
-                TimeB: getapi_formatTimetoString(aa.TimeB),
-                TimeE: getapi_formatTimetoString(aa.TimeE),
-                numberOfVaData: aa.numberOfVaData.toString(),
+                  checkProxy: aa.checkProxy, //是否為代填表單
+                  WriteEmpCode: aa.WriteEmpCode, //填寫人
+                  WriteEmpNameC: aa.WriteEmpNameC, //填寫人
 
-                day: aa.day.toString(),
-                hour: aa.hour.toString(),
-                minute: aa.minute.toString()
-              })
+                  Appointment: aa.Appointment,//是否為預排假單
+
+                  DateB: formatDateTime(aa.DateB).getDate,
+                  DateE: formatDateTime(aa.DateE).getDate,
+                  TimeB: getapi_formatTimetoString(aa.TimeB),
+                  TimeE: getapi_formatTimetoString(aa.TimeE),
+                  numberOfVaData: aa.numberOfVaData.toString(),
+
+                  day: aa.day.toString(),
+                  hour: aa.hour.toString(),
+                  minute: aa.minute.toString()
+                })
+              }
             }
-          }
-          // this.vaFlowSigns.sort((small: any, large: any) => {
-          //   var small_DateTimeB = Number(new Date(small.DateB + ' ' + small.TimeB))
-          //   var large_DateTimeB = Number(new Date(large.DateB + ' ' + large.TimeB))
-          //   return small_DateTimeB - large_DateTimeB;
-          // });
+            // this.vaFlowSigns.sort((small: any, large: any) => {
+            //   var small_DateTimeB = Number(new Date(small.DateB + ' ' + small.TimeB))
+            //   var large_DateTimeB = Number(new Date(large.DateB + ' ' + large.TimeB))
+            //   return small_DateTimeB - large_DateTimeB;
+            // });
 
-          this.goBackPage(this.vaPaginator, this.va_pagechange, this.ReviewformServiceService.va_pagechange, this.vaFlowSigns.length)
-          if (PageCurrent > 0) {
-            this.vaPageIndex = PageCurrent - 1
-          }else{
-            this.vaPageIndex = PageCurrent
+            // this.goBackPage(this.vaPaginator, this.va_pagechange, this.ReviewformServiceService.va_pagechange, this.vaFlowSigns.length)
+            this.LoadingPage.hide()
           }
-          this.LoadingPage.hide()
+
         })
   }
   GetFlowData_del(EmpID: string, RoleID, getReviewDatas: AllformReview[]) {

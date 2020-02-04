@@ -27,7 +27,7 @@ export class ErrorPageComponent implements OnInit ,AfterViewInit{
   ngOnInit() {
     this.errorState = this.ErrorStateService.errorState
     this.LoadingPage.hide()
-    if (this.errorState == 0) {
+    if (this.errorState == 0 || this.errorState == 2) {
       this.relogin()
     }
   }
