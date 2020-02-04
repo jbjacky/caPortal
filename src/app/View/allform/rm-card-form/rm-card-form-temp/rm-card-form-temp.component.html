@@ -1,0 +1,152 @@
+<form [formGroup]="profileForm">
+
+  <div class="P_smallpadding row">
+
+    <!-- 實際到勤日期 -->
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+      <div class="row" style="margin: 0px;padding: 0px">
+        <div class="col-md-6 col-md-push-6 col-xs-12 row" style="margin: 0px;padding: 0px">
+          <div class="col-md-4 col-xs-0">
+          </div>
+          <div class="col-md-8  col-xs-12">
+            <div class="P_BtTime">
+              <button>
+                <ng-container i18n>載入上下班時間</ng-container>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-md-pull-6 col-xs-12 row" style="margin: 0px;padding: 0px">
+          <div class="col-md-4  col-xs-0"></div>
+          <div class="col-md-8  col-xs-12">
+            <input type="checkbox" />
+            <ng-container i18n>修改到勤時間</ng-container>
+          </div>
+        </div>
+      </div>
+      <label class="col-md-2 control-label" style="text-align: right;padding-top: 7px">
+        <ng-container i18n>實際到勤日期</ng-container>
+      </label>
+      <div class="col-md-4">
+        <div>
+          <select class="form-control" formControlName="firstCardDate">
+            <option *ngFor="let oneOnWork of selectOnWorkArray">
+              {{oneOnWork}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 7px">
+        <ng-container i18n>時間</ng-container>
+      </label>
+      <div class="col-md-4 col-xs-12 ">
+        <div class="col-md-10 col-xs-10 P_paddingZ">
+          <input id="id_ipt_starttime"  type="text" class="form-control"  formControlName="firstCardTime" placeholder="範例:08:00">
+        </div>
+        <div class="col-md-2 col-xs-2" style="padding: 0px">
+          <input #StartTimeView id="id_bt_starttime" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                                  cursor: pointer;
+                                  color: transparent;
+                                  border: 1px solid transparent;
+                                  width: 50px;
+                                  height: 40px;
+                                  padding: 0px;
+                                  " class="bt_disable">
+        </div>
+      </div>
+    </div>
+    <!-- 實際到勤日期 -->
+
+    <!-- 實際離勤日期 -->
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+      <div class="row" style="margin: 0px;padding: 0px">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+          <input type="checkbox" />
+          <ng-container i18n>修改離勤時間</ng-container>
+        </div>
+      </div>
+      <label class="col-md-2 control-label" style="text-align: right;padding-top: 7px">
+        <ng-container i18n>實際離勤日期</ng-container>
+      </label>
+      <div class="col-md-4">
+        <div>
+          <select class="form-control"   formControlName="secondCardDate">
+            <option *ngFor="let oneOffWork of selectOffWorkArray">
+              {{oneOffWork}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 7px">
+        <ng-container i18n>時間</ng-container>
+      </label>
+      <div class="col-md-4 col-xs-12 ">
+        <div class="col-md-10 col-xs-10 P_paddingZ">
+          <input id="id_ipt_endtime" type="text" class="form-control"  formControlName="secondCardTime" placeholder="範例:08:00">
+        </div>
+        <div class="col-md-2 col-xs-2" style="padding: 0px">
+          <input #EndTimeView id="id_bt_endtime" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                                    cursor: pointer;
+                                    color: transparent;
+                                    border: 1px solid transparent;
+                                    width: 50px;
+                                    height: 40px;
+                                    padding: 0px;
+                                    " class="bt_disable">
+        </div>
+      </div>
+    </div>
+    <!-- 實際離勤日期 -->
+    <!-- 異常原因 -->
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+      <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 6px">
+        <span class="form-must-fill">*</span>
+        <ng-container i18n>異常原因</ng-container>
+      </label>
+      <div class="col-md-4 col-xs-12">
+        <select class="form-control"  formControlName="Cause">
+          <option *ngFor="let Cause of Cause" [value]="Cause.CauseID">{{Cause.CauseNameC}}</option>
+        </select>
+      </div>
+    </div>
+    <!-- 異常原因 -->
+    <!-- 上傳附件 -->
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+      <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 6px">
+        <ng-container i18n>上傳附件</ng-container>
+      </label>
+      <div class="col-md-10 col-xs-12">
+        <app-fileuploadbutton (fileChange)="onSaveFile($event)"   formControlName="UploadData"></app-fileuploadbutton>
+      </div>
+    </div>
+    <!-- 上傳附件 -->
+
+
+    <!-- 補充說明 -->
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+      <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 6px">
+        <span class="form-must-fill">*</span>
+        <ng-container i18n>補充說明</ng-container>
+      </label>
+      <div class="col-md-8  col-xs-12">
+        <textarea class="inputTextarea"   formControlName="Note" style="overflow-y: auto" placeholder="請輸入說明" maxlength="1000"></textarea>
+
+      </div>
+    </div>
+    <!-- 補充說明 -->
+  </div>
+
+  <!-- 簽核人員 -->
+  <div class="P_smallpadding row" style="border:0px">
+    <label class="col-md-2 col-xs-12 control-label P_textLeft">
+      <span class="form-must-fill">*</span>
+      <ng-container i18n>簽核人員</ng-container>
+    </label>
+    <div class="col-md-10 col-xs-12">
+      <app-select-signer    formControlName="Signer" (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeSingMan$"></app-select-signer>
+    </div>
+
+  </div>
+  <!-- 簽核人員 -->
+</form>

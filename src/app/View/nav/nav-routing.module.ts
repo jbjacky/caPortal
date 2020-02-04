@@ -76,6 +76,7 @@ import { PersonnelSearchVaComponent } from '../personnel-search-va/personnel-sea
 import { RmStateFormComponent } from '../allform/rm-state-form/rm-state-form.component';
 import { RmStateFormWriteComponent } from '../allform/rm-state-form/rm-state-form-write/rm-state-form-write.component';
 import { CardPatchFormComponent } from '../allform/card-patch-form/card-patch-form.component';
+import { RmCardFormComponent } from '../allform/rm-card-form/rm-card-form.component';
 
 const routes: Routes = [
   {
@@ -352,7 +353,11 @@ const routes: Routes = [
       {
         path: 'CardPatchFormComponent', component: CardPatchFormComponent,
         canActivate: [AuthGuard],
-      }
+      },
+      {
+        path: 'RmCardFormComponent', component: RmCardFormComponent,
+        // canActivate: [AuthGuard],
+      },
     ]
   },
 

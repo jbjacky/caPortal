@@ -1,0 +1,238 @@
+@media (min-width: 800px){
+    #RoteInf_write .modal-dialog {
+      width: 800px;
+      margin: 30px auto;
+    }
+}
+.Rote{
+  color: #028fcf
+}
+.RoteLink:hover, .RoteLink:focus {
+  color: #ff6600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+::ng-deep .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    color: #fff;
+    outline: 0;
+    background-color: #428bca;
+
+}
+
+::ng-deep .ngx-select__toggle{
+    padding: 5px 12px;
+}
+.inputTextarea{
+    width: 100%;
+    resize: none;
+    height:83px;
+    margin-top: 5px;
+    display: block;
+    padding: 6px 12px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+.P_smallpadding{
+    padding: 20px 80px;
+    margin: 0px;
+}
+.P_paddingZ{
+    padding: 0px 0px;
+    padding-top: 3px
+}
+.P_paddingTitle{
+    padding: 0px 15px;
+    padding-top: 10px
+}
+.P_textCenter{
+    text-align: left;
+    padding: 0px;
+    padding-top:7px 
+}
+.bt_disable[disabled]{
+    display: none;
+}
+
+.P_paddingRZ{
+    padding-right: 0px
+}
+.P_paddingTop{
+    margin: 0px;
+    padding: 0px
+}
+
+.P_bottomLine{
+    border:0px;
+    border-right:2px solid #D0D3D4;
+    margin: 0px;
+    padding: 0px
+}
+
+.P_paddingBT{
+    margin: 0px;
+    padding-top:10px
+}
+.P_textLeft{
+    text-align: right;
+}
+.P_textTopLeft{
+    text-align: right;
+    padding-top: 0px;
+}
+.P_BtTime{
+    padding: 0px 0px
+}
+.P_paddingBottom{
+    padding-bottom:0px;
+}
+
+.featuresBlock{
+    display: flex;
+}
+.btSend{
+    order: 2;
+}
+.btCancel{
+    order: 1;
+    margin-right: 10px;
+}
+
+.tagBlue {
+    color: #23569D;
+    background-color: #fff;
+    border: 1px solid #23569D;
+    border-radius: 15px;
+    width: 70px;
+    height: 23px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.tagBlueLineThrough {
+    color: #23569D;
+    background-color: #fff;
+    border: 1px solid #23569D;
+    border-radius: 15px;
+    width: 70px;
+    height: 23px;
+    font-size: 15px;
+    text-align: center;
+    text-decoration:line-through;
+}
+.tag_red {
+    color: #d0021b;
+    background-color: #fff;
+    border: 1px solid #d0021b;
+    border-radius: 15px;
+    width: 70px;
+    height: 23px;
+    font-size: 15px;
+    text-align: center;
+}
+@media screen and (max-width:992px) {
+    .featuresBlock{
+        display: block;
+    }
+    .btSend{
+        order: 1;
+        margin-bottom: 10px;
+    }
+    .btCancel{
+        order: 2;
+        margin-right: 0px;
+    }
+    
+    .stateblock{
+        display: none;
+    }
+    .P_smallpadding{
+        padding: 10px 10px;
+    }
+    .P_paddingZ{
+        padding: 0px
+    }
+    .P_paddingTitle{
+        padding: 0px 15px;
+    }
+    .P_textCenter{
+        text-align: center;
+    }
+    
+
+    .P_paddingTop{
+        margin: 0px;
+        padding: 0px;
+        padding-top:15px ;
+    }
+    .P_paddingRZ{
+        padding-right: 0px
+    }   
+    
+    .P_bottomLine{
+        border:0px;
+        border-bottom:2px solid #D0D3D4;
+        padding-bottom: 10px;
+    }
+    .P_paddingBT{
+        padding: 0px;
+        padding-bottom:10px;
+    }
+    .P_textLeft{
+        text-align: left;
+    }
+    
+    .P_textTopLeft{
+        text-align: left;
+        padding-top: 15px;
+    }
+    .P_dashed{
+        border-bottom: 1px dashed #dcdcdc;
+        padding-bottom: 15px;
+    }
+    .P_paddingBottom{
+        padding-bottom:10px;
+    }
+
+    .P_BtTime{
+        padding: 0px;
+        margin-bottom: 10px
+    }
+    
+}
+
+
+
+::ng-deep .vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+  }
+  ::ng-deep .vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+  }
+  ::ng-deep .modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width:550px){
+    #checksenddialog .modal-dialog{
+      width: 300px;
+    }
+    #checksenddialog .modal-footer{
+      text-align: center
+    }
+  }

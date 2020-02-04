@@ -111,6 +111,8 @@ import { RmStateFormComponent } from '../allform/rm-state-form/rm-state-form.com
 import { RmStateFormWriteComponent } from '../allform/rm-state-form/rm-state-form-write/rm-state-form-write.component';
 import { CardPatchFormComponent } from '../allform/card-patch-form/card-patch-form.component';
 import { CardPatchFormWriteComponent } from '../allform/card-patch-form/card-patch-form-write/card-patch-form-write.component';
+import { RmCardFormComponent } from '../allform/rm-card-form/rm-card-form.component';
+import { RmCardFormWriteComponent } from '../allform/rm-card-form/rm-card-form-write/rm-card-form-write.component';
 
 const MY_DATE_FORMATS = {
   parse: {
@@ -254,6 +256,8 @@ export class MyDateAdapter extends NativeDateAdapter {
     PersonnelSearchVaComponent,
     RmStateFormComponent,
     RmStateFormWriteComponent,
+    RmCardFormComponent,
+    RmCardFormWriteComponent
 
   ],
   providers: [
