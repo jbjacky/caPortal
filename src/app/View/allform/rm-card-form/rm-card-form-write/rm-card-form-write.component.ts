@@ -16,6 +16,7 @@ import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { takeWhile } from 'rxjs/operators';
 import { CardPatchSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/CardPatchSaveAndFlowStartClass';
 import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
+import { rmCardTempFormStateClass } from '../rm-card-form-temp/rm-card-form-temp.component';
 
 declare let $: any; //use jquery
 
@@ -25,6 +26,23 @@ declare let $: any; //use jquery
   styleUrls: ['./rm-card-form-write.component.css']
 })
 export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestroy {
+  OnBeforeMinsF: rmCardTempFormStateClass
+  OffAfterMinsF: rmCardTempFormStateClass
+  EarlyMinsF: rmCardTempFormStateClass
+  LateMinsF: rmCardTempFormStateClass
+  OnBeforeMinsForm(event) {
+    this.OnBeforeMinsF = event
+  }
+  OffAfterMinsForm(event) {
+    this.OffAfterMinsF = event
+  }
+
+  EarlyMinsForm(event) {
+    this.EarlyMinsF = event
+  }
+  LateMinsForm(event) {
+    this.LateMinsF = event
+  }
   exampleHeader = ExampleHeader //日期套件header
   ngOnDestroy(): void {
     if (this.StartTimeView) {
@@ -70,48 +88,113 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
   OnWorkDate: string
   OffWorkDate: string
 
-  chooseRadio = 1
-  chooseCardRadio = 4
+  cR_OnBeforeMins = 1
+  cR_OffAfterMins = 1
+
+  cR_EarlyMins = 1
+  cR_LateMins = 1
+
   cLog() {
-    console.log('chooseRadio' + this.chooseRadio)
-    console.log('chooseCardRadio' + this.chooseCardRadio)
+    console.log(this.OnBeforeMinsF)
+    console.log(this.OffAfterMinsF)
+    console.log(this.EarlyMinsF)
+    console.log(this.LateMinsF)
   }
   checkdisable() {
 
     if (
       ((this.getAttendCard.OnBeforeMins && !this.getAttendCard.EliminateOnBefore) || (this.getAttendCard.OffAfterMins && !this.getAttendCard.EliminateOffAfter))
-     && (this.getAttendCard.LateMins ||
-        this.getAttendCard.EarlyMins ||
-        this.getAttendCard.IsAbsent)) {
-      if (this.chooseRadio == 0 && this.chooseCardRadio == 0) {
+      &&
+      (this.getAttendCard.EarlyMins || this.getAttendCard.LateMins)
+    ) {
+      if (this.cR_OnBeforeMins == 0 && this.cR_OffAfterMins == 0 && this.cR_EarlyMins == 0 && this.cR_LateMins == 0) {
         return true
       } else {
-        return false
+        if (this.cR_OnBeforeMins == 3) {
+          if (!this.OnBeforeMinsF) {
+            return true
+          } else if (this.OnBeforeMinsF.FormState != 'VALID')
+            return true
+        }
+        if (this.cR_OffAfterMins == 3) {
+          if (!this.OffAfterMinsF) {
+            return true
+          } else if (this.OffAfterMinsF.FormState != 'VALID')
+            return true
+        }
+        if (this.cR_EarlyMins == 2) {
+          if (!this.EarlyMinsF) {
+            return true
+          } else if (this.EarlyMinsF.FormState != 'VALID')
+            return true
+        }
+        if (this.cR_LateMins == 2) {
+          if (!this.LateMinsF) {
+            return true
+          } else if (this.LateMinsF.FormState != 'VALID')
+            return true
+        }
       }
-    }else if (this.getAttendCard.OnBeforeMins || this.getAttendCard.OffAfterMins) {
-      if (this.chooseRadio == 0) {
+      return false
+    }
+    if (this.getAttendCard.OnBeforeMins && !this.getAttendCard.EliminateOnBefore) {
+      if (this.cR_OnBeforeMins == 0) {
         return true
       } else {
-        return false
-      }
-    } else if (this.getAttendCard.LateMins ||
-      this.getAttendCard.EarlyMins ||
-      this.getAttendCard.IsAbsent) {
-      if (this.chooseCardRadio == 0) {
-        return true
-      } else {
-        return false
+        if (this.cR_OnBeforeMins == 3) {
+          if (!this.OnBeforeMinsF) {
+            return true
+          } else if (this.OnBeforeMinsF.FormState != 'VALID')
+            return true
+        }
       }
     }
+    if (this.getAttendCard.OffAfterMins && !this.getAttendCard.EliminateOffAfter) {
+      if (this.cR_OffAfterMins == 0) {
+        return true
+      } else {
+        if (this.cR_OffAfterMins == 3) {
+          if (!this.OffAfterMinsF) {
+            return true
+          } else if (this.OffAfterMinsF.FormState != 'VALID')
+            return true
+        }
+      }
+    }
+    if (this.getAttendCard.EarlyMins) {
+      if (this.cR_EarlyMins == 0) {
+        return true
+      } else {
+        if (this.cR_EarlyMins == 2) {
+          if (!this.EarlyMinsF) {
+            return true
+          } else if (this.EarlyMinsF.FormState != 'VALID')
+            return true
+        }
+      }
+    }
+    if (this.getAttendCard.LateMins) {
+      if (this.cR_LateMins == 0) {
+        return true
+      } else {
+        if (this.cR_LateMins == 2) {
+          if (!this.LateMinsF) {
+            return true
+          } else if (this.LateMinsF.FormState != 'VALID')
+            return true
+        }
+      }
+    }
+    return false
   }
   disRadio(realRadio, uiRadio) {
     if (realRadio == uiRadio) {
-      this.chooseRadio = 0
+      this.cR_OnBeforeMins = 0
     }
   }
   disCardRadio(realRadio, uiRadio) {
     if (realRadio == uiRadio) {
-      this.chooseCardRadio = 0
+      this.cR_EarlyMins = 0
     }
   }
   ngOnInit() {
@@ -310,9 +393,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
     for (let up of this.UploadFile) {
       all += (+up.Size)
     }
-    if (!this.sendForgetForm.Note) {
-      alert('請填寫補充說明')
-    } else if (all > 10485760) {
+    if (all > 10485760) {
       alert('檔案不能超過10MB')
     } else if (!this.FlowDynamic_Base) {
       alert('請選擇簽核人員')
