@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 
 import { AttendCard } from 'src/app/Models/AttendCard'
-import { doFormatDate, getapi_formatTimetoString, sumbit_formatTimetoString, formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
+import { doFormatDate, getapi_formatTimetoString, sumbit_formatTimetoString, formatDateTime, reSplTimeHHmm } from 'src/app/UseVoid/void_doFormatDate';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { SaveAndFlowStartClass, ForgetSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Class/SaveAndFlowStartClass';
 import { isValidDate, isValidTime } from 'src/app/UseVoid/void_isVaildDatetime';
@@ -25,6 +25,9 @@ declare let $: any; //use jquery
   styleUrls: ['./card-patch-form-write.component.css']
 })
 export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDestroy {
+  startTimeDropper:any
+  endTimeDropper:any
+  
   exampleHeader = ExampleHeader //日期套件header
   ngOnDestroy(): void {
     $(this.StartTimeView.nativeElement).off('change');
@@ -134,7 +137,7 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
       $("#id_ipt_startday").val($("#id_bt_startday").val())
     });
 
-    $("#id_bt_starttime").timeDropper({
+    this.startTimeDropper = $("#id_bt_starttime").timeDropper({
       format: 'HH:mm',
       autoswitch: false,
       mousewheel: true,
@@ -155,7 +158,7 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
     this.errorEndTime = { state: false, errorString: '' };
 
 
-    $("#id_bt_endtime").timeDropper({
+    this.endTimeDropper = $("#id_bt_endtime").timeDropper({
       format: 'HH:mm',
       autoswitch: false,
       mousewheel: true,
@@ -200,7 +203,7 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
     if (this.offWork && $('#id_ipt_endtime').val().length == 0) {
       this.errorEndTime = { state: true, errorString: '請輸入實際離勤時間' }
     } else if (!isValidTime($('#id_ipt_endtime').val())) {
-      this.errorEndTime = { state: true, errorString: '日期格式不正確' }
+      this.errorEndTime = { state: true, errorString: '時間格式不正確' }
     }
     else {
       this.errorEndTime = { state: false, errorString: '' }
@@ -238,6 +241,9 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
 
   @ViewChild('StartTimeView') StartTimeView: ElementRef;
   changeStartTimeView() {
+    
+    this.startTimeDropper[0].myprop1(reSplTimeHHmm($("#id_ipt_starttime").val()).HH,reSplTimeHHmm($("#id_ipt_starttime").val()).mm);
+
     $(this.StartTimeView.nativeElement)
       .on('change', (e, args) => {
         $("#id_ipt_starttime").val($("#id_bt_starttime").val());
@@ -247,6 +253,8 @@ export class CardPatchFormWriteComponent implements OnInit, AfterViewInit, OnDes
 
   @ViewChild('EndTimeView') EndTimeView: ElementRef;
   changeEndTimeView() {
+    this.endTimeDropper[0].myprop1(reSplTimeHHmm($("#id_ipt_endtime").val()).HH,reSplTimeHHmm($("#id_ipt_endtime").val()).mm);
+    
     $(this.EndTimeView.nativeElement)
       .on('change', (e, args) => {
         $("#id_ipt_endtime").val($("#id_bt_endtime").val());

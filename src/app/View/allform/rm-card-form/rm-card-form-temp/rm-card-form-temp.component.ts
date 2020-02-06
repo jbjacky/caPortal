@@ -6,7 +6,7 @@ import { AttendCard } from 'src/app/Models/AttendCard';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { takeWhile } from 'rxjs/operators';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
-import { doFormatDate } from 'src/app/UseVoid/void_doFormatDate';
+import { doFormatDate, reSplTimeHHmm } from 'src/app/UseVoid/void_doFormatDate';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 
 declare let $: any; //use jquery
@@ -16,7 +16,7 @@ declare let $: any; //use jquery
   styleUrls: ['./rm-card-form-temp.component.css']
 })
 export class RmCardFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
-
+  endTimeDropper: any
   exampleHeader = ExampleHeader //日期套件header
   ngOnDestroy(): void {
     this.api_subscribe = false;
@@ -47,8 +47,7 @@ export class RmCardFormTempComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   endDateTimeChange() {
-    $('#'+this.id_ipt_endtime).val('')
-    $("#"+this.id_bt_endtime).timeDropper({
+    this.endTimeDropper = $("#" + this.id_bt_endtime).timeDropper({
       format: 'HH:mm',
       autoswitch: false,
       mousewheel: true,
@@ -57,6 +56,10 @@ export class RmCardFormTempComponent implements OnInit, AfterViewInit, OnDestroy
   }
   @ViewChild('EndTimeView') EndTimeView: ElementRef;
   changeEndTimeView() {
+    if(this.rcFirstCardTime.value == ''){
+      this.rcFirstCardTime.setValue('00:00')
+    }
+    this.endTimeDropper[0].myprop1(reSplTimeHHmm(this.rcFirstCardTime.value).HH,reSplTimeHHmm(this.rcFirstCardTime.value).mm);
     $(this.EndTimeView.nativeElement)
       .on('change', (e, args) => {
         this.rcFirstCardTime.setValue($("#" + this.id_bt_endtime).val())

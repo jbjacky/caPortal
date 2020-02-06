@@ -4,7 +4,7 @@ import { chinesenum } from 'src/app/UseVoid/void_chinesenumber'
 import { GetApiUserService } from 'src/app/Service/get-api-user.service'
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service'
 import { GetBaseByFormClass } from 'src/app/Models/PostData_API_Class/GetBaseByFormClass';
-import { doFormatDate, sumbit_formatTimetoString, getapi_formatTimetoString, formatDateTime } from 'src/app/UseVoid/void_doFormatDate';
+import { doFormatDate, sumbit_formatTimetoString, getapi_formatTimetoString, formatDateTime, reSplTimeHHmm } from 'src/app/UseVoid/void_doFormatDate';
 import { CalculateFlowDataClass } from 'src/app/Models/PostData_API_Class/CalculateFlowDataClass';
 import { vaform } from 'src/app/Models/vaform';
 import { uploadFileClass } from 'src/app/Models/uploadFileClass';
@@ -45,7 +45,6 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
   exampleHeader = ExampleHeader //日期套件header
 
   ngAfterViewInit(): void {
-
     // this.router.events
     //   .pipe(takeWhile(() => this.api_subscribe))
     //   .subscribe((e: any) => {
@@ -151,7 +150,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
             this.dateS.setHours(0, 0, 0)
             this.dateS.setMinutes(0, 0, 0)
             this.dateS.setSeconds(0, 0)
-            
+
             this.dateE.setHours(0, 0, 0)
             this.dateE.setMinutes(0, 0, 0)
             this.dateE.setSeconds(0, 0)
@@ -633,13 +632,13 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     var valToday = new Date('2019/11/06')//11/06前不卡7天限制
     var valWriteDay = new Date('2019/10/01')//只能填寫10月份的假單
     // console.log(this.dateS)
-    if(valToday > NowToday && !(this.showBlockIsAssistant) && valWriteDay > this.dateS){
+    if (valToday > NowToday && !(this.showBlockIsAssistant) && valWriteDay > this.dateS) {
       // 11/06前不卡7天限制
       this.errorDateAndTime = { state: true, errorString: '2019/11/06前只能填寫10月份的假單' }
       $("#id_ipt_startday").addClass("errorInput");
       return true
 
-    }else if (this.dateS < today && !(this.showBlockIsAssistant) && NowToday >= valToday) {
+    } else if (this.dateS < today && !(this.showBlockIsAssistant) && NowToday >= valToday) {
       // alert('不能請')
       this.errorDateAndTime = { state: true, errorString: '7天限制' }
       $("#id_ipt_startday").addClass("errorInput");
@@ -693,7 +692,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
           $("#id_ipt_starttime").addClass("errorInput");
           return true
         }
-         else if (!isValidTime(this.dateTimeS.toString())) {
+        else if (!isValidTime(this.dateTimeS.toString())) {
           this.errorDateAndTime = { state: true, errorString: '起始時間格式錯誤' };
           $("#id_ipt_starttime").addClass("errorInput");
           return
@@ -704,7 +703,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
           $("#id_ipt_endtime").addClass("errorInput");
           return true
         }
-         else if (!isValidTime(this.dateTimeE.toString())) {
+        else if (!isValidTime(this.dateTimeE.toString())) {
           this.errorDateAndTime = { state: true, errorString: '結束時間格式錯誤' };
           $("#id_ipt_endtime").addClass("errorInput");
           return
@@ -869,8 +868,8 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   @ViewChild('StartTimeView') StartTimeView: ElementRef;
   changeStartTimeView() {
+    this.GetApiUserService.startTimeDropper[0].myprop1(reSplTimeHHmm(this.dateTimeS).HH,reSplTimeHHmm(this.dateTimeS).mm);
     this.dateTimeS = $("#id_bt_starttime").val()
-
     this.blurDateAndTime();
     $(this.StartTimeView.nativeElement)
       .on('change', (e, args) => {
@@ -880,6 +879,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   @ViewChild('EndTimeView') EndTimeView: ElementRef;
   changeEndTimeView() {
+    this.GetApiUserService.endTimeDropper[0].myprop1(reSplTimeHHmm(this.dateTimeE).HH,reSplTimeHHmm(this.dateTimeE).mm);
     this.dateTimeE = $("#id_bt_endtime").val()
     this.blurDateAndTime();
     $(this.EndTimeView.nativeElement)
@@ -986,7 +986,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dateS.setHours(0, 0, 0)
     this.dateS.setMinutes(0, 0, 0)
     this.dateS.setSeconds(0, 0)
-    
+
     this.dateE.setHours(0, 0, 0)
     this.dateE.setMinutes(0, 0, 0)
     this.dateE.setSeconds(0, 0)

@@ -74,6 +74,19 @@
 
             _td_c.find('svg').attr('style', "stroke:" + _td_options.borderColor);
 
+            ///修改過-可呼叫這個方法改ui時間
+            /// var aa = $( "#alarm" ).timeDropper();
+            /// aa[0].myprop1("17","30");
+            this.myprop1 = function(hh,mm) {
+                var  _td_span_h = _td_c.find('.td-time span:first');
+                var  _td_span_m = _td_c.find('.td-time span:last');
+                var value = _td_span_h.text();
+                 _td_span_h.attr('data-id', hh).text(hh);
+                 _td_span_m.attr('data-id', mm).text(mm);
+                _td_c.find('.td-time span:first').click();
+                return value+":"+_td_span_m.text();
+            }
+            ///修改
 
             var
                 _td_init_deg = -1,
