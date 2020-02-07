@@ -350,8 +350,11 @@ export class RmCardFormComponent implements OnInit, AfterViewInit, OnDestroy {
                 AttendData.AttendCard_OnDateTime = ''
                 AttendData.AttendCard_OffDateTime = ''
               }
+              AttendData.UiAttendColor.RAttendOnTimeTitle = this.RedAttendString_OnTimeTitle(AttendData)
+              AttendData.UiAttendColor.RAttendOnTimeContent = this.RedAttendString_OnTimeContent(AttendData)
+              AttendData.UiAttendColor.ROffTimeTitle = this.RedAttendString_OffTimeTitle(AttendData)
+              AttendData.UiAttendColor.ROffTimeContent =  this.RedAttendString_OffTimeContent(AttendData)
               this.AttendCard.push(AttendData)
-
               // this.loading = false
             }
             this.AttendCard.sort((a, b) => {
@@ -430,20 +433,57 @@ export class RmCardFormComponent implements OnInit, AfterViewInit, OnDestroy {
       $("#Assistant_ChooseEmpCode").addClass("errorInput");
     }
   }
-
-  RedAttendString_Title(e: boolean, b: boolean) {
-    if (e || b) {
+  RedAttendString_OnTimeTitle(Attend:AttendCard) {
+    if (this.RedAttendString(Attend).onTimeErr) {
       return '#d0021b'
     } else {
       return 'rgb(150, 149, 148)'
     }
   }
-  RedAttendString_Content(e: boolean, b: boolean) {
-    if (e || b) {
+  RedAttendString_OnTimeContent(Attend:AttendCard) {
+    if (this.RedAttendString(Attend).onTimeErr) {
       return '#d0021b'
     } else {
       return '#4c4c4c'
     }
+  }
+
+  RedAttendString_OffTimeTitle(Attend:AttendCard) {
+    if (this.RedAttendString(Attend).offTimeErr) {
+      return '#d0021b'
+    } else {
+      return 'rgb(150, 149, 148)'
+    }
+  }
+  RedAttendString_OffTimeContent(Attend:AttendCard) {
+    if (this.RedAttendString(Attend).offTimeErr) {
+      return '#d0021b'
+    } else {
+      return '#4c4c4c'
+    }
+  }
+
+  RedAttendString(Attend:AttendCard){
+    // console.log(Attend)
+    var onTimeErr:boolean = false
+    var offTimeErr:boolean = false
+    if( (Attend.IsAbsent) ){
+        onTimeErr = true
+        offTimeErr = true 
+    }
+
+    if( (Attend.LateMins  && !Attend.EliminateLate)  ||
+        (Attend.OnBeforeMins && !Attend.EliminateOnBefore) 
+      ){
+      onTimeErr = true
+    }
+
+    if( (Attend.EarlyMins && !Attend.EliminateEarly) ||
+        (Attend.OffAfterMins && !Attend.EliminateOffAfter)
+      ){
+      offTimeErr = true 
+    }
+    return{onTimeErr:onTimeErr,offTimeErr:offTimeErr}
   }
 
   private Be_setGetRoteInfo$: BehaviorSubject<any> = new BehaviorSubject<Array<number>>(null);

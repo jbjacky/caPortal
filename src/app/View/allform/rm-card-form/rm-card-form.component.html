@@ -167,10 +167,11 @@
         {{errorEmpSendForm.errorEmpID}}
         <ng-container i18n>此員工無申請表單權限，如需申請表單請洽單位行政設定</ng-container>
       </div>
+      <!--考勤資訊-->
       <div *ngFor="let Attend of AttendCard" class="row cardBlock">
         <div class="col-md-11 col-xs-11 row" style="margin: 0px ;padding: 0px">
-          <div class="col-md-3 row P_paddingZ">
-            <div class="col-md-6  col-xs-6">
+          <div id="iDateInf" class="col-md-3 col-xs-12 row P_paddingZ"  style="margin: 0;">
+            <div class="col-md-6  col-xs-6 P_paddingAllZ">
               <span style="color: #028fcf">{{Attend.AttendDate}}</span>
             </div>
             <div class="col-md-6  col-xs-6">
@@ -238,20 +239,20 @@
               </div>
             </div>
           </div>
-          <div class="col-md-5 row P_bottomLine">
-            <div class="col-md-4 col-xs-12 P_paddingBottom">
+          <div id="iRoteInf" class="col-md-3 col-xs-12 row P_bottomLine">
+            <div class="col-md-4 col-xs-12 P_bottomTen">
               <div style="color: rgb(150, 149, 148);">
                 <ng-container i18n>班型</ng-container>
               </div>
               <div class="RoteLink" (click)="bt_Show_RoteInfo(Attend.RoteID)">{{Attend.RoteNameC}}</div>
             </div>
-            <div class="col-md-4 col-xs-6">
-              <div style="color: rgb(150, 149, 148);">
+            <div class="col-md-4 col-xs-6" style="padding: 0;">
+              <div style="color: rgb(150, 149, 148)">
                 <ng-container i18n>應上班時間</ng-container>
               </div>
               <div>{{Attend.ActualRote_OnTime}}</div>
             </div>
-            <div class="col-md-4 col-xs-6 P_paddingRZ" style="padding-right: 0px">
+            <div class="col-md-4 col-xs-6" style="padding: 0;">
               <div style="color: rgb(150, 149, 148);">
                 <ng-container i18n>應下班時間</ng-container>
               </div>
@@ -268,24 +269,18 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 row P_paddingTop">
-            <div class="col-md-6 col-xs-6">
-              <!-- <div style="color: rgb(150, 149, 148);"
-                [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.LateMins)">
-                <ng-container i18n>到勤時間</ng-container>
-              </div> -->
-              <div style="color: rgb(150, 149, 148);">
+          <div id="iAttendInf" class="col-md-3 col-xs-12 row P_paddingTop P_bottomLine">
+            <div class="col-md-6 col-xs-6 P_paddingAllZ">
+              <div [style.color]="Attend.UiAttendColor.RAttendOnTimeTitle">
                 <ng-container i18n>到勤時間</ng-container>
               </div>
-              <!-- <div *ngIf="Attend.AttendCard_OnTime.length>0" style="display: inline-block;padding-right: 10px"
-                [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.LateMins)">{{Attend.AttendCard_OnTime}}
-              </div> -->
-              <div *ngIf="Attend.AttendCard_OnTime.length>0" style="display: inline-block;padding-right: 10px">
-                {{Attend.AttendCard_OnTime}}
-              </div>
-              <div *ngIf="Attend.AttendCard_OnTime.length==0"
-                [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.LateMins)">
-                <ng-container i18n>無</ng-container>
+              <div [style.color]="Attend.UiAttendColor.RAttendOnTimeContent">
+                <div *ngIf="Attend.AttendCard_OnTime.length>0" style="display: inline-block;padding-right: 10px">
+                  {{Attend.AttendCard_OnTime}}
+                </div>
+                <div *ngIf="Attend.AttendCard_OnTime.length==0">
+                  <ng-container i18n>無</ng-container>
+                </div>
               </div>
               <div *ngIf="Attend.AttendCard_OnTime_calCrossDay" style="display: inline-block;
                     height: 20px;
@@ -299,23 +294,17 @@
                 <ng-container i18n>日</ng-container>
               </div>
             </div>
-            <div class="col-md-6 col-xs-6 P_paddingRZ">
-              <!-- <div style="color: rgb(150, 149, 148);"
-                [style.color]="RedAttendString_Title(Attend.IsAbsent,Attend.EarlyMins)">
-                <ng-container i18n>離勤時間</ng-container>
-              </div> -->
-              <div style="color: rgb(150, 149, 148);">
+            <div class="col-md-6 col-xs-6 P_paddingAllZ">
+              <div [style.color]="Attend.UiAttendColor.ROffTimeTitle">
                 <ng-container i18n>離勤時間</ng-container>
               </div>
               <div>
-                <!-- <div *ngIf="Attend.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px"
-                  [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.EarlyMins)">
-                  {{Attend.AttendCard_OffTime}}</div> -->
-                <div *ngIf="Attend.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px">
-                  {{Attend.AttendCard_OffTime}}</div>
-                <div *ngIf="Attend.AttendCard_OffTime.length==0" style="display: inline-block;padding-right: 10px"
-                  [style.color]="RedAttendString_Content(Attend.IsAbsent,Attend.EarlyMins)">
-                  <ng-container i18n>無</ng-container>
+                <div [style.color]="Attend.UiAttendColor.ROffTimeContent">
+                    <div *ngIf="Attend.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px">
+                      {{Attend.AttendCard_OffTime}}</div>
+                    <div *ngIf="Attend.AttendCard_OffTime.length==0" style="display: inline-block;padding-right: 10px">
+                      <ng-container i18n>無</ng-container>
+                    </div>
                 </div>
                 <div *ngIf="Attend.AttendCard_OffTime_calCrossDay" style="display: inline-block;
                     height: 20px;
@@ -330,6 +319,26 @@
               </div>
             </div>
           </div>
+          <div id="iEmpInf" class="col-md-3 col-xs-12 row P_paddingTop" style="margin: 0;">
+            <div class="col-md-4 col-xs-6" style="padding:0">
+              <div style="color: rgb(150, 149, 148);">
+                <ng-container i18n>請假單</ng-container>
+              </div>
+              <div><a>請假單</a></div>
+            </div>
+            <div class="col-md-4 col-xs-6" style="padding:0">
+              <div style="color: rgb(150, 149, 148)">
+                <ng-container i18n>加班單</ng-container>
+              </div>
+              <div><a>加班單</a></div>
+            </div>
+            <div class="col-md-4 col-xs-12 P_topTen">
+              <div style="color: rgb(150, 149, 148);">
+                <ng-container i18n>車誤</ng-container>
+              </div>
+              <div>08:00</div>
+            </div>
+          </div>
         </div>
         <div class="col-md-1 col-xs-1 row" style="margin: 0px ;padding: 0px">
           <div class="P_lineHeight">
@@ -342,6 +351,7 @@
           </div>
         </div>
       </div>
+      <!--考勤資訊-->
 
 
     </div>

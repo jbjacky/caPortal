@@ -4,6 +4,21 @@
       margin: 30px auto;
     }
 }
+a{
+    cursor: pointer;
+}
+#iDateInf.col-md-3{
+    width: 23%;
+}
+#iRoteInf.col-md-3{
+    width: 31%;
+}
+#iAttendInf.col-md-3{
+    width: 21%;
+}
+#iEmpInf.col-md-3{
+    width: 25%;
+}
 .Rote{
   color: #028fcf
 }
@@ -43,7 +58,6 @@
 }
 .P_paddingTop{
     margin: 0px;
-    padding: 0px
 }
 .P_paddingBottom{
     padding-bottom:0px;
@@ -86,6 +100,12 @@
     margin: 0px;
     margin-bottom: 10px
 }
+.P_topTen{
+    padding: 0px;
+}
+.P_bottomTen{
+    padding: 0px;
+}
 @media screen and (max-width:992px) {
     .stateblock{
         /* 流程區塊 */
@@ -112,15 +132,20 @@
         display: none;
     }
     .P_lineHeight{
-        line-height: 200px;
+        padding: 10px;
+        line-height: 300px;
     }
     .P_paddingRZ{
         padding-right: 0px
     }
+    .P_paddingAllZ{
+        padding:0
+    }
     .P_paddingTop{
         margin: 0px;
-        padding: 0px;
-        padding-top:15px ;
+        padding-top:15px;
+        padding-left: 0px;
+        padding-right: 0px;
     }
     .P_paddingBottom{
         padding-bottom:10px;
@@ -132,8 +157,27 @@
         padding-top:10px
         
     }
+    .P_bottomTen{
+        padding-bottom: 10px;
+    }
+    .P_topTen{
+        padding-top: 10px;
+    }
     .cardBlock {
         padding: 20px 20px;
+    }
+
+    #iDateInf.col-xs-12{
+        width: 100%;
+    }
+    #iRoteInf.col-xs-12{
+        width: 100%;
+    }
+    #iAttendInf.col-xs-12{
+        width: 100%;
+    }
+    #iEmpInf.col-xs-12{
+        width: 100%;
     }
     
 }

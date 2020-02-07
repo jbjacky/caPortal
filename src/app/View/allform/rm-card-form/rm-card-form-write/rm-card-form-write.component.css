@@ -4,6 +4,21 @@
       margin: 30px auto;
     }
 }
+a{
+    cursor: pointer;
+}
+#iDateInf.col-md-3{
+    width: 23%;
+}
+#iRoteInf.col-md-3{
+    width: 31%;
+}
+#iAttendInf.col-md-3{
+    width: 21%;
+}
+#iEmpInf.col-md-3{
+    width: 25%;
+}
 .Rote{
   color: #028fcf
 }
@@ -45,8 +60,8 @@
     margin: 0px;
 }
 .P_paddingZ{
-    padding: 0px 0px;
-    padding-top: 3px
+    margin: 0px;
+    padding-top:10px
 }
 .P_paddingTitle{
     padding: 0px 15px;
@@ -66,7 +81,6 @@
 }
 .P_paddingTop{
     margin: 0px;
-    padding: 0px
 }
 
 .P_bottomLine{
@@ -137,7 +151,22 @@
     font-size: 15px;
     text-align: center;
 }
+.P_topTen{
+    padding: 0px;
+}
+.P_bottomTen{
+    padding: 0px;
+}
+.cardBlock {
+    border: 1px solid #028fcf;
+    padding: 20px 0px;
+    margin: 0px;
+    margin-bottom: 10px
+}
 @media screen and (max-width:992px) {
+    .cardBlock {
+        padding: 20px 20px;
+    }
     .featuresBlock{
         display: block;
     }
@@ -157,7 +186,8 @@
         padding: 10px 10px;
     }
     .P_paddingZ{
-        padding: 0px
+        padding: 0px;
+        padding-bottom:10px;
     }
     .P_paddingTitle{
         padding: 0px 15px;
@@ -169,8 +199,15 @@
 
     .P_paddingTop{
         margin: 0px;
-        padding: 0px;
-        padding-top:15px ;
+        padding-top:15px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .P_bottomTen{
+        padding-bottom: 10px;
+    }
+    .P_topTen{
+        padding-top: 10px;
     }
     .P_paddingRZ{
         padding-right: 0px
@@ -189,6 +226,9 @@
         text-align: left;
     }
     
+    .P_paddingAllZ{
+        padding:0
+    }
     .P_textTopLeft{
         text-align: left;
         padding-top: 15px;
@@ -204,6 +244,18 @@
     .P_BtTime{
         padding: 0px;
         margin-bottom: 10px
+    }
+    #iDateInf.col-xs-12{
+        width: 100%;
+    }
+    #iRoteInf.col-xs-12{
+        width: 100%;
+    }
+    #iAttendInf.col-xs-12{
+        width: 100%;
+    }
+    #iEmpInf.col-xs-12{
+        width: 100%;
     }
     
 }

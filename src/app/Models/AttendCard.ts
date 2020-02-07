@@ -30,4 +30,12 @@ export class AttendCard {
   ActualRote_calCrossDay: boolean
   AttendCard_OnTime_calCrossDay: boolean
   AttendCard_OffTime_calCrossDay: boolean
+  UiAttendColor:UiAttendColorCalss = new UiAttendColorCalss()
+}
+
+class UiAttendColorCalss{
+  RAttendOnTimeTitle: string
+  RAttendOnTimeContent: string
+  ROffTimeTitle: string
+  ROffTimeContent: string
 }

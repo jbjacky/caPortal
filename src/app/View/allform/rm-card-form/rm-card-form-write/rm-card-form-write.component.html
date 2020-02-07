@@ -40,11 +40,11 @@
       </div>
     </div>
     <!-- 考勤異常人 -->
-    <div style="border:1px solid #028fcf;padding: 20px 20px;margin: 0px" class="row">
-      <div class="col-md-11 col-xs-11 row" style="margin: 0px ;padding: 0px">
-
-        <div class="col-md-3 row P_paddingTitle">
-          <div class="col-md-6  col-xs-6">
+    <!--考勤資訊-->
+    <div  class="row cardBlock">
+      <div class="row" style="margin: 0px ;padding: 0px">
+        <div id="iDateInf" class="col-md-3 col-xs-12 row P_paddingZ" style="margin: 0;">
+          <div class="col-md-6  col-xs-6 P_paddingAllZ">
             <span style="color: #028fcf">{{getAttendCard.AttendDate}}</span>
           </div>
           <div class="col-md-6  col-xs-6">
@@ -98,32 +98,34 @@
                 </div>
               </ng-template>
             </div>
-            <div class="tagBlue" *ngIf="!getAttendCard.LateMins &&
-                   !getAttendCard.EarlyMins &&
-                   !getAttendCard.IsAbsent &&
-                   ( !getAttendCard.OnBeforeMins || (getAttendCard.OnBeforeMins && getAttendCard.EliminateOnBefore) ) &&
-                   ( !getAttendCard.OffAfterMins || (getAttendCard.OffAfterMins && getAttendCard.EliminateOffAfter) )">
-              <ng-container i18n>正常</ng-container>
-            </div>
-            <div class="tagBlue" *ngIf="getAttendCard.IsAbnormal">
-              <ng-container i18n>不判斷</ng-container>
+            <div>
+              <div class="tagBlue" *ngIf="!getAttendCard.LateMins &&
+                                          !getAttendCard.EarlyMins &&
+                                          !getAttendCard.IsAbsent &&
+                                          ( !getAttendCard.OnBeforeMins || (getAttendCard.OnBeforeMins && getAttendCard.EliminateOnBefore) ) &&
+                                          ( !getAttendCard.OffAfterMins || (getAttendCard.OffAfterMins && getAttendCard.EliminateOffAfter) )">
+                <ng-container i18n>正常</ng-container>
+              </div>
+              <div class="tagBlue" *ngIf="getAttendCard.IsAbnormal">
+                <ng-container i18n>不判斷</ng-container>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-5 row P_bottomLine">
-          <div class="col-md-4 col-xs-12 P_paddingBottom">
+        <div id="iRoteInf" class="col-md-3 col-xs-12 row P_bottomLine">
+          <div class="col-md-4 col-xs-12 P_bottomTen">
             <div style="color: rgb(150, 149, 148);">
               <ng-container i18n>班型</ng-container>
             </div>
             <div class="RoteLink" (click)="bt_Show_RoteInfo(getAttendCard.RoteID)">{{getAttendCard.RoteNameC}}</div>
           </div>
-          <div class="col-md-4 col-xs-6">
-            <div style="color: rgb(150, 149, 148);">
+          <div class="col-md-4 col-xs-6" style="padding: 0;">
+            <div style="color: rgb(150, 149, 148)">
               <ng-container i18n>應上班時間</ng-container>
             </div>
             <div>{{getAttendCard.ActualRote_OnTime}}</div>
           </div>
-          <div class="col-md-4 col-xs-6 P_paddingRZ" style="padding-right: 0px">
+          <div class="col-md-4 col-xs-6" style="padding: 0;">
             <div style="color: rgb(150, 149, 148);">
               <ng-container i18n>應下班時間</ng-container>
             </div>
@@ -140,25 +142,18 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 row P_paddingTop">
-          <div class="col-md-6 col-xs-6">
-            <!-- <div style="color: rgb(150, 149, 148);"
-              [style.color]="RedAttendString_Title(getAttendCard.IsAbsent,getAttendCard.LateMins)">
+        <div id="iAttendInf" class="col-md-3 col-xs-12 row P_paddingTop P_bottomLine">
+          <div class="col-md-6 col-xs-6 P_paddingAllZ">
+            <div [style.color]="getAttendCard.UiAttendColor.RAttendOnTimeTitle">
               <ng-container i18n>到勤時間</ng-container>
             </div>
-            <div *ngIf="getAttendCard.AttendCard_OnTime.length>0" style="display: inline-block;padding-right: 10px"
-              [style.color]="RedAttendString_Content(getAttendCard.IsAbsent,getAttendCard.LateMins)">
-              {{getAttendCard.AttendCard_OnTime}}
-            </div> -->
-            <div style="color: rgb(150, 149, 148);">
-              <ng-container i18n>到勤時間</ng-container>
-            </div>
-            <div *ngIf="getAttendCard.AttendCard_OnTime.length>0" style="display: inline-block;padding-right: 10px">
-              {{getAttendCard.AttendCard_OnTime}}
-            </div>
-            <div *ngIf="getAttendCard.AttendCard_OnTime.length==0"
-              [style.color]="RedAttendString_Content(getAttendCard.IsAbsent,getAttendCard.LateMins)">
-              <ng-container i18n>無</ng-container>
+            <div [style.color]="getAttendCard.UiAttendColor.RAttendOnTimeContent">
+              <div *ngIf="getAttendCard.AttendCard_OnTime.length>0" style="display: inline-block;padding-right: 10px">
+                {{getAttendCard.AttendCard_OnTime}}
+              </div>
+              <div *ngIf="getAttendCard.AttendCard_OnTime.length==0">
+                <ng-container i18n>無</ng-container>
+              </div>
             </div>
             <div *ngIf="getAttendCard.AttendCard_OnTime_calCrossDay" style="display: inline-block;
                   height: 20px;
@@ -168,28 +163,21 @@
                   color: #fff;
                   background-color: #408cb6;
                   border: 1px solid;
-                  border-radius: 15px;">+1<ng-container i18n>日</ng-container>
+                  border-radius: 15px;">+1
+              <ng-container i18n>日</ng-container>
             </div>
           </div>
-          <div class="col-md-6 col-xs-6 P_paddingRZ">
-            <!-- <div style="color: rgb(150, 149, 148);"
-              [style.color]="RedAttendString_Title(getAttendCard.IsAbsent,getAttendCard.EarlyMins)">
-              <ng-container i18n>離勤時間</ng-container>
-            </div> -->
-            <div style="color: rgb(150, 149, 148);">
+          <div class="col-md-6 col-xs-6 P_paddingAllZ">
+            <div [style.color]="getAttendCard.UiAttendColor.ROffTimeTitle">
               <ng-container i18n>離勤時間</ng-container>
             </div>
             <div>
-              <!-- <div *ngIf="getAttendCard.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px"
-                [style.color]="RedAttendString_Content(getAttendCard.IsAbsent,getAttendCard.EarlyMins)">
-                {{getAttendCard.AttendCard_OffTime}}
-              </div> -->
-              <div *ngIf="getAttendCard.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px">
-                {{getAttendCard.AttendCard_OffTime}}
-              </div>
-              <div *ngIf="getAttendCard.AttendCard_OffTime.length==0" style="display: inline-block;padding-right: 10px"
-                [style.color]="RedAttendString_Content(getAttendCard.IsAbsent,getAttendCard.EarlyMins)">
-                <ng-container i18n>無</ng-container>
+              <div [style.color]="getAttendCard.UiAttendColor.ROffTimeContent">
+                  <div *ngIf="getAttendCard.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px">
+                    {{getAttendCard.AttendCard_OffTime}}</div>
+                  <div *ngIf="getAttendCard.AttendCard_OffTime.length==0" style="display: inline-block;padding-right: 10px">
+                    <ng-container i18n>無</ng-container>
+                  </div>
               </div>
               <div *ngIf="getAttendCard.AttendCard_OffTime_calCrossDay" style="display: inline-block;
                   height: 20px;
@@ -199,19 +187,34 @@
                   color: #fff;
                   background-color: #408cb6;
                   border: 1px solid;
-                  border-radius: 15px;">+1
-                <ng-container i18n>日</ng-container>
+                  border-radius: 15px;">+1<ng-container i18n>日</ng-container>
               </div>
             </div>
           </div>
         </div>
+        <div id="iEmpInf" class="col-md-3 col-xs-12 row P_paddingTop" style="margin: 0;">
+          <div class="col-md-4 col-xs-6" style="padding:0">
+            <div style="color: rgb(150, 149, 148);">
+              <ng-container i18n>請假單</ng-container>
+            </div>
+            <div><a>請假單</a></div>
+          </div>
+          <div class="col-md-4 col-xs-6" style="padding:0">
+            <div style="color: rgb(150, 149, 148)">
+              <ng-container i18n>加班單</ng-container>
+            </div>
+            <div><a>加班單</a></div>
+          </div>
+          <div class="col-md-4 col-xs-12 P_topTen">
+            <div style="color: rgb(150, 149, 148);">
+              <ng-container i18n>車誤</ng-container>
+            </div>
+            <div>08:00</div>
+          </div>
+        </div>
       </div>
-      <div class="col-md-1 col-xs-1 row" style="margin: 0px ;padding: 0px">
-
-      </div>
-
     </div>
-
+    <!--考勤資訊-->
     <!-- 正常、未刷卡-->
     <div *ngIf="(
       !getAttendCard.LateMins && !getAttendCard.EarlyMins &&
