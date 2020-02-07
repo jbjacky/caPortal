@@ -220,7 +220,7 @@
       !getAttendCard.LateMins && !getAttendCard.EarlyMins &&
     ( !getAttendCard.OnBeforeMins || (getAttendCard.OnBeforeMins && getAttendCard.EliminateOnBefore) ) &&
     ( !getAttendCard.OffAfterMins || (getAttendCard.OffAfterMins && getAttendCard.EliminateOffAfter) )
-    ) 
+    )
     || getAttendCard.IsAbsent">
 
       <h3>
@@ -234,7 +234,7 @@
               <div class="col-md-4 col-xs-0">
               </div>
               <div class="col-md-8  col-xs-12">
-                <div class="P_BtTime">
+                <div class="P_BtTime" style="padding-bottom: 3px;">
                   <button (click)="onLoadingTime()">
                     <ng-container i18n>載入上下班時間</ng-container>
                   </button>
@@ -243,7 +243,7 @@
             </div>
             <div class="col-md-6 col-md-pull-6 col-xs-12 row" style="margin: 0px;padding: 0px">
               <div class="col-md-4  col-xs-0"></div>
-              <div class="col-md-8  col-xs-12">
+              <div class="col-md-8  col-xs-12" style="padding-top: 5px;">
                 <input type="checkbox" [(ngModel)]='goWork' (change)="startDateTimeChange()" />
                 <ng-container i18n>補到勤時間</ng-container>
               </div>
@@ -264,8 +264,8 @@
           <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 7px">
             <ng-container i18n>時間</ng-container>
           </label>
-          <div class="col-md-4 col-xs-12 ">
-            <div class="col-md-10 col-xs-10 P_paddingZ">
+          <div class="col-md-4 col-xs-12 row" style="margin:0">
+            <div class="col-md-10 col-xs-10 P_paddingZ" style="padding: 0;">
               <input id="id_ipt_starttime" (blur)="blurStartTime()" [disabled]="!goWork" type="text"
                 class="form-control" placeholder="範例:08:00" [textMask]="StartTimeMask()">
             </div>
@@ -309,8 +309,8 @@
           <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 7px">
             <ng-container i18n>時間</ng-container>
           </label>
-          <div class="col-md-4 col-xs-12 ">
-            <div class="col-md-10 col-xs-10 P_paddingZ">
+          <div class="col-md-4 col-xs-12 row" style="margin: 0;">
+            <div class="col-md-10 col-xs-10 P_paddingZ" style="padding: 0;">
               <input id="id_ipt_endtime" (blur)="blurEndTime()" [disabled]="!offWork" type="text" class="form-control"
                 placeholder="範例:08:00" [textMask]="EndTimeMask()">
             </div>

@@ -61,7 +61,6 @@ a{
 }
 .P_paddingZ{
     margin: 0px;
-    padding-top:10px
 }
 .P_paddingTitle{
     padding: 0px 15px;
@@ -70,7 +69,7 @@ a{
 .P_textCenter{
     text-align: left;
     padding: 0px;
-    padding-top:7px 
+    padding-top:7px
 }
 .bt_disable[disabled]{
     display: none;
@@ -178,7 +177,7 @@ a{
         order: 2;
         margin-right: 0px;
     }
-    
+
     .stateblock{
         display: none;
     }
@@ -195,7 +194,7 @@ a{
     .P_textCenter{
         text-align: center;
     }
-    
+
 
     .P_paddingTop{
         margin: 0px;
@@ -211,8 +210,8 @@ a{
     }
     .P_paddingRZ{
         padding-right: 0px
-    }   
-    
+    }
+
     .P_bottomLine{
         border:0px;
         border-bottom:2px solid #D0D3D4;
@@ -225,7 +224,7 @@ a{
     .P_textLeft{
         text-align: left;
     }
-    
+
     .P_paddingAllZ{
         padding:0
     }
@@ -257,7 +256,7 @@ a{
     #iEmpInf.col-xs-12{
         width: 100%;
     }
-    
+
 }
 
 
