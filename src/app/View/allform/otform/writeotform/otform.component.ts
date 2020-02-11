@@ -1,8 +1,8 @@
 import { Component, OnInit, OnChanges, SimpleChanges, AfterViewInit, NgZone, ViewChild, ElementRef, DoCheck, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormControl, ValidatorFn, AbstractControl, AsyncValidatorFn, ValidationErrors, FormGroup } from '@angular/forms';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
-import { Observable, timer } from 'rxjs';
-import { map, debounceTime, switchMap, takeWhile } from 'rxjs/operators';
+import { Observable, timer, BehaviorSubject } from 'rxjs';
+import { map, debounceTime, switchMap, takeWhile, distinctUntilChanged, filter } from 'rxjs/operators';
 import { resolve, reject } from 'q';
 import { jbUserLoginClass, jbLoginDataClass } from 'src/app/Models/PostData_API_Class/jbUserLoginClass';
 import { GetOtCauseByFormDataClass } from 'src/app/Models/GetOtCauseByForm';
@@ -24,8 +24,8 @@ declare let $: any; //use jquery
 })
 export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
   exampleHeader = ExampleHeader //日期套件header
-  NowIsWriteOtForm:boolean = true
-  showOtform(){
+  NowIsWriteOtForm: boolean = true
+  showOtform() {
     this.NowIsWriteOtForm = true
     this.resetFormGroup(this.EmpID.value.toString());
   }
@@ -140,7 +140,7 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     // throw new Error("Method not implemented.");
     this.api_subscribe = false;
-    
+
     $(this.StartTimeView.nativeElement).unbind()
     $(this.EndTimeView.nativeElement).unbind()
   }
@@ -160,6 +160,9 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
       (x: any) => {
         if (x == 0) {
         } else {
+          this.testText = x.EmpID
+          this.Be_Text.next(this.testText)
+
           this.WriteEmp = { EmpID: x.EmpID, EmpName: x.EmpNameC }
           this.createForm(x.EmpID)
           this.GetApiDataServiceService.getWebApiData_GetOtCauseByForm()
@@ -208,7 +211,7 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
         })
 
   }
-  resetFormGroup(EmpID:string) {
+  resetFormGroup(EmpID: string) {
     var _otform: otFormClass = {
       OtType: ['1', Validators.required],
       EmpID: [EmpID, Validators.required, [this.getValidatorFn()]],
@@ -345,6 +348,27 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
     // console.log(event)
   }
 
+
+  testText = ""
+  private Be_Text: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  Ob_Text$: Observable<any> = this.Be_Text.pipe(
+    debounceTime(1000), // 當 300 毫秒沒有新資料時，才進行搜尋
+  )
+  cText() {
+    this.Be_Text.next(this.testText)
+  }
+  setForm(e) {
+    // console.log(e)
+  }
+
+  eFileArray = [{
+    UploadName: "sql降版還原.txt",
+    Blob: "Ly8gc3FsIDIwMTazxqX3ICAyMDA4IMHZrewNCg0Kpf2mYjIwMTYiq/ypdyK46q7Grnela8HkwkmkdadALT6216VYuOquxrxowLOlzrV7pqEgsqOlzS5iYWNwYWPAya7XDQoNCrG1tdumQTIwMDgguOquxq53pWvB5MJJttekSrjqrsa8aMCzpc61e6ahDQoNCrCypnCyo6XNv/m7fiANCg0Kp+K/+bt+wMmu16W0tn2s3axPrf6t06v8pU+9WL/5DQoNCrG1tdumYqfis8al96q6uOquxq53LmJhY3BhY8DJpVsuemlwIMX9pUzF3MCjwVnAyQ0KDQqltLZ9wKPBWcDJDQoNCqZBrden77jMrbGqum1vZGFsLnhtbLjyT3JpZ2luLnhtbA0KDQptb2RhbC54bWwgrW6t16fvv/m7fqq6q/ylT71YILCypnCsT0dyYW50tE6n4iBFbGVtZW50IFR5cGU9IkdyYW50IiCms8P2qrql/qzlDQoNCqfvp7ltb2RhbC54bWwgq+GmXaywwMmu12hhc2i9WLd8xdyn8yCp0qVIrW6n709yaWdpbi54bWwNCg0Kpf2o7HBvd2Vyc2hlbGwgpFUgR2V0LUZpbGVIYXNoIC1QYXRoIC5cbW9kYWwueG1sDQoNCqj6sW+l2KtlIG1vZGFsLnhtbCCquiBoYXNovVgNCg0KpkGo7E9yaWdpbi54bWwNCq3Xp+88Q2hlY2tzdW0gVXJpPSIvbW9kZWwueG1sIj6p8Whhc2g8L0NoZWNrc3VtPg0KDQqt16fvbW9kYWwueG1soUJPcmlnaW4ueG1sq+GmQafiemlwwMmn76ZeLmJhY3BhY8DJDQoNCq2rt3OmQbbXpEq46q7GrnekQKa4DQoNCrCypnDB2aazv/kgtE6tq73GpFetsaq6sMqnQA0KDQoNCg0KDQo=",
+    Type: "text/plain",
+    Size: 704,
+    Description: ""
+  }]
+
 }
 
 export function forbiddenNameValidator(): ValidatorFn {
@@ -359,7 +383,7 @@ export function forbiddenNameValidator(): ValidatorFn {
 }
 
 
-class otFormClass {
+export class otFormClass {
   OtType: any
   EmpID: any
   StartDate: any

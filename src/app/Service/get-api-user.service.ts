@@ -18,6 +18,8 @@ declare let $: any; //use jquery
 })
 export class GetApiUserService {
 
+  startTimeDropper:any
+  endTimeDropper:any
 
   private store$: BehaviorSubject<GetBaseInfoDetailClass> = new BehaviorSubject<any>(0);
   counter$: Observable<GetBaseInfoDetailClass> = this.store$;

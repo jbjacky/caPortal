@@ -1,40 +1,32 @@
 import { Directive, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { GetApiUserService } from 'src/app/Service/get-api-user.service';
 
 
 declare let $: any; //use jquery
 @Directive({
   selector: '[appOtSpyNgIf]'
 })
-export class OtSpyNgIfDirective implements OnInit,AfterViewInit, OnDestroy {
+export class OtSpyNgIfDirective implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
-    $("#id_bt_starttime").timeDropper({
+    this.GetApiUserService.startTimeDropper = $("#id_bt_starttime").timeDropper({
       format: 'HH:mm',
       autoswitch: false,
       mousewheel: true,
       setCurrentTime: false
     });
-    $("#id_bt_endtime").timeDropper({
+    // $("#id_bt_endtime").val('17:00');
+    this.GetApiUserService.endTimeDropper = $("#id_bt_endtime").timeDropper({
       format: 'HH:mm',
       autoswitch: false,
       mousewheel: true,
       setCurrentTime: false
-    });
-    $( "#id_bt_starttime" ).change(function() {
-      $("#id_ipt_starttime").val($("#id_bt_starttime").val());
-    });
-    $( "#id_bt_endtime" ).change(function() {
-      $("#id_ipt_endtime").val($("#id_bt_endtime").val());
     });
   }
   ngOnInit(): void {
-    // throw new Error("Method not implemented.");
   }
   ngOnDestroy(): void {
-    // throw new Error("Method not implemented.");
-    $( "#id_bt_endtime").unbind( "change" );
-    $( "#id_bt_starttime").unbind( "change" );
   }
-
-  constructor() { }
+  constructor(
+    private GetApiUserService: GetApiUserService, ) { }
 
 }

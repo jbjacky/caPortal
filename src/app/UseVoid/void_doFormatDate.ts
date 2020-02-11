@@ -132,3 +132,40 @@ export function formatDateTime(DateTime) {
         return { getDate: null, getTime: null }
     }
 }
+
+
+/**
+ * @todo 時間四個字有包含_處理
+ * @todo 回傳{ HH: 08, mm: 00 }
+ * @param {string} time 08:00，可能08:0_
+ */
+export function reSplTimeHHmm(time: string) {
+    var HH: string, mm: string
+    var h1: string, h2: string, m1: string, m2: string
+    if (!time || time == '') {
+      h1 = '0'
+      h2 = '0'
+      m1 = '0'
+      m2 = '0'
+    } else {
+      h1 = time.split(":")[0].toString().substring(0, 1)
+      h2 = time.split(":")[0].toString().substring(1, 2)
+      m1 = time.split(":")[1].toString().substring(0, 1)
+      m2 = time.split(":")[1].toString().substring(1, 2)
+      if (isNaN(parseInt(h1))) {
+        h1 = '0'
+      }
+      if (isNaN(parseInt(h2))) {
+        h2 = '0'
+      }
+      if (isNaN(parseInt(m1))) {
+        m1 = '0'
+      }
+      if (isNaN(parseInt(m2))) {
+        m2 = '0'
+      }
+    }
+    HH = h1 + h2
+    mm = m1 + m2
+    return { HH: HH, mm: mm }
+  }

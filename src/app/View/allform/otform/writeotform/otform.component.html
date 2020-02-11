@@ -17,6 +17,8 @@
 
 <div class="a-block">
   <div class="a-block-body  a-block-container">
+    <input [(ngModel)]="testText" (ngModelChange)="cText()"/>
+    <app-ot-form-temp (SetOtForm)="setForm($event)" [nEmpID] = "Ob_Text$" [UiTemp]="'Atime'"  [editFileArray]="eFileArray"></app-ot-form-temp>
     <form [formGroup]="otFormGroup" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-md-7 control-label" style="display: inline-block;color:#8b8484">
@@ -48,7 +50,7 @@
               <ng-container i18n>表單類型</ng-container>
             </label>
             <div class="col-md-3">
-              <div class="row writerow">
+              <div class="row ">
                 <select class="form-control" formControlName="OtType">
                   <option value="1">預估加班單</option>
                   <option value="2">實際加班單</option>
@@ -65,7 +67,7 @@
                 <ng-container i18n>員工</ng-container>
               </label>
               <div class="col-md-8">
-                <div class="row writerow">
+                <div class="row ">
                   <div class="col-md-6 col-xs-6" style="padding: 0;">
                     <input id="leavejobid" type="text" class="form-control" placeholder="員工號" formControlName="EmpID">
                     <div *ngIf="EmpID.status != 'VALID'" style="color: #e60012">請輸入正確員工號</div>
@@ -183,7 +185,7 @@
                     <ng-container i18n>起始日期</ng-container>
                   </label>
                   <div class="col-md-8 ">
-                    <div class="row writerow">
+                    <div class="row ">
                       <div class="col-md-10 col-xs-10" style="padding: 0px">
                         <input [matDatepicker]="StartDatePicker" id="id_ipt_startday" type="text" class="form-control"
                           style="background-color: #ffffff;" placeholder="年/月/日" formControlName="StartDate" />
@@ -246,7 +248,7 @@
                     <ng-container i18n>結束日期</ng-container>
                   </label>
                   <div class="col-md-8">
-                    <div class="row writerow">
+                    <div class="row ">
                       <div class="col-md-10 col-xs-10" style="padding: 0px">
                         <input [matDatepicker]="EndDatePicker" id="id_ipt_endday" type="text" class="form-control"
                           style="background-color: #ffffff" placeholder="年/月/日" formControlName="EndDate">
@@ -310,7 +312,7 @@
                     <ng-container i18n>申請類型</ng-container>
                   </label>
                   <div class="col-md-8">
-                    <div class="row writerow">
+                    <div class="row ">
                       <select class="form-control" style="width:70%" formControlName="OtCat">
                         <option value="1">加班費</option>
                         <option value="2">補休假</option>
@@ -344,7 +346,7 @@
                         上次事件發生日
                       </label>
                       <div class="col-md-8">
-                        <div class="row writerow">
+                        <div class="row ">
                           <div>2019/08/08</div>
                           <div>2019/08/09</div>
                           <div>2019/08/10</div>
@@ -361,7 +363,7 @@
                     <ng-container i18n>加班原因</ng-container>
                   </label>
                   <div class="col-md-8">
-                    <div class="row writerow">
+                    <div class="row ">
                       <select class="form-control" style="width:70%" formControlName="CauseID">
                         <option *ngFor="let order of CauseOption; let i = index" [value]="order.CauseID">
                           {{order.CauseNameC}}
@@ -375,12 +377,8 @@
                     <ng-container i18n>上傳附件</ng-container>
                   </label>
                   <div class="col-md-9 oneintwocontent">
-                    <!-- <button class="btn btn-default" style="padding: 5px 15px;" data-toggle="modal" data-target="#uploadfiledialog">瀏覽...</button> -->
-
                     <app-fileuploadbutton (fileChange)="onSaveFile($event)"></app-fileuploadbutton>
-
                     <br class="br_phone" />
-                    <!-- <button (click)="qlog()">checkfile</button> -->
                   </div>
                 </div>
               </div>
@@ -394,7 +392,6 @@
                   <ng-container i18n>備註</ng-container>
                 </label>
                 <div class="col-md-8  noteWrite">
-                  <!-- <button class="btn btn-default" style="padding: 5px 15px;">瀏覽...</button> -->
                   <textarea id="cause" class="inputTextarea" style="overflow-y: auto" placeholder="" maxlength="1000"
                     formControlName="Note"></textarea>
                 </div>
@@ -411,7 +408,7 @@
               <div class="col-md-12 col-xs-12">
                 <div class="col-md-2 control-label" style="padding-left: 0px">
                 </div>
-                <div class="col-md-8 writerow">
+                <div class="col-md-8 ">
                   <div style="margin-bottom: 10px">
                     <div (click)="showOtform()" style="display: inline-block;vertical-align: bottom;cursor: pointer">
                       <img src="./assets/images-template/icon-add.png" />
