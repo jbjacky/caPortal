@@ -7,7 +7,8 @@ import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.s
 import { takeWhile } from 'rxjs/operators';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { doFormatDate, reSplTimeHHmm } from 'src/app/UseVoid/void_doFormatDate';
-import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { isValidTime } from 'src/app/UseVoid/void_isVaildDatetime';
 
 declare let $: any; //use jquery
 @Component({
@@ -68,13 +69,12 @@ export class RmCardFormTempComponent implements OnInit, AfterViewInit, OnDestroy
   constructor(private GetApiDataServiceService: GetApiDataServiceService, private fb: FormBuilder) {
     var data: rmCardTempFormClass = {
       'rcFirstCardDate': ['', Validators.required],
-      'rcFirstCardTime': ['', Validators.required],
+      'rcFirstCardTime': ['', this.checkTime()],
       'rcCause': ['', Validators.required],
       'rcUploadData': [[]],
       'rcNote': ['']
     }
     this.rmCardTempForm = this.fb.group(data)
-
   }
   selectOnWorkArray = []
   selectOffWorkArray = []
@@ -122,6 +122,19 @@ export class RmCardFormTempComponent implements OnInit, AfterViewInit, OnDestroy
         // console.log(data)
       })
 
+  }
+  
+  checkTime(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      // console.log(control.value)
+      if (!control.value) {
+        return { 'forbiddenName': 'timeNull' }
+      } else if (!isValidTime(control.value)) {
+        return { 'forbiddenName': 'timeFail' }
+      } else {
+        return null
+      }
+    };
   }
 
 

@@ -87,6 +87,7 @@ import { GetFlowSignAbsGetApiClass, GetFlowSignAbsDataGetApiClass } from '../Mod
 import { GetCheckAgentByTargetGetApiClass } from '../Models/PostData_API_Class/GetCheckAgentByTargetGetApiClass';
 import { AttendUnusualSaveAndFlowStartClass } from '../Models/PostData_API_Class/AttendUnusualSaveAndFlowStart';
 import { CardPatchSaveAndFlowStartClass } from '../Models/PostData_API_Class/CardPatchSaveAndFlowStartClass';
+import { SaveAndFlowStartCombineClass } from '../Models/PostData_API_Class/SaveAndFlowStartCombineClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -1892,6 +1893,18 @@ export class GetApiDataServiceService {
   getWebApiData_GetFlowViewCardPatch(GetFlowView: GetFlowViewClass) {
     return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/GetFlowViewCardPatch',
       JSON.stringify(GetFlowView), {
+      headers: this.GetHeader()
+    })
+  }
+
+
+  
+  /**
+   * @todo 考勤修正單(合併)-儲存並起單
+   */
+  getWebApiData_SaveAndFlowStartCombine(SaveAndFlowStartCombine: SaveAndFlowStartCombineClass[]) {
+    return this.http.post(this.localUrl + 'Flow/AttendUnusualFlowHandler.svc/SaveAndFlowStartCombine',
+      JSON.stringify(SaveAndFlowStartCombine), {
       headers: this.GetHeader()
     })
   }

@@ -256,7 +256,7 @@
               <div style="color: rgb(150, 149, 148);">
                 <ng-container i18n>應下班時間</ng-container>
               </div>
-              <div style="display: inline-block;padding-right: 10px">{{Attend.ActualRote_OffTime}}</div>
+              <div style="display: inline-block;">{{Attend.ActualRote_OffTime}}</div>
               <div *ngIf="Attend.ActualRote_calCrossDay" style="display: inline-block;
                   height: 20px;
                   font-size: 13px;
@@ -274,8 +274,8 @@
               <div [style.color]="Attend.UiAttendColor.RAttendOnTimeTitle">
                 <ng-container i18n>到勤時間</ng-container>
               </div>
-              <div [style.color]="Attend.UiAttendColor.RAttendOnTimeContent">
-                <div *ngIf="Attend.AttendCard_OnTime.length>0" style="display: inline-block;padding-right: 10px">
+              <div [style.color]="Attend.UiAttendColor.RAttendOnTimeContent"  style="display: inline-block;">
+                <div *ngIf="Attend.AttendCard_OnTime.length>0" style="display: inline-block;">
                   {{Attend.AttendCard_OnTime}}
                 </div>
                 <div *ngIf="Attend.AttendCard_OnTime.length==0">
@@ -299,10 +299,10 @@
                 <ng-container i18n>離勤時間</ng-container>
               </div>
               <div>
-                <div [style.color]="Attend.UiAttendColor.ROffTimeContent">
+                <div [style.color]="Attend.UiAttendColor.ROffTimeContent" style="display: inline-block;">
                     <div *ngIf="Attend.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px">
                       {{Attend.AttendCard_OffTime}}</div>
-                    <div *ngIf="Attend.AttendCard_OffTime.length==0" style="display: inline-block;padding-right: 10px">
+                    <div *ngIf="Attend.AttendCard_OffTime.length==0" style="display: inline-block;">
                       <ng-container i18n>無</ng-container>
                     </div>
                 </div>
@@ -324,13 +324,13 @@
               <div style="color: rgb(150, 149, 148);">
                 <ng-container i18n>請假單</ng-container>
               </div>
-              <div><a>請假單</a></div>
+              <div><a>查閱</a></div>
             </div>
             <div class="col-md-4 col-xs-6" style="padding:0">
               <div style="color: rgb(150, 149, 148)">
                 <ng-container i18n>加班單</ng-container>
               </div>
-              <div><a>加班單</a></div>
+              <div><a>查閱</a></div>
             </div>
             <div class="col-md-4 col-xs-12 P_topTen">
               <div style="color: rgb(150, 149, 148);">

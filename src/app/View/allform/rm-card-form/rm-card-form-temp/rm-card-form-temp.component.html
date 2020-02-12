@@ -5,6 +5,7 @@
     <!-- 欲補卡日期 -->
     <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
       <label class="col-md-2 control-label" style="text-align: right;padding-top: 7px">
+        <span class="form-must-fill">*</span>
         <ng-container i18n>欲補卡日期</ng-container>
       </label>
       <div class="col-md-4">
@@ -17,11 +18,12 @@
         </div>
       </div>
       <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 7px">
+        <span class="form-must-fill">*</span>
         <ng-container i18n>時間</ng-container>
       </label>
       <div class="col-md-4 col-xs-12 ">
         <div class="col-md-10 col-xs-10 P_paddingZ">
-          <input [id]="id_ipt_endtime"  type="text" class="form-control" formControlName="rcFirstCardTime"
+          <input [id]="id_ipt_endtime" type="text" class="form-control" formControlName="rcFirstCardTime"
             [textMask]="EndTimeMask()" placeholder="範例:08:00" autocomplete="off">
         </div>
         <div class="col-md-2 col-xs-2" style="padding: 0px">
@@ -33,6 +35,10 @@
                                     height: 40px;
                                     padding: 0px;
                                     " class="bt_disable">
+        </div>
+        <div *ngIf="rcFirstCardTime.dirty">
+          <div *ngIf="rcFirstCardTime.getError('forbiddenName') == 'timeNull'" style="color: #e60012">請輸入時間</div>
+          <div *ngIf="rcFirstCardTime.getError('forbiddenName') == 'timeFail'" style="color: #e60012">時間格式錯誤</div>
         </div>
       </div>
     </div>
