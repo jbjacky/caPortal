@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { uploadFileClass } from 'src/app/Models/uploadFileClass';
-import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { AttendCard } from 'src/app/Models/AttendCard';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { takeWhile } from 'rxjs/operators';
@@ -30,7 +28,7 @@ export class RmCardFormTempComponent implements OnInit, AfterViewInit, OnDestroy
   get rcFirstCardDate() { return this.rmCardTempForm.get('rcFirstCardDate') }
   get rcFirstCardTime() { return this.rmCardTempForm.get('rcFirstCardTime') }
   get rcUploadData() { return this.rmCardTempForm.get('rcUploadData') }
-  get rcCause() { return this.rmCardTempForm.get('rcCause') }
+  get rcCauseID() { return this.rmCardTempForm.get('rcCauseID') }
 
   id_ipt_endtime: string
   id_bt_endtime: string
@@ -57,28 +55,33 @@ export class RmCardFormTempComponent implements OnInit, AfterViewInit, OnDestroy
   }
   @ViewChild('EndTimeView') EndTimeView: ElementRef;
   changeEndTimeView() {
-    if(this.rcFirstCardTime.value == ''){
+    if (this.rcFirstCardTime.value == '') {
       this.rcFirstCardTime.setValue('00:00')
     }
-    this.endTimeDropper[0].myprop1(reSplTimeHHmm(this.rcFirstCardTime.value).HH,reSplTimeHHmm(this.rcFirstCardTime.value).mm);
+    if (!($(('#') + this.id_ipt_endtime).hasClass("uiTimeDropper"))) {
+      $(('#') + this.id_ipt_endtime).addClass("uiTimeDropper")
+    }
+    this.endTimeDropper[0].myprop1(reSplTimeHHmm(this.rcFirstCardTime.value).HH, reSplTimeHHmm(this.rcFirstCardTime.value).mm);
     $(this.EndTimeView.nativeElement)
       .on('change', (e, args) => {
         this.rcFirstCardTime.setValue($("#" + this.id_bt_endtime).val())
       });
   }
   constructor(private GetApiDataServiceService: GetApiDataServiceService, private fb: FormBuilder) {
+    var UploadData: Array<uploadFileClass> = []
     var data: rmCardTempFormClass = {
-      'rcFirstCardDate': ['', Validators.required],
-      'rcFirstCardTime': ['', this.checkTime()],
-      'rcCause': ['', Validators.required],
-      'rcUploadData': [[]],
-      'rcNote': ['']
+      'rcFirstCardDate': new FormControl('', Validators.required),
+      'rcFirstCardTime': new FormControl('', this.checkTime()),
+      'rcCauseID': new FormControl('', Validators.required),
+      'rcCauseName': '',
+      'rcUploadData': new FormControl(UploadData),
+      'rcNote': new FormControl('')
     }
     this.rmCardTempForm = this.fb.group(data)
   }
   selectOnWorkArray = []
   selectOffWorkArray = []
-  Cause = []
+  CauseArray = []
   onSaveFile(event: Array<uploadFileClass>) {
     this.rcUploadData.setValue(event)
     // console.log(this.UploadFile)
@@ -92,7 +95,7 @@ export class RmCardFormTempComponent implements OnInit, AfterViewInit, OnDestroy
         (data: any) => {
           // console.log(this.getAttendCard)
           for (let x of data) {
-            this.Cause.push({ CauseID: x.CauseID, CauseNameC: x.CauseNameC })
+            this.CauseArray.push({ CauseID: x.CauseID, CauseNameC: x.CauseNameC })
           }
           this.selectOnWorkArray = []
 
@@ -106,7 +109,7 @@ export class RmCardFormTempComponent implements OnInit, AfterViewInit, OnDestroy
           caloffDate.setDate(caloffDate.getDate() + 1)
           this.selectOffWorkArray.push(doFormatDate(caloffDate))
 
-          this.rcCause.setValue(this.Cause[0].CauseID)
+          this.rcCauseID.setValue(this.CauseArray[0].CauseID)
           this.rcFirstCardDate.setValue(this.selectOnWorkArray[0])
         }
       )
@@ -114,16 +117,27 @@ export class RmCardFormTempComponent implements OnInit, AfterViewInit, OnDestroy
     this.rmCardTempForm.valueChanges
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe((rmCardTempForm: rmCardTempFormClass) => {
+        var Cause = this.CauseArray.filter(item => {
+          return item.CauseID == rmCardTempForm.rcCauseID
+        })
+        rmCardTempForm.rcCauseName = Cause[0].CauseNameC
         var data: rmCardTempFormStateClass = {
           FormState: this.rmCardTempForm.status,
           rmCardTempFormData: rmCardTempForm
         }
         this.formChange.emit(data);
-        // console.log(data)
+        // console.log(this.rmCardTempForm)
       })
 
+    this.rcFirstCardDate.valueChanges
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (chooseDate: string) => {
+          this.rcFirstCardTime.updateValueAndValidity()
+        }
+      )
   }
-  
+
   checkTime(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       // console.log(control.value)
@@ -131,12 +145,26 @@ export class RmCardFormTempComponent implements OnInit, AfterViewInit, OnDestroy
         return { 'forbiddenName': 'timeNull' }
       } else if (!isValidTime(control.value)) {
         return { 'forbiddenName': 'timeFail' }
+      } else if (this.isInCardTimeRange()) {
+        return { 'forbiddenName': 'timeInCardTimeRange' }
       } else {
         return null
       }
     };
   }
+  isInCardTimeRange() {
+    if (this.getAttendCard.AttendCard_OnDateTime && this.getAttendCard.AttendCard_OffDateTime) {
+      var AttendCard_OnDateTime = new Date(this.getAttendCard.AttendCard_OnDateTime)
+      var AttendCard_OffDateTime = new Date(this.getAttendCard.AttendCard_OffDateTime)
 
+      var iptDateTime = new Date(this.rcFirstCardDate.value + ' ' + this.rcFirstCardTime.value)
+      if (iptDateTime > AttendCard_OnDateTime && iptDateTime < AttendCard_OffDateTime) {
+        return true
+      }
+    } else {
+      return false
+    }
+  }
 
 }
 export interface rmCardTempFormStateClass {
@@ -144,9 +172,10 @@ export interface rmCardTempFormStateClass {
   rmCardTempFormData: rmCardTempFormClass
 }
 export interface rmCardTempFormClass {
-  rcFirstCardDate: string | ValidationErrors,
-  rcFirstCardTime: string | ValidationErrors,
-  rcCause: string | ValidationErrors,
-  rcUploadData: Array<uploadFileClass> | ValidationErrors,
-  rcNote: string | ValidationErrors
+  rcFirstCardDate: FormControl,
+  rcFirstCardTime: FormControl,
+  rcCauseID: FormControl,
+  rcCauseName: string,
+  rcUploadData: FormControl,
+  rcNote: FormControl
 }

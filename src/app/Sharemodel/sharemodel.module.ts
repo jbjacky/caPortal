@@ -63,6 +63,7 @@ import { SearchAttendUnusualFormDetailComponent } from '../View/shareComponent/s
 import { SearchCardPatchFormComponent } from '../View/shareComponent/search-card-patch-form/search-card-patch-form.component';
 import { SearchCardPatchDetailComponent } from '../View/shareComponent/search-card-patch-detail/search-card-patch-detail.component';
 import { RmCardFormTempComponent } from '../View/allform/rm-card-form/rm-card-form-temp/rm-card-form-temp.component';
+import { CardFormTempComponent } from '../View/allform/rm-card-form/card-form-temp/card-form-temp.component';
 
 @NgModule({
   imports: [
@@ -133,6 +134,7 @@ import { RmCardFormTempComponent } from '../View/allform/rm-card-form/rm-card-fo
     SearchRoteSumComponent,
     RoteInfComponent,
     RmCardFormTempComponent,
+    CardFormTempComponent,
     
     SussesSnackComponent,
     ErrorSnackComponent,
@@ -191,6 +193,7 @@ import { RmCardFormTempComponent } from '../View/allform/rm-card-form/rm-card-fo
     SearchRoteSumComponent,
     RoteInfComponent,
     RmCardFormTempComponent,
+    CardFormTempComponent,
     
     SussesSnackComponent,
     ErrorSnackComponent,

@@ -18,6 +18,7 @@ import { CardPatchSaveAndFlowStartClass } from 'src/app/Models/PostData_API_Clas
 import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 import { rmCardTempFormStateClass } from '../rm-card-form-temp/rm-card-form-temp.component';
 import { SaveAndFlowStartCombineClass, AttendUnusualFlowApp, CardFlowApp } from 'src/app/Models/PostData_API_Class/SaveAndFlowStartCombineClass';
+import { CardTempFormStateClass } from '../card-form-temp/card-form-temp.component';
 
 declare let $: any; //use jquery
 
@@ -29,6 +30,11 @@ declare let $: any; //use jquery
 export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestroy {
   startTimeDropper: any
   endTimeDropper: any
+
+  CardFormTemp: CardTempFormStateClass
+  CardForm(event) {
+    this.CardFormTemp = event
+  }
 
   OnBeforeMinsF: rmCardTempFormStateClass
   OffAfterMinsF: rmCardTempFormStateClass
@@ -49,12 +55,6 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
   }
   exampleHeader = ExampleHeader //日期套件header
   ngOnDestroy(): void {
-    if (this.StartTimeView) {
-      $(this.StartTimeView.nativeElement).off('change');
-    }
-    if (this.EndTimeView) {
-      $(this.EndTimeView.nativeElement).off('change');
-    }
     this.api_subscribe = false;
   }
   api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
@@ -65,17 +65,6 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
 
   ActualRote_calCrossDay: boolean = false //出勤是否跨天
   AttendCard_calCrossDay: boolean = false //刷卡紀錄是否跨天
-
-  sendForgetForm: sendForgetForm = new sendForgetForm();
-
-  Cause = []
-
-  errorStartDate = { state: false, errorString: '' };
-  errorStartTime = { state: false, errorString: '' };
-  errorEndDate = { state: false, errorString: '' };
-  errorEndTime = { state: false, errorString: '' };
-  errorCause = { state: false, errorString: '' };
-  errorSigner = { state: false, errorString: '' };
 
   @Input() getAttendCard: AttendCard;
   @Output() outputWriteforgetformChange: EventEmitter<any> = new EventEmitter<any>();//返回修改按鈕
@@ -150,7 +139,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
             return true
         }
       }
-      if((this.cR_OnBeforeMins == 3 || this.cR_OffAfterMins == 3 || this.cR_EarlyMins == 2 || this.cR_LateMins == 2) && !this.FlowDynamic_Base){
+      if ((this.cR_OnBeforeMins == 3 || this.cR_OffAfterMins == 3 || this.cR_EarlyMins == 2 || this.cR_LateMins == 2) && !this.FlowDynamic_Base) {
         return true
       }
       return false
@@ -203,7 +192,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
         }
       }
     }
-    if((this.cR_OnBeforeMins == 3 || this.cR_OffAfterMins == 3 || this.cR_EarlyMins == 2 || this.cR_LateMins == 2) && !this.FlowDynamic_Base){
+    if ((this.cR_OnBeforeMins == 3 || this.cR_OffAfterMins == 3 || this.cR_EarlyMins == 2 || this.cR_LateMins == 2) && !this.FlowDynamic_Base) {
       return true
     }
     return false
@@ -228,38 +217,10 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
       this.cR_LateMins = 0
     }
   }
-  adata = []
+
+
   ngOnInit() {
     this.Sub_onChangeSignMan$.next(this.getAttendCard.forget_man_code)
-
-    this.GetApiDataServiceService.getWebApiData_GetCauseByForm()
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (data: any) => {
-          // console.log(this.getAttendCard)
-          for (let x of data) {
-            this.Cause.push({ CauseID: x.CauseID, CauseNameC: x.CauseNameC })
-          }
-
-          this.selectOnWorkArray = []
-          this.sendForgetForm.CauseID1 = data[0].CauseID
-          this.sendForgetForm.CauseName1 = data[0].CauseNameC
-
-          var calonDate = new Date(this.getAttendCard.AttendDate)
-          this.selectOnWorkArray.push(doFormatDate(calonDate))
-          calonDate.setDate(calonDate.getDate() - 1)
-          this.selectOnWorkArray.push(doFormatDate(calonDate))
-
-          var caloffDate = new Date(this.getAttendCard.AttendDate)
-          this.selectOffWorkArray.push(doFormatDate(caloffDate))
-          caloffDate.setDate(caloffDate.getDate() + 1)
-          this.selectOffWorkArray.push(doFormatDate(caloffDate))
-
-          this.OnWorkDate = this.selectOnWorkArray[0]
-          this.OffWorkDate = this.selectOffWorkArray[0]
-
-        }
-      )
   }
 
 
@@ -273,251 +234,139 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
     this.FlowDynamic_Base = GetSelectBase
   }
 
-  chooseCause(event) {
-    var id = event.target.value
-    var id_name = this.Cause.filter(item => {
-      return item.CauseID == parseInt(id)
-    });
-    var name: string = id_name[0].CauseNameC.toString()
-
-    this.sendForgetForm.CauseID1 = id;
-    this.sendForgetForm.CauseName1 = name.trim()
-  }
-
-  startDateTimeChange() {
-    $('#id_ipt_startday').val('')
-    $('#id_ipt_starttime').val('')
-    $("#id_bt_starttime").unbind();
-
-    this.errorStartDate = { state: false, errorString: '' };
-    this.errorStartTime = { state: false, errorString: '' };
-
-    $("#id_bt_startday").change(function () {
-      $("#id_ipt_startday").val($("#id_bt_startday").val())
-    });
-
-    this.startTimeDropper = $("#id_bt_starttime").timeDropper({
-      format: 'HH:mm',
-      autoswitch: false,
-      mousewheel: true,
-      setCurrentTime: false
-    });
-
-    $("#id_bt_starttime").change(function () {
-      $("#id_ipt_starttime").val($("#id_bt_starttime").val());
-    });
-  }
-
-  endDateTimeChange() {
-    $('#id_ipt_endday').val('')
-    $('#id_ipt_endtime').val('')
-    $("#id_bt_endtime").unbind();
-
-    this.errorEndDate = { state: false, errorString: '' };
-    this.errorEndTime = { state: false, errorString: '' };
-
-
-    this.endTimeDropper = $("#id_bt_endtime").timeDropper({
-      format: 'HH:mm',
-      autoswitch: false,
-      mousewheel: true,
-      setCurrentTime: false
-    });
-
-    $("#id_bt_endtime").change(function () {
-      $("#id_ipt_endtime").val($("#id_bt_endtime").val());
-    });
-  }
-  blurStartDate() {
-    if (this.goWork && $('#id_ipt_startday').val().length == 0) {
-      this.errorStartDate = { state: true, errorString: '請輸入實際到勤日期' };
-    } else if (!isValidDate($('#id_ipt_startday').val())) {
-      this.errorStartDate = { state: true, errorString: '日期格式不正確' };
-    } else {
-      this.errorStartDate = { state: false, errorString: '' }
-    }
-  }
-  blurStartTime() {
-    if (this.goWork && $('#id_ipt_starttime').val().length == 0) {
-      this.errorStartTime = { state: true, errorString: '請輸入實際到勤時間' }
-    } else if (!isValidTime($('#id_ipt_starttime').val())) {
-      this.errorStartTime = { state: true, errorString: '時間格式不正確' }
-    }
-    else {
-      this.errorStartTime = { state: false, errorString: '' }
-    }
-  }
-
-  blurEndDate() {
-    if (this.offWork && $('#id_ipt_endday').val().length == 0) {
-      this.errorEndDate = { state: true, errorString: '請輸入實際離勤日期' };
-    } else if (!isValidDate($('#id_ipt_endday').val())) {
-      this.errorEndDate = { state: true, errorString: '日期格式不正確' };
-    } else {
-      this.errorEndDate = { state: false, errorString: '' };
-    }
-  }
-
-  blurEndTime() {
-    if (this.offWork && $('#id_ipt_endtime').val().length == 0) {
-      this.errorEndTime = { state: true, errorString: '請輸入實際離勤時間' }
-    } else if (!isValidTime($('#id_ipt_endtime').val())) {
-      this.errorEndTime = { state: true, errorString: '日期格式不正確' }
-    }
-    else {
-      this.errorEndTime = { state: false, errorString: '' }
-    }
-  }
-
-  dayMask(): {
-    mask: Array<string | RegExp>;
-    keepCharPositions: boolean;
-  } {
-    return {
-      mask: [/[2]/, /[0]/, /\d/, /\d/, '/', /[0-1]/, /\d/, '/', /[0-3]/, /\d/],
-      keepCharPositions: true,
-    };
-  }
-
-  StartTimeMask(): {
-    mask: Array<string | RegExp>;
-    keepCharPositions: boolean;
-  } {
-    return {
-      mask: [/[0-2]/, $("#id_ipt_starttime").val() && parseInt($("#id_ipt_starttime").val()[0]) > 1 ? /[0-3]/ : /\d/, ':', /[0-5]/, /\d/],
-      keepCharPositions: true
-    };
-  }
-  EndTimeMask(): {
-    mask: Array<string | RegExp>;
-    keepCharPositions: boolean;
-  } {
-    return {
-      mask: [/[0-2]/, $("#id_ipt_endtime").val() && parseInt($("#id_ipt_endtime").val()[0]) > 1 ? /[0-3]/ : /\d/, ':', /[0-5]/, /\d/],
-      keepCharPositions: true
-    };
-  }
-
-  @ViewChild('StartTimeView') StartTimeView: ElementRef;
-  changeStartTimeView() {
-    this.startTimeDropper[0].myprop1(reSplTimeHHmm($("#id_ipt_starttime").val()).HH, reSplTimeHHmm($("#id_ipt_starttime").val()).mm);
-    $(this.StartTimeView.nativeElement)
-      .on('change', (e, args) => {
-        $("#id_ipt_starttime").val($("#id_bt_starttime").val());
-        this.blurStartTime();
-      });
-  }
-
-  @ViewChild('EndTimeView') EndTimeView: ElementRef;
-  changeEndTimeView() {
-    this.endTimeDropper[0].myprop1(reSplTimeHHmm($("#id_ipt_endtime").val()).HH, reSplTimeHHmm($("#id_ipt_endtime").val()).mm);
-    $(this.EndTimeView.nativeElement)
-      .on('change', (e, args) => {
-        $("#id_ipt_endtime").val($("#id_bt_endtime").val());
-        this.blurEndTime();
-      });
-  }
-
-  forgetShowCheckText = ''
-  forgetShowCheckFlowText = ''
-  checkError() {
-    // console.log(this.OnWorkDate)
-    // console.log(this.OffWorkDate)
-    var all: number = 0
-    for (let up of this.UploadFile) {
-      all += (+up.Size)
-    }
-    if (all > 10485760) {
-      alert('檔案不能超過10MB')
+  checkCardFormDisable() {
+    if (!this.CardFormTemp) {
+      return true
+    } else if (this.CardFormTemp.FormState != 'VALID') {
+      return true
     } else if (!this.FlowDynamic_Base) {
-      alert('請選擇簽核人員')
-    } else if (this.goWork && $('#id_ipt_starttime').val().length == 0) {
-      this.errorStartTime = { state: true, errorString: '請輸入實際到勤時間' };
-    } else if (this.offWork && $('#id_ipt_endtime').val().length == 0) {
-      this.errorEndTime = { state: true, errorString: '請輸入實際離勤時間' };
-    } else if (!this.sendForgetForm.CauseID1) {
-      this.errorCause = { state: true, errorString: '請選擇異常原因' };
-    } else if (!this.goWork && !this.offWork) {
-      alert('請補到勤時間或補離勤時間')
+      return true
+    } else if (!this.CardFormTemp.CardTempFormData.goWork && !this.CardFormTemp.CardTempFormData.offWork) {
+      return true
     } else {
-      if (this.getAttendCard.AttendCard_OnDateTime && this.getAttendCard.AttendCard_OffDateTime) {
-        var AttendCard_OnDateTime = new Date(this.getAttendCard.AttendCard_OnDateTime)
-        var AttendCard_OffDateTime = new Date(this.getAttendCard.AttendCard_OffDateTime)
-        var write_start_First = new Date(doFormatDate(this.OnWorkDate) + ' ' + $('#id_ipt_starttime').val())
-        var write_end_First = new Date(doFormatDate(this.OffWorkDate) + ' ' + $('#id_ipt_endtime').val())
-        if (write_start_First > AttendCard_OnDateTime && write_start_First < AttendCard_OffDateTime) {
-          alert('補到勤刷卡時間不能在刷卡期間')
-        } else if (write_end_First > AttendCard_OnDateTime && write_end_First < AttendCard_OffDateTime) {
-          alert('補離勤刷卡時間不能在刷卡期間')
-        } else {
-          $('#checksenddialog').modal('show');
-        }
-      } else {
-        $('#checksenddialog').modal('show');
-      }
+      return false
     }
+  }
+  checkError() {
+    $('#checksenddialog').modal('show');
   }
   onSubmit() {
-    var SaveAndFlowStart: SaveAndFlowStartClass = new SaveAndFlowStartClass();
-    SaveAndFlowStart.EmpID = this.getAttendCard.forget_man_code.toString()
-    SaveAndFlowStart.EmpNameC = this.getAttendCard.forget_man_name
-    SaveAndFlowStart.Date = this.getAttendCard.AttendDate
-    if (this.goWork) {
-      SaveAndFlowStart.DateB = this.OnWorkDate
-      SaveAndFlowStart.TimeB = sumbit_formatTimetoString($('#id_ipt_starttime').val())
-      var DateTime_nB = new Date(this.OnWorkDate + ' ' + $('#id_ipt_starttime').val())
-      SaveAndFlowStart.DateTimeB = DateTime_nB.toJSON()
+    var ErrorStateCode
+    var ErrorStateName
+    if (this.getAttendCard.IsAbsent) {
+      ErrorStateCode = 3
+      ErrorStateName = '未刷卡'
     } else {
-      SaveAndFlowStart.DateB = ''
-      SaveAndFlowStart.TimeB = ''
-      SaveAndFlowStart.DateTimeB = ''
+      ErrorStateCode = 0
+      ErrorStateName = '正常'
     }
-    if (this.offWork) {
-      SaveAndFlowStart.DateE = this.OffWorkDate
-      SaveAndFlowStart.TimeE = sumbit_formatTimetoString($('#id_ipt_endtime').val())
-      var DateTime_nE = new Date(this.OffWorkDate + ' ' + $('#id_ipt_endtime').val())
-      SaveAndFlowStart.DateTimeE = DateTime_nE.toJSON()
-    } else {
-      SaveAndFlowStart.DateE = ''
-      SaveAndFlowStart.TimeE = ''
-      SaveAndFlowStart.DateTimeE = ''
+    var DateTimeB = ''
+    var DateTimeE = ''
+    if (this.CardFormTemp.CardTempFormData.rcFirstCardDate && this.CardFormTemp.CardTempFormData.rcFirstCardTime) {
+      DateTimeB = new Date(this.CardFormTemp.CardTempFormData.rcFirstCardDate + ' ' + this.CardFormTemp.CardTempFormData.rcFirstCardTime).toJSON()
     }
-    SaveAndFlowStart.UploadFile = this.UploadFile
+    if (this.CardFormTemp.CardTempFormData.rcSecondCardDate && this.CardFormTemp.CardTempFormData.rcSecondCardTime) {
+      DateTimeE = new Date(this.CardFormTemp.CardTempFormData.rcSecondCardDate + ' ' + this.CardFormTemp.CardTempFormData.rcSecondCardTime).toJSON()
+    }
+    var SaveAndFlowStartCombine: SaveAndFlowStartCombineClass[] = [
+      {
+        "AttendUnusualFlowApp": null,
+        "CardFlowApp": {
+          "FlowApps": [
+            {
+              "EmpID": this.getAttendCard.forget_man_code.toString(),
+              "EmpCode": this.getAttendCard.forget_man_code.toString(),
+              "EmpNameC": this.getAttendCard.forget_man_name,
+              "Date": this.getAttendCard.AttendDate,
+              "RoteDateTimeB": this.getAttendCard.ActualRote_OnDateTime ? this.getAttendCard.ActualRote_OnDateTime : '',
+              "RoteDateTimeE": this.getAttendCard.ActualRote_OffDateTime ? this.getAttendCard.ActualRote_OffDateTime : '',
+              "CardDateTimeB": this.getAttendCard.AttendCard_OnDateTime ? this.getAttendCard.AttendCard_OnDateTime : '',
+              "CardDateTimeE": this.getAttendCard.AttendCard_OffDateTime ? this.getAttendCard.AttendCard_OffDateTime : '',
+              "DateB": this.CardFormTemp.CardTempFormData.rcFirstCardDate ? this.CardFormTemp.CardTempFormData.rcFirstCardDate.valueOf().toString() : '',
+              "DateE": this.CardFormTemp.CardTempFormData.rcSecondCardDate ? this.CardFormTemp.CardTempFormData.rcSecondCardDate.valueOf().toString() : '',
+              "TimeB": this.CardFormTemp.CardTempFormData.rcFirstCardTime ? sumbit_formatTimetoString(this.CardFormTemp.CardTempFormData.rcFirstCardTime.valueOf().toString()) : '',
+              "TimeE": this.CardFormTemp.CardTempFormData.rcSecondCardTime ? sumbit_formatTimetoString(this.CardFormTemp.CardTempFormData.rcSecondCardTime.valueOf().toString()) : '',
+              "DateTimeB": DateTimeB,
+              "DateTimeE": DateTimeE,
+              "CauseID1": parseInt(this.CardFormTemp.CardTempFormData.rcCauseID.valueOf().toString()),
+              "CauseName1": this.CardFormTemp.CardTempFormData.rcCauseName,
+              "CauseID2": 0,
+              "CauseName2": "",
+              "Note": this.CardFormTemp.CardTempFormData.rcNote.toString(),
+              "Info": "",
+              "MailBody": "",
+              "State": "1",
+              "UploadFile": this.CardFormTemp.CardTempFormData.rcUploadData,
+              "ExceptionalCode": this.getExceptional().ExceptionalCode,
+              "ExceptionalName": this.getExceptional().ExceptionalName, //有異常但沒註記
+              "ExceptionalCodeCancel": this.getExceptional().ExceptionalCodeCancel,
+              "ExceptionalNameCancel": this.getExceptional().ExceptionalNameCancel, //有異常且已經註記
+              "ErrorStateCode": ErrorStateCode,
+              "ErrorStateName": ErrorStateName
+            }
+          ],
+          "EmpID": this.getAttendCard.write_man_code,
+          "EmpCode": this.getAttendCard.write_man_code,
+          "EmpNameC": this.getAttendCard.write_man_name,
+          "State": "1"
+        },
+        "FlowDynamic": {
+          "FlowNode": "519",
+          "RoleID": "",
+          "EmpID": this.FlowDynamic_Base.EmpID,
+          "DeptID": this.FlowDynamic_Base.DeptaID.toString(),
+          "PosID": this.FlowDynamic_Base.JobID.toString()
+        },
+        "ErrorState": ErrorStateName
+      }
+    ]
+    console.log(SaveAndFlowStartCombine)
+    // this.LoadingPage.show()
+    // this.GetApiDataServiceService.getWebApiData_SaveAndFlowStartCombine(SaveAndFlowStartCombine)
+    //   .pipe(takeWhile(() => this.api_subscribe))
+    //   .subscribe((ResponeStateArray: ResponeStateClass[]) => {
+    //     // console.log(SaveAndFlowStart)
+    //     if (ResponeStateArray[0].isOK) {
+    //       $('#sussesdialog').modal('show');
+    //     } else {
+    //       var errMsg = ''
+    //       for (let e of ResponeStateArray[0].ErrorMsg) {
+    //         errMsg += e + '。 '
+    //       }
+    //       alert(errMsg);
+    //     }
+    //     this.LoadingPage.hide()
+    //   },
+    //     error => {
+    //       this.LoadingPage.hide()
+    //     })
+
+  }
+
+  getExceptional() {
 
     var ExceptionalCode = ''
     var ExceptionalName = ''
-    var ErrorStateCode = ''
-    var ErrorStateName = ''
 
     if (this.getAttendCard.LateMins && !this.getAttendCard.EliminateLate) {
       ExceptionalCode += '1,'
-      ExceptionalName += '早退,'
-      ErrorStateCode = '1'
-      ErrorStateName = '早退'
+      ExceptionalName += '遲到,'
     }
     if (this.getAttendCard.EarlyMins && !this.getAttendCard.EliminateEarly) {
       ExceptionalCode += '2,'
-      ExceptionalName += '遲到,'
-      ErrorStateCode = '2'
-      ErrorStateName = '遲到'
+      ExceptionalName += '早退,'
     }
     if (this.getAttendCard.IsAbsent && !this.getAttendCard.EliminateAbsent) {
       ExceptionalCode += '3,'
       ExceptionalName += '未刷卡,'
-      ErrorStateCode = '3'
-      ErrorStateName = '未刷卡'
     }
     if (this.getAttendCard.OnBeforeMins && !this.getAttendCard.EliminateOnBefore) {
       ExceptionalCode += '4,'
       ExceptionalName += '早到,'
-      ErrorStateCode = '4'
-      ErrorStateName = '早到'
     }
     if (this.getAttendCard.OffAfterMins && !this.getAttendCard.EliminateOffAfter) {
       ExceptionalCode += '5,'
       ExceptionalName += '晚退,'
-      ErrorStateCode = '5'
-      ErrorStateName = '晚退'
     } else if (
       (!this.getAttendCard.LateMins || (this.getAttendCard.LateMins && this.getAttendCard.EliminateLate)) &&
       (!this.getAttendCard.EarlyMins || (this.getAttendCard.EarlyMins && this.getAttendCard.EliminateEarly)) &&
@@ -528,8 +377,6 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
 
       ExceptionalCode += '0,'
       ExceptionalName += '正常,'
-      ErrorStateCode = '0'
-      ErrorStateName = '正常'
       if (this.getAttendCard.IsAbnormal) {
         ExceptionalCode += '-1,'
         ExceptionalName += '不判斷,'
@@ -540,11 +387,11 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
     var ExceptionalNameCancel = ''
     if (this.getAttendCard.EarlyMins && this.getAttendCard.EliminateEarly) {
       ExceptionalCodeCancel += '1,'
-      ExceptionalNameCancel += '早退,'
+      ExceptionalNameCancel += '遲到,'
     }
     if (this.getAttendCard.LateMins && this.getAttendCard.EliminateLate) {
       ExceptionalCodeCancel += '2,'
-      ExceptionalNameCancel += '遲到,'
+      ExceptionalNameCancel += '早退,'
     }
     if (this.getAttendCard.IsAbsent && this.getAttendCard.EliminateAbsent) {
       ExceptionalCodeCancel += '3,'
@@ -558,180 +405,19 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
       ExceptionalCodeCancel += '5,'
       ExceptionalNameCancel += '晚退,'
     }
-
-    SaveAndFlowStart.CauseID1 = this.sendForgetForm.CauseID1
-    SaveAndFlowStart.CauseName1 = this.sendForgetForm.CauseName1
-    SaveAndFlowStart.Note = this.sendForgetForm.Note
-    SaveAndFlowStart.ReviewEmpID = this.sendForgetForm.ReviewEmpID
-
-
-    if (this.FlowDynamic_Base) {
-      if (this.getAttendCard.ActualRote_OnDateTime === null) {
-        this.getAttendCard.ActualRote_OnDateTime = ''
-      }
-      if (this.getAttendCard.ActualRote_OffDateTime === null) {
-        this.getAttendCard.ActualRote_OffDateTime = ''
-      }
-      if (this.getAttendCard.AttendCard_OnDateTime === null) {
-        this.getAttendCard.AttendCard_OnDateTime = ''
-      }
-      if (this.getAttendCard.AttendCard_OffDateTime === null) {
-        this.getAttendCard.AttendCard_OffDateTime = ''
-      }
-
-      // console.log(ForgetSaveAndFlowStart)
-
-      // console.log(SaveAndFlowStart)
-      this.LoadingPage.show()
-
-      var SaveAndFlowStartCombine: SaveAndFlowStartCombineClass[] = [
-        {
-          "AttendUnusualFlowApp": null,
-          "CardFlowApp": {
-            "FlowApps": [
-              {
-                "EmpID": SaveAndFlowStart.EmpID,
-                "EmpCode": SaveAndFlowStart.EmpID,
-                "EmpNameC": SaveAndFlowStart.EmpNameC,
-                "Date": SaveAndFlowStart.Date,
-                "RoteDateTimeB": this.getAttendCard.ActualRote_OnDateTime,
-                "RoteDateTimeE": this.getAttendCard.ActualRote_OffDateTime,
-                "CardDateTimeB": this.getAttendCard.AttendCard_OnDateTime,
-                "CardDateTimeE": this.getAttendCard.AttendCard_OffDateTime,
-                "DateB": SaveAndFlowStart.DateB,
-                "DateE": SaveAndFlowStart.DateE,
-                "TimeB": SaveAndFlowStart.TimeB,
-                "TimeE": SaveAndFlowStart.TimeE,
-                "DateTimeB": SaveAndFlowStart.DateTimeB,
-                "DateTimeE": SaveAndFlowStart.DateTimeE,
-                "CauseID1": parseInt(SaveAndFlowStart.CauseID1),
-                "CauseName1": SaveAndFlowStart.CauseName1,
-                "CauseID2": parseInt(SaveAndFlowStart.CauseID1),
-                "CauseName2": SaveAndFlowStart.CauseName1,
-                "Note": SaveAndFlowStart.Note,
-                "Info": "",
-                "MailBody": "",
-                "State": "1",
-                "UploadFile": SaveAndFlowStart.UploadFile,
-                "ExceptionalCode": ExceptionalCode,
-                "ExceptionalName": ExceptionalName, //有異常但沒註記
-                "ExceptionalCodeCancel": ExceptionalCodeCancel,
-                "ExceptionalNameCancel": ExceptionalNameCancel, //有異常且已經註記
-                "ErrorStateCode": ErrorStateCode,
-                "ErrorStateName": ErrorStateName
-              }
-            ],
-            "EmpID": this.getAttendCard.write_man_code,
-            "EmpCode": this.getAttendCard.write_man_code,
-            "EmpNameC": this.getAttendCard.write_man_name,
-            "State": "1"
-          },
-          "FlowDynamic": {
-            "FlowNode": "519",
-            "RoleID": "",
-            "EmpID": this.FlowDynamic_Base.EmpID,
-            "DeptID": this.FlowDynamic_Base.DeptaID.toString(),
-            "PosID": this.FlowDynamic_Base.JobID.toString()
-          },
-          "ErrorState": ErrorStateName
-        }
-      ]
-
-      this.GetApiDataServiceService.getWebApiData_SaveAndFlowStartCombine(SaveAndFlowStartCombine)
-        .pipe(takeWhile(() => this.api_subscribe))
-        .subscribe((ResponeStateArray: ResponeStateClass[]) => {
-          // console.log(SaveAndFlowStart)
-          if (ResponeStateArray[0].isOK) {
-            $('#sussesdialog').modal('show');
-          } else {
-            var errMsg = ''
-            for (let e of ResponeStateArray[0].ErrorMsg) {
-              errMsg += e + '。 '
-            }
-            alert(errMsg);
-          }
-          this.LoadingPage.hide()
-        },
-          error => {
-            this.LoadingPage.hide()
-            // console.log(error)
-          })
-    } else {
-      alert('請選擇簽核人員')
+    return {
+      "ExceptionalCode": ExceptionalCode,
+      "ExceptionalName": ExceptionalName,
+      "ExceptionalCodeCancel": ExceptionalCodeCancel,
+      "ExceptionalNameCancel": ExceptionalNameCancel,
     }
-
   }
 
-
   checkStateSubmit() {
-    // console.log(this.OnBeforeMinsF.rmCardTempFormData)
-    // console.log(this.OffAfterMinsF)
-    // console.log(this.EarlyMinsF)
-    // console.log(this.LateMinsF)
     $('#errStateCheckDialog').modal('show')
   }
   onStateSubmit() {
 
-    var ExceptionalCode = ''
-    var ExceptionalName = ''
-
-    if (this.getAttendCard.LateMins && !this.getAttendCard.EliminateLate) {
-      ExceptionalCode += '1,'
-      ExceptionalName += '遲到,'
-    }
-    if (this.getAttendCard.EarlyMins && !this.getAttendCard.EliminateEarly) {
-      ExceptionalCode += '2,'
-      ExceptionalName += '早退,'
-    }
-    if (this.getAttendCard.IsAbsent && !this.getAttendCard.EliminateAbsent) {
-      ExceptionalCode += '3,'
-      ExceptionalName += '未刷卡,'
-    }
-    if (this.getAttendCard.OnBeforeMins && !this.getAttendCard.EliminateOnBefore) {
-      ExceptionalCode += '4,'
-      ExceptionalName += '早到,'
-    }
-    if (this.getAttendCard.OffAfterMins && !this.getAttendCard.EliminateOffAfter) {
-      ExceptionalCode += '5,'
-      ExceptionalName += '晚退,'
-    } else if (
-      (!this.getAttendCard.LateMins || (this.getAttendCard.LateMins && this.getAttendCard.EliminateLate)) &&
-      (!this.getAttendCard.EarlyMins || (this.getAttendCard.EarlyMins && this.getAttendCard.EliminateEarly)) &&
-      (!this.getAttendCard.IsAbsent || (this.getAttendCard.IsAbsent && this.getAttendCard.EliminateAbsent)) &&
-      (!this.getAttendCard.OnBeforeMins || (this.getAttendCard.OnBeforeMins && this.getAttendCard.EliminateOnBefore)) &&
-      (!this.getAttendCard.OffAfterMins || (this.getAttendCard.OffAfterMins && this.getAttendCard.EliminateOffAfter))
-    ) {
-
-      ExceptionalCode += '0,'
-      ExceptionalName += '正常,'
-      if (this.getAttendCard.IsAbnormal) {
-        ExceptionalCode += '-1,'
-        ExceptionalName += '不判斷,'
-      }
-    }
-
-    var ExceptionalCodeCancel = ''
-    var ExceptionalNameCancel = ''
-    if (this.getAttendCard.EarlyMins && this.getAttendCard.EliminateEarly) {
-      ExceptionalCodeCancel += '1,'
-      ExceptionalNameCancel += '遲到,'
-    }
-    if (this.getAttendCard.LateMins && this.getAttendCard.EliminateLate) {
-      ExceptionalCodeCancel += '2,'
-      ExceptionalNameCancel += '早退,'
-    }
-    if (this.getAttendCard.IsAbsent && this.getAttendCard.EliminateAbsent) {
-      ExceptionalCodeCancel += '3,'
-      ExceptionalNameCancel += '未刷卡,'
-    }
-    if (this.getAttendCard.OnBeforeMins && this.getAttendCard.EliminateOnBefore) {
-      ExceptionalCodeCancel += '4,'
-      ExceptionalNameCancel += '早到,'
-    }
-    if (this.getAttendCard.OffAfterMins && this.getAttendCard.EliminateOffAfter) {
-      ExceptionalCodeCancel += '5,'
-      ExceptionalNameCancel += '晚退,'
-    }
 
     var uiRmCardTempFormState: uiRmCardTempFormStateClass[] = []
 
@@ -779,17 +465,17 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
           "EliminateAbsent": false,
           "EliminateOnBefore": false,
           "EliminateOffAfter": false,
-          "CauseID": parseInt(this.sendForgetForm.CauseID1),
+          "CauseID": 0,
           "CauseName": "個人因素",
           "Note": "",
           "Info": "",
           "MailBody": "",
-          "State": "3",
+          "State": "1",
           "UploadFile": [],
-          "ExceptionalCode": ExceptionalCode,
-          "ExceptionalName": ExceptionalName, //有異常但沒註記
-          "ExceptionalCodeCancel": ExceptionalCodeCancel,
-          "ExceptionalNameCancel": ExceptionalNameCancel, //有異常且已經註記
+          "ExceptionalCode": this.getExceptional().ExceptionalCode,
+          "ExceptionalName": this.getExceptional().ExceptionalName, //有異常但沒註記
+          "ExceptionalCodeCancel": this.getExceptional().ExceptionalCodeCancel,
+          "ExceptionalNameCancel": this.getExceptional().ExceptionalNameCancel, //有異常且已經註記
           "RoteID": this.getAttendCard.RoteID,
           "RoteNameC": this.getAttendCard.RoteNameC,
           "ErrorStateCode": "",
@@ -821,7 +507,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
       var FlowDynamic_Base_EmpID
       var FlowDynamic_Base_DeptaID
       var FlowDynamic_Base_JobID
-      if(this.FlowDynamic_Base){
+      if (this.FlowDynamic_Base) {
         FlowDynamic_Base_EmpID = this.FlowDynamic_Base.EmpID
         FlowDynamic_Base_DeptaID = this.FlowDynamic_Base.DeptaID.toString()
         FlowDynamic_Base_JobID = this.FlowDynamic_Base.JobID.toString()
@@ -845,17 +531,17 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
       var FlowDynamic_Base_EmpID
       var FlowDynamic_Base_DeptaID
       var FlowDynamic_Base_JobID
-      if(this.FlowDynamic_Base){
+      if (this.FlowDynamic_Base) {
         FlowDynamic_Base_EmpID = this.FlowDynamic_Base.EmpID
         FlowDynamic_Base_DeptaID = this.FlowDynamic_Base.DeptaID.toString()
         FlowDynamic_Base_JobID = this.FlowDynamic_Base.JobID.toString()
       }
-      var DateB:string
-      var DateE:string
-      var TimeB:string
-      var TimeE:string
-      var DateTimeB:string
-      var DateTimeE:string
+      var DateB: string = ''
+      var DateE: string = ''
+      var TimeB: string = ''
+      var TimeE: string = ''
+      var DateTimeB: string = ''
+      var DateTimeE: string = ''
       if (uiState.ErrorStateName == "遲到" || uiState.ErrorStateName == "早到") {
         DateB = uiState.rmCardTempFormState.rmCardTempFormData.rcFirstCardDate.valueOf().toString()
         TimeB = uiState.rmCardTempFormState.rmCardTempFormData.rcFirstCardTime.valueOf().toString()
@@ -890,19 +576,19 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
                 "TimeE": TimeE,
                 "DateTimeB": DateTimeB,
                 "DateTimeE": DateTimeE,
-                "CauseID1": parseInt(uiState.rmCardTempFormState.rmCardTempFormData.rcCause.valueOf().toString()),
-                "CauseName1": "",
+                "CauseID1": parseInt(uiState.rmCardTempFormState.rmCardTempFormData.rcCauseID.toString()),
+                "CauseName1": uiState.rmCardTempFormState.rmCardTempFormData.rcCauseName,
                 "CauseID2": 0,
                 "CauseName2": "",
                 "Info": "",
                 "MailBody": "",
                 "State": "1",
-                "Note":  uiState.rmCardTempFormState.rmCardTempFormData.rcNote.valueOf().toString(),
-                "UploadFile": uiState.rmCardTempFormState.rmCardTempFormData.rcUploadData.values,
-                "ExceptionalCode": ExceptionalCode,
-                "ExceptionalName": ExceptionalName,
-                "ExceptionalCodeCancel": ExceptionalCodeCancel,
-                "ExceptionalNameCancel": ExceptionalNameCancel,
+                "Note": uiState.rmCardTempFormState.rmCardTempFormData.rcNote.toString(),
+                "UploadFile": uiState.rmCardTempFormState.rmCardTempFormData.rcUploadData.valueOf(),
+                "ExceptionalCode": this.getExceptional().ExceptionalCode,
+                "ExceptionalName": this.getExceptional().ExceptionalName,
+                "ExceptionalCodeCancel": this.getExceptional().ExceptionalCodeCancel,
+                "ExceptionalNameCancel": this.getExceptional().ExceptionalNameCancel,
                 "ErrorStateCode": uiState.ErrorStateCode.toString(),
                 "ErrorStateName": uiState.ErrorStateName
               }
@@ -947,55 +633,11 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
 
   }
 
-  RedAttendString_Title(e: boolean, b: boolean) {
-    if (e || b) {
-      return '#d0021b'
-    } else {
-      return 'rgb(150, 149, 148)'
-    }
-  }
-  RedAttendString_Content(e: boolean, b: boolean) {
-    if (e || b) {
-      return '#d0021b'
-    } else {
-      return '#4c4c4c'
-    }
-  }
 
   UploadFile: uploadFileClass[] = []
   onSaveFile(event) {
     this.UploadFile = event
     // console.log(this.UploadFile)
-
-  }
-
-  onLoadingTime() {
-    this.goWork = true
-    this.offWork = true
-    this.startDateTimeChange()
-    this.endDateTimeChange()
-    // var calDate = new Date(this.getAttendCard.AttendDate)
-    // if (this.getAttendCard.ActualRote_calCrossDay) {
-    //   calDate.setDate(calDate.getDate() + 1)
-    // }
-
-    // $('#id_ipt_startday').val(this.getAttendCard.AttendDate.toString())
-    // $('#id_ipt_endday').val(doFormatDate(calDate).toString())
-
-    this.OnWorkDate = formatDateTime(this.getAttendCard.ActualRote_OnDateTime).getDate
-    this.OffWorkDate = formatDateTime(this.getAttendCard.ActualRote_OffDateTime).getDate
-
-    var showOnTime = getapi_formatTimetoString(formatDateTime(this.getAttendCard.ActualRote_OnDateTime).getTime)
-    var showOffTime = getapi_formatTimetoString(formatDateTime(this.getAttendCard.ActualRote_OffDateTime).getTime)
-
-    $('#id_ipt_starttime').val(showOnTime.toString())
-    $('#id_ipt_endtime').val(showOffTime.toString())
-    if (this.getAttendCard.ActualRote_calCrossDay) {
-      var addDate = new Date(this.getAttendCard.AttendDate + ' ' + '00:00')
-      addDate.setDate(addDate.getDate() + 1)
-      this.OffWorkDate = doFormatDate(addDate)
-
-    }
 
   }
 
@@ -1011,13 +653,6 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
     }
   }
 }
-class sendForgetForm {
-  CauseID1: string;
-  CauseName1: string;
-  Note: string;
-  ReviewEmpID: string
-}
-
 
 class uiRmCardTempFormStateClass {
   ErrorStateCode: number

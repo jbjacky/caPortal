@@ -36,9 +36,13 @@
                                     padding: 0px;
                                     " class="bt_disable">
         </div>
-        <div *ngIf="rcFirstCardTime.dirty">
+        <div *ngIf="rcFirstCardTime.dirty || rcFirstCardTime.touched">
           <div *ngIf="rcFirstCardTime.getError('forbiddenName') == 'timeNull'" style="color: #e60012">請輸入時間</div>
           <div *ngIf="rcFirstCardTime.getError('forbiddenName') == 'timeFail'" style="color: #e60012">時間格式錯誤</div>
+          
+        </div>
+        <div *ngIf="rcFirstCardTime.getError('forbiddenName') == 'timeInCardTimeRange'" style="color: #e60012">
+          *請注意 : 補卡時間介於目前上下班刷卡時間，無法更改到/離勤時間
         </div>
       </div>
     </div>
@@ -50,8 +54,8 @@
         <ng-container i18n>異常原因</ng-container>
       </label>
       <div class="col-md-4 col-xs-12">
-        <select class="form-control" formControlName="rcCause">
-          <option *ngFor="let Cause of Cause" [value]="Cause.CauseID">{{Cause.CauseNameC}}</option>
+        <select class="form-control" formControlName="rcCauseID">
+          <option *ngFor="let Cause of CauseArray" [value]="Cause.CauseID">{{Cause.CauseNameC}}</option>
         </select>
       </div>
     </div>

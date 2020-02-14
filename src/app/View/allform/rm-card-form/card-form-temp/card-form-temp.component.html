@@ -1,0 +1,160 @@
+<form [formGroup]="rmCardTempForm">
+
+  <div class="P_smallpadding row">
+
+    <!-- 欲補到勤日期 -->
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+      <div class="row" style="margin: 0px;padding: 0px">
+        <div class="col-md-6 col-md-push-6 col-xs-12 row" style="margin: 0px;padding: 0px">
+          <div class="col-md-4 col-xs-0">
+          </div>
+          <div class="col-md-8  col-xs-12">
+            <div class="P_BtTime">
+              <button (click)="onLoadingTime()">
+                <ng-container i18n>載入上下班時間</ng-container>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-md-pull-6 col-xs-12 row" style="margin: 0px;padding: 0px">
+          <div class="col-md-4  col-xs-0"></div>
+          <div class="col-md-8  col-xs-12">
+            <input type="checkbox" formControlName="goWork"/>
+            <ng-container i18n>修改到勤時間</ng-container>
+          </div>
+        </div>
+      </div>
+      <label class="col-md-2 control-label" style="text-align: right;padding-top: 7px">
+        <span class="form-must-fill">*</span>
+        <ng-container i18n>欲補到勤日期</ng-container>
+      </label>
+      <div class="col-md-4">
+        <div>
+          <select class="form-control" formControlName="rcFirstCardDate">
+            <option *ngFor="let oneOnWork of selectOnWorkArray">
+              {{oneOnWork}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 7px">
+        <span class="form-must-fill">*</span>
+        <ng-container i18n>時間</ng-container>
+      </label>
+      <div class="col-md-4 col-xs-12 ">
+        <div class="col-md-10 col-xs-10 P_paddingZ">
+          <input [id]="id_ipt_starttime" type="text" class="form-control" formControlName="rcFirstCardTime"
+            [textMask]="StartTimeMask()" placeholder="範例:08:00" autocomplete="off">
+        </div>
+        <div class="col-md-2 col-xs-2" style="padding: 0px">
+          <input #StartTimeView [id]="id_bt_starttime" (click)="changeStartTimeView()" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                                    cursor: pointer;
+                                    color: transparent;
+                                    border: 1px solid transparent;
+                                    width: 50px;
+                                    height: 40px;
+                                    padding: 0px;
+                                    " class="bt_disable">
+        </div>
+        <div *ngIf="rcFirstCardTime.dirty || rcFirstCardTime.touched">
+          <div *ngIf="rcFirstCardTime.getError('forbiddenName') == 'timeNull'" style="color: #e60012">請輸入時間</div>
+          <div *ngIf="rcFirstCardTime.getError('forbiddenName') == 'timeFail'" style="color: #e60012">時間格式錯誤</div>
+          
+        </div>
+        <div *ngIf="rcFirstCardTime.getError('forbiddenName') == 'timeInCardTimeRange'" style="color: #e60012">
+          *請注意 : 補卡時間介於目前上下班刷卡時間，無法更改到勤時間
+        </div>
+      </div>
+    </div>
+    <!-- 欲補到勤日期 -->
+    <!-- 欲補離勤日期 -->
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+      <div class="row" style="margin: 0px;padding: 0px">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+          <input type="checkbox" formControlName="offWork"/>
+          <ng-container i18n>修改離勤時間</ng-container>
+        </div>
+      </div>
+      <label class="col-md-2 control-label" style="text-align: right;padding-top: 7px">
+        <span class="form-must-fill">*</span>
+        <ng-container i18n>欲補離勤日期</ng-container>
+      </label>
+      <div class="col-md-4">
+        <div>
+          <select class="form-control" formControlName="rcSecondCardDate">
+            <option *ngFor="let oneOffWork of selectOffWorkArray">
+              {{oneOffWork}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 7px">
+        <span class="form-must-fill">*</span>
+        <ng-container i18n>時間</ng-container>
+      </label>
+      <div class="col-md-4 col-xs-12 ">
+        <div class="col-md-10 col-xs-10 P_paddingZ">
+          <input [id]="id_ipt_endtime" type="text" class="form-control" formControlName="rcSecondCardTime"
+            [textMask]="EndTimeMask()" placeholder="範例:08:00" autocomplete="off">
+        </div>
+        <div class="col-md-2 col-xs-2" style="padding: 0px">
+          <input #EndTimeView [id]="id_bt_endtime" (click)="changeEndTimeView()" type="button" style="background: #fff url(./assets/images-template/icon-clock.png) center center no-repeat;
+                                    cursor: pointer;
+                                    color: transparent;
+                                    border: 1px solid transparent;
+                                    width: 50px;
+                                    height: 40px;
+                                    padding: 0px;
+                                    " class="bt_disable">
+        </div>
+        <div *ngIf="rcSecondCardTime.dirty || rcSecondCardTime.touched">
+          <div *ngIf="rcSecondCardTime.getError('forbiddenName') == 'timeNull'" style="color: #e60012">請輸入時間</div>
+          <div *ngIf="rcSecondCardTime.getError('forbiddenName') == 'timeFail'" style="color: #e60012">時間格式錯誤</div>
+          
+        </div>
+        <div *ngIf="rcSecondCardTime.getError('forbiddenName') == 'timeInCardTimeRange'" style="color: #e60012">
+          *請注意 : 補卡時間介於目前上下班刷卡時間，無法更改離勤時間
+        </div>
+      </div>
+    </div>
+    <!-- 欲補離勤日期 -->
+    <!-- 異常原因 -->
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+      <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 6px">
+        <span class="form-must-fill">*</span>
+        <ng-container i18n>異常原因</ng-container>
+      </label>
+      <div class="col-md-4 col-xs-12">
+        <select class="form-control" formControlName="rcCauseID">
+          <option *ngFor="let Cause of CauseArray" [value]="Cause.CauseID">{{Cause.CauseNameC}}</option>
+        </select>
+      </div>
+    </div>
+    <!-- 異常原因 -->
+    <!-- 上傳附件 -->
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+      <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 6px">
+        <ng-container i18n>上傳附件</ng-container>
+      </label>
+      <div class="col-md-10 col-xs-12">
+        <app-fileuploadbutton (fileChange)="onSaveFile($event)"></app-fileuploadbutton>
+      </div>
+    </div>
+    <!-- 上傳附件 -->
+
+
+    <!-- 補充說明 -->
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 15px 0px;margin: 0px" class="row">
+      <label class="col-md-2 col-xs-12 control-label P_textLeft" style="padding-top: 6px">
+        <ng-container i18n>補充說明</ng-container>
+      </label>
+      <div class="col-md-8  col-xs-12">
+        <textarea class="inputTextarea" formControlName="rcNote" style="overflow-y: auto" placeholder="請輸入說明"
+          maxlength="1000"></textarea>
+
+      </div>
+    </div>
+    <!-- 補充說明 -->
+  </div>
+</form>

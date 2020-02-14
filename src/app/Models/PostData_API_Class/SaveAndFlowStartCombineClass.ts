@@ -77,7 +77,7 @@ export interface CardFlowAppFlowApp {
     MailBody:              string;
     State:                 string;
     Note:                  string;
-    UploadFile:            any[];
+    UploadFile:            any;
     ExceptionalCode:       string;
     ExceptionalName:       string;
     ExceptionalCodeCancel: string;

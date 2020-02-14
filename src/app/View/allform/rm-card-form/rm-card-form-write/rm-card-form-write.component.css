@@ -163,6 +163,9 @@ a {
   margin: 0px;
   margin-bottom: 10px;
 }
+.P_paddingEndTimeAllZ {
+  padding: 0px 5px;
+}
 @media screen and (max-width: 992px) {
   .cardBlock {
     padding: 20px 20px;
@@ -225,6 +228,9 @@ a {
     text-align: left;
   }
 
+  .P_paddingEndTimeAllZ {
+    padding: 0;
+  }
   .P_paddingAllZ {
     padding: 0;
   }
@@ -284,7 +290,6 @@ a {
     text-align: center;
   }
 }
-
 .rwd-table td:before {
   display: none;
 }
