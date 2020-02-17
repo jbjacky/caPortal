@@ -1,5 +1,5 @@
 
-var TimeOut = '20000'
+var TimeOut = '60000'
 
 var OAuthPath = 'https://iam.china-airlines.com/mga/sps/oauth/oauth20/authorize'
 
