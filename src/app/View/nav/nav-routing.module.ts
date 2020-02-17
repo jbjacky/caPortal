@@ -74,7 +74,6 @@ import { EmailLogInfoComponent } from '../email-log-info/email-log-info.componen
 import { DayRoteComponent } from '../shareComponent/day-rote/day-rote.component';
 import { PersonnelSearchVaComponent } from '../personnel-search-va/personnel-search-va.component';
 import { SalarySearchComponent } from '../salary-search/salary-search.component';
-import { OtformComponent } from '../allform/otform/writeotform/otform.component';
 import { RmStateFormComponent } from '../allform/rm-state-form/rm-state-form.component';
 import { RmStateFormWriteComponent } from '../allform/rm-state-form/rm-state-form-write/rm-state-form-write.component';
 import { CardPatchFormComponent } from '../allform/card-patch-form/card-patch-form.component';
@@ -115,7 +114,7 @@ const routes: Routes = [
         path: 'forgetform', component: ForgetformComponent,
         canActivate: [AuthGuard],
       },
-      //lazylodingtest
+      //lazylodingtest  
       { path: 'reviewform', loadChildren: 'src/app/View/allform/reviewform/reviewform.module#ReviewformModule' },
 
       // { path: 'reviewform', component: ReviewformComponent },
@@ -351,8 +350,8 @@ const routes: Routes = [
         path: 'PersonnelSearchVaComponent', component: PersonnelSearchVaComponent,
         canActivate: [AuthGuard],
       },
-      {
-        path: 'OtformComponent', component: OtformComponent,
+      { 
+        path: 'OtformComponent', loadChildren: 'src/app/View/allform/otform/ot-form-moudle.module#OtFormMoudle',
         canActivate: [AuthGuard],
       },
       {

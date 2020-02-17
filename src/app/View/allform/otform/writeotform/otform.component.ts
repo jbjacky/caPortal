@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, SimpleChanges, AfterViewInit, NgZone, ViewChild, ElementRef, DoCheck, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, FormControl, ValidatorFn, AbstractControl, AsyncValidatorFn, ValidationErrors, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormControl, ValidatorFn, AbstractControl, AsyncValidatorFn, ValidationErrors, FormGroup, NgModel } from '@angular/forms';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { Observable, timer, BehaviorSubject } from 'rxjs';
 import { map, debounceTime, switchMap, takeWhile, distinctUntilChanged, filter } from 'rxjs/operators';
@@ -20,169 +20,73 @@ declare let $: any; //use jquery
 @Component({
   selector: 'app-otform',
   templateUrl: './otform.component.html',
-  styleUrls: ['./otform.component.css']
+  styleUrls: ['./otform.component.css'],
 })
-export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
+export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
   exampleHeader = ExampleHeader //日期套件header
   NowIsWriteOtForm: boolean = true
   showOtform() {
     this.NowIsWriteOtForm = true
-    this.resetFormGroup(this.EmpID.value.toString());
   }
-  @ViewChild('Tname') Tnam: FormControl
 
   WriteEmp = { EmpID: null, EmpName: null }
-  password
   otFormGroup: FormGroup
-  //  = new FormGroup({
-  //   EmpID: new FormControl('0004420', Validators.required, [this.getValidatorFn()]),
-  //   StartDate: new FormControl('', this.checkDate()),
-  //   EndDate: new FormControl('', this.checkDate()),
-  //   StartTime: new FormControl('', this.checkTime()),
-  //   EndTime: new FormControl('', this.checkTime()),
-  //   CauseID: new FormControl('', Validators.required),
-  //   DeptsID: new FormControl('', Validators.required),
-  //   Note: new FormControl(),
-  //   FileUpload: new FormControl()
-  // });
   otFormArray: Array<otFormClass>;
 
-  get EmpID() { return this.otFormGroup.get('EmpID'); }
-  get StartDate() { return this.otFormGroup.get('StartDate'); }
-  get EndDate() { return this.otFormGroup.get('EndDate'); }
-  get StartTime() { return this.otFormGroup.get('StartTime'); }
-  get EndTime() { return this.otFormGroup.get('EndTime'); }
-  get CauseID() { return this.otFormGroup.get('CauseID'); }
-  get DeptsID() { return this.otFormGroup.get('DeptsID'); }
-  createForm(EmpID: string) {
-    this.EmpID.setValue(EmpID)
-    this.StartDate.setValue(new Date())
-    this.EndDate.setValue(new Date())
-    this.StartTime.setValue('00:00')
-    this.EndTime.setValue('00:00')
-  }
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
     private GetApiUserService: GetApiUserService,
     private LoadingPage: NgxSpinnerService,
     private fb: FormBuilder) {
     var _otform: otFormClass = {
-      OtType: ['1', Validators.required],
-      EmpID: ['', Validators.required, [this.getValidatorFn()]],
-      StartDate: ['', this.checkDate()],
-      EndDate: ['', this.checkDate()],
-      StartTime: ['', this.checkTime()],
-      EndTime: ['', this.checkTime()],
-      OtCat: ['1', Validators.required],
-      CauseID: ['', Validators.required],
-      DeptsID: ['', Validators.required],
+      OtType: [''],
+      EmpID: [''],
+      StartDate: [''],
+      EndDate: [''],
+      StartTime: [''],
+      EndTime: [''],
+      OtCat: [''],
+      CauseID: [''],
+      DeptsID: [''],
       Note: '',
       FileUpload: ''
     }
     this.otFormGroup = this.fb.group(_otform)
   }
-  dateTimeS = ''
-  dateTimeE = ''
-  CauseOption = []
-  NgxDeptsSelectBox = [];
-  leaveman_name = '';
-  starttimeMask(): {
-    mask: Array<string | RegExp>;
-    keepCharPositions: boolean;
-  } {
-    return {
-      mask: [/[0-2]/, this.dateTimeS.toString() && parseInt(this.dateTimeS[0].toString()) > 1 ? /[0-3]/ : /\d/, ':', /[0-5]/, /\d/],
-      keepCharPositions: true
-    };
-  }
+  LeaveEmpID
+  LeaveEmpName
+  OtType: any
 
-  endtimeMask(): {
-    mask: Array<string | RegExp>;
-    keepCharPositions: boolean;
-  } {
-    return {
-      mask: [/[0-2]/, this.dateTimeE.toString() && parseInt(this.dateTimeE[0].toString()) > 1 ? /[0-3]/ : /\d/, ':', /[0-5]/, /\d/],
-      keepCharPositions: true
-    };
-  }
+  @ViewChild('IptEmpID') IptEmpID: NgModel
   ngAfterViewInit(): void {
-    var a = this;
-    // $("#id_bt_starttime").change(() => {
-    //   this.dateTimeS = $("#id_bt_starttime").val()
-    //   this.StartTime.setValue($("#id_bt_starttime").val());
-    // });
-    // $("#id_bt_endtime").change(() => {
-    //   this.dateTimeE = $("#id_bt_starttime").val()
-    //   this.EndTime.setValue($("#id_bt_endtime").val());
-    // });
-
-  }
-
-  @ViewChild('StartTimeView') StartTimeView: ElementRef;
-  changeStartTimeView() {
-    this.dateTimeS = $("#id_bt_starttime").val()
-
-    $(this.StartTimeView.nativeElement)
-      .on('change', (e, args) => {
-        this.dateTimeS = $("#id_bt_starttime").val()
-        this.StartTime.setValue($("#id_bt_starttime").val());
-      });
-  }
-  @ViewChild('EndTimeView') EndTimeView: ElementRef;
-  changeEndTimeView() {
-    this.dateTimeE = $("#id_bt_endtime").val()
-    $(this.EndTimeView.nativeElement)
-      .on('change', (e, args) => {
-        this.dateTimeE = $("#id_bt_endtime").val()
-        this.EndTime.setValue($("#id_bt_endtime").val());
-      });
   }
 
   ngOnDestroy(): void {
-    // throw new Error("Method not implemented.");
     this.api_subscribe = false;
-
-    $(this.StartTimeView.nativeElement).unbind()
-    $(this.EndTimeView.nativeElement).unbind()
   }
   api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
   ngOnInit(): void {
-    this.StartTime.valueChanges.subscribe(
-      (x: any) => {
-        this.dateTimeS = x
-      }
-    )
-    this.EndTime.valueChanges.subscribe(
-      (x: any) => {
-        this.dateTimeE = x
-      }
-    )
-    this.GetApiUserService.counter$.subscribe(
-      (x: any) => {
-        if (x == 0) {
-        } else {
-          this.testText = x.EmpID
-          this.Be_Text.next(this.testText)
-
-          this.WriteEmp = { EmpID: x.EmpID, EmpName: x.EmpNameC }
-          this.createForm(x.EmpID)
-          this.GetApiDataServiceService.getWebApiData_GetOtCauseByForm()
-            .pipe(takeWhile(() => this.api_subscribe))
-            .subscribe(
-              (GetOtCauseByForm: GetOtCauseByFormDataClass[]) => {
-                // console.log(x)
-                this.CauseOption = GetOtCauseByForm
-                this.CauseID.setValue(GetOtCauseByForm[0].CauseID)
-                this.GetApiDataServiceService.getWebApiData_GetDepts()
-                  .pipe(takeWhile(() => this.api_subscribe))
-                  .subscribe(
-                    (y: any[]) => {
-                      this.NgxDeptsSelectBox = JSON.parse(JSON.stringify(y))
-                      this.DeptsID.setValue(x.DeptcID)
-                    })
-              }
-            )
+    this.IptEmpID.control.statusChanges
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (status: string) => {
+          if (status == 'VALID') {
+            console.log(this.IptEmpID)
+            this.setObIptEmpID(this.IptEmpID.value)
+          }
         }
-      })
+      )
+    this.GetApiUserService.counter$
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: any) => {
+          if (x == 0) {
+          } else {
+            this.LeaveEmpID = x.EmpID
+            this.setObIptEmpID(this.LeaveEmpID)
+
+            this.WriteEmp = { EmpID: x.EmpID, EmpName: x.EmpNameC }
+          }
+        })
   }
   onSubmit() {
     console.log(this.otFormGroup.value)
@@ -211,154 +115,16 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
         })
 
   }
-  resetFormGroup(EmpID: string) {
-    var _otform: otFormClass = {
-      OtType: ['1', Validators.required],
-      EmpID: [EmpID, Validators.required, [this.getValidatorFn()]],
-      StartDate: ['', this.checkDate()],
-      EndDate: ['', this.checkDate()],
-      StartTime: ['', this.checkTime()],
-      EndTime: ['', this.checkTime()],
-      OtCat: ['1', Validators.required],
-      CauseID: ['', Validators.required],
-      DeptsID: ['', Validators.required],
-      Note: '',
-      FileUpload: ''
-    }
-    this.otFormGroup = this.fb.group(_otform)
-    this.createForm(EmpID)
-    this.CauseID.setValue(this.CauseOption[0].CauseID)
-  }
-  login() {
-    var checkData = this.otFormGroup.value
-    var jbUserLogin: jbUserLoginClass = {
-      Account: checkData.EmpID,
-      Password: checkData.address
-    }
-    this.GetApiDataServiceService.getWebApiData_jbLoggin(jbUserLogin)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (x: jbLoginDataClass) => {
-          if (x.Pass) {
-            alert('pass')
-          } else {
-            this.EmpID.setErrors({
-              errorEmpID: true
-            })
-          }
-        }
-      )
 
-  }
-  getValidatorFn(): AsyncValidatorFn {
-    return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-      let debounceTime = 1500; //milliseconds
-      return timer(debounceTime).pipe(
-        switchMap(() => {
-          this.LoadingPage.show()
-          var req = this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(control.value)
-            .pipe(
-              map(
-                (serviceResponse: GetBaseInfoDetailClass[]) => {
-                  // console.log(serviceResponse)
-                  this.LoadingPage.hide()
-                  if (serviceResponse.length > 0) {
-                    this.leaveman_name = serviceResponse[0].EmpNameC
-                    this.DeptsID.setValue(serviceResponse[0].DeptcID)
-                    return null
-                  } else {
-                    this.leaveman_name = '';
-                    return { errorEmpID: 'errorEmpIDS' }
-                  }
-                })
-            )
-          // console.log(req)
-          // console.log(this.EmpID.status)
-          return req
-        })
-      )
-    };
+  private BeIptEmpID: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  ObIptEmpID$: Observable<any> = this.BeIptEmpID
+
+  setObIptEmpID(iptEmpID:string) {
+    this.BeIptEmpID.next(iptEmpID)
   }
 
-  checkUpdate() {
-    if (this.Tnam.valid) {
-      return false
-    } else {
-      return true
-    }
-  }
-
-  checkDate(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      if (!control.value) {
-        return { 'forbiddenName': 'dateNull' }
-      } else if (!isValidDate(doFormatDate(control.value))) {
-        return { 'forbiddenName': 'dateFail' }
-      } else {
-
-        var StartDateTime = new Date(doFormatDate(this.StartDate.value) + ' ' + this.StartTime.value)
-        var EndDateTime = new Date(doFormatDate(this.EndDate.value) + ' ' + this.EndTime.value)
-
-        if (this.isStartNoLargeEndDateTime(StartDateTime, EndDateTime)) {
-          return { 'forbiddenName': 'dateTimeFail' }
-        } else if (control.value) {
-          return null
-        }
-
-      }
-    };
-  }
-  checkTime(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      // console.log(control.value)
-      if (!control.value) {
-        return { 'forbiddenName': 'timeNull' }
-      } else if (!isValidTime(control.value)) {
-        return { 'forbiddenName': 'timeFail' }
-      } else {
-
-        var StartDateTime = new Date(doFormatDate(this.StartDate.value) + ' ' + this.StartTime.value)
-        var EndDateTime = new Date(doFormatDate(this.EndDate.value) + ' ' + this.EndTime.value)
-        if (this.isStartNoLargeEndDateTime(StartDateTime, EndDateTime)) {
-          return { 'forbiddenName': 'dateTimeFail' }
-        } else if (control.value) {
-          return null
-        }
-      }
-    };
-  }
-
-  isStartNoLargeEndDateTime(StartDateTime: Date, EndDateTime: Date) {
-    if (StartDateTime > EndDateTime) {
-      return true
-    } else {
-      if (isValidDate(doFormatDate(this.StartDate.value)))
-        this.StartDate.setErrors(null)
-      if (isValidTime(this.StartTime.value))
-        this.StartTime.setErrors(null)
-      if (isValidDate(doFormatDate(this.EndDate.value)))
-        this.EndDate.setErrors(null)
-      if (isValidTime(this.EndTime.value))
-        this.EndTime.setErrors(null)
-      return false
-    }
-  }
-  onSaveFile(event) {
-    this.otFormGroup.get('FileUpload').setValue(event);
-    // console.log(event)
-  }
-
-
-  testText = ""
-  private Be_Text: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  Ob_Text$: Observable<any> = this.Be_Text.pipe(
-    debounceTime(1000), // 當 300 毫秒沒有新資料時，才進行搜尋
-  )
-  cText() {
-    this.Be_Text.next(this.testText)
-  }
-  setForm(e) {
-    // console.log(e)
+  setForm(e: otFormClass) {
+    this.otFormGroup = this.fb.group(e)
   }
 
   eFileArray = [{
@@ -371,16 +137,6 @@ export class OtformComponent implements OnInit, AfterViewInit, OnDestroy {
 
 }
 
-export function forbiddenNameValidator(): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-    console.log(control.value)
-    if (control.value == '644488') {
-      return null
-    } else {
-      return { 'forbiddenName': control.value }
-    }
-  };
-}
 
 
 export class otFormClass {

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OtformdetailComponent } from './otformdetail.component';
+import { OtFormDetailComponent } from './otformdetail.component';
 
-describe('OtformdetailComponent', () => {
-  let component: OtformdetailComponent;
-  let fixture: ComponentFixture<OtformdetailComponent>;
+describe('OtFormDetailComponent', () => {
+  let component: OtFormDetailComponent;
+  let fixture: ComponentFixture<OtFormDetailComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OtformdetailComponent ]
+      declarations: [ OtFormDetailComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OtformdetailComponent);
+    fixture = TestBed.createComponent(OtFormDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

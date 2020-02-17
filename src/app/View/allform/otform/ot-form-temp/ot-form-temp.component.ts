@@ -52,6 +52,9 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.StartTime.value == '') {
       this.StartTime.setValue('00:00')
     }
+    if(!$('#'+this.id_ipt_starttime).hasClass('uiTimeDropper')){
+      !$('#'+this.id_ipt_starttime).addClass('uiTimeDropper')
+    }
     this.startTimeDropper[0].myprop1(reSplTimeHHmm(this.StartTime.value).HH, reSplTimeHHmm(this.StartTime.value).mm);
     $(this.StartTimeView.nativeElement)
       .on('change', (e, args) => {
@@ -62,6 +65,9 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
   changeEndTimeView() {
     if (this.EndTime.value == '') {
       this.EndTime.setValue('00:00')
+    }
+    if(!$('#'+this.id_ipt_endtime).hasClass('uiTimeDropper')){
+      !$('#'+this.id_ipt_endtime).addClass('uiTimeDropper')
     }
     this.endTimeDropper[0].myprop1(reSplTimeHHmm(this.EndTime.value).HH, reSplTimeHHmm(this.EndTime.value).mm);
     $(this.EndTimeView.nativeElement)
@@ -76,7 +82,7 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
 
-  @Input() nEmpID: Observable<any> //取得目前表單內容(修改功能用)
+  @Input() ObIptEmpID$: Observable<any> //取得目前表單內容(修改功能用)
   @Output() SetOtForm: EventEmitter<any> = new EventEmitter<any>(); //使用者輸入表單的資料
 
   private Be_setOtFormData$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -147,12 +153,16 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
     this.id_ipt_starttime = 'id_ipt_starttime' + this.UiTemp
     this.id_ipt_endtime = 'id_ipt_endtime' + this.UiTemp
     
-    this.otFormGroup.valueChanges.subscribe(
+    this.otFormGroup.valueChanges
+    .pipe(takeWhile(() => this.api_subscribe))
+    .subscribe(
       (x: otFormClass) => {
         this.SetOtForm.emit(x);
       }
     )
-    this.nEmpID.subscribe(
+    this.ObIptEmpID$
+    .pipe(takeWhile(() => this.api_subscribe))
+    .subscribe(
       (EmpID: string) => {
         if (EmpID) {
           // console.log(EmpID)
@@ -188,8 +198,11 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
 
         var StartDateTime = new Date(doFormatDate(this.StartDate.value) + ' ' + this.StartTime.value)
         var EndDateTime = new Date(doFormatDate(this.EndDate.value) + ' ' + this.EndTime.value)
-
-        if (this.isStartNoLargeEndDateTime(StartDateTime, EndDateTime)) {
+        if (!this.StartDate.value) {
+          return { 'forbiddenName': 'StartDateNull' }
+        }else if(!this.EndDate.value){
+          return { 'forbiddenName': 'EndDateNull' }
+        }else if (this.isStartNoLargeEndDateTime(StartDateTime, EndDateTime)) {
           return { 'forbiddenName': 'dateTimeFail' }
         } else if (control.value) {
           return null
@@ -236,7 +249,11 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
 
         var StartDateTime = new Date(doFormatDate(this.StartDate.value) + ' ' + this.StartTime.value)
         var EndDateTime = new Date(doFormatDate(this.EndDate.value) + ' ' + this.EndTime.value)
-        if (this.isStartNoLargeEndDateTime(StartDateTime, EndDateTime)) {
+        if (!this.StartDate.value) {
+          return { 'forbiddenName': 'StartDateNull' }
+        }else if(!this.EndDate.value){
+          return { 'forbiddenName': 'EndDateNull' }
+        }else if (this.isStartNoLargeEndDateTime(StartDateTime, EndDateTime)) {
           return { 'forbiddenName': 'dateTimeFail' }
         } else if (control.value) {
           return null

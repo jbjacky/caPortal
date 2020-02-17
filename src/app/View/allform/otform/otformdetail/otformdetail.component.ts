@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './otformdetail.component.html',
   styleUrls: ['./otformdetail.component.css']
 })
-export class OtformdetailComponent implements OnInit {
+export class OtFormDetailComponent implements OnInit {
 
   constructor() { }
 

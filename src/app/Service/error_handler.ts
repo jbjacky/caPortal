@@ -30,6 +30,7 @@ export class ErrorHandler implements OnDestroy {
     checkEverRequestError: boolean = false
 
     public handleError(request: HttpRequest<any>, error: HttpErrorResponse) {
+        console.log(error)
         if (error.status == 401) {
             // console.log(error)
             this.ErrorStateService.errorState = 5

@@ -122,7 +122,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private GetApiDataServiceService: GetApiDataServiceService
   ) {
   }
-  @ViewChild('user_password') user_password: ElementRef;
+  // @ViewChild('user_password') user_password: ElementRef;
   get account() { return this.loginFromGroup.get('account') }
   get accountError_required() { return this.loginFromGroup.get('account').hasError('required'); }
   get password() { return this.loginFromGroup.get('password') }
