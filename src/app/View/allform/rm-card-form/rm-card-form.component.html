@@ -136,8 +136,7 @@
 
   <div class="a-block">
     <div class="a-block-body  a-block-container">
-      <div *ngIf="showNote.length>0"
-        style="margin-bottom: 20px">
+      <div *ngIf="showNote.length>0" style="margin-bottom: 20px">
         <div style="border:1px solid #d9edf7;">
           <div style="background-color: #d9edf7;padding-left: 10px;padding-top: 5px;">
             <label style="color: 
@@ -170,7 +169,7 @@
       <!--考勤資訊-->
       <div *ngFor="let Attend of AttendCard" class="row cardBlock">
         <div class="col-md-11 col-xs-11 row" style="margin: 0px ;padding: 0px">
-          <div id="iDateInf" class="col-md-3 col-xs-12 row P_paddingZ"  style="margin: 0;">
+          <div id="iDateInf" class="col-md-3 col-xs-12 row P_paddingZ" style="margin: 0;">
             <div class="col-md-6  col-xs-6 P_paddingAllZ">
               <span style="color: #028fcf">{{Attend.AttendDate}}</span>
             </div>
@@ -226,7 +225,8 @@
                 </ng-template>
               </div>
               <div>
-                <div class="tagBlue" *ngIf="!Attend.LateMins &&
+                <div class="tagBlue"
+                  *ngIf="!Attend.LateMins &&
                                             !Attend.EarlyMins &&
                                             !Attend.IsAbsent &&
                                             ( !Attend.OnBeforeMins || (Attend.OnBeforeMins && Attend.EliminateOnBefore) ) &&
@@ -274,7 +274,7 @@
               <div [style.color]="Attend.UiAttendColor.RAttendOnTimeTitle">
                 <ng-container i18n>到勤時間</ng-container>
               </div>
-              <div [style.color]="Attend.UiAttendColor.RAttendOnTimeContent"  style="display: inline-block;">
+              <div [style.color]="Attend.UiAttendColor.RAttendOnTimeContent" style="display: inline-block;">
                 <div *ngIf="Attend.AttendCard_OnTime.length>0" style="display: inline-block;">
                   {{Attend.AttendCard_OnTime}}
                 </div>
@@ -300,11 +300,11 @@
               </div>
               <div>
                 <div [style.color]="Attend.UiAttendColor.ROffTimeContent" style="display: inline-block;">
-                    <div *ngIf="Attend.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px">
-                      {{Attend.AttendCard_OffTime}}</div>
-                    <div *ngIf="Attend.AttendCard_OffTime.length==0" style="display: inline-block;">
-                      <ng-container i18n>無</ng-container>
-                    </div>
+                  <div *ngIf="Attend.AttendCard_OffTime.length>0" style="display: inline-block;padding-right: 10px">
+                    {{Attend.AttendCard_OffTime}}</div>
+                  <div *ngIf="Attend.AttendCard_OffTime.length==0" style="display: inline-block;">
+                    <ng-container i18n>無</ng-container>
+                  </div>
                 </div>
                 <div *ngIf="Attend.AttendCard_OffTime_calCrossDay" style="display: inline-block;
                     height: 20px;
@@ -324,19 +324,35 @@
               <div style="color: rgb(150, 149, 148);">
                 <ng-container i18n>請假單</ng-container>
               </div>
-              <div><a>查閱</a></div>
+              <div>
+                <span *ngIf="!Attend.IsAbs">無</span>
+                <a *ngIf="Attend.IsAbs" (click)="vaClick(Attend.AttendDate,Attend.forget_man_code)">查閱</a>
+              </div>
             </div>
             <div class="col-md-4 col-xs-6" style="padding:0">
               <div style="color: rgb(150, 149, 148)">
                 <ng-container i18n>加班單</ng-container>
               </div>
-              <div><a>查閱</a></div>
+              <div>
+                <span *ngIf="!Attend.IsOt">無</span>
+                <a *ngIf="Attend.IsOt"  (click)="otClick(Attend.AttendDate,Attend.forget_man_code)">查閱</a>
+              </div>
             </div>
             <div class="col-md-4 col-xs-12 P_topTen">
               <div style="color: rgb(150, 149, 148);">
                 <ng-container i18n>車誤</ng-container>
               </div>
-              <div>08:00</div>
+              <div *ngIf="Attend.Behind">
+                <div *ngIf="Attend.Behind.IsDelay">
+                  <span>{{Attend.Behind.ArriveTime}}</span>
+                </div>
+                <div *ngIf="!Attend.Behind.IsDelay">
+                  <span>無</span>
+                </div>
+              </div>
+              <div *ngIf="!Attend.Behind">
+                <span>無</span>
+              </div>
             </div>
           </div>
         </div>
@@ -411,3 +427,207 @@
   </div>
 </div>
 <!--dialog班表期間-->
+
+
+<div class="modal" id="RecentHoliday" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <div style="text-align: center">
+            <h3 style="margin: 0px">{{SearchAttendDate}} <ng-container i18n>請假資訊</ng-container>
+            </h3>
+          </div>
+        </div>
+        <div class="modal-body" style="padding: 25px;padding-top: 15px;">
+          <div class="row P_div" *ngFor="let oneVaData of ShowVa ; let i = index">
+            <div class="row col-md-2 col-xs-12 P_padding" style="margin: 0px">
+              <div class="col-md-12   col-xs-6 P_left" style="color: #028fcf;padding:0px;
+                  margin-bottom: 10px;">
+                <ng-container i18n>請假明細</ng-container><span>{{showDay(i)}}</span>
+              </div>
+              <div class="col-md-12   col-xs-6" style="padding: 0;text-align: right;">
+                <div class="tag_blue" *ngIf="oneVaData.State=='1'">
+                  <ng-container i18n>呈核中</ng-container>
+                </div>
+                <div class="tag_skyblue" *ngIf="oneVaData.State=='3'">
+                  <ng-container i18n>已核准</ng-container>
+                </div>
+                <div class="tag_red" *ngIf="oneVaData.State=='2'">
+                  <ng-container i18n>重擬</ng-container>
+                </div>
+                <div class="tag_gray" *ngIf="oneVaData.State=='7'">
+                  <ng-container i18n>已抽單</ng-container>
+                </div>
+              </div>
+            </div>
+            <div class="row col-md-7 col-xs-10" style="margin: 0px;padding: 0">
+              <div class="col-md-12 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0;
+                  margin-bottom: 10px;">
+                <div class="row" style="margin: 0;padding-bottom: 5px;">
+                  <div class="col-md-6 col-xs-12" style="padding: 0">
+                    <span style="color: #969696">
+                      <ng-container i18n>起始</ng-container>：
+                    </span>
+                    {{oneVaData.showDateB}} {{oneVaData.showTimeB}}
+                  </div>
+                  <div class="col-md-6 col-xs-12" style="padding: 0">
+                    <span style="color: #969696">
+                      <ng-container i18n>結束</ng-container>：
+                    </span>
+                    {{oneVaData.showDateE}} {{oneVaData.showTimeE}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0">
+                <div class="row" style="margin: 0;padding-bottom: 5px;">
+                  <div *ngIf="!oneVaData.showSignDate" class="col-md-6 col-xs-12" style="padding: 0">
+                    <span style="color: #969696">
+                      <ng-container i18n>批核</ng-container>：
+                    </span>
+                    <ng-container i18n>尚未批核</ng-container>
+                  </div>
+                  <div *ngIf="oneVaData.showSignDate" class="col-md-6 col-xs-12" style="padding: 0">
+                    <span style="color: #969696">
+                      <ng-container i18n>批核</ng-container>：
+                    </span>
+                    {{oneVaData.showSignDate}} {{oneVaData.showSignTime}}
+                  </div>
+                  <div class="col-md-6 col-xs-12" style="padding: 0">
+                    <span style="color: #969696">
+                      <ng-container i18n>假別</ng-container>：
+                    </span>
+                    {{oneVaData.HoliDayNameC}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-xs-12" style="padding: 0">
+              <div class="P_All">
+                <ng-container i18n>共計</ng-container>
+                {{oneVaData.day}}
+                <ng-container i18n> 日 </ng-container>
+                {{oneVaData.hour}}
+                <ng-container i18n> 時 </ng-container>
+                {{oneVaData.minute}}
+                <ng-container i18n> 分 </ng-container>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>關閉</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog查閱請假單-->
+
+
+<div class="modal" id="OtDataDialog" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <div style="text-align: center">
+            <h3 style="margin: 0px">{{SearchAttendDate}} <ng-container i18n>加班資訊</ng-container>
+            </h3>
+          </div>
+        </div>
+        <div class="modal-body" style="padding: 25px;padding-top: 15px;">
+          <div class="row P_div" 
+          *ngFor="let oneOtData of ShowOt ; let i = index">
+            <div class="row col-md-2 col-xs-12 P_padding" style="margin: 0px">
+              <div class="col-md-12   col-xs-6 P_left" style="color: #028fcf;padding:0px;
+                  margin-bottom: 10px;">
+                <ng-container i18n>加班明細</ng-container><span>{{showDay(i)}}</span>
+              </div>
+              <div class="col-md-12   col-xs-6" style="padding: 0;text-align: right;">
+                <div class="tag_blue" *ngIf="oneOtData.State=='1'">
+                  <ng-container i18n>呈核中</ng-container>
+                </div>
+                <div class="tag_skyblue" *ngIf="oneOtData.State=='3'">
+                  <ng-container i18n>已核准</ng-container>
+                </div>
+                <div class="tag_red" *ngIf="oneOtData.State=='2'">
+                  <ng-container i18n>重擬</ng-container>
+                </div>
+                <div class="tag_gray" *ngIf="oneOtData.State=='7'">
+                  <ng-container i18n>已抽單</ng-container>
+                </div>
+              </div>
+            </div>
+            <div class="row col-md-7 col-xs-10" style="margin: 0px;padding: 0">
+              <div class="col-md-12 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0;
+                  margin-bottom: 10px;">
+                <div class="row" style="margin: 0;padding-bottom: 5px;">
+                  <div class="col-md-6 col-xs-12" style="padding: 0">
+                    <span style="color: #969696">
+                      <ng-container i18n>起始</ng-container>：
+                    </span>
+                    <!--2019/01/18 08:00-->{{oneOtData.DateTimeB}}
+                  </div>
+                  <div class="col-md-6 col-xs-12" style="padding: 0">
+                    <span style="color: #969696">
+                      <ng-container i18n>結束</ng-container>：
+                    </span>
+                    <!--2019/01/18 12:00-->{{oneOtData.DateTimeE}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0">
+                <div class="row" style="margin: 0;padding-bottom: 5px;">
+                  <div *ngIf="!oneOtData.ApproveDate" class="col-md-6 col-xs-12" style="padding: 0">
+                    <span style="color: #969696">
+                      <ng-container i18n>批核</ng-container>：
+                    </span>
+                    <!--2019/01/18 08:00-->
+                    <ng-container i18n>尚未批核</ng-container>
+                  </div>
+                  <div *ngIf="oneOtData.ApproveDate" class="col-md-6 col-xs-12" style="padding: 0">
+                    <span style="color: #969696">
+                      <ng-container i18n>批核</ng-container>：
+                    </span>
+                    <!--2019/01/18 08:00-->{{oneOtData.ApproveDate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-3 col-xs-12" style="padding: 0">
+            //   <div class="P_All">
+            //     <ng-container i18n>共計</ng-container>
+            //     {{oneOtData.day}}
+            //     <ng-container i18n> 日 </ng-container>
+            //     {{oneOtData.hour}}
+            //     <ng-container i18n> 時 </ng-container>
+            //     {{oneOtData.minute}}
+            //     <ng-container i18n> 分 </ng-container>
+            //   </div>
+            // </div>-->
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>關閉</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog查閱加班單-->

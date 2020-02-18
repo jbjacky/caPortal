@@ -36,6 +36,17 @@
     border: solid 1px #d0021b;
     color: #d0021b;
 }
+.tag_blue{
+    border-radius: 14px;
+    width: 55px;
+    height: 27px;
+    line-height: 27px;
+    margin: 0px 10px 10px 0px;
+    text-align: center;
+    display: inline-block;
+    border: solid 1px #002f7b;
+    color: #002f7b;
+}
 .a-block-buttom {
     width: 850px;
     margin: 0 auto;

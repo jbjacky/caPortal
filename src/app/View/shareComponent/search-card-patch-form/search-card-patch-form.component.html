@@ -85,6 +85,15 @@
               <span *ngIf="oneforgetData.isForgetCard">
                 <ng-container i18n>未刷卡</ng-container>
               </span>
+              <span *ngIf="oneforgetData.isNormal">
+                <ng-container i18n>正常</ng-container>
+              </span>
+              <span *ngIf="oneforgetData.isOnBeforeMins">
+                <ng-container i18n>早到</ng-container>
+              </span>
+              <span *ngIf="oneforgetData.isOffAfterMins">
+                <ng-container i18n>晚退</ng-container>
+              </span>
             </div>
           </div>
         </div>

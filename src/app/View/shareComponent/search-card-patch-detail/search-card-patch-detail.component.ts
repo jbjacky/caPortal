@@ -192,7 +192,7 @@ export class SearchCardPatchDetailComponent implements OnInit, OnDestroy {
   
   color_CardOnTime(){
 
-    if(this.getForgetDataTitle.isLateMins || this.getForgetDataTitle.isForgetCard){
+    if(this.getForgetDataTitle.isLateMins || this.getForgetDataTitle.isForgetCard   || this.getForgetDataTitle.isOnBeforeMins){
       return '#d0021b'
     }else{
       return '#4c4c4c'
@@ -200,7 +200,7 @@ export class SearchCardPatchDetailComponent implements OnInit, OnDestroy {
   }
   color_CardOffTime(){
     
-    if(this.getForgetDataTitle.isEarlyMins || this.getForgetDataTitle.isForgetCard){
+    if(this.getForgetDataTitle.isEarlyMins || this.getForgetDataTitle.isForgetCard || this.getForgetDataTitle.isOffAfterMins ){
       return '#d0021b'
     }else{
       return '#4c4c4c'

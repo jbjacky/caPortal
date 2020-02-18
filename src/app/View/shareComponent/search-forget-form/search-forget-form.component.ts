@@ -67,21 +67,26 @@ export class SearchForgetFormComponent implements OnInit, OnDestroy {
       if (data.EmpID != data.AppEmpID) {
         checkProxy = true
       }
+      var ExceptionalNameArray = []
       var _isForgetCard: boolean = false
       var _isEarlyMins: boolean = false
       var _isLateMins: boolean = false
-      var ErrorStateArray = []
-      if (data.ErrorState) {
-
-        ErrorStateArray = data.ErrorState.split(',')
-        for (let err of ErrorStateArray) {
-          if (err == '未刷卡') {
-            _isForgetCard = true
-          } else if (err == '遲到') {
-            _isLateMins = true
-          } else if (err == '早退') {
-            _isEarlyMins = true
-          }
+      var _isNormal: boolean = false
+      var _isOnBeforeMins: boolean = false
+      var _isOffAfterMins: boolean = false
+      for (let e of ExceptionalNameArray) {
+        if (e == '未刷卡') {
+          _isForgetCard = true}
+         if (e == '早退') {
+          _isEarlyMins = true}
+         if (e == '遲到') {
+          _isLateMins = true}
+         if (e == '正常') {
+          _isNormal = true}
+         if (e == '早到') {
+          _isOnBeforeMins = true}
+         if (e == '晚退') {
+          _isOffAfterMins = true
         }
       }
       var _ActualRote_calCrossDay: boolean = false
@@ -111,6 +116,9 @@ export class SearchForgetFormComponent implements OnInit, OnDestroy {
         isForgetCard: _isForgetCard,
         isEarlyMins: _isEarlyMins,
         isLateMins: _isLateMins,
+        isNormal: _isNormal,
+        isOnBeforeMins:_isOnBeforeMins,
+        isOffAfterMins: _isOffAfterMins,
 
 
         RoteTimeB: null,
@@ -376,6 +384,10 @@ export class forgetSearchFlowSignClass {
   isForgetCard: boolean
   isEarlyMins: boolean
   isLateMins: boolean
+  isNormal:boolean
+  isOffAfterMins:boolean
+  isOnBeforeMins:boolean
+
   Handle: boolean
 
   checkProxy: boolean

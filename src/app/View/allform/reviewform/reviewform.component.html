@@ -760,9 +760,9 @@
                       </div>
                       <!-- <div>
                         <span style="font-weight: bold;color: #969696">異常狀態：</span>
-                        <div *ngIf="forgetFlowSign.isLateMins" class="tag_red" style="margin: 0px">遲到</div>
-                        <div *ngIf="forgetFlowSign.isEarlyMins" class="tag_red" style="margin: 0px">早退</div>
-                        <div *ngIf="forgetFlowSign.isForgetCard" class="tag_red" style="margin: 0px">未刷卡</div>
+                        <div *ngIf="AttendUnusualFlowSign.isLateMins" class="tag_red" style="margin: 0px">遲到</div>
+                        <div *ngIf="AttendUnusualFlowSign.isEarlyMins" class="tag_red" style="margin: 0px">早退</div>
+                        <div *ngIf="AttendUnusualFlowSign.isForgetCard" class="tag_red" style="margin: 0px">未刷卡</div>
                       </div> -->
                       <div>
                         <span style="font-weight: bold;color: #969696">
@@ -861,6 +861,7 @@
 
       </div>
       <!-- 考勤異常簽認單tab -->
+      <!-- 補卡單tab -->
       <div id="CardPatchform" class="tab-pane">
         <div class="panel-group">
           <div class="row ReviewTitle_mobile">
@@ -938,12 +939,6 @@
                           <ng-container i18n>異常日期</ng-container>：
                         </span> {{CardPatchSign.Date}}
                       </div>
-                      <!-- <div>
-                        <span style="font-weight: bold;color: #969696">異常狀態：</span>
-                        <div *ngIf="forgetFlowSign.isLateMins" class="tag_red" style="margin: 0px">遲到</div>
-                        <div *ngIf="forgetFlowSign.isEarlyMins" class="tag_red" style="margin: 0px">早退</div>
-                        <div *ngIf="forgetFlowSign.isForgetCard" class="tag_red" style="margin: 0px">未刷卡</div>
-                      </div> -->
                       <div>
                         <span style="font-weight: bold;color: #969696">
                           <ng-container i18n>班型</ng-container>：
@@ -964,6 +959,15 @@
                     </div>
                     <div *ngIf="CardPatchSign.isForgetCard" class="tag_red" style="margin: 0px">
                       <ng-container i18n>未刷卡</ng-container>
+                    </div>
+                    <div *ngIf="CardPatchSign.isNormal" class="tag_blueError" style="margin: 0px">
+                      <ng-container i18n>正常</ng-container>
+                    </div>
+                    <div *ngIf="CardPatchSign.isOnBeforeMins" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>早到</ng-container>
+                    </div>
+                    <div *ngIf="CardPatchSign.isOffAfterMins" class="tag_red" style="margin: 0px">
+                      <ng-container i18n>晚退</ng-container>
                     </div>
                   </div>
                 </div>

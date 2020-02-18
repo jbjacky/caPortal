@@ -38,7 +38,7 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
   MoreSearchPage = 1
   @Input() CanSerchMore: boolean = false
   @Input() getCatchMoreGetFlowViewDept: GetFlowViewDeptClass
-  
+
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
     private LoadingPage: NgxSpinnerService,
     private GetApiUserService: GetApiUserService) { }
@@ -47,8 +47,8 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.GetApiUserService.counter$
       .subscribe(
-        (x:any) => {
-          if(x!=0){
+        (x: any) => {
+          if (x != 0) {
             this.SearchMan.EmpCode = x.EmpID
             this.SearchMan.EmpNameC = x.EmpNameC
           }
@@ -70,17 +70,27 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
       var _isForgetCard: boolean = false
       var _isEarlyMins: boolean = false
       var _isLateMins: boolean = false
+      var _isNormal: boolean = false
+      var _isOnBeforeMins: boolean = false
+      var _isOffAfterMins: boolean = false
+
       var ErrorStateArray = []
       if (data.ErrorState) {
 
         ErrorStateArray = data.ErrorState.split(',')
-        for (let err of ErrorStateArray) {
-          if (err == '未刷卡') {
-            _isForgetCard = true
-          } else if (err == '遲到') {
-            _isLateMins = true
-          } else if (err == '早退') {
-            _isEarlyMins = true
+        for (let e of ErrorStateArray) {
+          if (e == '未刷卡') {
+            _isForgetCard = true}
+           if (e == '早退') {
+            _isEarlyMins = true}
+           if (e == '遲到') {
+            _isLateMins = true}
+           if (e == '正常') {
+            _isNormal = true}
+           if (e == '早到') {
+            _isOnBeforeMins = true}
+           if (e == '晚退') {
+            _isOffAfterMins = true
           }
         }
       }
@@ -111,6 +121,9 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
         isForgetCard: _isForgetCard,
         isEarlyMins: _isEarlyMins,
         isLateMins: _isLateMins,
+        isNormal: _isNormal,
+        isOnBeforeMins: _isOnBeforeMins,
+        isOffAfterMins: _isOffAfterMins,
 
 
         RoteTimeB: null,
@@ -284,7 +297,7 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
             (x: any) => {
               if (x.Finish) {
                 $('#TransSignformSussesdialog').modal('show')
-              }else{
+              } else {
                 alert(x.MessageContent)
               }
               this.LoadingPage.hide()
@@ -316,7 +329,7 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
             this.forgetSearchFlowSign[this.forgetSearchFlowSign.indexOf(this.takeForm)].State = '7'
             this.forgetSearchFlowSign[this.forgetSearchFlowSign.indexOf(this.takeForm)].Take = false
             $('#sussesdialog').modal('show')
-          }else{
+          } else {
             alert(x.MessageContent)
           }
           this.LoadingPage.hide()
@@ -328,11 +341,11 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
       )
   }
 
-  
+
   MoreOnSearchForm() {
     if (this.CanSerchMore) {
       this.MoreSearchPage = this.MoreSearchPage + 1
-    }else{}
+    } else { }
     this.getCatchMoreGetFlowViewDept.PageCurrent = this.MoreSearchPage
     this.getMoreSearchFlowForm_Dept(this.getCatchMoreGetFlowViewDept)
   }
@@ -373,9 +386,14 @@ export class forgetSearchFlowSignClass {
   Date: string
   RouteCode: string
   RoteNameC: string
+
   isForgetCard: boolean
   isEarlyMins: boolean
   isLateMins: boolean
+  isNormal: boolean
+  isOffAfterMins: boolean
+  isOnBeforeMins: boolean
+
   Handle: boolean
 
   checkProxy: boolean

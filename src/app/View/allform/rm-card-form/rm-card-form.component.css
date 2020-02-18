@@ -1,189 +1,265 @@
-@media (min-width: 800px){
-    #RoteInf .modal-dialog {
-      width: 800px;
-      margin: 30px auto;
-    }
+@media (min-width: 800px) {
+  #RoteInf .modal-dialog {
+    width: 800px;
+    margin: 30px auto;
+  }
 }
-a{
-    cursor: pointer;
+a {
+  cursor: pointer;
 }
-#iDateInf.col-md-3{
-    width: 23%;
+#iDateInf.col-md-3 {
+  width: 23%;
 }
-#iRoteInf.col-md-3{
-    width: 31%;
+#iRoteInf.col-md-3 {
+  width: 31%;
 }
-#iAttendInf.col-md-3{
-    width: 23%;
+#iAttendInf.col-md-3 {
+  width: 23%;
 }
-#iEmpInf.col-md-3{
-    width: 23%;
+#iEmpInf.col-md-3 {
+  width: 23%;
 }
-.Rote{
-  color: #028fcf
+.Rote {
+  color: #028fcf;
 }
-.RoteLink:hover, .RoteLink:focus {
+.RoteLink:hover,
+.RoteLink:focus {
   color: #ff6600;
   cursor: pointer;
   text-decoration: underline;
 }
-.P_textLeft{
-    padding: 0px;
-    text-align: right;
-    padding-top: 6px;
+.P_textLeft {
+  padding: 0px;
+  text-align: right;
+  padding-top: 6px;
 }
-.P_paddingLRZ{
-    padding-left: 15px;
-    padding-right: 0px;
+.P_paddingLRZ {
+  padding-left: 15px;
+  padding-right: 0px;
 }
-.P_paddingZ{
-    margin: 0px;
-    padding-top:10px
+.P_paddingZ {
+  margin: 0px;
+  padding-top: 10px;
 }
-.P_bottomLine{
-    border:0px;
-    border-right:2px solid #D0D3D4;
-    margin: 0px;
-    padding: 0px
+.P_bottomLine {
+  border: 0px;
+  border-right: 2px solid #d0d3d4;
+  margin: 0px;
+  padding: 0px;
 }
-.P_textNotshow{
-    display: inline;
+.P_textNotshow {
+  display: inline;
 }
-.P_lineHeight{
-    color: #028fcf;
-    line-height: 40px;
+.P_lineHeight {
+  color: #028fcf;
+  line-height: 40px;
 }
-.P_paddingRZ{
-    padding-right: 15px
+.P_paddingRZ {
+  padding-right: 15px;
 }
-.P_paddingTop{
-    margin: 0px;
+.P_paddingTop {
+  margin: 0px;
 }
-.P_paddingBottom{
-    padding-bottom:0px;
+.P_paddingBottom {
+  padding-bottom: 0px;
 }
 
 .tagBlue {
-    color: #23569D;
-    background-color: #fff;
-    border: 1px solid #23569D;
-    border-radius: 15px;
-    width: 70px;
-    height: 23px;
-    font-size: 15px;
-    text-align: center;
+  color: #23569d;
+  background-color: #fff;
+  border: 1px solid #23569d;
+  border-radius: 15px;
+  width: 70px;
+  height: 23px;
+  font-size: 15px;
+  text-align: center;
 }
 .tagBlueLineThrough {
-    color: #23569D;
-    background-color: #fff;
-    border: 1px solid #23569D;
-    border-radius: 15px;
-    width: 70px;
-    height: 23px;
-    font-size: 15px;
-    text-align: center;
-    text-decoration: line-through;
+  color: #23569d;
+  background-color: #fff;
+  border: 1px solid #23569d;
+  border-radius: 15px;
+  width: 70px;
+  height: 23px;
+  font-size: 15px;
+  text-align: center;
+  text-decoration: line-through;
 }
 .tag_red {
-    color: #d0021b;
-    background-color: #fff;
-    border: 1px solid #d0021b;
-    border-radius: 15px;
-    width: 70px;
-    height: 23px;
-    font-size: 15px;
-    text-align: center;
+  color: #d0021b;
+  background-color: #fff;
+  border: 1px solid #d0021b;
+  border-radius: 15px;
+  width: 70px;
+  height: 23px;
+  font-size: 15px;
+  text-align: center;
 }
 .cardBlock {
-    border: 1px solid #028fcf;
-    padding: 20px 0px;
-    margin: 0px;
-    margin-bottom: 10px
+  border: 1px solid #028fcf;
+  padding: 20px 0px;
+  margin: 0px;
+  margin-bottom: 10px;
 }
-.P_topTen{
-    padding: 0px;
+.P_topTen {
+  padding: 0px;
 }
-.P_bottomTen{
-    padding: 0px;
+.P_bottomTen {
+  padding: 0px;
 }
 .P_paddingEndTimeAllZ {
   padding: 0px 5px;
 }
-@media screen and (max-width:992px) {
-    .stateblock{
-        /* 流程區塊 */
-        display: none;
-    }
-    .P_textLeft{
-        text-align: left;
-    }
-    .P_paddingLRZ{
-        padding-left:  0px;
-        padding-right: 0px;
-        
-    }
-    .P_paddingZ{
-        padding: 0px;
-        padding-bottom:10px;
-    }
-    .P_bottomLine{
-        border:0px;
-        border-bottom:2px solid #D0D3D4;
-        padding-bottom: 10px;
-    }
-    .P_textNotshow{
-        display: none;
-    }
-    .P_lineHeight{
-        padding: 10px;
-        line-height: 300px;
-    }
-    .P_paddingRZ{
-        padding-right: 0px
-    }
-    .P_paddingEndTimeAllZ {
-      padding: 0;
-    }
-    .P_paddingAllZ{
-        padding:0
-    }
-    .P_paddingTop{
-        margin: 0px;
-        padding-top:15px;
-        padding-left: 0px;
-        padding-right: 0px;
-    }
-    .P_paddingBottom{
-        padding-bottom:10px;
-    }
-    
-    .P_dashed{
-        border-bottom: 1px dashed #dcdcdc;
-        padding-bottom: 15px;
-        padding-top:10px
-        
-    }
-    .P_bottomTen{
-        padding-bottom: 10px;
-    }
-    .P_topTen{
-        padding-top: 10px;
-    }
-    .cardBlock {
-        padding: 20px 20px;
-    }
+.tag_blue {
+  border-radius: 14px;
+  width: 55px;
+  height: 27px;
+  line-height: 27px;
+  /* margin: 0px 5px 10px 0px; */
+  display: inline-block;
+  text-align: center;
+  border: solid 1px #002f7b;
+  color: #002f7b;
+}
+.tag_skyblue {
+  border-radius: 14px;
+  width: 55px;
+  height: 27px;
+  line-height: 27px;
+  /* margin: 0px 5px 10px 0px; */
+  display: inline-block;
+  text-align: center;
+  border: solid 1px #00857d;
+  color: #00857d;
+}
+.tag_red {
+  border-radius: 14px;
+  width: 55px;
+  height: 27px;
+  line-height: 27px;
+  /* margin: 0px 5px 10px 0px; */
+  text-align: center;
+  display: inline-block;
+  border: solid 1px #d0021b;
+  color: #d0021b;
+}
+.tag_gray {
+  border-radius: 14px;
+  width: 55px;
+  height: 27px;
+  line-height: 27px;
+  /* margin: 0px 5px 10px 0px; */
+  text-align: center;
+  display: inline-block;
+  border: solid 1px #9b9b9b;
+  color: #9b9b9b;
+}
 
-    #iDateInf.col-xs-12{
-        width: 100%;
-    }
-    #iRoteInf.col-xs-12{
-        width: 100%;
-    }
-    #iAttendInf.col-xs-12{
-        width: 100%;
-    }
-    #iEmpInf.col-xs-12{
-        width: 100%;
-    }
-    
+.tagBlueLineThrough {
+  color: #23569d;
+  background-color: #fff;
+  border: 1px solid #23569d;
+  border-radius: 15px;
+  width: 70px;
+  height: 23px;
+  font-size: 15px;
+  text-align: center;
+  text-decoration: line-through;
+}
+.P_div {
+  border: 1px solid #028fcf;
+  margin: 0px;
+  margin-bottom: 10px;
+  padding: 15px 10px;
+  /* padding-top: 20px; */
+}
+.P_left {
+  text-align: right;
+}
+.P_padding{
+    padding: 0px 15px;
+}
+@media screen and (max-width: 992px) {
+  .stateblock {
+    /* 流程區塊 */
+    display: none;
+  }
+  .P_textLeft {
+    text-align: left;
+  }
+  .P_paddingLRZ {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .P_paddingZ {
+    padding: 0px;
+    padding-bottom: 10px;
+  }
+  .P_bottomLine {
+    border: 0px;
+    border-bottom: 2px solid #d0d3d4;
+    padding-bottom: 10px;
+  }
+  .P_textNotshow {
+    display: none;
+  }
+  .P_lineHeight {
+    padding: 10px;
+    line-height: 300px;
+  }
+  .P_paddingRZ {
+    padding-right: 0px;
+  }
+  .P_paddingEndTimeAllZ {
+    padding: 0;
+  }
+  .P_paddingAllZ {
+    padding: 0;
+  }
+  .P_paddingTop {
+    margin: 0px;
+    padding-top: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .P_paddingBottom {
+    padding-bottom: 10px;
+  }
+
+  .P_dashed {
+    border-bottom: 1px dashed #dcdcdc;
+    padding-bottom: 15px;
+    padding-top: 10px;
+  }
+  .P_bottomTen {
+    padding-bottom: 10px;
+  }
+  .P_topTen {
+    padding-top: 10px;
+  }
+  .cardBlock {
+    padding: 20px 20px;
+  }
+
+  #iDateInf.col-xs-12 {
+    width: 100%;
+  }
+  #iRoteInf.col-xs-12 {
+    width: 100%;
+  }
+  #iAttendInf.col-xs-12 {
+    width: 100%;
+  }
+  #iEmpInf.col-xs-12 {
+    width: 100%;
+  }
+  .P_div {
+    padding: 10px 15px;
+  }
+  .P_left {
+    text-align: left;
+  }
+  .P_padding{
+      padding: 0px;
+  }
 }

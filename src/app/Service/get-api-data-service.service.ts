@@ -88,6 +88,7 @@ import { GetCheckAgentByTargetGetApiClass } from '../Models/PostData_API_Class/G
 import { AttendUnusualSaveAndFlowStartClass } from '../Models/PostData_API_Class/AttendUnusualSaveAndFlowStart';
 import { CardPatchSaveAndFlowStartClass } from '../Models/PostData_API_Class/CardPatchSaveAndFlowStartClass';
 import { SaveAndFlowStartCombineClass } from '../Models/PostData_API_Class/SaveAndFlowStartCombineClass';
+import { GetOtViewGetApi } from '../Models/PostData_API_Class/GetOtViewGetApi';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -1879,6 +1880,16 @@ export class GetApiDataServiceService {
   }
 
   /**
+   * @todo 取得班別資訊-考勤修正單(合併)
+   */
+  getWebApiData_GetAttendForCardPatchIntegration(GetAttendExceptional: GetAttendExceptionalClass) {
+    return this.http.post(this.localUrl + 'Integration/AbsIntegrationHandler.svc/GetAttendForCardPatch',
+      JSON.stringify(GetAttendExceptional), {
+      headers: this.GetHeader()
+    })
+  }
+  
+  /**
    * @todo 流程檢視(補卡)-部門
    */
   getWebApiData_GetFlowViewCardPatchByDept(GetFlowViewDept: GetFlowViewDeptClass) {
@@ -1908,6 +1919,18 @@ export class GetApiDataServiceService {
       headers: this.GetHeader()
     })
   }
+
+
+  /**
+   * @todo 加班API
+   */
+  getWebApiData_GetOtView(GetOtView: GetOtViewGetApi) {
+    return this.http.post(this.localUrl + 'OtHandler.svc/GetOtView',
+      JSON.stringify(GetOtView), {
+      headers: this.GetHeader()
+    })
+  }
+  
 
 }
 

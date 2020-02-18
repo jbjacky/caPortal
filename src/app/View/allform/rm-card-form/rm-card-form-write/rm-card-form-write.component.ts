@@ -19,6 +19,12 @@ import { ResponeStateClass } from 'src/app/Models/ResponeStateClass';
 import { rmCardTempFormStateClass } from '../rm-card-form-temp/rm-card-form-temp.component';
 import { SaveAndFlowStartCombineClass, AttendUnusualFlowApp, CardFlowApp } from 'src/app/Models/PostData_API_Class/SaveAndFlowStartCombineClass';
 import { CardTempFormStateClass } from '../card-form-temp/card-form-temp.component';
+import { ShowVa } from 'src/app/Models/ShowVa';
+import { GetOtViewGetApiData } from 'src/app/Models/GetOtViewGetApiData';
+import { chinesenum } from 'src/app/UseVoid/void_chinesenumber';
+import { GetAbsDetailByListEmpIDGetApiClass } from 'src/app/Models/PostData_API_Class/GetAbsDetailByListEmpIDGetApiClass';
+import { GetAbsDetailByListEmpIDDataClass } from 'src/app/Models/GetAbsDetailByListEmpIDDataClass';
+import { GetOtViewGetApi } from 'src/app/Models/PostData_API_Class/GetOtViewGetApi';
 
 declare let $: any; //use jquery
 
@@ -144,55 +150,128 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
       }
       return false
     }
-    if (this.getAttendCard.OnBeforeMins && !this.getAttendCard.EliminateOnBefore) {
-      if (this.cR_OnBeforeMins == 0 || this.cR_OnBeforeMins == 2) {
+    if ((this.getAttendCard.OffAfterMins && !this.getAttendCard.EliminateOffAfter) && (this.getAttendCard.OnBeforeMins && !this.getAttendCard.EliminateOnBefore)) {
+      //早到+晚退
+      if (this.cR_OnBeforeMins == 0 || this.cR_OffAfterMins == 0) {
         return true
-      } else {
-        if (this.cR_OnBeforeMins == 3) {
-          if (!this.OnBeforeMinsF) {
-            return true
-          } else if (this.OnBeforeMinsF.FormState != 'VALID')
-            return true
+      }
+      if(this.cR_OnBeforeMins != 3 &&　this.cR_OffAfterMins != 3){
+        return true
+      }
+      if (this.cR_OnBeforeMins == 3 &&　this.cR_OffAfterMins != 3) {
+        if (!this.OnBeforeMinsF) {
+          return true
+        } else if (this.OnBeforeMinsF.FormState != 'VALID')
+          return true
+      }
+      if (this.cR_OffAfterMins == 3 &&　this.cR_OnBeforeMins != 3) {
+        if (!this.OffAfterMinsF) {
+          return true
+        } else if (this.OffAfterMinsF.FormState != 'VALID')
+          return true
+      }
+      if (this.cR_OffAfterMins == 3 &&　this.cR_OnBeforeMins == 3) {
+        if (!this.OnBeforeMinsF) {
+          return true
+        } else if (this.OnBeforeMinsF.FormState != 'VALID')
+          return true
+        if (!this.OffAfterMinsF) {
+          return true
+        } else if (this.OffAfterMinsF.FormState != 'VALID')
+          return true
+      }
+    } else {
+
+      if (this.getAttendCard.OnBeforeMins && !this.getAttendCard.EliminateOnBefore) {
+        if (this.cR_OnBeforeMins == 0 || this.cR_OnBeforeMins == 2) {
+          return true
+        } else {
+          if (this.cR_OnBeforeMins == 3) {
+            if (!this.OnBeforeMinsF) {
+              return true
+            } else if (this.OnBeforeMinsF.FormState != 'VALID')
+              return true
+          }
+        }
+      }
+      if (this.getAttendCard.OffAfterMins && !this.getAttendCard.EliminateOffAfter) {
+        if (this.cR_OffAfterMins == 0 || this.cR_OffAfterMins == 2) {
+          return true
+        } else {
+          if (this.cR_OffAfterMins == 3) {
+            if (!this.OffAfterMinsF) {
+              return true
+            } else if (this.OffAfterMinsF.FormState != 'VALID')
+              return true
+          }
         }
       }
     }
-    if (this.getAttendCard.OffAfterMins && !this.getAttendCard.EliminateOffAfter) {
-      if (this.cR_OffAfterMins == 0 || this.cR_OffAfterMins == 2) {
+    if (this.getAttendCard.EarlyMins && this.getAttendCard.LateMins) {
+      //遲到+早退
+      if (this.cR_EarlyMins == 0 && this.cR_LateMins == 0) {
         return true
-      } else {
-        if (this.cR_OffAfterMins == 3) {
-          if (!this.OffAfterMinsF) {
-            return true
-          } else if (this.OffAfterMinsF.FormState != 'VALID')
-            return true
+      }
+      if(this.cR_EarlyMins != 2 && this.cR_LateMins != 2){
+        return true
+      }
+
+      if (this.cR_EarlyMins == 2 && this.cR_LateMins != 2) {
+        if (!this.EarlyMinsF) {
+          return true
+        } else if (this.EarlyMinsF.FormState != 'VALID')
+          return true
+      }
+      if (this.cR_LateMins == 2 && this.cR_EarlyMins != 2) {
+        if (!this.LateMinsF) {
+          return true
+        } else if (this.LateMinsF.FormState != 'VALID')
+          return true
+      }
+
+      if (this.cR_EarlyMins == 2 && this.cR_LateMins == 2) {
+        if (!this.EarlyMinsF) {
+          return true
+        } else if (this.EarlyMinsF.FormState != 'VALID')
+          return true
+        if (!this.LateMinsF) {
+          return true
+        } else if (this.LateMinsF.FormState != 'VALID')
+          return true
+      }
+    } else {
+      if (this.getAttendCard.EarlyMins) {
+        if (this.cR_EarlyMins == 0 || this.cR_EarlyMins == 1) {
+          return true
+        } else {
+          if (this.cR_EarlyMins == 2) {
+            if (!this.EarlyMinsF) {
+              return true
+            } else if (this.EarlyMinsF.FormState != 'VALID')
+              return true
+          }
+        }
+      }
+      if (this.getAttendCard.LateMins) {
+        if (this.cR_LateMins == 0 || this.cR_LateMins == 1) {
+          return true
+        } else {
+          if (this.cR_LateMins == 2) {
+            if (!this.LateMinsF) {
+              return true
+            } else if (this.LateMinsF.FormState != 'VALID')
+              return true
+          }
         }
       }
     }
-    if (this.getAttendCard.EarlyMins) {
-      if (this.cR_EarlyMins == 0 || this.cR_EarlyMins == 1) {
-        return true
-      } else {
-        if (this.cR_EarlyMins == 2) {
-          if (!this.EarlyMinsF) {
-            return true
-          } else if (this.EarlyMinsF.FormState != 'VALID')
-            return true
-        }
+    var isHaveSingMan: boolean = false
+    if (this.FlowDynamic_Base) {
+      if (this.FlowDynamic_Base.EmpID.length > 0) {
+        isHaveSingMan = true
       }
     }
-    if (this.getAttendCard.LateMins) {
-      if (this.cR_LateMins == 0 || this.cR_LateMins == 1) {
-        return true
-      } else {
-        if (this.cR_LateMins == 2) {
-          if (!this.LateMinsF) {
-            return true
-          } else if (this.LateMinsF.FormState != 'VALID')
-            return true
-        }
-      }
-    }
-    if ((this.cR_OnBeforeMins == 3 || this.cR_OffAfterMins == 3 || this.cR_EarlyMins == 2 || this.cR_LateMins == 2) && !this.FlowDynamic_Base) {
+    if ((this.cR_OnBeforeMins == 3 || this.cR_OffAfterMins == 3 || this.cR_EarlyMins == 2 || this.cR_LateMins == 2) && !isHaveSingMan) {
       return true
     }
     return false
@@ -201,23 +280,31 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
     if (realRadio == uiRadio) {
       this.cR_OnBeforeMins = 0
     }
+    this.clearFlowDynamic_Base()
   }
   disOffAfterRadio(realRadio, uiRadio) {
     if (realRadio == uiRadio) {
       this.cR_OffAfterMins = 0
     }
+    this.clearFlowDynamic_Base()
   }
   disEarlyRadio(realRadio, uiRadio) {
     if (realRadio == uiRadio) {
       this.cR_EarlyMins = 0
     }
+    this.clearFlowDynamic_Base()
   }
   disLateRadio(realRadio, uiRadio) {
     if (realRadio == uiRadio) {
       this.cR_LateMins = 0
     }
+    this.clearFlowDynamic_Base()
   }
-
+  clearFlowDynamic_Base() {
+    if (!(this.cR_LateMins == 2 || this.cR_EarlyMins == 2 || this.cR_OnBeforeMins == 3 || this.cR_OffAfterMins == 3)) {
+      this.FlowDynamic_Base = null
+    }
+  }
 
   ngOnInit() {
     this.Sub_onChangeSignMan$.next(this.getAttendCard.forget_man_code)
@@ -320,26 +407,29 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
         "ErrorState": ErrorStateName
       }
     ]
-    console.log(SaveAndFlowStartCombine)
+    // console.log(SaveAndFlowStartCombine)
     // this.LoadingPage.show()
-    // this.GetApiDataServiceService.getWebApiData_SaveAndFlowStartCombine(SaveAndFlowStartCombine)
-    //   .pipe(takeWhile(() => this.api_subscribe))
-    //   .subscribe((ResponeStateArray: ResponeStateClass[]) => {
-    //     // console.log(SaveAndFlowStart)
-    //     if (ResponeStateArray[0].isOK) {
-    //       $('#sussesdialog').modal('show');
-    //     } else {
-    //       var errMsg = ''
-    //       for (let e of ResponeStateArray[0].ErrorMsg) {
-    //         errMsg += e + '。 '
-    //       }
-    //       alert(errMsg);
-    //     }
-    //     this.LoadingPage.hide()
-    //   },
-    //     error => {
-    //       this.LoadingPage.hide()
-    //     })
+    /**
+     * @todo 正常、未刷卡起單
+     */
+    this.GetApiDataServiceService.getWebApiData_SaveAndFlowStartCombine(SaveAndFlowStartCombine)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((ResponeStateArray: ResponeStateClass[]) => {
+        // console.log(SaveAndFlowStart)
+        if (ResponeStateArray[0].isOK) {
+          $('#sussesdialog').modal('show');
+        } else {
+          var errMsg = ''
+          for (let e of ResponeStateArray[0].ErrorMsg) {
+            errMsg += e + '。 '
+          }
+          alert(errMsg);
+        }
+        this.LoadingPage.hide()
+      },
+        error => {
+          this.LoadingPage.hide()
+        })
 
   }
 
@@ -348,13 +438,13 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
     var ExceptionalCode = ''
     var ExceptionalName = ''
 
-    if (this.getAttendCard.LateMins && !this.getAttendCard.EliminateLate) {
-      ExceptionalCode += '1,'
-      ExceptionalName += '遲到,'
-    }
     if (this.getAttendCard.EarlyMins && !this.getAttendCard.EliminateEarly) {
-      ExceptionalCode += '2,'
+      ExceptionalCode += '1,'
       ExceptionalName += '早退,'
+    }
+    if (this.getAttendCard.LateMins && !this.getAttendCard.EliminateLate) {
+      ExceptionalCode += '2,'
+      ExceptionalName += '遲到,'
     }
     if (this.getAttendCard.IsAbsent && !this.getAttendCard.EliminateAbsent) {
       ExceptionalCode += '3,'
@@ -385,13 +475,13 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
 
     var ExceptionalCodeCancel = ''
     var ExceptionalNameCancel = ''
-    if (this.getAttendCard.EarlyMins && this.getAttendCard.EliminateEarly) {
-      ExceptionalCodeCancel += '1,'
-      ExceptionalNameCancel += '遲到,'
-    }
     if (this.getAttendCard.LateMins && this.getAttendCard.EliminateLate) {
-      ExceptionalCodeCancel += '2,'
+      ExceptionalCodeCancel += '1,'
       ExceptionalNameCancel += '早退,'
+    }
+    if (this.getAttendCard.EarlyMins && this.getAttendCard.EliminateEarly) {
+      ExceptionalCodeCancel += '2,'
+      ExceptionalNameCancel += '遲到,'
     }
     if (this.getAttendCard.IsAbsent && this.getAttendCard.EliminateAbsent) {
       ExceptionalCodeCancel += '3,'
@@ -435,18 +525,18 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
         rmCardTempFormState: this.OffAfterMinsF
       })
     }
-    if (this.LateMinsF && this.cR_LateMins == 2) {
-      uiRmCardTempFormState.push({
-        ErrorStateCode: 1,
-        ErrorStateName: "遲到",
-        rmCardTempFormState: this.LateMinsF
-      })
-    }
     if (this.EarlyMinsF && this.cR_EarlyMins == 2) {
       uiRmCardTempFormState.push({
-        ErrorStateCode: 2,
+        ErrorStateCode: 1,
         ErrorStateName: "早退",
         rmCardTempFormState: this.EarlyMinsF
+      })
+    }
+    if (this.LateMinsF && this.cR_LateMins == 2) {
+      uiRmCardTempFormState.push({
+        ErrorStateCode: 2,
+        ErrorStateName: "遲到",
+        rmCardTempFormState: this.LateMinsF
       })
     }
     var uiAttendUnusualFlowApp: AttendUnusualFlowApp = {
@@ -608,27 +698,36 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
           "ErrorState": uiState.ErrorStateName
         })
     }
-    console.log(SaveAndFlowStartCombine)
-    // this.LoadingPage.show()
-    // this.GetApiDataServiceService.getWebApiData_SaveAndFlowStartCombine(SaveAndFlowStartCombine)
-    //   .pipe(takeWhile(() => this.api_subscribe))
-    //   .subscribe((ResponeStateArray: ResponeStateClass[]) => {
-    //     // console.log(SaveAndFlowStart)
-    //     if (ResponeStateArray[0].isOK) {
-    //       $('#sussesdialog').modal('show');
-    //     } else {
-    //       var errMsg = ''
-    //       for (let e of ResponeStateArray[0].ErrorMsg) {
-    //         errMsg += e + '。 '
-    //       }
-    //       alert(errMsg);
-    //     }
-    //     this.LoadingPage.hide()
-    //   },
-    //     error => {
-    //       this.LoadingPage.hide()
-    //       // console.log(error)
-    //     })
+    // console.log(SaveAndFlowStartCombine)
+
+    /**
+     * @todo 遲到、早退、早到、晚退起單
+     */
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_SaveAndFlowStartCombine(SaveAndFlowStartCombine)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((ResponeStateArray: ResponeStateClass[]) => {
+        // console.log(SaveAndFlowStart)
+        var isOK = true
+        for (let state of ResponeStateArray) {
+          if (!state.isOK) {
+            var errMsg = ''
+            for (let e of state.ErrorMsg) {
+              errMsg += e + '。 '
+            }
+            alert(errMsg);
+            isOK = false
+          }
+        }
+        if (isOK) {
+          $('#sussesdialog').modal('show');
+        }
+        this.LoadingPage.hide()
+      },
+        error => {
+          this.LoadingPage.hide()
+          // console.log(error)
+        })
 
 
   }
@@ -651,6 +750,106 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf_write').modal('show')
     }
+  }
+
+
+  ShowVa: ShowVa[] = []
+  ShowOt: GetOtViewGetApiData[] = []
+  SearchAttendDate: string = ''
+
+  showDay(i) {
+    return chinesenum(i + 1)
+  }
+  vaClick(YearMonthDday, EmpID) {
+    // alert('請假單:' + YearMonthDday + ' ' + EmpID)
+    this.SearchAttendDate = YearMonthDday
+    var GetAbsDetailByListEmpIDGetApi: GetAbsDetailByListEmpIDGetApiClass = {
+      "DateB": YearMonthDday,
+      "DateE": YearMonthDday,
+      "ListEmpID": [
+        EmpID
+      ]
+    }
+    this.LoadingPage.show()
+
+    this.GetApiDataServiceService.getWebApiData_GetAbsDetailByListEmpID(GetAbsDetailByListEmpIDGetApi)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (GetAbsDetailByListEmpIDData: GetAbsDetailByListEmpIDDataClass[]) => {
+          this.ShowVa = []
+          for (let data of GetAbsDetailByListEmpIDData) {
+            var setDay = 0
+            var setHour = 0
+            var setMin = 0
+            //計算日時分
+
+            setDay = data.UseDayHourMinute.Day
+            setHour = data.UseDayHourMinute.Hour
+            setMin = data.UseDayHourMinute.Minute
+
+            this.ShowVa.push({
+              State: data.State,
+              DateTimeB: data.DateTimeB,
+              DateTimeE: data.DateTimeE,
+              SignDate: data.CreatDate,
+              HoliDayNameC: data.HoliDay.HoliDayNameC,
+              Use: data.Use,
+
+              showDateB: formatDateTime(data.DateTimeB).getDate,
+              showDateE: formatDateTime(data.DateTimeE).getDate,
+              showTimeB: getapi_formatTimetoString(formatDateTime(data.DateTimeB).getTime),
+              showTimeE: getapi_formatTimetoString(formatDateTime(data.DateTimeE).getTime),
+              showSignDate: formatDateTime(data.CreatDate).getDate,
+              showSignTime: getapi_formatTimetoString(formatDateTime(data.CreatDate).getTime),
+              day: setDay.toString(),
+              hour: setHour.toString(),
+              minute: setMin.toString()
+            })
+          }
+          this.LoadingPage.hide()
+          $('#RecentHoliday').modal('show')
+        }, error => {
+          this.LoadingPage.hide()
+        }
+      )
+  }
+  otClick(YearMonthDday, EmpID) {
+    var GetOtViewGetApi: GetOtViewGetApi = {
+      "EmpList": [
+        EmpID
+      ],
+      "DateList": [
+        YearMonthDday
+      ]
+    }
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetOtView(GetOtViewGetApi)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (GetOtViewGetApiData: GetOtViewGetApiData[]) => {
+          this.ShowOt = JSON.parse(JSON.stringify(GetOtViewGetApiData))
+          for (let ot of this.ShowOt) {
+            ot.DateTimeB = formatDateTime(ot.DateTimeB).getDate + ' ' + getapi_formatTimetoString(formatDateTime(ot.DateTimeB).getTime)
+            ot.DateTimeE = formatDateTime(ot.DateTimeE).getDate + ' ' + getapi_formatTimetoString(formatDateTime(ot.DateTimeE).getTime)
+            ot.ApproveDate = formatDateTime(ot.ApproveDate).getDate + ' ' + getapi_formatTimetoString(formatDateTime(ot.ApproveDate).getTime)
+          }
+          this.LoadingPage.hide()
+          $('#OtDataDialog').modal('show')
+        })
+  }
+  get vaFormHerf(){
+    var originHerf =  location.href.split('nav')[0]
+    var vaFormHerf = originHerf+'nav/vaform/writevaform'
+    return vaFormHerf
+  }
+  goWriteVaPage(){
+    // var originHerf =  location.href.split('nav')[1]
+    // var vaFormHerf = originHerf+'/nav/vaform/writevaform'
+    // console.log(vaFormHerf)
+    var originHerf =  location.href.split('nav')[0]
+    var vaFormHerf = originHerf+'nav/vaform/writevaform'
+    console.log(vaFormHerf)
+    window.open(vaFormHerf,'_blank')
   }
 }
 

@@ -17,6 +17,14 @@ import { GetFormInfoDataClass } from 'src/app/Models/GetFormInfoDataClass';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
 import { void_MonthDiff } from 'src/app/UseVoid/void_DateDiff';
+import { GetAttendForCardPatchIntegrationData } from 'src/app/Models/GetAttendForCardPatchIntegrationData';
+import { formatDate } from '@angular/common';
+import { ShowVa } from 'src/app/Models/ShowVa';
+import { GetAbsDetailByListEmpIDGetApiClass } from 'src/app/Models/PostData_API_Class/GetAbsDetailByListEmpIDGetApiClass';
+import { GetAbsDetailByListEmpIDDataClass } from 'src/app/Models/GetAbsDetailByListEmpIDDataClass';
+import { chinesenum } from 'src/app/UseVoid/void_chinesenumber';
+import { GetOtViewGetApi } from 'src/app/Models/PostData_API_Class/GetOtViewGetApi';
+import { GetOtViewGetApiData } from 'src/app/Models/GetOtViewGetApiData';
 declare let $: any; //use jquery
 
 @Component({
@@ -256,9 +264,9 @@ export class RmCardFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   searchAttendExceptional(GetAttendExceptional) {
     this.LoadingPage.show()
-    this.GetApiDataServiceService.getWebApiData_GetAttendForCardPatch(GetAttendExceptional)
+    this.GetApiDataServiceService.getWebApiData_GetAttendForCardPatchIntegration(GetAttendExceptional)
       .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe((data: any) => {
+      .subscribe((data: GetAttendForCardPatchIntegrationData[]) => {
         // console.log(data)
         if (data) {
           if (data.length != 0) {
@@ -353,7 +361,21 @@ export class RmCardFormComponent implements OnInit, AfterViewInit, OnDestroy {
               AttendData.UiAttendColor.RAttendOnTimeTitle = this.RedAttendString_OnTimeTitle(AttendData)
               AttendData.UiAttendColor.RAttendOnTimeContent = this.RedAttendString_OnTimeContent(AttendData)
               AttendData.UiAttendColor.ROffTimeTitle = this.RedAttendString_OffTimeTitle(AttendData)
-              AttendData.UiAttendColor.ROffTimeContent =  this.RedAttendString_OffTimeContent(AttendData)
+              AttendData.UiAttendColor.ROffTimeContent = this.RedAttendString_OffTimeContent(AttendData)
+
+              AttendData.IsAbs = x.IsAbs
+              AttendData.IsOt = x.IsOt
+
+              //如果車誤，把dateTime分析成Time
+              if (x.Behind) {
+                if (x.Behind.IsDelay) {
+                  x.Behind.ArriveTime = getapi_formatTimetoString(formatDateTime(x.Behind.ArriveTime).getTime)
+                }
+              }
+              AttendData.Behind = x.Behind
+
+              var Time = formatDateTime(x.ArriveTime).getTime
+              AttendData.ArriveTime = Time
               this.AttendCard.push(AttendData)
               // this.loading = false
             }
@@ -433,14 +455,14 @@ export class RmCardFormComponent implements OnInit, AfterViewInit, OnDestroy {
       $("#Assistant_ChooseEmpCode").addClass("errorInput");
     }
   }
-  RedAttendString_OnTimeTitle(Attend:AttendCard) {
+  RedAttendString_OnTimeTitle(Attend: AttendCard) {
     if (this.RedAttendString(Attend).onTimeErr) {
       return '#d0021b'
     } else {
       return 'rgb(150, 149, 148)'
     }
   }
-  RedAttendString_OnTimeContent(Attend:AttendCard) {
+  RedAttendString_OnTimeContent(Attend: AttendCard) {
     if (this.RedAttendString(Attend).onTimeErr) {
       return '#d0021b'
     } else {
@@ -448,14 +470,14 @@ export class RmCardFormComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  RedAttendString_OffTimeTitle(Attend:AttendCard) {
+  RedAttendString_OffTimeTitle(Attend: AttendCard) {
     if (this.RedAttendString(Attend).offTimeErr) {
       return '#d0021b'
     } else {
       return 'rgb(150, 149, 148)'
     }
   }
-  RedAttendString_OffTimeContent(Attend:AttendCard) {
+  RedAttendString_OffTimeContent(Attend: AttendCard) {
     if (this.RedAttendString(Attend).offTimeErr) {
       return '#d0021b'
     } else {
@@ -463,27 +485,27 @@ export class RmCardFormComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  RedAttendString(Attend:AttendCard){
+  RedAttendString(Attend: AttendCard) {
     // console.log(Attend)
-    var onTimeErr:boolean = false
-    var offTimeErr:boolean = false
-    if( (Attend.IsAbsent) ){
-        onTimeErr = true
-        offTimeErr = true 
+    var onTimeErr: boolean = false
+    var offTimeErr: boolean = false
+    if ((Attend.IsAbsent)) {
+      onTimeErr = true
+      offTimeErr = true
     }
 
-    if( (Attend.LateMins  && !Attend.EliminateLate)  ||
-        (Attend.OnBeforeMins && !Attend.EliminateOnBefore) 
-      ){
+    if ((Attend.LateMins && !Attend.EliminateLate) ||
+      (Attend.OnBeforeMins && !Attend.EliminateOnBefore)
+    ) {
       onTimeErr = true
     }
 
-    if( (Attend.EarlyMins && !Attend.EliminateEarly) ||
-        (Attend.OffAfterMins && !Attend.EliminateOffAfter)
-      ){
-      offTimeErr = true 
+    if ((Attend.EarlyMins && !Attend.EliminateEarly) ||
+      (Attend.OffAfterMins && !Attend.EliminateOffAfter)
+    ) {
+      offTimeErr = true
     }
-    return{onTimeErr:onTimeErr,offTimeErr:offTimeErr}
+    return { onTimeErr: onTimeErr, offTimeErr: offTimeErr }
   }
 
   private Be_setGetRoteInfo$: BehaviorSubject<any> = new BehaviorSubject<Array<number>>(null);
@@ -496,5 +518,91 @@ export class RmCardFormComponent implements OnInit, AfterViewInit, OnDestroy {
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf').modal('show')
     }
+  }
+
+
+  ShowVa: ShowVa[] = []
+  ShowOt: GetOtViewGetApiData[] = []
+  SearchAttendDate: string = ''
+
+  showDay(i) {
+    return chinesenum(i + 1)
+  }
+  vaClick(YearMonthDday, EmpID) {
+    // alert('請假單:' + YearMonthDday + ' ' + EmpID)
+    this.SearchAttendDate = YearMonthDday
+    var GetAbsDetailByListEmpIDGetApi: GetAbsDetailByListEmpIDGetApiClass = {
+      "DateB": YearMonthDday,
+      "DateE": YearMonthDday,
+      "ListEmpID": [
+        EmpID
+      ]
+    }
+    this.LoadingPage.show()
+
+    this.GetApiDataServiceService.getWebApiData_GetAbsDetailByListEmpID(GetAbsDetailByListEmpIDGetApi)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (GetAbsDetailByListEmpIDData: GetAbsDetailByListEmpIDDataClass[]) => {
+          this.ShowVa = []
+          for (let data of GetAbsDetailByListEmpIDData) {
+            var setDay = 0
+            var setHour = 0
+            var setMin = 0
+            //計算日時分
+
+            setDay = data.UseDayHourMinute.Day
+            setHour = data.UseDayHourMinute.Hour
+            setMin = data.UseDayHourMinute.Minute
+
+            this.ShowVa.push({
+              State: data.State,
+              DateTimeB: data.DateTimeB,
+              DateTimeE: data.DateTimeE,
+              SignDate: data.CreatDate,
+              HoliDayNameC: data.HoliDay.HoliDayNameC,
+              Use: data.Use,
+
+              showDateB: formatDateTime(data.DateTimeB).getDate,
+              showDateE: formatDateTime(data.DateTimeE).getDate,
+              showTimeB: getapi_formatTimetoString(formatDateTime(data.DateTimeB).getTime),
+              showTimeE: getapi_formatTimetoString(formatDateTime(data.DateTimeE).getTime),
+              showSignDate: formatDateTime(data.CreatDate).getDate,
+              showSignTime: getapi_formatTimetoString(formatDateTime(data.CreatDate).getTime),
+              day: setDay.toString(),
+              hour: setHour.toString(),
+              minute: setMin.toString()
+            })
+          }
+          this.LoadingPage.hide()
+          $('#RecentHoliday').modal('show')
+        }, error => {
+          this.LoadingPage.hide()
+        }
+      )
+  }
+  otClick(YearMonthDday, EmpID) {
+    var GetOtViewGetApi: GetOtViewGetApi = {
+      "EmpList": [
+        EmpID
+      ],
+      "DateList": [
+        YearMonthDday
+      ]
+    }
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetOtView(GetOtViewGetApi)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (GetOtViewGetApiData: GetOtViewGetApiData[]) => {
+          this.ShowOt  = JSON.parse(JSON.stringify(GetOtViewGetApiData))
+          for(let ot of this.ShowOt){
+            ot.DateTimeB = formatDateTime(ot.DateTimeB).getDate+' '+getapi_formatTimetoString( formatDateTime(ot.DateTimeB).getTime )
+            ot.DateTimeE = formatDateTime(ot.DateTimeE).getDate+' '+getapi_formatTimetoString( formatDateTime(ot.DateTimeE).getTime )
+            ot.ApproveDate = formatDateTime(ot.ApproveDate).getDate+' '+getapi_formatTimetoString( formatDateTime(ot.ApproveDate).getTime )
+          }
+          this.LoadingPage.hide()
+          $('#OtDataDialog').modal('show')
+        })
   }
 }

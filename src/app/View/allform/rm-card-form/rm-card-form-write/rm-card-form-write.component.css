@@ -338,6 +338,75 @@ a {
   background: #fff;
   overflow: hidden;
 }
+.tag_blue {
+  border-radius: 14px;
+  width: 55px;
+  height: 27px;
+  line-height: 27px;
+  /* margin: 0px 5px 10px 0px; */
+  display: inline-block;
+  text-align: center;
+  border: solid 1px #002f7b;
+  color: #002f7b;
+}
+.tag_skyblue {
+  border-radius: 14px;
+  width: 55px;
+  height: 27px;
+  line-height: 27px;
+  /* margin: 0px 5px 10px 0px; */
+  display: inline-block;
+  text-align: center;
+  border: solid 1px #00857d;
+  color: #00857d;
+}
+.tag_red {
+  border-radius: 14px;
+  width: 55px;
+  height: 27px;
+  line-height: 27px;
+  /* margin: 0px 5px 10px 0px; */
+  text-align: center;
+  display: inline-block;
+  border: solid 1px #d0021b;
+  color: #d0021b;
+}
+.tag_gray {
+  border-radius: 14px;
+  width: 55px;
+  height: 27px;
+  line-height: 27px;
+  /* margin: 0px 5px 10px 0px; */
+  text-align: center;
+  display: inline-block;
+  border: solid 1px #9b9b9b;
+  color: #9b9b9b;
+}
+
+.tagBlueLineThrough {
+  color: #23569d;
+  background-color: #fff;
+  border: 1px solid #23569d;
+  border-radius: 15px;
+  width: 70px;
+  height: 23px;
+  font-size: 15px;
+  text-align: center;
+  text-decoration: line-through;
+}
+.P_div {
+  border: 1px solid #028fcf;
+  margin: 0px;
+  margin-bottom: 10px;
+  padding: 15px 10px;
+  /* padding-top: 20px; */
+}
+.P_left {
+  text-align: right;
+}
+.P_padding{
+    padding: 0px 15px;
+}
 @media screen and (max-width: 992px) {
   .rwd-table th,
   .rwd-table td {
@@ -379,6 +448,15 @@ a {
   }
   .rwd-table tbody > tr {
     border-bottom: 1px solid #ababab;
+  }
+  .P_div {
+    padding: 10px 15px;
+  }
+  .P_left {
+    text-align: left;
+  }
+  .P_padding{
+      padding: 0px;
   }
   
 }

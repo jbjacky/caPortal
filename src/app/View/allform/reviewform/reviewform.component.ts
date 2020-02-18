@@ -1276,15 +1276,25 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
               var _isForgetCard: boolean = false
               var _isEarlyMins: boolean = false
               var _isLateMins: boolean = false
+              var _isNormal: boolean = false
+              var _isOnBeforeMins: boolean = false
+              var _isOffAfterMins: boolean = false
               for (let e of ExceptionalNameArray) {
                 if (e == '未刷卡') {
-                  _isForgetCard = true
-                } else if (e == '早退') {
-                  _isEarlyMins = true
-                } else if (e == '遲到') {
-                  _isLateMins = true
+                  _isForgetCard = true}
+                 if (e == '早退') {
+                  _isEarlyMins = true}
+                 if (e == '遲到') {
+                  _isLateMins = true}
+                 if (e == '正常') {
+                  _isNormal = true}
+                 if (e == '早到') {
+                  _isOnBeforeMins = true}
+                 if (e == '晚退') {
+                  _isOffAfterMins = true
                 }
               }
+              
               this.CardPatchFlowSigns.push({
                 uiProcessFlowID: void_completionTenNum(cc.ProcessFlowID),
                 ProcessFlowID: cc.ProcessFlowID.toString(),
@@ -1297,9 +1307,13 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                 isApproved: cc.isApproved,
                 isSendback: cc.isSendback,
                 isPutForward: cc.isPutForward,
+
                 isForgetCard: _isForgetCard,
                 isEarlyMins: _isEarlyMins,
                 isLateMins: _isLateMins,
+                isNormal:_isNormal,
+                isOnBeforeMins:_isOnBeforeMins,
+                isOffAfterMins:_isOffAfterMins,
 
                 checkProxy: cc.checkProxy,
                 WriteEmpCode: cc.EmpCode,
@@ -1396,6 +1410,9 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
               var _isForgetCard: boolean = false
               var _isEarlyMins: boolean = false
               var _isLateMins: boolean = false
+              var _isNormal: boolean = false
+              var _isOnBeforeMins: boolean = false
+              var _isOffAfterMins: boolean = false
               for (let e of ExceptionalNameArray) {
                 if (e == '未刷卡') {
                   _isForgetCard = true
@@ -1403,6 +1420,12 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                   _isEarlyMins = true
                 } else if (e == '遲到') {
                   _isLateMins = true
+                } else if (e == '正常') {
+                  _isNormal = true
+                } else if (e == '早到') {
+                  _isOnBeforeMins = true
+                } else if (e == '晚退') {
+                  _isOffAfterMins = true
                 }
               }
               this.forgetFlowSigns.push({
@@ -1420,6 +1443,9 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                 isForgetCard: _isForgetCard,
                 isEarlyMins: _isEarlyMins,
                 isLateMins: _isLateMins,
+                isNormal: _isNormal,
+                isOnBeforeMins:_isOnBeforeMins,
+                isOffAfterMins: _isOffAfterMins,
 
                 checkProxy: cc.checkProxy,
                 WriteEmpCode: cc.EmpCode,

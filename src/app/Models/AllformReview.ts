@@ -100,6 +100,9 @@ export class forgetFlowSign{
   isForgetCard:boolean
   isEarlyMins:boolean
   isLateMins:boolean
+  isNormal:boolean
+  isOffAfterMins:boolean
+  isOnBeforeMins:boolean
 
   Date:string;
   RoteCode:string;
@@ -215,6 +218,9 @@ export class CardPatchFlowSign{
   isForgetCard:boolean
   isEarlyMins:boolean
   isLateMins:boolean
+  isNormal:boolean
+  isOnBeforeMins:boolean
+  isOffAfterMins:boolean
 
   Date:string;
   RoteCode:string;

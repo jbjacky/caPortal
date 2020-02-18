@@ -1,3 +1,4 @@
+import { Behind } from "./GetAttendForCardPatchIntegrationData";
 
 export class AttendCard {
   forget_man_code: string;
@@ -15,7 +16,7 @@ export class AttendCard {
   EliminateOnBefore: boolean;
   EliminateOffAfter: boolean;
   EliminateAbsent: boolean;
-  IsAbnormal:boolean;
+  IsAbnormal: boolean;
   RoteID: number;
   RoteCode: string;
   RoteNameC: string;
@@ -30,10 +31,14 @@ export class AttendCard {
   ActualRote_calCrossDay: boolean
   AttendCard_OnTime_calCrossDay: boolean
   AttendCard_OffTime_calCrossDay: boolean
-  UiAttendColor:UiAttendColorCalss = new UiAttendColorCalss()
+  UiAttendColor: UiAttendColorCalss = new UiAttendColorCalss()
+  IsAbs: boolean //請假
+  IsOt: boolean // 加班
+  Behind: Behind // 車誤
+  ArriveTime: string // 如果Behind = true 才有意義
 }
 
-class UiAttendColorCalss{
+class UiAttendColorCalss {
   RAttendOnTimeTitle: string
   RAttendOnTimeContent: string
   ROffTimeTitle: string

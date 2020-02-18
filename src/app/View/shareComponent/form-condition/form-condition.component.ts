@@ -62,11 +62,11 @@ export class FormConditionComponent implements OnInit, OnDestroy {
   }, {
     select: '考勤異常簽認單',
     value: 'AttendUnusual',
-    filter: [{ value: 'All', name: '全部' }, { value: 'lateState', name: '遲到' }, { value: 'earlyState', name: '早退' }, { value: 'forgetCard', name: '未刷卡' }, { value: 'OnBefore', name: '早到' }, { value: 'OffAfter', name: '晚退' }]
+    filter: [{ value: 'All', name: '全部' }, { value: 'earlyState', name: '早退' }, { value: 'lateState', name: '遲到' }, { value: 'forgetCard', name: '未刷卡' }, { value: 'OnBefore', name: '早到' }, { value: 'OffAfter', name: '晚退' }]
   }, {
     select: '補卡單',
     value: 'CardPatch',
-    filter: [{ value: 'All', name: '全部' }, { value: 'lateState', name: '遲到' }, { value: 'earlyState', name: '早退' }, { value: 'forgetCard', name: '未刷卡' }]
+    filter: [{ value: 'All', name: '全部' }, { value: 'earlyState', name: '早退' }, { value: 'lateState', name: '遲到' }, { value: 'forgetCard', name: '未刷卡' }, { value: 'OnBefore', name: '早到' }, { value: 'OffAfter', name: '晚退' }]
   }
     // ,{
     //   select: '忘刷單',
@@ -283,10 +283,10 @@ export class FormConditionComponent implements OnInit, OnDestroy {
         if (this.selectFilterCondition == 'All') {
           forget_setCond1 = '0'
         }
-        else if (this.selectFilterCondition == 'lateState') {
+        else if (this.selectFilterCondition == 'earlyState') {
           forget_setCond1 = '1'
         }
-        else if (this.selectFilterCondition == 'earlyState') {
+        else if (this.selectFilterCondition == 'lateState') {
           forget_setCond1 = '2'
         }
         else if (this.selectFilterCondition == 'forgetCard') {
@@ -319,15 +319,22 @@ export class FormConditionComponent implements OnInit, OnDestroy {
         if (this.selectFilterCondition == 'All') {
           forget_setCond1 = '0'
         }
-        else if (this.selectFilterCondition == 'lateState') {
+        else if (this.selectFilterCondition == 'earlyState') {
           forget_setCond1 = '1'
         }
-        else if (this.selectFilterCondition == 'earlyState') {
+        else if (this.selectFilterCondition == 'lateState') {
           forget_setCond1 = '2'
         }
         else if (this.selectFilterCondition == 'forgetCard') {
           forget_setCond1 = '3'
         }
+        else if (this.selectFilterCondition == 'OnBefore') {
+          forget_setCond1 = '4'
+        }
+        else if (this.selectFilterCondition == 'OffAfter') {
+          forget_setCond1 = '5'
+        }
+        
         var GetFlowView_Card: GetFlowViewClass = {
           "ListEmpID": [''],
           "DateB": doFormatDate(this.dateS),
