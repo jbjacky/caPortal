@@ -17,5 +17,7 @@ export interface GetFlowSignCardApiDataClass {
     ExceptionalName:   string;
     Date:              string;
     RoteCode:          string;
+    ErrorStateCode:    string;
+    ErrorStateName:    string;
 }
 

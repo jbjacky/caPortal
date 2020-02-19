@@ -89,6 +89,7 @@ import { AttendUnusualSaveAndFlowStartClass } from '../Models/PostData_API_Class
 import { CardPatchSaveAndFlowStartClass } from '../Models/PostData_API_Class/CardPatchSaveAndFlowStartClass';
 import { SaveAndFlowStartCombineClass } from '../Models/PostData_API_Class/SaveAndFlowStartCombineClass';
 import { GetOtViewGetApi } from '../Models/PostData_API_Class/GetOtViewGetApi';
+import { GetCardFlowAppsGetApi } from '../Models/PostData_API_Class/GetCardFlowAppsGetApi';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -1930,7 +1931,17 @@ export class GetApiDataServiceService {
       headers: this.GetHeader()
     })
   }
+
   
+  /**
+   * @todo 取得補卡單流程資料
+   */
+  getWebApiData_GetCardFlowApps(GetCardFlowApps:GetCardFlowAppsGetApi) {
+    return this.http.post(this.localUrl + 'Flow/CardPatchFlowHandler.svc/GetCardFlowApps',
+    JSON.stringify(GetCardFlowApps), {
+      headers: this.GetHeader()
+    })
+  }
 
 }
 

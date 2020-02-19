@@ -1,8 +1,8 @@
 
 var TimeOut = '60000'
-
+//TimeOut時間(1000 = 1秒)
 var OAuthPath = 'https://iam.china-airlines.com/mga/sps/oauth/oauth20/authorize'
-
+//oidc位置
 var FileUploadType = [
         ".doc",
         ".docx",
@@ -22,3 +22,4 @@ var FileUploadType = [
         ".mht",
         ".pdf"
       ]
+//上傳限制檔案類型

@@ -742,6 +742,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   checkCardPatch_PutForward(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
     this.CardPatchDetail_click(e_forgetFlowSign, ReloadTabData)
+    this.showPutForwarddialog = true
     $('#PutForwarddialog').modal('show')
   }
   forgetDetailView(e_forgetFlowSign: forgetFlowSign, ReloadTabData){
@@ -1271,28 +1272,24 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
           if (GetFlowSignCardApiData) {
 
             for (let cc of GetFlowSignCardApiData) {
-              var ExceptionalNameArray = []
-              ExceptionalNameArray = cc.ExceptionalName.split(',')
               var _isForgetCard: boolean = false
               var _isEarlyMins: boolean = false
               var _isLateMins: boolean = false
               var _isNormal: boolean = false
               var _isOnBeforeMins: boolean = false
               var _isOffAfterMins: boolean = false
-              for (let e of ExceptionalNameArray) {
-                if (e == '未刷卡') {
-                  _isForgetCard = true}
-                 if (e == '早退') {
-                  _isEarlyMins = true}
-                 if (e == '遲到') {
-                  _isLateMins = true}
-                 if (e == '正常') {
-                  _isNormal = true}
-                 if (e == '早到') {
-                  _isOnBeforeMins = true}
-                 if (e == '晚退') {
-                  _isOffAfterMins = true
-                }
+              if (cc.ErrorStateName == '未刷卡') {
+                _isForgetCard = true}
+               if (cc.ErrorStateName == '早退') {
+                _isEarlyMins = true}
+               if (cc.ErrorStateName == '遲到') {
+                _isLateMins = true}
+               if (cc.ErrorStateName == '正常') {
+                _isNormal = true}
+               if (cc.ErrorStateName == '早到') {
+                _isOnBeforeMins = true}
+               if (cc.ErrorStateName == '晚退') {
+                _isOffAfterMins = true
               }
               
               this.CardPatchFlowSigns.push({
@@ -1316,8 +1313,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                 isOffAfterMins:_isOffAfterMins,
 
                 checkProxy: cc.checkProxy,
-                WriteEmpCode: cc.EmpCode,
-                WriteEmpNameC: cc.EmpNameC,
+                WriteEmpCode: cc.WriteEmpCode,
+                WriteEmpNameC: cc.WriteEmpNameC,
 
                 Date: formatDateTime(cc.Date).getDate.toString(),
                 RoteCode: cc.RoteCode,

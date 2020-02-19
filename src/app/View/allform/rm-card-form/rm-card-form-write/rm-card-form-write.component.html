@@ -202,7 +202,8 @@
             </div>
             <div>
               <span *ngIf="!getAttendCard.IsAbs">無</span>
-              <a *ngIf="getAttendCard.IsAbs" (click)="vaClick(getAttendCard.AttendDate,getAttendCard.forget_man_code)">查閱</a>
+              <a *ngIf="getAttendCard.IsAbs"
+                (click)="vaClick(getAttendCard.AttendDate,getAttendCard.forget_man_code)">查閱</a>
             </div>
           </div>
           <div class="col-md-4 col-xs-6" style="padding:0">
@@ -211,7 +212,8 @@
             </div>
             <div>
               <span *ngIf="!getAttendCard.IsOt">無</span>
-              <a *ngIf="getAttendCard.IsOt"  (click)="otClick(getAttendCard.AttendDate,getAttendCard.forget_man_code)">查閱</a>
+              <a *ngIf="getAttendCard.IsOt"
+                (click)="otClick(getAttendCard.AttendDate,getAttendCard.forget_man_code)">查閱</a>
             </div>
           </div>
           <div class="col-md-4 col-xs-12 P_topTen">
@@ -241,13 +243,32 @@
     ( !getAttendCard.OffAfterMins || (getAttendCard.OffAfterMins && getAttendCard.EliminateOffAfter) )
     )
     || getAttendCard.IsAbsent">
-
-      <h3>
-        <ng-container i18n>欲補卡時間</ng-container>
-      </h3>
-
-      <app-card-form-temp (formChange)="CardForm($event)" [getAttendCard]="getAttendCard"
-        [UiTemp]="'OnCardTemp'">
+      <div class="row" style="margin:0;padding-top: 10px;">
+        <div class="col-md-2 col-xs-12">
+          <div style="
+          margin: 0;
+          font-family: inherit;
+          font-weight: 500;
+          color: #028fcf;
+          font-size: 18px;
+          ">
+            <ng-container i18n>欲補卡時間</ng-container>
+          </div>
+        </div>
+        <div class="col-md-10 col-xs-12">
+          <div class="row" style="margin:0">
+            <div class="col-md-5 col-xs-0" style="padding:0">
+            </div>
+            <div class="col-md-7 col-xs-12" style="padding:0">
+              <div class="col-md-2 col-xs-0"></div>
+              <div class="col-md-10 col-xs-12" style="text-align: right;">
+                <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-card-form-temp (formChange)="CardForm($event)" [getAttendCard]="getAttendCard" [UiTemp]="'OnCardTemp'">
       </app-card-form-temp>
       <!-- 簽核人員 -->
       <div class="row" class="row" style="border:0px;padding: 20px 0px;margin: 0;">
@@ -279,8 +300,8 @@
         <div class="col-md-10 col-xs-12">
           <div class="featuresBlock">
             <div class="btSend">
-              <button class="btn btn-primary" data-toggle="modal"  (click)="checkError()"
-              [disabled]="checkCardFormDisable()">
+              <button class="btn btn-primary" data-toggle="modal" (click)="checkError()"
+                [disabled]="checkCardFormDisable()">
                 <ng-container i18n>送出表單</ng-container>
               </button>
               <!-- 送出申請單 -->
@@ -334,7 +355,7 @@
                     <span *ngIf="cR_OnBeforeMins == 2" style="color: rgb(150, 149, 148);">(毋須填寫本異常單。)</span>
                   </div>
                   <div class="col-md-7 col-xs-12" style="padding:0">
-                    <a *ngIf="cR_OnBeforeMins == 2" style="cursor:pointer">前往加班單系統 ></a>
+                    <a *ngIf="cR_OnBeforeMins == 2" style="cursor:pointer" (click)="goOtPage()">前往加班單系統 ></a>
                   </div>
                 </div>
                 <div>
@@ -380,7 +401,7 @@
                     <span *ngIf="cR_OffAfterMins == 2" style="color: rgb(150, 149, 148);">(毋須填寫本異常單。)</span>
                   </div>
                   <div class="col-md-7 col-xs-12" style="padding:0">
-                    <a *ngIf="cR_OffAfterMins == 2" style="cursor:pointer">前往加班單系統 ></a>
+                    <a *ngIf="cR_OffAfterMins == 2" style="cursor:pointer" (click)="goOtPage()">前往加班單系統 ></a>
                   </div>
                 </div>
                 <div>
@@ -423,8 +444,18 @@
                   </div>
                 </div>
                 <div>
-                  <input type="radio" name="cR_EarlyMins" [(ngModel)]="cR_EarlyMins" [value]='2'
-                    (click)="disEarlyRadio(cR_EarlyMins,2)">我要填補卡單
+                </div>
+                <div class="row" style="margin:0">
+                  <div class="col-md-5 col-xs-12" style="padding:0">
+                    <input type="radio" name="cR_EarlyMins" [(ngModel)]="cR_EarlyMins" [value]='2'
+                      (click)="disEarlyRadio(cR_EarlyMins,2)">我要填補卡單
+                  </div>
+                  <div class="col-md-7 col-xs-12" style="padding:0">
+                    <div class="col-md-2 col-xs-0"></div>
+                    <div class="col-md-10 col-xs-12" style="text-align: right;">
+                      <a *ngIf="cR_EarlyMins == 2" style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -460,9 +491,17 @@
                     <a *ngIf="cR_LateMins == 1" style="cursor:pointer" (click)="goWriteVaPage()">填寫請假單 ></a>
                   </div>
                 </div>
-                <div>
-                  <input type="radio" name="cR_LateMins" [(ngModel)]="cR_LateMins" [value]='2'
-                    (click)="disLateRadio(cR_LateMins,2)">我要填補卡單
+                <div class="row" style="margin:0">
+                  <div class="col-md-5 col-xs-12" style="padding:0">
+                    <input type="radio" name="cR_LateMins" [(ngModel)]="cR_LateMins" [value]='2'
+                      (click)="disLateRadio(cR_LateMins,2)">我要填補卡單
+                  </div>
+                  <div class="col-md-7 col-xs-12" style="padding:0">
+                    <div class="col-md-2 col-xs-0"></div>
+                    <div class="col-md-10 col-xs-12" style="text-align: right;">
+                      <a *ngIf="cR_LateMins == 2" style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -697,7 +736,7 @@
                 <div class="tag_skyblue" *ngIf="oneVaData.State=='3'">
                   <ng-container i18n>已核准</ng-container>
                 </div>
-                <div class="tag_red" *ngIf="oneVaData.State=='2'">
+                <div class="tag_redCircle" *ngIf="oneVaData.State=='2'">
                   <ng-container i18n>重擬</ng-container>
                 </div>
                 <div class="tag_gray" *ngIf="oneVaData.State=='7'">
@@ -706,8 +745,7 @@
               </div>
             </div>
             <div class="row col-md-7 col-xs-10" style="margin: 0px;padding: 0">
-              <div class="col-md-12 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0;
-                  margin-bottom: 10px;">
+              <div class="col-md-12 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0;">
                 <div class="row" style="margin: 0;padding-bottom: 5px;">
                   <div class="col-md-6 col-xs-12" style="padding: 0">
                     <span style="color: #969696">
@@ -788,8 +826,7 @@
           </div>
         </div>
         <div class="modal-body" style="padding: 25px;padding-top: 15px;">
-          <div class="row P_div" 
-          *ngFor="let oneOtData of ShowOt ; let i = index">
+          <div class="row P_div" *ngFor="let oneOtData of ShowOt ; let i = index">
             <div class="row col-md-2 col-xs-12 P_padding" style="margin: 0px">
               <div class="col-md-12   col-xs-6 P_left" style="color: #028fcf;padding:0px;
                   margin-bottom: 10px;">
@@ -802,7 +839,7 @@
                 <div class="tag_skyblue" *ngIf="oneOtData.State=='3'">
                   <ng-container i18n>已核准</ng-container>
                 </div>
-                <div class="tag_red" *ngIf="oneOtData.State=='2'">
+                <div class="tag_redCircle" *ngIf="oneOtData.State=='2'">
                   <ng-container i18n>重擬</ng-container>
                 </div>
                 <div class="tag_gray" *ngIf="oneOtData.State=='7'">
@@ -872,3 +909,114 @@
   </div>
 </div>
 <!--dialog查閱加班單-->
+
+
+<div *ngIf="showCardFlowDataDialog" class="modal" id="searchCardFlowDataDialog" tabindex="-1" role="dialog"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <div style="text-align: center">
+            <h3 style="margin: 0px">
+              {{getAttendCard.AttendDate}} <ng-container i18n>補卡單紀錄</ng-container>
+            </h3>
+          </div>
+        </div>
+        <div class="modal-body" style="padding: 25px;padding-top: 15px;">
+          <div *ngIf="showCardFlowData.length>0">
+            <div class="row P_div" *ngFor="let oneCardFlow of showCardFlowData ; let i = index">
+              <div class="row col-md-3 col-xs-12 P_padding" style="margin: 0px">
+                <div class="col-md-12   col-xs-6 P_left" style="color: #028fcf;padding:0px;
+                  margin-bottom: 10px;">
+                  <span>{{oneCardFlow.ProcessID}}</span>
+                </div>
+                <div class="col-md-12   col-xs-6" style="padding: 0;text-align: right;">
+                  <div class="tag_blue" *ngIf="oneCardFlow.State=='1'">
+                    <ng-container i18n>呈核中</ng-container>
+                  </div>
+                  <div class="tag_skyblue" *ngIf="oneCardFlow.State=='3'">
+                    <ng-container i18n>已核准</ng-container>
+                  </div>
+                  <div class="tag_redCircle" *ngIf="oneCardFlow.State=='2'">
+                    <ng-container i18n>重擬</ng-container>
+                  </div>
+                  <div class="tag_gray" *ngIf="oneCardFlow.State=='7'">
+                    <ng-container i18n>已抽單</ng-container>
+                  </div>
+                </div>
+              </div>
+              <div  class="row col-md-9 col-xs-12" style="margin: 0px;padding: 0">
+                <div *ngIf="oneCardFlow.DateTimeB" style="padding: 0;margin-bottom: 5px;">
+                  <span style="color: #969696">
+                    <ng-container i18n>補到勤時間</ng-container>：
+                  </span>
+                  <span style="color:#6f6f6f">{{oneCardFlow.DateTimeB}}</span>
+                </div>
+                <div *ngIf="oneCardFlow.DateTimeE" style="padding: 0;margin-bottom: 5px;">
+                  <span style="color: #969696">
+                    <ng-container i18n>補離勤時間</ng-container>：
+                  </span>
+                  <span style="color:#6f6f6f">{{oneCardFlow.DateTimeE}}</span>
+                </div>
+                <div style="margin: 0px;color:#6f6f6f;padding: 0;margin-bottom: 5px;">
+                  <span style="color: #969696">
+                    <ng-container i18n>異常狀態</ng-container>：
+                  </span>
+                  <span *ngIf="oneCardFlow.uiIsLateMins">
+                    <ng-container i18n>遲到</ng-container>
+                  </span>
+                  <span *ngIf="oneCardFlow.uiIsEarlyMins">
+                    <ng-container i18n>早退</ng-container>
+                  </span>
+                  <span *ngIf="oneCardFlow.uiIsForgetCard">
+                    <ng-container i18n>未刷卡</ng-container>
+                  </span>
+                  <span *ngIf="oneCardFlow.uiIsNormal">
+                    <ng-container i18n>正常</ng-container>
+                  </span>
+                  <span *ngIf="oneCardFlow.uiIsOffAfterMins">
+                    <ng-container i18n>晚退</ng-container>
+                  </span>
+                  <span *ngIf="oneCardFlow.uiIsOnBeforeMins">
+                    <ng-container i18n>早到</ng-container>
+                  </span>
+                </div>
+                <div class="col-md-12 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0">
+                  <div class="row" style="margin: 0;">
+                    <div *ngIf="!oneCardFlow.ApproveDate" class="col-md-6 col-xs-12" style="padding: 0">
+                      <span style="color: #969696">
+                        <ng-container i18n>批核</ng-container>：
+                      </span>
+                      <ng-container i18n>尚未批核</ng-container>
+                    </div>
+                    <div *ngIf="oneCardFlow.ApproveDate" class="col-md-6 col-xs-12" style="padding: 0">
+                      <span style="color: #969696">
+                        <ng-container i18n>批核</ng-container>：
+                      </span>
+                      {{oneCardFlow.ApproveDate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="showCardFlowData.length==0">
+            無補卡單紀錄
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <ng-container i18n>關閉</ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog查詢補卡單-->

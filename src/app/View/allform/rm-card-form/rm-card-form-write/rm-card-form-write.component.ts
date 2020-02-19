@@ -25,8 +25,12 @@ import { chinesenum } from 'src/app/UseVoid/void_chinesenumber';
 import { GetAbsDetailByListEmpIDGetApiClass } from 'src/app/Models/PostData_API_Class/GetAbsDetailByListEmpIDGetApiClass';
 import { GetAbsDetailByListEmpIDDataClass } from 'src/app/Models/GetAbsDetailByListEmpIDDataClass';
 import { GetOtViewGetApi } from 'src/app/Models/PostData_API_Class/GetOtViewGetApi';
+import { GetCardFlowAppsGetApi } from 'src/app/Models/PostData_API_Class/GetCardFlowAppsGetApi';
+import { GetCardFlowAppsGetApiDataClass } from 'src/app/Models/GetCardFlowAppsGetApiDataClass';
+import { void_completionTenNum } from 'src/app/UseVoid/void_CompletionTenNum';
 
 declare let $: any; //use jquery
+declare var otSysURL //加班系統網址
 
 @Component({
   selector: 'app-rm-card-form-write',
@@ -155,22 +159,22 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
       if (this.cR_OnBeforeMins == 0 || this.cR_OffAfterMins == 0) {
         return true
       }
-      if(this.cR_OnBeforeMins != 3 &&　this.cR_OffAfterMins != 3){
+      if (this.cR_OnBeforeMins != 3 && this.cR_OffAfterMins != 3) {
         return true
       }
-      if (this.cR_OnBeforeMins == 3 &&　this.cR_OffAfterMins != 3) {
+      if (this.cR_OnBeforeMins == 3 && this.cR_OffAfterMins != 3) {
         if (!this.OnBeforeMinsF) {
           return true
         } else if (this.OnBeforeMinsF.FormState != 'VALID')
           return true
       }
-      if (this.cR_OffAfterMins == 3 &&　this.cR_OnBeforeMins != 3) {
+      if (this.cR_OffAfterMins == 3 && this.cR_OnBeforeMins != 3) {
         if (!this.OffAfterMinsF) {
           return true
         } else if (this.OffAfterMinsF.FormState != 'VALID')
           return true
       }
-      if (this.cR_OffAfterMins == 3 &&　this.cR_OnBeforeMins == 3) {
+      if (this.cR_OffAfterMins == 3 && this.cR_OnBeforeMins == 3) {
         if (!this.OnBeforeMinsF) {
           return true
         } else if (this.OnBeforeMinsF.FormState != 'VALID')
@@ -212,7 +216,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
       if (this.cR_EarlyMins == 0 && this.cR_LateMins == 0) {
         return true
       }
-      if(this.cR_EarlyMins != 2 && this.cR_LateMins != 2){
+      if (this.cR_EarlyMins != 2 && this.cR_LateMins != 2) {
         return true
       }
 
@@ -408,7 +412,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
       }
     ]
     // console.log(SaveAndFlowStartCombine)
-    // this.LoadingPage.show()
+    this.LoadingPage.show()
     /**
      * @todo 正常、未刷卡起單
      */
@@ -546,10 +550,10 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
           "EmpCode": this.getAttendCard.forget_man_code.toString(),
           "EmpNameC": this.getAttendCard.forget_man_name,
           "Date": this.getAttendCard.AttendDate,
-          "RoteDateTimeB": this.getAttendCard.ActualRote_OnDateTime,
-          "RoteDateTimeE": this.getAttendCard.ActualRote_OffDateTime,
-          "CardDateTimeB": this.getAttendCard.AttendCard_OnDateTime,
-          "CardDateTimeE": this.getAttendCard.AttendCard_OffDateTime,
+          "RoteDateTimeB": this.getAttendCard.ActualRote_OnDateTime ? this.getAttendCard.ActualRote_OnDateTime : '',
+          "RoteDateTimeE": this.getAttendCard.ActualRote_OffDateTime ? this.getAttendCard.ActualRote_OffDateTime : '',
+          "CardDateTimeB": this.getAttendCard.AttendCard_OnDateTime ? this.getAttendCard.AttendCard_OnDateTime : '',
+          "CardDateTimeE": this.getAttendCard.AttendCard_OffDateTime ? this.getAttendCard.AttendCard_OffDateTime : '',
           "EliminateLate": false,
           "EliminateEarly": false,
           "EliminateAbsent": false,
@@ -656,10 +660,10 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
                 "EmpCode": this.getAttendCard.forget_man_code.toString(),
                 "EmpNameC": this.getAttendCard.forget_man_name,
                 "Date": this.getAttendCard.AttendDate,
-                "RoteDateTimeB": this.getAttendCard.ActualRote_OnDateTime,
-                "RoteDateTimeE": this.getAttendCard.ActualRote_OffDateTime,
-                "CardDateTimeB": this.getAttendCard.AttendCard_OnDateTime,
-                "CardDateTimeE": this.getAttendCard.AttendCard_OffDateTime,
+                "RoteDateTimeB": this.getAttendCard.ActualRote_OnDateTime ? this.getAttendCard.ActualRote_OnDateTime : '',
+                "RoteDateTimeE": this.getAttendCard.ActualRote_OffDateTime ? this.getAttendCard.ActualRote_OffDateTime : '',
+                "CardDateTimeB": this.getAttendCard.AttendCard_OnDateTime ? this.getAttendCard.AttendCard_OnDateTime : '',
+                "CardDateTimeE": this.getAttendCard.AttendCard_OffDateTime ? this.getAttendCard.AttendCard_OffDateTime : '',
                 "DateB": DateB,
                 "DateE": DateE,
                 "TimeB": TimeB,
@@ -837,19 +841,70 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
           $('#OtDataDialog').modal('show')
         })
   }
-  get vaFormHerf(){
-    var originHerf =  location.href.split('nav')[0]
-    var vaFormHerf = originHerf+'nav/vaform/writevaform'
+  get vaFormHerf() {
+    var originHerf = location.href.split('nav')[0]
+    var vaFormHerf = originHerf + 'nav/vaform/writevaform'
     return vaFormHerf
   }
-  goWriteVaPage(){
+  goWriteVaPage() {
     // var originHerf =  location.href.split('nav')[1]
     // var vaFormHerf = originHerf+'/nav/vaform/writevaform'
     // console.log(vaFormHerf)
-    var originHerf =  location.href.split('nav')[0]
-    var vaFormHerf = originHerf+'nav/vaform/writevaform'
-    console.log(vaFormHerf)
-    window.open(vaFormHerf,'_blank')
+    var originHerf = location.href.split('nav')[0]
+    var vaFormHerf = originHerf + 'nav/vaform/writevaform'
+    // console.log(vaFormHerf)
+    window.open(vaFormHerf, '_blank')
+  }
+  goOtPage() {
+    window.open(otSysURL, '_blank')
+  }
+
+  showCardFlowDataDialog:boolean = false 
+  showCardFlowData: GetCardFlowAppsGetApiDataClass[] = []
+  searchCardFormFlow() {
+    var GetCardFlowApps: GetCardFlowAppsGetApi = {
+      "ListEmpID": [this.getAttendCard.forget_man_code.toString()],
+      "DateB": this.getAttendCard.AttendDate.toString(),
+      "DateE": this.getAttendCard.AttendDate.toString(),
+      "Miniature":true
+    }
+    this.showCardFlowDataDialog = true
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetCardFlowApps(GetCardFlowApps)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe((GetCardFlowAppsGetApiData: GetCardFlowAppsGetApiDataClass[]) => {
+        // void_completionTenNum
+        this.showCardFlowData = JSON.parse(JSON.stringify(GetCardFlowAppsGetApiData))
+        for (let c of this.showCardFlowData) {
+          c.ProcessID  = void_completionTenNum(c.ProcessID)
+          if (c.DateTimeB) {
+            c.DateTimeB = formatDateTime(c.DateTimeB).getDate + ' ' + getapi_formatTimetoString(formatDateTime(c.DateTimeB).getTime)
+          }
+          if (c.DateTimeE) {
+            c.DateTimeE = formatDateTime(c.DateTimeE).getDate + ' ' + getapi_formatTimetoString(formatDateTime(c.DateTimeE).getTime)
+          }
+          if (c.ErrorStateName == '未刷卡') {
+            c.uiIsForgetCard = true
+          }
+          if (c.ErrorStateName == '早退') {
+            c.uiIsEarlyMins = true
+          }
+          if (c.ErrorStateName == '遲到') {
+            c.uiIsLateMins = true
+          }
+          if (c.ErrorStateName == '正常') {
+            c.uiIsNormal = true
+          }
+          if (c.ErrorStateName == '早到') {
+            c.uiIsOnBeforeMins = true
+          }
+          if (c.ErrorStateName == '晚退') {
+            c.uiIsOffAfterMins = true
+          }
+        }
+        $('#searchCardFlowDataDialog').modal('show')
+        this.LoadingPage.hide()
+      })
   }
 }
 
