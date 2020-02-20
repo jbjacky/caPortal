@@ -33,7 +33,7 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
   @Input() getForgetData: GetFlowViewCardGetApiDataClass[]
   @Input() getShowTransSign: boolean
   @Input() getShowTake: boolean
-  forgetSearchFlowSign: forgetSearchFlowSignClass[] = []
+  cardPatchSearchFlowSign: cardPatchSearchFlowSignClass[] = []
 
   MoreSearchPage = 1
   @Input() CanSerchMore: boolean = false
@@ -67,38 +67,58 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
       if (data.EmpID != data.AppEmpID) {
         checkProxy = true
       }
+      var _isForgetCardOld: boolean = false
+      var _isEarlyMinsOld: boolean = false
+      var _isLateMinsOld: boolean = false
+      var _isNormalOld: boolean = false
+      var _isOnBeforeMinsOld: boolean = false
+      var _isOffAfterMinsOld: boolean = false
+
+      var ExceptionalNameArray = []
+      if (data.ExceptionalName) {
+        if(data.ErrorStateName.length > 0){
+          ExceptionalNameArray = data.ExceptionalName.split(',')
+          for (let e of ExceptionalNameArray) {
+            if (e == '未刷卡') {
+              _isForgetCardOld = true}
+             if (e == '早退') {
+              _isEarlyMinsOld = true}
+             if (e == '遲到') {
+              _isLateMinsOld = true}
+             if (e == '正常') {
+              _isNormalOld = true}
+             if (e == '早到') {
+              _isOnBeforeMinsOld = true}
+             if (e == '晚退') {
+              _isOffAfterMinsOld = true
+            }
+          }
+        }
+      }
       var _isForgetCard: boolean = false
       var _isEarlyMins: boolean = false
       var _isLateMins: boolean = false
       var _isNormal: boolean = false
       var _isOnBeforeMins: boolean = false
       var _isOffAfterMins: boolean = false
-
-      var ErrorStateArray = []
-      if (data.ErrorState) {
-
-        ErrorStateArray = data.ErrorState.split(',')
-        for (let e of ErrorStateArray) {
-          if (e == '未刷卡') {
-            _isForgetCard = true}
-           if (e == '早退') {
-            _isEarlyMins = true}
-           if (e == '遲到') {
-            _isLateMins = true}
-           if (e == '正常') {
-            _isNormal = true}
-           if (e == '早到') {
-            _isOnBeforeMins = true}
-           if (e == '晚退') {
-            _isOffAfterMins = true
-          }
-        }
+      if (data.ErrorStateName == '未刷卡') {
+        _isForgetCard = true}
+       if (data.ErrorStateName == '早退') {
+        _isEarlyMins = true}
+       if (data.ErrorStateName == '遲到') {
+        _isLateMins = true}
+       if (data.ErrorStateName == '正常') {
+        _isNormal = true}
+       if (data.ErrorStateName == '早到') {
+        _isOnBeforeMins = true}
+       if (data.ErrorStateName == '晚退') {
+        _isOffAfterMins = true
       }
       var _ActualRote_calCrossDay: boolean = false
       var _AttendCard_calCrossDay: boolean = false
       var _WriteRote_calCrossDay: boolean = false
 
-      this.forgetSearchFlowSign.push({
+      this.cardPatchSearchFlowSign.push({
 
         ProcessFlowID: data.ProcessFlowID,
         showProcessFlowID: void_completionTenNum(data.ProcessFlowID),
@@ -124,6 +144,13 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
         isNormal: _isNormal,
         isOnBeforeMins: _isOnBeforeMins,
         isOffAfterMins: _isOffAfterMins,
+
+        isForgetCardOld: _isForgetCardOld,
+        isEarlyMinsOld: _isEarlyMinsOld,
+        isLateMinsOld: _isLateMinsOld,
+        isNormalOld: _isNormalOld,
+        isOnBeforeMinsOld: _isOnBeforeMinsOld,
+        isOffAfterMinsOld: _isOffAfterMinsOld,
 
 
         RoteTimeB: null,
@@ -170,7 +197,7 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
     // ).subscribe(
     //   (data: any) => {
     //     // console.log(data)
-    //     this.forgetSearchFlowSign = []
+    //     this.cardPatchSearchFlowSign = []
     //     for (let forgetSignData of data) {
 
     //       var _ActualRote_calCrossDay: boolean = void_crossDay(forgetSignData.GetAttend.ActualRote.OffTime).isCrossDay
@@ -185,7 +212,7 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
     //       if (forgetSignData.FlowDetail[0].AppEmpID != forgetSignData.FlowSignData.EmpCode) {
     //         checkProxy = true
     //       }
-    //       this.forgetSearchFlowSign.push({
+    //       this.cardPatchSearchFlowSign.push({
 
     //         ProcessFlowID: forgetSignData.FlowSignData.ProcessFlowID,
     //         showProcessFlowID: void_completionTenNum(forgetSignData.FlowSignData.ProcessFlowID),
@@ -226,7 +253,7 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
     //       })
     //     }
 
-    //     this.forgetSearchFlowSign.sort((a: any, b: any) => {
+    //     this.cardPatchSearchFlowSign.sort((a: any, b: any) => {
     //       return b.ProcessFlowID - a.ProcessFlowID;
     //     });
     //     this.LoadingPage.hide()
@@ -239,8 +266,8 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
 
   showForgetDataDetail: boolean = false  // 顯示明細
   @Output() gotoShowFormPlace: EventEmitter<number> = new EventEmitter<number>();
-  setToNextForgetDataTitle: forgetSearchFlowSignClass //給明細用的title資料
-  nextShowDetail(setToNextForgetDataTitle: forgetSearchFlowSignClass) {
+  setToNextForgetDataTitle: cardPatchSearchFlowSignClass //給明細用的title資料
+  nextShowDetail(setToNextForgetDataTitle: cardPatchSearchFlowSignClass) {
 
     // console.log(setToNextVaDataTitle)
 
@@ -325,9 +352,9 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
       .subscribe(
         (x: any) => {
           if (x.Finish) {
-            // this.forgetSearchFlowSign.splice(this.forgetSearchFlowSign.indexOf(this.takeForm), 1)
-            this.forgetSearchFlowSign[this.forgetSearchFlowSign.indexOf(this.takeForm)].State = '7'
-            this.forgetSearchFlowSign[this.forgetSearchFlowSign.indexOf(this.takeForm)].Take = false
+            // this.cardPatchSearchFlowSign.splice(this.cardPatchSearchFlowSign.indexOf(this.takeForm), 1)
+            this.cardPatchSearchFlowSign[this.cardPatchSearchFlowSign.indexOf(this.takeForm)].State = '7'
+            this.cardPatchSearchFlowSign[this.cardPatchSearchFlowSign.indexOf(this.takeForm)].Take = false
             $('#sussesdialog').modal('show')
           } else {
             alert(x.MessageContent)
@@ -372,7 +399,7 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
 
   }
 }
-export class forgetSearchFlowSignClass {
+export class cardPatchSearchFlowSignClass {
   ProcessFlowID: number
   showProcessFlowID: number
   EmpCode: string
@@ -393,6 +420,13 @@ export class forgetSearchFlowSignClass {
   isNormal: boolean
   isOffAfterMins: boolean
   isOnBeforeMins: boolean
+
+  isForgetCardOld: boolean
+  isEarlyMinsOld: boolean
+  isLateMinsOld: boolean
+  isNormalOld: boolean
+  isOffAfterMinsOld: boolean
+  isOnBeforeMinsOld: boolean
 
   Handle: boolean
 

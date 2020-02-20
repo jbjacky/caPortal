@@ -80,6 +80,8 @@ export class RmCardFormComponent implements OnInit, AfterViewInit, OnDestroy {
   showBlockIsAssistant: boolean = false
 
   showSearchEmp = { EmpCode: '', EmpNameC: '' }
+  DL_showNote:boolean = false //Loading getWebApiData_GetFormInfo
+  DL_showBaseParameter:boolean = false //Loading getWebApiData_GetBaseParameter
 
   ngOnInit() {
 
@@ -90,19 +92,17 @@ export class RmCardFormComponent implements OnInit, AfterViewInit, OnDestroy {
     // sendDate.setFullYear(2019, 7, 1)
     var sendStartDate = doFormatDate(sendDate)
 
-    this.LoadingPage.show()
     var GetFormInfoGetApi: GetFormInfoGetApiClass = {
       FormCode: "CardPatch",
       FlowTreeID: "82"
     }
+    this.DL_showNote = true
     this.GetApiDataServiceService.getWebApiData_GetFormInfo(GetFormInfoGetApi)
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (GetFormInfoData: GetFormInfoDataClass[]) => {
           this.showNote = GetFormInfoData[0].StdNote
-          this.LoadingPage.hide()
-        }, error => {
-          this.LoadingPage.hide()
+          this.DL_showNote = false
         }
       )
 
@@ -242,22 +242,21 @@ export class RmCardFormComponent implements OnInit, AfterViewInit, OnDestroy {
   CheckSendFormLimit(GetAttendExceptional: GetAttendExceptionalClass) {
     //確認EmpID是否可以申請表單
     //此員工無申請表單權限，如需申請表單請洽單位行政設定
+    this.DL_showBaseParameter = true
     this.errorEmpSendForm = { state: false, errorEmpID: '' }
     this.GetApiDataServiceService.getWebApiData_GetBaseParameter(GetAttendExceptional.ListEmpID[0])
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
         if (GetBaseParameterData.length > 0) {
           if (GetBaseParameterData[0].IsAllowLeave) {
-            this.LoadingPage.hide()
             this.searchAttendExceptional(this.GetAttendExceptional)
           } else {
             this.errorEmpSendForm = { state: true, errorEmpID: GetAttendExceptional.ListEmpID[0].toString() }
-            this.LoadingPage.hide()
           }
         } else {
           this.errorEmpSendForm = { state: true, errorEmpID: GetAttendExceptional.ListEmpID[0].toString() }
-          this.LoadingPage.hide()
         }
+        this.DL_showBaseParameter = false
       })
   }
 

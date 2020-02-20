@@ -142,6 +142,9 @@
     font-size: 15px;
     text-align: center;
 }
+.P_lineHeight{
+    line-height: 34px;
+}
 @media screen and (max-width:992px) {
     .featuresBlock{
         display: block;
@@ -159,7 +162,7 @@
         display: none;
     }
     .P_smallpadding{
-        padding: 10px 10px;
+        padding: 0px 0px;
     }
     .P_paddingZ{
         padding: 0px
@@ -208,7 +211,10 @@
 
     .P_BtTime{
         padding: 0px;
-        margin-bottom: 10px
+        text-align: right;
+    }
+    .P_lineHeight{
+        line-height: unset;
     }
 
 }

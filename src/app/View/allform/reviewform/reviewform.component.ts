@@ -662,7 +662,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     this.ReviewformServiceService.showPageIndex = this.vaPageUiIndex
 
   }
-  vaDetailView(e_vaFlowSign: vaFlowSign, ReloadTabData){
+  vaDetailView(e_vaFlowSign: vaFlowSign, ReloadTabData) {
     this.vaDetail_click(e_vaFlowSign, ReloadTabData)
     this.router.navigate(["../nav/reviewform/ReviewformDetailVacationComponent"]);
   }
@@ -720,8 +720,8 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     this.showPutForwarddialog = true
     $('#PutForwarddialog').modal('show')
   }
-  CardPatchDetailView(e_CardPatchFlowSign: CardPatchFlowSign, ReloadTabData){
-    this.CardPatchDetail_click(e_CardPatchFlowSign,ReloadTabData)
+  CardPatchDetailView(e_CardPatchFlowSign: CardPatchFlowSign, ReloadTabData) {
+    this.CardPatchDetail_click(e_CardPatchFlowSign, ReloadTabData)
     this.router.navigate(['../nav/reviewform/ReviewformDetailCardPatchformComponent']);
   }
   CardPatchDetail_click(e_CardPatchFlowSign: CardPatchFlowSign, ReloadTabData) {
@@ -736,17 +736,17 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     this.ReviewformServiceService.CardPatch_pagechange = JSON.parse(JSON.stringify(this.CardPatch_pagechange))
 
   }
-  checkCardPatch_Approved(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
+  checkCardPatch_Approved(e_forgetFlowSign: CardPatchFlowSign, ReloadTabData) {
     this.CardPatchDetail_click(e_forgetFlowSign, ReloadTabData)
     $('#Approveddialog').modal('show')
   }
-  checkCardPatch_PutForward(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
+  checkCardPatch_PutForward(e_forgetFlowSign: CardPatchFlowSign, ReloadTabData) {
     this.CardPatchDetail_click(e_forgetFlowSign, ReloadTabData)
     this.showPutForwarddialog = true
     $('#PutForwarddialog').modal('show')
   }
-  forgetDetailView(e_forgetFlowSign: forgetFlowSign, ReloadTabData){
-    this.forgetDetail_click(e_forgetFlowSign,ReloadTabData)
+  forgetDetailView(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
+    this.forgetDetail_click(e_forgetFlowSign, ReloadTabData)
     this.router.navigate(['../nav/reviewform/ReviewformDetailForgetformComponent']);
   }
   forgetDetail_click(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
@@ -820,7 +820,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
     $('#PutForwarddialog').modal('show')
   }
 
-  AttendUnusualDetailView(e_AttendUnusualFlowSign: AttendUnusualFlowSign, ReloadTabData){
+  AttendUnusualDetailView(e_AttendUnusualFlowSign: AttendUnusualFlowSign, ReloadTabData) {
     this.AttendUnusualDetail_click(e_AttendUnusualFlowSign, ReloadTabData)
     this.router.navigate(['../nav/reviewform/ReviewformDetailAttendUnusualformComponent']);
   }
@@ -1095,7 +1095,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   // }
   vaPrePage(vaPageUiIndex) {
     var goPage = vaPageUiIndex - 1
-    if(goPage > 0){
+    if (goPage > 0) {
       this.GetFlowData_va(this.ReviewformServiceService.showReviewMan.EmpCode, this.ReviewformServiceService.showReviewMan.RoleID, goPage)
     }
   }
@@ -1279,19 +1279,55 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
               var _isOnBeforeMins: boolean = false
               var _isOffAfterMins: boolean = false
               if (cc.ErrorStateName == '未刷卡') {
-                _isForgetCard = true}
-               if (cc.ErrorStateName == '早退') {
-                _isEarlyMins = true}
-               if (cc.ErrorStateName == '遲到') {
-                _isLateMins = true}
-               if (cc.ErrorStateName == '正常') {
-                _isNormal = true}
-               if (cc.ErrorStateName == '早到') {
-                _isOnBeforeMins = true}
-               if (cc.ErrorStateName == '晚退') {
+                _isForgetCard = true
+              }
+              if (cc.ErrorStateName == '早退') {
+                _isEarlyMins = true
+              }
+              if (cc.ErrorStateName == '遲到') {
+                _isLateMins = true
+              }
+              if (cc.ErrorStateName == '正常') {
+                _isNormal = true
+              }
+              if (cc.ErrorStateName == '早到') {
+                _isOnBeforeMins = true
+              }
+              if (cc.ErrorStateName == '晚退') {
                 _isOffAfterMins = true
               }
-              
+              var _isForgetCardOld: boolean = false
+              var _isEarlyMinsOld: boolean = false
+              var _isLateMinsOld: boolean = false
+              var _isNormalOld: boolean = false
+              var _isOnBeforeMinsOld: boolean = false
+              var _isOffAfterMinsOld: boolean = false
+              if (cc.ExceptionalName) {
+                if (cc.ErrorStateName.length > 0) {
+                  var ExceptionalNameArray = cc.ExceptionalName.split(',')
+                  for (let e of ExceptionalNameArray) {
+                    if (e == '未刷卡') {
+                      _isForgetCardOld = true
+                    }
+                    if (e == '早退') {
+                      _isEarlyMinsOld = true
+                    }
+                    if (e == '遲到') {
+                      _isLateMinsOld = true
+                    }
+                    if (e == '正常') {
+                      _isNormalOld = true
+                    }
+                    if (e == '早到') {
+                      _isOnBeforeMinsOld = true
+                    }
+                    if (e == '晚退') {
+                      _isOffAfterMinsOld = true
+                    }
+                  }
+                }
+              }
+
               this.CardPatchFlowSigns.push({
                 uiProcessFlowID: void_completionTenNum(cc.ProcessFlowID),
                 ProcessFlowID: cc.ProcessFlowID.toString(),
@@ -1305,12 +1341,23 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                 isSendback: cc.isSendback,
                 isPutForward: cc.isPutForward,
 
+                ExceptionalName:cc.ExceptionalName,
+                ErrorStateCode:cc.ErrorStateCode,
+                ErrorStateName:cc.ErrorStateName,
+
                 isForgetCard: _isForgetCard,
                 isEarlyMins: _isEarlyMins,
                 isLateMins: _isLateMins,
-                isNormal:_isNormal,
-                isOnBeforeMins:_isOnBeforeMins,
-                isOffAfterMins:_isOffAfterMins,
+                isNormal: _isNormal,
+                isOnBeforeMins: _isOnBeforeMins,
+                isOffAfterMins: _isOffAfterMins,
+
+                isForgetCardOld: _isForgetCardOld,
+                isEarlyMinsOld: _isEarlyMinsOld,
+                isLateMinsOld: _isLateMinsOld,
+                isNormalOld: _isNormalOld,
+                isOnBeforeMinsOld: _isOnBeforeMinsOld,
+                isOffAfterMinsOld: _isOffAfterMinsOld,
 
                 checkProxy: cc.checkProxy,
                 WriteEmpCode: cc.WriteEmpCode,
@@ -1441,7 +1488,7 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                 isEarlyMins: _isEarlyMins,
                 isLateMins: _isLateMins,
                 isNormal: _isNormal,
-                isOnBeforeMins:_isOnBeforeMins,
+                isOnBeforeMins: _isOnBeforeMins,
                 isOffAfterMins: _isOffAfterMins,
 
                 checkProxy: cc.checkProxy,

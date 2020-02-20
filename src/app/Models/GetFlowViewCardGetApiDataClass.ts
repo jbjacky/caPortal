@@ -12,7 +12,6 @@ export interface GetFlowViewCardGetApiDataClass {
     TimeE:             string;
     DateTimeE:         string;
     RoteNameC:         string;
-    ErrorState:        string;
     Key:               string;
     ProcessFlowID:     number;
     FormName:          string;
@@ -29,5 +28,9 @@ export interface GetFlowViewCardGetApiDataClass {
     CardFlowApps:      any;
     ShiftRoteFlowApps: any;
     Handle:            boolean;
+    
+    ExceptionalName:   string;
+    ErrorStateCode:    string;
+    ErrorStateName:    string;
 }
 

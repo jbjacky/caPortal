@@ -510,6 +510,15 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
   checkStateSubmit() {
     $('#errStateCheckDialog').modal('show')
   }
+
+  
+  OnBeforeAttendUnusual:boolean = false //送出早到註記單
+  OnBeforeCardPatch:boolean = false //送出早到補卡單
+  OffAfterAttendUnusual = false //送出晚退註記單
+  OffAfterCardPatch:boolean = false //送出晚退補卡單
+  LateCardPatch:boolean = false //送出遲到補卡單
+  EarlyCardPatch:boolean = false //送出早退補卡單
+
   onStateSubmit() {
 
 
@@ -721,6 +730,32 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
             }
             alert(errMsg);
             isOK = false
+          }else{
+          
+            if(state.ErrorState =='早到' && state.FormCode == 'AttendUnusual'){
+              this.cR_OnBeforeMins = 0
+              this.OnBeforeAttendUnusual = true
+            }
+            if(state.ErrorState =='晚退' && state.FormCode == 'AttendUnusual'){
+              this.cR_OffAfterMins = 0
+              this.OffAfterAttendUnusual = true
+            }
+            if(state.ErrorState =='早到' && state.FormCode == 'CardPatch'){
+              this.cR_OnBeforeMins = 0
+              this.OnBeforeCardPatch = true
+            }
+            if(state.ErrorState =='晚退' && state.FormCode == 'CardPatch'){
+              this.cR_OffAfterMins = 0
+              this.OffAfterCardPatch = true
+            }
+            if(state.ErrorState =='遲到' && state.FormCode == 'CardPatch'){
+              this.cR_LateMins = 0
+              this.LateCardPatch = true
+            }
+            if(state.ErrorState =='早退' && state.FormCode == 'CardPatch'){
+              this.cR_EarlyMins = 0
+              this.EarlyCardPatch = true
+            }
           }
         }
         if (isOK) {

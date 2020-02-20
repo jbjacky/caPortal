@@ -87,30 +87,60 @@
           </div>
         </div>
       </div>
+    </div>
+    <!-- form-group end -->
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+        <label class="col-md-4 col-xs-12 control-label P_left">
+          <ng-container i18n>異常狀態</ng-container>
+        </label>
+        <div class="col-md-8 col-xs-12" style="padding:0">
+          <div *ngIf="getForgetDataTitle">
+            <div *ngIf="getForgetDataTitle.isLateMinsOld" style="margin-right:5px;display: inline-block;">
+              <ng-container i18n>遲到</ng-container>
+            </div>
+            <div *ngIf="getForgetDataTitle.isEarlyMinsOld" style="margin-right:5px;display: inline-block;">
+              <ng-container i18n>早退</ng-container>
+            </div>
+            <div *ngIf="getForgetDataTitle.isForgetCardOld" style="margin-right:5px;display: inline-block;">
+              <ng-container i18n>未刷卡</ng-container>
+            </div>
+            <div *ngIf="getForgetDataTitle.isNormalOld" style="margin-right:5px;display: inline-block;">
+              <ng-container i18n>正常</ng-container>
+            </div>
+            <div *ngIf="getForgetDataTitle.isOffAfterMinsOld" style="margin-right:5px;display: inline-block;">
+              <ng-container i18n>晚退</ng-container>
+            </div>
+            <div *ngIf="getForgetDataTitle.isOnBeforeMinsOld" style="margin-right:5px;display: inline-block;">
+              <ng-container i18n>早到</ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
         <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
           <label class="control-label ">
-            <ng-container i18n>異常狀態</ng-container>
+            <ng-container i18n>消除異常狀態</ng-container>
           </label>
         </div>
         <div *ngIf="getForgetDataTitle" class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
-          <div *ngIf="getForgetDataTitle.isLateMins" class="tag_red" style="margin: 0px">
+          <div *ngIf="getForgetDataTitle.isLateMins" style="margin-right:5px;display: inline-block;">
             <ng-container i18n>遲到</ng-container>
           </div>
-          <div *ngIf="getForgetDataTitle.isEarlyMins" class="tag_red" style="margin: 0px">
+          <div *ngIf="getForgetDataTitle.isEarlyMins" style="margin-right:5px;display: inline-block;">
             <ng-container i18n>早退</ng-container>
           </div>
-          <div *ngIf="getForgetDataTitle.isForgetCard" class="tag_red" style="margin: 0px">
+          <div *ngIf="getForgetDataTitle.isForgetCard" style="margin-right:5px;display: inline-block;">
             <ng-container i18n>未刷卡</ng-container>
           </div>
-          <div *ngIf="getForgetDataTitle.isNormal" class="tag_blue" style="margin: 0px">
+          <div *ngIf="getForgetDataTitle.isNormal" style="margin-right:5px;display: inline-block;">
             <ng-container i18n>正常</ng-container>
           </div>
-          <div *ngIf="getForgetDataTitle.isOffAfterMins" class="tag_red" style="margin: 0px">
+          <div *ngIf="getForgetDataTitle.isOffAfterMins" style="margin-right:5px;display: inline-block;">
             <ng-container i18n>晚退</ng-container>
           </div>
-          <div *ngIf="getForgetDataTitle.isOnBeforeMins" class="tag_red" style="margin: 0px">
+          <div *ngIf="getForgetDataTitle.isOnBeforeMins" style="margin-right:5px;display: inline-block;">
             <ng-container i18n>早到</ng-container>
           </div>
         </div>

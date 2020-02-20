@@ -214,6 +214,9 @@ export class CardPatchFlowSign{
   WriteEmpCode:string;
   WriteEmpNameC:string;
   
+  ExceptionalName:   string;
+  ErrorStateCode:    string;
+  ErrorStateName:    string;
   // State:string;
   isForgetCard:boolean
   isEarlyMins:boolean
@@ -222,6 +225,13 @@ export class CardPatchFlowSign{
   isOnBeforeMins:boolean
   isOffAfterMins:boolean
 
+  isForgetCardOld:boolean
+  isEarlyMinsOld:boolean
+  isLateMinsOld:boolean
+  isNormalOld:boolean
+  isOnBeforeMinsOld:boolean
+  isOffAfterMinsOld:boolean
+  
   Date:string;
   RoteCode:string;
 

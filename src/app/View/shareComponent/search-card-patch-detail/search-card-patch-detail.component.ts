@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
-import { forgetSearchFlowSignClass } from '../search-forget-form/search-forget-form.component';
 import { FormSign } from '../../allform/reviewform/reviewform-detail-delform/reviewform-detail-delform.component';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { formatDateTime, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
@@ -12,6 +11,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { TransSignStateGetApiClass } from 'src/app/Models/PostData_API_Class/TransSignStateGetApiClass';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
+import { cardPatchSearchFlowSignClass } from '../search-card-patch-form/search-card-patch-form.component';
 declare let $: any; //use jquery
 
 @Component({
@@ -30,7 +30,7 @@ export class SearchCardPatchDetailComponent implements OnInit, OnDestroy {
 
   @Input() getShowTransSignDetail: boolean
   @Input() getShowTakeDetail: boolean
-  @Input() getForgetDataTitle: forgetSearchFlowSignClass
+  @Input() getForgetDataTitle: cardPatchSearchFlowSignClass
 
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
     private LoadingPage: NgxSpinnerService,
