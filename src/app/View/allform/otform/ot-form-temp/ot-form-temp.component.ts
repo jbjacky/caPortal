@@ -84,6 +84,7 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() ObIptEmpID$: Observable<any> //取得目前表單內容(修改功能用)
   @Output() SetOtForm: EventEmitter<any> = new EventEmitter<any>(); //使用者輸入表單的資料
+  @Output() SetOtFormState: EventEmitter<any> = new EventEmitter<any>(); //使用者輸入表單驗證
 
   private Be_setOtFormData$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   Ob_setOtFormData$: Observable<any> = this.Be_setOtFormData$;
@@ -160,6 +161,14 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
         this.SetOtForm.emit(x);
       }
     )
+    this.otFormGroup.statusChanges
+    .pipe(takeWhile(() => this.api_subscribe))
+    .subscribe(
+      (state:string) => {
+        this.SetOtFormState.emit(state);
+      }
+    )
+    
     this.ObIptEmpID$
     .pipe(takeWhile(() => this.api_subscribe))
     .subscribe(

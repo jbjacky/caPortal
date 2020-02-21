@@ -1,3 +1,9 @@
+.ng-dirty.ng-invalid:not(form) {
+  border: 1px solid #e60012;
+}
+.ng-invalid:not(form) {
+  border: 1px solid #e60012;
+}
 .subTitle {
   color: #969696;
 }

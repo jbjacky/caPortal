@@ -9,7 +9,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 @Directive({
   selector: '[appAsyncValidEmpID]',
-  providers: [{ provide: NG_ASYNC_VALIDATORS, useExisting: AsyncValidEmpIDDirective, multi: true }]
+  providers: [{ provide: NG_ASYNC_VALIDATORS, useExisting: AsyncValidEmpIDDirective, multi: true }],
+  exportAs: 'AsyncValidEmpNameDirective'
 })
 
 /**
@@ -17,7 +18,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
  * @author jacky
  */
 export class AsyncValidEmpIDDirective implements AsyncValidator {
-
+  public EmpName: string;
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
     private GetApiUserService: GetApiUserService,
     private LoadingPage: NgxSpinnerService, ) { }
@@ -29,20 +30,26 @@ export class AsyncValidEmpIDDirective implements AsyncValidator {
     return this.getEmpIDAsyncValidator(debounceTime, control)
   }
 
-
   private getEmpIDAsyncValidator(debounceTime: number, control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
     return timer(debounceTime).pipe(switchMap(() => {
       this.LoadingPage.show();
-      var req = this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(control.value)
-        .pipe(map((serviceResponse: GetBaseInfoDetailClass[]) => {
-          this.LoadingPage.hide();
-          if (serviceResponse.length > 0) {
-            return null;
-          }
-          else {
-            return { errorEmpID: true };
-          }
-        }));
+      var req
+      if (!control.value) { 
+        return { errorEmpNull: true };
+      } else {
+        req = this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(control.value)
+          .pipe(map((serviceResponse: GetBaseInfoDetailClass[]) => {
+            this.LoadingPage.hide();
+            if (serviceResponse.length > 0) {
+              this.EmpName = serviceResponse[0].EmpNameC
+              return null;
+            }
+            else {
+              this.EmpName = ''
+              return { errorEmpID: true };
+            }
+          }));
+      }
       return req;
     }));
   }

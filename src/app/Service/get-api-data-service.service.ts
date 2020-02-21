@@ -89,6 +89,7 @@ import { jbUserLoginClass } from '../Models/PostData_API_Class/jbUserLoginClass'
 import { AttendUnusualSaveAndFlowStartClass } from '../Models/PostData_API_Class/AttendUnusualSaveAndFlowStart';
 import { CardPatchSaveAndFlowStartClass } from '../Models/PostData_API_Class/CardPatchSaveAndFlowStartClass';
 import { GetOtCalculateGetApiClass } from '../Models/PostData_API_Class/GetOtCalculateGetApiClass';
+import { OTCheckListGetApiClass } from '../Models/PostData_API_Class/OTCheckListGetApiClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -1926,6 +1927,24 @@ export class GetApiDataServiceService {
   getWebApiData_GetOtCalculate(GetOtCalculateGetApi:GetOtCalculateGetApiClass) {
     return this.http.post(this.localUrl  + 'OtHandler/GetCalculate',
     JSON.stringify(GetOtCalculateGetApi), {
+      headers: this.GetHeader()
+    })
+  }
+  /**
+   * @todo 加班單檢查後計算
+   */
+  getWebApiData_OTCheckList(OTCheckListGetApi:OTCheckListGetApiClass[]){
+    return this.http.post(this.localUrl  + 'OTHandler/OTCheckList',
+    JSON.stringify(OTCheckListGetApi), {
+      headers: this.GetHeader()
+    })
+  }
+  /**
+   * @todo 加班單檢查後計算(預估)
+   */
+  getWebApiData_OTCheckEstimateList(OTCheckListGetApi:OTCheckListGetApiClass[]){
+    return this.http.post(this.localUrl  + 'OTHandler/OT1CheckList',
+    JSON.stringify(OTCheckListGetApi), {
       headers: this.GetHeader()
     })
   }

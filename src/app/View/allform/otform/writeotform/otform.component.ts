@@ -1,18 +1,14 @@
-import { Component, OnInit, OnChanges, SimpleChanges, AfterViewInit, NgZone, ViewChild, ElementRef, DoCheck, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, FormControl, ValidatorFn, AbstractControl, AsyncValidatorFn, ValidationErrors, FormGroup, NgModel } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, NgModel } from '@angular/forms';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
-import { Observable, timer, BehaviorSubject } from 'rxjs';
-import { map, debounceTime, switchMap, takeWhile, distinctUntilChanged, filter } from 'rxjs/operators';
-import { resolve, reject } from 'q';
-import { jbUserLoginClass, jbLoginDataClass } from 'src/app/Models/PostData_API_Class/jbUserLoginClass';
-import { GetOtCauseByFormDataClass } from 'src/app/Models/GetOtCauseByForm';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { takeWhile} from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
-import { GetBaseInfoDetailClass } from 'src/app/Models/GetBaseInfoDetailClass';
-import { isValidTime, isValidDate } from 'src/app/UseVoid/void_isVaildDatetime';
 import { doFormatDate, sumbit_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
-import { GetOtCalculateGetApiClass } from 'src/app/Models/PostData_API_Class/GetOtCalculateGetApiClass';
+import { OTCheckListGetApiClass } from 'src/app/Models/PostData_API_Class/OTCheckListGetApiClass';
+import { OTCheckListGetApiDataClass } from 'src/app/Models/OTCheckListGetApiDataClass';
 
 
 declare let $: any; //use jquery
@@ -29,32 +25,21 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.NowIsWriteOtForm = true
   }
 
+  wOtFormState : string = ''
   WriteEmp = { EmpID: null, EmpName: null }
   otFormGroup: FormGroup
   otFormArray: Array<otFormClass>;
+  LeaveEmpID
+  LeaveEmpName
+  OtType: string
 
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
     private GetApiUserService: GetApiUserService,
     private LoadingPage: NgxSpinnerService,
     private fb: FormBuilder) {
-    var _otform: otFormClass = {
-      OtType: [''],
-      EmpID: [''],
-      StartDate: [''],
-      EndDate: [''],
-      StartTime: [''],
-      EndTime: [''],
-      OtCat: [''],
-      CauseID: [''],
-      DeptsID: [''],
-      Note: '',
-      FileUpload: ''
-    }
+    var _otform: otFormClass = new otFormClass()
     this.otFormGroup = this.fb.group(_otform)
   }
-  LeaveEmpID
-  LeaveEmpName
-  OtType: any
 
   @ViewChild('IptEmpID') IptEmpID: NgModel
   ngAfterViewInit(): void {
@@ -65,12 +50,13 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   api_subscribe = true; //ngOnDestroy時要取消訂閱api的subscribe
   ngOnInit(): void {
+    this.OtType = "1"
     this.IptEmpID.control.statusChanges
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (status: string) => {
           if (status == 'VALID') {
-            console.log(this.IptEmpID)
+            // console.log(this.IptEmpID)
             this.setObIptEmpID(this.IptEmpID.value)
           }
         }
@@ -89,42 +75,87 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
         })
   }
   onSubmit() {
-    console.log(this.otFormGroup.value)
-    var getData: otFormClass = this.otFormGroup.value
-    var GetOtCalculateGetApi: GetOtCalculateGetApiClass = {
-      "EmpID": getData.EmpID,
-      "OtCat": getData.OtCat,
-      "DateB": doFormatDate(getData.StartDate),
-      "DateE": doFormatDate(getData.EndDate),
-      "TimeB": sumbit_formatTimetoString(getData.StartTime),
-      "TimeE": sumbit_formatTimetoString(getData.EndTime),
-      "CauseID": getData.CauseID,
+    console.log(this.otFormGroup)
+    var OTCheckListGetApiArray: OTCheckListGetApiClass[] = []
+    var getFormData: otFormClass = this.otFormGroup.value
+    var OtCheck: OTCheckListGetApiClass = {
+      "RowID": 0,
+      "EmpID": this.LeaveEmpID,
+      "OtCat": getFormData.OtCat,
+      "DateB": doFormatDate(getFormData.StartDate),
+      "DateE": doFormatDate(getFormData.EndDate),
+      "TimeB": sumbit_formatTimetoString(getFormData.StartTime),
+      "TimeE": sumbit_formatTimetoString(getFormData.EndTime),
+      "CauseID": getFormData.CauseID,
       "RoteID": "",
+      "Card": false,
       "CalculateRes": true,
       "CalculateAtt": true,
       "Time24": false
     }
-    this.LoadingPage.show()
-    this.GetApiDataServiceService.getWebApiData_GetOtCalculate(GetOtCalculateGetApi)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (x: any) => {
-          alert(x)
-          this.NowIsWriteOtForm = false
-          this.LoadingPage.hide()
-        })
+    OTCheckListGetApiArray.push(OtCheck)
+    if (this.OtType == '1') {
+      // 預估加班單
 
+      this.LoadingPage.show()
+      this.GetApiDataServiceService.getWebApiData_OTCheckEstimateList(OTCheckListGetApiArray)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (OTCheckListGetApiData: OTCheckListGetApiDataClass[]) => {
+            var okInArray:boolean = true
+            for(let otData of OTCheckListGetApiData){
+              if(!otData.isOK){
+                var e = ''
+                for(let err of otData.ErrorMsg){
+                   e  = e + err
+                }
+                alert(e)
+                okInArray = false
+              }
+            }
+            if(okInArray){
+              alert(OTCheckListGetApiData[0].OTAmount)
+            }
+            this.LoadingPage.hide()
+          })
+    } else if (this.OtType == '2') {
+      // 實際加班單
+      this.LoadingPage.show()
+      this.GetApiDataServiceService.getWebApiData_OTCheckList(OTCheckListGetApiArray)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (OTCheckListGetApiData: OTCheckListGetApiDataClass[]) => {
+            var okInArray:boolean = true
+            for(let otData of OTCheckListGetApiData){
+              if(!otData.isOK){
+                var e = ''
+                for(let err of otData.ErrorMsg){
+                   e  = e + err
+                }
+                alert(e)
+                okInArray = false
+              }
+            }
+            if(okInArray){
+              alert(OTCheckListGetApiData[0].OTAmount)
+            }
+            this.LoadingPage.hide()
+          })
+    }
   }
 
   private BeIptEmpID: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   ObIptEmpID$: Observable<any> = this.BeIptEmpID
 
-  setObIptEmpID(iptEmpID:string) {
+  setObIptEmpID(iptEmpID: string) {
     this.BeIptEmpID.next(iptEmpID)
   }
 
   setForm(e: otFormClass) {
     this.otFormGroup = this.fb.group(e)
+  }
+  setFormState(s: string) {
+    this.wOtFormState = s.toString()
   }
 
   eFileArray = [{

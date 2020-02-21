@@ -4,41 +4,43 @@
       <div class="col-md-6 col-xs-12">
           <label>基本資料</label>
           <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover table-content-center table-style01">
-              <tr>
-                <td>員工工號</td>
-                <td>{{GetEmpInfoData.Base.Nobr}}</td>
-              </tr>
-              <tr>
-                <td>中文姓名</td>
-                <td>{{GetEmpInfoData.Base.NameC}}</td>
-              </tr>
-              <tr>
-                <td>英文姓名</td>
-                <td>{{GetEmpInfoData.Base.NameE}}</td>
-              </tr>
-              <tr>
-                <td>性別</td>
-                <td>{{GetEmpInfoData.Base.Sex}}</td>
-              </tr>
-              <tr>
-                <td>生日</td>
-                <td>{{GetEmpInfoData.Base.Birdt}}</td>
-              </tr>
-              <tr>
-                <td>血型</td>
-                <td>{{GetEmpInfoData.Base.Blood}}</td>
-              </tr>
-              <tr>
-                <td>婚姻狀況</td>
-                <td>{{GetEmpInfoData.Base.Marry}}</td>
-              </tr>
-            </table>
+            <ng-container *ngIf="GetEmpInfoData">
+              <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+                <tr>
+                  <td>員工工號</td>
+                  <td>{{GetEmpInfoData.Base.Nobr}}</td>
+                </tr>
+                <tr>
+                  <td>中文姓名</td>
+                  <td>{{GetEmpInfoData.Base.NameC}}</td>
+                </tr>
+                <tr>
+                  <td>英文姓名</td>
+                  <td>{{GetEmpInfoData.Base.NameE}}</td>
+                </tr>
+                <tr>
+                  <td>性別</td>
+                  <td>{{GetEmpInfoData.Base.Sex}}</td>
+                </tr>
+                <tr>
+                  <td>生日</td>
+                  <td>{{GetEmpInfoData.Base.Birdt}}</td>
+                </tr>
+                <tr>
+                  <td>血型</td>
+                  <td>{{GetEmpInfoData.Base.Blood}}</td>
+                </tr>
+                <tr>
+                  <td>婚姻狀況</td>
+                  <td>{{GetEmpInfoData.Base.Marry}}</td>
+                </tr>
+              </table>
+            </ng-container>
           </div>
       </div>
       <div class="col-md-6 col-xs-12">
           <label>人事資料</label>
-          <div class="table-responsive">
+          <div *ngIf="GetEmpInfoData" class="table-responsive">
             <table class="table table-bordered table-striped table-hover table-content-center table-style01">
               <tr>
                 <td>編制部門</td>
@@ -59,7 +61,7 @@
     <div style="padding:0px 15px">
       <label>通訊資料</label>
       <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+        <table *ngIf="GetEmpInfoData" class="table table-bordered table-striped table-hover table-content-center table-style01">
           <tr>
             <td>手機</td>
             <td>{{GetEmpInfoData.Base.Gsm}}</td>
@@ -90,7 +92,7 @@
     <div style="padding:0px 15px">
       <label>學歷資料</label>
       <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover table-content-center table-style01">
+        <table *ngIf="GetEmpInfoData" class="table table-bordered table-striped table-hover table-content-center table-style01">
           <thead>
             <tr>
               <!-- <th style="background-image: unset;cursor: unset"><input id="chkAll" type="checkbox"></th> -->
@@ -118,31 +120,31 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let SchlView of GetEmpInfoData.SchlView">
-              <tr>
-                <td>
-                  {{SchlView.Name}}
-                </td>
-                <td>
-                  {{SchlView.Adate}}
-                </td>
-                <td>
-                  {{SchlView.Schl1}}
-                </td>
-                <td>
-                  {{SchlView.Subj}}
-                </td>
-                <td>
-                  {{SchlView.DateB}}
-                </td>
-                <td>
-                  {{SchlView.DateE}}
-                </td>
-                <td>
-                  {{SchlView.Ok}}
-                </td>
-              </tr>
-            </ng-container>
+              <ng-container *ngFor="let SchlView of GetEmpInfoData.SchlView">
+                <tr>
+                  <td>
+                    {{SchlView.Name}}
+                  </td>
+                  <td>
+                    {{SchlView.Adate}}
+                  </td>
+                  <td>
+                    {{SchlView.Schl1}}
+                  </td>
+                  <td>
+                    {{SchlView.Subj}}
+                  </td>
+                  <td>
+                    {{SchlView.DateB}}
+                  </td>
+                  <td>
+                    {{SchlView.DateE}}
+                  </td>
+                  <td>
+                    {{SchlView.Ok}}
+                  </td>
+                </tr>
+              </ng-container>
           </tbody>
         </table>
       </div>
