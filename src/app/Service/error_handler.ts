@@ -92,6 +92,9 @@ export class ErrorHandler implements OnDestroy {
                         this.GetApiDataServiceService.getWebApiData_LogApiMsg(LogApiMsgGetApi)
                             .pipe(takeWhile(() => this.api_subscribe))
                             .subscribe((x: any) => {
+                                this.ErrorStateService.errorState = 6
+                                this.router.navigateByUrl('/ErrorPageComponent')
+                                this.LoadingPage.hide()
                             }, error => {
                             });
                     }
