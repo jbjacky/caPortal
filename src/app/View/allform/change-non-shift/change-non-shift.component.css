@@ -1,6 +1,5 @@
 .P_AssistantTitle {
     margin: 0px;
-    padding-right: 32px;
     text-align: right;
 }
 
@@ -11,6 +10,9 @@
 .P_title {
     padding-left: 15px;
     padding-right: 35px;
+    text-align: right;
+}
+.P_stitle {
     text-align: right;
 }
 
@@ -72,6 +74,11 @@
 @media screen and (max-width:992px) {
 
     .P_title {
+        padding-left: 0px;
+        padding-right: 0px;
+        text-align: left;
+    }
+    .P_stitle{
         padding-left: 0px;
         padding-right: 0px;
         text-align: left;

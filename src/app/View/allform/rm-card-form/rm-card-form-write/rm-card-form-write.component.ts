@@ -312,6 +312,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
 
   ngOnInit() {
     this.Sub_onChangeSignMan$.next(this.getAttendCard.forget_man_code)
+    this.inViewSearchCardFormFlow()
   }
 
 
@@ -894,52 +895,54 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
     window.open(otSysURL, '_blank')
   }
 
-  showCardFlowDataDialog:boolean = false 
+  showCardFlowDataDialog:boolean = true 
   showCardFlowData: GetCardFlowAppsGetApiDataClass[] = []
   searchCardFormFlow() {
-    var GetCardFlowApps: GetCardFlowAppsGetApi = {
-      "ListEmpID": [this.getAttendCard.forget_man_code.toString()],
-      "DateB": this.getAttendCard.AttendDate.toString(),
-      "DateE": this.getAttendCard.AttendDate.toString(),
-      "Miniature":true
-    }
-    this.showCardFlowDataDialog = true
-    this.LoadingPage.show()
-    this.GetApiDataServiceService.getWebApiData_GetCardFlowApps(GetCardFlowApps)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe((GetCardFlowAppsGetApiData: GetCardFlowAppsGetApiDataClass[]) => {
-        // void_completionTenNum
-        this.showCardFlowData = JSON.parse(JSON.stringify(GetCardFlowAppsGetApiData))
-        for (let c of this.showCardFlowData) {
-          c.ProcessID  = void_completionTenNum(c.ProcessID)
-          if (c.DateTimeB) {
-            c.DateTimeB = formatDateTime(c.DateTimeB).getDate + ' ' + getapi_formatTimetoString(formatDateTime(c.DateTimeB).getTime)
+    $('#searchCardFlowDataDialog').modal('show')
+  }
+
+  inViewSearchCardFormFlow(){
+      var GetCardFlowApps: GetCardFlowAppsGetApi = {
+        "ListEmpID": [this.getAttendCard.forget_man_code.toString()],
+        "DateB": this.getAttendCard.AttendDate.toString(),
+        "DateE": this.getAttendCard.AttendDate.toString(),
+        "Miniature":true
+      }
+      this.LoadingPage.show()
+      this.GetApiDataServiceService.getWebApiData_GetCardFlowApps(GetCardFlowApps)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe((GetCardFlowAppsGetApiData: GetCardFlowAppsGetApiDataClass[]) => {
+          // void_completionTenNum
+          this.showCardFlowData = JSON.parse(JSON.stringify(GetCardFlowAppsGetApiData))
+          for (let c of this.showCardFlowData) {
+            c.ProcessID  = void_completionTenNum(c.ProcessID)
+            if (c.DateTimeB) {
+              c.DateTimeB = formatDateTime(c.DateTimeB).getDate + ' ' + getapi_formatTimetoString(formatDateTime(c.DateTimeB).getTime)
+            }
+            if (c.DateTimeE) {
+              c.DateTimeE = formatDateTime(c.DateTimeE).getDate + ' ' + getapi_formatTimetoString(formatDateTime(c.DateTimeE).getTime)
+            }
+            if (c.ErrorStateName == '未刷卡') {
+              c.uiIsForgetCard = true
+            }
+            if (c.ErrorStateName == '早退') {
+              c.uiIsEarlyMins = true
+            }
+            if (c.ErrorStateName == '遲到') {
+              c.uiIsLateMins = true
+            }
+            if (c.ErrorStateName == '正常') {
+              c.uiIsNormal = true
+            }
+            if (c.ErrorStateName == '早到') {
+              c.uiIsOnBeforeMins = true
+            }
+            if (c.ErrorStateName == '晚退') {
+              c.uiIsOffAfterMins = true
+            }
           }
-          if (c.DateTimeE) {
-            c.DateTimeE = formatDateTime(c.DateTimeE).getDate + ' ' + getapi_formatTimetoString(formatDateTime(c.DateTimeE).getTime)
-          }
-          if (c.ErrorStateName == '未刷卡') {
-            c.uiIsForgetCard = true
-          }
-          if (c.ErrorStateName == '早退') {
-            c.uiIsEarlyMins = true
-          }
-          if (c.ErrorStateName == '遲到') {
-            c.uiIsLateMins = true
-          }
-          if (c.ErrorStateName == '正常') {
-            c.uiIsNormal = true
-          }
-          if (c.ErrorStateName == '早到') {
-            c.uiIsOnBeforeMins = true
-          }
-          if (c.ErrorStateName == '晚退') {
-            c.uiIsOffAfterMins = true
-          }
-        }
-        $('#searchCardFlowDataDialog').modal('show')
-        this.LoadingPage.hide()
-      })
+          this.LoadingPage.hide()
+        })
   }
 }
 

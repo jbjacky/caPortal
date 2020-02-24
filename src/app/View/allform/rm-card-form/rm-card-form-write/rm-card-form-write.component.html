@@ -263,6 +263,7 @@
               <div class="col-md-2 col-xs-0"></div>
               <div class="col-md-10 col-xs-12" style="text-align: right;">
                 <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                <span style="color: #d0021b;">({{showCardFlowData.length}})</span>
               </div>
             </div>
           </div>
@@ -364,10 +365,11 @@
                       <input type="radio" name="cR_OnBeforeMins" [(ngModel)]="cR_OnBeforeMins" [value]='3'
                         (click)="disOnBeforeRadio(cR_OnBeforeMins,3)">加班需補卡
                     </div>
-                    <div class="col-md-7 col-xs-12" style="padding:0">
+                    <div *ngIf="cR_OnBeforeMins == 3" class="col-md-7 col-xs-12" style="padding:0">
                       <div class="col-md-2 col-xs-0"></div>
                       <div class="col-md-10 col-xs-12" style="text-align: right;">
-                        <a *ngIf="cR_OnBeforeMins == 3" style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                        <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                        <span style="color: #d0021b;">({{showCardFlowData.length}})</span>
                       </div>
                     </div>
                   </div>
@@ -422,10 +424,11 @@
                       <input type="radio" name="cR_OffAfterMins" [(ngModel)]="cR_OffAfterMins" [value]='3'
                         (click)="disOffAfterRadio(cR_OffAfterMins,3)">加班需補卡
                     </div>
-                    <div class="col-md-7 col-xs-12" style="padding:0">
+                    <div *ngIf="cR_OffAfterMins == 3" class="col-md-7 col-xs-12" style="padding:0">
                       <div class="col-md-2 col-xs-0"></div>
                       <div class="col-md-10 col-xs-12" style="text-align: right;">
-                        <a *ngIf="cR_OffAfterMins == 3" style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                        <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                        <span style="color: #d0021b;">({{showCardFlowData.length}})</span>
                       </div>
                     </div>
                   </div>
@@ -479,10 +482,11 @@
                       <input type="radio" name="cR_EarlyMins" [(ngModel)]="cR_EarlyMins" [value]='2'
                         (click)="disEarlyRadio(cR_EarlyMins,2)">我要填補卡單
                     </div>
-                    <div class="col-md-7 col-xs-12" style="padding:0">
+                    <div *ngIf="cR_EarlyMins == 2" class="col-md-7 col-xs-12" style="padding:0">
                       <div class="col-md-2 col-xs-0"></div>
                       <div class="col-md-10 col-xs-12" style="text-align: right;">
-                        <a *ngIf="cR_EarlyMins == 2" style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                        <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                        <span style="color: #d0021b;">({{showCardFlowData.length}})</span>
                       </div>
                     </div>
                   </div>
@@ -530,10 +534,11 @@
                       <input type="radio" name="cR_LateMins" [(ngModel)]="cR_LateMins" [value]='2'
                         (click)="disLateRadio(cR_LateMins,2)">我要填補卡單
                     </div>
-                    <div class="col-md-7 col-xs-12" style="padding:0">
+                    <div *ngIf="cR_LateMins == 2" class="col-md-7 col-xs-12" style="padding:0">
                       <div class="col-md-2 col-xs-0"></div>
                       <div class="col-md-10 col-xs-12" style="text-align: right;">
-                        <a *ngIf="cR_LateMins == 2" style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                        <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                        <span style="color: #d0021b;">({{showCardFlowData.length}})</span>
                       </div>
                     </div>
                   </div>
