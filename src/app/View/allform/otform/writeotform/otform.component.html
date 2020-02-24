@@ -103,76 +103,85 @@
             </div>
           </div>
           <!-- 員工、填寫人-->
-          <div class="row" style="
-          margin: 0;
-          padding: 10px 0px;
-          border: 1px solid #028fcf;
-          border-left-width: 10px;
-          margin-top: 20px;">
-            <div class="col-md-2 col-xs-6 tRPl Pborder" style="color: #028fcf;">
-              加班時段一
-            </div>
-            <div class="col-md-2 col-md-push-8 col-xs-6 Pborder" style="text-align: right;">
-              <a style="margin-right:10px;cursor: pointer;">修改</a>
-              <a style="cursor: pointer;">刪除</a>
-            </div>
-            <div class="col-md-8  col-md-pull-2 col-xs-12 row" style="margin:0;">
-              <div class="row" style="margin:0;padding:0">
-                <div class="col-md-9 col-xs-12" style="padding: 0;">
-                  <div class="row" style="margin:0;padding:0">
-                    <div class="col-md-6 col-xs-12" style="padding: 0;">
-                      <span class="subTitle">
-                        起始：
-                      </span>
-                      2020/01/31 08:00
-                    </div>
-                    <div class="col-md-6 col-xs-12" style="padding: 0;">
-                      <span class="subTitle">
-                        結束：
-                      </span>
-                      2020/01/31 17:00
+          <!-- 多筆填寫資料-->
+          <div *ngFor = "let otForm of otFormArray">
+            <div class="row" style="
+            margin: 0;
+            padding: 10px 0px;
+            border: 1px solid #028fcf;
+            border-left-width: 10px;
+            margin-top: 20px;">
+              <div class="col-md-2 col-xs-6 tRPl Pborder" style="color: #028fcf;">
+                加班時段 {{otForm.RowID}}
+              </div>
+              <div class="col-md-2 col-md-push-8 col-xs-6 Pborder" style="text-align: right;">
+                <a style="margin-right:10px;cursor: pointer;">修改</a>
+                <a style="cursor: pointer;">刪除</a>
+              </div>
+              <div class="col-md-8  col-md-pull-2 col-xs-12 row" style="margin:0;">
+                <div class="row" style="margin:0;padding:0">
+                  <div class="col-md-9 col-xs-12" style="padding: 0;">
+                    <div class="row" style="margin:0;padding:0">
+                      <div class="col-md-6 col-xs-12" style="padding: 0;">
+                        <span class="subTitle">
+                          起始：
+                        </span>
+                        {{otForm.StartDate}} {{otForm.StartTime}}
+                      </div>
+                      <div class="col-md-6 col-xs-12" style="padding: 0;">
+                        <span class="subTitle">
+                          結束：
+                        </span>
+                        {{otForm.EndDate}} {{otForm.EndTime}}
+                      </div>
                     </div>
                   </div>
+                  <div class="col-md-3 col-xs-12" style="padding: 0;">
+                    <span class="subTitle">
+                      加班時數：
+                    </span>
+                    {{otForm.OtAmount}}分鐘
+                  </div>
                 </div>
-                <div class="col-md-3 col-xs-12" style="padding: 0;">
+                <div>
                   <span class="subTitle">
-                    加班時數：
+                    申請類型：
                   </span>
-                  480分鐘
+                  <span *ngIf="otForm.OtCat == '1'">加班費</span>
+                  <span *ngIf="otForm.OtCat == '2'">補休假</span>
                 </div>
-              </div>
-              <div>
-                <span class="subTitle">
-                  申請類型：
-                </span>
-                加班費
-              </div>
-              <div>
-                <span class="subTitle">
-                  加班原因：
-                </span>
-                機台生產
-              </div>
-              <div>
-                <span class="subTitle">
-                  加班部門：
-                </span>
-                總經理室
-              </div>
-              <div>
-                <span class="subTitle">
-                  附件：
-                </span>
-                我是附件.png 我是附件2.png
-              </div>
-              <div>
-                <span class="subTitle">
-                  備註：
-                </span>
+                <div>
+                  <span class="subTitle">
+                    加班原因：
+                  </span>
+                  <span>{{otForm.CauseName}}</span>
+                </div>
+                <div>
+                  <span class="subTitle">
+                    加班部門：
+                  </span>
+                  <span>{{otForm.DeptsName}}</span>
+                </div>
+                <div>
+                  <span class="subTitle">
+                    附件：
+                  </span>
+                  <a *ngFor="let f of otForm.FileUpload" (click)="base64(f)">
+                    {{f.UploadName}}
+                  </a>
+                </div>
+                <div>
+                  <span class="subTitle">
+                    備註：
+                  </span>
+                  <span>
+                    {{otForm.Note}}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-
+          <!-- 多筆填寫資料-->
           <div *ngIf="NowIsWriteOtForm" class="form-horizontal  form-style01">
             <div id="NowIsWirteFormTop"></div>
             <!--填寫表單-->

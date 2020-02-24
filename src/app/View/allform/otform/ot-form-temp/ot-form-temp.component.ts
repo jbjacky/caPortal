@@ -12,6 +12,7 @@ import { GetBaseInfoDetailClass } from 'src/app/Models/GetBaseInfoDetailClass';
 import { GetOtCauseByFormDataClass } from 'src/app/Models/GetOtCauseByForm';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { uploadFileClass } from 'src/app/Models/uploadFileClass';
+import { GetDeptsGetApiData } from 'src/app/Models/GetDeptsGetApiData';
 
 declare let $: any; //use jquery
 
@@ -22,8 +23,8 @@ declare let $: any; //use jquery
 })
 export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
   exampleHeader = ExampleHeader //日期套件header
-  
-  @Input() editFileArray:uploadFileClass
+
+  @Input() editFileArray: uploadFileClass
 
   startTimeDropper: any
   endTimeDropper: any
@@ -52,8 +53,8 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.StartTime.value == '') {
       this.StartTime.setValue('00:00')
     }
-    if(!$('#'+this.id_ipt_starttime).hasClass('uiTimeDropper')){
-      !$('#'+this.id_ipt_starttime).addClass('uiTimeDropper')
+    if (!$('#' + this.id_ipt_starttime).hasClass('uiTimeDropper')) {
+      !$('#' + this.id_ipt_starttime).addClass('uiTimeDropper')
     }
     this.startTimeDropper[0].myprop1(reSplTimeHHmm(this.StartTime.value).HH, reSplTimeHHmm(this.StartTime.value).mm);
     $(this.StartTimeView.nativeElement)
@@ -66,8 +67,8 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.EndTime.value == '') {
       this.EndTime.setValue('00:00')
     }
-    if(!$('#'+this.id_ipt_endtime).hasClass('uiTimeDropper')){
-      !$('#'+this.id_ipt_endtime).addClass('uiTimeDropper')
+    if (!$('#' + this.id_ipt_endtime).hasClass('uiTimeDropper')) {
+      !$('#' + this.id_ipt_endtime).addClass('uiTimeDropper')
     }
     this.endTimeDropper[0].myprop1(reSplTimeHHmm(this.EndTime.value).HH, reSplTimeHHmm(this.EndTime.value).mm);
     $(this.EndTimeView.nativeElement)
@@ -90,8 +91,8 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
   Ob_setOtFormData$: Observable<any> = this.Be_setOtFormData$;
   dateTimeS = ''
   dateTimeE = ''
-  CauseOption = []
-  NgxDeptsSelectBox = [];
+  CauseOption:GetOtCauseByFormDataClass[] = []
+  NgxDeptsSelectBox:GetDeptsGetApiData[] = [];
   starttimeMask(): {
     mask: Array<string | RegExp>;
     keepCharPositions: boolean;
@@ -116,6 +117,7 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
     private LoadingPage: NgxSpinnerService,
     private fb: FormBuilder) {
     var _otform: otFormClass = {
+      RowID: 0,
       OtType: ['1', Validators.required],
       EmpID: ['', Validators.required, [this.getValidatorFn()]],
       StartDate: ['', this.checkDate()],
@@ -124,9 +126,12 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
       EndTime: ['', this.checkTime()],
       OtCat: ['1', Validators.required],
       CauseID: ['', Validators.required],
+      CauseName: '',
       DeptsID: ['', Validators.required],
+      DeptsName: '',
       Note: '',
-      FileUpload: ''
+      FileUpload: '',
+      OtAmount: null
     }
     this.otFormGroup = this.fb.group(_otform)
   }
@@ -138,7 +143,9 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
   get StartTime() { return this.otFormGroup.get('StartTime'); }
   get EndTime() { return this.otFormGroup.get('EndTime'); }
   get CauseID() { return this.otFormGroup.get('CauseID'); }
+  get CauseName() { return this.otFormGroup.get('CauseName'); }
   get DeptsID() { return this.otFormGroup.get('DeptsID'); }
+  get DeptsName() { return this.otFormGroup.get('DeptsName'); }
   createForm(EmpID: string) {
     this.EmpID.setValue(EmpID)
     this.StartDate.setValue(new Date())
@@ -153,49 +160,70 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.id_ipt_starttime = 'id_ipt_starttime' + this.UiTemp
     this.id_ipt_endtime = 'id_ipt_endtime' + this.UiTemp
-    
-    this.otFormGroup.valueChanges
-    .pipe(takeWhile(() => this.api_subscribe))
-    .subscribe(
-      (x: otFormClass) => {
-        this.SetOtForm.emit(x);
-      }
-    )
-    this.otFormGroup.statusChanges
-    .pipe(takeWhile(() => this.api_subscribe))
-    .subscribe(
-      (state:string) => {
-        this.SetOtFormState.emit(state);
-      }
-    )
-    
-    this.ObIptEmpID$
-    .pipe(takeWhile(() => this.api_subscribe))
-    .subscribe(
-      (EmpID: string) => {
-        if (EmpID) {
-          // console.log(EmpID)
-          this.createForm(EmpID)
-          this.GetApiDataServiceService.getWebApiData_GetOtCauseByForm()
-            .pipe(takeWhile(() => this.api_subscribe))
-            .subscribe(
-              (GetOtCauseByForm: GetOtCauseByFormDataClass[]) => {
-                // console.log(x)
-                this.CauseOption = GetOtCauseByForm
-                this.CauseID.setValue(GetOtCauseByForm[0].CauseID)
-                this.GetApiDataServiceService.getWebApiData_GetDepts()
-                  .pipe(takeWhile(() => this.api_subscribe))
-                  .subscribe(
-                    (y: any[]) => {
-                      this.NgxDeptsSelectBox = JSON.parse(JSON.stringify(y))
-                    })
-              }
-            )
-        } else {
 
+    this.otFormGroup.valueChanges
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (x: otFormClass) => {
+          this.SetOtForm.emit(x);
         }
-      }
-    )
+      )
+    this.otFormGroup.statusChanges
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (state: string) => {
+          this.SetOtFormState.emit(state);
+        }
+      )
+    this.CauseID.valueChanges
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (CauseID: string) => {
+          for (let c of this.CauseOption) {
+            if (c.CauseID == CauseID) {
+              this.CauseName.setValue(c.CauseNameC)
+            }
+          }
+        }
+      )
+    this.DeptsID.valueChanges
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (DeptsID: string) => {
+          for (let d of this.NgxDeptsSelectBox) {
+            if (d.DeptsID == DeptsID) {
+              this.DeptsName.setValue(d.DeptsName)
+            }
+          }
+        }
+      )
+    this.ObIptEmpID$
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (EmpID: string) => {
+          if (EmpID) {
+            // console.log(EmpID)
+            this.createForm(EmpID)
+            this.GetApiDataServiceService.getWebApiData_GetOtCauseByForm()
+              .pipe(takeWhile(() => this.api_subscribe))
+              .subscribe(
+                (GetOtCauseByForm: GetOtCauseByFormDataClass[]) => {
+                  // console.log(x)
+                  this.CauseOption = GetOtCauseByForm
+                  this.CauseID.setValue(GetOtCauseByForm[0].CauseID)
+                  this.GetApiDataServiceService.getWebApiData_GetDepts()
+                    .pipe(takeWhile(() => this.api_subscribe))
+                    .subscribe(
+                      (y: GetDeptsGetApiData[]) => {
+                        this.NgxDeptsSelectBox = JSON.parse(JSON.stringify(y))
+                      })
+                }
+              )
+          } else {
+
+          }
+        }
+      )
   }
   checkDate(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -209,9 +237,9 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
         var EndDateTime = new Date(doFormatDate(this.EndDate.value) + ' ' + this.EndTime.value)
         if (!this.StartDate.value) {
           return { 'forbiddenName': 'StartDateNull' }
-        }else if(!this.EndDate.value){
+        } else if (!this.EndDate.value) {
           return { 'forbiddenName': 'EndDateNull' }
-        }else if (this.isStartNoLargeEndDateTime(StartDateTime, EndDateTime)) {
+        } else if (this.isStartNoLargeEndDateTime(StartDateTime, EndDateTime)) {
           return { 'forbiddenName': 'dateTimeFail' }
         } else if (control.value) {
           return null
@@ -260,9 +288,9 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
         var EndDateTime = new Date(doFormatDate(this.EndDate.value) + ' ' + this.EndTime.value)
         if (!this.StartDate.value) {
           return { 'forbiddenName': 'StartDateNull' }
-        }else if(!this.EndDate.value){
+        } else if (!this.EndDate.value) {
           return { 'forbiddenName': 'EndDateNull' }
-        }else if (this.isStartNoLargeEndDateTime(StartDateTime, EndDateTime)) {
+        } else if (this.isStartNoLargeEndDateTime(StartDateTime, EndDateTime)) {
           return { 'forbiddenName': 'dateTimeFail' }
         } else if (control.value) {
           return null

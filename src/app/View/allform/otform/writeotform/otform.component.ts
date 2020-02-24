@@ -2,13 +2,15 @@ import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular
 import { FormBuilder, FormGroup, NgModel } from '@angular/forms';
 import { GetApiDataServiceService } from 'src/app/Service/get-api-data-service.service';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { takeWhile} from 'rxjs/operators';
+import { takeWhile } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
 import { doFormatDate, sumbit_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { OTCheckListGetApiClass } from 'src/app/Models/PostData_API_Class/OTCheckListGetApiClass';
 import { OTCheckListGetApiDataClass } from 'src/app/Models/OTCheckListGetApiDataClass';
+import { uploadFileClass } from 'src/app/Models/uploadFileClass';
+import { FileDownloadService } from 'src/app/Service/file-download.service';
 
 
 declare let $: any; //use jquery
@@ -25,10 +27,10 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.NowIsWriteOtForm = true
   }
 
-  wOtFormState : string = ''
+  wOtFormState: string = ''
   WriteEmp = { EmpID: null, EmpName: null }
   otFormGroup: FormGroup
-  otFormArray: Array<otFormClass>;
+  otFormArray: Array<otFormClass> = [];
   LeaveEmpID
   LeaveEmpName
   OtType: string
@@ -36,7 +38,8 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
     private GetApiUserService: GetApiUserService,
     private LoadingPage: NgxSpinnerService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private FileDownload: FileDownloadService,) {
     var _otform: otFormClass = new otFormClass()
     this.otFormGroup = this.fb.group(_otform)
   }
@@ -76,16 +79,44 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   onSubmit() {
     console.log(this.otFormGroup)
+    this.LoadingPage.show()
     var OTCheckListGetApiArray: OTCheckListGetApiClass[] = []
+    for (let otForm of this.otFormArray) {
+      OTCheckListGetApiArray.push({
+        "RowID": otForm.RowID,
+        "EmpID": this.LeaveEmpID,
+        "OtCat": otForm.OtCat,
+        "DateB": doFormatDate(otForm.StartDate),
+        "DateE": doFormatDate(otForm.EndDate),
+        "TimeB": sumbit_formatTimetoString(otForm.StartTime),
+        "TimeE": sumbit_formatTimetoString(otForm.EndTime),
+        "CauseID": otForm.CauseID,
+        "RoteID": "",
+        "Card": false,
+        "CalculateRes": true,
+        "CalculateAtt": true,
+        "Time24": false
+      })
+    }
+    var RowIDMax = 1 
+    if(this.otFormArray!.length > 0 ){
+      Math.max(...this.otFormArray.map(p => p.RowID))
+    }
+    RowIDMax = RowIDMax + 1
     var getFormData: otFormClass = this.otFormGroup.value
+    getFormData.StartDate = doFormatDate(getFormData.StartDate)
+    getFormData.EndDate =  doFormatDate(getFormData.EndDate),
+    getFormData.StartTime =  sumbit_formatTimetoString(getFormData.StartTime),
+    getFormData.EndTime =  sumbit_formatTimetoString(getFormData.EndTime)
+    
     var OtCheck: OTCheckListGetApiClass = {
-      "RowID": 0,
+      "RowID": RowIDMax,
       "EmpID": this.LeaveEmpID,
       "OtCat": getFormData.OtCat,
-      "DateB": doFormatDate(getFormData.StartDate),
-      "DateE": doFormatDate(getFormData.EndDate),
-      "TimeB": sumbit_formatTimetoString(getFormData.StartTime),
-      "TimeE": sumbit_formatTimetoString(getFormData.EndTime),
+      "DateB": getFormData.StartDate,
+      "DateE": getFormData.EndDate,
+      "TimeB": getFormData.StartTime,
+      "TimeE": getFormData.EndTime,
       "CauseID": getFormData.CauseID,
       "RoteID": "",
       "Card": false,
@@ -96,53 +127,62 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
     OTCheckListGetApiArray.push(OtCheck)
     if (this.OtType == '1') {
       // 預估加班單
-
-      this.LoadingPage.show()
       this.GetApiDataServiceService.getWebApiData_OTCheckEstimateList(OTCheckListGetApiArray)
         .pipe(takeWhile(() => this.api_subscribe))
         .subscribe(
           (OTCheckListGetApiData: OTCheckListGetApiDataClass[]) => {
-            var okInArray:boolean = true
-            for(let otData of OTCheckListGetApiData){
-              if(!otData.isOK){
-                var e = ''
-                for(let err of otData.ErrorMsg){
-                   e  = e + err
-                }
-                alert(e)
-                okInArray = false
-              }
-            }
-            if(okInArray){
-              alert(OTCheckListGetApiData[0].OTAmount)
+            if(this.valErrArray(OTCheckListGetApiData)){
+              this.addOtFormArray(OTCheckListGetApiData, OtCheck, getFormData);
             }
             this.LoadingPage.hide()
           })
     } else if (this.OtType == '2') {
       // 實際加班單
-      this.LoadingPage.show()
       this.GetApiDataServiceService.getWebApiData_OTCheckList(OTCheckListGetApiArray)
         .pipe(takeWhile(() => this.api_subscribe))
         .subscribe(
           (OTCheckListGetApiData: OTCheckListGetApiDataClass[]) => {
-            var okInArray:boolean = true
-            for(let otData of OTCheckListGetApiData){
-              if(!otData.isOK){
-                var e = ''
-                for(let err of otData.ErrorMsg){
-                   e  = e + err
-                }
-                alert(e)
-                okInArray = false
-              }
-            }
-            if(okInArray){
-              alert(OTCheckListGetApiData[0].OTAmount)
+            if(this.valErrArray(OTCheckListGetApiData)){
+              this.addOtFormArray(OTCheckListGetApiData, OtCheck, getFormData);
             }
             this.LoadingPage.hide()
           })
     }
   }
+
+  /**
+   * @todo 驗證加班檢查api回傳有無錯誤
+   */
+  private valErrArray(OTCheckListGetApiData: OTCheckListGetApiDataClass[]){
+    var okInArray: boolean = true
+    for (let otData of OTCheckListGetApiData) {
+      if (!otData.isOK) {
+        var e = ''
+        for (let err of otData.ErrorMsg) {
+          e = e + err
+        }
+        alert(e)
+        okInArray = false
+      }
+    }
+    return okInArray
+  }
+
+  /**
+   * @todo 加班檢查api回傳Array對應RowID加入計算後的加班時數
+   */
+  private addOtFormArray(OTCheckListGetApiData: OTCheckListGetApiDataClass[], OtCheck: OTCheckListGetApiClass, getFormData: otFormClass) {
+    var OtAmount = 0;
+    OTCheckListGetApiData.forEach(x => {
+      if (x.RowID == OtCheck.RowID) {
+        OtAmount = x.OTAmount;
+      }
+    });
+    getFormData.RowID = OtCheck.RowID;
+    getFormData.OtAmount = OtAmount;
+    this.otFormArray.push(getFormData);
+  }
+
 
   private BeIptEmpID: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   ObIptEmpID$: Observable<any> = this.BeIptEmpID
@@ -165,12 +205,17 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
     Size: 704,
     Description: ""
   }]
+  
+  base64(apiFile: uploadFileClass) {
+    this.FileDownload.base64(apiFile)
+  }
 
 }
 
 
 
 export class otFormClass {
+  RowID: any
   OtType: any
   EmpID: any
   StartDate: any
@@ -179,7 +224,10 @@ export class otFormClass {
   EndTime: any
   OtCat: any
   CauseID: any
+  CauseName: any
   DeptsID: any
+  DeptsName: any
   Note: any
   FileUpload: any
+  OtAmount: any
 }
