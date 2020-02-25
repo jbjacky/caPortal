@@ -905,7 +905,9 @@ export class GetApiDataServiceService {
   getWebApiData_GetUploadFileByStreamOnly(ServerName: string) {
     // var _getFileURL = this.getFileURL + 'FileManage/GetUploadFileByStreamOnly' + '?ServerName=' + ServerName
     // return this.http.get(_getFileURL.toString())
-    window.open(this.getFileURL + 'FileManage/GetUploadFileByStreamOnly' + '?ServerName=' + ServerName + '&NewTab=Y')
+    // window.open(this.getFileURL + 'FileManage/GetUploadFileByStreamOnly' + '?ServerName=' + ServerName + '&NewTab=Y')
+    window.open(this.getFileURL + 'FileManage/GetUploadFileByStreamOnly' + '?ServerName=' + ServerName)
+
   }
 
   /**

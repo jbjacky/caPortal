@@ -2,7 +2,7 @@
   <!-- form-group end -->
   <div class="form-group row" style="padding-top: 0;">
     <div class="col-md-6 col-xs-12" style="padding: 0;">
-      <label class="col-md-4 col-xs-12 control-label" style="padding-left: 0px">
+      <label class="col-md-4 col-xs-12 control-label">
         <span class="form-must-fill">*</span>
         <ng-container i18n>起始日期</ng-container>
       </label>
@@ -22,6 +22,8 @@
               請輸入起始日期</div>
             <div *ngIf="StartDate.getError('forbiddenName') == 'EndDateNull'" style="color: #e60012">
               請輸入結束日期</div>
+            <div *ngIf="StartDate.getError('forbiddenName') == 'datTimeInFormArray'" style="color: #e60012">
+              與加班時段{{InOtArrayRowId}}重複</div>
           </div>
           <!--  -->
           <div class="col-md-2 col-xs-2" style="padding: 0px">
@@ -36,8 +38,8 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6 col-xs-12" style="padding: 0;">
-      <div class="col-md-3 col-xs-12 formTitle" style="padding: 0px">
+    <div class="col-md-6 col-xs-12 row" style="margin:0;padding: 0;">
+      <div class="col-md-3 col-xs-12 formTitle">
         <label class="control-label">
           <span class="form-must-fill">*</span>
           <ng-container i18n>起始時間</ng-container>
@@ -55,6 +57,8 @@
             請輸入起始日期</div>
           <div *ngIf="StartTime.getError('forbiddenName') == 'EndDateNull'" style="color: #e60012">
             請輸入結束日期</div>
+          <div *ngIf="StartTime.getError('forbiddenName') == 'datTimeInFormArray'" style="color: #e60012">
+            與加班時段{{InOtArrayRowId}}重複</div>
         </div>
         <!--  -->
         <div class="col-md-4 col-xs-2" style="padding: 0px">
@@ -73,7 +77,7 @@
   <!-- form-group end -->
   <div class="form-group row">
     <div class="col-md-6 xol-xs-12" style="padding: 0;">
-      <label class="col-md-4 col-xs-12 control-label" style="padding-left: 0px">
+      <label class="col-md-4 col-xs-12 control-label">
         <span class="form-must-fill">*</span>
         <ng-container i18n>結束日期</ng-container>
       </label>
@@ -91,6 +95,8 @@
               請輸入起始日期</div>
             <div *ngIf="EndDate.getError('forbiddenName') == 'EndDateNull'" style="color: #e60012">
               請輸入結束日期</div>
+            <div *ngIf="EndDate.getError('forbiddenName') == 'datTimeInFormArray'" style="color: #e60012">
+              與加班時段{{InOtArrayRowId}}重複</div>
           </div>
           <div class="col-md-2 col-xs-2" style="padding: 0px">
             <input (click)="EndDatePicker.open()" type="button" style="background: #fff url(./assets/images-template/icon-calendar.png) center center no-repeat;
@@ -104,14 +110,14 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6 col-xs-12" style="padding: 0;">
-      <div class="col-md-3 col-xs-12 formTitle" style="padding: 0px">
+    <div class="col-md-6 col-xs-12 row" style="margin:0;padding: 0;">
+      <div class="col-md-3 col-xs-12 formTitle">
         <label class="control-label">
           <span class="form-must-fill">*</span>
           <ng-container i18n>結束時間</ng-container>
         </label>
       </div>
-      <div class="col-md-9 col-xs-12">
+      <div class="col-md-9 col-xs-12 row" style="margin: 0;">
         <!--  -->
         <div class="col-md-6 col-xs-10" style="padding: 0px">
           <input type="text" [id]="id_ipt_endtime" class="form-control" style="background-color: #ffffff"
@@ -126,6 +132,8 @@
             請輸入起始日期</div>
           <div *ngIf="EndTime.getError('forbiddenName') == 'EndDateNull'" style="color: #e60012">
             請輸入結束日期</div>
+          <div *ngIf="EndTime.getError('forbiddenName') == 'datTimeInFormArray'" style="color: #e60012">
+            與加班時段{{InOtArrayRowId}}重複</div>
         </div>
         <!--  -->
         <div class="col-md-4 col-xs-2" style="padding: 0px">
@@ -144,7 +152,7 @@
   <!-- form-group end -->
   <div class="form-group row">
     <div class="col-md-6 col-xs-12" style="margin-bottom: 5px;padding: 0;">
-      <label class="col-md-4 col-xs-12 control-label" style="padding-left: 0px">
+      <label class="col-md-4 col-xs-12 control-label">
         <span class="form-must-fill">*</span>
         <ng-container i18n>申請類型</ng-container>
       </label>
@@ -157,14 +165,14 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6 col-xs-12" style="padding: 0;">
-      <div class="col-md-3 col-xs-12 formTitle" style="padding: 0px">
-        <label class=" control-label" style="padding-left: 0px">
+    <div class="col-md-6 col-xs-12 row" style="padding: 0;margin: 0;">
+      <div class="col-md-3 col-xs-12 formTitle">
+        <label class=" control-label">
           <span class="form-must-fill">*</span>
           <ng-container i18n>加班部門</ng-container>
         </label>
       </div>
-      <div class="col-md-9 col-xs-12">
+      <div class="col-md-9 col-xs-12 row" style="margin: 0;">
         <div class="col-md-6 col-xs-10" style="padding:0px">
           <ngx-select formControlName="DeptsID" [items]="NgxDeptsSelectBox" optionValueField="DeptsID"
             optionTextField="DeptsName">
@@ -177,7 +185,7 @@
   <!-- form-group end -->
   <div class="form-group row">
     <div class="col-md-6 col-xs-12" style="margin-bottom: 5px;padding: 0;">
-      <label class="col-md-4 control-label" style="padding-left: 0px">
+      <label class="col-md-4 control-label">
         <span class="form-must-fill">*</span>
         <ng-container i18n>加班原因</ng-container>
       </label>
@@ -192,7 +200,7 @@
       </div>
     </div>
     <div class="col-md-6 col-xs-12" style="margin: 0px;padding: 0;">
-      <div class="col-md-3 col-xs-12 formTitle" style="padding: 0px">
+      <div class="col-md-3 col-xs-12 formTitle">
         <label class="control-label">
           <ng-container i18n>上傳附件</ng-container>
         </label>

@@ -7,12 +7,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { otFormClass } from '../writeotform/otform.component';
 import { isValidTime, isValidDate } from 'src/app/UseVoid/void_isVaildDatetime';
 import { doFormatDate, reSplTimeHHmm } from 'src/app/UseVoid/void_doFormatDate';
-import { switchMap, map, takeWhile } from 'rxjs/operators';
+import { switchMap, map, takeWhile, first } from 'rxjs/operators';
 import { GetBaseInfoDetailClass } from 'src/app/Models/GetBaseInfoDetailClass';
 import { GetOtCauseByFormDataClass } from 'src/app/Models/GetOtCauseByForm';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { uploadFileClass } from 'src/app/Models/uploadFileClass';
 import { GetDeptsGetApiData } from 'src/app/Models/GetDeptsGetApiData';
+import { isInDateArray, SEDate } from 'src/app/UseVoid/void_isInDateArray';
 
 declare let $: any; //use jquery
 
@@ -24,11 +25,11 @@ declare let $: any; //use jquery
 export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
   exampleHeader = ExampleHeader //日期套件header
 
-  @Input() editFileArray: uploadFileClass
-
+  @Input() editFileArray: uploadFileClass[] //表單陣列內的上傳檔案
+  @Input() OtFormArray: Array<otFormClass> //現在表單的陣列
   startTimeDropper: any
   endTimeDropper: any
-  @Input() UiTemp: string
+  @Input() UiTemp: string //給日期、時間多組不同id設定
   id_bt_starttime
   id_bt_endtime
   id_ipt_starttime
@@ -91,8 +92,8 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
   Ob_setOtFormData$: Observable<any> = this.Be_setOtFormData$;
   dateTimeS = ''
   dateTimeE = ''
-  CauseOption:GetOtCauseByFormDataClass[] = []
-  NgxDeptsSelectBox:GetDeptsGetApiData[] = [];
+  CauseOption: GetOtCauseByFormDataClass[] = []
+  NgxDeptsSelectBox: GetDeptsGetApiData[] = [];
   starttimeMask(): {
     mask: Array<string | RegExp>;
     keepCharPositions: boolean;
@@ -118,8 +119,8 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
     private fb: FormBuilder) {
     var _otform: otFormClass = {
       RowID: 0,
-      OtType: ['1', Validators.required],
-      EmpID: ['', Validators.required, [this.getValidatorFn()]],
+      OtType: ['1'],
+      EmpID: [''],
       StartDate: ['', this.checkDate()],
       EndDate: ['', this.checkDate()],
       StartTime: ['', this.checkTime()],
@@ -131,7 +132,8 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
       DeptsName: '',
       Note: '',
       FileUpload: '',
-      OtAmount: null
+      OtAmount: null,
+      UiEdit: false
     }
     this.otFormGroup = this.fb.group(_otform)
   }
@@ -154,7 +156,7 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
     this.EndTime.setValue('00:00')
   }
   ngOnInit() {
-
+    this.onSaveFile(this.editFileArray)
     this.id_bt_starttime = 'id_bt_starttime' + this.UiTemp
     this.id_bt_endtime = 'id_bt_endtime' + this.UiTemp
 
@@ -216,6 +218,15 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
                     .subscribe(
                       (y: GetDeptsGetApiData[]) => {
                         this.NgxDeptsSelectBox = JSON.parse(JSON.stringify(y))
+
+                        this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(EmpID)
+                          .pipe(takeWhile(() => this.api_subscribe))
+                          .subscribe(
+                            (serviceResponse: GetBaseInfoDetailClass[]) => {
+                              if (serviceResponse.length > 0) {
+                                this.DeptsID.setValue(serviceResponse[0].DeptcID)
+                              }
+                            })
                       })
                 }
               )
@@ -224,6 +235,37 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
       )
+  }
+  InOtArrayRowId:string =''
+  checkInOtFormDateTime() {
+    if (this.OtFormArray!.length > 0) {
+      var LDate: Array<SEDate> = []
+      var IDate: SEDate
+      this.OtFormArray.forEach(x => {
+        LDate.push({
+          rowID:x.RowID,
+          startDateTime: new Date(x.StartDate + ' ' + x.StartTime),
+          endDateTime: new Date(x.EndDate + ' ' + x.EndTime)
+        })
+      })
+      IDate = {
+        rowID:null,
+        startDateTime: new Date(doFormatDate(this.StartDate.value) + ' ' + this.StartTime.value),
+        endDateTime: new Date(doFormatDate(this.EndDate.value) + ' ' + this.EndTime.value)
+      }
+      var isIn: boolean = isInDateArray(LDate, IDate).isIn
+      if (isIn) {
+        this.InOtArrayRowId = isInDateArray(LDate, IDate).rowID
+        var err = { 'forbiddenName': 'datTimeInFormArray' }
+        this.StartDate.setErrors(err)
+        this.EndDate.setErrors(err)
+        this.StartTime.setErrors(err)
+        this.EndTime.setErrors(err)
+      }
+      return isIn
+    } else {
+      return false
+    }
   }
   checkDate(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -241,38 +283,13 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
           return { 'forbiddenName': 'EndDateNull' }
         } else if (this.isStartNoLargeEndDateTime(StartDateTime, EndDateTime)) {
           return { 'forbiddenName': 'dateTimeFail' }
+        } else if (this.checkInOtFormDateTime()) {
+          return { 'forbiddenName': 'datTimeInFormArray' }
         } else if (control.value) {
           return null
         }
 
       }
-    };
-  }
-  getValidatorFn(): AsyncValidatorFn {
-    return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-      let debounceTime = 1500; //milliseconds
-      return timer(debounceTime).pipe(
-        switchMap(() => {
-          this.LoadingPage.show()
-          var req = this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(control.value)
-            .pipe(
-              map(
-                (serviceResponse: GetBaseInfoDetailClass[]) => {
-                  // console.log(serviceResponse)
-                  this.LoadingPage.hide()
-                  if (serviceResponse.length > 0) {
-                    this.DeptsID.setValue(serviceResponse[0].DeptcID)
-                    return null
-                  } else {
-                    return { errorEmpID: 'errorEmpIDS' }
-                  }
-                })
-            )
-          // console.log(req)
-          // console.log(this.EmpID.status)
-          return req
-        })
-      )
     };
   }
   checkTime(): ValidatorFn {
@@ -292,6 +309,8 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
           return { 'forbiddenName': 'EndDateNull' }
         } else if (this.isStartNoLargeEndDateTime(StartDateTime, EndDateTime)) {
           return { 'forbiddenName': 'dateTimeFail' }
+        } else if (this.checkInOtFormDateTime()) {
+          return { 'forbiddenName': 'datTimeInFormArray' }
         } else if (control.value) {
           return null
         }
@@ -315,11 +334,5 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   onSaveFile(event) {
     this.otFormGroup.get('FileUpload').setValue(event);
-    // console.log(event)
-  }
-
-  TimeCh() {
-    var aa = $("#alarm").timeDropper();
-    aa[0].myprop1("17", "30");
   }
 }

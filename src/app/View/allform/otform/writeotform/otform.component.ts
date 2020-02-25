@@ -5,7 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
-import { doFormatDate, sumbit_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
+import { doFormatDate, sumbit_formatTimetoString, getapi_formatTimetoString } from 'src/app/UseVoid/void_doFormatDate';
 import { ExampleHeader } from 'src/app/Service/datepickerHeader';
 import { OTCheckListGetApiClass } from 'src/app/Models/PostData_API_Class/OTCheckListGetApiClass';
 import { OTCheckListGetApiDataClass } from 'src/app/Models/OTCheckListGetApiDataClass';
@@ -23,13 +23,10 @@ declare let $: any; //use jquery
 export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
   exampleHeader = ExampleHeader //日期套件header
   NowIsWriteOtForm: boolean = true
-  showOtform() {
-    this.NowIsWriteOtForm = true
-  }
 
   wOtFormState: string = ''
   WriteEmp = { EmpID: null, EmpName: null }
-  otFormGroup: FormGroup
+  otFormGroup: otFormClass
   otFormArray: Array<otFormClass> = [];
   LeaveEmpID
   LeaveEmpName
@@ -40,8 +37,6 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
     private LoadingPage: NgxSpinnerService,
     private fb: FormBuilder,
     private FileDownload: FileDownloadService,) {
-    var _otform: otFormClass = new otFormClass()
-    this.otFormGroup = this.fb.group(_otform)
   }
 
   @ViewChild('IptEmpID') IptEmpID: NgModel
@@ -78,7 +73,6 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
         })
   }
   onSubmit() {
-    console.log(this.otFormGroup)
     this.LoadingPage.show()
     var OTCheckListGetApiArray: OTCheckListGetApiClass[] = []
     for (let otForm of this.otFormArray) {
@@ -98,12 +92,13 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
         "Time24": false
       })
     }
-    var RowIDMax = 1 
+    var RowIDMax = 0
     if(this.otFormArray!.length > 0 ){
-      Math.max(...this.otFormArray.map(p => p.RowID))
+      RowIDMax = Math.max(...this.otFormArray.map(p => p.RowID))
     }
     RowIDMax = RowIDMax + 1
-    var getFormData: otFormClass = this.otFormGroup.value
+    // console.log(this.otFormGroup)
+    var getFormData: otFormClass = this.otFormGroup
     getFormData.StartDate = doFormatDate(getFormData.StartDate)
     getFormData.EndDate =  doFormatDate(getFormData.EndDate),
     getFormData.StartTime =  sumbit_formatTimetoString(getFormData.StartTime),
@@ -178,9 +173,13 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
         OtAmount = x.OTAmount;
       }
     });
+    getFormData.OtType = this.OtType;
     getFormData.RowID = OtCheck.RowID;
     getFormData.OtAmount = OtAmount;
+    getFormData.StartTime = getapi_formatTimetoString(getFormData.StartTime);
+    getFormData.EndTime = getapi_formatTimetoString(getFormData.EndTime);
     this.otFormArray.push(getFormData);
+    this.NowIsWriteOtForm = false;
   }
 
 
@@ -192,24 +191,44 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setForm(e: otFormClass) {
-    this.otFormGroup = this.fb.group(e)
+    this.otFormGroup = e
   }
   setFormState(s: string) {
     this.wOtFormState = s.toString()
   }
 
-  eFileArray = [{
-    UploadName: "sql降版還原.txt",
-    Blob: "Ly8gc3FsIDIwMTazxqX3ICAyMDA4IMHZrewNCg0Kpf2mYjIwMTYiq/ypdyK46q7Grnela8HkwkmkdadALT6216VYuOquxrxowLOlzrV7pqEgsqOlzS5iYWNwYWPAya7XDQoNCrG1tdumQTIwMDgguOquxq53pWvB5MJJttekSrjqrsa8aMCzpc61e6ahDQoNCrCypnCyo6XNv/m7fiANCg0Kp+K/+bt+wMmu16W0tn2s3axPrf6t06v8pU+9WL/5DQoNCrG1tdumYqfis8al96q6uOquxq53LmJhY3BhY8DJpVsuemlwIMX9pUzF3MCjwVnAyQ0KDQqltLZ9wKPBWcDJDQoNCqZBrden77jMrbGqum1vZGFsLnhtbLjyT3JpZ2luLnhtbA0KDQptb2RhbC54bWwgrW6t16fvv/m7fqq6q/ylT71YILCypnCsT0dyYW50tE6n4iBFbGVtZW50IFR5cGU9IkdyYW50IiCms8P2qrql/qzlDQoNCqfvp7ltb2RhbC54bWwgq+GmXaywwMmu12hhc2i9WLd8xdyn8yCp0qVIrW6n709yaWdpbi54bWwNCg0Kpf2o7HBvd2Vyc2hlbGwgpFUgR2V0LUZpbGVIYXNoIC1QYXRoIC5cbW9kYWwueG1sDQoNCqj6sW+l2KtlIG1vZGFsLnhtbCCquiBoYXNovVgNCg0KpkGo7E9yaWdpbi54bWwNCq3Xp+88Q2hlY2tzdW0gVXJpPSIvbW9kZWwueG1sIj6p8Whhc2g8L0NoZWNrc3VtPg0KDQqt16fvbW9kYWwueG1soUJPcmlnaW4ueG1sq+GmQafiemlwwMmn76ZeLmJhY3BhY8DJDQoNCq2rt3OmQbbXpEq46q7GrnekQKa4DQoNCrCypnDB2aazv/kgtE6tq73GpFetsaq6sMqnQA0KDQoNCg0KDQo=",
-    Type: "text/plain",
-    Size: 704,
-    Description: ""
-  }]
   
   base64(apiFile: uploadFileClass) {
     this.FileDownload.base64(apiFile)
   }
 
+  delOtData(otForm:otFormClass,otFormArray:Array<otFormClass>){
+   var delRowIndex = otFormArray.findIndex(x=>x.RowID  == otForm.RowID)
+    this.otFormArray.splice(delRowIndex,1)
+    if(this.otFormArray!.length == 0){
+      this.NowIsWriteOtForm = true
+    }
+  }
+  
+  newOtForm(){
+    this.NowIsWriteOtForm = true
+  }
+  disControl(){
+    if(this.otFormArray!.length > 0){
+      return true
+    }else{
+      return false
+    }
+  }
+  disSendOtForm(){
+    if(this.wOtFormState == "VALID" && this.IptEmpID.disabled){
+      return false
+    }else if(this.wOtFormState == "VALID" && this.IptEmpID.valid){
+      return false
+    }else{
+      return true
+    }
+  }
 }
 
 
@@ -230,4 +249,5 @@ export class otFormClass {
   Note: any
   FileUpload: any
   OtAmount: any
+  UiEdit:boolean
 }

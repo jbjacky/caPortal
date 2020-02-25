@@ -42,6 +42,7 @@ export class FileDownloadService {
     // this.location.go('?NewTab=Y')
     // this.location.replaceState('?NewTab=Y')
     
-    this.location.replaceState(this.router.url+'?NewTab=Y');//手機開啟附件回頁面用
+    // this.location.replaceState(this.router.url+'?NewTab=Y');//手機開啟附件回頁面用
+    this.location.replaceState(this.router.url);//手機開啟附件回頁面用
   }
 }

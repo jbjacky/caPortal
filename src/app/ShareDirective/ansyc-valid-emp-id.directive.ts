@@ -1,6 +1,6 @@
 import { Directive, Input } from '@angular/core';
 import { NG_ASYNC_VALIDATORS, AbstractControl, AsyncValidator, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
-import { Observable, timer } from 'rxjs';
+import { Observable, timer, of } from 'rxjs';
 import { switchMap, map, take } from 'rxjs/operators';
 import { GetBaseInfoDetailClass } from '../Models/GetBaseInfoDetailClass';
 import { GetApiDataServiceService } from '../Service/get-api-data-service.service';
@@ -35,8 +35,9 @@ export class AsyncValidEmpIDDirective implements AsyncValidator {
       this.LoadingPage.show();
       var req
       if (!control.value) { 
-        return { errorEmpNull: true };
-      } else {
+        this.LoadingPage.hide();
+        req = of({ errorEmpNull: true })
+      }else{
         req = this.GetApiDataServiceService.getWebApiData_GetBaseInfoDetail(control.value)
           .pipe(map((serviceResponse: GetBaseInfoDetailClass[]) => {
             this.LoadingPage.hide();

@@ -17,209 +17,238 @@
 
 <div class="a-block">
   <div class="a-block-body  a-block-container">
-    <div>
-      <div class="row">
-        <div class="col-md-7 control-label" style="display: inline-block;color:#8b8484">
-          <label>本月累計加班時數：2小時</label>
+    <div class="row" style="margin: 0;margin-bottom: 30px;">
+      <div class="col-md-7 control-label" style="display: inline-block;color:#8b8484">
+        <label>本月累計加班時數：2小時</label>
+      </div>
+      <div class="col-md-5 control-label" style="display: inline-block;text-align:right">
+        <div style="display: inline-block">
         </div>
-        <div class="col-md-5 control-label" style="display: inline-block;text-align:right">
-          <div style="display: inline-block">
-          </div>
-          <div style="display: inline-block">
-            <a data-toggle="modal" style="cursor: pointer;padding-left: 15px">
-              <ng-container i18n>加班紀錄資訊</ng-container>
-            </a>
-          </div>
-          <div style="display: inline-block">
-            <a data-toggle="modal" data-target="#signDay" style="cursor: pointer;padding-left: 15px">
-              <ng-container i18n>加班簽核權限表</ng-container>
-            </a>
-            <a data-toggle="modal" data-target="#beforholidayDialog" style="cursor: pointer;">
-              <img src="./assets/images-template/icon-question.png" />
-            </a>
-          </div>
+        <div style="display: inline-block">
+          <a data-toggle="modal" style="cursor: pointer;padding-left: 15px">
+            <ng-container i18n>加班紀錄資訊</ng-container>
+          </a>
+        </div>
+        <div style="display: inline-block">
+          <a data-toggle="modal" data-target="#signDay" style="cursor: pointer;padding-left: 15px">
+            <ng-container i18n>加班簽核權限表</ng-container>
+          </a>
+          <a data-toggle="modal" data-target="#beforholidayDialog" style="cursor: pointer;">
+            <img src="./assets/images-template/icon-question.png" />
+          </a>
         </div>
       </div>
-      <div style="margin-top:30px">
-        <div class="form-horizontal form-style01">
-          <!-- 表單類型 -->
-          <div class="row" style="margin:0px ;margin-bottom: 5px;">
-            <label class="col-md-2 control-label" style="padding-left: 0px">
-              <span class="form-must-fill">*</span>
-              <ng-container i18n>表單類型</ng-container>
-            </label>
-            <div class="col-md-3">
-              <div class="row ">
-                <select class="form-control" [(ngModel)]='OtType'>
-                  <option value="1">預估加班單</option>
-                  <option value="2">實際加班單</option>
-                </select>
+    </div>
+    <div>
+      <div class="form-horizontal" style="padding: 0px 10px;">
+        <!-- 表單類型 -->
+        <div class="row" style="margin:0px ;margin-bottom: 5px;">
+          <label class="col-md-2 control-label">
+            <span class="form-must-fill">*</span>
+            <ng-container i18n>表單類型</ng-container>
+          </label>
+          <div class="col-md-3">
+            <div>
+              <select class="form-control" [(ngModel)]='OtType' [disabled]="disControl()">
+                <option value="1">預估加班單</option>
+                <option value="2">實際加班單</option>
+              </select>
 
-              </div>
             </div>
           </div>
-          <!-- 表單類型 -->
-          <!-- 員工、填寫人-->
-          <div class="form-group first-form-group" style="margin:0px ;margin-bottom: 30px;padding-bottom:30px">
-            <div class="col-md-6 firstinone-form-group" style="border: 0px;padding: 0;padding-top: 10px;">
-              <label class="col-md-4 control-label">
-                <span class="form-must-fill">*</span>
-                <ng-container i18n>員工</ng-container>
-              </label>
-              <div class="col-md-8">
-                <div class="row ">
-                  <div class="col-md-6 col-xs-6" style="padding: 0;">
-                    <input class="form-control"  [(ngModel)]="LeaveEmpID" #IptEmpID="ngModel"  #AsyncValidEmpNameDirective="AsyncValidEmpNameDirective" appAsyncValidEmpID>
-                    <div *ngIf="IptEmpID.invalid && (IptEmpID.dirty || IptEmpID.touched)">
-                      <div *ngIf="IptEmpID.errors.errorEmpNull" style="color: #e60012">請輸入工號</div>
-                      <div *ngIf="IptEmpID.errors.errorEmpID" style="color: #e60012">工號錯誤</div>
-                    </div>
+        </div>
+        <!-- 表單類型 -->
+        <!-- 員工、填寫人-->
+        <div class="row form-group first-form-group" style="margin:0px">
+          <div class="col-md-6 row col-xs-12 firstinone-form-group"
+            style="margin:0;border: 0px;padding: 0;padding-top: 10px;">
+            <label class="col-md-4 col-xs-12 control-label">
+              <span class="form-must-fill">*</span>
+              <ng-container i18n>員工</ng-container>
+            </label>
+            <div class="col-md-8 col-xs-12">
+              <div class="row " style="margin: 0;">
+                <div class="col-md-6 col-xs-6" style="padding: 0;">
+                  <input class="form-control" [(ngModel)]="LeaveEmpID" #IptEmpID="ngModel"
+                    #AsyncValidEmpNameDirective="AsyncValidEmpNameDirective" appAsyncValidEmpID  [disabled]="disControl()">
+                  <div *ngIf="IptEmpID.invalid && (IptEmpID.dirty || IptEmpID.touched)">
+                    <div *ngIf="IptEmpID.errors.errorEmpNull" style="color: #e60012">請輸入工號</div>
+                    <div *ngIf="IptEmpID.errors.errorEmpID" style="color: #e60012">工號錯誤</div>
                   </div>
-                  <div class="col-md-2 col-xs-3"
-                    style="height: 23px;padding: 0px;padding-left: 2px;text-align: center;">
-                    <button data-toggle="modal" data-target="#chooseEmpdialog"
-                      style="cursor: pointer;border: 0;background: 0">
-                      <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
-                    </button>
-                  </div>
-                  <div class="col-md-4 col-xs-3" style="padding: 0;padding-top: 7px">
-                    <label style="font-weight: normal;">{{AsyncValidEmpNameDirective.EmpName}}</label>
-                  </div>
+                </div>
+                <div class="col-md-2 col-xs-3" style="height: 23px;padding: 0px;padding-left: 2px;text-align: center;">
+                  <button data-toggle="modal" data-target="#chooseEmpdialog"
+                    style="cursor: pointer;border: 0;background: 0">
+                    <img src="./assets/images-template/icon-person.png" style="cursor: pointer;padding-top: 5px" />
+                  </button>
+                </div>
+                <div class="col-md-4 col-xs-3" style="padding: 0;padding-top: 7px">
+                  <label style="font-weight: normal;">{{AsyncValidEmpNameDirective.EmpName}}</label>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="col-md-6 firstintwo-form-group" style="border: 0px;padding: 0;padding-top: 10px;">
-              <div class="col-md-3 col-xs-12 oneintwotitle" style="padding: 0px;">
-                <label class="control-label">
-                  <ng-container i18n>填寫人</ng-container>
-                </label>
-              </div>
-              <div class="col-md-9 col-xs-12 control-label" style="text-align:left">
-                <span>
-                  {{WriteEmp.EmpID}} {{WriteEmp.EmpName}}
-                </span>
-              </div>
+          <div class="row col-md-6 col-xs-12 firstintwo-form-group"
+            style="margin:0;border: 0px;padding: 0;padding-top: 10px;">
+            <div class="col-md-3 col-xs-12 oneintwotitle">
+              <label class="control-label">
+                <ng-container i18n>填寫人</ng-container>
+              </label>
+            </div>
+            <div class="col-md-9 col-xs-12 control-label" style="text-align:left">
+              <span>
+                {{WriteEmp.EmpID}} {{WriteEmp.EmpName}}
+              </span>
             </div>
           </div>
-          <!-- 員工、填寫人-->
-          <!-- 多筆填寫資料-->
-          <div *ngFor = "let otForm of otFormArray">
-            <div class="row" style="
+        </div>
+        <!-- 員工、填寫人-->
+      </div>
+      <!-- 多筆填寫資料-->
+      <div *ngFor="let otForm of otFormArray" style="padding: 10px 0px;">
+        <div class="row" style="
             margin: 0;
             padding: 10px 0px;
             border: 1px solid #028fcf;
-            border-left-width: 10px;
-            margin-top: 20px;">
-              <div class="col-md-2 col-xs-6 tRPl Pborder" style="color: #028fcf;">
-                加班時段 {{otForm.RowID}}
-              </div>
-              <div class="col-md-2 col-md-push-8 col-xs-6 Pborder" style="text-align: right;">
-                <a style="margin-right:10px;cursor: pointer;">修改</a>
-                <a style="cursor: pointer;">刪除</a>
-              </div>
-              <div class="col-md-8  col-md-pull-2 col-xs-12 row" style="margin:0;">
+            border-left-width: 10px;">
+          <div class="col-md-2 col-xs-6 tRPl Pborder" style="color: #028fcf;">
+            加班時段 {{otForm.RowID}}
+          </div>
+          <div class="col-md-2 col-md-push-8 col-xs-6 Pborder" style="text-align: right;">
+            <a (click)="otForm.UiEdit = true" style="margin-right:10px;cursor: pointer;">修改</a>
+            <a (click)="delOtData(otForm,otFormArray)">刪除</a>
+          </div>
+          <div class="col-md-8  col-md-pull-2 col-xs-12 row" style="margin:0;">
+            <div class="row" style="margin:0;padding:0">
+              <div class="col-md-9 col-xs-12" style="padding: 0;">
                 <div class="row" style="margin:0;padding:0">
-                  <div class="col-md-9 col-xs-12" style="padding: 0;">
-                    <div class="row" style="margin:0;padding:0">
-                      <div class="col-md-6 col-xs-12" style="padding: 0;">
-                        <span class="subTitle">
-                          起始：
-                        </span>
-                        {{otForm.StartDate}} {{otForm.StartTime}}
-                      </div>
-                      <div class="col-md-6 col-xs-12" style="padding: 0;">
-                        <span class="subTitle">
-                          結束：
-                        </span>
-                        {{otForm.EndDate}} {{otForm.EndTime}}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3 col-xs-12" style="padding: 0;">
+                  <div class="col-md-6 col-xs-12" style="padding: 0;">
                     <span class="subTitle">
-                      加班時數：
+                      起始：
                     </span>
-                    {{otForm.OtAmount}}分鐘
+                    {{otForm.StartDate}} {{otForm.StartTime}}
                   </div>
-                </div>
-                <div>
-                  <span class="subTitle">
-                    申請類型：
-                  </span>
-                  <span *ngIf="otForm.OtCat == '1'">加班費</span>
-                  <span *ngIf="otForm.OtCat == '2'">補休假</span>
-                </div>
-                <div>
-                  <span class="subTitle">
-                    加班原因：
-                  </span>
-                  <span>{{otForm.CauseName}}</span>
-                </div>
-                <div>
-                  <span class="subTitle">
-                    加班部門：
-                  </span>
-                  <span>{{otForm.DeptsName}}</span>
-                </div>
-                <div>
-                  <span class="subTitle">
-                    附件：
-                  </span>
-                  <a *ngFor="let f of otForm.FileUpload" (click)="base64(f)">
-                    {{f.UploadName}}
-                  </a>
-                </div>
-                <div>
-                  <span class="subTitle">
-                    備註：
-                  </span>
-                  <span>
-                    {{otForm.Note}}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 多筆填寫資料-->
-          <div *ngIf="NowIsWriteOtForm" class="form-horizontal  form-style01">
-            <div id="NowIsWirteFormTop"></div>
-            <!--填寫表單-->
-            <div style="padding: 20px 0px;">
-              <app-ot-form-temp (SetOtForm)="setForm($event)" (SetOtFormState)="setFormState($event)" [ObIptEmpID$]="ObIptEmpID$" [UiTemp]="'Atime'"
-              [editFileArray]="eFileArray"></app-ot-form-temp>
-            </div>
-            <!--填寫表單-->
-            <div class="form-group" style="text-align:center">
-              <button type="submit" class="btn btn-primary" style="padding: 5px 15px;" data-toggle="modal"
-                [disabled]="wOtFormState != 'VALID' || !IptEmpID.valid" (click)="onSubmit()">送出</button>
-            </div>
-          </div>
-          <div *ngIf="!NowIsWriteOtForm">
-            <div class="form-group" style="border: 0px;padding: 0;padding-top: 20px;">
-              <div class="col-md-12 col-xs-12">
-                <div class="col-md-2 control-label" style="padding-left: 0px">
-                </div>
-                <div class="col-md-8 ">
-                  <div style="margin-bottom: 10px">
-                    <div (click)="showOtform()" style="display: inline-block;vertical-align: bottom;cursor: pointer">
-                      <img src="./assets/images-template/icon-add.png" />
-                      <a style="padding-top: 5px;padding-left: 10px;">
-                        <ng-container i18n>新增更多請假時段</ng-container>
-                      </a>
-                    </div>
-                  </div>
-                  <div style="margin-bottom: 10px">
-                    <button type="button" class="btn btn-primary  m-r-xs   m-b-s--screen-xs">
-                      <ng-container i18n>下一步</ng-container>
-                    </button>
+                  <div class="col-md-6 col-xs-12" style="padding: 0;">
+                    <span class="subTitle">
+                      結束：
+                    </span>
+                    {{otForm.EndDate}} {{otForm.EndTime}}
                   </div>
                 </div>
               </div>
+              <div class="col-md-3 col-xs-12" style="padding: 0;">
+                <span class="subTitle">
+                  加班時數：
+                </span>
+                {{otForm.OtAmount}}分鐘
+              </div>
             </div>
-            <!-- form-group end -->
+            <div>
+              <span class="subTitle">
+                申請類型：
+              </span>
+              <span *ngIf="otForm.OtCat == '1'">加班費</span>
+              <span *ngIf="otForm.OtCat == '2'">補休假</span>
+            </div>
+            <div>
+              <span class="subTitle">
+                加班原因：
+              </span>
+              <span>{{otForm.CauseName}}</span>
+            </div>
+            <div>
+              <span class="subTitle">
+                加班部門：
+              </span>
+              <span>{{otForm.DeptsName}}</span>
+            </div>
+            <div>
+              <span class="subTitle">
+                附件：
+              </span>
+              <div *ngIf="otForm!.FileUpload" style="display: inline-block;">
+                <a *ngFor="let f of otForm.FileUpload" (click)="base64(f)">
+                  {{f.UploadName}}
+                </a>
+              </div>
+              <div *ngIf="!(otForm!.FileUpload!)" style="display: inline-block;">
+                <span>無</span>
+              </div>
+            </div>
+            <div>
+              <span class="subTitle">
+                備註：
+              </span>
+              <span *ngIf="otForm!.Note">
+                {{otForm.Note}}
+              </span>
+              <span *ngIf="!(otForm!.Note)">
+                無
+              </span>
+            </div>
           </div>
         </div>
+        <!--修改表單-->
+        <div *ngIf="otForm.UiEdit"  class="form-horizontal">
+          <div style="padding: 10px">
+            <div class="row" style="margin:0px;margin-bottom: 10px;">
+              <span class="tRPl col-md-2 col-xs-12"  style="color: #028fcf;font-size: 16px;">修改加班時段{{otForm.RowID}}</span>
+            </div>
+            <app-ot-form-temp (SetOtForm)="setForm($event)" (SetOtFormState)="setFormState($event)"
+              [ObIptEmpID$]="ObIptEmpID$" [UiTemp]="'Etime'+otForm.RowID" [OtFormArray]="otFormArray" [editFileArray]="otForm.FileUpload"></app-ot-form-temp>
+              <div style="text-align:center;padding-top: 10px;">
+                <button type="submit" class="btn btn-primary" style="padding: 5px 15px;margin: 0px 5px;" data-toggle="modal"
+                  [disabled]="disSendOtForm()" (click)="onSubmit()">修改</button>
+                <button  class="btn btn-default" style="padding: 5px 15px;margin: 0px 5px;"
+                  (click)="otForm.UiEdit = false">取消</button>
+              </div>
+          </div>
+        </div>
+        <!--修改表單-->
+      </div>
+      <!-- 多筆填寫資料-->
+      <div *ngIf="NowIsWriteOtForm" class="form-horizontal  form-style01">
+        <div id="NowIsWirteFormTop"></div>
+        <!--填寫表單-->
+        <div style="padding: 10px;">
+          <div *ngIf="otFormArray!.length > 0" class="row" style="margin:0;margin-bottom: 10px;">
+            <span class="tRPl col-md-2 col-xs-12" style="color: #028fcf;font-size: 16px;">新增加班時段</span>
+          </div>
+          <app-ot-form-temp (SetOtForm)="setForm($event)" (SetOtFormState)="setFormState($event)"
+            [ObIptEmpID$]="ObIptEmpID$" [UiTemp]="'Atime'" [OtFormArray]="otFormArray"></app-ot-form-temp>
+        </div>
+        <!--填寫表單-->
+        <div class="form-group" style="text-align:center">
+          <button type="submit" class="btn btn-primary" style="padding: 5px 15px;margin: 0px 5px;" data-toggle="modal"
+            [disabled]="disSendOtForm()" (click)="onSubmit()">新增</button>
+          <button *ngIf="otFormArray!.length > 0" class="btn btn-default" style="padding: 5px 15px;margin: 0px 5px;"
+            (click)="NowIsWriteOtForm = false">取消</button>
+        </div>
+      </div>
+      <div *ngIf="!NowIsWriteOtForm">
+        <div class="form-group" style="border: 0px;padding: 0;padding-top: 20px;">
+          <div class="row" style="margin: 0;">
+            <div class="col-md-2 control-label" style="padding-left: 0px">
+            </div>
+            <div class="col-md-8 ">
+              <div style="margin-bottom: 10px">
+                <div style="display: inline-block;vertical-align: bottom;cursor: pointer">
+                  <img src="./assets/images-template/icon-add.png" />
+                  <a style="padding-top: 5px;padding-left: 10px;" (click)="newOtForm()">
+                    <ng-container i18n>新增更多請假時段</ng-container>
+                  </a>
+                </div>
+              </div>
+              <div style="margin-bottom: 10px">
+                <button type="button" class="btn btn-primary  m-r-xs   m-b-s--screen-xs">
+                  <ng-container i18n>下一步</ng-container>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- form-group end -->
       </div>
     </div>
   </div>
