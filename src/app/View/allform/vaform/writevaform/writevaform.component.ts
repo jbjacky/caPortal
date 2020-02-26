@@ -267,6 +267,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
               this.errorLeavemanState = { state: false, errorString: '' }
               $("#leavejobid").removeClass("errorInput");
 
+              this.LoadingPage.hide()
               // this.valCanSend();
             }
           }
@@ -320,6 +321,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
           this.errorLeavemanState = { state: false, errorString: '' };
           $("#leavejobid").removeClass("errorInput");
           this.valCanSend();
+          this.LoadingPage.hide();
         }
       }, error => {
         this.LoadingPage.hide();
@@ -328,29 +330,29 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private valCanSend() {
     //員工延伸定義(可判斷是否可請假)
-    this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.writevaform.leaveman_jobid)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
-        if (GetBaseParameterData.length > 0) {
-          if (GetBaseParameterData[0].IsAllowLeave) {
-            this.changeStartDateView()
-          }
-          else {
-            this.errorLeavemanState = { state: true, errorString: '後台設定為不可請假，如有問題請洽單位行政，謝謝' };
-            this.writevaform.leaveman_name = '';
-            $("#leavejobid").addClass("errorInput");
-            this.LoadingPage.hide();
-          }
-        }
-        else {
-          this.errorLeavemanState = { state: true, errorString: 'GetBaseParameter，請到後台維護人事資料->基本資料->員工參數設定，匯入員工' };
-          this.writevaform.leaveman_name = '';
-          $("#leavejobid").addClass("errorInput");
-          this.LoadingPage.hide();
-        }
-      }, error => {
-        this.LoadingPage.hide();
-      });
+    // this.GetApiDataServiceService.getWebApiData_GetBaseParameter(this.writevaform.leaveman_jobid)
+    //   .pipe(takeWhile(() => this.api_subscribe))
+    //   .subscribe((GetBaseParameterData: GetBaseParameterDataClass[]) => {
+    //     if (GetBaseParameterData.length > 0) {
+    //       if (GetBaseParameterData[0].IsAllowLeave) {
+    //         this.changeStartDateView()
+    //       }
+    //       else {
+    //         this.errorLeavemanState = { state: true, errorString: '後台設定為不可請假，如有問題請洽單位行政，謝謝' };
+    //         this.writevaform.leaveman_name = '';
+    //         $("#leavejobid").addClass("errorInput");
+    //         this.LoadingPage.hide();
+    //       }
+    //     }
+    //     else {
+    //       this.errorLeavemanState = { state: true, errorString: 'GetBaseParameter，請到後台維護人事資料->基本資料->員工參數設定，匯入員工' };
+    //       this.writevaform.leaveman_name = '';
+    //       $("#leavejobid").addClass("errorInput");
+    //       this.LoadingPage.hide();
+    //     }
+    //   }, error => {
+    //     this.LoadingPage.hide();
+    //   });
   }
 
   blurProxyEmpCode() {
@@ -1219,7 +1221,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
       CalculateRes: true,
       FixedCycle: this.writevaform.everydayloop,
       Exception: 0,
-      RoteID: 0,
+      RoteID: "",
       Time24: true,
       KeyName: this.writevaform.keyname,
       EventDate: this.writevaform.eventdate,

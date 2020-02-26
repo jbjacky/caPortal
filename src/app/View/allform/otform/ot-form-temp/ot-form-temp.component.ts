@@ -24,8 +24,7 @@ declare let $: any; //use jquery
 })
 export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
   exampleHeader = ExampleHeader //日期套件header
-
-  @Input() editFileArray: uploadFileClass[] //表單陣列內的上傳檔案
+  @Input() editForm: otFormClass //修改表單
   @Input() OtFormArray: Array<otFormClass> //現在表單的陣列
   startTimeDropper: any
   endTimeDropper: any
@@ -48,6 +47,15 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
       mousewheel: true,
       setCurrentTime: false
     });
+    this.OtCat.valueChanges
+    .pipe(takeWhile(() => this.api_subscribe))
+    .subscribe((cat:string)=>{
+      if(cat == "1"){
+        this.OtCatName.setValue('加班費')
+      }else if(cat == "2"){
+        this.OtCatName.setValue('補休假')
+      }
+    })
   }
   @ViewChild('StartTimeView') StartTimeView: ElementRef;
   changeStartTimeView() {
@@ -126,6 +134,7 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
       StartTime: ['', this.checkTime()],
       EndTime: ['', this.checkTime()],
       OtCat: ['1', Validators.required],
+      OtCatName:'加班費',
       CauseID: ['', Validators.required],
       CauseName: '',
       DeptsID: ['', Validators.required],
@@ -139,6 +148,11 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   otFormGroup: FormGroup
+  get RowID() { return this.otFormGroup.get('RowID'); }
+  get OtType() { return this.otFormGroup.get('OtType'); }
+  get OtCat() { return this.otFormGroup.get('OtCat'); }
+  get OtCatName() { return this.otFormGroup.get('OtCatName'); }
+  get Note() { return this.otFormGroup.get('Note'); }
   get EmpID() { return this.otFormGroup.get('EmpID'); }
   get StartDate() { return this.otFormGroup.get('StartDate'); }
   get EndDate() { return this.otFormGroup.get('EndDate'); }
@@ -148,6 +162,26 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
   get CauseName() { return this.otFormGroup.get('CauseName'); }
   get DeptsID() { return this.otFormGroup.get('DeptsID'); }
   get DeptsName() { return this.otFormGroup.get('DeptsName'); }
+  get FileUpload() { return this.otFormGroup.get('FileUpload'); }
+  
+  editFormFun() {
+    if (this.editForm) {
+      this.RowID.setValue(this.editForm.RowID)
+      this.OtType.setValue(this.editForm.OtType)
+      this.OtCat.setValue(this.editForm.OtCat)
+      this.Note.setValue(this.editForm.Note)
+      this.EmpID.setValue(this.editForm.EmpID)
+      this.StartDate.setValue(new Date(this.editForm.StartDate + ' ' + '00:00'))
+      this.EndDate.setValue(new Date(this.editForm.EndDate + ' ' + '00:00'))
+      this.StartTime.setValue(this.editForm.StartTime)
+      this.EndTime.setValue(this.editForm.EndTime)
+      this.CauseID.setValue(this.editForm.CauseID)
+      this.CauseName.setValue(this.editForm.CauseName)
+      this.DeptsID.setValue(this.editForm.DeptsID)
+      this.DeptsName.setValue(this.editForm.DeptsName)
+      this.FileUpload.setValue(this.editForm.FileUpload)
+    }
+  }
   createForm(EmpID: string) {
     this.EmpID.setValue(EmpID)
     this.StartDate.setValue(new Date())
@@ -156,7 +190,6 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
     this.EndTime.setValue('00:00')
   }
   ngOnInit() {
-    this.onSaveFile(this.editFileArray)
     this.id_bt_starttime = 'id_bt_starttime' + this.UiTemp
     this.id_bt_endtime = 'id_bt_endtime' + this.UiTemp
 
@@ -226,6 +259,7 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
                               if (serviceResponse.length > 0) {
                                 this.DeptsID.setValue(serviceResponse[0].DeptcID)
                               }
+                              this.editFormFun()
                             })
                       })
                 }
@@ -236,20 +270,20 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       )
   }
-  InOtArrayRowId:string =''
+  InOtArrayRowId: string = ''
   checkInOtFormDateTime() {
     if (this.OtFormArray!.length > 0) {
       var LDate: Array<SEDate> = []
       var IDate: SEDate
       this.OtFormArray.forEach(x => {
         LDate.push({
-          rowID:x.RowID,
+          rowID: x.RowID,
           startDateTime: new Date(x.StartDate + ' ' + x.StartTime),
           endDateTime: new Date(x.EndDate + ' ' + x.EndTime)
         })
       })
       IDate = {
-        rowID:null,
+        rowID: null,
         startDateTime: new Date(doFormatDate(this.StartDate.value) + ' ' + this.StartTime.value),
         endDateTime: new Date(doFormatDate(this.EndDate.value) + ' ' + this.EndTime.value)
       }
@@ -257,15 +291,27 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
       if (isIn) {
         this.InOtArrayRowId = isInDateArray(LDate, IDate).rowID
         var err = { 'forbiddenName': 'datTimeInFormArray' }
-        this.StartDate.setErrors(err)
-        this.EndDate.setErrors(err)
-        this.StartTime.setErrors(err)
-        this.EndTime.setErrors(err)
+        if (this.editForm) {
+          if (this.editForm.RowID == this.InOtArrayRowId) {
+            //如果修改的起訖日時與修改中的相同那就不檢查錯誤
+            isIn = false
+          }else{
+            this.setDateTimeErr(err)
+          }
+        } else {
+          this.setDateTimeErr(err)
+        }
       }
       return isIn
     } else {
       return false
     }
+  }
+  setDateTimeErr(err:errState){
+    this.StartDate.setErrors(err)
+    this.EndDate.setErrors(err)
+    this.StartTime.setErrors(err)
+    this.EndTime.setErrors(err)
   }
   checkDate(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -333,6 +379,9 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   onSaveFile(event) {
-    this.otFormGroup.get('FileUpload').setValue(event);
+    this.FileUpload.setValue(event);
   }
+}
+class errState{
+  forbiddenName:string
 }

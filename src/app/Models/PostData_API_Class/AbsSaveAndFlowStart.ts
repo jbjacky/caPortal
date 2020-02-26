@@ -14,7 +14,7 @@ export class FlowAppsClass {
     EmpID: string
     EmpCode: string
     EmpNameC: string
-    RoteID: number
+    RoteID: string
     DateB: string
     DateE: string
     TimeB: string

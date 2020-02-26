@@ -36,7 +36,19 @@
               </div>
               <div class="col-md-9 oneintwotitle" style="text-align:left">
                 <label class="control-label">
-                  <ng-container i18n>644488</ng-container>
+                  <ng-container i18n>{{getEmpInfo.empID}}{{getEmpInfo.empName}}</ng-container>
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6 firstintwo-form-group" style="border: 0px;padding: 0;padding-top: 10px;">
+              <div class="col-md-3 oneintwotitle" style="padding: 0px;">
+                <label class="control-label">
+                  <ng-container i18n>填寫人</ng-container>
+                </label>
+              </div>
+              <div class="col-md-9 oneintwotitle" style="text-align:left">
+                <label class="control-label">
+                  <ng-container i18n>{{getEmpInfo.writeEmpID}}{{getEmpInfo.writeEmpName}}</ng-container>
                 </label>
               </div>
             </div>
@@ -50,15 +62,15 @@
         <section class="form-horizontal  form-style01">
           <div id="NowIsWirteFormTop"></div>
 
-          <div appSpyngif class="ovtbdr" style="border:1px solid #14b2f6;">
-            <div class="form-group first-form-group row"
+          <div *ngFor="let otForm of getOtFormArray" class="ovtbdr" style="border:1px solid #14b2f6;margin-bottom: 10px;">
+            <div class="form-group first-form-group row P_ten"
               style="margin:0px ;margin-bottom:15px;border-bottom:1px solid #dcdcdc">
 
               <div class="col-md-6 col-xs-5 firstintwo-form-group"
                 style="padding:0px;padding-left: 7px;padding-top: 10px;">
                 <div class="col-md-4 " style="padding: 0px;">
                   <label style="font-size: 17px;">
-                    <ng-container i18n>加班時段一</ng-container>
+                    <ng-container i18n>加班時段{{otForm.RowID}}</ng-container>
                   </label>
                 </div>
               </div>
@@ -66,141 +78,112 @@
                 <div class="col-md-12 " style="text-align: center;">
                   <div class="row ">
                     <label style="padding: 0px">
-                      <ng-container i18n>加班共<label style="color:red">1.5</label>小時</ng-container>
+                      <ng-container i18n>加班共<label style="color:red">{{otForm.OtAmount}}</label>分鐘</ng-container>
                     </label>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- form-group end -->
-            <div>
+            <div class="P_ten">
               <div class="row" style="padding: 0;">
                 <div class="col-md-6 col-xs-12 row" style="padding: 0;">
                   <label class="col-md-4 control-label">
-                    <ng-container i18n>起訖日期</ng-container>
-                  </label>
-                  <div class="col-md-8 " style="padding:7px">
-                    <div class="row writerow">
-                      <label class="col-md-10 col-xs-10" style="padding-left: 0px">
-                        <ng-container i18n>108/10/28 - 108/10/28</ng-container>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row" style="padding: 0;">
-                <div class="col-md-6 col-xs-12 row" style="padding: 0;">
-                  <label class="col-md-4 control-label">
-                    <ng-container i18n>起訖時間</ng-container>
-                  </label>
-                  <div class="col-md-8 " style="padding:7px">
-                    <div class="row writerow">
-                      <label class="col-md-10 col-xs-10" style="padding: 0px">
-                        <ng-container i18n>17:30 - 19:00</ng-container>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-xs-12 row" style="padding: 0;">
-                  <label class="col-md-4 control-label ">
                     <ng-container i18n>申請類型</ng-container>
                   </label>
                   <div class="col-md-8 " style="padding:7px">
                     <div class="row writerow">
-                      <label class="col-md-10 col-xs-10" style="padding: 0px">
-                        <ng-container i18n>實際加班費</ng-container>
+                      <label class="col-md-10 col-xs-10" style="padding-left: 0px">
+                        <ng-container i18n>{{otForm.OtCatName}}</ng-container>
                       </label>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="row" style="padding: 0;">
-                <div class="col-md-6 col-xs-12 row" style="margin-bottom: 5px;padding: 0;">
+                <div class="col-md-6 col-xs-6 row" style="padding: 0;">
+                  <label class="col-md-4 control-label">
+                    <ng-container i18n>起始</ng-container>
+                  </label>
+                  <div class="col-md-8 " style="padding:7px">
+                    <div class="row writerow">
+                      <label class="col-md-10 col-xs-10" style="padding: 0px">
+                        {{otForm.StartDate}} {{otForm.StartTime}}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xs-6 row" style="padding: 0;">
+                  <label class="col-md-4 control-label ">
+                    <ng-container i18n>結束</ng-container>
+                  </label>
+                  <div class="col-md-8 " style="padding:7px">
+                    <div class="row writerow">
+                      <label class="col-md-10 col-xs-10" style="padding: 0px">
+                        {{otForm.EndDate}} {{otForm.EndTime}}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="padding: 0;">
+                <div class="col-md-6 col-xs-6 row" style="margin-bottom: 5px;padding: 0;">
                   <label class="col-md-4 control-label">
                     <ng-container i18n>加班部門</ng-container>
                   </label>
                   <div class="col-md-8 " style="padding:7px">
                     <div class="row writerow">
                       <label class="col-md-10 col-xs-10" style="padding: 0px">
-                        <ng-container i18n>財務系統部</ng-container>
+                        {{otForm.DeptsName}}
                       </label>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-xs-12 row" style="padding: 0;">
+                <div class="col-md-6 col-xs-6 row" style="padding: 0;">
                   <label class="col-md-4 control-label ">
                     <ng-container i18n>加班原因</ng-container>
                   </label>
                   <div class="col-md-8 " style="padding:7px">
                     <div class="row writerow">
                       <label class="col-md-10 col-xs-10" style="padding: 0px">
-                        <ng-container i18n>業務量暴增</ng-container>
+                        {{otForm.CauseName}}
                       </label>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="row" style="padding: 0;">
-                <div class="col-md-6 col-xs-12 row" style="margin-bottom: 5px;padding: 0;">
+                <div class="col-md-6 col-xs-6 row" style="margin-bottom: 5px;padding: 0;">
                   <label class="col-md-4 control-label">
                     <ng-container i18n>附件檔案</ng-container>
                   </label>
                   <div class="col-md-8 " style="padding:7px">
                     <div class="row writerow">
                       <label class="col-md-10 col-xs-10" style="padding: 0px">
-                        <ng-container i18n>加班證明.jpg</ng-container>
+                        <div *ngIf="otForm.FileUpload" style="display: inline-block;">
+                          <a *ngFor="let f of otForm.FileUpload" (click)="base64(f)">
+                            {{f.UploadName}}
+                          </a>
+                        </div>
+                        <div *ngIf="!(otForm.FileUpload)" style="display: inline-block;">
+                          <span>無</span>
+                        </div>
                       </label>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-xs-12 row" style="padding: 0;">
+                <div class="col-md-6 col-xs-6 row" style="padding: 0;">
                   <label class="col-md-4 control-label ">
                     <ng-container i18n>備註</ng-container>
                   </label>
                   <div class="col-md-8 " style="padding:7px">
                     <div class="row writerow">
                       <label class="col-md-10 col-xs-10" style="padding: 0px">
-                        <ng-container i18n>無</ng-container>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row" style="padding: 0;color:#6ab8ff">
-                <div class="col-md-6 col-xs-12 row" style="margin-bottom: 5px;padding: 0;">
-                  <label class="col-md-4 control-label">
-                    <ng-container i18n>刷進時間</ng-container>
-                  </label>
-                  <div class="col-md-8 " style="padding:7px">
-                    <div class="row writerow">
-                      <label class="col-md-10 col-xs-10" style="padding: 0px">
-                        <ng-container i18n>108/10/28 8:00</ng-container>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-xs-12 row" style="padding: 0;">
-                  <label class="col-md-4 control-label ">
-                    <ng-container i18n>刷退時間</ng-container>
-                  </label>
-                  <div class="col-md-8 " style="padding:7px">
-                    <div class="row writerow">
-                      <label class="col-md-10 col-xs-10" style="padding: 0px">
-                        <ng-container i18n>108/10/28 19:00</ng-container>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row" style="padding: 0;color:#6ab8ff">
-                <div class="col-md-6 col-xs-12 row" style="margin-bottom: 5px;padding: 0;">
-                  <label class="col-md-4 control-label">
-                    <ng-container i18n>歸屬日期</ng-container>
-                  </label>
-                  <div class="col-md-8 " style="padding:7px">
-                    <div class="row writerow">
-                      <label class="col-md-10 col-xs-10" style="padding: 0px">
-                        <ng-container i18n>108/10/28</ng-container>
+                        <span *ngIf="otForm.Note">
+                          {{otForm.Note}}
+                        </span>
+                        <span *ngIf="!(otForm.Note)">
+                          無
+                        </span>
                       </label>
                     </div>
                   </div>
@@ -208,7 +191,6 @@
               </div>
             </div>
           </div>
-          <!-- form-group end -->
           <div style="padding-top:15px;text-align:right">
             <label style="padding: 0px;color:#6ab8ff">
               <ng-container i18n>近期加班資料</ng-container>
@@ -216,10 +198,10 @@
           </div>
           <div class="row">
             <div class="col-md-6 form-group ovtbtnrt">
-              <button class="btn btnovt btn-default" style="padding: 5px 15px;" data-toggle="modal">返回修改</button>
+              <button  (click)="previouspage()" class="btn btnovt btn-default" style="padding: 5px 15px;" data-toggle="modal">返回修改</button>
             </div>
             <div class="col-md-6 form-group ovtbtncf">
-              <button class="btn btnovt btn-primary" style="padding: 5px 15px;" data-toggle="modal">確認送出</button>
+              <button class="btn btnovt btn-primary" style="padding: 5px 15px;" data-toggle="modal" (click)="checkOnSubmit()">確認送出</button>
             </div>
           </div>
         </section>
@@ -227,3 +209,62 @@
     </div>
   </div>
 </div>
+
+
+
+<div class="modal" id="checksenddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="mySmallModalLabel" style="text-align: center">
+            <ng-container i18n>確認送出?</ng-container>
+          </h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+            (click)="onSubmit()">
+            <ng-container i18n>送出</ng-container>
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog確認送出 -->
+<div class="modal" id="sussesdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog  modal-sm vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <!-- <span aria-hidden="true">×</span> -->
+          </button>
+          <h4 class="modal-title" style="text-align: center">
+            <ng-container i18n>申請完成</ng-container>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;margin-bottom: 10px">
+            <img src="./assets/images-template/icon-success.png" />
+          </div>
+          <div style="text-align: center">
+            <ng-container i18n>表單送出完成</ng-container>!
+          </div>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='["../../home"]'>
+            <ng-container i18n>確定</ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog送出成功 -->

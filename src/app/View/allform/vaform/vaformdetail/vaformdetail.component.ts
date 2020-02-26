@@ -78,7 +78,9 @@ export class VaformdetailComponent implements OnInit, OnDestroy {
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(
         (GetFormInfoData: GetFormInfoDataClass[]) => {
-          this.showNote = GetFormInfoData[0].StdNote
+          if(GetFormInfoData.length>0){
+              this.showNote = GetFormInfoData[0].StdNote
+          }
           this.LoadingPage.hide()
         }, error => {
           this.LoadingPage.hide()
@@ -162,11 +164,12 @@ export class VaformdetailComponent implements OnInit, OnDestroy {
   }
   checkSendError() {
     // console.log(this.chooseEmpID)
-    if (!this.FlowDynamic_Base) {
-      alert('請選擇簽核人員')
-    } else {
-      $('#checksenddialog').modal('show');
-    }
+    // if (!this.FlowDynamic_Base) {
+    //   alert('請選擇簽核人員')
+    // } else {
+    //   $('#checksenddialog').modal('show');
+    // }
+    $('#checksenddialog').modal('show');
   }
 
   sendLoading = false;
@@ -178,10 +181,11 @@ export class VaformdetailComponent implements OnInit, OnDestroy {
     for (let sendvaform of this.getsendvaform) {
       var sendAbsFlowAppsDetail: AbsFlowAppsDetailClass[] = [];
       for (let reallysendvaformFlowApps_AbsFlowAppsDetail of sendvaform.FlowApp.AbsFlowAppsDetail) {
+        var _DateB = new Date(formatDateTime(reallysendvaformFlowApps_AbsFlowAppsDetail.DateB).getDate)
         sendAbsFlowAppsDetail.push({
           EmpID: reallysendvaformFlowApps_AbsFlowAppsDetail.EmpID,
           HoliDayID: reallysendvaformFlowApps_AbsFlowAppsDetail.HoliDayID,
-          DateB: formatDateTime(reallysendvaformFlowApps_AbsFlowAppsDetail.DateB).getDate,
+          DateB: _DateB.toJSON(),
           TimeB: reallysendvaformFlowApps_AbsFlowAppsDetail.TimeB,
           TimeE: reallysendvaformFlowApps_AbsFlowAppsDetail.TimeE,
           DateTimeB: reallysendvaformFlowApps_AbsFlowAppsDetail.DateTimeB,
@@ -191,18 +195,22 @@ export class VaformdetailComponent implements OnInit, OnDestroy {
           RoteRestList: reallysendvaformFlowApps_AbsFlowAppsDetail.RoteRestList,
         })
       }
+      var _rDateB = new Date(sendvaform.startday)
+      var _rDateE = new Date(sendvaform.endday)
+      var _rDateTimeB = new Date(sendvaform.startday + ' ' + sendvaform.starttime)
+      var _rDateTimeE = new Date(sendvaform.endday + ' ' + sendvaform.endtime)
       reallysendvaformFlowApps.push(
         {
           EmpID: sendvaform.leaveman_jobid,
           EmpCode: sendvaform.leaveman_jobid,
           EmpNameC: sendvaform.leaveman_name,
-          RoteID: 0,
-          DateB: sendvaform.startday,
-          DateE: sendvaform.endday,
+          RoteID: "",
+          DateB: _rDateB.toJSON(),
+          DateE: _rDateE.toJSON(),
           TimeB: sumbit_formatTimetoString(sendvaform.starttime),
           TimeE: sumbit_formatTimetoString(sendvaform.endtime),
-          DateTimeB: sendvaform.startday + ' ' + sendvaform.starttime,
-          DateTimeE: sendvaform.endday + ' ' + sendvaform.endtime,
+          DateTimeB: _rDateTimeB.toJSON(),
+          DateTimeE: _rDateTimeE.toJSON(),
           HoliDayID: sendvaform.vacategrory.HoliDayID,
           HoliDayNameC: sendvaform.vacategrory.HoliDayNameC,
           Use: sendvaform.FlowApp.Use,
@@ -251,11 +259,11 @@ export class VaformdetailComponent implements OnInit, OnDestroy {
       }
     }
     send_AbsSaveAndFlowStartClass.FlowDynamic = {
-      FlowNode: '495',
+      FlowNode: '',
       RoleID: '',
-      EmpID: this.FlowDynamic_Base.EmpID,
-      DeptID: this.FlowDynamic_Base.DeptaID.toString(),
-      PosID: this.FlowDynamic_Base.JobID.toString()
+      EmpID: '',
+      DeptID: '',
+      PosID: ''
     }
     // console.log(send_AbsSaveAndFlowStartClass)
     this.GetApiDataServiceService.getWebApiData_AbsSaveAndFlowStart(send_AbsSaveAndFlowStartClass)

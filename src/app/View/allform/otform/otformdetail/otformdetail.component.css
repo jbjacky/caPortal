@@ -70,6 +70,10 @@
     width: 25%;
 }
 
+.P_ten{
+    padding: 0;
+}
+
 @media screen and (max-width:850px) {
     #holidayInfo .modal-dialog {
         position: relative;
@@ -205,5 +209,8 @@
 
     .control-label {
         padding-left: 7px
+    }
+    .P_ten{
+        padding: 10px;
     }
 }

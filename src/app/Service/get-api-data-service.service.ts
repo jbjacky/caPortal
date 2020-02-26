@@ -90,6 +90,7 @@ import { AttendUnusualSaveAndFlowStartClass } from '../Models/PostData_API_Class
 import { CardPatchSaveAndFlowStartClass } from '../Models/PostData_API_Class/CardPatchSaveAndFlowStartClass';
 import { GetOtCalculateGetApiClass } from '../Models/PostData_API_Class/GetOtCalculateGetApiClass';
 import { OTCheckListGetApiClass } from '../Models/PostData_API_Class/OTCheckListGetApiClass';
+import { OtSaveGetApiClass } from '../Models/PostData_API_Class/OtSaveGetApiClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -712,7 +713,7 @@ export class GetApiDataServiceService {
       CalculateRes: true,
       FixedCycle: CalculateFlowData.FixedCycle,
       Exception: 0,
-      RoteID: 0,
+      RoteID: "",
       Time24: true,
       KeyName: CalculateFlowData.KeyName,
       EventDate: CalculateFlowData.EventDate,
@@ -1947,6 +1948,27 @@ export class GetApiDataServiceService {
   getWebApiData_OTCheckEstimateList(OTCheckListGetApi:OTCheckListGetApiClass[]){
     return this.http.post(this.localUrl  + 'OTHandler/OT1CheckList',
     JSON.stringify(OTCheckListGetApi), {
+      headers: this.GetHeader()
+    })
+  }
+
+
+  /**
+   * @todo 儲存加班單
+   */
+  getWebApiData_OtSave(OtSaveGetApi:OtSaveGetApiClass[]){
+    return this.http.post(this.localUrl  + 'OTHandler/OtSave',
+    JSON.stringify(OtSaveGetApi), {
+      headers: this.GetHeader()
+    })
+  }
+
+  /**
+   * @todo 儲存加班單(預估)
+   */
+  getWebApiData_OtEstimateSave(OtSaveGetApi:OtSaveGetApiClass[]){
+    return this.http.post(this.localUrl  + 'OTHandler/Ot1Save',
+    JSON.stringify(OtSaveGetApi), {
       headers: this.GetHeader()
     })
   }

@@ -10,7 +10,7 @@ export class CalculateFlowDataClass{
     CalculateRes:boolean
     FixedCycle:boolean
     Exception:number
-    RoteID:number
+    RoteID:string
     Time24:boolean
     KeyName:string
     EventDate:string

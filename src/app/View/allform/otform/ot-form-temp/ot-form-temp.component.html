@@ -206,7 +206,7 @@
         </label>
       </div>
       <div class="col-md-9 col-xs-12">
-        <app-fileuploadbutton (fileChange)="onSaveFile($event)" [editFileArray]="editFileArray">
+        <app-fileuploadbutton (fileChange)="onSaveFile($event)" [editFileArray]="editForm?.FileUpload">
         </app-fileuploadbutton>
         <br class="br_phone" />
       </div>
