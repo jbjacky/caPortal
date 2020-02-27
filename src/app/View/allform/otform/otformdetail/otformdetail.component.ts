@@ -40,6 +40,7 @@ export class OtFormDetailComponent implements OnInit, OnDestroy {
     var OtSaveGetApi:OtSaveGetApiClass[]=[]
     for(let o of this.getOtFormArray){
       OtSaveGetApi.push({
+        "RowID" : o.RowID,
         "EmpID" : o.EmpID,
         "OtCat" : o.OtCat,
         "DateB" : o.StartDate,

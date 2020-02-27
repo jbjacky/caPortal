@@ -32,7 +32,7 @@ export class OtFormComponent implements OnInit, AfterViewInit, OnDestroy {
   OtType: string
   EmpInfo : EmpClass={
     empID : null,
-    empName : '',
+    empName : null,
     writeEmpID : null,
     writeEmpName : null
   }

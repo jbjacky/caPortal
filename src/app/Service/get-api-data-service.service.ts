@@ -1954,20 +1954,20 @@ export class GetApiDataServiceService {
 
 
   /**
-   * @todo 儲存加班單
+   * @todo 儲存加班單(清單)
    */
   getWebApiData_OtSave(OtSaveGetApi:OtSaveGetApiClass[]){
-    return this.http.post(this.localUrl  + 'OTHandler/OtSave',
+    return this.http.post(this.localUrl  + 'OTHandler/OtListSave',
     JSON.stringify(OtSaveGetApi), {
       headers: this.GetHeader()
     })
   }
 
   /**
-   * @todo 儲存加班單(預估)
+   * @todo 儲存加班單(預估清單)
    */
   getWebApiData_OtEstimateSave(OtSaveGetApi:OtSaveGetApiClass[]){
-    return this.http.post(this.localUrl  + 'OTHandler/Ot1Save',
+    return this.http.post(this.localUrl  + 'OTHandler/Ot1ListSave',
     JSON.stringify(OtSaveGetApi), {
       headers: this.GetHeader()
     })

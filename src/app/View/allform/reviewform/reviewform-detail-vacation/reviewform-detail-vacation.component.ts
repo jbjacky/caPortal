@@ -457,22 +457,23 @@ export class ReviewformDetailVacationComponent implements OnInit, OnDestroy, Aft
   }
 
   checkAbsLimit_PutForward() {
-    this.LoadingPage.show()
-    $('#vaPutForwarddialog').modal('show')
-    if (!this.FlowDynamic_Base) {
-      alert('請選擇呈核人員')
-      this.LoadingPage.hide()
-    } else {
-      this.GetApiDataServiceService.getWebApiData_AbsLimitCheck(parseInt(this.ReviewformServiceService.vaDetail.ProcessFlowID))
-        .pipe(takeWhile(() => this.api_subscribe))
-        .subscribe(
-          (x: string) => {
-            this.vaShowLimitText = x.toString()
-            this.LoadingPage.hide()
-            $('#PutForwarddialog').modal('show');
-          }
-        )
-    }
+    // this.LoadingPage.show()
+    // $('#vaPutForwarddialog').modal('show')
+    $('#PutForwarddialog').modal('show')
+    // if (!this.FlowDynamic_Base) {
+    //   alert('請選擇呈核人員')
+    //   this.LoadingPage.hide()
+    // } else {
+      // this.GetApiDataServiceService.getWebApiData_AbsLimitCheck(parseInt(this.ReviewformServiceService.vaDetail.ProcessFlowID))
+      //   .pipe(takeWhile(() => this.api_subscribe))
+      //   .subscribe(
+      //     (x: string) => {
+      //       this.vaShowLimitText = x.toString()
+      //       this.LoadingPage.hide()
+      //       $('#PutForwarddialog').modal('show');
+      //     }
+      //   )
+    // }
   }
 
   signText: string;
@@ -642,9 +643,9 @@ export class ReviewformDetailVacationComponent implements OnInit, OnDestroy, Aft
             FlowDynamic: {
               FlowNode: this.ReviewformServiceService.vaDetail.FlowNodeID,
               RoleID: '',
-              EmpID: this.FlowDynamic_Base.EmpID.toString(),
-              DeptID: this.FlowDynamic_Base.DeptaID.toString(),
-              PosID: this.FlowDynamic_Base.JobID.toString()
+              EmpID: "",//this.FlowDynamic_Base.EmpID.toString()
+              DeptID: "",//this.FlowDynamic_Base.DeptaID.toString()
+              PosID: ""//this.FlowDynamic_Base.JobID.toString()
             },
             CheckEmpID: this.ReviewformServiceService.showReviewMan.EmpCode
           }

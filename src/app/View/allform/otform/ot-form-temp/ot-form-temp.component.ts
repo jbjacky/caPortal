@@ -232,6 +232,13 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
       )
+    this.StartDate.valueChanges
+    .pipe(takeWhile(()=>this.api_subscribe))
+    .subscribe(
+      (StartDate:Date)=>{
+        this.EndDate.setValue(StartDate)
+      }
+    )
     this.ObIptEmpID$
       .pipe(takeWhile(() => this.api_subscribe))
       .subscribe(

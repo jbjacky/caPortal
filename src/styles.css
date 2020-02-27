@@ -162,7 +162,10 @@
     margin: 30px auto;
   }
 }
-
+#main-nav{
+  scrollbar-width: thin; 
+  /*firefox suppor*/
+}
 #main-nav::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;

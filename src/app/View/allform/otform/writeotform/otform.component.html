@@ -42,7 +42,7 @@
         </div>
       </div>
       <div>
-        <div class="form-horizontal" style="padding: 0px 10px;">
+        <div class="form-horizontal P_ten">
           <!-- 表單類型 -->
           <div class="row" style="margin:0px ;margin-bottom: 5px;">
             <label class="col-md-2 control-label">
@@ -118,7 +118,7 @@
               加班時段 {{otForm.RowID}}
             </div>
             <div class="col-md-2 col-md-push-8 col-xs-6 Pborder" style="text-align: right;">
-              <a (click)="otForm.UiEdit = true" style="margin-right:10px;cursor: pointer;">修改</a>
+              <a *ngIf="!otForm.UiEdit" (click)="otForm.UiEdit = true" style="margin-right:10px;cursor: pointer;">修改</a>
               <a (click)="delOtData(otForm,otFormArray)">刪除</a>
             </div>
             <div class="col-md-8  col-md-pull-2 col-xs-12 row" style="margin:0;">
@@ -202,7 +202,7 @@
                 [OtFormArray]="otFormArray" [editForm]="otForm"></app-ot-form-temp>
                 <div style="text-align:center;padding-top: 10px;">
                   <button type="submit" class="btn btn-primary" style="padding: 5px 15px;margin: 0px 5px;" data-toggle="modal"
-                    [disabled]="disEditSendOtForm(otForm.RowID)" (click)="onEditSubmit()">修改</button>
+                    [disabled]="disEditSendOtForm(otForm.RowID)" (click)="onEditSubmit()">修改完成</button>
                   <button  class="btn btn-default" style="padding: 5px 15px;margin: 0px 5px;"
                     (click)="otForm.UiEdit = false">取消</button>
                 </div>

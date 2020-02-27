@@ -758,18 +758,19 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   showvaPutForwarddialog = false
   checkAbsLimit_PutForward(e_vaFlowSign: vaFlowSign, ReloadTabData) {
     this.vaDetail_click(e_vaFlowSign, ReloadTabData)
-    this.LoadingPage.show()
-    this.showvaPutForwarddialog = true
-    this.GetApiDataServiceService.getWebApiData_AbsLimitCheck(this.FinallyReviewForm.ProcessFlowID)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (x: string) => {
-          this.vaShowLimitText = x.toString()
-          this.LoadingPage.hide()
+    $('#vaPutForwarddialog').modal('show')
+    // this.LoadingPage.show()
+    // this.showvaPutForwarddialog = true
+    // this.GetApiDataServiceService.getWebApiData_AbsLimitCheck(this.FinallyReviewForm.ProcessFlowID)
+    //   .pipe(takeWhile(() => this.api_subscribe))
+    //   .subscribe(
+    //     (x: string) => {
+    //       this.vaShowLimitText = x.toString()
+    //       this.LoadingPage.hide()
 
-          $('#vaPutForwarddialog').modal('show')
-        }
-      )
+    //       $('#vaPutForwarddialog').modal('show')
+    //     }
+    //   )
   }
   showPutForwarddialog = false
   delDetail_click(e_delFlowSign: delFlowSign, ReloadTabData) {
@@ -1054,9 +1055,9 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   PutForward_Click() {
 
-    if (!this.FlowDynamic_Base) {
-      alert('請選擇呈核人員')
-    } else {
+    // if (!this.FlowDynamic_Base) {
+    //   alert('請選擇呈核人員')
+    // } else {
       this.GetApiDataServiceService.getWebApiData_GetManInfo(this.FirstEmpCode)
         .pipe(takeWhile(() => this.api_subscribe))
         .subscribe(
@@ -1080,9 +1081,9 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
               FlowDynamic: {
                 FlowNode: this.FinallyReviewForm.FlowNodeID,
                 RoleID: "",//呈核對象
-                EmpID: this.FlowDynamic_Base.EmpID.toString(),//呈核對象
-                DeptID: this.FlowDynamic_Base.DeptaID.toString(),
-                PosID: this.FlowDynamic_Base.JobID.toString()
+                EmpID: "",//呈核對象FlowDynamic_Base.EmpID.toString()
+                DeptID: "",//FlowDynamic_Base.DeptaID.toString()
+                PosID: ""//FlowDynamic_Base.JobID.toString()
               },
               CheckEmpID: this.ReviewformServiceService.showReviewMan.EmpCode
             }
@@ -1119,16 +1120,16 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
               )
           }
         )
-    }
+    // }
   }
 
   checkHaveFlowDynamic_EmpID() {
 
-    if (!this.FlowDynamic_Base) {
-      return true
-    } else {
+    // if (!this.FlowDynamic_Base) {
+    //   return true
+    // } else {
       return false
-    }
+    // }
   }
 
   GetFlowData_va(EmpID: string, RoleID, getReviewDatas: AllformReview[]) {
