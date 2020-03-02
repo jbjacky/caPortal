@@ -280,6 +280,10 @@ export class RmCardFormComponent implements OnInit, AfterViewInit, OnDestroy {
               AttendData.AttendDate = formatDateTime(x.AttendDate).getDate
               AttendData.IsAbnormal = x.IsAbnormal
 
+              if(x.ActualRote.WorkHours){
+                AttendData.ActualRote_WorkHours = x.ActualRote.WorkHours
+              }
+
               if (x.LateMins > 0) {
                 AttendData.LateMins = true
               } else {

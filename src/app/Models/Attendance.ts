@@ -17,6 +17,7 @@ export class Attendance {
     OffCardTime_calCrossDay:boolean;
 
     IsAbnormal:boolean;
+    IsOt:boolean;
 
     AttendAbsInfo: null;
   

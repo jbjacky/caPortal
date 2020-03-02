@@ -129,9 +129,9 @@
             <div *ngIf="DL_showAttendExceptionalCount" style="display: inline-block;color:#d0021b;font-weight: bold;">
                 <img src="./assets/images-template/icon-alert.png" style="
                 padding-bottom: 2px;width: 24px; height: 24px;margin-right: 10px;" />
-                <span style="border-bottom: 1px #d0021b solid;text-align: center;box-shadow: none">
+                <a [routerLink]="['/nav/OwnSearchComponent']" style="border-bottom: 1px #d0021b solid;text-align: center;box-shadow: none">
                     <span style="color: #d0021b;font-size: 21px;box-shadow: none">{{AttendExceptionalCount}}</span>
-                </span>
+                </a>
                 <span style="margin-right: 3px;">
                     <ng-container i18n>筆考勤異常</ng-container>
                 </span>

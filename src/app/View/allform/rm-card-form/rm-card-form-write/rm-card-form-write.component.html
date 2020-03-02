@@ -100,11 +100,12 @@
             </div>
             <div>
               <div class="tagBlue"
-                *ngIf="!getAttendCard.LateMins &&
+                *ngIf="(!getAttendCard.LateMins &&
                                           !getAttendCard.EarlyMins &&
                                           !getAttendCard.IsAbsent &&
                                           ( !getAttendCard.OnBeforeMins || (getAttendCard.OnBeforeMins && getAttendCard.EliminateOnBefore) ) &&
-                                          ( !getAttendCard.OffAfterMins || (getAttendCard.OffAfterMins && getAttendCard.EliminateOffAfter) )">
+                                          ( !getAttendCard.OffAfterMins || (getAttendCard.OffAfterMins && getAttendCard.EliminateOffAfter) ) )
+                                          && getAttendCard.ActualRote_WorkHours > 0">
                 <ng-container i18n>正常</ng-container>
               </div>
               <div class="tagBlue" *ngIf="getAttendCard.IsAbnormal">
@@ -243,79 +244,173 @@
     ( !getAttendCard.OffAfterMins || (getAttendCard.OffAfterMins && getAttendCard.EliminateOffAfter) )
     )
     || getAttendCard.IsAbsent">
-      <div class="row" style="margin:0;padding-top: 10px;">
-        <div class="col-md-2 col-xs-6">
-          <div style="
+      <div *ngIf="getAttendCard.IsAbsent">
+        <div>
+          <h3>
+            <span *ngIf="getAttendCard.IsAbsent">未刷卡</span>
+            <span>修正</span>
+          </h3>
+        </div>
+        <div>
+          <div class="row" style="padding: 15px 0px;margin: 0px;">
+            <div class="col-md-2 col-xs-12">
+              <div class="P_textLeft">
+                <label>修正方式</label>
+              </div>
+            </div>
+            <div class="col-md-10 col-xs-12">
+              <div class="row" style="margin:0">
+                <div class="col-md-5 col-xs-12" style="padding:0">
+                  <input type="radio" name="cR_IsAbsent" [(ngModel)]="cR_IsAbsent" [value]='1'
+                    (click)="disAbsentRadio(cR_IsAbsent,1)">我要填請假單
+                  <span *ngIf="cR_IsAbsent == 1" style="color: rgb(150, 149, 148);">(毋須填寫本異常單。)</span>
+                </div>
+                <div class="col-md-7 col-xs-12" style="padding:0">
+                  <a *ngIf="cR_IsAbsent == 1" style="cursor:pointer" (click)="goWriteVaPage()">填寫請假單 ></a>
+                </div>
+              </div>
+              <div class="row" style="margin:0">
+                <div class="col-md-5 col-xs-12" style="padding:0">
+                  <input type="radio" name="cR_IsAbsent" [(ngModel)]="cR_IsAbsent" [value]='2'
+                    (click)="disAbsentRadio(cR_IsAbsent,2)">我要填補卡單
+                </div>
+                <div *ngIf="cR_IsAbsent == 2" class="col-md-7 col-xs-12" style="padding:0">
+                  <div class="col-md-2 col-xs-0"></div>
+                  <div class="col-md-10 col-xs-12" style="text-align: right;">
+                    <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                    <span style="color: #d0021b;">({{showCardFlowData.length}})</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="cR_IsAbsent == 2">
+            <app-card-form-temp (formChange)="CardForm($event)" [getAttendCard]="getAttendCard" [UiTemp]="'OnCardTemp'">
+            </app-card-form-temp>
+            <!-- 簽核人員 -->
+            <div class="row" class="row" style="border:0px;padding: 20px 0px;margin: 0;">
+              <label class="col-md-2 col-xs-12 control-label P_textLeft">
+                <span class="form-must-fill">*</span>
+                <ng-container i18n>簽核人員</ng-container>
+              </label>
+              <div class="col-md-10 col-xs-12">
+                <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeSingMan$">
+                </app-select-signer>
+              </div>
+
+            </div>
+            <!-- 簽核人員 -->
+            <!-- 調換班需求 -->
+            <div class="row" style="border:0px;margin: 0;">
+              <label class="col-md-2 col-xs-12 control-label P_textLeft">
+              </label>
+              <div class="col-md-10 col-xs-12">
+                <span>若有調換班需求，請至調換班相關功能申請。</span>
+              </div>
+
+            </div>
+            <!-- 調換班需求 -->
+          </div>
+          <!-- 返回，呈核按鈕 -->
+          <div class="P_smallpadding row" style="border:0px">
+            <div class="col-md-2 col-xs-12">
+            </div>
+            <div class="col-md-10 col-xs-12">
+              <div class="featuresBlock">
+                <div class="btSend">
+                  <button class="btn btn-primary" data-toggle="modal" (click)="checkError()"
+                    [disabled]="checkCardFormDisable()">
+                    <ng-container i18n>送出表單</ng-container>
+                  </button>
+                  <!-- 送出申請單 -->
+                </div>
+                <div class="btCancel">
+                  <button class="btn btn-default" (click)="onpreviousForm()">
+                    <ng-container i18n>返回修改</ng-container>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 返回，呈核按鈕 -->
+        </div>
+      </div>
+      <div *ngIf="!getAttendCard.IsAbsent">
+
+        <div class="row" style="margin:0;padding-top: 10px;">
+          <div class="col-md-2 col-xs-6">
+            <div style="
           margin: 0;
           font-family: inherit;
           font-weight: 500;
           color: #028fcf;
           font-size: 18px;
           ">
-            <ng-container i18n>欲補卡時間</ng-container>
-          </div>
-        </div>
-        <div class="col-md-10 col-xs-6">
-          <div class="row" style="margin:0">
-            <div class="col-md-5 col-xs-0" style="padding:0">
+              <ng-container i18n>欲補卡時間</ng-container>
             </div>
-            <div class="col-md-7 col-xs-12" style="padding:0">
-              <div class="col-md-2 col-xs-0"></div>
-              <div class="col-md-10 col-xs-12" style="text-align: right;">
-                <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
-                <span style="color: #d0021b;">({{showCardFlowData.length}})</span>
+          </div>
+          <div class="col-md-10 col-xs-6">
+            <div class="row" style="margin:0">
+              <div class="col-md-5 col-xs-0" style="padding:0">
+              </div>
+              <div class="col-md-7 col-xs-12" style="padding:0">
+                <div class="col-md-2 col-xs-0"></div>
+                <div class="col-md-10 col-xs-12" style="text-align: right;">
+                  <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                  <span style="color: #d0021b;">({{showCardFlowData.length}})</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <app-card-form-temp (formChange)="CardForm($event)" [getAttendCard]="getAttendCard" [UiTemp]="'OnCardTemp'">
-      </app-card-form-temp>
-      <!-- 簽核人員 -->
-      <div class="row" class="row" style="border:0px;padding: 20px 0px;margin: 0;">
-        <label class="col-md-2 col-xs-12 control-label P_textLeft">
-          <span class="form-must-fill">*</span>
-          <ng-container i18n>簽核人員</ng-container>
-        </label>
-        <div class="col-md-10 col-xs-12">
-          <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeSingMan$">
-          </app-select-signer>
-        </div>
+        <app-card-form-temp (formChange)="CardForm($event)" [getAttendCard]="getAttendCard" [UiTemp]="'OnCardTemp'">
+        </app-card-form-temp>
+        <!-- 簽核人員 -->
+        <div class="row" class="row" style="border:0px;padding: 20px 0px;margin: 0;">
+          <label class="col-md-2 col-xs-12 control-label P_textLeft">
+            <span class="form-must-fill">*</span>
+            <ng-container i18n>簽核人員</ng-container>
+          </label>
+          <div class="col-md-10 col-xs-12">
+            <app-select-signer (selectBaseChange)="chooseBase($event)" [sysEmp$]="onChangeSingMan$">
+            </app-select-signer>
+          </div>
 
-      </div>
-      <!-- 簽核人員 -->
-      <!-- 調換班需求 -->
-      <div class="row" style="border:0px;margin: 0;">
-        <label class="col-md-2 col-xs-12 control-label P_textLeft">
-        </label>
-        <div class="col-md-10 col-xs-12">
-          <span>若有調換班需求，請至調換班相關功能申請。</span>
         </div>
+        <!-- 簽核人員 -->
+        <!-- 調換班需求 -->
+        <div class="row" style="border:0px;margin: 0;">
+          <label class="col-md-2 col-xs-12 control-label P_textLeft">
+          </label>
+          <div class="col-md-10 col-xs-12">
+            <span>若有調換班需求，請至調換班相關功能申請。</span>
+          </div>
 
-      </div>
-      <!-- 調換班需求 -->
-      <!-- 返回，呈核按鈕 -->
-      <div class="P_smallpadding row" style="border:0px">
-        <div class="col-md-2 col-xs-12">
         </div>
-        <div class="col-md-10 col-xs-12">
-          <div class="featuresBlock">
-            <div class="btSend">
-              <button class="btn btn-primary" data-toggle="modal" (click)="checkError()"
-                [disabled]="checkCardFormDisable()">
-                <ng-container i18n>送出表單</ng-container>
-              </button>
-              <!-- 送出申請單 -->
-            </div>
-            <div class="btCancel">
-              <button class="btn btn-default" (click)="onpreviousForm()">
-                <ng-container i18n>返回修改</ng-container>
-              </button>
+        <!-- 調換班需求 -->
+        <!-- 返回，呈核按鈕 -->
+        <div class="P_smallpadding row" style="border:0px">
+          <div class="col-md-2 col-xs-12">
+          </div>
+          <div class="col-md-10 col-xs-12">
+            <div class="featuresBlock">
+              <div class="btSend">
+                <button class="btn btn-primary" data-toggle="modal" (click)="checkError()"
+                  [disabled]="checkCardFormDisable()">
+                  <ng-container i18n>送出表單</ng-container>
+                </button>
+                <!-- 送出申請單 -->
+              </div>
+              <div class="btCancel">
+                <button class="btn btn-default" (click)="onpreviousForm()">
+                  <ng-container i18n>返回修改</ng-container>
+                </button>
+              </div>
             </div>
           </div>
         </div>
+        <!-- 返回，呈核按鈕 -->
       </div>
-      <!-- 返回，呈核按鈕 -->
     </div>
     <!-- 正常、未刷卡-->
 

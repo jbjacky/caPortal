@@ -97,6 +97,8 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
   cR_EarlyMins = 1
   cR_LateMins = 1
 
+  cR_IsAbsent = 1
+
   checkdisable() {
 
     if (
@@ -301,6 +303,12 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
   disLateRadio(realRadio, uiRadio) {
     if (realRadio == uiRadio) {
       this.cR_LateMins = 0
+    }
+    this.clearFlowDynamic_Base()
+  }
+  disAbsentRadio(realRadio, uiRadio) {
+    if (realRadio == uiRadio) {
+      this.cR_IsAbsent = 0
     }
     this.clearFlowDynamic_Base()
   }

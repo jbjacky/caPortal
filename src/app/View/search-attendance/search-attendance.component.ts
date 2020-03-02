@@ -12,6 +12,8 @@ import { takeWhile } from 'rxjs/operators';
 import { GetAbsDetailByListEmpIDDataClass } from 'src/app/Models/GetAbsDetailByListEmpIDDataClass';
 import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { GetOtViewGetApiData } from 'src/app/Models/GetOtViewGetApiData';
+import { GetOtViewGetApi } from 'src/app/Models/PostData_API_Class/GetOtViewGetApi';
 
 @Component({
   selector: 'app-search-attendance',
@@ -28,6 +30,7 @@ export class SearchAttendanceComponent implements OnInit {
 
   @Input() searchAttendanceApiData;
 
+  ShowOt: GetOtViewGetApiData[] = []
   AttendanceApiData: Array<Attendance> = new Array<Attendance>();
   constructor(private GetApiDataServiceService: GetApiDataServiceService,
      private GetAttendInfoClass: GetAttendInfoClass,
@@ -166,6 +169,32 @@ export class SearchAttendanceComponent implements OnInit {
       this.Be_setGetRoteInfo$.next(searchRoteID)
       $('#RoteInf').modal('show')
     }
+  }
+
+  
+  otClick(YearMonthDday, EmpID) {
+    var GetOtViewGetApi: GetOtViewGetApi = {
+      "EmpList": [
+        EmpID
+      ],
+      "DateList": [
+        YearMonthDday
+      ]
+    }
+    this.LoadingPage.show()
+    this.GetApiDataServiceService.getWebApiData_GetOtView(GetOtViewGetApi)
+      .pipe(takeWhile(() => this.api_subscribe))
+      .subscribe(
+        (GetOtViewGetApiData: GetOtViewGetApiData[]) => {
+          this.ShowOt  = JSON.parse(JSON.stringify(GetOtViewGetApiData))
+          for(let ot of this.ShowOt){
+            ot.DateTimeB = formatDateTime(ot.DateTimeB).getDate+' '+getapi_formatTimetoString( formatDateTime(ot.DateTimeB).getTime )
+            ot.DateTimeE = formatDateTime(ot.DateTimeE).getDate+' '+getapi_formatTimetoString( formatDateTime(ot.DateTimeE).getTime )
+            ot.ApproveDate = formatDateTime(ot.ApproveDate).getDate+' '+getapi_formatTimetoString( formatDateTime(ot.ApproveDate).getTime )
+          }
+          this.LoadingPage.hide()
+          $('#OtDataDialog').modal('show')
+        })
   }
 
 }

@@ -237,11 +237,12 @@
               </div>
               <div>
                 <div class="tagBlue"
-                  *ngIf="!Attend.LateMins &&
+                  *ngIf="(!Attend.LateMins &&
                                             !Attend.EarlyMins &&
                                             !Attend.IsAbsent &&
                                             ( !Attend.OnBeforeMins || (Attend.OnBeforeMins && Attend.EliminateOnBefore) ) &&
-                                            ( !Attend.OffAfterMins || (Attend.OffAfterMins && Attend.EliminateOffAfter) )">
+                                            ( !Attend.OffAfterMins || (Attend.OffAfterMins && Attend.EliminateOffAfter) ))
+                                            && Attend.ActualRote_WorkHours > 0">
                   <ng-container i18n>正常</ng-container>
                 </div>
                 <div class="tagBlue" *ngIf="Attend.IsAbnormal">

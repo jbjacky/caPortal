@@ -20,6 +20,7 @@ export class AttendCard {
   RoteID: number;
   RoteCode: string;
   RoteNameC: string;
+  ActualRote_WorkHours: number
   ActualRote_OnDateTime: string
   ActualRote_OffDateTime: string
   ActualRote_OnTime: string
