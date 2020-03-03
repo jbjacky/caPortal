@@ -1915,7 +1915,7 @@ export class GetApiDataServiceService {
    * @todo 考勤修正單(合併)-儲存並起單
    */
   getWebApiData_SaveAndFlowStartCombine(SaveAndFlowStartCombine: SaveAndFlowStartCombineClass[]) {
-    return this.http.post(this.localUrl + 'Flow/AttendUnusualFlowHandler.svc/SaveAndFlowStartCombine',
+    return this.http.post(this.localUrl + 'Integration/FlowMainIntegrationHandler.svc/SaveAndFlowStartCombine',
       JSON.stringify(SaveAndFlowStartCombine), {
       headers: this.GetHeader()
     })

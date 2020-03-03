@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="row col-md-8 col-xs-10" style="margin: 0px;padding: 0">
-        <div class="col-md-9 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0">
+        <div  style="margin: 0px;color:#6f6f6f;padding: 0">
           <div class="row" style="margin: 0;padding-bottom: 5px;">
             <div class="col-md-4 col-xs-12" style="padding: 0">
               <!-- 643345 李大仁 --> {{oneAttendUnusualData.EmpID}} {{oneAttendUnusualData.EmpName}}<span
@@ -94,13 +94,13 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3 col-xs-12" style="padding: 0">
+        <!-- <div class="col-md-3 col-xs-12" style="padding: 0">
           <div class="P_height"></div>
           <div *ngIf="oneAttendUnusualData.ManageEmpName && oneAttendUnusualData.State=='1'">
             {{oneAttendUnusualData.ManageEmpName}}
             <ng-container i18n> 簽核中 </ng-container>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="row col-md-1 col-xs-2 P_ptop">
         <a style="cursor: pointer;text-decoration:underline" (click)="nextShowDetail(oneAttendUnusualData)">

@@ -215,7 +215,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //$('body').css("position", "unset");
     // $('body').css("overflow-y", "auto");
-    if (window.innerWidth > 1023) {
+    if (window.innerWidth > 1024) {
       // $('body').addClass("offcanvas-active");
       //civd2015-systemMain.js修正
     } else {
@@ -236,7 +236,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // }
   phone_bt_toggleactive() {
-    if (window.innerWidth > 800) {
+    if (window.innerWidth > 1024) {
 
     } else {
       this.bt_toggleactive()
@@ -250,7 +250,7 @@ export class NavComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     //左上角收合導覽列按鈕
-    if (window.innerWidth > 800) {
+    if (window.innerWidth > 1024) {
     } else {
       if (!$('body').hasClass("offcanvas-active")) {
         this.state = false;

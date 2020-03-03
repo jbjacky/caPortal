@@ -58,6 +58,9 @@ import { doFormatDate } from '../UseVoid/void_doFormatDate';
         <span style="cursor: pointer;" (click)="yearViewClicked()">{{yearLable}}</span>
          / 
          <span style="cursor: pointer;" (click)="monthViewClicked()">{{monthLable}}</span>
+         <button style="cursor: pointer;float:right;
+                    padding: 0px 5px;
+                    font-size: 13px;" (click)="setToday()"><ng-container i18n>今天</ng-container></button>
       </div>
       <button class="btClass" (click)="nextClicked('month')" >
         <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
@@ -112,5 +115,12 @@ export class ExampleHeader<Moment> implements OnDestroy {
     }
     monthViewClicked() {
         this.calendar.currentView = 'year';
+    }
+
+    setToday(){
+        var today = new Date()
+        this.calendar._goToDateInView(today,'month')
+        this.calendar._dateSelected(today)
+        this.calendar._userSelected()
     }
 }

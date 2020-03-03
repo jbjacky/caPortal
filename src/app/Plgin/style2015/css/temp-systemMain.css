@@ -203,7 +203,7 @@ body {
 
 
 
-@media (max-width: 800px){
+@media (max-width: 1024px){
   #wrapper{
     min-height: 100%;
   }
@@ -366,7 +366,7 @@ a.btn-log-out{
 
 
 
-@media (max-width: 800px){
+@media (max-width: 1024px){
   .logo-ci {
     display: none;
   }
@@ -469,7 +469,7 @@ a.btn-log-out{
 /*body*/.offcanvas-active.mini-main-nav  #user-profile{
   display: none;
 }
-@media (max-width: 800px){
+@media (max-width: 1024px){
   /*body*/.offcanvas-active.mini-main-nav  #user-profile{
     display: none;
   }
@@ -524,7 +524,7 @@ a.btn-log-out{
   border-radius: 3px;
   color:#313131;
 }
-@media (max-width: 800px){
+@media (max-width: 1024px){
   #nav-subfunctions-fromHeader{
     display: block;
   }

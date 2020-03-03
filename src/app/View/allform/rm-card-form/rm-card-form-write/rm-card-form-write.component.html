@@ -2,13 +2,13 @@
   <div class="a-block-body  a-block-container">
     <ol class="steps-indicator row">
       <li class="col-sm-3">
-        <ng-container i18n>選擇欲填寫之補卡單</ng-container>
+        <ng-container i18n>選擇欲填寫之簽認單</ng-container>
       </li>
       <li class="col-sm-3 active">
-        <ng-container i18n>填寫補卡單</ng-container>
+        <ng-container i18n>填寫簽認單</ng-container>
       </li>
       <li class="col-sm-3">
-        <ng-container i18n>送出申請單</ng-container>
+        <ng-container i18n>送出簽認單</ng-container>
       </li>
     </ol>
   </div>
@@ -269,7 +269,7 @@
                   <a *ngIf="cR_IsAbsent == 1" style="cursor:pointer" (click)="goWriteVaPage()">填寫請假單 ></a>
                 </div>
               </div>
-              <div class="row" style="margin:0">
+              <div class="row" style="margin:0;padding-top: 10px;">
                 <div class="col-md-5 col-xs-12" style="padding:0">
                   <input type="radio" name="cR_IsAbsent" [(ngModel)]="cR_IsAbsent" [value]='2'
                     (click)="disAbsentRadio(cR_IsAbsent,2)">我要填補卡單
@@ -421,6 +421,110 @@
     (this.getAttendCard.OffAfterMins && !this.getAttendCard.EliminateOffAfter)">
       <div class="row" style="margin:0">
         <div>
+          <!-- 遲到-->
+          <div *ngIf="getAttendCard.LateMins">
+            <div>
+              <h3>
+                <span *ngIf="getAttendCard.LateMins">遲到</span>
+                <span>修正</span>
+              </h3>
+            </div>
+            <div *ngIf="!LateCardPatch">
+              <div class="row" style="padding: 15px 0px;margin: 0px;">
+                <div class="col-md-2 col-xs-12">
+                  <div class="P_textLeft">
+                    <label>修正方式</label>
+                  </div>
+                </div>
+                <div class="col-md-10 col-xs-12">
+                  <div class="row" style="margin:0">
+                    <div class="col-md-5 col-xs-12" style="padding:0">
+                      <input type="radio" name="cR_LateMins" [(ngModel)]="cR_LateMins" [value]='1'
+                        (click)="disLateRadio(cR_LateMins,1)">我要填請假單
+                      <span *ngIf="cR_LateMins == 1" style="color: rgb(150, 149, 148);">(毋須填寫本異常單。)</span>
+                    </div>
+                    <div class="col-md-7 col-xs-12" style="padding:0">
+                      <a *ngIf="cR_LateMins == 1" style="cursor:pointer" (click)="goWriteVaPage()">填寫請假單 ></a>
+                    </div>
+                  </div>
+                  <div class="row" style="margin:0;padding-top: 10px;">
+                    <div class="col-md-5 col-xs-12" style="padding:0">
+                      <input type="radio" name="cR_LateMins" [(ngModel)]="cR_LateMins" [value]='2'
+                        (click)="disLateRadio(cR_LateMins,2)">我要填補卡單
+                    </div>
+                    <div *ngIf="cR_LateMins == 2" class="col-md-7 col-xs-12" style="padding:0">
+                      <div class="col-md-2 col-xs-0"></div>
+                      <div class="col-md-10 col-xs-12" style="text-align: right;">
+                        <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                        <span style="color: #d0021b;">({{showCardFlowData.length}})</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="cR_LateMins == 2">
+                <app-rm-card-form-temp (formChange)="LateMinsForm($event)" [getAttendCard]="getAttendCard"
+                  [UiTemp]="'LateMinsTemp'">
+                </app-rm-card-form-temp>
+              </div>
+            </div>
+            <div *ngIf="LateCardPatch">
+              補卡單已送出
+            </div>
+          </div>
+          <!-- 遲到-->
+          <!-- 早退-->
+          <div *ngIf="getAttendCard.EarlyMins">
+            <div>
+              <h3>
+                <span *ngIf="getAttendCard.EarlyMins">早退</span>
+                <span>修正</span>
+              </h3>
+            </div>
+            <div *ngIf="!EarlyCardPatch">
+              <div class="row" style="padding: 15px 0px;margin: 0px;">
+                <div class="col-md-2 col-xs-12">
+                  <div class="P_textLeft">
+                    <label>修正方式</label>
+                  </div>
+                </div>
+                <div class="col-md-10 col-xs-12">
+                  <div class="row" style="margin:0">
+                    <div class="col-md-5 col-xs-12" style="padding:0">
+                      <input type="radio" name="cR_EarlyMins" [(ngModel)]="cR_EarlyMins" [value]='1'
+                        (click)="disEarlyRadio(cR_EarlyMins,1)">我要填請假單
+                      <span *ngIf="cR_EarlyMins == 1" style="color: rgb(150, 149, 148);">(毋須填寫本異常單。)</span>
+                    </div>
+                    <div class="col-md-7 col-xs-12" style="padding:0">
+                      <a *ngIf="cR_EarlyMins == 1" style="cursor:pointer" (click)="goWriteVaPage()">填寫請假單 ></a>
+                    </div>
+                  </div>
+                  <div class="row" style="margin:0;padding-top: 10px;">
+                    <div class="col-md-5 col-xs-12" style="padding:0">
+                      <input type="radio" name="cR_EarlyMins" [(ngModel)]="cR_EarlyMins" [value]='2'
+                        (click)="disEarlyRadio(cR_EarlyMins,2)">我要填補卡單
+                    </div>
+                    <div *ngIf="cR_EarlyMins == 2" class="col-md-7 col-xs-12" style="padding:0">
+                      <div class="col-md-2 col-xs-0"></div>
+                      <div class="col-md-10 col-xs-12" style="text-align: right;">
+                        <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
+                        <span style="color: #d0021b;">({{showCardFlowData.length}})</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="cR_EarlyMins == 2">
+                <app-rm-card-form-temp (formChange)="EarlyMinsForm($event)" [getAttendCard]="getAttendCard"
+                  [UiTemp]="'EarlyMinsTemp'">
+                </app-rm-card-form-temp>
+              </div>
+            </div>
+            <div *ngIf="EarlyCardPatch">
+              補卡單已送出
+            </div>
+          </div>
+          <!-- 早退-->
           <!-- 早到-->
           <div *ngIf="
           (getAttendCard.OnBeforeMins && !getAttendCard.EliminateOnBefore)">
@@ -445,7 +549,7 @@
                       (click)="disOnBeforeRadio(cR_OnBeforeMins,1)">個人因素
                     <span *ngIf="cR_OnBeforeMins == 1" style="color: rgb(150, 149, 148);">(將自行核准，不會呈核。)</span>
                   </div>
-                  <div class="row" style="margin:0;">
+                  <div class="row" style="margin:0;padding-top: 10px;">
                     <div class="col-md-5 col-xs-12" style="padding:0">
                       <input type="radio" name="cR_OnBeforeMins" [(ngModel)]="cR_OnBeforeMins" [value]='2'
                         (click)="disOnBeforeRadio(cR_OnBeforeMins,2)">加班
@@ -455,7 +559,7 @@
                       <a *ngIf="cR_OnBeforeMins == 2" style="cursor:pointer" (click)="goOtPage()">前往加班單系統 ></a>
                     </div>
                   </div>
-                  <div class="row" style="margin:0">
+                  <div class="row" style="margin:0;padding-top: 10px;">
                     <div class="col-md-5 col-xs-12" style="padding:0">
                       <input type="radio" name="cR_OnBeforeMins" [(ngModel)]="cR_OnBeforeMins" [value]='3'
                         (click)="disOnBeforeRadio(cR_OnBeforeMins,3)">加班需補卡
@@ -504,7 +608,7 @@
                       (click)="disOffAfterRadio(cR_OffAfterMins,1)">個人因素
                     <span *ngIf="cR_OffAfterMins == 1" style="color: rgb(150, 149, 148);">(將自行核准，不會呈核。)</span>
                   </div>
-                  <div class="row" style="margin:0;">
+                  <div class="row" style="margin:0;padding-top: 10px;">
                     <div class="col-md-5 col-xs-12" style="padding:0">
                       <input type="radio" name="cR_OffAfterMins" [(ngModel)]="cR_OffAfterMins" [value]='2'
                         (click)="disOffAfterRadio(cR_OffAfterMins,2)">加班
@@ -514,7 +618,7 @@
                       <a *ngIf="cR_OffAfterMins == 2" style="cursor:pointer" (click)="goOtPage()">前往加班單系統 ></a>
                     </div>
                   </div>
-                  <div class="row" style="margin:0">
+                  <div class="row" style="margin:0;padding-top: 10px;">
                     <div class="col-md-5 col-xs-12" style="padding:0">
                       <input type="radio" name="cR_OffAfterMins" [(ngModel)]="cR_OffAfterMins" [value]='3'
                         (click)="disOffAfterRadio(cR_OffAfterMins,3)">加班需補卡
@@ -544,112 +648,6 @@
           </div>
           <!-- 晚退-->
 
-          <!-- 早退-->
-          <div *ngIf="getAttendCard.EarlyMins">
-            <div>
-              <h3>
-                <span *ngIf="getAttendCard.EarlyMins">早退</span>
-                <span>修正</span>
-              </h3>
-            </div>
-            <div *ngIf="!EarlyCardPatch">
-              <div class="row" style="padding: 15px 0px;margin: 0px;">
-                <div class="col-md-2 col-xs-12">
-                  <div class="P_textLeft">
-                    <label>修正方式</label>
-                  </div>
-                </div>
-                <div class="col-md-10 col-xs-12">
-                  <div class="row" style="margin:0">
-                    <div class="col-md-5 col-xs-12" style="padding:0">
-                      <input type="radio" name="cR_EarlyMins" [(ngModel)]="cR_EarlyMins" [value]='1'
-                        (click)="disEarlyRadio(cR_EarlyMins,1)">我要填請假單
-                      <span *ngIf="cR_EarlyMins == 1" style="color: rgb(150, 149, 148);">(毋須填寫本異常單。)</span>
-                    </div>
-                    <div class="col-md-7 col-xs-12" style="padding:0">
-                      <a *ngIf="cR_EarlyMins == 1" style="cursor:pointer" (click)="goWriteVaPage()">填寫請假單 ></a>
-                    </div>
-                  </div>
-                  <div>
-                  </div>
-                  <div class="row" style="margin:0">
-                    <div class="col-md-5 col-xs-12" style="padding:0">
-                      <input type="radio" name="cR_EarlyMins" [(ngModel)]="cR_EarlyMins" [value]='2'
-                        (click)="disEarlyRadio(cR_EarlyMins,2)">我要填補卡單
-                    </div>
-                    <div *ngIf="cR_EarlyMins == 2" class="col-md-7 col-xs-12" style="padding:0">
-                      <div class="col-md-2 col-xs-0"></div>
-                      <div class="col-md-10 col-xs-12" style="text-align: right;">
-                        <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
-                        <span style="color: #d0021b;">({{showCardFlowData.length}})</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div *ngIf="cR_EarlyMins == 2">
-                <app-rm-card-form-temp (formChange)="EarlyMinsForm($event)" [getAttendCard]="getAttendCard"
-                  [UiTemp]="'EarlyMinsTemp'">
-                </app-rm-card-form-temp>
-              </div>
-            </div>
-            <div *ngIf="EarlyCardPatch">
-              補卡單已送出
-            </div>
-          </div>
-          <!-- 早退-->
-          <!-- 遲到-->
-          <div *ngIf="getAttendCard.LateMins">
-            <div>
-              <h3>
-                <span *ngIf="getAttendCard.LateMins">遲到</span>
-                <span>修正</span>
-              </h3>
-            </div>
-            <div *ngIf="!LateCardPatch">
-              <div class="row" style="padding: 15px 0px;margin: 0px;">
-                <div class="col-md-2 col-xs-12">
-                  <div class="P_textLeft">
-                    <label>修正方式</label>
-                  </div>
-                </div>
-                <div class="col-md-10 col-xs-12">
-                  <div class="row" style="margin:0">
-                    <div class="col-md-5 col-xs-12" style="padding:0">
-                      <input type="radio" name="cR_LateMins" [(ngModel)]="cR_LateMins" [value]='1'
-                        (click)="disLateRadio(cR_LateMins,1)">我要填請假單
-                      <span *ngIf="cR_LateMins == 1" style="color: rgb(150, 149, 148);">(毋須填寫本異常單。)</span>
-                    </div>
-                    <div class="col-md-7 col-xs-12" style="padding:0">
-                      <a *ngIf="cR_LateMins == 1" style="cursor:pointer" (click)="goWriteVaPage()">填寫請假單 ></a>
-                    </div>
-                  </div>
-                  <div class="row" style="margin:0">
-                    <div class="col-md-5 col-xs-12" style="padding:0">
-                      <input type="radio" name="cR_LateMins" [(ngModel)]="cR_LateMins" [value]='2'
-                        (click)="disLateRadio(cR_LateMins,2)">我要填補卡單
-                    </div>
-                    <div *ngIf="cR_LateMins == 2" class="col-md-7 col-xs-12" style="padding:0">
-                      <div class="col-md-2 col-xs-0"></div>
-                      <div class="col-md-10 col-xs-12" style="text-align: right;">
-                        <a style="cursor:pointer" (click)="searchCardFormFlow()">查詢補卡單</a>
-                        <span style="color: #d0021b;">({{showCardFlowData.length}})</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div *ngIf="cR_LateMins == 2">
-                <app-rm-card-form-temp (formChange)="LateMinsForm($event)" [getAttendCard]="getAttendCard"
-                  [UiTemp]="'LateMinsTemp'">
-                </app-rm-card-form-temp>
-              </div>
-            </div>
-            <div *ngIf="LateCardPatch">
-              補卡單已送出
-            </div>
-          </div>
-          <!-- 遲到-->
           <!-- 簽核人員 -->
           <div *ngIf="cR_LateMins == 2 || cR_EarlyMins == 2 || cR_OnBeforeMins == 3  || cR_OffAfterMins == 3"
             class="row" class="row" style="border:0px;padding: 20px 0px;margin: 0;">
@@ -1123,20 +1121,18 @@
                     <ng-container i18n>早到</ng-container>
                   </span>
                 </div>
-                <div class="col-md-12 col-xs-12" style="margin: 0px;color:#6f6f6f;padding: 0">
-                  <div class="row" style="margin: 0;">
-                    <div *ngIf="!oneCardFlow.ApproveDate" class="col-md-6 col-xs-12" style="padding: 0">
+                <div style="margin: 0px;color:#6f6f6f;padding: 0">
+                    <div *ngIf="!oneCardFlow.ApproveDate"  style="padding: 0">
                       <span style="color: #969696">
                         <ng-container i18n>批核</ng-container>：
                       </span>
                       <ng-container i18n>尚未批核</ng-container>
                     </div>
-                    <div *ngIf="oneCardFlow.ApproveDate" class="col-md-6 col-xs-12" style="padding: 0">
+                    <div *ngIf="oneCardFlow.ApproveDate"  style="padding: 0">
                       <span style="color: #969696">
                         <ng-container i18n>批核</ng-container>：
                       </span>
                       {{oneCardFlow.ApproveDate}}
-                    </div>
                   </div>
                 </div>
               </div>

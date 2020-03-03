@@ -60,17 +60,44 @@
             </div>
           </div>
           <div class="row" style="margin: 0;padding-bottom: 5px;">
-            <div class="col-md-4 col-xs-12" style="padding: 0">
-              <span style="color: #969696">
-                <ng-container i18n>日期</ng-container>：
-              </span>
-              <!--2019/01/18-->{{oneforgetData.Date}}
-            </div>
-            <div class="col-md-4 col-xs-12" style="padding: 0">
-              <span style="color: #969696">
-                <ng-container i18n>班型</ng-container>：
-              </span>
-              <!--040A_02-->{{oneforgetData.RoteNameC}}
+            <div class="col-md-8 col-xs-12" style="padding: 0;">
+              <div class="row" style="margin: 0;padding-bottom: 5px;">
+                <div class="col-md-6 col-xs-12" style="padding: 0">
+                  <span style="color: #969696">
+                    <ng-container i18n>日期</ng-container>：
+                  </span>
+                  <!--2019/01/18-->{{oneforgetData.Date}}
+                </div>
+                <div class="col-md-6 col-xs-12" style="padding: 0">
+                  <span style="color: #969696">
+                    <ng-container i18n>班型</ng-container>：
+                  </span>
+                  <!--040A_02-->{{oneforgetData.RoteNameC}}
+                </div>
+              </div>
+              <div>
+                <span style="color: #969696">
+                  <ng-container i18n>消除異常狀態</ng-container>：
+                </span>
+                <span *ngIf="oneforgetData.isEarlyMins" style="margin-right:5px;display: inline-block;">
+                  <ng-container i18n>早退</ng-container>
+                </span>
+                <span *ngIf="oneforgetData.isLateMins" style="margin-right:5px;display: inline-block;">
+                  <ng-container i18n>遲到</ng-container>
+                </span>
+                <span *ngIf="oneforgetData.isForgetCard" style="margin-right:5px;display: inline-block;">
+                  <ng-container i18n>未刷卡</ng-container>
+                </span>
+                <span *ngIf="oneforgetData.isNormal" style="margin-right:5px;display: inline-block;">
+                  <ng-container i18n>正常</ng-container>
+                </span>
+                <span *ngIf="oneforgetData.isOnBeforeMins" style="margin-right:5px;display: inline-block;">
+                  <ng-container i18n>早到</ng-container>
+                </span>
+                <span *ngIf="oneforgetData.isOffAfterMins" style="margin-right:5px;display: inline-block;">
+                  <ng-container i18n>晚退</ng-container>
+                </span>
+              </div>
             </div>
             <div class="col-md-4 col-xs-12" style="padding: 0">
               <span style="color: #969696">
@@ -95,32 +122,9 @@
                 <ng-container i18n>晚退</ng-container>
               </span>
             </div>
-            <div class="col-md-4 col-xs-12" style="padding: 0;padding-top: 5px;">
-              <span style="color: #969696">
-                <ng-container i18n>消除異常狀態</ng-container>：
-              </span>
-              <span *ngIf="oneforgetData.isEarlyMins" style="margin-right:5px;display: inline-block;">
-                <ng-container i18n>早退</ng-container>
-              </span>
-              <span *ngIf="oneforgetData.isLateMins" style="margin-right:5px;display: inline-block;">
-                <ng-container i18n>遲到</ng-container>
-              </span>
-              <span *ngIf="oneforgetData.isForgetCard" style="margin-right:5px;display: inline-block;">
-                <ng-container i18n>未刷卡</ng-container>
-              </span>
-              <span *ngIf="oneforgetData.isNormal" style="margin-right:5px;display: inline-block;">
-                <ng-container i18n>正常</ng-container>
-              </span>
-              <span *ngIf="oneforgetData.isOnBeforeMins" style="margin-right:5px;display: inline-block;">
-                <ng-container i18n>早到</ng-container>
-              </span>
-              <span *ngIf="oneforgetData.isOffAfterMins" style="margin-right:5px;display: inline-block;">
-                <ng-container i18n>晚退</ng-container>
-              </span>
-            </div>
           </div>
         </div>
-        <div class="col-md-3 col-xs-12" style="padding: 0">
+        <div class="col-md-2 col-xs-12" style="margin:0;padding: 0">
           <div class="P_height"></div>
           <div *ngIf="oneforgetData.ManageEmpName && oneforgetData.State=='1'">
             {{oneforgetData.ManageEmpName}}
@@ -128,7 +132,7 @@
           </div>
         </div>
       </div>
-      <div class="row col-md-1 col-xs-2 P_ptop">
+      <div class="col-md-1 col-xs-2 P_ptop">
         <a style="cursor: pointer;text-decoration:underline" (click)="nextShowDetail(oneforgetData)">
           <img src="./assets/images-template/icon-arrow.png" style=" transform:rotate(-90deg);" />
         </a>

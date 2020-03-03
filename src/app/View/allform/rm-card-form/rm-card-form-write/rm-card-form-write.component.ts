@@ -162,7 +162,11 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
         return true
       }
       if (this.cR_OnBeforeMins != 3 && this.cR_OffAfterMins != 3) {
-        return true
+        if(this.cR_OnBeforeMins == 1 || this.cR_OffAfterMins == 1){
+          return false
+        }else{
+          return true
+        }
       }
       if (this.cR_OnBeforeMins == 3 && this.cR_OffAfterMins != 3) {
         if (!this.OnBeforeMinsF) {
@@ -411,7 +415,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
           "State": "1"
         },
         "FlowDynamic": {
-          "FlowNode": "519",
+          "FlowNode": "",
           "RoleID": "",
           "EmpID": this.FlowDynamic_Base.EmpID,
           "DeptID": this.FlowDynamic_Base.DeptaID.toString(),
@@ -561,56 +565,20 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
         rmCardTempFormState: this.LateMinsF
       })
     }
-    var uiAttendUnusualFlowApp: AttendUnusualFlowApp = {
-      "FlowApps": [
-        {
-          "EmpID": this.getAttendCard.forget_man_code.toString(),
-          "EmpCode": this.getAttendCard.forget_man_code.toString(),
-          "EmpNameC": this.getAttendCard.forget_man_name,
-          "Date": this.getAttendCard.AttendDate,
-          "RoteDateTimeB": this.getAttendCard.ActualRote_OnDateTime ? this.getAttendCard.ActualRote_OnDateTime : '',
-          "RoteDateTimeE": this.getAttendCard.ActualRote_OffDateTime ? this.getAttendCard.ActualRote_OffDateTime : '',
-          "CardDateTimeB": this.getAttendCard.AttendCard_OnDateTime ? this.getAttendCard.AttendCard_OnDateTime : '',
-          "CardDateTimeE": this.getAttendCard.AttendCard_OffDateTime ? this.getAttendCard.AttendCard_OffDateTime : '',
-          "EliminateLate": false,
-          "EliminateEarly": false,
-          "EliminateAbsent": false,
-          "EliminateOnBefore": false,
-          "EliminateOffAfter": false,
-          "CauseID": 0,
-          "CauseName": "個人因素",
-          "Note": "",
-          "Info": "",
-          "MailBody": "",
-          "State": "1",
-          "UploadFile": [],
-          "ExceptionalCode": this.getExceptional().ExceptionalCode,
-          "ExceptionalName": this.getExceptional().ExceptionalName, //有異常但沒註記
-          "ExceptionalCodeCancel": this.getExceptional().ExceptionalCodeCancel,
-          "ExceptionalNameCancel": this.getExceptional().ExceptionalNameCancel, //有異常且已經註記
-          "RoteID": this.getAttendCard.RoteID,
-          "RoteNameC": this.getAttendCard.RoteNameC,
-          "ErrorStateCode": "",
-          "ErrorStateName": ""
-        }
-      ],
-      "EmpID": this.getAttendCard.write_man_code,
-      "EmpCode": this.getAttendCard.write_man_code,
-      "EmpNameC": this.getAttendCard.write_man_name,
-      "State": "3"
-    }
+    var uiAttendUnusualFlowAppOnBefore: AttendUnusualFlowApp = this.getUiAttendUnusualFlowApp()
+    var uiAttendUnusualFlowAppOffAfterMins: AttendUnusualFlowApp = this.getUiAttendUnusualFlowApp()
     var AttendUnusualFlowApp: AttendUnusualFlowApp[] = []
     if ((this.getAttendCard.OnBeforeMins && !this.getAttendCard.EliminateOnBefore) && this.cR_OnBeforeMins == 1) {
-      uiAttendUnusualFlowApp.FlowApps[0].ErrorStateCode = "4"
-      uiAttendUnusualFlowApp.FlowApps[0].ErrorStateName = "早到"
-      uiAttendUnusualFlowApp.FlowApps[0].EliminateOnBefore = true
-      AttendUnusualFlowApp.push(uiAttendUnusualFlowApp)
+      uiAttendUnusualFlowAppOnBefore.FlowApps[0].ErrorStateCode = "4"
+      uiAttendUnusualFlowAppOnBefore.FlowApps[0].ErrorStateName = "早到"
+      uiAttendUnusualFlowAppOnBefore.FlowApps[0].EliminateOnBefore = true
+      AttendUnusualFlowApp.push(JSON.parse(JSON.stringify(uiAttendUnusualFlowAppOnBefore)))
     }
     if ((this.getAttendCard.OffAfterMins && !this.getAttendCard.EliminateOffAfter) && this.cR_OffAfterMins == 1) {
-      uiAttendUnusualFlowApp.FlowApps[0].ErrorStateCode = "5"
-      uiAttendUnusualFlowApp.FlowApps[0].ErrorStateName = "晚退"
-      uiAttendUnusualFlowApp.FlowApps[0].EliminateOffAfter = true
-      AttendUnusualFlowApp.push(uiAttendUnusualFlowApp)
+      uiAttendUnusualFlowAppOffAfterMins.FlowApps[0].ErrorStateCode = "5"
+      uiAttendUnusualFlowAppOffAfterMins.FlowApps[0].ErrorStateName = "晚退"
+      uiAttendUnusualFlowAppOffAfterMins.FlowApps[0].EliminateOffAfter = true
+      AttendUnusualFlowApp.push(JSON.parse(JSON.stringify(uiAttendUnusualFlowAppOffAfterMins)))
     }
 
 
@@ -629,7 +597,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
           "AttendUnusualFlowApp": A,
           "CardFlowApp": null,
           "FlowDynamic": {
-            "FlowNode": "519",
+            "FlowNode": "",
             "RoleID": "",
             "EmpID": FlowDynamic_Base_EmpID,
             "DeptID": FlowDynamic_Base_DeptaID,
@@ -711,7 +679,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
             "State": "1"
           },
           "FlowDynamic": {
-            "FlowNode": "519",
+            "FlowNode": "",
             "RoleID": "",
             "EmpID": FlowDynamic_Base_EmpID,
             "DeptID": FlowDynamic_Base_DeptaID,
@@ -782,6 +750,47 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
 
 
   UploadFile: uploadFileClass[] = []
+  private getUiAttendUnusualFlowApp(): AttendUnusualFlowApp {
+    return {
+      "FlowApps": [
+        {
+          "EmpID": this.getAttendCard.forget_man_code.toString(),
+          "EmpCode": this.getAttendCard.forget_man_code.toString(),
+          "EmpNameC": this.getAttendCard.forget_man_name,
+          "Date": this.getAttendCard.AttendDate,
+          "RoteDateTimeB": this.getAttendCard.ActualRote_OnDateTime ? this.getAttendCard.ActualRote_OnDateTime : '',
+          "RoteDateTimeE": this.getAttendCard.ActualRote_OffDateTime ? this.getAttendCard.ActualRote_OffDateTime : '',
+          "CardDateTimeB": this.getAttendCard.AttendCard_OnDateTime ? this.getAttendCard.AttendCard_OnDateTime : '',
+          "CardDateTimeE": this.getAttendCard.AttendCard_OffDateTime ? this.getAttendCard.AttendCard_OffDateTime : '',
+          "EliminateLate": false,
+          "EliminateEarly": false,
+          "EliminateAbsent": false,
+          "EliminateOnBefore": false,
+          "EliminateOffAfter": false,
+          "CauseID": 0,
+          "CauseName": "個人因素",
+          "Note": "",
+          "Info": "",
+          "MailBody": "",
+          "State": "1",
+          "UploadFile": [],
+          "ExceptionalCode": this.getExceptional().ExceptionalCode,
+          "ExceptionalName": this.getExceptional().ExceptionalName,
+          "ExceptionalCodeCancel": this.getExceptional().ExceptionalCodeCancel,
+          "ExceptionalNameCancel": this.getExceptional().ExceptionalNameCancel,
+          "RoteID": this.getAttendCard.RoteID,
+          "RoteNameC": this.getAttendCard.RoteNameC,
+          "ErrorStateCode": "",
+          "ErrorStateName": ""
+        }
+      ],
+      "EmpID": this.getAttendCard.write_man_code,
+      "EmpCode": this.getAttendCard.write_man_code,
+      "EmpNameC": this.getAttendCard.write_man_name,
+      "State": "3"
+    };
+  }
+
   onSaveFile(event) {
     this.UploadFile = event
     // console.log(this.UploadFile)
@@ -924,6 +933,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
           this.showCardFlowData = JSON.parse(JSON.stringify(GetCardFlowAppsGetApiData))
           for (let c of this.showCardFlowData) {
             c.ProcessID  = void_completionTenNum(c.ProcessID)
+            c.ApproveDate = formatDateTime(c.ApproveDate).getDate+' '+ formatDateTime(c.ApproveDate).getTime 
             if (c.DateTimeB) {
               c.DateTimeB = formatDateTime(c.DateTimeB).getDate + ' ' + getapi_formatTimetoString(formatDateTime(c.DateTimeB).getTime)
             }

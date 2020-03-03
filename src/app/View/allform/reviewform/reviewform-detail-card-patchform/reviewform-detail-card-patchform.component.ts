@@ -458,7 +458,9 @@ export class ReviewformDetailCardPatchformComponent implements OnInit, OnDestroy
 
   color_CardOnTime() {
 
-    if (this.ReviewformServiceService.CardPatchFlowSignDetail.isLateMins || this.ReviewformServiceService.CardPatchFlowSignDetail.isForgetCard) {
+    if (this.ReviewformServiceService.CardPatchFlowSignDetail.isLateMins 
+      || this.ReviewformServiceService.CardPatchFlowSignDetail.isOnBeforeMins
+      || this.ReviewformServiceService.CardPatchFlowSignDetail.isForgetCard) {
       return '#d0021b'
     } else {
       return '#4c4c4c'
@@ -466,7 +468,9 @@ export class ReviewformDetailCardPatchformComponent implements OnInit, OnDestroy
   }
   color_CardOffTime() {
 
-    if (this.ReviewformServiceService.CardPatchFlowSignDetail.isEarlyMins || this.ReviewformServiceService.CardPatchFlowSignDetail.isForgetCard) {
+    if (this.ReviewformServiceService.CardPatchFlowSignDetail.isEarlyMins 
+      || this.ReviewformServiceService.CardPatchFlowSignDetail.isOffAfterMins
+      || this.ReviewformServiceService.CardPatchFlowSignDetail.isForgetCard) {
       return '#d0021b'
     } else {
       return '#4c4c4c'
