@@ -24,6 +24,25 @@
         <div class="col-md-6 col-xs-12">
           <div class="col-md-3 col-xs-4 textRight">
             <label>
+              <ng-container i18n>表單類型</ng-container>
+            </label>
+          </div>
+          <div class="col-md-9 col-xs-8">
+            <label *ngIf="getOtType == '1'">
+              預估加班單
+            </label>
+            <label *ngIf="getOtType == '2'">
+              實際加班單
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-xs-12">
+          <div class="col-md-3 col-xs-4 textRight">
+            <label>
               <ng-container i18n>員工</ng-container>
             </label>
           </div>
@@ -234,7 +253,7 @@
           </div>
         </div>
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='["../../home"]'>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" [routerLink]='["../../OtformComponent"]'>
             <ng-container i18n>確定</ng-container>
           </button>
         </div>

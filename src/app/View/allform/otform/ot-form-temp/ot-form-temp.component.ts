@@ -140,7 +140,7 @@ export class OtFormTempComponent implements OnInit, AfterViewInit, OnDestroy {
       DeptsID: ['', Validators.required],
       DeptsName: '',
       Note: '',
-      FileUpload: '',
+      FileUpload: null,
       OtAmount: null,
       UiEdit: false
     }

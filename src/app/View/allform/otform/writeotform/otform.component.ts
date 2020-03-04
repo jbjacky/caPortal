@@ -377,7 +377,7 @@ export class otFormClass {
   DeptsID: any
   DeptsName: any
   Note: any
-  FileUpload: any
+  FileUpload: uploadFileClass[]
   OtAmount: any
   UiEdit: boolean
 }

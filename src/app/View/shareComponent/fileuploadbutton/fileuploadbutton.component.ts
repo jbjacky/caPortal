@@ -89,6 +89,11 @@ export class FileuploadbuttonComponent implements OnInit, OnDestroy {
   deleteOneFile(i) {
     this.getApiFileData.splice(i, 1)
     this.errorState = { state: false, errorString: '' }
+    if(this.getApiFileData){
+      if(this.getApiFileData.length == 0){
+        this.getApiFileData  = null
+      }
+    }
     this.fileChange.emit(this.getApiFileData);
   }
 

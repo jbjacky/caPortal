@@ -91,6 +91,7 @@ import { CardPatchSaveAndFlowStartClass } from '../Models/PostData_API_Class/Car
 import { GetOtCalculateGetApiClass } from '../Models/PostData_API_Class/GetOtCalculateGetApiClass';
 import { OTCheckListGetApiClass } from '../Models/PostData_API_Class/OTCheckListGetApiClass';
 import { OtSaveGetApiClass } from '../Models/PostData_API_Class/OtSaveGetApiClass';
+import { OTSaveAndFlowStartGetApiClass } from '../Models/PostData_API_Class/OTSaveAndFlowStartGetApiClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -1969,6 +1970,26 @@ export class GetApiDataServiceService {
   getWebApiData_OtEstimateSave(OtSaveGetApi:OtSaveGetApiClass[]){
     return this.http.post(this.localUrl  + 'OTHandler/Ot1ListSave',
     JSON.stringify(OtSaveGetApi), {
+      headers: this.GetHeader()
+    })
+  }
+
+  /**
+   * @todo 儲存並起單加班單(SaveAndFlowStart)
+   */
+  getWebApiData_OTSaveAndFlowStart(OTSaveAndFlowStartGetApi:OTSaveAndFlowStartGetApiClass){
+    return this.http.post(this.localUrl  + 'OtIntegrationHandler/OTSaveAndFlowStart',
+    JSON.stringify(OTSaveAndFlowStartGetApi), {
+      headers: this.GetHeader()
+    })
+  }
+
+  /**
+   * @todo 儲存並起單預估加班單(SaveAndFlowStart)
+   */
+  getWebApiData_OTEstimateSaveAndFlowStart(OTSaveAndFlowStartGetApi:OTSaveAndFlowStartGetApiClass){
+    return this.http.post(this.localUrl  + 'OtIntegrationHandler/OT1SaveAndFlowStart',
+    JSON.stringify(OTSaveAndFlowStartGetApi), {
       headers: this.GetHeader()
     })
   }

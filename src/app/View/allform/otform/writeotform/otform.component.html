@@ -260,5 +260,8 @@
 
 <div *ngIf="!WriteformPage">
   <app-otformdetail (counterChange)="onCounterChange()" 
-  [getOtFormArray] = "otFormArray" [getEmpInfo]="EmpInfo"></app-otformdetail>
+                    [getOtFormArray] = "otFormArray" 
+                    [getEmpInfo]="EmpInfo"
+                    [getOtType]="OtType">
+  </app-otformdetail>
 </div>
