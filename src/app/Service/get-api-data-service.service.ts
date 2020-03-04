@@ -92,6 +92,7 @@ import { GetOtCalculateGetApiClass } from '../Models/PostData_API_Class/GetOtCal
 import { OTCheckListGetApiClass } from '../Models/PostData_API_Class/OTCheckListGetApiClass';
 import { OtSaveGetApiClass } from '../Models/PostData_API_Class/OtSaveGetApiClass';
 import { OTSaveAndFlowStartGetApiClass } from '../Models/PostData_API_Class/OTSaveAndFlowStartGetApiClass';
+import { MidifyPassWordGetApiClass } from '../Models/PostData_API_Class/MidifyPassWordGetApiClass';
 
 // import settingJson from '../../assets/setting.json';
 
@@ -1990,6 +1991,16 @@ export class GetApiDataServiceService {
   getWebApiData_OTEstimateSaveAndFlowStart(OTSaveAndFlowStartGetApi:OTSaveAndFlowStartGetApiClass){
     return this.http.post(this.localUrl  + 'OtIntegrationHandler/OT1SaveAndFlowStart',
     JSON.stringify(OTSaveAndFlowStartGetApi), {
+      headers: this.GetHeader()
+    })
+  }
+
+  /**
+   * @todo 修改密碼
+   */
+  getWebApiData_MidifyPassWord(MidifyPassWordGetApi:MidifyPassWordGetApiClass){
+    return this.http.post(this.localUrl  + 'BaseHandler/MidifyPassWord',
+    JSON.stringify(MidifyPassWordGetApi), {
       headers: this.GetHeader()
     })
   }

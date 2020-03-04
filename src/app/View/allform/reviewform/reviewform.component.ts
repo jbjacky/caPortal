@@ -802,11 +802,11 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.ReviewformServiceService.CardPatch_pagechange = JSON.parse(JSON.stringify(this.CardPatch_pagechange))
   }
-  checkCardPatch_Approved(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
+  checkCardPatch_Approved(e_forgetFlowSign: CardPatchFlowSign, ReloadTabData) {
     this.CardPatchDetail_click(e_forgetFlowSign, ReloadTabData)
     $('#Approveddialog').modal('show')
   }
-  checkCardPatch_PutForward(e_forgetFlowSign: forgetFlowSign, ReloadTabData) {
+  checkCardPatch_PutForward(e_forgetFlowSign: CardPatchFlowSign, ReloadTabData) {
     this.CardPatchDetail_click(e_forgetFlowSign, ReloadTabData)
     $('#PutForwarddialog').modal('show')
   }
