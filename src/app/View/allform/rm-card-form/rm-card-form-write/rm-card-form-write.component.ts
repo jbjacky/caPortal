@@ -933,7 +933,11 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
           this.showCardFlowData = JSON.parse(JSON.stringify(GetCardFlowAppsGetApiData))
           for (let c of this.showCardFlowData) {
             c.ProcessID  = void_completionTenNum(c.ProcessID)
-            c.ApproveDate = formatDateTime(c.ApproveDate).getDate+' '+ formatDateTime(c.ApproveDate).getTime 
+            if(formatDateTime(c.ApproveDate).getDate && formatDateTime(c.ApproveDate).getTime){
+              c.ApproveDate = formatDateTime(c.ApproveDate).getDate+' '+ getapi_formatTimetoString(formatDateTime(c.ApproveDate).getTime) 
+            }else{
+              c.ApproveDate = null
+            } 
             if (c.DateTimeB) {
               c.DateTimeB = formatDateTime(c.DateTimeB).getDate + ' ' + getapi_formatTimetoString(formatDateTime(c.DateTimeB).getTime)
             }

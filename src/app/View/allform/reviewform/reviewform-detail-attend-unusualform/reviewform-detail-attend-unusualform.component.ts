@@ -456,7 +456,7 @@ export class ReviewformDetailAttendUnusualformComponent implements OnInit, OnDes
 
   color_CardOnTime() {
 
-    if (this.ReviewformServiceService.AttendUnusualDetail.EliminateLate || this.ReviewformServiceService.AttendUnusualDetail.EliminateAbsent) {
+    if (this.ReviewformServiceService.AttendUnusualDetail.EliminateLate || this.ReviewformServiceService.AttendUnusualDetail.EliminateAbsent || this.ReviewformServiceService.AttendUnusualDetail.EliminateOnBefore) {
       return '#d0021b'
     } else {
       return '#4c4c4c'
@@ -464,7 +464,7 @@ export class ReviewformDetailAttendUnusualformComponent implements OnInit, OnDes
   }
   color_CardOffTime() {
 
-    if (this.ReviewformServiceService.AttendUnusualDetail.EliminateEarly || this.ReviewformServiceService.AttendUnusualDetail.EliminateAbsent) {
+    if (this.ReviewformServiceService.AttendUnusualDetail.EliminateEarly || this.ReviewformServiceService.AttendUnusualDetail.EliminateAbsent || this.ReviewformServiceService.AttendUnusualDetail.EliminateOffAfter) {
       return '#d0021b'
     } else {
       return '#4c4c4c'

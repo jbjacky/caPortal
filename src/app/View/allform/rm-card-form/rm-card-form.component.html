@@ -185,26 +185,6 @@
               <span style="color: #028fcf">{{Attend.AttendDate}}</span>
             </div>
             <div class="col-md-6  col-xs-6">
-              <div *ngIf="Attend.LateMins">
-                <div *ngIf="Attend.EliminateLate;else nonEliminateLate" class="tagBlueLineThrough">
-                  <ng-container i18n>遲到</ng-container>
-                </div>
-                <ng-template #nonEliminateLate>
-                  <div class="tag_red">
-                    <ng-container i18n>遲到</ng-container>
-                  </div>
-                </ng-template>
-              </div>
-              <div *ngIf="Attend.EarlyMins">
-                <div *ngIf="Attend.EliminateEarly;else nonEliminateEarly" class="tagBlueLineThrough">
-                  <ng-container i18n>早退</ng-container>
-                </div>
-                <ng-template #nonEliminateEarly>
-                  <div class="tag_red">
-                    <ng-container i18n>早退</ng-container>
-                  </div>
-                </ng-template>
-              </div>
               <div *ngIf="Attend.IsAbsent">
                 <div *ngIf="Attend.EliminateAbsent;else nonEliminateAbsent" class="tagBlueLineThrough">
                   <ng-container i18n>未刷卡</ng-container>
@@ -215,6 +195,16 @@
                   </div>
                 </ng-template>
               </div>
+              <div *ngIf="Attend.LateMins">
+                <div *ngIf="Attend.EliminateLate;else nonEliminateLate" class="tagBlueLineThrough">
+                  <ng-container i18n>遲到</ng-container>
+                </div>
+                <ng-template #nonEliminateLate>
+                  <div class="tag_red">
+                    <ng-container i18n>遲到</ng-container>
+                  </div>
+                </ng-template>
+              </div>
               <div *ngIf="Attend.OnBeforeMins">
                 <div *ngIf="Attend.EliminateOnBefore;else nonEliminateOnBefore" class="tagBlueLineThrough">
                   <ng-container i18n>早到</ng-container>
@@ -222,6 +212,16 @@
                 <ng-template #nonEliminateOnBefore>
                   <div class="tag_red">
                     <ng-container i18n>早到</ng-container>
+                  </div>
+                </ng-template>
+              </div>
+              <div *ngIf="Attend.EarlyMins">
+                <div *ngIf="Attend.EliminateEarly;else nonEliminateEarly" class="tagBlueLineThrough">
+                  <ng-container i18n>早退</ng-container>
+                </div>
+                <ng-template #nonEliminateEarly>
+                  <div class="tag_red">
+                    <ng-container i18n>早退</ng-container>
                   </div>
                 </ng-template>
               </div>
@@ -240,8 +240,8 @@
                   *ngIf="(!Attend.LateMins &&
                                             !Attend.EarlyMins &&
                                             !Attend.IsAbsent &&
-                                            ( !Attend.OnBeforeMins || (Attend.OnBeforeMins && Attend.EliminateOnBefore) ) &&
-                                            ( !Attend.OffAfterMins || (Attend.OffAfterMins && Attend.EliminateOffAfter) ))
+                                            ( !Attend.OnBeforeMins) &&
+                                            ( !Attend.OffAfterMins))
                                             && Attend.ActualRote_WorkHours > 0">
                   <ng-container i18n>正常</ng-container>
                 </div>

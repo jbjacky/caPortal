@@ -65,5 +65,6 @@ export class DetailNewVaSearchFlowSignClass {
   key: string
   OldKey: string
   ListHoliDayNameC:  Array<any>;
+  DeleteState: string;
 }
 

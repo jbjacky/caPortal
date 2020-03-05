@@ -185,7 +185,7 @@ export class SearchAttendUnusualFormDetailComponent implements OnInit, OnDestroy
 
   color_CardOnTime() {
 
-    if (this.getAttendUnusualDataTitle.EliminateLate || this.getAttendUnusualDataTitle.EliminateAbsent) {
+    if (this.getAttendUnusualDataTitle.EliminateLate || this.getAttendUnusualDataTitle.EliminateAbsent || this.getAttendUnusualDataTitle.EliminateOnBefore) {
       return '#d0021b'
     } else {
       return '#4c4c4c'
@@ -193,7 +193,7 @@ export class SearchAttendUnusualFormDetailComponent implements OnInit, OnDestroy
   }
   color_CardOffTime() {
 
-    if (this.getAttendUnusualDataTitle.EliminateEarly || this.getAttendUnusualDataTitle.EliminateAbsent) {
+    if (this.getAttendUnusualDataTitle.EliminateEarly || this.getAttendUnusualDataTitle.EliminateAbsent || this.getAttendUnusualDataTitle.EliminateOffAfter) {
       return '#d0021b'
     } else {
       return '#4c4c4c'

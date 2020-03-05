@@ -32,5 +32,6 @@ export interface GetFlowViewAbsGetApiDataClass {
     Handle:            boolean;
     TransSign:         boolean;
     ListHoliDayNameC:  Array<string>;
+    DeleteState:       string;
 }
 

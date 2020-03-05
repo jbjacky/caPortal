@@ -903,7 +903,7 @@
                 <div class="col-md-7" style="text-align: center;border-right: 1px solid #c9c9c9;">
                   <ng-container i18n>申請時段</ng-container>
                 </div>
-                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">異常狀態</div>
+                <div class="col-md-3" style="text-align: center;border-right: 1px solid #c9c9c9;">考勤狀態</div>
               </div>
               <div class="col-md-2 col-xs-12" style="margin: 0;padding: 0;text-align: center;">
                 <ng-container i18n>明細</ng-container>
@@ -933,13 +933,13 @@
                           (<ng-container i18n>代</ng-container>)
                         </span>
                       </div>
-                      <div>
+                      <div style="display:inline-block;margin-right:10px">
                         <!-- 2019年-1/02 -->
                         <span style="font-weight: bold;color: #969696">
-                          <ng-container i18n>異常日期</ng-container>：
+                          <ng-container i18n>補卡日期</ng-container>：
                         </span> {{CardPatchSign.Date}}
                       </div>
-                      <div>
+                      <div style="display:inline-block">
                         <span style="font-weight: bold;color: #969696">
                           <ng-container i18n>班型</ng-container>：
                         </span>
@@ -947,65 +947,65 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-3 col-xs-12">
+                  <div class="col-md-3 col-xs-12 uiProssID">
                     <div *ngIf="CardPatchSign.ExceptionalName">
                       <div *ngIf="CardPatchSign.ExceptionalName.length > 0">
-                        <span class="P_displayShow"
+                        <!-- <span class="P_displayShow"
                           style="font-weight: bold;color: #969696">
-                          <ng-container i18n>異常狀態</ng-container>：
-                        </span>
+                          <ng-container i18n>考勤狀態</ng-container>：
+                        </span> -->
                         <span class="D_displayShow"
                           style="font-weight: bold;color: #969696">
-                          <ng-container i18n>異常狀態</ng-container>：
+                          <ng-container i18n>考勤狀態</ng-container>：
                         </span>
-                        <div *ngIf="CardPatchSign.isLateMinsOld" style="margin-right:  5px;display: inline-block;">
+                        <div *ngIf="CardPatchSign.isLateMinsOld" class="tag_red">
                           <ng-container i18n>遲到</ng-container>
                         </div>
-                        <div *ngIf="CardPatchSign.isEarlyMinsOld" style="margin-right:  5px;display: inline-block;">
+                        <div *ngIf="CardPatchSign.isEarlyMinsOld" class="tag_red">
                           <ng-container i18n>早退</ng-container>
                         </div>
-                        <div *ngIf="CardPatchSign.isForgetCardOld" style="margin-right:  5px;display: inline-block;">
+                        <div *ngIf="CardPatchSign.isForgetCardOld" class="tag_red">
                           <ng-container i18n>未刷卡</ng-container>
                         </div>
-                        <div *ngIf="CardPatchSign.isNormalOld" style="margin-right:  5px;display: inline-block;">
+                        <div *ngIf="CardPatchSign.isNormalOld" class="tag_blue">
                           <ng-container i18n>正常</ng-container>
                         </div>
-                        <div *ngIf="CardPatchSign.isOnBeforeMinsOld" style="margin-right:  5px;display: inline-block;">
+                        <div *ngIf="CardPatchSign.isOnBeforeMinsOld" class="tag_red">
                           <ng-container i18n>早到</ng-container>
                         </div>
-                        <div *ngIf="CardPatchSign.isOffAfterMinsOld" style="margin-right:  5px;display: inline-block;">
+                        <div *ngIf="CardPatchSign.isOffAfterMinsOld" class="tag_red">
                           <ng-container i18n>晚退</ng-container>
                         </div>
                       </div>
                     </div>
-                    <div *ngIf="CardPatchSign.ErrorStateName">
-                      <div *ngIf="CardPatchSign.ErrorStateName.length>0">
+                    <!-- <div *ngIf="CardPatchSign.ErrorStateName">
+                      <div class="P_disErrBlock" *ngIf="CardPatchSign.ErrorStateName.length>0">
                         <span class="P_displayShow" style="font-weight: bold;color: #969696">
-                          <ng-container i18n>消除異常狀態</ng-container>：
+                          <ng-container i18n>消除異常</ng-container>：
                         </span>
                         <span class="D_displayShow" style="font-weight: bold;color: #969696">
-                          <ng-container i18n>消除異常狀態</ng-container>：
+                          <ng-container i18n>消除異常</ng-container>：
                         </span>
-                        <div *ngIf="CardPatchSign.isLateMins" style="margin-right:  5px;display: inline-block;">
+                        <div *ngIf="CardPatchSign.isLateMins" class="tag_red">
                           <ng-container i18n>遲到</ng-container>
                         </div>
-                        <div *ngIf="CardPatchSign.isEarlyMins" style="margin-right:  5px;display: inline-block;">
+                        <div *ngIf="CardPatchSign.isEarlyMins" class="tag_red">
                           <ng-container i18n>早退</ng-container>
                         </div>
-                        <div *ngIf="CardPatchSign.isForgetCard" style="margin-right:  5px;display: inline-block;">
+                        <div *ngIf="CardPatchSign.isForgetCard" class="tag_red">
                           <ng-container i18n>未刷卡</ng-container>
                         </div>
-                        <div *ngIf="CardPatchSign.isNormal" style="margin-right:  5px;display: inline-block;">
+                        <div *ngIf="CardPatchSign.isNormal" class="tag_blue">
                           <ng-container i18n>正常</ng-container>
                         </div>
-                        <div *ngIf="CardPatchSign.isOnBeforeMins" style="margin-right:  5px;display: inline-block;">
+                        <div *ngIf="CardPatchSign.isOnBeforeMins" class="tag_red">
                           <ng-container i18n>早到</ng-container>
                         </div>
-                        <div *ngIf="CardPatchSign.isOffAfterMins" style="margin-right:  5px;display: inline-block;">
+                        <div *ngIf="CardPatchSign.isOffAfterMins" class="tag_red">
                           <ng-container i18n>晚退</ng-container>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
 

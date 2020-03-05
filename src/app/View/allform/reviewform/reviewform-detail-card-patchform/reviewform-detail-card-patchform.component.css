@@ -1,31 +1,37 @@
 /* 明細table頭 */
-.D_leftP_toppadding{
+.D_leftP_toppadding {
     text-align: left;
     padding: 0px;
     padding-top: 7px;
 }
-.D_tabletop{
+
+.D_tabletop {
     display: inherit;
 }
-.P_date{
+
+.P_date {
     display: none;
 }
-.P_context{
+
+.P_context {
     display: none;
 }
-.D_context{
+
+.D_context {
     text-align: center;
-    border:1px solid #e0e0e0;
+    border: 1px solid #e0e0e0;
     border-right: 0px;
-    border-top:0px;
-    padding:5px 15px;
+    border-top: 0px;
+    padding: 5px 15px;
 }
-.P_left{
+
+.P_left {
     text-align: right;
     padding-left: 0px
 }
+
 /* 明細table尾*/
-.tag_red{
+.tag_red {
     border-radius: 14px;
     width: 55px;
     height: 27px;
@@ -36,7 +42,8 @@
     border: solid 1px #d0021b;
     color: #d0021b;
 }
-.tag_blue{
+
+.tag_blue {
     border-radius: 14px;
     width: 55px;
     height: 27px;
@@ -47,15 +54,17 @@
     border: solid 1px #002f7b;
     color: #002f7b;
 }
+
 .a-block-buttom {
     width: 850px;
     margin: 0 auto;
-    
+
 }
-.inputTextarea{
+
+.inputTextarea {
     width: 100%;
     resize: none;
-    height:88px;
+    height: 88px;
     /* margin-top: 5px; */
     display: block;
     padding: 6px 12px;
@@ -67,17 +76,14 @@
     border: 1px solid #ccc;
     border-radius: 2px;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  
-  }
-  .P_leftZero{
-      padding-left: 15px
-  }
-  .uploadLine{
-      margin:0;
-      margin-bottom: 10px;
-      padding:0px 10px;
-  }
-@media (min-width: 1440px){
+
+}
+
+.P_leftZero {
+    padding-left: 15px
+}
+
+@media (min-width: 1440px) {
 
     .a-block-buttom {
         width: 900px;
@@ -86,86 +92,98 @@
         margin: 0 auto;
     }
 }
+
 @media screen and (max-width:1000px) {
-/* 明細table頭 */
-    .D_leftP_toppadding{
+
+    /* 明細table頭 */
+    .D_leftP_toppadding {
         padding-top: 0px;
     }
-    .D_tabletop{
+
+    .D_tabletop {
         display: none;
     }
-    .P_date{
+
+    .P_date {
         background-color: #edf5ff;
         text-align: left;
         font-weight: bolder;
         display: block;
         position: unset;
         padding: 5px 20px;
-        border:1px solid #e0e0e0;
+        border: 1px solid #e0e0e0;
     }
-    .P_context{
+
+    .P_context {
         /* background-color: #ffffff; */
         text-align: left;
-        display:inherit;
+        display: inherit;
         padding: 3px 20px;
     }
-    .D_context{
+
+    .D_context {
         display: none;
     }
-    .P_left{
+
+    .P_left {
         text-align: left;
     }
-/* 明細table尾*/
-    .P_leftZero{
+
+    /* 明細table尾*/
+    .P_leftZero {
         padding-left: 0px
     }
-    .uploadLine{
-        padding: 0px 15px
-    }
 }
-@media (max-width: 800px){
+
+@media (max-width: 800px) {
     ::ng-deep #footer {
         display: none;
     }
 }
+
 ::ng-deep .vertical-alignment-helper {
-    display:table;
+    display: table;
     height: 100%;
     width: 100%;
-  }
-  ::ng-deep .vertical-align-center {
+}
+
+::ng-deep .vertical-align-center {
     /* To center vertically */
     display: table-cell;
     vertical-align: middle;
-  }
-  ::ng-deep .modal-content {
+}
+
+::ng-deep .modal-content {
     /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
-    width:inherit;
-    height:inherit;
+    width: inherit;
+    height: inherit;
     /* To center horizontally */
     margin: 0 auto;
-  }
+}
 
 
-  @media screen and (max-width:550px){
-    #Approveddialog .modal-dialog{
+@media screen and (max-width:550px) {
+    #Approveddialog .modal-dialog {
         width: 300px;
-      }
-    #Approveddialog .modal-footer{
+    }
+
+    #Approveddialog .modal-footer {
         text-align: center
     }
 
-    #Sendbackdialog .modal-dialog{
-      width: 300px;
-    }
-    #Sendbackdialog .modal-footer{
-      text-align: center
+    #Sendbackdialog .modal-dialog {
+        width: 300px;
     }
 
-    #PutForwarddialog .modal-dialog{
-      width: 300px;
+    #Sendbackdialog .modal-footer {
+        text-align: center
     }
-    #PutForwarddialog .modal-footer{
-      text-align: center
+
+    #PutForwarddialog .modal-dialog {
+        width: 300px;
     }
-  }
+
+    #PutForwarddialog .modal-footer {
+        text-align: center
+    }
+}

@@ -33,18 +33,28 @@
               </ng-container>
             </ng-container>
           </div>
+          <div *ngIf="oneVaData.DeleteState" style="color: darkgray;">
+              <span *ngIf="oneVaData.DeleteState == '1'" style="
+              border: 1px solid;
+              padding: 0px 5px;
+              display: inline-block;">部分銷假</span>
+              <span *ngIf="oneVaData.DeleteState == '2'" style="
+              border: 1px solid;
+              padding: 0px 5px;
+              display: inline-block;">全部銷假</span>
+          </div>
           <div>
-            <div style="display: inline-block;">
+            <div *ngIf="oneVaData.Take && getShowTake" style="display: inline-block;">
               <a style="cursor: pointer;" data-toggle="modal" data-target="#Cancelformdialog"
                 (click)="takeForm = oneVaData">
-                <span *ngIf="oneVaData.Take && getShowTake">
+                <span>
                   (<ng-container i18n>抽單</ng-container>)
                 </span>
               </a>
             </div>
-            <div style="display: inline-block;">
+            <div *ngIf="oneVaData.TransSign && getShowTransSign" style="display: inline-block;">
               <a style="cursor: pointer;" data-toggle="modal" (click)="checkTransSignForm(oneVaData)">
-                <span *ngIf="oneVaData.TransSign && getShowTransSign">
+                <span>
                   (<ng-container i18n>轉呈</ng-container>)
                 </span>
               </a>

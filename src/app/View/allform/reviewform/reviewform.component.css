@@ -159,7 +159,7 @@ color: #4a90e2;
     width: 55px;
     height: 27px;
     line-height: 27px;
-    margin: 0px 10px 10px 0px;
+    margin: 0px 5px 0px 5px;
     text-align: center;
     display: inline-block;
     border: solid 1px #d0021b;
@@ -208,6 +208,10 @@ color: #4a90e2;
   }
   .P_displayShow{
       display: inline-block;
+  }
+  .P_disErrBlock{
+    line-height: 80px;
+    text-align: center;
   }
 @media screen and (max-width:992px) {
    
@@ -293,6 +297,10 @@ color: #4a90e2;
 }
 .P_notVisable{
     visibility: hidden
+}
+.P_disErrBlock{
+    line-height: unset;
+    text-align: left;
 }
 }
 

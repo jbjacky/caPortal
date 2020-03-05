@@ -73,9 +73,11 @@ export class SpyReformNgifDirective  implements OnInit, OnDestroy {
         document.getElementById('phonetopdiv').style.left = '0px';
         document.getElementById('phonetopdiv').style.width = '100%';
       } else {
-        document.getElementById('phonetopdiv').style.left = '220px';
-        var rightwidth = window.innerWidth - 220;
-        document.getElementById('phonetopdiv').style.width = rightwidth + 'px';
+        // document.getElementById('phonetopdiv').style.left = '220px';
+        // var rightwidth = window.innerWidth - 220;
+        // document.getElementById('phonetopdiv').style.width = rightwidth + 'px';
+      document.getElementById('phonetopdiv').style.left = '0px';
+      document.getElementById('phonetopdiv').style.width = '100%';
       }
     } else if (window.innerWidth < 800) {
       document.getElementById('phonetopdiv').style.left = '0px';

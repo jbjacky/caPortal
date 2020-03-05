@@ -106,7 +106,8 @@ export class SearchVaFormComponent implements OnInit, OnDestroy {
         OldKey: data.OldKey,
         Appointment: data.Appointment,
 
-        ListHoliDayNameC: data.ListHoliDayNameC
+        ListHoliDayNameC: data.ListHoliDayNameC,
+        DeleteState: data.DeleteState
       })
     }
   }
