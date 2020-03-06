@@ -52,12 +52,41 @@
           </div>
         </div>
       </div>
+      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
+        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+          <label class="control-label ">
+            <ng-container i18n>考勤狀態</ng-container>
+          </label>
+        </div>
+        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+          <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail">
+            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isLateMinsOld" style="margin-right:  5px;display: inline-block;">
+              <ng-container i18n>遲到</ng-container>
+            </div>
+            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isEarlyMinsOld" style="margin-right:  5px;display: inline-block;">
+              <ng-container i18n>早退</ng-container>
+            </div>
+            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isForgetCardOld" style="margin-right:  5px;display: inline-block;">
+              <ng-container i18n>未刷卡</ng-container>
+            </div>
+            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isNormalOld" style="margin-right:  5px;display: inline-block;">
+              <ng-container i18n>正常</ng-container>
+            </div>
+            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isOffAfterMinsOld" style="margin-right:  5px;display: inline-block;">
+              <ng-container i18n>晚退</ng-container>
+            </div>
+            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isOnBeforeMinsOld" style="margin-right:  5px;display: inline-block;">
+              <ng-container i18n>早到</ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
+    <!-- <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
       <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
         <label class="col-md-4 col-xs-12 control-label P_left">
-          <ng-container i18n>異常狀態</ng-container>
+          <ng-container i18n>考勤狀態</ng-container>
         </label>
         <div class="col-md-8 col-xs-12" style="padding: 0;">
           <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail">
@@ -110,7 +139,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- form-group end -->
     <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
       <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">

@@ -1,0 +1,74 @@
+
+#btn-log-out-inMainNav{
+    margin: 10px auto;
+  }
+  .website-title-pc-ellipsis {
+      width: calc(100vw - 550px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+  .menuList{
+    padding: 10px 10px;
+    padding-left: 26px;
+    font-size:16px;
+    background-color: #fcfcfc;
+    color: #333;
+    border-top: 1px solid #cbd9e0;
+    font-family: Helvetica, Arial, '微軟正黑體','Microsoft JhengHei','蘋果儷中黑', 'Lucida Sans Unicode','Microsoft Yahei', sans-serif;
+  }
+  .menuList:hover{
+    cursor: pointer;
+    color: #23b7e5;
+  }
+  .menuList.ng-star-inserted:focus {
+    outline-color: #028fcf00;
+  }
+  /* #a-logo-ci{
+      background: url(../../Plgin/style2015/images-template/img-temp-systemMain/logo-ci-tw.png) ;
+  
+  } */
+   a.bt_switch {
+      color: #4AC9E3;
+      padding-left: 10px;
+      cursor: pointer;
+  }
+  
+  a.bt_switch:hover{
+      color: #ff6600;
+  }
+  
+  
+  
+  
+  /* 查詢起 */
+    .basetext{
+      color: #028fcf;
+      margin: 10px;
+      font-size: 16px;
+    }
+  .baselist{
+    border: 1px solid #028fcf ;
+    margin-bottom: 15px;
+    border-radius:5px;
+    padding: 5px;
+    cursor: pointer;
+  }
+  .baselist:hover{
+    background-color: #028fcf;
+  }
+  .baselist:focus { 
+    background-color: #028fcf;
+  }
+  .baselist:focus > .basetext { 
+    color: #fff
+  }
+  
+  .baselist:hover > .basetext{
+    color: #fff
+  }
+  /* 查詢尾 */
+  
+  
+  
+  

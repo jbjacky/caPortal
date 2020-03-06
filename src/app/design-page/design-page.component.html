@@ -1,0 +1,313 @@
+<div id="wrapper">
+  <div id="page-container">
+    <a id="anchor-pagetop" name="anchor-pagetop">錨點/anchor</a>
+    <header id="header">
+      <div id="header-inner" class="clearfix">
+
+        <div id="header-navbar">
+          <div class="btn-main-nav" data-toggle="offcanvas"></div>
+
+
+        </div>
+
+
+        <div id="header-title">
+          <div class="logo-ci">
+            <a [routerLink]="['home']">
+              <img src="./assets/images-template/img-temp-systemMain/logo-ci-tw.png"
+                style="width: 100%;height: 100%;" />
+
+            </a>
+          </div>
+          <div class="website-title  website-title-pc">
+            <div class="website-title-pc-ellipsis">
+              測試頁面
+            </div>
+          </div>
+          <div class=" website-title  website-title-mobile">測試頁面</div>
+        </div>
+        <!-- header-title End-->
+
+
+        <div id="header-subarea">
+          <ul id="header-subfunctions">
+            <!-- routerLink="TestWriteComponent" -->
+            <li class="subfunc-level01" style="cursor: pointer;">
+              <a data-toggle="modal" [href]="manualhrefString" target="_blank" style="cursor: pointer;">
+                <img src="./assets/images-template/manual.png" />
+              </a>
+            </li>
+            <li class="subfunc-level01" style="cursor: pointer;">
+              <a data-toggle="modal" [href]="QAhrefString" target="_blank" style="cursor: pointer;">
+                <img src="./assets/images-template/qa.png" />
+              </a>
+            </li>
+            <li class="subfunc-level01" style="cursor: pointer;">
+              <a>
+                <span>v2.2.2</span>
+              </a>
+            </li>
+            <!-- <li class="subfunc-level01" style="cursor: pointer;" (click)="changeLang()">
+                          <a>{{showLang}}</a>
+                      </li> -->
+            <!-- <li class="subfunc-level01">
+                          <a href="">模擬連結</a>
+                      </li> -->
+          </ul>
+          <!--header-subfunctions End-->
+          <a class="btn-log-out" style="cursor: pointer;" (click)="signOut()">
+            <ng-container i18n>登出</ng-container>
+          </a>
+        </div>
+        <!--header-subarea End-->
+
+      </div>
+    </header>
+    <!--#header End -->
+
+    <div id="main">
+      <!-- InstanceBeginEditable name="EditRegion-Main" -->
+      <div  id="content-header">
+        <div id="content-header-inner" class="content-header-inner">
+          <h1>測試頁面</h1>
+        </div>
+      </div>
+    
+      <!--content-header End-->
+
+      <div id="content-body">
+        <app-edit-page></app-edit-page>
+
+
+      </div>
+      <!--content End-->
+
+      <!-- InstanceEndEditable -->
+    </div>
+    <!--#main End -->
+
+
+    <footer id="footer">
+      <div id="footer-inner">
+        <p class="text-center">
+          <small>
+            <!-- copyright: China Airlines 2019 -->
+            <span *ngIf="FooterBlockString.length>0">{{FooterBlockString}}</span>
+          </small>
+        </p>
+      </div>
+    </footer>
+    <!--footer End -->
+  </div>
+  <!--#page-container End -->
+
+  <div style="background-color: rgba(73, 73, 73, 0.322);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;overflow: hidden" *ngIf="state" (click)="checkdesktop()">
+
+  </div>
+
+  <nav id="main-nav">
+    <div id="main-nav-inner">
+
+      <div id="user-profile">
+        <div id="user-profile-inner">
+          <p>
+            <span class="user-empId">12345</span>
+            <a  class="bt_switch" style="text-decoration: underline;" data-toggle="modal"
+              >
+              <ng-container i18n>切換</ng-container>
+            </a>
+
+            <br>
+            <span class="user-empName">測試人員</span>
+          </p>
+          <!-- <select class="form-control" [(ngModel)]="selectUserData" (change)="onChangeDept(selectUserData)">
+                      <ng-container *ngFor="let userData of UserAllData">
+                          <option [ngValue]="userData">{{userData.DeptaName}}</option>
+                      </ng-container>
+                  </select> -->
+          <p><span class="user-empdept">測試部門</span></p>
+
+        </div>
+      </div>
+      <!--user profile end -->
+
+      <!--
+          <hr class="main-nav-hr">
+  -->
+
+      <div id="main-nav-area" class="main-nav-metismenu">
+        <ul id="main-nav-menu">
+          <!-- <mat-accordion class="my-special-class">
+                      <ng-container *ngFor="let allform of two_nav">
+                          <ng-container>
+                              <li *ngIf="allform.site.length==0">
+                                  <a [routerLink]="allform.routeurl" (click)="phone_bt_toggleactive()">
+                                      <span class="mn-item">{{allform.largetitle}}
+                                      </span>
+                                  </a>
+                              </li>
+                          </ng-container>
+                          <mat-expansion-panel hideToggle *ngIf="allform.site.length>0"
+                              style="
+                          box-shadow: none;margin: 0;
+                          font-family: Helvetica, Arial, '微軟正黑體','Microsoft JhengHei','蘋果儷中黑', 'Lucida Sans Unicode','Microsoft Yahei', sans-serif;">
+                              <mat-expansion-panel-header
+                                  style="padding:0px 20px;
+                              font-size:16px;
+                              border-top: 1px solid #cbd9e0;
+                              height: 48px;
+                              font-family: Helvetica, Arial, '微軟正黑體','Microsoft JhengHei','蘋果儷中黑', 'Lucida Sans Unicode','Microsoft Yahei', sans-serif;"
+                                  [collapsedHeight]="customCollapsedHeight" [expandedHeight]="customExpandedHeight">
+                                  <mat-panel-title>
+                                      <span>{{allform.largetitle}}
+                                      </span>
+                                  </mat-panel-title>
+                                  <div style="text-align: right">
+                                      <span class="mn-arrow-down"></span>
+                                  </div>
+
+                              </mat-expansion-panel-header>
+                              <ng-template matExpansionPanelContent style="padding:0;">
+                                  <div>
+                                      <a *ngFor="let site of allform.site" class="menuList"
+                                          [routerLink]="site.routeurl"
+                                          (click)="phone_bt_toggleactive()">{{site.title}}</a>
+                                  </div>
+                              </ng-template>
+                          </mat-expansion-panel>
+                      </ng-container>
+                  </mat-accordion> -->
+
+          <!-- <li>
+                      <a routerLink="CanapproviddayComponent" (click)="checkdesktop()">
+                          <span class="mn-item">請假簽核權限表
+                          </span>
+                      </a>
+                  </li> -->
+          <!-- <li *ngFor="let threeform of three_nav">
+                      <a>
+                          <span class="mn-item">{{threeform.title}}<br/><span style="color: rgb(0, 38, 255)">(待刪除)方便討論畫面</span></span>
+                          <span class="mn-arrow-down"></span>
+                      </a>
+                      <ul class="mn-list-group">
+                          <li *ngFor="let threeform_second of threeform.second">
+                              <a>
+                                  <span class="mn-item">{{threeform_second.stitle}}</span>
+                                  <span class="mn-arrow-down"></span>
+                              </a>
+                              <ul *ngFor="let threeform_third of threeform_second.third" class="mn-list-group ">
+                                  <li>
+                                      <a [routerLink]="threeform_third.routeurl" (click)="checkdesktop()">
+                                          <span>{{threeform_third.title}}</span>
+                                      </a>
+                                  </li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </li>
+                  三階層nav -->
+          <!-- <li *ngFor="let allform of two_nav">
+                      <a>
+                          <span class="mn-item">{{allform.largetitle}}
+                          </span>
+                          <span class="mn-arrow-down"></span>
+                      </a>
+                      <ul class="mn-list-group">
+                          <li *ngFor="let site of allform.site">
+                              <a [routerLink]="site.routeurl" (click)="checkdesktop()">
+                                  <span class="mn-item">{{site.title}}</span>
+                                  
+                              </a>
+                          </li>
+                      </ul>
+                  </li> -->
+          <!-- 二階層nav -->
+        </ul>
+
+
+      </div>
+      <!--main-nav-area End-->
+
+
+
+      <!-- <ul id="nav-subfunctions-fromHeader">
+              <li>
+                  <a href="">模擬連結</a>
+              </li>
+              <li>
+                  <a href="">模擬連結</a>
+              </li>
+          </ul> -->
+      <!--nav-subfunctions-fromHeader End-->
+      <div id="btn-log-out-inMainNav" style="border: 0;text-align: left">
+        <div style="cursor: pointer;display: inline-block;
+              margin: 0px 5px;">
+          <a data-toggle="modal" [href]="manualhrefString" target="_blank" style="cursor: pointer;">
+            <img src="./assets/images-template/manual.png" />
+          </a>
+        </div>
+        <div style="cursor: pointer;display: inline-block;
+              margin: 0px 5px;">
+          <a data-toggle="modal" [href]="QAhrefString" target="_blank" style="cursor: pointer;">
+            <img src="./assets/images-template/qa.png" />
+          </a>
+        </div>
+        <div style="float: right;cursor: pointer; margin: 0px 5px ; ">
+          <span>v2.2.2</span>
+        </div>
+      </div>
+      <!-- <a id="btn-log-out-inMainNav" style="cursor: pointer;border: 0;text-align: right"
+              (click)="changeLang()">{{showLang}}</a> -->
+      <a id="btn-log-out-inMainNav" (click)="signOut()">
+        <ng-container i18n>登 出</ng-container>
+      </a>
+
+    </div>
+    <!--#main-nav-inner End -->
+  </nav>
+  <!--#main-nav End -->
+
+</div>
+<!-- the outer wrapper End-->
+
+<!-- <div id="back-to-top" style="display: block;">
+  <a (click)="gotop()">Back to Top</a>
+</div> -->
+<!-- 回頂部的按鈕在這! -->
+
+
+
+<div class="modal" id="switchEmpDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <!-- <div style="border: 1px solid #000;margin-bottom: 20px">
+                      <p style="text-align: center">常用測試用工號(正式上線會拿掉此區塊)</p>
+                      <p style="padding: 2px 10px">經理: 634438</p>
+                      <p style="padding: 2px 10px">一般員工: 638731</p>
+                      <p style="padding: 2px 10px">系統管理員: 644488</p>
+                  </div> -->
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+
+          <!-- <app-adminkeybase *ngIf="showSwitchEmpDialog" (click_saveEmptoView)="change($event)"
+                      [IsTop]="IsAdmin"></app-adminkeybase> -->
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <ng-container i18n>取消</ng-container>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--dialog選擇系統操作腳色-->
