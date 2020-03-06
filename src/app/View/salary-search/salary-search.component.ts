@@ -73,7 +73,6 @@ export class SalarySearchComponent implements OnInit, OnDestroy {
   }
 
   firstPwFromGroup: FormGroup = new FormGroup({
-    empID: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     checkPassword: new FormControl('', Validators.required)
   })
@@ -81,54 +80,64 @@ export class SalarySearchComponent implements OnInit, OnDestroy {
   }
 
   showSarly: uiGetblockDetailDetailApiDataClass
+  bt_checkIptPassword(){
+    this.iptPassword = '';
+    $('#SearchSalaryDialog').modal('show');
+  }
+  iptPassword:string;
   bt_Search() {
-    this.LoadingPage.show()
-    var year = this.searchSalary.year.toString()
-    var Month = this.searchSalary.Month.toString()
-    var period = this.searchSalary.period.toString()
-    this.GetApiDataServiceService.getWebApiData_GetblockDetailDetail(year, Month, period)
-      .pipe(takeWhile(() => this.api_subscribe))
-      .subscribe(
-        (x: GetblockDetailDetailApiDataClass) => {
-          this.showSarly = JSON.parse(JSON.stringify(x))
-          if (x.BlockClass) {
-            for (let i of x.BlockClass) {
-              switch (i.order) {
-                case 1:
-                  this.showSarly.oneBlockClass = JSON.parse(JSON.stringify(i));
-                  break;
-                case 2:
-                  this.showSarly.twoBlockClass = JSON.parse(JSON.stringify(i));
-                  break;
-                case 3:
-                  this.showSarly.threeBlockClass = JSON.parse(JSON.stringify(i));
-                  break;
-                case 4:
-                  this.showSarly.fourBlockClass = JSON.parse(JSON.stringify(i));
-                  break;
-                case 5:
-                  this.showSarly.fiveBlockClass = JSON.parse(JSON.stringify(i));
-                  break;
-                case 6:
-                  this.showSarly.sixBlockClass = JSON.parse(JSON.stringify(i));
-                  break;
-                case 7:
-                  this.showSarly.sevenBlockClass = JSON.parse(JSON.stringify(i));
-                  break;
-                case 8:
-                  this.showSarly.eightBlockClass = JSON.parse(JSON.stringify(i));
-                  break;
+    if(!this.iptPassword){
+      alert('請輸入薪資密碼')
+    }else{
+
+      this.LoadingPage.show()
+      var year = this.searchSalary.year.toString()
+      var Month = this.searchSalary.Month.toString()
+      var period = this.searchSalary.period.toString()
+      this.GetApiDataServiceService.getWebApiData_GetblockDetailDetail(year, Month, period,this.iptPassword)
+        .pipe(takeWhile(() => this.api_subscribe))
+        .subscribe(
+          (x: GetblockDetailDetailApiDataClass) => {
+            this.showSarly = JSON.parse(JSON.stringify(x))
+            if (x.BlockClass) {
+              for (let i of x.BlockClass) {
+                switch (i.order) {
+                  case 1:
+                    this.showSarly.oneBlockClass = JSON.parse(JSON.stringify(i));
+                    break;
+                  case 2:
+                    this.showSarly.twoBlockClass = JSON.parse(JSON.stringify(i));
+                    break;
+                  case 3:
+                    this.showSarly.threeBlockClass = JSON.parse(JSON.stringify(i));
+                    break;
+                  case 4:
+                    this.showSarly.fourBlockClass = JSON.parse(JSON.stringify(i));
+                    break;
+                  case 5:
+                    this.showSarly.fiveBlockClass = JSON.parse(JSON.stringify(i));
+                    break;
+                  case 6:
+                    this.showSarly.sixBlockClass = JSON.parse(JSON.stringify(i));
+                    break;
+                  case 7:
+                    this.showSarly.sevenBlockClass = JSON.parse(JSON.stringify(i));
+                    break;
+                  case 8:
+                    this.showSarly.eightBlockClass = JSON.parse(JSON.stringify(i));
+                    break;
+                }
               }
             }
+  
+            // console.log(this.showSarly)
+            this.GetApiUserService.scrollTo();
+            this.LoadingPage.hide()
+          }, error => {
+            this.LoadingPage.hide()
           }
-
-          // console.log(this.showSarly)
-          this.GetApiUserService.scrollTo();
-          this.LoadingPage.hide()
-        }, error => {
-          this.LoadingPage.hide()
-        }
-      )
+        )
+    }
   }
 }
 

@@ -1,13 +1,9 @@
-<!-- <a data-toggle="modal" data-target="#FirstStPwDialog" style="cursor: pointer;">
-  初次登入
+<a data-toggle="modal" data-target="#FirstStPwDialog" style="cursor: pointer;">
+  設定密碼
 </a> /
 <a data-toggle="modal" data-target="#FirstStPwSussesDialog" style="cursor: pointer;">
   完成密碼設定
-</a> /
-<a data-toggle="modal" data-target="#LoginDialog" style="cursor: pointer;">
-  登入
-</a> -->
-
+</a>
 <div class="a-block">
   <div class="a-block-body  a-block-container">
     <div class="info">
@@ -71,7 +67,7 @@
           </div>
         </div>
         <div class="col-md-2 col-xs-12 btnSelectSearch">
-          <button class="btn btn-info" style="padding: 5px 20px;" (click)="bt_Search()">確定</button>
+          <button class="btn btn-info" style="padding: 5px 20px;" (click)="bt_checkIptPassword()">確定</button>
         </div>
       </div>
       <div id="goPageChange"></div>
@@ -729,21 +725,11 @@
             <span aria-hidden="true">×</span>
           </button>
           <h4 class="modal-title" style="text-align: center;">
-            <ng-container i18n>初次登入</ng-container>
-            <br />
-            <ng-container i18n>請設定薪資密碼</ng-container>
+            <ng-container i18n>設定薪資密碼</ng-container>
           </h4>
         </div>
         <div class="modal-body">
           <form [formGroup]="firstPwFromGroup" (ngSubmit)="submit()">
-            <div>
-              <span class="iptTitleBlock">
-                <ng-container i18n>輸入工號</ng-container>
-              </span>
-            </div>
-            <div class="iptBlock">
-              <input class="form-control" type="text" formControlName="empID" autocomplete="off" />
-            </div>
             <div>
               <span class="iptTitleBlock">
                 <ng-container i18n>輸入薪資密碼</ng-container>
@@ -798,7 +784,7 @@
     </div>
   </div>
 </div>
-<div class="modal salaryDialog" id="LoginDialog" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal salaryDialog" id="SearchSalaryDialog" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog vertical-align-center">
       <div class="modal-content">
@@ -807,48 +793,29 @@
             <span aria-hidden="true">×</span>
           </button>
           <h4 class="modal-title" style="text-align: center;">
-            <ng-container i18n>輸入定薪資密碼</ng-container>
+            <ng-container i18n>查詢薪資單</ng-container>
           </h4>
         </div>
         <div class="modal-body">
-          <form [formGroup]="firstPwFromGroup" (ngSubmit)="submit()">
-            <div>
-              <span class="iptTitleBlock">
-                <ng-container i18n>輸入工號</ng-container>
-              </span>
-            </div>
-            <div class="iptBlock">
-              <input class="form-control" type="text" formControlName="empID" autocomplete="off" />
-            </div>
-            <div>
-              <span class="iptTitleBlock">
-                <ng-container i18n>輸入身分證字號</ng-container>
-              </span>
-            </div>
-            <div class="iptBlock">
-              <input class="form-control" type="text" formControlName="password" autocomplete="off" />
-            </div>
+          <div>
+            <span class="iptTitleBlock">
+              <ng-container i18n>查詢</ng-container>：
+            </span>
+            <span>{{searchSalary.year}}年 / {{searchSalary.Month}}月 / 第{{searchSalary.period}}期</span>
+          </div>
             <div>
               <span class="iptTitleBlock">
                 <ng-container i18n>輸入薪資密碼</ng-container>
               </span>
             </div>
             <div class="iptBlock">
-              <input class="form-control" type="text" formControlName="checkPassword" autocomplete="off" />
+              <input class="form-control" type="password" [(ngModel)]="iptPassword" />
             </div>
-            <!-- {{firstPwFromGroup.status}} -->
             <div style="text-align: center;margin: 10px 0px;
             margin-bottom: 0px;">
               <button type="submit" class="btn btn-primary" style="
-              margin-bottom: 10px;">登入看薪資</button>
-              <!-- <div style="text-align: right;">
-                <a style="cursor: pointer;">重設密碼</a>
-                <a style="cursor: pointer;">
-                  <img src="./assets/jbIcon/icon_restart.png" />
-                </a>
-              </div> -->
+              margin-bottom: 10px;"  data-dismiss="modal" (click)="bt_Search()">查詢</button>
             </div>
-          </form>
         </div>
       </div>
     </div>

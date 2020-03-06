@@ -1893,11 +1893,31 @@ export class GetApiDataServiceService {
   /**
    * @todo 薪資單明細
    */
-  getWebApiData_GetblockDetailDetail(year, Month, period) {
+  getWebApiData_GetblockDetailDetail(year, Month, period, password) {
+    var header = this.GetHeader();
+    var token = header.get("authorization");
+    token = token.split('Bearer')[1];
+    var JwtHeader = token.split('.')[0];
+    var JwtPayload = JSON.parse(this.parseJwtPayload(token));
+    var JwtSignature = token.split('.')[2];
+    JwtPayload["pwd"] = password
+    JwtPayload = btoa(JSON.stringify(JwtPayload))
+    var PaswordToken = JwtHeader+'.'+JwtPayload+'.'+JwtSignature
+    // console.log(PaswordToken)
+    header.set("authorization",PaswordToken)
     return this.http.get(this.localUrl + `Payslip/GetblockDetailDetail?year=${year}&Month=${Month}&period=${period}`, {
-      headers: this.GetHeader()
+      headers: header
     })
   }
+  parseJwtPayload(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return jsonPayload;
+  };
 
   /**
    * @todo 人事基本資料
@@ -1922,34 +1942,34 @@ export class GetApiDataServiceService {
    * @todo 取得成本部門
    */
   getWebApiData_GetDepts() {
-    return this.http.get(this.localUrl  + 'BaseHandler/GetDepts', {
+    return this.http.get(this.localUrl + 'BaseHandler/GetDepts', {
       headers: this.GetHeader()
     })
   }
   /**
    * @todo 加班計算
    */
-  getWebApiData_GetOtCalculate(GetOtCalculateGetApi:GetOtCalculateGetApiClass) {
-    return this.http.post(this.localUrl  + 'OtHandler/GetCalculate',
-    JSON.stringify(GetOtCalculateGetApi), {
+  getWebApiData_GetOtCalculate(GetOtCalculateGetApi: GetOtCalculateGetApiClass) {
+    return this.http.post(this.localUrl + 'OtHandler/GetCalculate',
+      JSON.stringify(GetOtCalculateGetApi), {
       headers: this.GetHeader()
     })
   }
   /**
    * @todo 加班單檢查後計算
    */
-  getWebApiData_OTCheckList(OTCheckListGetApi:OTCheckListGetApiClass[]){
-    return this.http.post(this.localUrl  + 'OTHandler/OTCheckList',
-    JSON.stringify(OTCheckListGetApi), {
+  getWebApiData_OTCheckList(OTCheckListGetApi: OTCheckListGetApiClass[]) {
+    return this.http.post(this.localUrl + 'OTHandler/OTCheckList',
+      JSON.stringify(OTCheckListGetApi), {
       headers: this.GetHeader()
     })
   }
   /**
    * @todo 加班單檢查後計算(預估)
    */
-  getWebApiData_OTCheckEstimateList(OTCheckListGetApi:OTCheckListGetApiClass[]){
-    return this.http.post(this.localUrl  + 'OTHandler/OT1CheckList',
-    JSON.stringify(OTCheckListGetApi), {
+  getWebApiData_OTCheckEstimateList(OTCheckListGetApi: OTCheckListGetApiClass[]) {
+    return this.http.post(this.localUrl + 'OTHandler/OT1CheckList',
+      JSON.stringify(OTCheckListGetApi), {
       headers: this.GetHeader()
     })
   }
@@ -1958,9 +1978,9 @@ export class GetApiDataServiceService {
   /**
    * @todo 儲存加班單(清單)
    */
-  getWebApiData_OtSave(OtSaveGetApi:OtSaveGetApiClass[]){
-    return this.http.post(this.localUrl  + 'OTHandler/OtListSave',
-    JSON.stringify(OtSaveGetApi), {
+  getWebApiData_OtSave(OtSaveGetApi: OtSaveGetApiClass[]) {
+    return this.http.post(this.localUrl + 'OTHandler/OtListSave',
+      JSON.stringify(OtSaveGetApi), {
       headers: this.GetHeader()
     })
   }
@@ -1968,9 +1988,9 @@ export class GetApiDataServiceService {
   /**
    * @todo 儲存加班單(預估清單)
    */
-  getWebApiData_OtEstimateSave(OtSaveGetApi:OtSaveGetApiClass[]){
-    return this.http.post(this.localUrl  + 'OTHandler/Ot1ListSave',
-    JSON.stringify(OtSaveGetApi), {
+  getWebApiData_OtEstimateSave(OtSaveGetApi: OtSaveGetApiClass[]) {
+    return this.http.post(this.localUrl + 'OTHandler/Ot1ListSave',
+      JSON.stringify(OtSaveGetApi), {
       headers: this.GetHeader()
     })
   }
@@ -1978,9 +1998,9 @@ export class GetApiDataServiceService {
   /**
    * @todo 儲存並起單加班單(SaveAndFlowStart)
    */
-  getWebApiData_OTSaveAndFlowStart(OTSaveAndFlowStartGetApi:OTSaveAndFlowStartGetApiClass){
-    return this.http.post(this.localUrl  + 'OtIntegrationHandler/OTSaveAndFlowStart',
-    JSON.stringify(OTSaveAndFlowStartGetApi), {
+  getWebApiData_OTSaveAndFlowStart(OTSaveAndFlowStartGetApi: OTSaveAndFlowStartGetApiClass) {
+    return this.http.post(this.localUrl + 'OtIntegrationHandler/OTSaveAndFlowStart',
+      JSON.stringify(OTSaveAndFlowStartGetApi), {
       headers: this.GetHeader()
     })
   }
@@ -1988,9 +2008,9 @@ export class GetApiDataServiceService {
   /**
    * @todo 儲存並起單預估加班單(SaveAndFlowStart)
    */
-  getWebApiData_OTEstimateSaveAndFlowStart(OTSaveAndFlowStartGetApi:OTSaveAndFlowStartGetApiClass){
-    return this.http.post(this.localUrl  + 'OtIntegrationHandler/OT1SaveAndFlowStart',
-    JSON.stringify(OTSaveAndFlowStartGetApi), {
+  getWebApiData_OTEstimateSaveAndFlowStart(OTSaveAndFlowStartGetApi: OTSaveAndFlowStartGetApiClass) {
+    return this.http.post(this.localUrl + 'OtIntegrationHandler/OT1SaveAndFlowStart',
+      JSON.stringify(OTSaveAndFlowStartGetApi), {
       headers: this.GetHeader()
     })
   }
@@ -1998,9 +2018,9 @@ export class GetApiDataServiceService {
   /**
    * @todo 修改密碼
    */
-  getWebApiData_MidifyPassWord(MidifyPassWordGetApi:MidifyPassWordGetApiClass){
-    return this.http.post(this.localUrl  + 'BaseHandler/MidifyPassWord',
-    JSON.stringify(MidifyPassWordGetApi), {
+  getWebApiData_MidifyPassWord(MidifyPassWordGetApi: MidifyPassWordGetApiClass) {
+    return this.http.post(this.localUrl + 'BaseHandler/MidifyPassWord',
+      JSON.stringify(MidifyPassWordGetApi), {
       headers: this.GetHeader()
     })
   }
