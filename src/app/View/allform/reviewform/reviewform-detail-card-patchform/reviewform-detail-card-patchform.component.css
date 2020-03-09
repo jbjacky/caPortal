@@ -27,7 +27,6 @@
 
 .P_left {
     text-align: right;
-    padding-left: 0px
 }
 
 /* 明細table尾*/
@@ -36,7 +35,7 @@
     width: 55px;
     height: 27px;
     line-height: 27px;
-    margin: 0px 10px 10px 0px;
+    /* margin: 0px 10px 10px 0px; */
     text-align: center;
     display: inline-block;
     border: solid 1px #d0021b;
@@ -48,7 +47,7 @@
     width: 55px;
     height: 27px;
     line-height: 27px;
-    margin: 0px 10px 10px 0px;
+    /* margin: 0px 10px 10px 0px; */
     text-align: center;
     display: inline-block;
     border: solid 1px #002f7b;
@@ -79,9 +78,6 @@
 
 }
 
-.P_leftZero {
-    padding-left: 15px
-}
 
 @media (min-width: 1440px) {
 
@@ -130,9 +126,6 @@
     }
 
     /* 明細table尾*/
-    .P_leftZero {
-        padding-left: 0px
-    }
 }
 
 @media (max-width: 800px) {

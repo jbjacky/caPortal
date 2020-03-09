@@ -10,27 +10,24 @@
 
     </div>
 
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;">
-      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
         <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>表單編號</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
               <span
-                style="color: #028fcf">{{completionTenNum(ReviewformServiceService.AttendUnusualDetail.ProcessFlowID)}}</span>
-            </div>
-          </div>
+                style="color: #028fcf">{{completionTenNum(ReviewformServiceService.AttendUnusualDetail.ProcessFlowID)}}
+              </span>
         </div>
       </div>
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label ">
             <ng-container i18n>表單狀態</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+        <div class="col-md-8  col-xs-12">
           <label style="color: #d0021b">
             <ng-container i18n>簽核中</ng-container>
           </label>
@@ -38,29 +35,26 @@
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
         <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>員工</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>{{ReviewformServiceService.AttendUnusualDetail.EmpCode}}
-                {{ReviewformServiceService.AttendUnusualDetail.EmpNameC}}</span>
-            </div>
-          </div>
+              <span>
+                {{ReviewformServiceService.AttendUnusualDetail.EmpCode}}
+                {{ReviewformServiceService.AttendUnusualDetail.EmpNameC}}
+              </span>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
-          <label class="control-label ">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left">
+          <label class="control-label">
             <ng-container i18n>異常狀態</ng-container>
           </label>
         </div>
-        <div *ngIf="ReviewformServiceService.AttendUnusualDetail" class="col-md-7  col-xs-12 P_leftZero"
-          style="padding-right: 0px">
+        <div *ngIf="ReviewformServiceService.AttendUnusualDetail" class="col-md-8  col-xs-12">
           <div *ngIf="ReviewformServiceService.AttendUnusualDetail.EliminateLate" class="tag_red" style="margin: 0px">
             <ng-container i18n>遲到</ng-container>
           </div>
@@ -82,109 +76,123 @@
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>工作日</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
               <span>{{GetAttendUnusualFlowAppsByProcessFlowIDData.Date}}</span>
-            </div>
-          </div>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label ">
             <ng-container i18n>班型</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+        <div class="col-md-8  col-xs-12">
           <span>{{ReviewformServiceService.AttendUnusualDetail.RoteCode}}</span>
         </div>
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <label class="col-md-4 control-label P_left">
           <ng-container i18n>應到勤時間</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>{{RoteDateB}} {{RoteTimeB}}</span>
-            </div>
-          </div>
+              <span>
+                <!-- {{RoteDateB}}  -->
+                {{RoteTimeB}}
+              </span>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label ">
             <ng-container i18n>應離勤時間</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
-          <div>
-            <span>{{RoteDateE}} {{RoteTimeE}}</span>
-          </div>
+        <div class="col-md-8  col-xs-12">
+          <span>
+            <!-- {{RoteDateE}} -->
+            {{RoteTimeE}}
+          </span>
+          <div *ngIf="isCrossRoteDateE" style="display: inline-block;
+            height: 20px;
+            font-size: 13px;
+            width: 40px;
+            text-align: center;
+            color: #fff;
+            background-color: #408cb6;
+            border: 1px solid;
+            border-radius: 15px;
+            margin: 0px 10px;">+1日</div>
         </div>
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px" [style.color]="color_CardOnTime()">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px" [style.color]="color_CardOnTime()">
+        <label class="col-md-4 control-label P_left">
           <ng-container i18n>原始到勤時間</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>{{CardDateB}} {{CardTimeB}}</span>
-            </div>
-          </div>
+            <span>
+              <!-- {{CardDateB}}  -->
+              {{CardTimeB}}
+            </span>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;" [style.color]="color_CardOffTime()">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px; padding: 0;" [style.color]="color_CardOffTime()">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label ">
             <ng-container i18n>原始離勤時間</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
-          <span>{{CardDateE}} {{CardTimeE}}</span>
+        <div class="col-md-8  col-xs-12">
+          <span>
+            <!-- {{CardDateE}}  -->
+            {{CardTimeE}}
+          </span>
+          <div *ngIf="isCrossCardTimeE" style="display: inline-block;
+          height: 20px;
+          font-size: 13px;
+          width: 40px;
+          text-align: center;
+          color: #fff;
+          background-color: #408cb6;
+          border: 1px solid;
+          border-radius: 15px;
+          margin: 0px 10px;">+1日</div>
         </div>
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;
-    margin-bottom: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <label class="col-md-4 control-label P_left">
           <ng-container i18n>異常原因</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
               <span>
-                {{GetAttendUnusualFlowAppsByProcessFlowIDData.CauseName}}</span>
-            </div>
-          </div>
+                {{GetAttendUnusualFlowAppsByProcessFlowIDData.CauseName}}
+              </span>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label ">
             <ng-container i18n>填寫人</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+        <div class="col-md-8  col-xs-12">
           <span>{{ReviewformServiceService.AttendUnusualDetail.WriteEmpCode}}
             {{ReviewformServiceService.AttendUnusualDetail.WriteEmpNameC}}</span>
         </div>
@@ -231,14 +239,16 @@
       </div>
     </div> -->
     <!-- form-group end -->
-    <app-from-sign [getProcessFlowID]="ReviewformServiceService.AttendUnusualDetail.ProcessFlowID"></app-from-sign>
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;">
+      <app-from-sign [getProcessFlowID]="ReviewformServiceService.AttendUnusualDetail.ProcessFlowID"></app-from-sign>
+    </div>
     <!--歷程主管意見-->
     <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding: 20px 0px;">
       <div class="row" style="margin: 0;padding: 0">
-        <div class="col-md-2 P_left">
+        <div class="col-md-2 col-xs-12 P_left">
           <ng-container i18n>簽核意見</ng-container>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-10 col-xs-12">
           <textarea [(ngModel)]="signText" class="inputTextarea" style="overflow-y: auto" maxlength="1000"></textarea>
         </div>
 
@@ -266,7 +276,7 @@
         <button *ngIf="!ReviewformServiceService.AttendUnusualDetail.isSendback" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;" disabled>退回</button>
         <button *ngIf="ReviewformServiceService.AttendUnusualDetail.isPutForward" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;"  data-toggle="modal" (click)="checkCanSendPutForward()">呈核</button>
         <button *ngIf="!ReviewformServiceService.AttendUnusualDetail.isPutForward" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;" disabled>呈核</button>
-    
+
         <a style="margin-right: 15px;cursor: pointer;" (click)="backReview()" [routerLink]="['..']">回列表</a>
       </div>
     </div> -->

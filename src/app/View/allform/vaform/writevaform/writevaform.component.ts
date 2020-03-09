@@ -18,7 +18,7 @@ import { GetHoliDayByFormData } from 'src/app/Models/GetHoliDayByFormData';
 import { GetAbsFlowSignTreeGetApiClass } from 'src/app/Models/PostData_API_Class/GetAbsFlowSignTreeGetApiClass';
 import { GetHoliDayBalanceFlow } from 'src/app/Models/PostData_API_Class/GetHoliDayBalanceFlow';
 import { GetBaseParameterDataClass } from 'src/app/Models/GetBaseParameterDataClass';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute, ParamMap } from '@angular/router';
 import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
 import { AttendError } from 'src/app/Models/AttendError';
 import { GetAttendInfoClass } from 'src/app/Models/PostData_API_Class/GetAttendInfoClass';
@@ -123,6 +123,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     this.Show_signDay = true
   }
   constructor(private router: Router,
+    private activatedRoute: ActivatedRoute,
     private viewScroller: ViewportScroller,
     private GetApiUserService: GetApiUserService,
     private GetApiDataServiceService: GetApiDataServiceService,
@@ -141,6 +142,19 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
   showBnftDate = '' //年度特休基準日
   ngOnInit() {
     // this.RouteReload()
+    this.activatedRoute.queryParamMap
+    .pipe(takeWhile(() => this.api_subscribe))
+    .subscribe(
+      (pMap:ParamMap)=>{
+        if(pMap.get('dateB')){
+          this.dateS = new Date(+pMap.get('dateB'))
+        }
+        if(pMap.get('dateE')){
+          this.dateE = new Date(+pMap.get('dateE'))
+        }
+      }
+    )
+
     this.GetApiUserService.counter$
       .pipe(takeWhile(() => this.EmpCodeReturn()))
       .subscribe(
@@ -648,7 +662,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
     return false
   }
   blurDateAndTime(): boolean {
-    //true:出錯 
+    //true:出錯
     if (this.valLimitSevenDay()) {
       // alert('不能請')
       // this.errorDateAndTime = { state: true, errorString: '7天限制' }
@@ -1609,7 +1623,7 @@ export class WritevaformComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-   * @todo 跳到tag的位置 
+   * @todo 跳到tag的位置
    * @param tag id連結位置
    * @author jacky
    */

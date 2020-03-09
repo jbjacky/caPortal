@@ -230,7 +230,7 @@
 
     </div>
     <div class="row"
-      style="margin: 0px ;margin-bottom:15px;padding: 15px 0px ;border-top:1px dashed #dcdcdc;border-bottom:1px dashed #dcdcdc">
+      style="margin: 0px ;padding: 15px 0px ;border-top:1px dashed #dcdcdc;border-bottom:1px dashed #dcdcdc">
 
       <div class="col-md-6 col-xs-12 P_zero">
         <div style="padding: 5px 12px">
@@ -288,7 +288,9 @@
       </div>
     </div>
     <!-- form-group end -->
-    <app-from-sign [getProcessFlowID]="ReviewformServiceService.changeDetail.ProcessFlowID"></app-from-sign>
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;">
+      <app-from-sign [getProcessFlowID]="ReviewformServiceService.changeDetail.ProcessFlowID"></app-from-sign>
+    </div>
     <!--歷程主管意見-->
     <div class="row" style="margin: 0px ;padding: 15px 0px ;">
       <div class="col-md-2 col-xs-12 P_right" style="padding-left: 0px;">

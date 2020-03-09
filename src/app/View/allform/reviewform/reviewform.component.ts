@@ -13,7 +13,7 @@ import { from, Observable, of, BehaviorSubject } from 'rxjs';
 import { calYearindate } from 'src/app/UseVoid/void_calYearindate';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
+import { void_crossDay, isCrossDate } from 'src/app/UseVoid/void_crossDay';
 import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { FlowNodeFinishGetDataClass } from 'src/app/Models/FlowNodeFinishGetDataClass';
 import { void_completionTenNum } from 'src/app/UseVoid/void_CompletionTenNum';
@@ -1364,6 +1364,10 @@ export class ReviewformComponent implements OnInit, OnDestroy, AfterViewInit {
                 WriteEmpNameC: cc.WriteEmpNameC,
 
                 Date: formatDateTime(cc.Date).getDate.toString(),
+                TimeB:getapi_formatTimetoString(cc.TimeB),
+                TimeE:getapi_formatTimetoString(cc.TimeE),
+                isCrossTimeB:isCrossDate(formatDateTime(cc.Date).getDate.toString(),cc.DateB),
+                isCrossTimeE:isCrossDate(formatDateTime(cc.Date).getDate.toString(),cc.DateE),
                 RoteCode: cc.RoteCode,
                 RoteTimeB: null,
                 RoteTimeE: null,

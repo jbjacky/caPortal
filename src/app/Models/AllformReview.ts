@@ -1,5 +1,5 @@
 
-export  class AllformReview 
+export  class AllformReview
 {
   EmpCode: string;
   EmpNameC: string;
@@ -54,7 +54,7 @@ export class vaFlowSign{
   isApproved: boolean;
   isSendback: boolean;
   isPutForward: boolean;
-  
+
   WriteEmpCode:string;
   WriteEmpNameC:string;
   // AbsFlowAppsDetail:any;
@@ -91,11 +91,11 @@ export class forgetFlowSign{
   ActualRote_calCrossDay:boolean
   AttendCard_calCrossDay:boolean
   WriteRote_calCrossDay:boolean
-  
+
   checkProxy:boolean
   WriteEmpCode:string;
   WriteEmpNameC:string;
-  
+
   // State:string;
   isForgetCard:boolean
   isEarlyMins:boolean
@@ -123,7 +123,7 @@ export class forgetFlowSign{
 
 }
 export class delFlowSign{
-  
+
   uiHolidayName:Array<any>;
   uiProcessFlowID:string;
   ProcessFlowID: string;
@@ -137,10 +137,10 @@ export class delFlowSign{
   isApproved: boolean;
   isSendback: boolean;
   isPutForward: boolean;
-  
+
   WriteEmpCode:string;
   WriteEmpNameC:string;
-  
+
   YearAndDate:YearAndDateClass[];
   dateArray:any[];
   day:string;
@@ -151,7 +151,7 @@ export class delFlowSign{
   checkProxy:boolean
 }
 export class changeFlowSign{
-  
+
   uiProcessFlowID:string;
   ProcessFlowID: string;
   FlowTreeID:string;
@@ -167,10 +167,10 @@ export class changeFlowSign{
   isSendback: boolean;
   isPutForward: boolean;
   Note:string;
-  
+
   WriteEmpCode:string;
   WriteEmpNameC:string;
-  
+
   YearAndDate:YearAndDateClass[];
   dateArray:Array<string>;
   isDR:boolean;
@@ -209,11 +209,11 @@ export class CardPatchFlowSign{
   ActualRote_calCrossDay:boolean
   AttendCard_calCrossDay:boolean
   WriteRote_calCrossDay:boolean
-  
+
   checkProxy:boolean
   WriteEmpCode:string;
   WriteEmpNameC:string;
-  
+
   ExceptionalName:   string;
   ErrorStateCode:    string;
   ErrorStateName:    string;
@@ -231,8 +231,12 @@ export class CardPatchFlowSign{
   isNormalOld:boolean
   isOnBeforeMinsOld:boolean
   isOffAfterMinsOld:boolean
-  
+
   Date:string;
+  TimeB:string;
+  TimeE:string;
+  isCrossTimeB:boolean;
+  isCrossTimeE:boolean;
   RoteCode:string;
 
   RoteTimeB:string

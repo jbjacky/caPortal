@@ -110,7 +110,7 @@
       </div>
     </div>
     <!-- form-group end -->
-    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;"
+    <div style="border-bottom: 1px dashed #dcdcdc;"
       *ngFor="let showDelDetail of uishowDelDetail ; let del_i = index">
       <div class="form-group" style="border:1px solid #028fcf;margin-top: 20px;padding-top: 15px;">
         <div *ngIf="!showDelDetail.everyday" class="row" style="padding: 0px;margin: 0px">
@@ -308,7 +308,9 @@
 
     </div>
     <!--銷假時段-->
-    <app-from-sign [getProcessFlowID]="ReviewformServiceService.delDetail.ProcessFlowID"></app-from-sign>
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;">
+      <app-from-sign [getProcessFlowID]="ReviewformServiceService.delDetail.ProcessFlowID"></app-from-sign>
+    </div>
     <!--歷程主管意見-->
     <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 20px">
       <div class="row" style="margin: 0;padding: 0">
@@ -947,7 +949,7 @@ background-color: #fff;padding: 20px 5px;
         <div class="modal-footer">
           <div style="text-align: center">
             <button type="button" class="btn btn-default" data-dismiss="modal">
-                <ng-container i18n>關閉</ng-container>  
+                <ng-container i18n>關閉</ng-container>
             </button>
           </div>
         </div>

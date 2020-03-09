@@ -24,6 +24,7 @@ import { ErrorSendbackSnackComponent } from 'src/app/View/shareComponent/snackba
 import { SussesPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
 import { ErrorPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/error-put-forward-snack/error-put-forward-snack.component';
 import { GetAttendUnusualFlowAppsByProcessFlowIDDataClass } from 'src/app/Models/GetAttendUnusualFlowAppsByProcessFlowIDDataClass';
+import { isCrossDate } from 'src/app/UseVoid/void_crossDay';
 declare let $: any; //use jquery
 
 @Component({
@@ -43,7 +44,7 @@ export class ReviewformDetailAttendUnusualformComponent implements OnInit, OnDes
   // previouspage() {
   //   //返回修改按鈕
   //   this.counterChange.emit();
-  // } 
+  // }
   signText: string;
   sussestext: string = '';
   onesendvaform(_sussestext) { this.sussestext = _sussestext; }
@@ -82,19 +83,21 @@ export class ReviewformDetailAttendUnusualformComponent implements OnInit, OnDes
 
   private Sub_onChangeSignMan$: BehaviorSubject<any> = new BehaviorSubject(0)
   onChangeSingMan$: Observable<any> = this.Sub_onChangeSignMan$; //切換選擇簽核人員使用
- 
+
   GetAttendUnusualFlowAppsByProcessFlowIDData: GetAttendUnusualFlowAppsByProcessFlowIDDataClass = new GetAttendUnusualFlowAppsByProcessFlowIDDataClass()
 
-  
+
 
   RoteDateB: string = ''
   RoteTimeB: string = ''
   RoteDateE: string = ''
   RoteTimeE: string = ''
+  isCrossRoteDateE:boolean = false
   CardDateB: string = ''
   CardTimeB: string = ''
   CardDateE: string = ''
   CardTimeE: string = ''
+  isCrossCardTimeE:boolean = false
 
   FirstEmpCode: string = ''
   ngOnInit() {
@@ -147,7 +150,7 @@ export class ReviewformDetailAttendUnusualformComponent implements OnInit, OnDes
     this.LoadingPage.show()
 
     this.GetApiDataServiceService.getWebApiData_GetAttendUnusualFlowAppsByProcessFlowID(this.ReviewformServiceService.AttendUnusualDetail.ProcessFlowID, true)
-    .pipe(takeWhile(() => this.api_subscribe))  
+    .pipe(takeWhile(() => this.api_subscribe))
     .subscribe(
         (data: GetAttendUnusualFlowAppsByProcessFlowIDDataClass[]) => {
           this.GetAttendUnusualFlowAppsByProcessFlowIDData = data[0]
@@ -158,10 +161,13 @@ export class ReviewformDetailAttendUnusualformComponent implements OnInit, OnDes
           this.RoteDateE = formatDateTime(data[0].RoteDateTimeE).getDate
           this.RoteTimeE = getapi_formatTimetoString(formatDateTime(data[0].RoteDateTimeE).getTime)
 
+          this.isCrossRoteDateE = isCrossDate(data[0].RoteDateTimeB,data[0].RoteDateTimeE)
+
           this.CardDateB = formatDateTime(data[0].CardDateTimeB).getDate
           this.CardTimeB = getapi_formatTimetoString(formatDateTime(data[0].CardDateTimeB).getTime)
           this.CardDateE = formatDateTime(data[0].CardDateTimeE).getDate
           this.CardTimeE = getapi_formatTimetoString(formatDateTime(data[0].CardDateTimeE).getTime)
+          this.isCrossCardTimeE = isCrossDate(data[0].CardDateTimeB,data[0].CardDateTimeE)
           this.LoadingPage.hide()
         }, err => {
 
@@ -204,7 +210,7 @@ export class ReviewformDetailAttendUnusualformComponent implements OnInit, OnDes
     // this.FileDownloadService.base64(upload);
   }
 
-  
+
   forgetShowCheckText = ''
   checkforgetCardText_Approved() {
     $('#forgetApproveddialog').modal('show')

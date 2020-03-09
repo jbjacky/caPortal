@@ -75,7 +75,7 @@
                   <!--040A_02-->{{oneforgetData.RoteNameC}}
                 </div>
               </div>
-              <div>
+              <!-- <div>
                 <span style="color: #969696">
                   <ng-container i18n>消除異常狀態</ng-container>：
                 </span>
@@ -97,11 +97,41 @@
                 <span *ngIf="oneforgetData.isOffAfterMins" style="margin-right:5px;display: inline-block;">
                   <ng-container i18n>晚退</ng-container>
                 </span>
+              </div> -->
+              <div>
+                <span style="color: #969696">
+                  <ng-container i18n>補卡時間</ng-container>：
+                </span>
+                <span  style="margin-right:5px;display: inline-block;">
+                  {{oneforgetData.TimeB}}
+                </span>
+                <div *ngIf="oneforgetData.isCrossTimeB" style="display: inline-block;
+              height: 20px;
+              font-size: 13px;
+              width: 40px;
+              text-align: center;
+              color: #fff;
+              background-color: #408cb6;
+              border: 1px solid;
+              border-radius: 15px;">+1日</div>
+              <span *ngIf="oneforgetData.TimeB.length>0 && oneforgetData.TimeE.length>0">、</span>
+                <span  style="margin-right:5px;display: inline-block;">
+                  {{oneforgetData.TimeE}}
+                </span>
+                <div *ngIf="oneforgetData.isCrossTimeE" style="display: inline-block;
+              height: 20px;
+              font-size: 13px;
+              width: 40px;
+              text-align: center;
+              color: #fff;
+              background-color: #408cb6;
+              border: 1px solid;
+              border-radius: 15px;">+1日</div>
               </div>
             </div>
             <div class="col-md-4 col-xs-12" style="padding: 0">
               <span style="color: #969696">
-                <ng-container i18n>異常狀態</ng-container>：
+                <ng-container i18n>考勤狀態</ng-container>：
               </span>
               <span *ngIf="oneforgetData.isEarlyMinsOld" style="margin-right:5px;display: inline-block;">
                 <ng-container i18n>早退</ng-container>

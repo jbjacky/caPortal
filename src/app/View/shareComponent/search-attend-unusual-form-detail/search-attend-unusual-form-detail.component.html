@@ -3,41 +3,37 @@
     <h3>
       <ng-container i18n>考勤異常簽認單明細</ng-container>
     </h3>
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
-      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px;padding-top: 2px">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6 col-xs-6 row" style="margin: 0px;padding: 0">
         <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>表單編號</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span style="color: #028fcf">
-                <!-- 20180000000201104 -->
-                {{getAttendUnusualDataTitle.showProcessFlowID}}
-              </span>
-              <a style="cursor: pointer;">
-                <span *ngIf="getAttendUnusualDataTitle.Take && getShowTakeDetail" data-toggle="modal"
-                  data-target="#Cancelformdialog">
-                  (<ng-container i18n>抽單</ng-container>)
-                </span>
-              </a>
-              <a style="cursor: pointer;" data-toggle="modal" (click)="checkTransSignForm(getAttendUnusualDataTitle)">
-                <span *ngIf="getAttendUnusualDataTitle.TransSign && getShowTransSignDetail">
-                  (<ng-container i18n>轉呈</ng-container>)
-                </span>
-              </a>
-            </div>
-          </div>
+          <span style="color: #028fcf">
+            <!-- 20180000000201104 -->
+            {{getAttendUnusualDataTitle.showProcessFlowID}}
+          </span>
+          <a style="cursor: pointer;">
+            <span *ngIf="getAttendUnusualDataTitle.Take && getShowTakeDetail" data-toggle="modal"
+              data-target="#Cancelformdialog">
+              (<ng-container i18n>抽單</ng-container>)
+            </span>
+          </a>
+          <a style="cursor: pointer;" data-toggle="modal" (click)="checkTransSignForm(getAttendUnusualDataTitle)">
+            <span *ngIf="getAttendUnusualDataTitle.TransSign && getShowTransSignDetail">
+              (<ng-container i18n>轉呈</ng-container>)
+            </span>
+          </a>
         </div>
       </div>
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3 col-xs-12 P_state" style="padding-top:2px ">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0">
+        <div class="col-md-4 col-xs-12 P_left" style="padding-top:2px ">
           <label class="control-label">
             <ng-container i18n>表單狀態</ng-container>
           </label>
         </div>
         <div *ngIf="getAttendUnusualDataTitle.ManageEmpName && getAttendUnusualDataTitle.State =='1'"
-          class="col-md-9 col-xs-12 P_leftZero" style="padding-right: 0px">
+          class="col-md-8 col-xs-12">
           <div class="tag_blue" style="margin-right: 5px">
             <label>
               <ng-container i18n>呈核中</ng-container>
@@ -46,27 +42,24 @@
           {{getAttendUnusualDataTitle.ManageEmpName}}
           <ng-container i18n> 審核中 </ng-container>
         </div>
-        <div *ngIf="getAttendUnusualDataTitle.State == '3'" class="col-md-9 col-xs-12 P_leftZero "
-          style="padding-right: 0px">
+        <div *ngIf="getAttendUnusualDataTitle.State == '3'" class="col-md-8 col-xs-12">
           <div>
             <label class="tag_skyblue" style="margin-right: 5px">
-              <ng-container i18n>已核准</ng-container>
+              <ng-container i18n>已確認</ng-container>
             </label>
             <span *ngIf="showAprovedName">{{showAprovedName}}
               <ng-container i18n> 核單</ng-container>
             </span>
           </div>
         </div>
-        <div *ngIf="getAttendUnusualDataTitle.State == '2'" class="col-md-9 col-xs-12 P_leftZero "
-          style="padding-right: 0px">
+        <div *ngIf="getAttendUnusualDataTitle.State == '2'" class="col-md-8 col-xs-12">
           <div class="tag_red">
             <label style="color: #d0021b">
               <ng-container i18n>重擬</ng-container>
             </label>
           </div>
         </div>
-        <div *ngIf="getAttendUnusualDataTitle.State == '7'" class="col-md-9 col-xs-12 P_leftZero "
-          style="padding-right: 0px">
+        <div *ngIf="getAttendUnusualDataTitle.State == '7'" class="col-md-8 col-xs-12">
           <div class="tag_gray">
             <label style="color: #9b9b9b">
               <ng-container i18n>已抽單</ng-container>
@@ -76,71 +69,65 @@
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
         <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>員工</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>{{getAttendUnusualDataTitle.EmpID}}
-                {{getAttendUnusualDataTitle.EmpName}}</span>
-            </div>
-          </div>
+          <span>
+            {{getAttendUnusualDataTitle.EmpID}}
+            {{getAttendUnusualDataTitle.EmpName}}
+          </span>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label ">
-            <ng-container i18n>異常狀態</ng-container>
+            <ng-container i18n>消除異常</ng-container>
           </label>
         </div>
-        <div *ngIf="getAttendUnusualDataTitle" class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
-          <div *ngIf="getAttendUnusualDataTitle.EliminateLate" class="tag_red" style="margin: 0px">
+        <div *ngIf="getAttendUnusualDataTitle" class="col-md-8  col-xs-12">
+          <div *ngIf="getAttendUnusualDataTitle.EliminateLate" class="tag_red">
             <ng-container i18n>遲到</ng-container>
           </div>
-          <div *ngIf="getAttendUnusualDataTitle.EliminateEarly" class="tag_red" style="margin: 0px">
+          <div *ngIf="getAttendUnusualDataTitle.EliminateEarly" class="tag_red">
             <ng-container i18n>早退</ng-container>
           </div>
-          <div *ngIf="getAttendUnusualDataTitle.EliminateAbsent" class="tag_red" style="margin: 0px">
+          <div *ngIf="getAttendUnusualDataTitle.EliminateAbsent" class="tag_red">
             <ng-container i18n>未刷卡</ng-container>
           </div>
-          <div *ngIf="getAttendUnusualDataTitle.EliminateOnBefore" class="tag_red" style="margin: 0px">
+          <div *ngIf="getAttendUnusualDataTitle.EliminateOnBefore" class="tag_red">
             <ng-container i18n>早到</ng-container>
           </div>
-          <div *ngIf="getAttendUnusualDataTitle.EliminateOffAfter" class="tag_red" style="margin: 0px">
+          <div *ngIf="getAttendUnusualDataTitle.EliminateOffAfter" class="tag_red">
             <ng-container i18n>晚退</ng-container>
           </div>
         </div>
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>工作日</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>
-                <!-- 2018/10/30 -->
-                {{GetAttendUnusualFlowAppsByProcessFlowIDData.Date}}
-              </span>
-            </div>
-          </div>
+          <span>
+            <!-- 2018/10/30 -->
+            {{GetAttendUnusualFlowAppsByProcessFlowIDData.Date}}
+          </span>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label">
             <ng-container i18n>班型</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+        <div class="col-md-8  col-xs-12">
           <span>
             <!-- 0830_A -->
             {{getAttendUnusualDataTitle.RoteNameC}}
@@ -149,93 +136,101 @@
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>應到勤時間</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>
-                <!-- 0800 -->
-                {{RoteDateB}} {{RoteTimeB}}
-              </span>
-            </div>
-          </div>
+          <span>
+            <!-- 0800 -->
+            {{RoteTimeB}}
+          </span>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label">
             <ng-container i18n>應離勤時間</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+        <div class="col-md-8  col-xs-12">
           <span>
             <!-- 1700 -->
-            {{RoteDateE}} {{RoteTimeE}}
+            {{RoteTimeE}}
           </span>
+          <div *ngIf="isCrossRoteDateE" style="display: inline-block;
+        height: 20px;
+        font-size: 13px;
+        width: 40px;
+        text-align: center;
+        color: #fff;
+        background-color: #408cb6;
+        border: 1px solid;
+        border-radius: 15px;
+        margin: 0px 10px;">+1日</div>
         </div>
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px" [style.color]="color_CardOnTime()">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin:0px;padding: 0;" [style.color]="color_CardOnTime()">
+        <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>原始到勤時間</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>
-                <!-- 0800 -->
-                {{CardDateB}} {{CardTimeB}}
-              </span>
-            </div>
-          </div>
+          <span>
+            <!-- 0800 -->
+            {{CardTimeB}}
+          </span>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;" [style.color]="color_CardOffTime()">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin:0px;padding: 0;" [style.color]="color_CardOffTime()">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label ">
             <ng-container i18n>原始離勤時間</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+        <div class="col-md-8  col-xs-12">
           <span>
             <!-- 1700 -->
-            {{CardDateE}} {{CardTimeE}}
+            {{CardTimeE}}
           </span>
+          <div *ngIf="isCrossCardTimeE" style="display: inline-block;
+        height: 20px;
+        font-size: 13px;
+        width: 40px;
+        text-align: center;
+        color: #fff;
+        background-color: #408cb6;
+        border: 1px solid;
+        border-radius: 15px;
+        margin: 0px 10px;">+1日</div>
         </div>
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <label class="col-md-4 control-label P_left">
           <ng-container i18n>異常原因</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>
-                {{GetAttendUnusualFlowAppsByProcessFlowIDData.CauseName}}
-              </span>
-            </div>
-          </div>
+          <span>
+            {{GetAttendUnusualFlowAppsByProcessFlowIDData.CauseName}}
+          </span>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label ">
             <ng-container i18n>填寫人</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+        <div class="col-md-8  col-xs-12">
           <span>
             {{getAttendUnusualDataTitle.AppEmpID}}
             {{getAttendUnusualDataTitle.AppEmpName}}
@@ -284,19 +279,23 @@
       </div>
     </div> -->
     <!-- form-group end -->
-    <div style="padding-top: 20px">
+    <div style="padding: 20px 0px">
       <app-from-sign [getProcessFlowID]="getAttendUnusualDataTitle.ProcessFlowID"></app-from-sign>
       <!--歷程主管意見-->
     </div>
-    <div style="text-align:center">
-      <button class="btn btn-primary btnFeatures" data-toggle="modal" (click)="show_signRecord()">
-        <ng-container i18n>簽核流程紀錄</ng-container>
-      </button>
-      <button class="btn btn-default btnFeatures" (click)="previouspage()">
-        <ng-container i18n>回上一頁</ng-container>
-      </button>
+    <div class="row" style="margin: 0;">
+      <span class="col-md-2 col-xs-12">
+      </span>
+      <div class="col-md-10 col-xs-12">
+        <button class="btn btn-primary btnFeatures" data-toggle="modal" (click)="show_signRecord()">
+          <ng-container i18n>簽核流程紀錄</ng-container>
+        </button>
+        <button class="btn btn-default btnFeatures" (click)="previouspage()">
+          <ng-container i18n>回上一頁</ng-container>
+        </button>
+      </div>
     </div>
-
+    <!-- form-group end -->
   </div>
 </div>
 <div class="modal" id="Cancelformdialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

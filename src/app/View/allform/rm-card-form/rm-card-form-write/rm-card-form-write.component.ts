@@ -524,7 +524,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
     $('#errStateCheckDialog').modal('show')
   }
 
-  
+
   OnBeforeAttendUnusual:boolean = false //送出早到註記單
   OnBeforeCardPatch:boolean = false //送出早到補卡單
   OffAfterAttendUnusual = false //送出晚退註記單
@@ -708,7 +708,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
             alert(errMsg);
             isOK = false
           }else{
-          
+
             if(state.ErrorState =='早到' && state.FormCode == 'AttendUnusual'){
               this.cR_OnBeforeMins = 0
               this.OnBeforeAttendUnusual = true
@@ -903,8 +903,9 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
     // var originHerf =  location.href.split('nav')[1]
     // var vaFormHerf = originHerf+'/nav/vaform/writevaform'
     // console.log(vaFormHerf)
+    var intDate = new Date(this.getAttendCard.AttendDate).getTime()
     var originHerf = location.href.split('nav')[0]
-    var vaFormHerf = originHerf + 'nav/vaform/writevaform'
+    var vaFormHerf = originHerf + `nav/vaform/writevaform?dateB=${intDate}&dateE=${intDate}`
     // console.log(vaFormHerf)
     window.open(vaFormHerf, '_blank')
   }
@@ -912,7 +913,7 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
     window.open(otSysURL, '_blank')
   }
 
-  showCardFlowDataDialog:boolean = true 
+  showCardFlowDataDialog:boolean = true
   showCardFlowData: GetCardFlowAppsGetApiDataClass[] = []
   searchCardFormFlow() {
     $('#searchCardFlowDataDialog').modal('show')
@@ -934,10 +935,10 @@ export class RmCardFormWriteComponent implements OnInit, AfterViewInit, OnDestro
           for (let c of this.showCardFlowData) {
             c.ProcessID  = void_completionTenNum(c.ProcessID)
             if(formatDateTime(c.ApproveDate).getDate && formatDateTime(c.ApproveDate).getTime){
-              c.ApproveDate = formatDateTime(c.ApproveDate).getDate+' '+ getapi_formatTimetoString(formatDateTime(c.ApproveDate).getTime) 
+              c.ApproveDate = formatDateTime(c.ApproveDate).getDate+' '+ getapi_formatTimetoString(formatDateTime(c.ApproveDate).getTime)
             }else{
               c.ApproveDate = null
-            } 
+            }
             if (c.DateTimeB) {
               c.DateTimeB = formatDateTime(c.DateTimeB).getDate + ' ' + getapi_formatTimetoString(formatDateTime(c.DateTimeB).getTime)
             }

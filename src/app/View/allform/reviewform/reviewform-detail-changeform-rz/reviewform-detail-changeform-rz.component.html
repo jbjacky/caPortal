@@ -98,7 +98,6 @@
     </div>
     <div *ngIf="selectDay && selectChangeDay" style="
       padding: 5px 25px;
-      margin-bottom: 10px;
       padding-top: 0px;border-bottom: 1px dashed #dcdcdc;">
       <div>
         <span style="color: #002f7b">{{selectDay.date}} ({{selectDay.dayofweek}})</span>
@@ -116,7 +115,9 @@
     </div>
 
     <!-- form-group end -->
-    <app-from-sign [getProcessFlowID]="ReviewformServiceService.changeDetail.ProcessFlowID"></app-from-sign>
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;">
+      <app-from-sign [getProcessFlowID]="ReviewformServiceService.changeDetail.ProcessFlowID"></app-from-sign>
+    </div>
     <!--歷程主管意見-->
     <div class="row" style="margin: 0px ;padding: 15px 0px ;">
       <div class="col-md-2 col-xs-12 P_right" style="padding-left: 0px;">

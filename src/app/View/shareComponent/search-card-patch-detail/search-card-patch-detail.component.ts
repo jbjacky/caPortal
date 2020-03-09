@@ -12,6 +12,7 @@ import { GetSelectBaseClass } from 'src/app/Models/GetSelectBaseClass';
 import { TransSignStateGetApiClass } from 'src/app/Models/PostData_API_Class/TransSignStateGetApiClass';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
 import { cardPatchSearchFlowSignClass } from '../search-card-patch-form/search-card-patch-form.component';
+import { isCrossDate } from 'src/app/UseVoid/void_crossDay';
 declare let $: any; //use jquery
 
 @Component({
@@ -38,16 +39,23 @@ export class SearchCardPatchDetailComponent implements OnInit, OnDestroy {
     private GetApiUserService: GetApiUserService ) { }
 
   GetCardFlowAppsByProcessFlowIDData: GetCardFlowAppsByProcessFlowIDDataClass = new GetCardFlowAppsByProcessFlowIDDataClass()
-  
+
   RoteDateB: string = ''
   RoteTimeB: string = ''
+  isCrossRoteDateB:boolean = false
   RoteDateE: string = ''
   RoteTimeE: string = ''
+  isCrossRoteDateE:boolean = false
   CardDateB: string = ''
   CardTimeB: string = ''
+  isCrossCardTimeB:boolean = false
   CardDateE: string = ''
   CardTimeE: string = ''
+  isCrossCardTimeE:boolean = false
   showAprovedName:string
+
+  isCrossFlowIDDateB:boolean = false
+  isCrossFlowIDDateE:boolean = false
 
   SearchMan = { EmpCode: '', EmpNameC: '' }
   ngOnInit() {
@@ -70,16 +78,28 @@ export class SearchCardPatchDetailComponent implements OnInit, OnDestroy {
           this.GetCardFlowAppsByProcessFlowIDData.DateE = formatDateTime(data[0].DateE).getDate
           this.GetCardFlowAppsByProcessFlowIDData.TimeB = getapi_formatTimetoString(data[0].TimeB)
           this.GetCardFlowAppsByProcessFlowIDData.TimeE = getapi_formatTimetoString(data[0].TimeE)
-          
+
+          var FlowIDDateTimeB = new Date(formatDateTime(data[0].DateB).getDate + ' '+ getapi_formatTimetoString(data[0].TimeB)).toJSON()
+          var FlowIDDateTimeE = new Date(formatDateTime(data[0].DateE).getDate + ' '+ getapi_formatTimetoString(data[0].TimeE)).toJSON()
+          this.isCrossFlowIDDateB = isCrossDate(formatDateTime(data[0].Date).getDate,FlowIDDateTimeB)
+          this.isCrossFlowIDDateE = isCrossDate(formatDateTime(data[0].Date).getDate,FlowIDDateTimeE)
+
           this.RoteDateB = formatDateTime(data[0].RoteDateTimeB).getDate
           this.RoteTimeB = getapi_formatTimetoString(formatDateTime(data[0].RoteDateTimeB).getTime)
           this.RoteDateE = formatDateTime(data[0].RoteDateTimeE).getDate
           this.RoteTimeE = getapi_formatTimetoString(formatDateTime(data[0].RoteDateTimeE).getTime)
 
+          this.isCrossRoteDateB = isCrossDate(formatDateTime(data[0].Date).getDate,data[0].RoteDateTimeB)
+          this.isCrossRoteDateE = isCrossDate(formatDateTime(data[0].Date).getDate,data[0].RoteDateTimeE)
+
           this.CardDateB = formatDateTime(data[0].CardDateTimeB).getDate
           this.CardTimeB = getapi_formatTimetoString(formatDateTime(data[0].CardDateTimeB).getTime)
           this.CardDateE = formatDateTime(data[0].CardDateTimeE).getDate
           this.CardTimeE = getapi_formatTimetoString(formatDateTime(data[0].CardDateTimeE).getTime)
+
+          this.isCrossCardTimeB = isCrossDate(formatDateTime(data[0].Date).getDate,data[0].CardDateTimeB)
+          this.isCrossCardTimeE = isCrossDate(formatDateTime(data[0].Date).getDate,data[0].CardDateTimeE)
+
         }, error => {
 
         }
@@ -189,7 +209,7 @@ export class SearchCardPatchDetailComponent implements OnInit, OnDestroy {
       // )
     // this.FileDownloadService.base64(upload);
   }
-  
+
   color_CardOnTime(){
 
     if(this.getForgetDataTitle.isLateMins || this.getForgetDataTitle.isForgetCard   || this.getForgetDataTitle.isOnBeforeMins){
@@ -199,7 +219,7 @@ export class SearchCardPatchDetailComponent implements OnInit, OnDestroy {
     }
   }
   color_CardOffTime(){
-    
+
     if(this.getForgetDataTitle.isEarlyMins || this.getForgetDataTitle.isForgetCard || this.getForgetDataTitle.isOffAfterMins ){
       return '#d0021b'
     }else{
@@ -213,7 +233,7 @@ export class SearchCardPatchDetailComponent implements OnInit, OnDestroy {
       return '#4c4c4c'
     }
   }
-  
+
   color_ActualOffTime(){
     if(this.GetCardFlowAppsByProcessFlowIDData.DateE){
       return '#028fcf'
@@ -221,7 +241,7 @@ export class SearchCardPatchDetailComponent implements OnInit, OnDestroy {
       return '#4c4c4c'
     }
   }
-  
+
   signRecordDialog:boolean = false
   show_signRecord(){
     if(!this.signRecordDialog){

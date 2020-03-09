@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import { SharemodelModule } from '../Sharemodel/sharemodel.module';
 
 @NgModule({
   imports: [
@@ -21,20 +22,21 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
     DesignPageRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxSelectModule,
-    LZStringModule,
-    NgxSpinnerModule,
-    HttpClientModule
+    // NgxSelectModule,
+    // LZStringModule,
+    // NgxSpinnerModule,
+    HttpClientModule,
+    SharemodelModule
   ],
   declarations: [
     DesignPageComponent,
     EditPageComponent,
-    FromSignComponent,
-    SelectSignerComponent,
+    // FromSignComponent,
+    // SelectSignerComponent,
   ],
   providers: [
-    LZStringService,
-    FileDownloadService
+    // LZStringService,
+    // FileDownloadService
   ],
 })
 export class DesignPageModule { }

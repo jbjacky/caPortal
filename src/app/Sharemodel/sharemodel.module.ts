@@ -135,7 +135,7 @@ import { CardFormTempComponent } from '../View/allform/rm-card-form/card-form-te
     RoteInfComponent,
     RmCardFormTempComponent,
     CardFormTempComponent,
-    
+
     SussesSnackComponent,
     ErrorSnackComponent,
     SussesApproveSnackComponent,
@@ -194,7 +194,7 @@ import { CardFormTempComponent } from '../View/allform/rm-card-form/card-form-te
     RoteInfComponent,
     RmCardFormTempComponent,
     CardFormTempComponent,
-    
+
     SussesSnackComponent,
     ErrorSnackComponent,
     SussesApproveSnackComponent,

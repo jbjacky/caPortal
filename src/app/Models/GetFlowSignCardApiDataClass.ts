@@ -19,5 +19,11 @@ export interface GetFlowSignCardApiDataClass {
     RoteCode:          string;
     ErrorStateCode:    string;
     ErrorStateName:    string;
+    DateB:             string;
+    TimeB:             string;
+    DateTimeB:         string;
+    DateE:             string;
+    TimeE:             string;
+    DateTimeE:         string;
 }
 

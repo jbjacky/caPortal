@@ -11,6 +11,7 @@ import { TransSignStateGetApiClass } from 'src/app/Models/PostData_API_Class/Tra
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
 import { AttendUnusualSearchFlowSignClass } from '../search-attend-unusual-form/search-attend-unusual-form.component';
 import { GetAttendUnusualFlowAppsByProcessFlowIDDataClass } from 'src/app/Models/GetAttendUnusualFlowAppsByProcessFlowIDDataClass';
+import { isCrossDate } from 'src/app/UseVoid/void_crossDay';
 declare let $: any; //use jquery
 
 @Component({
@@ -42,10 +43,12 @@ export class SearchAttendUnusualFormDetailComponent implements OnInit, OnDestroy
   RoteTimeB: string = ''
   RoteDateE: string = ''
   RoteTimeE: string = ''
+  isCrossRoteDateE:boolean = false
   CardDateB: string = ''
   CardTimeB: string = ''
   CardDateE: string = ''
   CardTimeE: string = ''
+  isCrossCardTimeE:boolean = false
   showAprovedName: string
 
   SearchMan = { EmpCode: '', EmpNameC: '' }
@@ -71,13 +74,18 @@ export class SearchAttendUnusualFormDetailComponent implements OnInit, OnDestroy
           this.RoteDateE = formatDateTime(data[0].RoteDateTimeE).getDate
           this.RoteTimeE = getapi_formatTimetoString(formatDateTime(data[0].RoteDateTimeE).getTime)
 
+          this.isCrossRoteDateE = isCrossDate(data[0].RoteDateTimeB,data[0].RoteDateTimeE)
+
           this.CardDateB = formatDateTime(data[0].CardDateTimeB).getDate
           this.CardTimeB = getapi_formatTimetoString(formatDateTime(data[0].CardDateTimeB).getTime)
           this.CardDateE = formatDateTime(data[0].CardDateTimeE).getDate
           this.CardTimeE = getapi_formatTimetoString(formatDateTime(data[0].CardDateTimeE).getTime)
+
+          this.isCrossCardTimeE = isCrossDate(data[0].CardDateTimeB,data[0].CardDateTimeE)
         }
       )
   }
+
 
   previouspage() {
     //回列表

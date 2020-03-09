@@ -8,7 +8,7 @@ import { void_completionTenNum } from 'src/app/UseVoid/void_CompletionTenNum';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GetApiUserService } from 'src/app/Service/get-api-user.service';
 import { takeWhile, mergeMap, map, toArray } from 'rxjs/operators';
-import { void_crossDay } from 'src/app/UseVoid/void_crossDay';
+import { void_crossDay, isCrossDate } from 'src/app/UseVoid/void_crossDay';
 import { from, BehaviorSubject, Observable } from 'rxjs';
 import { GetFlowViewCardGetApiDataClass } from 'src/app/Models/GetFlowViewCardGetApiDataClass';
 import { TransSignStateGetApiClass } from 'src/app/Models/PostData_API_Class/TransSignStateGetApiClass';
@@ -75,21 +75,27 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
       var _isOffAfterMinsOld: boolean = false
 
       var ExceptionalNameArray = []
+      //送出時當下的考勤異常
       if (data.ExceptionalName) {
-        if(data.ErrorStateName.length > 0){
+        if (data.ExceptionalName.length > 0) {
           ExceptionalNameArray = data.ExceptionalName.split(',')
           for (let e of ExceptionalNameArray) {
             if (e == '未刷卡') {
-              _isForgetCardOld = true}
-             if (e == '早退') {
-              _isEarlyMinsOld = true}
-             if (e == '遲到') {
-              _isLateMinsOld = true}
-             if (e == '正常') {
-              _isNormalOld = true}
-             if (e == '早到') {
-              _isOnBeforeMinsOld = true}
-             if (e == '晚退') {
+              _isForgetCardOld = true
+            }
+            if (e == '早退') {
+              _isEarlyMinsOld = true
+            }
+            if (e == '遲到') {
+              _isLateMinsOld = true
+            }
+            if (e == '正常') {
+              _isNormalOld = true
+            }
+            if (e == '早到') {
+              _isOnBeforeMinsOld = true
+            }
+            if (e == '晚退') {
               _isOffAfterMinsOld = true
             }
           }
@@ -101,17 +107,23 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
       var _isNormal: boolean = false
       var _isOnBeforeMins: boolean = false
       var _isOffAfterMins: boolean = false
+      //送出時選擇消除的考勤異常
       if (data.ErrorStateName == '未刷卡') {
-        _isForgetCard = true}
-       if (data.ErrorStateName == '早退') {
-        _isEarlyMins = true}
-       if (data.ErrorStateName == '遲到') {
-        _isLateMins = true}
-       if (data.ErrorStateName == '正常') {
-        _isNormal = true}
-       if (data.ErrorStateName == '早到') {
-        _isOnBeforeMins = true}
-       if (data.ErrorStateName == '晚退') {
+        _isForgetCard = true
+      }
+      if (data.ErrorStateName == '早退') {
+        _isEarlyMins = true
+      }
+      if (data.ErrorStateName == '遲到') {
+        _isLateMins = true
+      }
+      if (data.ErrorStateName == '正常') {
+        _isNormal = true
+      }
+      if (data.ErrorStateName == '早到') {
+        _isOnBeforeMins = true
+      }
+      if (data.ErrorStateName == '晚退') {
         _isOffAfterMins = true
       }
       var _ActualRote_calCrossDay: boolean = false
@@ -136,6 +148,10 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
         Handle: data.Handle,
 
         Date: formatDateTime(data.Date).getDate,
+        TimeB: getapi_formatTimetoString(data.TimeB),
+        TimeE: getapi_formatTimetoString(data.TimeE),
+        isCrossTimeB: isCrossDate(formatDateTime(data.Date).getDate, data.DateB),
+        isCrossTimeE: isCrossDate(formatDateTime(data.Date).getDate, data.DateE),
         RouteCode: null,
         RoteNameC: data.RoteNameC,
         isForgetCard: _isForgetCard,
@@ -263,6 +279,7 @@ export class SearchCardPatchFormComponent implements OnInit, OnDestroy {
     // }
 
   }
+
 
   showForgetDataDetail: boolean = false  // 顯示明細
   @Output() gotoShowFormPlace: EventEmitter<number> = new EventEmitter<number>();
@@ -411,6 +428,10 @@ export class cardPatchSearchFlowSignClass {
   TransSign: boolean
 
   Date: string
+  TimeB: string
+  TimeE: string
+  isCrossTimeB: boolean
+  isCrossTimeE: boolean
   RouteCode: string
   RoteNameC: string
 

@@ -1,3 +1,4 @@
+import { formatDateTime } from "./void_doFormatDate"
 
 /**
  * @todo 計算跨天時數
@@ -36,4 +37,24 @@ export function void_crossDay(_EndTime) {
 
     return { EndTime: _EndTime, isCrossDay: _isCrossDay }
 
+}
+
+
+/**
+ * @todo 是否跨天，只比對日期
+ * @author jacky
+ */
+export function isCrossDate(DateIimeB: string, DateTimeE: string) {
+  //只比對日期
+  if (DateIimeB && DateTimeE) {
+    var DateB = new Date(formatDateTime(DateIimeB).getDate)
+    var DateE = new Date(formatDateTime(DateTimeE).getDate)
+    if (DateE > DateB) {
+      return true
+    } else {
+      return false
+    }
+  } else {
+    return false
+  }
 }

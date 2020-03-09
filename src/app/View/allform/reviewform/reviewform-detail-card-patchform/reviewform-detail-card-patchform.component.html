@@ -10,27 +10,24 @@
 
     </div>
 
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;">
-      <div class="col-md-6 col-xs-12" style="margin-bottom: 10px">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6 col-xs-6 row" style="margin:0;padding: 0;">
         <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>表單編號</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span
-                style="color: #028fcf">{{completionTenNum(ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID)}}</span>
-            </div>
-          </div>
+            <span
+              style="color: #028fcf">{{completionTenNum(ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID)}}
+            </span>
         </div>
       </div>
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin:0;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label ">
             <ng-container i18n>表單狀態</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+        <div class="col-md-8  col-xs-12">
           <label style="color: #d0021b">
             <ng-container i18n>簽核中</ng-container>
           </label>
@@ -38,44 +35,48 @@
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin:0;padding: 0;">
         <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>員工</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>{{ReviewformServiceService.CardPatchFlowSignDetail.EmpCode}}
-                {{ReviewformServiceService.CardPatchFlowSignDetail.EmpNameC}}</span>
-            </div>
-          </div>
+          <span>
+            {{ReviewformServiceService.CardPatchFlowSignDetail.EmpCode}}
+            {{ReviewformServiceService.CardPatchFlowSignDetail.EmpNameC}}
+          </span>
         </div>
       </div>
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin:0;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left" style="line-height: 25px;">
           <label class="control-label ">
             <ng-container i18n>考勤狀態</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+        <div class="col-md-8  col-xs-12">
           <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail">
-            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isLateMinsOld" style="margin-right:  5px;display: inline-block;">
+            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isLateMinsOld" class="tag_red"
+              style="margin-right:  5px;display: inline-block;">
               <ng-container i18n>遲到</ng-container>
             </div>
-            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isEarlyMinsOld" style="margin-right:  5px;display: inline-block;">
+            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isEarlyMinsOld" class="tag_red"
+              style="margin-right:  5px;display: inline-block;">
               <ng-container i18n>早退</ng-container>
             </div>
-            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isForgetCardOld" style="margin-right:  5px;display: inline-block;">
+            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isForgetCardOld" class="tag_red"
+              style="margin-right:  5px;display: inline-block;">
               <ng-container i18n>未刷卡</ng-container>
             </div>
-            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isNormalOld" style="margin-right:  5px;display: inline-block;">
+            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isNormalOld" class="tag_blue"
+              style="margin-right:  5px;display: inline-block;">
               <ng-container i18n>正常</ng-container>
             </div>
-            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isOffAfterMinsOld" style="margin-right:  5px;display: inline-block;">
+            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isOffAfterMinsOld" class="tag_red"
+              style="margin-right:  5px;display: inline-block;">
               <ng-container i18n>晚退</ng-container>
             </div>
-            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isOnBeforeMinsOld" style="margin-right:  5px;display: inline-block;">
+            <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isOnBeforeMinsOld" class="tag_red"
+              style="margin-right:  5px;display: inline-block;">
               <ng-container i18n>早到</ng-container>
             </div>
           </div>
@@ -118,7 +119,7 @@
             <ng-container i18n>消除異常狀態</ng-container>
           </label>
         </div>
-        <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail" class="col-md-3  col-xs-12 P_leftZero">
+        <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail" class="col-md-3  col-xs-12">
           <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isLateMins" style="margin-right:  5px;display: inline-block;">
             <ng-container i18n>遲到</ng-container>
           </div>
@@ -141,55 +142,63 @@
       </div>
     </div> -->
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>工作日</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>{{GetCardFlowAppsByProcessFlowIDData.Date}}</span>
-            </div>
-          </div>
+            <span>{{GetCardFlowAppsByProcessFlowIDData.Date}}</span>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label ">
             <ng-container i18n>班型</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+        <div class="col-md-8  col-xs-12">
           <span>{{ReviewformServiceService.CardPatchFlowSignDetail.RoteCode}}</span>
         </div>
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>應到勤時間</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>{{RoteDateB}} {{RoteTimeB}}</span>
-            </div>
-          </div>
+              <span>
+                <!-- {{RoteDateB}}  -->
+                {{RoteTimeB}}
+              </span>
+              <div *ngIf="isCrossRoteDateB" style="display: inline-block;
+            height: 20px;
+            font-size: 13px;
+            width: 40px;
+            text-align: center;
+            color: #fff;
+            background-color: #408cb6;
+            border: 1px solid;
+            border-radius: 15px;
+            margin: 0px 10px;">+1日</div>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label ">
             <ng-container i18n>應離勤時間</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
-          <span>{{RoteDateE}} {{RoteTimeE}}</span>
-          <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.ActualRote_calCrossDay" style="display: inline-block;
+        <div class="col-md-8  col-xs-12">
+          <span>
+            <!-- {{RoteDateE}} -->
+             {{RoteTimeE}}
+          </span>
+          <div *ngIf="isCrossRoteDateE" style="display: inline-block;
         height: 20px;
         font-size: 13px;
         width: 40px;
@@ -203,29 +212,17 @@
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px" [style.color]="color_CardOnTime()">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;" [style.color]="color_CardOnTime()">
+        <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>原始到勤時間</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>{{CardDateB}} {{CardTimeB}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;" [style.color]="color_CardOffTime()">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
-          <label class="control-label ">
-            <ng-container i18n>原始離勤時間</ng-container>
-          </label>
-        </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
-          <span>{{CardDateE}} {{CardTimeE}}</span>
-          <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.AttendCard_calCrossDay" style="display: inline-block;
+              <span>
+                <!-- {{CardDateB}}  -->
+                {{CardTimeB}}
+              </span>
+              <div *ngIf="isCrossCardTimeB" style="display: inline-block;
             height: 20px;
             font-size: 13px;
             width: 40px;
@@ -234,142 +231,156 @@
             background-color: #408cb6;
             border: 1px solid;
             border-radius: 15px;
-            margin: 0px 10px;">+1<ng-container i18n>日</ng-container>
-          </div>
+            margin: 0px 10px;">+1日</div>
+        </div>
+      </div>
+
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;" [style.color]="color_CardOffTime()">
+        <div class="col-md-4 col-xs-12 P_left">
+          <label class="control-label ">
+            <ng-container i18n>原始離勤時間</ng-container>
+          </label>
+        </div>
+        <div class="col-md-8  col-xs-12">
+          <span>
+            <!-- {{CardDateE}}  -->
+            {{CardTimeE}}
+          </span>
+          <div *ngIf="isCrossCardTimeE" style="display: inline-block;
+        height: 20px;
+        font-size: 13px;
+        width: 40px;
+        text-align: center;
+        color: #fff;
+        background-color: #408cb6;
+        border: 1px solid;
+        border-radius: 15px;
+        margin: 0px 10px;">+1日</div>
         </div>
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;"
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;margin: 0;"
       [style.color]="color_ActualOnTime()">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;">
+        <label class="col-md-4 col-xs-12 control-label P_left">
           <ng-container i18n>補到勤時間</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>
-                <!-- 0800 -->
-                {{GetCardFlowAppsByProcessFlowIDData.DateB}}
-                {{GetCardFlowAppsByProcessFlowIDData.TimeB}}
-              </span>
-            </div>
-          </div>
+          <span>
+            <!-- 0800 -->
+            <!-- {{GetCardFlowAppsByProcessFlowIDData.DateB}} -->
+            {{GetCardFlowAppsByProcessFlowIDData.TimeB}}
+          </span>
+          <div *ngIf="isCrossFlowIDDateB" style="display: inline-block;
+        height: 20px;
+        font-size: 13px;
+        width: 40px;
+        text-align: center;
+        color: #fff;
+        background-color: #408cb6;
+        border: 1px solid;
+        border-radius: 15px;
+        margin: 0px 10px;">+1日</div>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;" [style.color]="color_ActualOffTime()">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
-          <label class="control-label ">
+      <div class="col-md-6  col-xs-6 row" style="margin: 0px;padding: 0;" [style.color]="color_ActualOffTime()">
+        <div class="col-md-4  col-xs-12 P_left">
+          <label class="control-label">
             <ng-container i18n>補離勤時間</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+        <div class="col-md-8  col-xs-12">
           <span>
             <!-- 1700 -->
-            {{GetCardFlowAppsByProcessFlowIDData.DateE}}
+            <!-- {{GetCardFlowAppsByProcessFlowIDData.DateE}} -->
             {{GetCardFlowAppsByProcessFlowIDData.TimeE}}
           </span>
-          <div *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.WriteRote_calCrossDay" style="display: inline-block;
-              height: 20px;
-              font-size: 13px;
-              width: 40px;
-              text-align: center;
-              color: #fff;
-              background-color: #408cb6;
-              border: 1px solid;
-              border-radius: 15px;
-              margin: 0px 10px;">+1<ng-container i18n>日</ng-container>
-          </div>
+          <div *ngIf="isCrossFlowIDDateE" style="display: inline-block;
+        height: 20px;
+        font-size: 13px;
+        width: 40px;
+        text-align: center;
+        color: #fff;
+        background-color: #408cb6;
+        border: 1px solid;
+        border-radius: 15px;
+        margin: 0px 10px;">+1日</div>
         </div>
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;    padding-top: 20px;">
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px">
-        <label class="col-md-4 control-label" style="padding-left: 0px;text-align: right">
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding: 20px 0px;">
+      <div class="col-md-6  col-xs-6 row" style="margin:0;padding: 0;">
+        <label class="col-md-4 control-label P_left">
           <ng-container i18n>異常原因</ng-container>
         </label>
         <div class="col-md-8 col-xs-12">
-          <div class="row ">
-            <div>
-              <span>
-                {{GetCardFlowAppsByProcessFlowIDData.CauseName1}}</span>
-            </div>
-          </div>
+          <span>
+            {{GetCardFlowAppsByProcessFlowIDData.CauseName1}}
+          </span>
         </div>
       </div>
 
-      <div class="col-md-6  col-xs-12" style="margin-bottom: 10px;">
-        <div class="col-md-3  col-xs-12 P_left" style="padding: 0px">
+      <div class="col-md-6  col-xs-6 row" style="margin:0;padding: 0;">
+        <div class="col-md-4  col-xs-12 P_left">
           <label class="control-label ">
             <ng-container i18n>填寫人</ng-container>
           </label>
         </div>
-        <div class="col-md-7  col-xs-12 P_leftZero" style="padding-right: 0px">
+        <div class="col-md-8  col-xs-12">
           <span>{{ReviewformServiceService.CardPatchFlowSignDetail.WriteEmpCode}}
             {{ReviewformServiceService.CardPatchFlowSignDetail.WriteEmpNameC}}</span>
         </div>
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row"
-      style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding-top: 20px;margin-bottom: 10px;
-      padding-bottom: 10px;">
-      <div class="col-md-12  col-xs-12 row uploadLine" style="margin: 0;">
-        <label class="col-md-2 control-label" style="padding-left: 0px;text-align: right">
-          <ng-container i18n>上傳附件</ng-container>
-        </label>
-        <div class="col-md-3 col-xs-12">
-          <div class="row ">
-            <ng-container *ngIf="GetCardFlowAppsByProcessFlowIDData.UploadFile">
-              <div class="col-md-12 col-xs-12" style="padding: 0px;word-break: break-all;"
-                *ngFor="let upload of GetCardFlowAppsByProcessFlowIDData.UploadFile">
-                <img src="./assets/images-template/attach@2x.png" height='16px' width="12px"
-                  style="margin-right: 5px" />
-                <a (click)="base64(upload)" style="cursor:pointer">{{upload.UploadName}}</a>
-              </div>
-              <span *ngIf="GetCardFlowAppsByProcessFlowIDData.UploadFile.length ==0">
-                <ng-container i18n>無</ng-container>
-              </span>
-            </ng-container>
-
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;padding: 0;margin: 0;padding: 20px 0px;">
+      <label class="col-md-2 col-xs-12 control-label P_left">
+        <ng-container i18n>上傳附件</ng-container>
+      </label>
+      <div class="col-md-10 col-xs-12 row" style="margin: 0;">
+        <ng-container *ngIf="GetCardFlowAppsByProcessFlowIDData.UploadFile">
+          <div class="col-md-3 col-xs-12" style="padding: 0px;word-break: break-all;"
+            *ngFor="let upload of GetCardFlowAppsByProcessFlowIDData.UploadFile">
+            <img src="./assets/images-template/attach@2x.png" height='16px' width="12px" style="margin-right: 5px" />
+            <a (click)="base64(upload)" style="cursor:pointer">{{upload.UploadName}}</a>
           </div>
-
-        </div>
+          <span *ngIf="GetCardFlowAppsByProcessFlowIDData.UploadFile.length ==0">
+            <ng-container i18n>無</ng-container>
+          </span>
+        </ng-container>
       </div>
     </div>
     <!-- form-group end -->
-    <div class="row" style="border-bottom: 1px dashed #dcdcdc;margin: 0;padding:20px 0px;
-    margin-bottom: 10px;">
-      <div class="col-md-12 col-xs-12">
-        <label class="col-md-2 control-label" style="padding-left: 0px;
-        padding-right: 20px;text-align: right">
-          <ng-container i18n>補充說明</ng-container>
-        </label>
-        <div class="col-md-8 col-xs-12" style="padding: 0px 0px;">
-          <span>
-            {{GetCardFlowAppsByProcessFlowIDData.Note}}</span>
-        </div>
+    <div class="row" style="border-bottom: 1px dashed #dcdcdc;margin: 0;padding:20px 0px;">
+      <label class="col-md-2 col-xs-12 control-label P_left">
+        <ng-container i18n>補充說明</ng-container>
+      </label>
+      <div class="col-md-8 col-xs-12">
+        <span>
+          {{GetCardFlowAppsByProcessFlowIDData.Note}}</span>
       </div>
     </div>
     <!-- form-group end -->
-    <app-from-sign [getProcessFlowID]="ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID"></app-from-sign>
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;">
+      <app-from-sign [getProcessFlowID]="ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID"></app-from-sign>
+    </div>
     <!--歷程主管意見-->
-    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding: 20px 0px;">
+    <div style="border-bottom: 1px dashed #dcdcdc;padding: 20px 0px;">
       <div class="row" style="margin: 0;padding: 0">
-        <div class="col-md-2 P_left">
+        <div class="col-md-2 col-xs-12 P_left">
           <ng-container i18n>簽核意見</ng-container>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-10 col-xs-12">
           <textarea [(ngModel)]="signText" class="inputTextarea" style="overflow-y: auto" maxlength="1000"></textarea>
         </div>
 
       </div>
     </div>
     <!--簽核意見-->
-    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding-bottom: 20px">
+    <div style="border-bottom: 1px dashed #dcdcdc;margin-bottom: 20px;padding: 20px 0px;">
       <div class="row" style="margin: 0;padding: 0">
         <div class="col-md-2 col-xs-12 P_left">
           <ng-container i18n>簽核人員</ng-container>
@@ -390,7 +401,7 @@
         <button *ngIf="!ReviewformServiceService.CardPatchFlowSignDetail.isSendback" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;" disabled>退回</button>
         <button *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isPutForward" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;"  data-toggle="modal" (click)="checkCanSendPutForward()">呈核</button>
         <button *ngIf="!ReviewformServiceService.CardPatchFlowSignDetail.isPutForward" class="btn btn-info" style="margin-right: 15px;padding: 6px 25px;" disabled>呈核</button>
-    
+
         <a style="margin-right: 15px;cursor: pointer;" (click)="backReview()" [routerLink]="['..']">回列表</a>
       </div>
     </div> -->
@@ -423,28 +434,28 @@ padding: 20px;
 ">
   <div class="a-block-buttom" *ngIf="ReviewformServiceService.CardPatchFlowSignDetail">
 
-    <button *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isApproved" class="btn btn-primary" style="margin-right: 15px"
-      data-toggle="modal" (click)="checkforgetCardText_Approved()">
+    <button *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isApproved" class="btn btn-primary"
+      style="margin-right: 15px" data-toggle="modal" (click)="checkforgetCardText_Approved()">
       <ng-container i18n>核准</ng-container>
     </button>
-    <button *ngIf="!ReviewformServiceService.CardPatchFlowSignDetail.isApproved" class="btn btn-primary" style="margin-right: 15px"
-      disabled>
+    <button *ngIf="!ReviewformServiceService.CardPatchFlowSignDetail.isApproved" class="btn btn-primary"
+      style="margin-right: 15px" disabled>
       <ng-container i18n>核准</ng-container>
     </button>
-    <button *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isSendback" class="btn btn-info" style="margin-right: 15px"
-      data-toggle="modal" data-target="#Sendbackdialog">
+    <button *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isSendback" class="btn btn-info"
+      style="margin-right: 15px" data-toggle="modal" data-target="#Sendbackdialog">
       <ng-container i18n>退回</ng-container>
     </button>
-    <button *ngIf="!ReviewformServiceService.CardPatchFlowSignDetail.isSendback" class="btn btn-info" style="margin-right: 15px"
-      disabled>
+    <button *ngIf="!ReviewformServiceService.CardPatchFlowSignDetail.isSendback" class="btn btn-info"
+      style="margin-right: 15px" disabled>
       <ng-container i18n>退回</ng-container>
     </button>
-    <button *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isPutForward" class="btn btn-info" style="margin-right: 15px"
-      data-toggle="modal" (click)="checkforgetCardText_PutForward()">
+    <button *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isPutForward" class="btn btn-info"
+      style="margin-right: 15px" data-toggle="modal" (click)="checkforgetCardText_PutForward()">
       <ng-container i18n>呈核</ng-container>
     </button>
-    <button *ngIf="!ReviewformServiceService.CardPatchFlowSignDetail.isPutForward" class="btn btn-info" style="margin-right: 15px"
-      disabled>
+    <button *ngIf="!ReviewformServiceService.CardPatchFlowSignDetail.isPutForward" class="btn btn-info"
+      style="margin-right: 15px" disabled>
       <ng-container i18n>呈核</ng-container>
     </button>
     <!-- <a style="margin-right: 15px">查詢請假規定</a> -->
@@ -472,22 +483,22 @@ background-color: #fff;padding: 20px 5px;
     </button>
   </div>
   <div class="col-xs-4" style="padding: 0px;text-align: center;">
-    <button *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isSendback" class="btn btn-info" style="padding: 6px 40px;"
-      data-toggle="modal" data-target="#Sendbackdialog">
+    <button *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isSendback" class="btn btn-info"
+      style="padding: 6px 40px;" data-toggle="modal" data-target="#Sendbackdialog">
       <ng-container i18n>退回</ng-container>
     </button>
-    <button *ngIf="!ReviewformServiceService.CardPatchFlowSignDetail.isSendback" class="btn btn-info" style="padding: 6px 40px;"
-      disabled>
+    <button *ngIf="!ReviewformServiceService.CardPatchFlowSignDetail.isSendback" class="btn btn-info"
+      style="padding: 6px 40px;" disabled>
       <ng-container i18n>退回</ng-container>
     </button>
   </div>
   <div class="col-xs-4" style="padding: 0px;text-align: center;">
-    <button *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isPutForward" class="btn btn-info" style="padding: 6px 40px;"
-      data-toggle="modal" (click)="checkforgetCardText_PutForward()">
+    <button *ngIf="ReviewformServiceService.CardPatchFlowSignDetail.isPutForward" class="btn btn-info"
+      style="padding: 6px 40px;" data-toggle="modal" (click)="checkforgetCardText_PutForward()">
       <ng-container i18n>呈核</ng-container>
     </button>
-    <button *ngIf="!ReviewformServiceService.CardPatchFlowSignDetail.isPutForward" class="btn btn-info" style="padding: 6px 40px;"
-      disabled>
+    <button *ngIf="!ReviewformServiceService.CardPatchFlowSignDetail.isPutForward" class="btn btn-info"
+      style="padding: 6px 40px;" disabled>
       <ng-container i18n>呈核</ng-container>
     </button>
   </div>
@@ -616,7 +627,8 @@ background-color: #fff;padding: 20px 5px;
   </div>
 </div>
 <!--dialog退回送出成功 -->
-<div class="modal" id="forgetPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal" id="forgetPutForwarddialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
   <div class="vertical-alignment-helper">
     <div class="modal-dialog  modal-sm vertical-align-center">
       <div class="modal-content">

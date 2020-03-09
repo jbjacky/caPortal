@@ -24,6 +24,7 @@ import { SussesSendbackSnackComponent } from 'src/app/View/shareComponent/snackb
 import { ErrorSendbackSnackComponent } from 'src/app/View/shareComponent/snackbar/error-sendback-snack/error-sendback-snack.component';
 import { SussesPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/susses-put-forward-snack/susses-put-forward-snack.component';
 import { ErrorPutForwardSnackComponent } from 'src/app/View/shareComponent/snackbar/error-put-forward-snack/error-put-forward-snack.component';
+import { isCrossDate } from 'src/app/UseVoid/void_crossDay';
 declare let $: any; //use jquery
 
 @Component({
@@ -43,7 +44,7 @@ export class ReviewformDetailCardPatchformComponent implements OnInit, OnDestroy
   // previouspage() {
   //   //返回修改按鈕
   //   this.counterChange.emit();
-  // } 
+  // }
   signText: string;
   sussestext: string = '';
   onesendvaform(_sussestext) { this.sussestext = _sussestext; }
@@ -87,13 +88,19 @@ export class ReviewformDetailCardPatchformComponent implements OnInit, OnDestroy
 
   RoteDateB: string = ''
   RoteTimeB: string = ''
+  isCrossRoteDateB:boolean = false
   RoteDateE: string = ''
   RoteTimeE: string = ''
+  isCrossRoteDateE:boolean = false
   CardDateB: string = ''
   CardTimeB: string = ''
+  isCrossCardTimeB:boolean = false
   CardDateE: string = ''
   CardTimeE: string = ''
+  isCrossCardTimeE:boolean = false
 
+  isCrossFlowIDDateB:boolean = false
+  isCrossFlowIDDateE:boolean = false
   FirstEmpCode: string = ''
   ngOnInit() {
     this.Sub_onChangeSignMan$.next(this.ReviewformServiceService.showReviewMan.EmpCode)
@@ -145,7 +152,7 @@ export class ReviewformDetailCardPatchformComponent implements OnInit, OnDestroy
     this.LoadingPage.show()
 
     this.GetApiDataServiceService.getWebApiData_GetCardPatchFlowAppsByProcessFlowID(this.ReviewformServiceService.CardPatchFlowSignDetail.ProcessFlowID, true)
-    .pipe(takeWhile(() => this.api_subscribe))  
+    .pipe(takeWhile(() => this.api_subscribe))
     .subscribe(
         (data: GetCardFlowAppsByProcessFlowIDDataClass[]) => {
           this.GetCardFlowAppsByProcessFlowIDData = data[0]
@@ -155,15 +162,26 @@ export class ReviewformDetailCardPatchformComponent implements OnInit, OnDestroy
           this.GetCardFlowAppsByProcessFlowIDData.TimeB = getapi_formatTimetoString(data[0].TimeB)
           this.GetCardFlowAppsByProcessFlowIDData.TimeE = getapi_formatTimetoString(data[0].TimeE)
 
+          var FlowIDDateTimeB = new Date(formatDateTime(data[0].DateB).getDate + ' '+ getapi_formatTimetoString(data[0].TimeB)).toJSON()
+          var FlowIDDateTimeE = new Date(formatDateTime(data[0].DateE).getDate + ' '+ getapi_formatTimetoString(data[0].TimeE)).toJSON()
+          this.isCrossFlowIDDateB = isCrossDate(formatDateTime(data[0].Date).getDate,FlowIDDateTimeB)
+          this.isCrossFlowIDDateE = isCrossDate(formatDateTime(data[0].Date).getDate,FlowIDDateTimeE)
+
           this.RoteDateB = formatDateTime(data[0].RoteDateTimeB).getDate
           this.RoteTimeB = getapi_formatTimetoString(formatDateTime(data[0].RoteDateTimeB).getTime)
           this.RoteDateE = formatDateTime(data[0].RoteDateTimeE).getDate
           this.RoteTimeE = getapi_formatTimetoString(formatDateTime(data[0].RoteDateTimeE).getTime)
 
+          this.isCrossRoteDateB = isCrossDate(formatDateTime(data[0].Date).getDate,data[0].RoteDateTimeB)
+          this.isCrossRoteDateE = isCrossDate(formatDateTime(data[0].Date).getDate,data[0].RoteDateTimeE)
+
           this.CardDateB = formatDateTime(data[0].CardDateTimeB).getDate
           this.CardTimeB = getapi_formatTimetoString(formatDateTime(data[0].CardDateTimeB).getTime)
           this.CardDateE = formatDateTime(data[0].CardDateTimeE).getDate
           this.CardTimeE = getapi_formatTimetoString(formatDateTime(data[0].CardDateTimeE).getTime)
+
+          this.isCrossCardTimeB = isCrossDate(formatDateTime(data[0].Date).getDate,data[0].CardDateTimeB)
+          this.isCrossCardTimeE = isCrossDate(formatDateTime(data[0].Date).getDate,data[0].CardDateTimeE)
           this.LoadingPage.hide()
         }, err => {
 
@@ -206,7 +224,7 @@ export class ReviewformDetailCardPatchformComponent implements OnInit, OnDestroy
     // this.FileDownloadService.base64(upload);
   }
 
-  
+
   forgetShowCheckText = ''
   checkforgetCardText_Approved() {
     $('#forgetApproveddialog').modal('show')
@@ -458,9 +476,9 @@ export class ReviewformDetailCardPatchformComponent implements OnInit, OnDestroy
 
   color_CardOnTime() {
 
-    if (this.ReviewformServiceService.CardPatchFlowSignDetail.isLateMins 
-      || this.ReviewformServiceService.CardPatchFlowSignDetail.isOnBeforeMins
-      || this.ReviewformServiceService.CardPatchFlowSignDetail.isForgetCard) {
+    if (this.ReviewformServiceService.CardPatchFlowSignDetail.isLateMinsOld
+      || this.ReviewformServiceService.CardPatchFlowSignDetail.isOnBeforeMinsOld
+      || this.ReviewformServiceService.CardPatchFlowSignDetail.isForgetCardOld) {
       return '#d0021b'
     } else {
       return '#4c4c4c'
@@ -468,9 +486,9 @@ export class ReviewformDetailCardPatchformComponent implements OnInit, OnDestroy
   }
   color_CardOffTime() {
 
-    if (this.ReviewformServiceService.CardPatchFlowSignDetail.isEarlyMins 
-      || this.ReviewformServiceService.CardPatchFlowSignDetail.isOffAfterMins
-      || this.ReviewformServiceService.CardPatchFlowSignDetail.isForgetCard) {
+    if (this.ReviewformServiceService.CardPatchFlowSignDetail.isEarlyMinsOld
+      || this.ReviewformServiceService.CardPatchFlowSignDetail.isOffAfterMinsOld
+      || this.ReviewformServiceService.CardPatchFlowSignDetail.isForgetCardOld) {
       return '#d0021b'
     } else {
       return '#4c4c4c'
